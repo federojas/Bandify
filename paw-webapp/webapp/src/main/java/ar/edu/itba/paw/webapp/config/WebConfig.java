@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.webapp.webconfig;
+package ar.edu.itba.paw.webapp.config;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
