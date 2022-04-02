@@ -5,6 +5,8 @@ import ar.edu.itba.paw.persistence.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -16,7 +18,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserById(long id) {
+    public Optional<User> getUserById(long id) {
         return userDao.getUserById(id);
+    }
+
+    /* probablemente aca hacemos un chequeo de los parametros
+    tmb te mandamos un mail de bienvenida, generamos token, etc. es decir
+    aca van las reglas de negocios
+     */
+    @Override
+    public User create(String username, String password) {
+        return userDao.create(username, password);
     }
 }

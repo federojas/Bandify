@@ -71,8 +71,8 @@
     
     
     <tomcat7.version>2.2</tomcat7.version>
-                  
-  
+
+    <org.postgresql.version>42.2.5</org.postgresql.version>
   
   
   </properties>
@@ -86,8 +86,17 @@
     
     
     <dependencies>
-                              
-      
+
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-jdbc</artifactId>
+        <version>${org.springframework.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.postgresql</groupId>
+        <artifactId>postgresql</artifactId>
+        <version>${org.postgresql.version}</version>
+      </dependency>
       
       
       <dependency>
