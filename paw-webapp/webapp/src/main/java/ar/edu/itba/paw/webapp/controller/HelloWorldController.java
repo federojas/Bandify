@@ -21,11 +21,11 @@ public class HelloWorldController {
     }
 
     @RequestMapping("/")
-    public ModelAndView helloWorld() {
+    public ModelAndView helloWorld(@RequestParam(name = "userId", defaultValue = "1") final long userId) {
 
         final ModelAndView mav = new ModelAndView("index");
 
-        mav.addObject("user", us.getUserById(1).orElseThrow(UserNotFoundException::new));
+        mav.addObject("user", us.getUserById(userId).orElseThrow(UserNotFoundException::new));
         return mav;
     }
 

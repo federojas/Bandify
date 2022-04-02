@@ -19,7 +19,7 @@ public class UserJdbcDao implements UserDao {
     private JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcInsert;
 
-    private final static RowMapper<User> ROW_MAPPER = (rs, rowNum) -> new User(rs.getInt("userid"),rs.getString("username"), rs.getString("password"));
+    private final static RowMapper<User> ROW_MAPPER = (rs, rowNum) -> new User(rs.getLong("userid"),rs.getString("username"), rs.getString("password"));
 
     @Autowired
     public UserJdbcDao(final DataSource ds) {
@@ -37,7 +37,7 @@ public class UserJdbcDao implements UserDao {
 
     @Override
     public Optional<User> getUserById(final long id) {
-        final List<User> list = jdbcTemplate.query("SELECT * FROM users WHERE userid = ?", ROW_MAPPER, id);
+        final List<User> list = jdbcTemplate.query("SELECT * FROM users WHERE userid = ?", new Object[] { id }, ROW_MAPPER);
         return list.stream().findFirst();
     }
 
@@ -51,11 +51,6 @@ public class UserJdbcDao implements UserDao {
         userData.put("username", username);
         userData.put("password", password);
         final Number userId = jdbcInsert.executeAndReturnKey(userData);
-        System.out.println("LLEGUE2");
-        for(User user : getAll(1)){
-            System.out.println(user.getUsername());
-        }
-        System.out.println();
         return new User(userId.longValue(), username, password);
     }
 }
