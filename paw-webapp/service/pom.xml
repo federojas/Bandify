@@ -23,8 +23,8 @@
     </dependency>
     <dependency>
       <groupId>ar.edu.itba.paw</groupId>
-      <artifactId>interface</artifactId>
-      <version>${parent.version}</version>
+      <artifactId>model</artifactId>
+      <version>${project.parent.version}</version>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
