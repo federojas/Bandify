@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface AuditionService {
 
-    Optional<Audition> getAuditionById(long ind);
+    Optional<Audition> getAuditionById(long id);
 
     Audition create(String title, String description, String location, Date creationDate, String musicGenres, String lookingFor);
 

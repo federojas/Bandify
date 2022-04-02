@@ -18,17 +18,17 @@ public class AuditionServiceImpl implements AuditionService {
     }
 
     @Override
-    public Optional<Audition> getAuditionById(long ind) {
-        return Optional.empty();
+    public Optional<Audition> getAuditionById(long id) {
+        return auditionDao.getAuditionById(id);
     }
 
     @Override
     public Audition create(String title, String description, String location, Date creationDate, String musicGenres, String lookingFor) {
-        return null;
+        return auditionDao.create(title,description,location,creationDate,musicGenres,lookingFor);
     }
 
     @Override
     public List<Audition> getAll(int page) {
-        return null;
+        return auditionDao.getAll(page);
     }
 }
