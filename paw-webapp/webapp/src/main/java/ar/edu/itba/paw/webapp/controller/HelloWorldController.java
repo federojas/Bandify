@@ -23,14 +23,14 @@ public class HelloWorldController {
     @RequestMapping("/")
     public ModelAndView helloWorld() {
 
-        final ModelAndView mav = new ModelAndView("index.jsp");
+        final ModelAndView mav = new ModelAndView("index");
 
         mav.addObject("user", us.getUserById(1).orElseThrow(UserNotFoundException::new));
         return mav;
     }
 
     @RequestMapping("/create")
-    public ModelAndView create(@RequestParam(value = "name ", required = true) final String username,
+    public ModelAndView create(@RequestParam(value = "name", required = true) final String username,
                                @RequestParam(value = "password", required = true) final String password) {
         final User u = us.create(username, password);
         return new ModelAndView("redirect:/?userId=" + u.getId());

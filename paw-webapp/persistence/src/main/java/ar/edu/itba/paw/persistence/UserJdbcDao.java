@@ -42,7 +42,7 @@ public class UserJdbcDao implements UserDao {
     }
 
     public List<User> getAll(int page) {
-        return jdbcTemplate.query("SELECT * FROM User LIMIT 10 OFFSET ?", new Object[] { (page -1) * 10}, ROW_MAPPER);
+        return jdbcTemplate.query("SELECT * FROM Users LIMIT 10 OFFSET ?", new Object[] { (page -1) * 10}, ROW_MAPPER);
     }
 
     @Override
@@ -51,6 +51,11 @@ public class UserJdbcDao implements UserDao {
         userData.put("username", username);
         userData.put("password", password);
         final Number userId = jdbcInsert.executeAndReturnKey(userData);
+        System.out.println("LLEGUE2");
+        for(User user : getAll(1)){
+            System.out.println(user.getUsername());
+        }
+        System.out.println();
         return new User(userId.longValue(), username, password);
     }
 }

@@ -56,7 +56,7 @@
     <dependency>
       <groupId>ar.edu.itba.paw</groupId>
       <artifactId>persistence</artifactId>
-      <version>${parent.version}</version>
+      <version>${project.parent.version}</version>
       <scope>runtime</scope>
     </dependency>
   </dependencies>
