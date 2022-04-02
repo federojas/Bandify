@@ -2,6 +2,6 @@
 
 <html>
 <body>
-<h2>Hello <c:out value="${greeting}"/>! </h2>
+<h2>Hello <c:out value="${user.password}"/>! </h2>
 </body>
 </html>
