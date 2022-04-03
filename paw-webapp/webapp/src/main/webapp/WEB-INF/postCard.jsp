@@ -16,13 +16,14 @@
             <img class="w-12 h-12 rounded-full object-cover mr-4 shadow"src="https://yt3.ggpht.com/ytc/AKedOLR1VOl8ziwo8xxVOl7z9Nb4bAtaDS_Gw0fsCPk0vQ=s900-c-k-c0x00ffffff-no-rj" alt="avatar">
             <div class="">
                 <div class="flex items-center justify-between">
-                    <h2 class="text-lg font-semibold text-gray-900 -mt-1">La Renga</h2>
+                    <h2 class="text-lg font-semibold text-gray-900 -mt-1"><b> <c:out value="${param.bandName}" /> </b> </h2>
                     <small class="text-sm text-gray-700">22h ago</small>
                 </div>
-                <p class="text-gray-700">20/3/2022</p>
-                <h1><b> Se busca baterista experimentado </b></h1>
+                <p class="text-gray-700">${param.auditionDate}</p>
+                <h1><b> <c:out value="${param.auditionTitle}" /> </b></h1>
                 <p class="mt-3 text-gray-700 text-sm">
-                    Lorem ipsum, dolor sit amet conse. Saepe optio minus rem dolor sit amet!
+                    <c:out value="${param.auditionDescription}" />
+
                 </p>
                 <div class="flex justify-end">
                     <button
