@@ -20,7 +20,7 @@ public class HelloWorldController {
         this.us = us;
     }
 
-    @RequestMapping("/")
+    @RequestMapping("/helloWorld")
     public ModelAndView helloWorld(@RequestParam(name = "userId", defaultValue = "1") final long userId) {
 
         final ModelAndView mav = new ModelAndView("index");
@@ -29,7 +29,7 @@ public class HelloWorldController {
         return mav;
     }
 
-    @RequestMapping("/create")
+    @RequestMapping("/helloWorld/create")
     public ModelAndView create(@RequestParam(value = "name", required = true) final String username,
                                @RequestParam(value = "password", required = true) final String password) {
         final User u = us.create(username, password);

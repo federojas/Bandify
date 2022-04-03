@@ -5,6 +5,7 @@ import ar.edu.itba.paw.service.AuditionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -18,12 +19,18 @@ public class AuditionsController {
         this.auditionService = auditionService;
     }
 
-    @RequestMapping("/auditions")
+    @RequestMapping(value = "/", method = {RequestMethod.GET})
     public ModelAndView auditions() {
         final ModelAndView mav = new ModelAndView("home");
         List<Audition> auditionList = auditionService.getAll(1);
         mav.addObject("auditionList", auditionList);
         return mav;
+    }
+
+    @RequestMapping(value = "/", method = {RequestMethod.POST})
+    public ModelAndView create() {
+
+        return auditions();
     }
 
 }

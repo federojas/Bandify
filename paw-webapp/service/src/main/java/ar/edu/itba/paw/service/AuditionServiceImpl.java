@@ -25,7 +25,7 @@ public class AuditionServiceImpl implements AuditionService {
     }
 
     @Override
-    public Audition create(String title, String description, String location, Date creationDate, String musicGenres, String lookingFor) {
+    public Audition create(String title, String description, String location, Date creationDate, List<String> musicGenres, List<String> lookingFor) {
         return auditionDao.create(title,description,location,creationDate,musicGenres,lookingFor);
     }
 
