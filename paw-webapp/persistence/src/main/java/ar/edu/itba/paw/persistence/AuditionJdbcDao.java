@@ -1,16 +1,17 @@
 package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.model.Audition;
-import ar.edu.itba.paw.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.sql.Array;
+
 import java.util.*;
 
+@Repository
 public class AuditionJdbcDao implements AuditionDao {
 
     private JdbcTemplate jdbcTemplate;
@@ -36,7 +37,7 @@ public class AuditionJdbcDao implements AuditionDao {
         jdbcTemplate = new JdbcTemplate(ds);
         jdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("auditions").usingGeneratedKeyColumns("id");
 
-        jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS audition  " +
+        jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS auditions  " +
             "("
             + "id SERIAL PRIMARY KEY,"
             + "bandId INT NOT NULL,"
@@ -45,7 +46,7 @@ public class AuditionJdbcDao implements AuditionDao {
             + "creationDate DATE NOT NULL,"
             + "location VARCHAR(100) NOT NULL,"
             + "lookingFor TEXT NOT NULL,"
-            + "musicGenres TEXT NOT NULL,"
+            + "musicGenres TEXT NOT NULL"
             + ")"
             // TODO : FOREIGN KEY(band_id) REFERENCES Band(band_id) ON DELETE CASCADE
         );

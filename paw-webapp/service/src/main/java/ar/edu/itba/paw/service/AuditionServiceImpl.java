@@ -3,11 +3,13 @@ package ar.edu.itba.paw.service;
 import ar.edu.itba.paw.model.Audition;
 import ar.edu.itba.paw.persistence.AuditionDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class AuditionServiceImpl implements AuditionService {
 
     private final AuditionDao auditionDao;
