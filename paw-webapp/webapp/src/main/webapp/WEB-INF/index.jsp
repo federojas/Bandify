@@ -129,24 +129,10 @@
 <!-- POST CARD -->
 <jsp:include page="postCard.jsp">
   <jsp:param name="postCard" value="${1}" />
-  <jsp:param name="bandName" value="la renga" />
-  <jsp:param name="auditionDate" value="20/3/22" />
-  <jsp:param name="auditionTitle" value="Se busca guitarrista" />
-  <jsp:param name="auditionDescription" value="Lorem ipsum, dolor sit amet conse. Saepe optio minus rem dolor sit amet!" />
-</jsp:include>
-<jsp:include page="postCard.jsp">
-  <jsp:param name="postCard" value="${1}" />
-  <jsp:param name="bandName" value="los piojos" />
-  <jsp:param name="auditionDate" value="20/3/22" />
-  <jsp:param name="auditionTitle" value="Se busca cantante" />
-  <jsp:param name="auditionDescription" value="Lorem ipsum, dolor sit amet conse. Saepe optio minus rem dolor sit amet!" />
-</jsp:include>
-<jsp:include page="postCard.jsp">
-  <jsp:param name="postCard" value="${1}" />
-  <jsp:param name="bandName" value="los fachas" />
-  <jsp:param name="auditionDate" value="20/3/22" />
-  <jsp:param name="auditionTitle" value="Se busca bajista/compositor" />
-  <jsp:param name="auditionDescription" value="Lorem ipsum, dolor sit amet conse. Saepe optio minus rem dolor sit amet!" />
+  <jsp:param name="bandName" value="${auditionList[0].title}" />
+  <jsp:param name="auditionDate" value="${auditionList[0].creationDate}" />
+  <jsp:param name="auditionTitle" value="${auditionList[0].lookingFor}" />
+  <jsp:param name="auditionDescription" value="${auditionList[0].description}" />
 </jsp:include>
 
 
