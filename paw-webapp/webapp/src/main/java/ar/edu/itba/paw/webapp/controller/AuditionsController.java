@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class AuditionsController {
@@ -22,8 +23,8 @@ public class AuditionsController {
     @RequestMapping(value = "/", method = {RequestMethod.GET})
     public ModelAndView auditions() {
         final ModelAndView mav = new ModelAndView("home");
-        List<Audition> auditionList = auditionService.getAll(1);
-        mav.addObject("auditionList", auditionList);
+        Optional<Audition> audition = auditionService.getAuditionById(1);
+        mav.addObject("audition", audition.get());
         return mav;
     }
 
