@@ -1,16 +1,23 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <script>
-    function click()
-    {
-        $('#dialog').dialog({
-            autoOpen: false,
-            width: 250,
-            height: 180,
-            modal : true
-        });
+
+    function myFunction(id) {
+        console.log(id)
+        var x = document.getElementById("hola_"+id);
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
+    function toggleModal(modalID){
+        document.getElementById(modalID).classList.toggle("hidden");
+        document.getElementById(modalID + "-backdrop").classList.toggle("hidden");
+        document.getElementById(modalID).classList.toggle("flex");
+        document.getElementById(modalID + "-backdrop").classList.toggle("flex");
     }
 </script>
-<div class="bg-gray-100 p-6 flex flex-row justify-center">
+<div class="bg-gray-100 p-6 flex flex-row justify-center"  >
     <div class=" bg-white p-1 flex flex-row justify-center shadow-lg rounded-lg mx-2 md:mx-auto my-5 max-w-md md:max-w-2xl "><!--horizantil margin is just for display-->
         <div class=" flex items-start px-1 py-1">
             <img class="w-12 h-12 rounded-full object-cover mr-4 shadow"src="https://yt3.ggpht.com/ytc/AKedOLR1VOl8ziwo8xxVOl7z9Nb4bAtaDS_Gw0fsCPk0vQ=s900-c-k-c0x00ffffff-no-rj" alt="avatar">
@@ -25,15 +32,63 @@
                     <c:out value="${param.auditionDescription}" />
 
                 </p>
-                <div class="flex justify-end">
-                    <button
-                            onclick="click()"
-                            class="mt-4 bg-sky-600 hover:bg-sky-700 px-5 py-2 leading-5 rounded-full font-semibold text-white"
-                    >
-                        Aplicar
-                    </button>
-                </div>
+                <button class="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal_${param.Id}')">
+                    Open regular modal
+                </button>
+<%--                <div class="flex justify-end group dropdown">--%>
+<%--                    <button--%>
+<%--                            onclick="myFunction(${param.Id})"--%>
+<%--                            id="btn_${param.Id}"--%>
+<%--                            class=" mt-4 bg-sky-600 hover:bg-sky-700 px-5 py-2 leading-5 rounded-full font-semibold text-white"--%>
+<%--                    >--%>
+<%--                        Aplicar--%>
+<%--                    </button>--%>
+<%--                    <div id="hola_${param.Id}" class="   bg-white  w-auto">--%>
+<%--                       hoala--%>
+<%--                    </div>--%>
+<%--                </div>--%>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center" id="modal_${param.Id}">
+    <div class="relative w-auto my-6 mx-auto max-w-3xl">
+        <!--content-->
+        <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+            <!--header-->
+            <div class="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
+                <h3 class="text-3xl font-semibold">
+                    ${param.bandName}
+                </h3>
+                <button class="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal_${param.Id}')">
+          <span class="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
+            ×
+          </span>
+                </button>
+            </div>
+            <!--body-->
+            <div class="relative p-6 flex-auto">
+                <p class="my-4 text-slate-500 text-lg leading-relaxed">
+                    I always felt like I could do anything. That’s the main
+                    thing people are controlled by! Thoughts- their perception
+                    of themselves! They're slowed down by their perception of
+                    themselves. If you're taught you can’t do anything, you
+                    won’t do anything. I was taught I could do everything.
+                </p>
+            </div>
+            <!--footer-->
+            <div class="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
+                <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal_${param.Id}')">
+                    Close
+                </button>
+                <button class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal_${param.Id}')">
+                    Save Changes
+                </button>
             </div>
         </div>
     </div>
 </div>
+<div class="hidden opacity-25 fixed inset-0 z-40 bg-black" id="modal-id-backdrop"></div>
+
