@@ -108,6 +108,20 @@ public class AuditionJdbcDao implements AuditionDao {
 
     @Override
     public List<Audition> getAll(int page) {
-        return jdbcTemplate.query("SELECT * FROM auditions LIMIT 10 OFFSET ?", new Object[] { (page -1) * 10}, AUDITION_ROW_MAPPER);
+//        List<Audition> auditions = new ArrayList<>();
+//        for(int i = (page -1) * 10; i < 10 ; i++) {
+//            Optional<Audition> audition = getAuditionById(i);
+//            audition.ifPresent(auditions::add);
+//        }
+        List<Audition> auditions = jdbcTemplate.query("SELECT * FROM auditions LIMIT 10 OFFSET ?", new Object[] { (page -1) * 10}, AUDITION_ROW_MAPPER);
+        List<String> genres;
+        List<String> roles;
+        for(int i = 0 ; i < auditions.size(); i++) {
+            genres = jdbcTemplate.query("SELECT genre FROM auditionGenres WHERE id = ?", new Object[]{auditions.get(i).getId()}, GENRE_ROW_MAPPER);
+            roles = jdbcTemplate.query("SELECT role FROM auditionRoles WHERE id = ?", new Object[]{auditions.get(i).getId()}, ROLE_ROW_MAPPER);
+            auditions.get(i).setMusicGenres(genres);
+            auditions.get(i).setLookingFor(roles);
+        }
+        return auditions;
     }
 }
