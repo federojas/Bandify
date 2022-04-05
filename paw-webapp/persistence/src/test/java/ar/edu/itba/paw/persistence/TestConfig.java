@@ -22,4 +22,5 @@ public class TestConfig {
         ds.setPassword("postgres");
         return ds;
     }
+
 }
