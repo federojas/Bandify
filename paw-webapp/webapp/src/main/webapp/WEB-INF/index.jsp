@@ -86,7 +86,7 @@
           <jsp:param name="bandName" value="los redonditos" />
           <jsp:param name="auditionDate" value="${auditionList[0].creationDate}" />
           <jsp:param name="auditionTitle" value="${auditionList[0].lookingFor}" />
-          <jsp:param name="auditionDescription" value="${auditionList[0].description}" />
+          <jsp:param name="auditionDescription" value="estamos buscando a un baterista con 10 años de x´p" />
         </jsp:include>
 
         <jsp:include page="postCard.jsp">

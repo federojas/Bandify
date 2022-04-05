@@ -32,8 +32,8 @@
                     <c:out value="${param.auditionDescription}" />
 
                 </p>
-                <button class="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal_${param.Id}')">
-                    Open regular modal
+                <button class="flex justify-end mt-4 bg-sky-600 hover:bg-sky-700 px-5 py-2 leading-5 rounded-full font-semibold text-white" type="button" onclick="toggleModal('modal_${param.Id}')">
+                    Aplicar
                 </button>
 <%--                <div class="flex justify-end group dropdown">--%>
 <%--                    <button--%>
@@ -71,20 +71,21 @@
             <!--body-->
             <div class="relative p-6 flex-auto">
                 <p class="my-4 text-slate-500 text-lg leading-relaxed">
-                    I always felt like I could do anything. That’s the main
-                    thing people are controlled by! Thoughts- their perception
-                    of themselves! They're slowed down by their perception of
-                    themselves. If you're taught you can’t do anything, you
-                    won’t do anything. I was taught I could do everything.
+                    ${param.auditionDescription}
                 </p>
+                <div class="flex justify-center">
+                    <jsp:include page="auditionForm.jsp">
+                        <jsp:param name="auditionForm" value="${1}" />
+                    </jsp:include>
+                </div>
             </div>
             <!--footer-->
-            <div class="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
-                <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal_${param.Id}')">
-                    Close
+            <div class="flex flex-row justify-end p-6 border-t border-solid border-slate-200 rounded-b">
+                <button class=" mt-4 text-red-500 background-transparent font-bold uppercase px-5 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal_${param.Id}')">
+                    cerrar
                 </button>
-                <button class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal_${param.Id}')">
-                    Save Changes
+                <button class="mt-4 bg-sky-600 hover:bg-sky-700 px-5 py-2 leading-5 rounded-full font-semibold text-white" onclick="toggleModal('modal_${param.Id}')">
+                    Enviar
                 </button>
             </div>
         </div>
