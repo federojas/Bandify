@@ -6,6 +6,7 @@ import java.util.List;
 
 public class AuditionForm {
 
+    // TODO: deberiamos validar los estilos musicales? usamos enum? consultar.
     @Size(min = 1, max = 100)
     private String title;
 
@@ -15,7 +16,10 @@ public class AuditionForm {
     @Size(min = 1, max = 100)
     private String location;
 
+    @Size(min = 1, max = 5)
     private List<String> musicGenres;
+
+    @Size(min = 1, max = 5)
     private List<String> lookingFor;
 
     public String getTitle() {

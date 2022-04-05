@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,8 +41,9 @@ public class AuditionsController {
         if(errors.hasErrors())
             return auditions(form);
 
+        Date now = Date.valueOf(LocalDate.now());
         final Audition audition = auditionService.create(form.getTitle(),form.getDescription(), form.getLocation(),
-                                                         Date.valueOf("1999-04-04"), form.getMusicGenres(), form.getLookingFor());
+               now , form.getMusicGenres(), form.getLookingFor());
         return new ModelAndView("redirect:/");
     }
     /*
