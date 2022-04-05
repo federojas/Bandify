@@ -1,21 +1,22 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Lolo
-  Date: 4/4/2022
-  Time: 20:08
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>
 <script>
     const formSender=(id)=>{
         console.log(id)
-        let name = document.getElementById("name_"+id);
-        let surname = document.getElementById("surname_"+id);
-        let phoneNumber = document.getElementById("phoneNumber_"+id);
-        let experience = document.getElementById("experience_"+id);
-        let formData={name:name.value, surname:surname.value,phoneNumber:phoneNumber.value,experience:experience.value}
+        let name = document.getElementById("name_"+id).value;
+        if(name.trim == ''||name==null)
+            return;
+        let surname = document.getElementById("surname_"+id).value;
+        if(surname.trim==''||surname==null)
+            return;
+        let phoneNumber = document.getElementById("phoneNumber_"+id).value;
+        var pattern=/^[0-9]+$/
+        //If the inputString is NOT a match
+        if (!pattern.test(phoneNumber))
+            console.log("no es un número")
+        let experience = document.getElementById("experience_"+id).value;
+        let formData={name:name, surname:surname,phoneNumber:phoneNumber,experience:experience}
         console.log(formData)
     }
 </script>
