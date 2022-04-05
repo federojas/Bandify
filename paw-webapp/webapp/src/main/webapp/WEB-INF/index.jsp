@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <script>
   var titulo="hholas";
 
@@ -86,7 +87,7 @@
           <jsp:param name="bandName" value="los redonditos" />
           <jsp:param name="auditionDate" value="${auditionList[0].creationDate}" />
           <jsp:param name="auditionTitle" value="${auditionList[0].lookingFor}" />
-          <jsp:param name="auditionDescription" value="estamos buscando a un baterista con 10 años de x´p" />
+          <jsp:param name="auditionDescription" value="<b>hola</b>" />
         </jsp:include>
 
         <jsp:include page="postCard.jsp">
@@ -107,7 +108,6 @@
           <jsp:param name="auditionDescription" value="${auditionList[0].description}" />
         </jsp:include>
       </div>
-      <!-- INFO de PUBLICACION -->
 
 
     </div>
