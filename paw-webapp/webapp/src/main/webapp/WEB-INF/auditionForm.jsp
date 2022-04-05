@@ -20,7 +20,7 @@
         console.log(formData)
     }
 </script>
-<div class="bg-white rounded-tr-xl rounded-bl-xl shadow p-6 ml-5" ">
+<div class="bg-white rounded-tr-xl rounded-bl-xl shadow p-6 ml-5">
     <div class="mt-10 pr-3">
         <h6 class="px-2">¿ tenés una banda y necesitas musicos?</h6>
         <div
@@ -28,8 +28,7 @@
         >
             <form  id="${param.auditionFormId}">
                 <label class="block">
-                Nombre *</span
-                >
+                Nombre *</span>
                     <input
                             id="name_${param.auditionFormId}"
                             type="text"
