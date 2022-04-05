@@ -20,7 +20,7 @@
 <%--<%@ include file="navbar.jsp" %>--%>
 <jsp:include page="navbar.jsp">
   <jsp:param name="navItem" value="${1}" />
-  <jsp:param name="perro" value="fico" />
+  <jsp:param name="name" value="Bandify" />
 
 </jsp:include>
     <!-- CONTENT -->
