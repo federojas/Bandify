@@ -86,7 +86,7 @@ public class AuditionJdbcDao implements AuditionDao {
         for(String role : lookingFor) {
             auditionRoles.replace("id",id);
             auditionRoles.replace("role",role);
-            jdbcGenreInsert.execute(auditionRoles);
+            jdbcRoleInsert.execute(auditionRoles);
         }
         // TODO: BandId?
         return new Audition(id.longValue(),3, title, description, location, creationDate, musicGenres, lookingFor);

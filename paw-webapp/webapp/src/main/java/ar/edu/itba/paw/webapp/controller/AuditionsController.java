@@ -25,11 +25,7 @@ public class AuditionsController {
         this.auditionService = auditionService;
     }
 
-    @RequestMapping(value = "/")
-    public ModelAndView home() {
-        return new ModelAndView("oldIndex");
-    }
-    @RequestMapping(value = "/a", method = {RequestMethod.GET})
+    @RequestMapping(value = "/", method = {RequestMethod.GET})
     public ModelAndView auditions(@ModelAttribute("auditionForm") final AuditionForm form) {
         final ModelAndView mav = new ModelAndView("home");
         /*
