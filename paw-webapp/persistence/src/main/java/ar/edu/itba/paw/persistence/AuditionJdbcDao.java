@@ -1,7 +1,6 @@
 package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.model.Audition;
-import com.sun.istack.internal.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -9,8 +8,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-
-import java.sql.Array;
+import java.sql.Date;
 import java.util.*;
 
 @Repository
@@ -42,8 +40,8 @@ public class AuditionJdbcDao implements AuditionDao {
     public AuditionJdbcDao(final DataSource ds) {
         jdbcTemplate = new JdbcTemplate(ds);
         jdbcAuditionInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("auditions").usingGeneratedKeyColumns("id");
-        jdbcRoleInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("auditionRoles").usingGeneratedKeyColumns("id");
-        jdbcGenreInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("auditionGenres").usingGeneratedKeyColumns("id");
+        jdbcRoleInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("auditionRoles");
+        jdbcGenreInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("auditionGenres");
     }
 
     @Override
@@ -65,12 +63,31 @@ public class AuditionJdbcDao implements AuditionDao {
     public Audition create(String title, String description, String location, Date creationDate, List<String> musicGenres, List<String> lookingFor) {
         final Map<String, Object> auditionData = new HashMap<>();
         auditionData.put("title", title);
+        auditionData.put("bandid",3);
         auditionData.put("description", description);
         auditionData.put("location", location);
-        auditionData.put("date", creationDate);
-        auditionData.put("musicGenres", musicGenres);
-        auditionData.put("lookingFor", lookingFor);
+        auditionData.put("creationDate", creationDate);
         final Number id = jdbcAuditionInsert.executeAndReturnKey(auditionData);
+
+        final Map<String, Object> auditionGenres = new HashMap<>();
+        auditionGenres.put("id",0);
+        auditionGenres.put("genre","mock");
+
+        for(String genre : musicGenres) {
+            auditionGenres.replace("id",id);
+            auditionGenres.replace("genre",genre);
+            jdbcGenreInsert.execute(auditionGenres);
+        }
+
+        final Map<String, Object> auditionRoles = new HashMap<>();
+        auditionRoles.put("id",0);
+        auditionRoles.put("role","mock");
+
+        for(String role : lookingFor) {
+            auditionRoles.replace("id",id);
+            auditionRoles.replace("role",role);
+            jdbcGenreInsert.execute(auditionRoles);
+        }
         // TODO: BandId?
         return new Audition(id.longValue(),3, title, description, location, creationDate, musicGenres, lookingFor);
     }

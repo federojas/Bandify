@@ -2,7 +2,6 @@
 
 <html>
 <body>
-<h2>Hello <c:out value="${user.username}"/>! </h2>
-<h4>The userId is <c:out value="${user.id}"/>! </h4>
+<h2>Hello </h2>
 </body>
 </html>
