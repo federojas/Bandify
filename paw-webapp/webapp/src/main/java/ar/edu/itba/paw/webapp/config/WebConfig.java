@@ -14,7 +14,10 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
 import javax.sql.DataSource;
+import java.util.Properties;
 
 @ComponentScan({"ar.edu.itba.paw.webapp.controller", "ar.edu.itba.paw.service", "ar.edu.itba.paw.persistence" })
 @EnableWebMvc
@@ -59,4 +62,30 @@ public class WebConfig {
         ds.setPassword("postgres");
         return ds;
     }
+
+    @Bean
+    public Session mailSession() {
+
+        String host = "smtp.gmail.com";
+        String mailProtocol = "smtp";
+
+        Properties properties = System.getProperties();
+
+        properties.put("mail.transport.protocol", mailProtocol);
+        properties.put("mail.host", host);
+        properties.put("mail.smtp.port", "465");
+        properties.put("mail.smtp.ssl.enable", "true");
+        properties.put("mail.smtp.auth", "true");
+
+        //TODO REVISAR SEGURIDAD !!!!!!!!!!!
+
+        return Session.getInstance(properties, new javax.mail.Authenticator() {
+
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication("bandifypaw@gmail.com", "paw2022!");
+            }
+        });
+    }
+
 }
