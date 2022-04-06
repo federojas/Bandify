@@ -4,6 +4,11 @@
   var titulo="hholas";
 
 </script>
+<style>
+  .form{
+    max-height: 40rem;
+  }
+</style>
 <html>
   <head>
     <meta charset="UTF-8" />
@@ -27,8 +32,8 @@
     <!-- CONTENT -->
     <div class="bg-gray-100 p-6 flex flex-row justify-center">
       <%--FORM DE LA BANDA      --%>
-      <div class="bg-white rounded-tr-xl rounded-bl-xl shadow p-6 ml-5">
-      <div class="mt-10 pr-3">
+      <div class="bg-white rounded-tr-xl rounded-bl-xl shadow p-6 ml-5 form">
+      <div class="mt-10 pr-3 ">
         <h6 class="px-2">¿ tenés una banda y necesitas musicos?</h6>
         <div
                 class="border-solid border-2 border-sky-100 rounded-xl mt-2 max-w-sm mx-auto py-3 px-6"
@@ -92,6 +97,39 @@
           </jsp:include>
         </c:forEach>
 
+
+        <jsp:include page="postCard.jsp">
+          <jsp:param name="Id" value="$asd" />
+          <jsp:param name="postCard" value="${1}" />
+          <jsp:param name="bandName" value="$asdsda}" />
+          <jsp:param name="auditionDate" value="$asdasd}" />
+          <jsp:param name="auditionTitle" value="$aasdada" />
+          <jsp:param name="auditionDescription" value="<b>hola</b>" />
+        </jsp:include>
+        <jsp:include page="postCard.jsp">
+          <jsp:param name="Id" value="$asd" />
+          <jsp:param name="postCard" value="${1}" />
+          <jsp:param name="bandName" value="$asdsda}" />
+          <jsp:param name="auditionDate" value="$asdasd}" />
+          <jsp:param name="auditionTitle" value="$aasdada" />
+          <jsp:param name="auditionDescription" value="<b>hola</b>" />
+        </jsp:include>
+        <jsp:include page="postCard.jsp">
+          <jsp:param name="Id" value="$asd" />
+          <jsp:param name="postCard" value="${1}" />
+          <jsp:param name="bandName" value="$asdsda}" />
+          <jsp:param name="auditionDate" value="$asdasd}" />
+          <jsp:param name="auditionTitle" value="$aasdada" />
+          <jsp:param name="auditionDescription" value="<b>hola</b>" />
+        </jsp:include>
+        <jsp:include page="postCard.jsp">
+          <jsp:param name="Id" value="$asd" />
+          <jsp:param name="postCard" value="${1}" />
+          <jsp:param name="bandName" value="$asdsda}" />
+          <jsp:param name="auditionDate" value="$asdasd}" />
+          <jsp:param name="auditionTitle" value="$aasdada" />
+          <jsp:param name="auditionDescription" value="<b>hola</b>" />
+        </jsp:include>
       </div>
 
 
