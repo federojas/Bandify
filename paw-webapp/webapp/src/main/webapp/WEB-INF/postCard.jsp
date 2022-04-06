@@ -29,15 +29,19 @@ contentType="text/html;charset=UTF-8" language="java" %>
   </div>
 
   <ul>
-    <li></li>
     <li>
-      <b>Instrumentos deseados</b><br /><c:out
+      <b>Ubicación </b><br />&nbsp;&nbsp;&nbsp;&nbsp;<c:out
+        value="${param.auditionLocation}"
+      />
+    </li>
+    <li>
+      <b>Instrumentos deseados</b><br />&nbsp;&nbsp;&nbsp;&nbsp;<c:out
         value="${param.auditionLookingFor}"
       />
     </li>
 
     <li>
-      <b>Interes en géneros</b><br /><c:out
+      <b>Interes en géneros</b><br />&nbsp;&nbsp;&nbsp;&nbsp;<c:out
         value="${param.auditionMusicGenres}"
       />
     </li>
@@ -68,51 +72,34 @@ contentType="text/html;charset=UTF-8" language="java" %>
         class="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t"
       >
         <h3 class="text-3xl font-semibold">
-          <c:out value="${param.bandName}" />
+          Aplicación para Banda <c:out value="${param.bandName}" />
         </h3>
-        <button
-          class="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-          onclick="toggleModal('modal_${param.Id}')"
-        >
-          <span
-            class="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none"
-          >
-            ×
-          </span>
-        </button>
       </div>
       <!--body-->
       <div class="relative p-6 flex-auto">
-        <p class="my-4 text-slate-500 text-lg leading-relaxed">
-          <c:out value="${param.auditionDescription}" />
-        </p>
-
-        <%--AUDITION FORM--%>
-        <div class="flex justify-center">
-          <jsp:include page="oldAuditionForm.jsp">
-            <jsp:param name="auditionForm" value="${1}" />
-            <jsp:param name="auditionFormId" value="${param.Id}" />
-            <jsp:param name="bandName" value="${param.bandName}" />
-          </jsp:include>
-        </div>
+        <jsp:include page="oldAuditionForm.jsp">
+          <jsp:param name="auditionForm" value="${1}" />
+          <jsp:param name="auditionFormId" value="${param.Id}" />
+          <jsp:param name="bandName" value="${param.bandName}" />
+        </jsp:include>
       </div>
       <!--footer-->
       <div
         class="flex flex-row justify-end p-6 border-t border-solid border-slate-200 rounded-b"
       >
         <button
-          class="mt-4 text-red-500 background-transparent font-bold uppercase px-5 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+          class="mt-4 text-red-500 background-transparent font-bold px-5 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
           type="button"
           onclick="toggleModal('modal_${param.Id}')"
         >
-          cerrar
+          Cerrar
         </button>
-        <button
+        <!-- <button
           class="mt-4 bg-sky-600 hover:bg-sky-700 px-5 py-2 leading-5 rounded-full font-semibold text-white"
           onclick="toggleModal('modal_${param.Id}')"
         >
           Enviar
-        </button>
+        </button> -->
       </div>
     </div>
   </div>

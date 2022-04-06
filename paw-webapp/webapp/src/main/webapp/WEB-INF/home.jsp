@@ -127,6 +127,7 @@ contentType="text/html;charset=UTF-8" language="java" %>
             <jsp:param name="auditionTitle" value="${audition.title}" />
             <jsp:param name="auditionLookingFor" value="${audition.lookingFor}" />
             <jsp:param name="auditionMusicGenres" value="${audition.musicGenres}" />
+            <jsp:param name="auditionLocation" value="${audition.location}" />
             <jsp:param
               name="auditionDescription"
               value="${audition.description}"
