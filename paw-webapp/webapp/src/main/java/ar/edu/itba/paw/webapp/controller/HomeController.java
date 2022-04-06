@@ -18,15 +18,14 @@ import javax.validation.Valid;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
-public class AuditionsController {
+public class HomeController {
     private final AuditionService auditionService;
     private final UserService userService;
 
     @Autowired
-    public AuditionsController(AuditionService auditionService, UserService userService) {
+    public HomeController(AuditionService auditionService, UserService userService) {
         this.auditionService = auditionService;
         this.userService = userService;
     }
