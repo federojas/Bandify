@@ -3,7 +3,8 @@ prefix="form" uri="http://www.springframework.org/tags/form" %> <%@ page
 contentType="text/html;charset=UTF-8" language="java" %>
 <style>
   .form{
-    max-height: 50rem;
+    /*max-height: 50rem;*/
+    max-height: 100%;
   }
 </style>
 <html>
@@ -22,7 +23,7 @@ contentType="text/html;charset=UTF-8" language="java" %>
     <!-- Content -->
     <div class="bg-gray-100 px-5 py-10 flex flex-row justify-evenly form">
       <%--Formulario--%>
-      <div class="bg-white rounded-tr-xl rounded-bl-xl shadow p-6 form">
+      <div class="bg-white rounded-tr-xl rounded-bl-xl shadow p-6 ">
         <div class="max-w-sm mx-auto">
           <div>
             <h1 class="font-bold text-lg text-center">¿En busca de músicos para tu banda?</h1>
