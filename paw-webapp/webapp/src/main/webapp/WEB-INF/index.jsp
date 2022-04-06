@@ -81,32 +81,17 @@
       </div>
       <!-- SCROLL de PUBLICACIONES -->
       <div class="flex flex-col">
-        <jsp:include page="postCard.jsp">
-          <jsp:param name="Id" value="1" />
-          <jsp:param name="postCard" value="${1}" />
-          <jsp:param name="bandName" value="los redonditos" />
-          <jsp:param name="auditionDate" value="${auditionList[0].creationDate}" />
-          <jsp:param name="auditionTitle" value="${auditionList[0].lookingFor}" />
-          <jsp:param name="auditionDescription" value="<b>hola</b>" />
-        </jsp:include>
+        <c:forEach var="audition" items="${auditionList}" varStatus="loop">
+          <jsp:include page="postCard.jsp">
+            <jsp:param name="Id" value="${audition.id}" />
+            <jsp:param name="postCard" value="${1}" />
+            <jsp:param name="bandName" value="${audition.title}" />
+            <jsp:param name="auditionDate" value="${audition.creationDate}" />
+            <jsp:param name="auditionTitle" value="${audition.lookingFor}" />
+            <jsp:param name="auditionDescription" value="<b>hola</b>" />
+          </jsp:include>
+        </c:forEach>
 
-        <jsp:include page="postCard.jsp">
-          <jsp:param name="Id" value="${2}" />
-          <jsp:param name="postCard" value="${2}" />
-          <jsp:param name="bandName" value="juan" />
-          <jsp:param name="auditionDate" value="${auditionList[0].creationDate}" />
-          <jsp:param name="auditionTitle" value="${auditionList[0].lookingFor}" />
-          <jsp:param name="auditionDescription" value="${auditionList[0].description}" />
-        </jsp:include>
-
-        <jsp:include page="postCard.jsp">
-          <jsp:param name="Id" value="${3}" />
-          <jsp:param name="postCard" value="${3}" />
-          <jsp:param name="bandName" value="${auditionList[0].title}" />
-          <jsp:param name="auditionDate" value="${auditionList[0].creationDate}" />
-          <jsp:param name="auditionTitle" value="${auditionList[0].lookingFor}" />
-          <jsp:param name="auditionDescription" value="${auditionList[0].description}" />
-        </jsp:include>
       </div>
 
 

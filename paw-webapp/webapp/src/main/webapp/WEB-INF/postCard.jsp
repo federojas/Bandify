@@ -1,4 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <script>
 
     function myFunction(id) {
@@ -17,7 +19,7 @@
         document.getElementById(modalID + "-backdrop").classList.toggle("flex");
     }
 </script>
-<div class="bg-gray-100 p-6 flex flex-row justify-center"  >
+<div class="bg-gray-100 p-6 flex flex-row justify-center w-sm"  >
     <div class=" bg-white p-1 flex flex-row justify-center shadow-lg rounded-lg mx-2 md:mx-auto my-5 max-w-md md:max-w-2xl "><!--horizantil margin is just for display-->
         <div class=" flex items-start px-1 py-1">
             <img class="w-12 h-12 rounded-full object-cover mr-4 shadow"src="https://yt3.ggpht.com/ytc/AKedOLR1VOl8ziwo8xxVOl7z9Nb4bAtaDS_Gw0fsCPk0vQ=s900-c-k-c0x00ffffff-no-rj" alt="avatar">
