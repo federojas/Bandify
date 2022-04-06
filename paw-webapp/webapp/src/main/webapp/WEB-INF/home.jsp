@@ -21,8 +21,8 @@ contentType="text/html;charset=UTF-8" language="java" %>
       <div class="bg-white rounded-tr-xl rounded-bl-xl shadow p-6 ml-5 form">
         <div class="max-w-sm mx-auto">
           <div>
-            <h1 class="font-bold text-lg text-center">¿En busca de músicos para tu banda?</h2>
-                <h2 class="font-semibold text-lg text-center">¡Crea una audición!</h3>
+            <h1 class="font-bold text-lg text-center">¿En busca de músicos para tu banda?</h1>
+                <h2 class="font-semibold text-lg text-center">¡Crea una audición!</h2>
           </div>
           <c:url value="/create" var="postPath" />
           <!-- Form box -->
