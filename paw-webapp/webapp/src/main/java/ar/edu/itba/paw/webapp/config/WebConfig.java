@@ -68,14 +68,19 @@ public class WebConfig {
 
         String host = "smtp.gmail.com";
         String mailProtocol = "smtp";
+        String dport = "465";
 
         Properties properties = System.getProperties();
 
         properties.put("mail.transport.protocol", mailProtocol);
         properties.put("mail.host", host);
-        properties.put("mail.smtp.port", "465");
+        properties.put("mail.smtp.port", dport);
         properties.put("mail.smtp.ssl.enable", "true");
         properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.socketFactory.port", dport);
+        properties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        properties.put("mail.smtp.ssl.checkserveridentity", "true");
+        properties.put("mail.smtp.socketFactory.fallback", "false");
 
         //TODO REVISAR SEGURIDAD !!!!!!!!!!!
 

@@ -27,7 +27,7 @@ public class MailingServiceImpl implements MailingService{
             message.setFrom(new InternetAddress("bandifypaw@gmail.com"));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(receiverAddress));
             message.setSubject(subject);
-            message.setText("Informacion de contacto del aspirante: " + contactInfo + "\n\n" + content);
+            message.setText("Email del aspirante: " + contactInfo + "\n\n" + content);
             Transport.send(message);
         } catch (MessagingException mex) {
             mex.printStackTrace();
