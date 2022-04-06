@@ -1,28 +1,30 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <script>
-  var titulo="hholas";
+    var titulo = "hholas";
 
 </script>
 
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style.css"/>
     <style>
-      .h1 {
-        font-size: 6.5em;
-        margin: 200px;
-      }
+        .h1 {
+            font-size: 6.5em;
+            margin: 200px;
+        }
     </style>
 </head>
-<body>
-<%--<%@ include file="navbar.jsp" %>--%>
+<body class="bg-gray-100">
+
+<%--Navbar--%>
 <jsp:include page="navbar.jsp">
-  <jsp:param name="navItem" value="${1}" />
-  <jsp:param name="name" value="Bandify" />
+    <jsp:param name="navItem" value="${1}"/>
+    <jsp:param name="name" value="Bandify"/>
+</jsp:include>
 
 </jsp:include>
     <!-- CONTENT -->
@@ -80,7 +82,7 @@
       </div>
 
 
-    </div>
+</div>
 
 </body>
 </html>
