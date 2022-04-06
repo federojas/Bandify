@@ -22,47 +22,29 @@ import java.util.List;
 @Controller
 public class HomeController {
     private final AuditionService auditionService;
-    private final UserService userService;
 
     @Autowired
-    public HomeController(AuditionService auditionService, UserService userService) {
+    public HomeController(AuditionService auditionService) {
         this.auditionService = auditionService;
-        this.userService = userService;
     }
 
     @RequestMapping(value = "/", method = {RequestMethod.GET})
-    public ModelAndView home(@ModelAttribute("auditionForm") final AuditionForm form, @RequestParam(name = "userId", defaultValue = "1") final long userId) {
+    public ModelAndView home(@ModelAttribute("auditionForm") final AuditionForm form) {
         final ModelAndView mav = new ModelAndView("home");
-        /*
-        Optional<Audition> audition = auditionService.getAuditionById(1);
-        mav.addObject("audition", audition.get());
-         */
         List<Audition> auditionList = auditionService.getAll(1);
         mav.addObject("auditionList", auditionList);
-        mav.addObject("user", userService.getUserById(userId).orElseThrow(UserNotFoundException::new));
         return mav;
     }
 
     @RequestMapping(value = "/create", method = {RequestMethod.POST})
-    public ModelAndView create(@Valid @ModelAttribute("auditionForm") final AuditionForm form, final BindingResult errors, @RequestParam(name = "userId", defaultValue = "1") final long userId) {
+    public ModelAndView create(@Valid @ModelAttribute("auditionForm") final AuditionForm form, final BindingResult errors) {
         if(errors.hasErrors())
-            return home(form, userId);
+            return home(form);
 
         Date now = Date.valueOf(LocalDate.now());
         final Audition audition = auditionService.create(form.getTitle(),form.getDescription(), form.getLocation(),
                now , form.getMusicGenres(), form.getLookingFor());
         return new ModelAndView("redirect:/");
     }
-    /*
-    @RequestMapping("/")
-    public ModelAndView index(@ModelAttribute("registerForm") final UserForm form) {
-            return new ModelAndView("index");
-}
-    @RequestMapping(value = "/create", method = { RequestMethod.POST })
-    public ModelAndView create(@Valid @ModelAttribute("registerForm") final UserForm form, final BindingResult errors) {
-        if (errors.hasErrors()) {
-            return index(form);
 
-
-     */
 }
