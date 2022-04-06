@@ -1,15 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
-<script>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-    function myFunction(id) {
-        console.log(id)
-        var x = document.getElementById("hola_"+id);
-        if (x.style.display === "none") {
-            x.style.display = "block";
-        } else {
-            x.style.display = "none";
-        }
-    }
+<script>
     function toggleModal(modalID){
         document.getElementById(modalID).classList.toggle("hidden");
         document.getElementById(modalID + "-backdrop").classList.toggle("hidden");
@@ -17,10 +9,9 @@
         document.getElementById(modalID + "-backdrop").classList.toggle("flex");
     }
 </script>
-<div class="bg-gray-100 p-6 flex flex-row justify-center"  >
+<div class="bg-gray-100 p-6 flex flex-row justify-center">
     <div class=" bg-white p-1 flex flex-row justify-center shadow-lg rounded-lg mx-2 md:mx-auto my-5 max-w-md md:max-w-2xl "><!--horizantil margin is just for display-->
         <div class=" flex items-start px-1 py-1">
-            <img class="w-12 h-12 rounded-full object-cover mr-4 shadow"src="https://yt3.ggpht.com/ytc/AKedOLR1VOl8ziwo8xxVOl7z9Nb4bAtaDS_Gw0fsCPk0vQ=s900-c-k-c0x00ffffff-no-rj" alt="avatar">
             <div class="">
                 <div class="flex items-center justify-between">
                     <h2 class="text-lg font-semibold text-gray-900 -mt-1"><b> <c:out value="${param.bandName}" /> </b> </h2>
@@ -32,21 +23,11 @@
                     <c:out value="${param.auditionDescription}" />
 
                 </p>
-                <button class="flex justify-end mt-4 bg-sky-600 hover:bg-sky-700 px-5 py-2 leading-5 rounded-full font-semibold text-white" type="button" onclick="toggleModal('modal_${param.Id}')">
+                <div class="flex flex-row-reverse"><button class="justify-end mt-4 bg-sky-600 hover:bg-sky-700 px-5 py-2 leading-5 rounded-full font-semibold text-white" type="button" onclick="toggleModal('modal_${param.Id}')">
                     Aplicar
-                </button>
-<%--                <div class="flex justify-end group dropdown">--%>
-<%--                    <button--%>
-<%--                            onclick="myFunction(${param.Id})"--%>
-<%--                            id="btn_${param.Id}"--%>
-<%--                            class=" mt-4 bg-sky-600 hover:bg-sky-700 px-5 py-2 leading-5 rounded-full font-semibold text-white"--%>
-<%--                    >--%>
-<%--                        Aplicar--%>
-<%--                    </button>--%>
-<%--                    <div id="hola_${param.Id}" class="   bg-white  w-auto">--%>
-<%--                       hoala--%>
-<%--                    </div>--%>
-<%--                </div>--%>
+                </button></div>
+                
+
             </div>
         </div>
     </div>
@@ -77,7 +58,7 @@
 
                 <%--AUDITION FORM--%>
                 <div class="flex justify-center">
-                    <jsp:include page="auditionForm.jsp">
+                    <jsp:include page="oldAuditionForm.jsp">
                         <jsp:param name="auditionForm" value="${1}" />
                         <jsp:param name="auditionFormId" value="${param.Id}" />
                         <jsp:param name="bandName" value="${param.bandName}" />
