@@ -53,47 +53,58 @@
                 </div>
                 <div>
                     <form:label class="home-form-label" path="location">
-                        Ubicación
+                        Localización
                     </form:label>
-                    <form:input type="location" class="home-form-input" path="location"/>
+                    <form:select class="home-form-input" path="location" multiple="false">
+                        <c:forEach var="location" items="${locationList}" varStatus="loop">
+                            <form:option value="${location.id}">
+                                ${location.name}
+                            </form:option>
+                        </c:forEach>
+                    </form:select>
+                </div>
+                <div>
+                    <form:label class="home-form-label" path="email">
+                        Email de la banda
+                    </form:label>
+                    <form:input type="text" class="home-form-input" path="email"/>
 
-                        <form:errors path="email" element="p">
-                        </form:errors>
-                    </div>
-                    <div>
-                        <label class="home-label-0" for="musicGenres">
-                            Géneros
-                        </label>
-                        <form:select class="home-form-select-1" path="musicGenres" multiple="true">
-                            <c:forEach var="genre" items="${genreList}" varStatus="loop">
-                                <form:option value="${genre.id}">
-                                    ${genre.name}
-                                </form:option>
-                            </c:forEach>
-                        </form:select>
-                    </div>
-                    <div>
-                        <label class="home-label-1" for="lookingFor">
-                            Buscando
-                        </label>
-                        <form:select class="home-form-select-2" path="lookingFor" multiple="true">
-                            <c:forEach var="role" items="${roleList}" varStatus="loop">
-                                <form:option value="${role.id}">
-                                    ${role.name}
-                                </form:option>
-                            </c:forEach>
-                        </form:select>
-                    </div>
-                    <div class="home-div-10">
-                        <button type="submit" class="home-button-0 bg-sky-600 hover:bg-sky-700">
-                            Publicar
-                        </button>
-                    </div>
-                </form:form>
-            </div>
+                    <form:errors path="email" element="p">
+                    </form:errors>
+                </div>
+                <div>
+                    <label class="home-form-label" for="musicGenres">
+                        Géneros
+                    </label>
+                    <form:select class="home-form-input" path="musicGenres" multiple="true">
+                        <c:forEach var="genre" items="${genreList}" varStatus="loop">
+                            <form:option value="${genre.id}">
+                                ${genre.name}
+                            </form:option>
+                        </c:forEach>
+                    </form:select>
+                </div>
+                <div>
+                    <label class="home-label-1" for="lookingFor">
+                        Buscando
+                    </label>
+                    <form:select class="home-form-input" path="lookingFor" multiple="true">
+                        <c:forEach var="role" items="${roleList}" varStatus="loop">
+                            <form:option value="${role.id}">
+                                ${role.name}
+                            </form:option>
+                        </c:forEach>
+                    </form:select>
+                </div>
+                <div class="post-button-div">
+                    <button type="submit" class="post-button bg-sky-600 hover:bg-sky-700">
+                        Publicar
+                    </button>
+                </div>
+            </form:form>
         </div>
-
     </div>
+
 
     <%--Publicaciones de audiciones--%>
     <div class="posts">
