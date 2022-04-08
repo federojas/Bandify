@@ -1,35 +1,59 @@
 package ar.edu.itba.paw.persistence;
 
+import ar.edu.itba.paw.model.Genre;
+import ar.edu.itba.paw.model.Location;
+import ar.edu.itba.paw.model.Role;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
 public class Audition {
     private long id, bandId;
-    private String title, description, location, email;
+    private String title, description, email;
     private LocalDateTime creationDate;
-    private List<String> musicGenres;
-    private List<String> lookingFor;
+    private Location location;
+    private List<Genre> musicGenres;
+    private List<Role> lookingFor;
 
     public static class AuditionBuilder {
-        private String title, description, location, email;
+        private String title, description, email;
         private LocalDateTime creationDate;
-        private List<String> musicGenres;
-        private List<String> lookingFor;
+        private Location location;
+        private List<Genre> musicGenres;
+        private List<Role> lookingFor;
         private long bandId;
+        private long id;
 
-        public AuditionBuilder(String title, String description, String location, String email, List<String> musicGenres, List<String> lookingFor, long bandId) {
+        public AuditionBuilder(String title, String description, String email, long bandId) {
             this.creationDate = LocalDateTime.now();
             this.title = title;
             this.description = description;
-            this.location = location;
-            this.musicGenres = musicGenres;
-            this.lookingFor = lookingFor;
             this.email = email;
             this.bandId = bandId;
         }
 
-        protected Audition build(long id) {
-            return new Audition(this, id);
+        public AuditionBuilder location(Location location) {
+            this.location = location;
+            return this;
+        }
+
+        public AuditionBuilder musicGenres(List<Genre> musicGenres) {
+            this.musicGenres = musicGenres;
+            return this;
+        }
+
+        public AuditionBuilder lookingFor(List<Role> lookingFor) {
+            this.lookingFor = lookingFor;
+            return this;
+        }
+
+        public AuditionBuilder id(long id) {
+            this.id = id;
+            return this;
+        }
+
+        protected Audition build() {
+            return new Audition(this);
         }
 
         public String getTitle() {
@@ -40,10 +64,6 @@ public class Audition {
             return description;
         }
 
-        public String getLocation() {
-            return location;
-        }
-
         public String getEmail() {
             return email;
         }
@@ -52,23 +72,30 @@ public class Audition {
             return creationDate;
         }
 
-        public List<String> getMusicGenres() {
-            return musicGenres;
-        }
-
-        public List<String> getLookingFor() {
-            return lookingFor;
-        }
-
         public long getBandId() {
             return bandId;
         }
+
+        public Location getLocation() {
+            return location;
+        }
+
+        public List<Genre> getMusicGenres() {
+            return musicGenres;
+        }
+
+        public List<Role> getLookingFor() {
+            return lookingFor;
+        }
+
+        public long getId() {
+            return id;
+        }
     }
 
-    private Audition(AuditionBuilder builder, long id) {
-        this.id = id;
+    private Audition(AuditionBuilder builder) {
+        id = builder.id;
         bandId = builder.bandId;
-        this.creationDate = builder.creationDate;
         title = builder.title;
         description = builder.description;
         location = builder.location;
@@ -118,14 +145,6 @@ public class Audition {
         this.description = description;
     }
 
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
     public LocalDateTime getCreationDate() {
         return creationDate;
     }
@@ -134,19 +153,15 @@ public class Audition {
         this.creationDate = creationDate;
     }
 
-    public List<String> getMusicGenres() {
+    public Location getLocation() {
+        return location;
+    }
+
+    public List<Genre> getMusicGenres() {
         return musicGenres;
     }
 
-    public void setMusicGenres(List<String> musicGenres) {
-        this.musicGenres = musicGenres;
-    }
-
-    public List<String> getLookingFor() {
+    public List<Role> getLookingFor() {
         return lookingFor;
-    }
-
-    public void setLookingFor(List<String> lookingFor) {
-        this.lookingFor = lookingFor;
     }
 }
