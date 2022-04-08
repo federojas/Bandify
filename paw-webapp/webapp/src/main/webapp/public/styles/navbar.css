@@ -1,0 +1,129 @@
+/* Clases para navbar */
+.navbar-div-0 {
+  width: 100%;
+  display: flex;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+.navbar-div-1 {
+  display: none;
+  width: 100%;
+
+  @media (min-width: 768px) {
+    display: block;
+    width: auto;
+  }
+}
+.navbar-button-0 {
+  display: flex;
+  display: flex;
+}
+.navbar-button-1 {
+  display: inline-flex;
+  padding: 0.5rem;
+  margin-left: 0.75rem;
+  color: #6b7280;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 0.5rem;
+
+  @media (min-width: 768px) {
+    display: none;
+  }
+}
+.navbar-button-2 {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 0.75rem;
+  padding-right: 1rem;
+  color: #374151;
+  width: 4rem;
+  border-bottom-width: 1px;
+  border-color: #f3f4f6;
+
+  @media (min-width: 768px) {
+    padding: 0;
+    border-width: 0;
+  }
+}
+.navbar-h1-0 {
+  display: flex;
+  padding: 1.25rem;
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+  font-weight: 700;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+.navbar-nav-0 {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.625rem;
+  padding-bottom: 0.625rem;
+  background-color: #ffffff;
+  border-radius: 0.25rem;
+  border-color: #e5e7eb;
+
+  @media (min-width: 640px) {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+.navbar-svg-0 {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+.navbar-svg-1 {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+.navbar-svg-2 {
+  display: none;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+.navbar-ul-0 {
+  display: flex;
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+
+  @media (min-width: 768px) {
+    margin-top: 0;
+    margin-left: 2rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+    flex-direction: row;
+  }
+}
+.navbar-span-0 {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+  align-self: center;
+}
+.navbar-span-1 {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  whitespace: nowrap;
+  borderwidth: 0;
+}
+.navbar-span-2 {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+  align-self: center;
+}
