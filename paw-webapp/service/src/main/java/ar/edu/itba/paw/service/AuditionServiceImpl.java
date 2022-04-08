@@ -1,11 +1,10 @@
 package ar.edu.itba.paw.service;
 
-import ar.edu.itba.paw.model.Audition;
+import ar.edu.itba.paw.persistence.Audition;
 import ar.edu.itba.paw.persistence.AuditionDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,8 +24,8 @@ public class AuditionServiceImpl implements AuditionService {
     }
 
     @Override
-    public Audition create(String title, String description, String location, Date creationDate, List<String> musicGenres, List<String> lookingFor) {
-        return auditionDao.create(title,description,location,creationDate,musicGenres,lookingFor);
+    public Audition create(Audition.AuditionBuilder builder) {
+        return auditionDao.create(builder);
     }
 
     @Override

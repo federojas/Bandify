@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.webapp.form;
 
-import javax.validation.constraints.Pattern;
+import ar.edu.itba.paw.persistence.Audition;
+
 import javax.validation.constraints.Size;
 import java.util.List;
 
@@ -16,11 +17,18 @@ public class AuditionForm {
     @Size(min = 1, max = 100)
     private String location;
 
+    @Size(min = 1, max = 100)
+    private String email;
+
     @Size(min = 1, max = 5)
     private List<String> musicGenres;
 
     @Size(min = 1, max = 5)
     private List<String> lookingFor;
+
+    public Audition.AuditionBuilder toBuilder(long bandId) {
+        return new Audition.AuditionBuilder(title, description, location, email, musicGenres, lookingFor, bandId);
+    }
 
     public String getTitle() {
         return title;

@@ -1,6 +1,6 @@
+
 package ar.edu.itba.paw.persistence;
 
-import ar.edu.itba.paw.model.Audition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -8,7 +8,6 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.sql.Date;
 import java.util.*;
 
 @Repository
@@ -25,14 +24,15 @@ public class AuditionJdbcDao implements AuditionDao {
 
     private final static RowMapper<Audition> AUDITION_ROW_MAPPER = (rs, i) -> {
 
-        return new Audition(rs.getLong("id"),
-                rs.getLong("bandId"),
+        return new Audition.AuditionBuilder(
                 rs.getString("title"),
                 rs.getString("description"),
                 rs.getString("location"),
-                rs.getDate("creationDAte"),
+                rs.getString("email"),
                 null,
-                null);
+                null,
+                rs.getLong("bandId")
+                ).build(rs.getLong("id"));
     };
 
 
@@ -46,11 +46,10 @@ public class AuditionJdbcDao implements AuditionDao {
 
     @Override
     public Optional<Audition> getAuditionById(long id) {
-        final List<String> genres = jdbcTemplate.query("SELECT genre FROM auditionGenres WHERE id = ?", new Object[]{id}, GENRE_ROW_MAPPER);
-        final List<String> roles = jdbcTemplate.query("SELECT role FROM auditionRoles WHERE id = ?", new Object[]{id}, ROLE_ROW_MAPPER);
+        final List<String> genres = jdbcTemplate.query("SELECT genre FROM genres NATURAL JOIN auditionGenres WHERE id = ?", new Object[]{id}, GENRE_ROW_MAPPER);
+        final List<String> roles = jdbcTemplate.query("SELECT role FROM roles NATURAL JOIN auditionRoles WHERE id = ?", new Object[]{id}, ROLE_ROW_MAPPER);
         final List<Audition> auditions = jdbcTemplate.query("SELECT * FROM auditions WHERE id = ?", new Object[]{id}, AUDITION_ROW_MAPPER);
         Optional<Audition> toReturn = auditions.stream().findFirst();
-
         if(toReturn.isPresent()) {
             toReturn.get().setLookingFor(roles);
             toReturn.get().setMusicGenres(genres);
@@ -60,20 +59,21 @@ public class AuditionJdbcDao implements AuditionDao {
     }
 
     @Override
-    public Audition create(String title, String description, String location, Date creationDate, List<String> musicGenres, List<String> lookingFor) {
+    public Audition create(Audition.AuditionBuilder builder) {
         final Map<String, Object> auditionData = new HashMap<>();
-        auditionData.put("title", title);
-        auditionData.put("bandid",3);
-        auditionData.put("description", description);
-        auditionData.put("location", location);
-        auditionData.put("creationDate", creationDate);
+        auditionData.put("title", builder.getTitle());
+        auditionData.put("bandid", builder.getBandId());
+        auditionData.put("description", builder.getDescription());
+        auditionData.put("location", builder.getLocation());
+        auditionData.put("creationDate", builder.getCreationDate());
+        auditionData.put("email", builder.getEmail());
         final Number id = jdbcAuditionInsert.executeAndReturnKey(auditionData);
 
         final Map<String, Object> auditionGenres = new HashMap<>();
         auditionGenres.put("id",0);
         auditionGenres.put("genre","mock");
 
-        for(String genre : musicGenres) {
+        for(String genre : builder.getMusicGenres()) {
             auditionGenres.replace("id",id);
             auditionGenres.replace("genre",genre);
             jdbcGenreInsert.execute(auditionGenres);
@@ -83,15 +83,14 @@ public class AuditionJdbcDao implements AuditionDao {
         auditionRoles.put("id",0);
         auditionRoles.put("role","mock");
 
-        for(String role : lookingFor) {
+        for(String role : builder.getLookingFor()) {
             auditionRoles.replace("id",id);
             auditionRoles.replace("role",role);
             jdbcRoleInsert.execute(auditionRoles);
         }
-        // TODO: BandId?
-        return new Audition(id.longValue(),3, title, description, location, creationDate, musicGenres, lookingFor);
+
+        return builder.build(id.longValue());
     }
-    //TODO: no lo tocamos al crear tablas genres y roles
 
     @Override
     public List<Audition> getAll(int page) {
