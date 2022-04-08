@@ -1,0 +1,171 @@
+/* Clases para oldAuditionForm */
+.oldAuditionForm-div-0 {
+  padding-bottom: 0.75rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  margin-top: 0.5rem;
+  max-width: 24rem;
+  border-radius: 0.75rem;
+  border-width: 2px;
+  border-style: solid;
+}
+.oldAuditionForm-div-1 {
+  display: flex;
+  display: flex;
+}
+.oldAuditionForm-button-0 {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  margin-top: 1rem;
+  color: #ffffff;
+  font-weight: 600;
+  line-height: 1.25rem;
+  border-radius: 9999px;
+}
+.oldAuditionForm-div-2 {
+  display: flex;
+  display: flex;
+  flex-direction: row-reverse;
+}
+.oldAuditionForm-label-1 {
+  display: block;
+  padding-left: 1.5rem;
+}
+.oldAuditionForm-label-0 {
+  display: block;
+}
+.oldAuditionForm-label-4 {
+  display: block;
+  margin-top: 0.5rem;
+}
+.oldAuditionForm-label-2 {
+  display: block;
+  margin-top: 1.25rem;
+}
+.oldAuditionForm-span-0 {
+  display: block;
+  margin-top: 1.25rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+}
+.oldAuditionForm-label-3 {
+  display: block;
+}
+.oldAuditionForm-span-1 {
+  display: block;
+  margin-top: 1.25rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+}
+.oldAuditionForm-span-3 {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+}
+.oldAuditionForm-span-4 {
+  display: block;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+}
+.oldAuditionForm-input-0 {
+  display: block;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  margin-top: 0.25rem;
+  background-color: #ffffff;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  width: 100%;
+  border-radius: 0.375rem;
+  border-width: 1px;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+.oldAuditionForm-span-2 {
+  display: block;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+}
+.oldAuditionForm-input-1 {
+  display: block;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  margin-top: 0.25rem;
+  background-color: #ffffff;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  width: 100%;
+  border-radius: 0.375rem;
+  border-width: 1px;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+.oldAuditionForm-input-3 {
+  display: block;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  margin-top: 0.25rem;
+  background-color: #ffffff;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  width: 100%;
+  border-radius: 0.375rem;
+  border-width: 1px;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+.oldAuditionForm-input-2 {
+  display: block;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  margin-top: 0.25rem;
+  background-color: #ffffff;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  width: 100%;
+  border-radius: 0.375rem;
+  border-width: 1px;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+.oldAuditionForm-p-1 {
+  visibility: hidden;
+  margin-top: 0.25rem;
+  color: #b91c1c;
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+.oldAuditionForm-p-0 {
+  visibility: hidden;
+  margin-top: 0.25rem;
+  color: #b91c1c;
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+.oldAuditionForm-textarea-0 {
+  display: block;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  margin-top: 0.25rem;
+  background-color: #ffffff;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  width: 100%;
+  border-radius: 0.375rem;
+  border-width: 1px;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
