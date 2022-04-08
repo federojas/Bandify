@@ -2,7 +2,6 @@
 .navbar-div-0 {
   width: 100%;
   display: flex;
-  display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
@@ -17,7 +16,6 @@
   }
 }
 .navbar-button-0 {
-  display: flex;
   display: flex;
 }
 .navbar-button-1 {
