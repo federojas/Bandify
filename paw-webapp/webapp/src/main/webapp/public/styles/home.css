@@ -2,53 +2,42 @@
 .home-body-0 {
   background-color: #f3f4f6;
 }
-.home-div-0 {
+.content {
   display: flex;
-  padding-left: 1.25rem;
-  padding-right: 1.25rem;
-  padding-top: 2.5rem;
-  padding-bottom: 2.5rem;
+  padding: 2.5rem 1.25rem;
   background-color: #f3f4f6;
-  display: flex;
-  flex-direction: row;
+  flex-wrap: wrap;
   justify-content: space-evenly;
 }
-.home-div-1 {
+.post-form-container {
   padding: 1.5rem;
+  margin: 0.75rem;
   background-color: #ffffff;
   border-top-right-radius: 0.75rem;
   border-bottom-left-radius: 0.75rem;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-}
-.home-div-2 {
   max-width: 24rem;
 }
-.home-div-4 {
-  padding-top: 0.75rem;
-  padding-bottom: 0.75rem;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
+
+.inner-box-form{
+  padding: 0.75rem 1.5rem;
   margin-top: 0.5rem;
   max-width: 24rem;
   border-radius: 0.75rem;
   border-width: 2px;
   border-style: solid;
 }
-.home-div-10 {
-  display: flex;
+.post-button-div {
   display: flex;
   flex-direction: row-reverse;
 }
-.home-div-11 {
-  display: flex;
+.posts {
   display: flex;
   flex-direction: column;
+  margin: 0.75rem;
 }
-.home-button-0 {
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  padding-left: 1.25rem;
-  padding-right: 1.25rem;
+.post-button {
+  padding: 0.5rem 1.25rem;
   margin-top: 1rem;
   color: #ffffff;
   font-weight: 600;
@@ -67,112 +56,24 @@
   font-weight: 600;
   text-align: center;
 }
-.home-label-0 {
+
+.home-form-input {
+  display: block;
+  padding: 0.5rem 0.75rem;
+  margin-top: 0.25rem;
+  background-color: #ffffff;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  width: 100%;
+  border-radius: 0.375rem;
+  border-width: 1px;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.home-form-label {
   display: block;
   margin-top: 1.25rem;
   font-size: 0.875rem;
   line-height: 1.25rem;
   font-weight: 500;
-}
-.home-label-1 {
-  display: block;
-  margin-top: 1.25rem;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  font-weight: 500;
-}
-.home-form-input-0 {
-  display: block;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  padding-left: 0.75rem;
-  padding-right: 0.75rem;
-  margin-top: 0.25rem;
-  background-color: #ffffff;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  width: 100%;
-  border-radius: 0.375rem;
-  border-width: 1px;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-}
-.home-form-input-1 {
-  display: block;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  padding-left: 0.75rem;
-  padding-right: 0.75rem;
-  margin-top: 0.25rem;
-  background-color: #ffffff;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  width: 100%;
-  border-radius: 0.375rem;
-  border-width: 1px;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-}
-.home-form-input-2 {
-  display: block;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  padding-left: 0.75rem;
-  padding-right: 0.75rem;
-  margin-top: 0.25rem;
-  background-color: #ffffff;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  width: 100%;
-  border-radius: 0.375rem;
-  border-width: 1px;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-}
-.home-form-label-0 {
-  display: block;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  font-weight: 500;
-}
-.home-form-label-1 {
-  display: block;
-  margin-top: 1.25rem;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  font-weight: 500;
-}
-.home-form-label-2 {
-  display: block;
-  margin-top: 1.25rem;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  font-weight: 500;
-}
-.home-form-select-0 {
-  display: block;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  padding-left: 0.75rem;
-  padding-right: 0.75rem;
-  margin-top: 0.25rem;
-  background-color: #ffffff;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  width: 100%;
-  border-radius: 0.375rem;
-  border-width: 1px;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-}
-.home-form-select-1 {
-  display: block;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  padding-left: 0.75rem;
-  padding-right: 0.75rem;
-  margin-top: 0.25rem;
-  background-color: #ffffff;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  width: 100%;
-  border-radius: 0.375rem;
-  border-width: 1px;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }

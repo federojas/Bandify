@@ -6,6 +6,7 @@
 
 <html>
 <head>
+    <title>Bandify</title>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -19,54 +20,42 @@
 </jsp:include>
 
 <!-- Content -->
-<div class="home-div-0">
+<div class="content">
     <%--Formulario--%>
-    <div class="home-div-1">
-        <div class="home-div-2">
-            <div>
-                <h1 class="home-h1-0">
-                    ¿En busca de músicos para tu banda?
-                </h1>
-                <h2 class="home-h2-0">
-                    ¡Crea una audición!
-                </h2>
-            </div>
-            <c:url value="/create" var="postPath"/>
-            <!-- Form box -->
-            <div class="home-div-4">
-                <form:form modelAttribute="auditionForm" action="${postPath}" method="post">
-                    <div>
-                        <form:label class="home-form-label-0" path="title">
-                            Titulo
-                        </form:label>
-                        <form:input type="text" class="home-form-input-0" path="title"/>
+    <div class="post-form-container">
+        <h1 class="home-h1-0">
+            ¿En busca de músicos para tu banda?
+        </h1>
+        <h2 class="home-h2-0">
+            ¡Crea una audición!
+        </h2>
+        <c:url value="/create" var="postPath"/>
+        <!-- Form box -->
+        <div class="inner-box-form">
+            <form:form modelAttribute="auditionForm" action="${postPath}" method="post">
+                <div>
+                    <form:label class="home-form-label" path="title">
+                        Titulo
+                    </form:label>
+                    <form:input type="text" class="home-form-input" path="title"/>
 
-                        <form:errors path="title" element="p">
-                        </form:errors>
-                    </div>
-                    <div>
-                        <form:label class="home-form-label-1" path="description">
-                            Descripción
-                        </form:label>
-                        <form:input class="home-form-input-1" type="description" path="description"/>
+                    <form:errors path="title" element="p">
+                    </form:errors>
+                </div>
+                <div>
+                    <form:label class="home-form-label" path="description">
+                        Descripción
+                    </form:label>
+                    <form:input class="home-form-input" type="description" path="description"/>
 
-                        <form:errors path="description" element="p">
-                        </form:errors>
-                    </div>
-                    <div>
-                        <form:select class="home-form-select-0" path="location" multiple="false">
-                            <c:forEach var="location" items="${locationList}" varStatus="loop">
-                                <form:option value="${location.id}">
-                                    ${location.name}
-                                </form:option>
-                            </c:forEach>
-                        </form:select>
-                    </div
-                    <div>
-                        <form:label class="home-form-label-3" path="email">
-                            Email de la banda
-                        </form:label>
-                        <form:input type="text" class="home-form-input-0" path="email"/>
+                    <form:errors path="description" element="p">
+                    </form:errors>
+                </div>
+                <div>
+                    <form:label class="home-form-label" path="location">
+                        Ubicación
+                    </form:label>
+                    <form:input type="location" class="home-form-input" path="location"/>
 
                         <form:errors path="email" element="p">
                         </form:errors>
@@ -103,10 +92,11 @@
                 </form:form>
             </div>
         </div>
+
     </div>
 
     <%--Publicaciones de audiciones--%>
-    <div class="home-div-11">
+    <div class="posts">
         <c:forEach var="audition" items="${auditionList}" varStatus="loop">
             <jsp:include page="postCard.jsp">
                 <jsp:param name="Id" value="${audition.id}"/>
