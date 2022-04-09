@@ -4,10 +4,11 @@
 }
 .content {
   display: flex;
-  padding: 2.5rem 1.25rem;
+  padding: 2.5rem 4rem;
   background-color: #f3f4f6;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
+  flex-direction: column;
+  /* flex-wrap: wrap;
+  justify-content: space-evenly; */
 }
 .post-form-container {
   padding: 1.5rem;
@@ -37,8 +38,8 @@
   margin: 0.75rem;
 }
 .post-button {
-  padding: 0.5rem 1.25rem;
-  margin-top: 1rem;
+  padding: 0.50rem 1.25rem;
+  margin-top: 0.5rem;
   color: #ffffff;
   font-weight: 600;
   line-height: 1.25rem;
@@ -76,4 +77,31 @@
   font-size: 0.875rem;
   line-height: 1.25rem;
   font-weight: 500;
+}
+
+.hero {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0.5rem 2rem;
+}
+
+.hero-text {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.hero-image {
+    width: 45%;
+    padding: 1.5rem;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    padding: 0.5rem;
 }
