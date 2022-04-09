@@ -2,8 +2,10 @@
 <%@ page
         contentType="text/html;charset=UTF-8" language="java" %>
 <html>
+
 <head>
-<link rel="stylesheet" href="public/styles/postCard.css"/>
+<%--<link rel="stylesheet" href="public/styles/postCard.css"/>--%>
+    <link href="<c:url value = "public/styles/postCard.css" />" rel="stylesheet">
 
     <script>
         function toggleModal(modalID) {
@@ -76,7 +78,8 @@
         </li>
     </ul>
     <div class="postCard-div-3">
-        <button class="postCard-button-0 bg-sky-600 hover:bg-sky-700" type="button" onclick="toggleModal('modal_${param.Id}')">
+        <button class="postCard-button-0 bg-sky-600 hover:bg-sky-700" type="button"
+                onclick="toggleModal('modal_${param.Id}')">
             Aplicar
         </button>
     </div>
