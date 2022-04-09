@@ -60,10 +60,40 @@ contentType="text/html;charset=UTF-8" language="java" %>
         </div>
       </div>
 
+      <h2 class="text-4xl section-title mt-20">Audiciones abiertas</h2>
+      <%--Publicaciones de audiciones--%>
+      <div class="posts">
+        <c:forEach var="audition" items="${auditionList}" varStatus="loop">
+          <jsp:include page="postCard.jsp">
+            <jsp:param name="Id" value="${audition.id}" />
+            <jsp:param name="postCard" value="${1}" />
+            <jsp:param name="bandName" value="${audition.bandId}" />
+            <jsp:param name="auditionDate" value="${audition.creationDate}" />
+            <jsp:param name="auditionTitle" value="${audition.title}" />
+            <jsp:param
+              name="auditionLookingFor"
+              value="${audition.lookingFor}"
+            />
+            <jsp:param
+              name="auditionMusicGenres"
+              value="${audition.musicGenres}"
+            />
+            <jsp:param
+              name="auditionLocation"
+              value="${audition.location.name}"
+            />
+            <jsp:param
+              name="auditionDescription"
+              value="${audition.description}"
+            />
+          </jsp:include>
+        </c:forEach>
+      </div>
+
       <%--Formulario--%>
       <div class="post-form-container">
-        <h1 class="home-h1-0">¿En busca de músicos para tu banda?</h1>
-        <h2 class="home-h2-0">¡Crea una audición!</h2>
+        <h1 class="home-h1-0">¿En busca de artistas para tu banda?</h1>
+        <h2 class="home-h1-0">¡Crea una audición!</h2>
         <c:url value="/create" var="postPath" />
         <!-- Form box -->
         <div class="inner-box-form">
@@ -154,35 +184,6 @@ contentType="text/html;charset=UTF-8" language="java" %>
             </div>
           </form:form>
         </div>
-      </div>
-
-      <%--Publicaciones de audiciones--%>
-      <div class="posts">
-        <c:forEach var="audition" items="${auditionList}" varStatus="loop">
-          <jsp:include page="postCard.jsp">
-            <jsp:param name="Id" value="${audition.id}" />
-            <jsp:param name="postCard" value="${1}" />
-            <jsp:param name="bandName" value="${audition.bandId}" />
-            <jsp:param name="auditionDate" value="${audition.creationDate}" />
-            <jsp:param name="auditionTitle" value="${audition.title}" />
-            <jsp:param
-              name="auditionLookingFor"
-              value="${audition.lookingFor}"
-            />
-            <jsp:param
-              name="auditionMusicGenres"
-              value="${audition.musicGenres}"
-            />
-            <jsp:param
-              name="auditionLocation"
-              value="${audition.location.name}"
-            />
-            <jsp:param
-              name="auditionDescription"
-              value="${audition.description}"
-            />
-          </jsp:include>
-        </c:forEach>
       </div>
     </div>
   </body>
