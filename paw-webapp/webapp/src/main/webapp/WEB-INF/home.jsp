@@ -11,10 +11,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="public/styles/home.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
 </head>
 <body class="bg-gray-100 ">
 <%--Navbar--%>
-<jsp:include page="navbar.jsp">
+<jsp:include page="navbar2.jsp">
     <jsp:param name="navItem" value="${1}"/>
     <jsp:param name="name" value="Bandify"/>
 </jsp:include>
@@ -46,7 +48,7 @@
                     <form:label class="home-form-label" path="description">
                         Descripción
                     </form:label>
-                    <form:input class="home-form-input" type="description" path="description"/>
+                    <form:input class="home-form-input" type="text" path="description"/>
 
                     <form:errors path="description" element="p">
                     </form:errors>
