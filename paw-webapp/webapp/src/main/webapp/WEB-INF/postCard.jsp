@@ -78,7 +78,8 @@
         </li>
     </ul>
     <div class="postCard-div-3">
-        <button class="postCard-button-0 bg-sky-600 hover:bg-sky-700" type="button" onclick="toggleModal('modal_${param.Id}')">
+        <button class="postCard-button-0 bg-sky-600 hover:bg-sky-700" type="button"
+                onclick="toggleModal('modal_${param.Id}')">
             Aplicar
         </button>
     </div>
