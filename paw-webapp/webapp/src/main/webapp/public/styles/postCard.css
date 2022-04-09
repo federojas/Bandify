@@ -1,5 +1,4 @@
 /* Clases para postCard */
-
 .postCard-div-0 {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
@@ -107,6 +106,7 @@
   position: relative;
   padding: 1.5rem;
   flex: 1 1 auto;
+  background-color: #b91c1c;
 }
 .postCard-h2-1 {
   font-size: 1.125rem;
