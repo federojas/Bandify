@@ -48,7 +48,7 @@
                     <form:label class="home-form-label" path="description">
                         Descripción
                     </form:label>
-                    <form:input class="home-form-input" type="description" path="description"/>
+                    <form:input class="home-form-input" type="text" path="description"/>
 
                     <form:errors path="description" element="p">
                     </form:errors>

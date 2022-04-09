@@ -1,9 +1,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <%@ page
         contentType="text/html;charset=UTF-8" language="java" %>
-
 <html>
 <head>
+<link rel="stylesheet" href="public/styles/postCard.css"/>
+
     <script>
         function toggleModal(modalID) {
             document.getElementById(modalID).classList.toggle("hidden");
@@ -12,11 +13,14 @@
             document.getElementById(modalID + "-backdrop").classList.toggle("flex");
         }
     </script>
-    <link rel="stylesheet" href="public/styles/postCard.css"/>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
 <div class="postCard-div-0 shadow-lg">
+
+
+
     <div class="postCard-div-1">
         <h2 class="postCard-h2-0">
             <b>
@@ -77,8 +81,8 @@
         </button>
     </div>
 </div>
-<div class="hidden postCard-div-4" id="modal_${param.Id}">
-    <div class="postCard-div-5">
+<div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center" id="modal_${param.Id}">
+    <div class="relative w-auto my-6 mx-auto max-w-3xl">
         <!--content-->
         <div class="postCard-div-6">
             <!--header-->
