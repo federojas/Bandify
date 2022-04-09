@@ -4,9 +4,14 @@
 <html>
 
 <head>
-<%--<link rel="stylesheet" href="public/styles/postCard.css"/>--%>
-    <link href="<c:url value = "public/styles/postCard.css" />" rel="stylesheet">
-
+<link rel="stylesheet" href="public/styles/postCard.css"/>
+    <style>
+        .container{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+    </style>
     <script>
         function toggleModal(modalID) {
             document.getElementById(modalID).classList.toggle("hidden");
@@ -58,24 +63,6 @@
             <c:out value="${param.auditionLocation}"/>
 
         </li>
-        <li>
-            <b>
-                Instrumentos deseados
-            </b>
-            <br/>
-            &nbsp;&nbsp;&nbsp;&nbsp;
-            <c:out value="${param.auditionLookingFor}"/>
-
-        </li>
-        <li>
-            <b>
-                Interes en géneros
-            </b>
-            <br/>
-            &nbsp;&nbsp;&nbsp;&nbsp;
-            <c:out value="${param.auditionMusicGenres}"/>
-
-        </li>
     </ul>
     <div class="postCard-div-3">
         <button class="postCard-button-0 bg-sky-600 hover:bg-sky-700" type="button"
@@ -98,14 +85,48 @@
             </div>
             <!--body-->
             <div class="postCard-div-8">
-                <jsp:include page="oldAuditionForm.jsp">
-                    <jsp:param name="auditionForm" value="${1}"/>
+                <div class="container">
+                    <div>
+                        <ul>
+                            <li>
+                                <b>
+                                    Ubicación
+                                </b>
+                                <br/>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                <c:out value="${param.auditionLocation}"/>
+                            </li>
+                            <li>
+                                <b>
+                                    Instrumentos deseados
+                                </b>
+                                <br/>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                <c:forEach var="item" items="${param.auditionLookingFor}" varStatus="loop">
+                                    <c:out value="${item}"/>
+                                </c:forEach>
+                            </li>
+                            <li>
+                                <b>
+                                    Interes en géneros
+                                </b>
+                                <br/>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                <c:out value="${param.auditionMusicGenres}"/>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <jsp:include page="oldAuditionForm.jsp">
+                            <jsp:param name="auditionForm" value="${1}"/>
 
-                    <jsp:param name="auditionFormId" value="${param.Id}"/>
+                            <jsp:param name="auditionFormId" value="${param.Id}"/>
 
-                    <jsp:param name="bandName" value="${param.bandName}"/>
+                            <jsp:param name="bandName" value="${param.bandName}"/>
 
-                </jsp:include>
+                        </jsp:include>
+                    </div>
+                </div>
             </div>
             <!--footer-->
             <div class="postCard-div-9">
