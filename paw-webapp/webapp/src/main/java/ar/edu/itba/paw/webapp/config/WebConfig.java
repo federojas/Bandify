@@ -13,6 +13,9 @@ import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
+import org.thymeleaf.spring4.SpringTemplateEngine;
+import org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver;
+import org.thymeleaf.templatemode.TemplateMode;
 
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
@@ -82,8 +85,6 @@ public class WebConfig {
         properties.put("mail.smtp.ssl.checkserveridentity", "true");
         properties.put("mail.smtp.socketFactory.fallback", "false");
 
-        //TODO REVISAR SEGURIDAD !!!!!!!!!!!
-
         return Session.getInstance(properties, new javax.mail.Authenticator() {
 
             @Override
@@ -92,5 +93,24 @@ public class WebConfig {
             }
         });
     }
+
+    @Bean
+    public SpringResourceTemplateResolver templateResolver(){
+        SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
+        //templateResolver.setApplicationContext(this.applicationContext);
+        templateResolver.setPrefix("classpath:mail-templates/");
+        templateResolver.setSuffix(".html");
+        templateResolver.setTemplateMode(TemplateMode.HTML);
+        return templateResolver;
+    }
+
+    @Bean
+    public SpringTemplateEngine templateEngine(){
+        SpringTemplateEngine templateEngine = new SpringTemplateEngine();
+        templateEngine.setTemplateResolver(templateResolver());
+        return templateEngine;
+    }
+
+
 
 }
