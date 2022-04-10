@@ -9,7 +9,7 @@
         .container{
             display: flex;
             flex-direction: row;
-            justify-content: space-between;
+            justify-content: space-evenly;
         }
     </style>
     <script>
@@ -102,9 +102,10 @@
                                 </b>
                                 <br/>
                                 &nbsp;&nbsp;&nbsp;&nbsp;
-                                <c:forEach var="item" items="${param.auditionLookingFor}" varStatus="loop">
-                                    <c:out value="${item}"/>
+                                <c:forEach var="item" items="${requestScope.lookingFor}" varStatus="loop">
+                                    ${item.name}
                                 </c:forEach>
+
                             </li>
                             <li>
                                 <b>
@@ -112,7 +113,9 @@
                                 </b>
                                 <br/>
                                 &nbsp;&nbsp;&nbsp;&nbsp;
-                                <c:out value="${param.auditionMusicGenres}"/>
+                                <c:forEach var="item" items="${requestScope.MusicGenres}" varStatus="loop">
+                                    ${item.name}
+                                </c:forEach>
                             </li>
                         </ul>
                     </div>

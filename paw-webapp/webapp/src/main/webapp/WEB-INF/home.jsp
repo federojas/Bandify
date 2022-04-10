@@ -64,6 +64,8 @@ contentType="text/html;charset=UTF-8" language="java" %>
       <%--Publicaciones de audiciones--%>
       <div class="posts">
         <c:forEach var="audition" items="${auditionList}" varStatus="loop">
+          <c:set var="lookingFor" value="${audition.lookingFor}" scope="request"/>
+          <c:set var="MusicGenres" value="${audition.musicGenres}" scope="request"/>
           <jsp:include page="postCard.jsp">
             <jsp:param name="Id" value="${audition.id}" />
             <jsp:param name="postCard" value="${1}" />
