@@ -160,7 +160,7 @@ public class Audition {
         } else if(creationDate.plusDays(1).isAfter(now)) {
             time.append(now.getHour() - creationDate.getHour()).append(" horas");
         } else if(creationDate.plusMonths(1).isAfter(now)) {
-            time.append(now.getDayOfMonth() - creationDate.getDayOfMonth()).append(" días");
+            time.append(now.getDayOfMonth() - creationDate.getDayOfMonth()).append(" dÃ\u00ADas");
         } else if(creationDate.plusYears(1).isAfter(now)) {
             time.append(now.getMonthValue() - creationDate.getMonthValue()).append(" meses");
         } else {
