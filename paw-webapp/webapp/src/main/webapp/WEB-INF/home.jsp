@@ -37,18 +37,20 @@ contentType="text/html;charset=UTF-8" language="java" %>
           <div>
             <h5 class="text-center mt-12 text-lg">¿Qué estás buscando?</h5>
             <div class="buttons">
-              <button
-                type="button"
-                class="post-button bg-sky-600 hover:bg-sky-700 pt-"
+              <a href="#form-post"><button
+                      type="button"
+                      class="post-button bg-sky-600 hover:bg-sky-700 pt-"
               >
                 Artistas
-              </button>
-              <button
-                type="button"
-                class="post-button bg-sky-600 hover:bg-sky-700"
+              </button></a>
+              <a href="#posts"><button
+
+                      type="button"
+                      class="post-button bg-sky-600 hover:bg-sky-700"
               >
                 Banda
-              </button>
+              </button></a>
+
             </div>
           </div>
         </div>
@@ -60,7 +62,7 @@ contentType="text/html;charset=UTF-8" language="java" %>
         </div>
       </div>
 
-      <h2 class="text-4xl section-title mt-20">Audiciones abiertas</h2>
+      <h2 class="text-4xl section-title mt-20" id="posts">Audiciones abiertas</h2>
       <%--Publicaciones de audiciones--%>
       <div class="posts">
         <c:forEach var="audition" items="${auditionList}" varStatus="loop">
@@ -91,7 +93,7 @@ contentType="text/html;charset=UTF-8" language="java" %>
       </div>
 
       <%--Formulario--%>
-      <div class="post-form-container">
+      <div class="post-form-container" id="form-post">
         <h1 class="home-h1-0">¿En busca de artistas para tu banda?</h1>
         <h2 class="home-h1-0">¡Crea una audición!</h2>
         <c:url value="/create" var="postPath" />
@@ -153,7 +155,7 @@ contentType="text/html;charset=UTF-8" language="java" %>
             <div>
               <label class="home-form-label" for="musicGenres"> Géneros </label>
               <form:select
-                class="home-form-input"
+                class="multiple-select home-form-input"
                 path="musicGenres"
                 multiple="true"
               >
@@ -163,9 +165,9 @@ contentType="text/html;charset=UTF-8" language="java" %>
               </form:select>
             </div>
             <div>
-              <label class="home-label-1" for="lookingFor"> Buscando </label>
+              <label class="home-form-label" for="lookingFor"> Buscando </label>
               <form:select
-                class="home-form-input"
+                class="multiple-select home-form-input"
                 path="lookingFor"
                 multiple="true"
               >
