@@ -6,10 +6,11 @@
 <head>
 <link rel="stylesheet" href="public/styles/postCard.css"/>
     <style>
-        .container{
+        .even-columns{
             display: flex;
-            flex-direction: row;
-            justify-content: space-evenly;
+        }
+        .even-columns > *{
+            flex-basis: 100%;
         }
     </style>
     <script>
@@ -85,7 +86,7 @@
             </div>
             <!--body-->
             <div class="postCard-div-8">
-                <div class="container">
+                <div class="even-columns">
                     <div>
                         <ul>
                             <li>
