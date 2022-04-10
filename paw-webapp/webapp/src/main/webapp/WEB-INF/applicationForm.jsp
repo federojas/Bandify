@@ -41,7 +41,7 @@
         <input type="hidden" name="auditionEmail" value="${param.auditionEmail}"/>
         <div class="post-button-div">
             <button id="formSubmit_${param.auditionFormId}" type="submit"
-                    class="post-button">
+                    class="post-button bg-sky-600">
                 Aplicar
             </button>
         </div>
