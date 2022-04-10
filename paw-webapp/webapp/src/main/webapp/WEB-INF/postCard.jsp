@@ -120,7 +120,7 @@
                         </ul>
                     </div>
                     <div>
-                        <jsp:include page="oldAuditionForm.jsp">
+                        <jsp:include page="applicationForm.jsp">
                             <jsp:param name="auditionForm" value="${1}"/>
 
                             <jsp:param name="auditionFormId" value="${param.Id}"/>
