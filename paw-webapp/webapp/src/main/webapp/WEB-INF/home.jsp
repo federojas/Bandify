@@ -74,6 +74,7 @@ contentType="text/html;charset=UTF-8" language="java" %>
             <jsp:param name="bandName" value="${audition.bandId}" />
             <jsp:param name="auditionDate" value="${audition.creationDate}" />
             <jsp:param name="auditionTitle" value="${audition.title}" />
+            <jsp:param name="auditionEmail" value="${audition.email}" />
             <jsp:param
               name="auditionLookingFor"
               value="${audition.lookingFor}"

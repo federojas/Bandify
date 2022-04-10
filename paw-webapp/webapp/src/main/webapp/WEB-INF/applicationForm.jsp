@@ -12,21 +12,12 @@
     <%--@elvariable id="applicationForm" type="ar.edu.itba.paw.webapp.form.ApplicationForm"--%>
     <form:form id="${param.auditionFormId}" modelAttribute="applicationForm" action="${postularmeUrl}" method="post">
         <div>
-            <form:label class="home-form-label" path="">
-                Nombre *
+            <form:label class="home-form-label" path="name">
+                Nombre completo *
             </form:label>
             <form:input type="text" class="home-form-input" path="name"/>
 
             <form:errors path="name" element="p">
-            </form:errors>
-        </div>
-        <div>
-            <form:label class="home-form-label" path="surname">
-                Apellido *
-            </form:label>
-            <form:input type="text" class="home-form-input" path="surname"/>
-
-            <form:errors path="surname" element="p">
             </form:errors>
         </div>
         <div>
@@ -39,14 +30,15 @@
             </form:errors>
         </div>
         <div>
-            <form:label class="home-form-label" path="phone">
-                Teléfono
+            <form:label class="home-form-label" path="message">
+                Mensaje
             </form:label>
-            <form:input type="text" class="home-form-input" path="phone"/>
+            <form:input type="text" class="home-form-input" path="message"/>
 
-            <form:errors path="phone" element="p">
+            <form:errors path="message" element="p">
             </form:errors>
         </div>
+        <input type="hidden" name="auditionEmail" value="${param.auditionEmail}"/>
         <div class="post-button-div">
             <button id="formSubmit_${param.auditionFormId}" type="submit"
                     class="post-button">

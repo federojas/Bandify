@@ -15,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.mail.MessagingException;
@@ -68,7 +69,9 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/create", method = {RequestMethod.POST})
-    public ModelAndView create(@Valid @ModelAttribute("auditionForm") final AuditionForm form, final BindingResult errors) {
+    public ModelAndView create(@Valid @ModelAttribute("auditionForm") final AuditionForm form,
+
+                               final BindingResult errors) {
         if(errors.hasErrors())
             return home(form);
 
@@ -82,11 +85,25 @@ public class HomeController {
 
 
     @RequestMapping(value = "/apply", method = {RequestMethod.POST})
-    public ModelAndView apply(@Valid @ModelAttribute("applicationForm") final ApplicationForm form, final BindingResult errors) {
-        System.out.println(form.getEmail());
+    public ModelAndView apply(@Valid @ModelAttribute("applicationForm") final ApplicationForm form,
+                              @RequestParam(required = false) final String auditionEmail,
+                              final BindingResult errors) {
+        if(errors.hasErrors())
+            return home(new AuditionForm());
+
+
+        System.out.println(auditionEmail);
         System.out.println(form.getName());
-        System.out.println(form.getPhone());
-        System.out.println(form.getSurname());
+        System.out.println(form.getEmail());
+        System.out.println(form.getMessage());
+        try {
+            mailingService.sendAuditionEmail("ldagostino@itba.edu.ar",form.getName(),
+                    form.getEmail(),form.getMessage(), LocaleContextHolder.getLocale());
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+
+
 
         return new ModelAndView("redirect:/");
     }
