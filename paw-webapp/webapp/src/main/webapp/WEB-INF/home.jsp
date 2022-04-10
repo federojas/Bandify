@@ -105,7 +105,7 @@
               <form:label class="home-form-label" path="title">
                 Titulo
               </form:label>
-              <form:input type="text" class="home-form-input" path="title" />
+              <form:input type="text"  maxlength="30" placeholder="(max 30 caracteres)" class="home-form-input" path="title" />
 
               <form:errors path="title" element="p" cssClass="error"> </form:errors>
             </div>
@@ -114,6 +114,7 @@
                 Descripción
               </form:label>
               <form:input
+                      maxlength="100" placeholder="(max 100 caracteres)"
                 class="home-form-input"
                 type="text"
                 path="description"
@@ -145,7 +146,7 @@
               <form:label class="home-form-label" path="email">
                 Email de la banda
               </form:label>
-              <form:input type="text" class="home-form-input" path="email" />
+              <form:input type="text"  maxlength="30" placeholder="(max 30 caracteres)" class="home-form-input" path="email" />
 
               <form:errors path="email" element="p" cssClass="error"> </form:errors>
             </div>
