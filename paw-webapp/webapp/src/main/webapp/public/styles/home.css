@@ -10,7 +10,7 @@
 }
 .content {
   display: flex;
-  padding: 2.5rem 4.5rem;
+  /* padding: 2.5rem 4.5rem; */
   background-color: #f3f4f6;
   flex-direction: column;
   justify-content: space-around;
@@ -24,9 +24,29 @@
   border-radius: 0.5rem /* 8px */;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
   width: 70%;
-  margin-top: 2.5rem;
+  margin-top: 6rem;
+}
+.guitar-hero {
+    position: relative;
+}
+.hero-1 {
+    position: absolute;
+    top: 10%;
+    left: 5%;
+    color: #efefef;
+    width: 50%;
 }
 
+.hero-2 {
+    position: absolute;
+    bottom: 10%;
+    right: 5%;
+    color: #efefef;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 .inner-box-form {
   padding: 0.75rem 1.5rem;
   margin-top: 1.5rem;
@@ -41,17 +61,22 @@
 }
 .posts {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
   margin: 0.75rem;
+  justify-content: space-around;
 }
 .post-button {
   padding: 0.5rem 1.25rem;
-  margin-top: 0.5rem;
   color: #ffffff;
   font-weight: 600;
   line-height: 1.25rem;
+  justify-content: flex-end;
   border-radius: 9999px;
+  background-color: #6c0c84;
 }
+
+
 .home-h1-0 {
   font-size: 1.75rem;
   line-height: 1.75rem;
@@ -82,20 +107,32 @@
 
 .hero {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
   padding: 1.25rem 2rem;
 }
 
+@media (min-width: 768px) {
+    .hero {
+        flex-direction: row;
+    }
+    .hero-text {
+        width: 40%;
+    }
+    .hero-image {
+        width: 45%;
+    }
+}
+
 .hero-text {
-  width: 40%;
+  width: auto;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
 }
 
 .hero-image {
-  width: 45%;
+  width: auto;
   padding-left: 0.5rem;
   padding: 0.25rem;
 }
@@ -103,9 +140,8 @@
 .buttons {
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
-  flex-wrap: wrap;
-  padding: 0.5rem;
+  justify-content: space-between;
+  padding: 1.5rem;
 }
 
 .section-title {

@@ -24,65 +24,59 @@ contentType="text/html;charset=UTF-8" language="java" %>
     <!-- Content -->
     <div class="content">
       <!-- Hero -->
-      <div class="hero shadow-md border-8 border-white rounded-lg bg-white">
-        <div class="hero-text">
-          <div>
-            <div class="font-bold text-4xl">
-              <h1>Conectá con bandas y artistas cercanos</h1>
-            </div>
-            <p class="text-lg mt-3">
-              Podés formar parte de bandas o formar la tuya!
-            </p>
-          </div>
-          <div>
-            <h5 class="text-center mt-12 text-lg">¿Qué estás buscando?</h5>
-            <div class="buttons">
-              <a href="#form-post"><button
-                      type="button"
-                      class="post-button bg-sky-600 hover:bg-sky-700 pt-"
+      <div class="guitar-hero">
+        <img src="public/images/guitar.png" alt="guitar" />
+        <div class="hero-1">
+          <span class="font-bold text-4xl"
+            >Conecta con bandas y artistas cercanos</span
+          >
+          <p class="text-lg mt-3">Forme parte de bandas o cree la suya!</p>
+        </div>
+        <div class="hero-2">
+            <span class="text-xl">Estoy buscando</span>
+          <div class="buttons">
+            <a href="#form-post"
+              ><button
+                type="button"
+                class="ml-5 post-button bg-slate-50 border-2 border-white hover:bg-slate-100 hover:border-black"
               >
                 Artistas
-              </button></a>
-              <a href="#posts"><button
-
-                      type="button"
-                      class="post-button bg-sky-600 hover:bg-sky-700"
+              </button></a
+            >
+            <a href="#posts"
+              ><button
+                type="button"
+                class="ml-5 post-button bg-slate-50 border-2 border-white hover:bg-slate-100 hover:border-black"
               >
-                Banda
-              </button></a>
-
-            </div>
+                Bandas
+              </button></a
+            >
           </div>
-        </div>
-        <div class="hero-image">
-          <img
-            src="https://mir-s3-cdn-cf.behance.net/project_modules/2800_opt_1/a8a37687605991.5dcd4611da478.jpg"
-            alt="Band"
-          />
         </div>
       </div>
 
-      <h2 class="text-4xl section-title mt-20" id="posts">Audiciones abiertas</h2>
+      <h2 class="text-5xl section-title mt-20 mb-5" id="posts">
+        Audiciones abiertas
+      </h2>
       <%--Publicaciones de audiciones--%>
       <div class="posts">
         <c:forEach var="audition" items="${auditionList}" varStatus="loop">
-          <c:set var="lookingFor" value="${audition.lookingFor}" scope="request"/>
-          <c:set var="MusicGenres" value="${audition.musicGenres}" scope="request"/>
+          <c:set
+            var="lookingFor"
+            value="${audition.lookingFor}"
+            scope="request"
+          />
+          <c:set
+            var="musicGenres"
+            value="${audition.musicGenres}"
+            scope="request"
+          />
           <jsp:include page="postCard.jsp">
             <jsp:param name="Id" value="${audition.id}" />
             <jsp:param name="postCard" value="${1}" />
-            <jsp:param name="bandName" value="${audition.bandId}" />
             <jsp:param name="auditionDate" value="${audition.timeElapsed}" />
             <jsp:param name="auditionTitle" value="${audition.title}" />
             <jsp:param name="auditionEmail" value="${audition.email}" />
-            <jsp:param
-              name="auditionLookingFor"
-              value="${audition.lookingFor}"
-            />
-            <jsp:param
-              name="auditionMusicGenres"
-              value="${audition.musicGenres}"
-            />
             <jsp:param
               name="auditionLocation"
               value="${audition.location.name}"
@@ -179,7 +173,7 @@ contentType="text/html;charset=UTF-8" language="java" %>
                 </c:forEach>
               </form:select>
             </div>
-            <div class="post-button-div">
+            <div class="post-button-div mt-8">
               <button
                 type="submit"
                 class="post-button bg-sky-600 hover:bg-sky-700"

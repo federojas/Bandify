@@ -125,3 +125,7 @@
   white-space: nowrap;
   align-self: center;
 }
+
+.bandify-nav {
+    background-color: #1c041c;
+}

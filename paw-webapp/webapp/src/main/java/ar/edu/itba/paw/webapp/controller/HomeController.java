@@ -102,19 +102,14 @@ public class HomeController {
         if(errors.hasErrors())
             return home(new AuditionForm());
 
-
-        System.out.println(auditionEmail);
-        System.out.println(form.getName());
-        System.out.println(form.getEmail());
-        System.out.println(form.getMessage());
+//        TODO: Este auditionEmail viene de una manera sin buen estilo de programación, hay que arreglarlo
+//        input hidden
         try {
-            mailingService.sendAuditionEmail("ldagostino@itba.edu.ar",form.getName(),
+            mailingService.sendAuditionEmail(auditionEmail, form.getName(),
                     form.getEmail(),form.getMessage(), LocaleContextHolder.getLocale());
         } catch (MessagingException e) {
             e.printStackTrace();
         }
-
-
 
         return new ModelAndView("redirect:/");
     }
