@@ -164,7 +164,7 @@ public class Audition {
         } else if(creationDate.plusYears(1).isAfter(now)) {
             time.append(now.getMonthValue() - creationDate.getMonthValue()).append(" meses");
         } else {
-            time.append("más de un año");
+            time.append("más de un aÃ±o");
         }
         return time.toString();
     }

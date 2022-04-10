@@ -15,7 +15,7 @@
             <form:label class="home-form-label" path="name">
                 Nombre completo *
             </form:label>
-            <form:input type="text" class="home-form-input" path="name"/>
+            <form:input type="text" maxlength="25" class="home-form-input" placeholder="(max 25 caracteres)" path="name"/>
 
             <form:errors path="name" element="p" cssClass="error">
             </form:errors>
@@ -24,7 +24,7 @@
             <form:label class="home-form-label" path="email">
                 Email *
             </form:label>
-            <form:input type="email" class="home-form-input" path="email"/>
+            <form:input type="email" maxlength="30" placeholder="(max 30 caracteres)" class="home-form-input" path="email"/>
 
             <form:errors path="email" element="p" cssClass="error">
             </form:errors>
@@ -33,7 +33,7 @@
             <form:label class="home-form-label" path="message">
                 Mensaje
             </form:label>
-            <form:input type="text" class="home-form-input" path="message"/>
+            <form:input type="textarea" maxlength="50" placeholder="(max 50 caracteres)" class="home-form-input" path="message"/>
 
             <form:errors path="message" element="p" cssClass="error">
             </form:errors>
