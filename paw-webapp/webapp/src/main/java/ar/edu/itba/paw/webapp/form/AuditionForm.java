@@ -1,32 +1,46 @@
 package ar.edu.itba.paw.webapp.form;
 
 import ar.edu.itba.paw.persistence.Audition;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class AuditionForm {
 
-    // TODO: deberiamos validar los estilos musicales? usamos enum? consultar.
+    @NotBlank
     @Size(min = 1, max = 100)
     private String title;
 
+    @NotBlank
     @Size(min = 1, max = 512)
     private String description;
 
+    @NotNull
+    @Min(0)
+    @Max(2147483647)
     private long location;
 
-    @Size(min = 1, max = 100)
+    @NotBlank
+    @Email(regexp = "^\\w+([\\.-]?\\w+)*@\\w+([\\\\.-]?\\w+)*(\\.\\w{2,3})+$")
     private String email;
 
+    @NotEmpty
     @Size(min = 1, max = 5)
     private List<Long> musicGenres;
 
+    @NotEmpty
     @Size(min = 1, max = 5)
     private List<Long> lookingFor;
 
     public Audition.AuditionBuilder toBuilder(long bandId) {
-        return new Audition.AuditionBuilder(title, description, email, bandId);
+        return new Audition.AuditionBuilder(title, description, email, bandId, LocalDateTime.now());
     }
 
     public String getTitle() {

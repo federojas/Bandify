@@ -1,28 +1,56 @@
 /* Clases para home */
+
+/* TODO ERROR CLASS */
+.error {
+  color: #b91c1c;
+}
+
 .home-body-0 {
   background-color: #f3f4f6;
 }
 .content {
   display: flex;
-  padding: 2.5rem 1.25rem;
+  /* padding: 2.5rem 4.5rem; */
   background-color: #f3f4f6;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  /* flex-wrap: wrap;
+  justify-content: space-evenly; */
 }
 .post-form-container {
-  padding: 1.5rem;
-  margin: 0.75rem;
+  padding: 2.5rem;
   background-color: #ffffff;
-  border-top-right-radius: 0.75rem;
-  border-bottom-left-radius: 0.75rem;
+  border-radius: 0.5rem /* 8px */;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-  max-width: 24rem;
+  width: 70%;
+  margin-top: 6rem;
+}
+.guitar-hero {
+    position: relative;
+}
+.hero-1 {
+    position: absolute;
+    top: 10%;
+    left: 5%;
+    color: #efefef;
+    width: 50%;
 }
 
-.inner-box-form{
+.hero-2 {
+    position: absolute;
+    bottom: 10%;
+    right: 5%;
+    color: #efefef;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.inner-box-form {
   padding: 0.75rem 1.5rem;
-  margin-top: 0.5rem;
-  max-width: 24rem;
+  margin-top: 1.5rem;
+
   border-radius: 0.75rem;
   border-width: 2px;
   border-style: solid;
@@ -33,27 +61,26 @@
 }
 .posts {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
   margin: 0.75rem;
+  justify-content: space-around;
 }
 .post-button {
   padding: 0.5rem 1.25rem;
-  margin-top: 1rem;
   color: #ffffff;
   font-weight: 600;
   line-height: 1.25rem;
+  justify-content: flex-end;
   border-radius: 9999px;
+  background-color: #6c0c84;
 }
+
+
 .home-h1-0 {
-  font-size: 1.125rem;
+  font-size: 1.75rem;
   line-height: 1.75rem;
   font-weight: 700;
-  text-align: center;
-}
-.home-h2-0 {
-  font-size: 1.125rem;
-  line-height: 1.75rem;
-  font-weight: 600;
   text-align: center;
 }
 
@@ -76,4 +103,51 @@
   font-size: 0.875rem;
   line-height: 1.25rem;
   font-weight: 500;
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.25rem 2rem;
+}
+
+@media (min-width: 768px) {
+    .hero {
+        flex-direction: row;
+    }
+    .hero-text {
+        width: 40%;
+    }
+    .hero-image {
+        width: 45%;
+    }
+}
+
+.hero-text {
+  width: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.hero-image {
+  width: auto;
+  padding-left: 0.5rem;
+  padding: 0.25rem;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 1.5rem;
+}
+
+.section-title {
+  font-weight: 700;
+}
+
+.multiple-select {
+    height: fit-content !important;
 }

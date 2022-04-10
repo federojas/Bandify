@@ -14,6 +14,7 @@ public class Audition {
     private Location location;
     private List<Genre> musicGenres;
     private List<Role> lookingFor;
+    private String timeElapsed;
 
     public static class AuditionBuilder {
         private String title, description, email;
@@ -23,13 +24,15 @@ public class Audition {
         private List<Role> lookingFor;
         private long bandId;
         private long id;
+        private String timeElapsed;
 
-        public AuditionBuilder(String title, String description, String email, long bandId) {
-            this.creationDate = LocalDateTime.now();
+        public AuditionBuilder(String title, String description, String email, long bandId, LocalDateTime creationDate) {
+            this.creationDate = creationDate;
             this.title = title;
             this.description = description;
             this.email = email;
             this.bandId = bandId;
+            this.timeElapsed = creationDate.toString();
         }
 
         public AuditionBuilder location(Location location) {
@@ -145,12 +148,25 @@ public class Audition {
         this.description = description;
     }
 
-    public LocalDateTime getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(LocalDateTime creationDate) {
-        this.creationDate = creationDate;
+    public String getTimeElapsed() {
+        StringBuilder time = new StringBuilder("Hace ");
+        LocalDateTime now = LocalDateTime.now();
+        if(creationDate.plusSeconds(1).isAfter(now)) {
+            time.append("menos de un segundo");
+        } else if(creationDate.plusMinutes(1).isAfter(now)) {
+            time.append(now.getSecond() - creationDate.getSecond()).append(" segundos");
+        } else if(creationDate.plusHours(1).isAfter(now)) {
+            time.append(now.getMinute() - creationDate.getMinute()).append(" minutos");
+        } else if(creationDate.plusDays(1).isAfter(now)) {
+            time.append(now.getHour() - creationDate.getHour()).append(" horas");
+        } else if(creationDate.plusMonths(1).isAfter(now)) {
+            time.append(now.getDayOfMonth() - creationDate.getDayOfMonth()).append(" días");
+        } else if(creationDate.plusYears(1).isAfter(now)) {
+            time.append(now.getMonthValue() - creationDate.getMonthValue()).append(" meses");
+        } else {
+            time.append("más de un año");
+        }
+        return time.toString();
     }
 
     public Location getLocation() {

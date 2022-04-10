@@ -3,24 +3,27 @@ package ar.edu.itba.paw.webapp.controller;
 import ar.edu.itba.paw.model.Genre;
 import ar.edu.itba.paw.model.Location;
 import ar.edu.itba.paw.model.Role;
+import ar.edu.itba.paw.model.exceptions.GenreNotFoundException;
+import ar.edu.itba.paw.model.exceptions.LocationNotFoundException;
+import ar.edu.itba.paw.model.exceptions.RoleNotFoundException;
 import ar.edu.itba.paw.persistence.Audition;
 import ar.edu.itba.paw.service.*;
 import ar.edu.itba.paw.webapp.form.ApplicationForm;
 import ar.edu.itba.paw.webapp.form.AuditionForm;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.mail.MessagingException;
 import javax.validation.Valid;
+import java.lang.reflect.MalformedParameterizedTypeException;
 import java.util.List;
-import java.util.Locale;
 
 @Controller
 public class HomeController {
@@ -67,26 +70,46 @@ public class HomeController {
         return mav;
     }
 
+    @ExceptionHandler({LocationNotFoundException.class, GenreNotFoundException.class, RoleNotFoundException.class})
+    @ResponseStatus(code = HttpStatus.NOT_FOUND)
+    public ModelAndView badFormData() {
+        return new ModelAndView("404");
+    }
+
+
+
     @RequestMapping(value = "/create", method = {RequestMethod.POST})
-    public ModelAndView create(@Valid @ModelAttribute("auditionForm") final AuditionForm form, final BindingResult errors) {
+    public ModelAndView create(@Valid @ModelAttribute("auditionForm") final AuditionForm form,
+
+                               final BindingResult errors) {
         if(errors.hasErrors())
             return home(form);
 
         auditionService.create(form.toBuilder(1).
-                        location(locationService.validateAndGetLocation(form.getLocation())).
+                        location(locationService.getLocation(form.getLocation()).orElseThrow(LocationNotFoundException::new)).
                         lookingFor(roleService.validateAndReturnRoles(form.getLookingFor())).
                         musicGenres(genreService.validateAndReturnGenres(form.getMusicGenres()))
         );
+
         return new ModelAndView("redirect:/");
     }
 
 
     @RequestMapping(value = "/apply", method = {RequestMethod.POST})
-    public ModelAndView apply(@Valid @ModelAttribute("applicationForm") final ApplicationForm form, final BindingResult errors) {
-        System.out.println(form.getEmail());
-        System.out.println(form.getName());
-        System.out.println(form.getPhone());
-        System.out.println(form.getSurname());
+    public ModelAndView apply(@Valid @ModelAttribute("applicationForm") final ApplicationForm form,
+                              @RequestParam(required = false) final String auditionEmail,
+                              final BindingResult errors) {
+        if(errors.hasErrors())
+            return home(new AuditionForm());
+
+//        TODO: Este auditionEmail viene de una manera sin buen estilo de programación, hay que arreglarlo
+//        input hidden
+        try {
+            mailingService.sendAuditionEmail(auditionEmail, form.getName(),
+                    form.getEmail(),form.getMessage(), LocaleContextHolder.getLocale());
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
 
         return new ModelAndView("redirect:/");
     }

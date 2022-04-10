@@ -2,6 +2,7 @@ package ar.edu.itba.paw.service;
 
 import ar.edu.itba.paw.model.Genre;
 import ar.edu.itba.paw.model.Role;
+import ar.edu.itba.paw.model.exceptions.RoleNotFoundException;
 import ar.edu.itba.paw.persistence.RoleDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,7 +33,7 @@ public class RoleServiceImpl implements RoleService {
     public List<Role> validateAndReturnRoles(List<Long> rolesIds) {
         List<Role> roles = new ArrayList<>();
         for(Long id : rolesIds) {
-            roles.add(roleDao.getRoleById(id));
+            roles.add(roleDao.getRoleById(id).orElseThrow(RoleNotFoundException::new));
         }
         return roles;
     }

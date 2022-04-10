@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface LocationService {
     List<Location> getAll();
 
-    Location getLocationByAuditionId(long auditionId);
+    Optional<Location> getLocationByAuditionId(long auditionId);
 
-    Location validateAndGetLocation(long location);
+    Optional<Location> getLocation(long location);
 }

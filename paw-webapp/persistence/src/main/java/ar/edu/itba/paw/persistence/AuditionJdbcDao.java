@@ -2,6 +2,7 @@
 package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.model.Location;
+import ar.edu.itba.paw.model.exceptions.LocationNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -9,6 +10,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Repository
@@ -34,7 +36,8 @@ public class AuditionJdbcDao implements AuditionDao {
                 rs.getString("title"),
                 rs.getString("description"),
                 rs.getString("email"),
-                rs.getLong("bandId")
+                rs.getLong("bandId"),
+                rs.getTimestamp("creationDate").toLocalDateTime()
                 ).id(rs.getLong("id"));
     };
 
@@ -45,7 +48,7 @@ public class AuditionJdbcDao implements AuditionDao {
         if(builder.isPresent()) {
             Audition toReturn = builder.get().musicGenres(genreDao.getGenresByAuditionId(id))
                     .lookingFor(roleDao.getRolesByAuditionId(id)).
-                    location(locationDao.getLocationByAuditionId(id)).build();
+                    location(locationDao.getLocationByAuditionId(id).orElseThrow(LocationNotFoundException::new)).build();
             return Optional.of(toReturn);
         }
         return Optional.empty();

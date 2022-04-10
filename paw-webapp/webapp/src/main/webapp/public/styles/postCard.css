@@ -10,17 +10,23 @@
   justify-content: center;
   max-width: 28rem;
   border-radius: 0.5rem;
+  border-width: 1px;
+  flex-basis: 30%;
+  width: 300;
+  position: relative;
 }
 .postCard-div-1 {
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 .postCard-div-2 {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 .postCard-div-3 {
   display: flex;
-
   flex-direction: row-reverse;
+  position: absolute;
+  bottom: 7%;
+  right: 5%;
 }
 .postCard-div-5 {
   position: relative;
@@ -106,7 +112,6 @@
   position: relative;
   padding: 1.5rem;
   flex: 1 1 auto;
-  background-color: #b91c1c;
 }
 .postCard-h2-1 {
   font-size: 1.125rem;
@@ -126,17 +131,13 @@
   line-height: 1.75rem;
 }
 .postCard-button-0 {
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  padding-left: 1.25rem;
-  padding-right: 1.25rem;
-  margin-top: 1rem;
+  padding: 0.5rem 1.25rem;
   color: #ffffff;
   font-weight: 600;
   line-height: 1.25rem;
   justify-content: flex-end;
   border-radius: 9999px;
-
+  background-color: #6c0c84;
 }
 .postCard-div-10 {
   display: none;

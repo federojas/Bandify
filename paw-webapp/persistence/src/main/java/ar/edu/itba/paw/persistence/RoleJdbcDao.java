@@ -9,6 +9,7 @@ import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Repository
 public class RoleJdbcDao implements RoleDao {
@@ -45,7 +46,7 @@ public class RoleJdbcDao implements RoleDao {
     }
 
     @Override
-    public Role getRoleById(Long id) {
-        return jdbcTemplate.query("SELECT * FROM roles WHERE id = ? ", new Object[]{id}, ROLE_ROW_MAPPER).get(0);
+    public Optional<Role> getRoleById(Long id) {
+        return jdbcTemplate.query("SELECT * FROM roles WHERE id = ? ", new Object[]{id}, ROLE_ROW_MAPPER).stream().findFirst();
     }
 }
