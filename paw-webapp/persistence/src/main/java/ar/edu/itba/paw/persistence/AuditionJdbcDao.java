@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Repository
@@ -34,7 +35,8 @@ public class AuditionJdbcDao implements AuditionDao {
                 rs.getString("title"),
                 rs.getString("description"),
                 rs.getString("email"),
-                rs.getLong("bandId")
+                rs.getLong("bandId"),
+                rs.getTimestamp("creationDate").toLocalDateTime()
                 ).id(rs.getLong("id"));
     };
 

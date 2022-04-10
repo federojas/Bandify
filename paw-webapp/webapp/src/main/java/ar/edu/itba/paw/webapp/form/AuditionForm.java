@@ -3,6 +3,7 @@ package ar.edu.itba.paw.webapp.form;
 import ar.edu.itba.paw.persistence.Audition;
 
 import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class AuditionForm {
@@ -26,7 +27,7 @@ public class AuditionForm {
     private List<Long> lookingFor;
 
     public Audition.AuditionBuilder toBuilder(long bandId) {
-        return new Audition.AuditionBuilder(title, description, email, bandId);
+        return new Audition.AuditionBuilder(title, description, email, bandId, LocalDateTime.now());
     }
 
     public String getTitle() {
