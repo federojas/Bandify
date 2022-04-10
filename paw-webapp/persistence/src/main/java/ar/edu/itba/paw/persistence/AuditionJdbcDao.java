@@ -2,6 +2,7 @@
 package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.model.Location;
+import ar.edu.itba.paw.model.exceptions.LocationNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -47,7 +48,7 @@ public class AuditionJdbcDao implements AuditionDao {
         if(builder.isPresent()) {
             Audition toReturn = builder.get().musicGenres(genreDao.getGenresByAuditionId(id))
                     .lookingFor(roleDao.getRolesByAuditionId(id)).
-                    location(locationDao.getLocationByAuditionId(id)).build();
+                    location(locationDao.getLocationByAuditionId(id).orElseThrow(LocationNotFoundException::new)).build();
             return Optional.of(toReturn);
         }
         return Optional.empty();

@@ -25,14 +25,14 @@ public class LocationJdbcDao implements LocationDao {
     }
 
     @Override
-    public Location getLocationByAuditionId(long auditionId) {
+    public Optional<Location> getLocationByAuditionId(long auditionId) {
         // TODO: VERIFICAR GET 0
         List<Location> l = jdbcTemplate.query("SELECT locations.id, locations.location FROM LOCATIONS JOIN AUDITIONS ON locations.id = auditions.locationId AND auditions.id = ?", new Object[]{auditionId}, LOCATION_ROW_MAPPER);
-        return l.get(0);
+        return l.stream().findFirst();
     }
 
     @Override
-    public Location getLocationById(long location) {
-        return jdbcTemplate.query("SELECT * FROM LOCATIONS WHERE id = ?", new Object[]{location},LOCATION_ROW_MAPPER).get(0);
+    public Optional<Location> getLocationById(long location) {
+        return jdbcTemplate.query("SELECT * FROM LOCATIONS WHERE id = ?", new Object[]{location},LOCATION_ROW_MAPPER).stream().findFirst();
     }
 }

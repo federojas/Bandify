@@ -24,12 +24,12 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public Location getLocationByAuditionId(long auditionId) {
+    public Optional<Location> getLocationByAuditionId(long auditionId) {
         return locationDao.getLocationByAuditionId(auditionId);
     }
 
     @Override
-    public Location validateAndGetLocation(long location) {
+    public Optional<Location> getLocation(long location) {
         return locationDao.getLocationById(location);
     }
 }

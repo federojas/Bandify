@@ -3,6 +3,7 @@ package ar.edu.itba.paw.persistence;
 import ar.edu.itba.paw.model.Genre;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface GenreDao {
     List<Genre> getAll();
@@ -10,5 +11,5 @@ public interface GenreDao {
 
     void createAuditionGenre(List<Genre> genres, long auditionId);
 
-    Genre getGenreById(Long id);
+    Optional<Genre> getGenreById(Long id);
 }

@@ -113,7 +113,7 @@ contentType="text/html;charset=UTF-8" language="java" %>
               </form:label>
               <form:input type="text" class="home-form-input" path="title" />
 
-              <form:errors path="title" element="p"> </form:errors>
+              <form:errors path="title" element="p" cssClass="error"> </form:errors>
             </div>
             <div>
               <form:label class="home-form-label" path="description">
@@ -125,7 +125,7 @@ contentType="text/html;charset=UTF-8" language="java" %>
                 path="description"
               />
 
-              <form:errors path="description" element="p"> </form:errors>
+              <form:errors path="description" element="p" cssClass="error"> </form:errors>
             </div>
             <div>
               <form:label class="home-form-label" path="location">
@@ -153,7 +153,7 @@ contentType="text/html;charset=UTF-8" language="java" %>
               </form:label>
               <form:input type="text" class="home-form-input" path="email" />
 
-              <form:errors path="email" element="p"> </form:errors>
+              <form:errors path="email" element="p" cssClass="error"> </form:errors>
             </div>
             <div>
               <label class="home-form-label" for="musicGenres"> Géneros </label>

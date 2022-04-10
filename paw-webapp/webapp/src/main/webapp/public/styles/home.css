@@ -1,4 +1,10 @@
 /* Clases para home */
+
+/* TODO ERROR CLASS */
+.error {
+  color: #b91c1c;
+}
+
 .home-body-0 {
   background-color: #f3f4f6;
 }

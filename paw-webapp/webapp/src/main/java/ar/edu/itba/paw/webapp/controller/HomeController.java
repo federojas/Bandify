@@ -3,27 +3,27 @@ package ar.edu.itba.paw.webapp.controller;
 import ar.edu.itba.paw.model.Genre;
 import ar.edu.itba.paw.model.Location;
 import ar.edu.itba.paw.model.Role;
+import ar.edu.itba.paw.model.exceptions.GenreNotFoundException;
+import ar.edu.itba.paw.model.exceptions.LocationNotFoundException;
+import ar.edu.itba.paw.model.exceptions.RoleNotFoundException;
 import ar.edu.itba.paw.persistence.Audition;
 import ar.edu.itba.paw.service.*;
 import ar.edu.itba.paw.webapp.form.ApplicationForm;
 import ar.edu.itba.paw.webapp.form.AuditionForm;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.mail.MessagingException;
 import javax.validation.Valid;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.lang.reflect.MalformedParameterizedTypeException;
 import java.util.List;
-import java.util.Locale;
 
 @Controller
 public class HomeController {
@@ -70,6 +70,14 @@ public class HomeController {
         return mav;
     }
 
+    @ExceptionHandler({LocationNotFoundException.class, GenreNotFoundException.class, RoleNotFoundException.class})
+    @ResponseStatus(code = HttpStatus.NOT_FOUND)
+    public ModelAndView badFormData() {
+        return new ModelAndView("404");
+    }
+
+
+
     @RequestMapping(value = "/create", method = {RequestMethod.POST})
     public ModelAndView create(@Valid @ModelAttribute("auditionForm") final AuditionForm form,
 
@@ -78,10 +86,11 @@ public class HomeController {
             return home(form);
 
         auditionService.create(form.toBuilder(1).
-                        location(locationService.validateAndGetLocation(form.getLocation())).
+                        location(locationService.getLocation(form.getLocation()).orElseThrow(LocationNotFoundException::new)).
                         lookingFor(roleService.validateAndReturnRoles(form.getLookingFor())).
                         musicGenres(genreService.validateAndReturnGenres(form.getMusicGenres()))
         );
+
         return new ModelAndView("redirect:/");
     }
 

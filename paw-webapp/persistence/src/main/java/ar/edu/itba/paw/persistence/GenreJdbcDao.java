@@ -9,6 +9,7 @@ import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Repository
 public class GenreJdbcDao implements GenreDao {
@@ -45,7 +46,7 @@ public class GenreJdbcDao implements GenreDao {
     }
 
     @Override
-    public Genre getGenreById(Long id) {
-        return jdbcTemplate.query("SELECT * FROM genres WHERE id = ? ", new Object[]{id}, GENRE_ROW_MAPPER).get(0);
+    public Optional<Genre> getGenreById(Long id) {
+        return jdbcTemplate.query("SELECT * FROM genres WHERE id = ? ", new Object[]{id}, GENRE_ROW_MAPPER).stream().findFirst();
     }
 }
