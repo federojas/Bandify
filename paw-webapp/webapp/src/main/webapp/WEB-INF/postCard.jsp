@@ -5,12 +5,7 @@
   <head>
     <link rel="stylesheet" href="public/styles/postCard.css" />
     <style>
-      .even-columns {
-        display: flex;
-      }
-      .even-columns > * {
-        flex-basis: 100%;
-      }
+
     </style>
     <script>
       function toggleModal(modalID) {
