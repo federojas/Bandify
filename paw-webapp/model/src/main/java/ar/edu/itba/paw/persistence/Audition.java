@@ -180,7 +180,7 @@ public class Audition {
                 time.append(creationDate.getMonth().length(isLeap(creationDate.getYear())) - creationDate.getDayOfMonth() + now.getDayOfMonth());
             else
                 time.append(now.getDayOfMonth() - creationDate.getDayOfMonth());
-            time.append(" días");
+            time.append(" dÃ\u00ADas");
         } else if(creationDate.plusYears(1).isAfter(now)) {
             if(now.getMonthValue() < creationDate.getMonthValue())
                 time.append(Month.values().length - creationDate.getMonthValue() + now.getDayOfMonth());
@@ -188,7 +188,7 @@ public class Audition {
                 time.append(now.getDayOfMonth() - creationDate.getMonthValue());
             time.append(" meses");
         } else {
-            time.append("más de un aÃ±o");
+            time.append("mÃ¡s de un aÃ±o");
         }
         return time.toString();
     }
