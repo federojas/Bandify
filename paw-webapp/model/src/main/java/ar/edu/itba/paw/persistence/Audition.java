@@ -167,7 +167,7 @@ public class Audition {
             if(now.getMinute() < creationDate.getMinute())
                 time.append(MINUTES_PER_HOUR - creationDate.getMinute() + now.getMinute());
             else
-                time.append(now.getSecond() - creationDate.getMinute());
+                time.append(now.getMinute() - creationDate.getMinute());
             time.append(" minutos");
         } else if(creationDate.plusDays(1).isAfter(now)) {
             if(now.getHour() < creationDate.getHour())
@@ -177,10 +177,7 @@ public class Audition {
             time.append(" horas");
         } else if(creationDate.plusMonths(1).isAfter(now)) {
             if(now.getDayOfMonth() < creationDate.getDayOfMonth())
-                if(isLeap(creationDate.getYear()))
-                    time.append(creationDate.getMonth().length(true) - creationDate.getDayOfMonth() + now.getDayOfMonth());
-                else
-                    time.append(creationDate.getMonth().length(false) - creationDate.getDayOfMonth() + now.getDayOfMonth());
+                time.append(creationDate.getMonth().length(isLeap(creationDate.getYear())) - creationDate.getDayOfMonth() + now.getDayOfMonth());
             else
                 time.append(now.getDayOfMonth() - creationDate.getDayOfMonth());
             time.append(" días");
