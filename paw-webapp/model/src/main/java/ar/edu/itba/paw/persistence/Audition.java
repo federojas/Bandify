@@ -182,7 +182,11 @@ public class Audition {
                 time.append(now.getDayOfMonth() - creationDate.getDayOfMonth());
             time.append(" días");
         } else if(creationDate.plusYears(1).isAfter(now)) {
-            time.append( Month.values().length - creationDate.getMonthValue() + now.getMonthValue()).append(" meses");
+            if(now.getMonthValue() < creationDate.getMonthValue())
+                time.append(Month.values().length - creationDate.getMonthValue() + now.getDayOfMonth());
+            else
+                time.append(now.getDayOfMonth() - creationDate.getMonthValue());
+            time.append(" meses");
         } else {
             time.append("más de un año");
         }
