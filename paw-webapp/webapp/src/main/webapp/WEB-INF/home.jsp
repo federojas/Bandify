@@ -6,15 +6,17 @@
 <html>
 
   <head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Questrial">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><spring:message code="home.title"/></title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="public/styles/home.css" />
-<%--    <link--%>
-<%--      rel="stylesheet"--%>
-<%--      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"--%>
-<%--    />--%>
+    <style>
+      body {
+        font-family: 'Questrial', sans-serif;
+      }
+    </style>
   </head>
   <body class="bg-gray-100">
     <%--Navbar--%>

@@ -20,12 +20,12 @@
       <a href="#" class="flex items-center">
         <img
             src="public/images/logo.png"
-            class="mr-3 h-6 sm:h-9"
+            class="mr-3 h-16"
             alt="Bandify Logo"
           />
         <span
-          class="self-center text-xl font-semibold whitespace-nowrap dark:text-white"
-          >Bandify</span
+          class="self-center text-xl font-semibold whitespace-nowrap text-white"
+          >bandify</span
         >
       </a>
 
