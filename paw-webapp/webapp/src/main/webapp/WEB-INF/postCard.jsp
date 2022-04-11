@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <html>
   <head>
     <link rel="stylesheet" href="public/styles/postCard.css" />
@@ -71,7 +72,7 @@
           type="button"
           onclick="toggleModal('modal_${param.Id}')"
         >
-          Ver más
+          <spring:message code="postCard.button"/>
         </button>
       </div>
     </div>
