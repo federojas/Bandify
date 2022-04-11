@@ -16,6 +16,10 @@
   <url>http://www.example.com</url>
 
   <dependencies>
+    <dependency>
+      <groupId>joda-time</groupId>
+      <artifactId>joda-time</artifactId>
+    </dependency>
   </dependencies>
 
   <build>

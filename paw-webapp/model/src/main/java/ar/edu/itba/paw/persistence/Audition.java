@@ -5,7 +5,11 @@ import ar.edu.itba.paw.model.Location;
 import ar.edu.itba.paw.model.Role;
 
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.List;
+
+import static java.time.Year.isLeap;
+import static org.joda.time.DateTimeConstants.*;
 
 public class Audition {
     private long id, bandId;
@@ -154,15 +158,34 @@ public class Audition {
         if(creationDate.plusSeconds(1).isAfter(now)) {
             time.append("menos de un segundo");
         } else if(creationDate.plusMinutes(1).isAfter(now)) {
-            time.append(now.getSecond() - creationDate.getSecond()).append(" segundos");
+            if(now.getSecond() < creationDate.getSecond())
+                time.append(SECONDS_PER_MINUTE - creationDate.getSecond() + now.getSecond());
+            else
+                time.append(now.getSecond() - creationDate.getSecond());
+            time.append(" segundos");
         } else if(creationDate.plusHours(1).isAfter(now)) {
-            time.append(now.getMinute() - creationDate.getMinute()).append(" minutos");
+            if(now.getMinute() < creationDate.getMinute())
+                time.append(MINUTES_PER_HOUR - creationDate.getMinute() + now.getMinute());
+            else
+                time.append(now.getSecond() - creationDate.getMinute());
+            time.append(" minutos");
         } else if(creationDate.plusDays(1).isAfter(now)) {
-            time.append(now.getHour() - creationDate.getHour()).append(" horas");
+            if(now.getHour() < creationDate.getHour())
+                time.append(HOURS_PER_DAY - creationDate.getHour() + now.getHour());
+            else
+                time.append(now.getHour() - creationDate.getHour());
+            time.append(" horas");
         } else if(creationDate.plusMonths(1).isAfter(now)) {
-            time.append(now.getDayOfMonth() - creationDate.getDayOfMonth()).append(" días");
+            if(now.getDayOfMonth() < creationDate.getDayOfMonth())
+                if(isLeap(creationDate.getYear()))
+                    time.append(creationDate.getMonth().length(true) - creationDate.getDayOfMonth() + now.getDayOfMonth());
+                else
+                    time.append(creationDate.getMonth().length(false) - creationDate.getDayOfMonth() + now.getDayOfMonth());
+            else
+                time.append(now.getDayOfMonth() - creationDate.getDayOfMonth());
+            time.append(" días");
         } else if(creationDate.plusYears(1).isAfter(now)) {
-            time.append(now.getMonthValue() - creationDate.getMonthValue()).append(" meses");
+            time.append( Month.values().length - creationDate.getMonthValue() + now.getMonthValue()).append(" meses");
         } else {
             time.append("más de un año");
         }

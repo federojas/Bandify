@@ -23,6 +23,7 @@
     <org.hibernate.validator>4.3.1.Final</org.hibernate.validator>
     <javax.mail.version>1.6.2</javax.mail.version>
     <org.thymeleaf.version>3.0.11.RELEASE</org.thymeleaf.version>
+    <joda.time.version>2.10.14</joda.time.version>
   </properties>
 
   <dependencyManagement>
@@ -101,6 +102,11 @@
         <groupId>org.thymeleaf</groupId>
         <artifactId>thymeleaf-spring4</artifactId>
         <version>${org.thymeleaf.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>joda-time</groupId>
+        <artifactId>joda-time</artifactId>
+        <version>${joda.time.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
