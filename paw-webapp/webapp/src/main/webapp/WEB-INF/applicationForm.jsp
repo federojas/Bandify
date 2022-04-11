@@ -33,7 +33,7 @@
             <form:label class="home-form-label mb-3" path="message">
                 Mensaje
             </form:label>
-            <form:input type="textarea" maxlength="50" placeholder="(max 50 caracteres)" class="home-form-input" path="message"/>
+            <form:textarea type="text" maxlength="300" placeholder="(max 300 caracteres)" class="home-form-input" path="message"/>
 
             <form:errors path="message" element="p" cssClass="error">
             </form:errors>
