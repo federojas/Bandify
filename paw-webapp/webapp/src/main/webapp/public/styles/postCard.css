@@ -1,7 +1,6 @@
 /* Clases para postCard */
 .postCard-div-0 {
   --tw-bg-opacity: 1;
-  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
   padding: 1.25rem;
   margin-left: 0.5rem;
   margin-right: 0.5rem;
@@ -11,9 +10,13 @@
   max-width: 28rem;
   border-radius: 0.5rem;
   border-width: 1px;
+  transition: 1s;
   flex-basis: 30%;
-  width: 300;
+  width: 300px;
   position: relative;
+}
+.postCard-div-0:hover {
+  transform: translateY(-25px);
 }
 .postCard-div-1 {
   margin-bottom: 1rem;
