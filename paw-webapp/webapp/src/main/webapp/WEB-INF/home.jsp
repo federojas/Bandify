@@ -40,17 +40,17 @@
             <a href="#form-post"
               ><button
                 type="button"
-                class="ml-5 post-button bg-slate-50 border-2 border-white hover:bg-slate-100 hover:border-black"
+                class="ml-5 post-button bg-slate-50 border-2 border-white hover:border-black"
               >
-                Artistas
+                <spring:message code="home.searchingArtistsButton"/>
               </button></a
             >
             <a href="#posts"
               ><button
                 type="button"
-                class="ml-5 post-button bg-slate-50 border-2 border-white hover:bg-slate-100 hover:border-black"
+                class="ml-5 post-button bg-slate-50 border-2 border-white hover:border-black"
               >
-                Bandas
+                <spring:message code="home.searchingBandsButton"/>
               </button></a
             >
           </div>
