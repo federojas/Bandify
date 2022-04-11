@@ -188,7 +188,7 @@ public class Audition {
                 time.append(now.getDayOfMonth() - creationDate.getMonthValue());
             time.append(" meses");
         } else {
-            time.append("más de un año");
+            time.append("más de un aÃ±o");
         }
         return time.toString();
     }

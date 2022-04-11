@@ -5,38 +5,36 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
 public class AuditionForm {
 
     @NotBlank
-    @Size(min = 1, max = 100)
+    @Size(max = 25)
     private String title;
 
     @NotBlank
-    @Size(min = 1, max = 512)
+    @Size(max = 300)
     private String description;
 
     @NotNull
-    @Min(0)
     @Max(2147483647)
+    @Min(value = 1, message="Debe elegir al menos una ubicacion")
     private long location;
 
     @NotBlank
     @Email(regexp = "^\\w+([\\.-]?\\w+)*@\\w+([\\\\.-]?\\w+)*(\\.\\w{2,3})+$")
+    @Size(min = 1, max = 50)
     private String email;
 
     @NotEmpty
-    @Size(min = 1, max = 5)
+    @Size(max = 5)
     private List<Long> musicGenres;
 
     @NotEmpty
-    @Size(min = 1, max = 5)
+    @Size(max = 5)
     private List<Long> lookingFor;
 
     public Audition.AuditionBuilder toBuilder(long bandId) {

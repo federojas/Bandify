@@ -1,20 +1,20 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
-<%@ taglib
-        prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ page
-        contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <html>
-<head>
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><spring:message code="home.title"/></title>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="public/styles/home.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
-    />
+<%--    <link--%>
+<%--      rel="stylesheet"--%>
+<%--      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"--%>
+<%--    />--%>
   </head>
   <body class="bg-gray-100">
     <%--Navbar--%>
@@ -58,7 +58,7 @@
       </div>
 
       <h2 class="text-5xl section-title mt-20 mb-5" id="posts">
-        Audiciones abiertas
+        <spring:message code="home.auditionsSection" />
       </h2>
       <%--Publicaciones de audiciones--%>
       <div class="posts">
@@ -93,8 +93,8 @@
 
       <%--Formulario--%>
       <div class="post-form-container" id="form-post">
-        <h1 class="home-h1-0">¿En busca de artistas para tu banda?</h1>
-        <h2 class="home-h1-0">¡Crea una audición!</h2>
+        <h1 class="home-h1-0"><spring:message code="home.formSectionh1"/></h1>
+        <h2 class="home-h1-0"><spring:message code="home.formSectionh2"/></h2>
         <c:url value="/create" var="postPath" />
         <!-- Form box -->
         <div class="inner-box-form">
@@ -105,17 +105,18 @@
           >
             <div>
               <form:label class="home-form-label" path="title">
-                Titulo
+                <spring:message code="home.form.title"/>
               </form:label>
-              <form:input type="text" class="home-form-input" path="title" />
+              <form:input type="text"  maxlength="25" placeholder="(max 25 caracteres)" class="home-form-input" path="title" />
 
               <form:errors path="title" element="p" cssClass="error"> </form:errors>
             </div>
             <div>
               <form:label class="home-form-label" path="description">
-                Descripción
+                <spring:message code="home.form.description"/>
               </form:label>
-              <form:input
+              <form:textarea
+                      maxlength="300" placeholder="(max 300 caracteres)"
                 class="home-form-input"
                 type="text"
                 path="description"
@@ -125,13 +126,15 @@
             </div>
             <div>
               <form:label class="home-form-label" path="location">
-                Localización
+                <spring:message code="home.form.location"/>
               </form:label>
               <form:select
                 class="home-form-input"
                 path="location"
                 multiple="false"
+
               >
+                <form:option value="0" selected="true" disabled="disabled" hidden="true"><spring:message code="home.form.location.default"/></form:option>
                 <c:forEach
                   var="location"
                   items="${locationList}"
@@ -145,14 +148,14 @@
             </div>
             <div>
               <form:label class="home-form-label" path="email">
-                Email de la banda
+                <spring:message code="home.form.email"/>
               </form:label>
-              <form:input type="text" class="home-form-input" path="email" />
+              <form:input type="text"  maxlength="50" placeholder="ejemplo@email.com" class="home-form-input" path="email" />
 
               <form:errors path="email" element="p" cssClass="error"> </form:errors>
             </div>
             <div>
-              <label class="home-form-label" for="musicGenres"> Géneros </label>
+              <label class="home-form-label" for="musicGenres"> <spring:message code="home.form.musicGenres"/> </label>
               <form:select
                 class="multiple-select home-form-input"
                 path="musicGenres"
@@ -164,7 +167,7 @@
               </form:select>
             </div>
             <div>
-              <label class="home-form-label" for="lookingFor"> Buscando </label>
+              <label class="home-form-label" for="lookingFor"> <spring:message code="home.form.lookingFor"/> </label>
               <form:select
                 class="multiple-select home-form-input"
                 path="lookingFor"

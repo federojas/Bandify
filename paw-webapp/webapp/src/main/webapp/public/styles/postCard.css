@@ -120,6 +120,12 @@
 .postCard-p-0 {
   color: #374151;
 }
+.even-columns {
+  display: flex;
+}
+.even-columns > * {
+  flex-basis: 100%;
+}
 .postCard-h3-0 {
   font-size: 1.875rem;
   line-height: 2.25rem;
