@@ -4,10 +4,22 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <html>
 <head>
-    <link rel="stylesheet" href="public/styles/oldAuditionForm.css">
+
     <link rel="stylesheet" href="public/styles/home.css">
+    <style>
+        .applicationForm {
+        padding-bottom: 0.75rem;
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+        margin-top: 0.5rem;
+        max-width: 24rem;
+        border-radius: 0.75rem;
+        border-width: 2px;
+        border-style: solid;
+        }
+    </style>
 </head>
-<div class="oldAuditionForm-div-0">
+<div class="applicationForm">
     <c:url value="/apply" var="postularmeUrl" />
     <%--@elvariable id="applicationForm" type="ar.edu.itba.paw.webapp.form.ApplicationForm"--%>
     <form:form id="${param.auditionFormId}" modelAttribute="applicationForm" action="${postularmeUrl}" method="post">
