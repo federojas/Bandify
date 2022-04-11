@@ -36,8 +36,8 @@
           >
           <p class="text-lg mt-3">Forme parte de bandas o cree la suya!</p>
           <div class="hero-2">
-            <span class="text-xl ml-12">Estoy buscando</span>
-          <div class="buttons ">
+            <span class="text-xl ml-2">Estoy buscando</span>
+          <div class="buttons">
             <a href="#posts"
             ><button
               type="button"
