@@ -58,6 +58,8 @@
 .post-button-div {
   display: flex;
   flex-direction: row-reverse;
+    padding-top: 2rem;
+    margin-top: 2rem;
 }
 .posts {
   display: flex;

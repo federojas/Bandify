@@ -30,7 +30,7 @@
             </form:errors>
         </div>
         <div>
-            <form:label class="home-form-label" path="message">
+            <form:label class="home-form-label mb-3" path="message">
                 Mensaje
             </form:label>
             <form:input type="textarea" maxlength="50" placeholder="(max 50 caracteres)" class="home-form-input" path="message"/>
