@@ -35,28 +35,31 @@
             >Conecta con bandas y artistas cercanos</span
           >
           <p class="text-lg mt-3">Forme parte de bandas o cree la suya!</p>
-        </div>
-        <div class="hero-2">
-            <span class="text-xl">Estoy buscando</span>
-          <div class="buttons">
+          <div class="hero-2">
+            <span class="text-xl ml-12">Estoy buscando</span>
+          <div class="buttons ">
+            <a href="#posts"
+            ><button
+              type="button"
+              class="section-button border-2 border-white hover:border-black"
+            >
+              <spring:message code="home.searchingBandsButton"/>
+            </button></a
+          >
             <a href="#form-post"
               ><button
                 type="button"
-                class="ml-5 post-button bg-slate-50 border-2 border-white hover:border-black"
+                class="section-button border-2 border-white hover:border-black"
               >
                 <spring:message code="home.searchingArtistsButton"/>
               </button></a
             >
-            <a href="#posts"
-              ><button
-                type="button"
-                class="ml-5 post-button bg-slate-50 border-2 border-white hover:border-black"
-              >
-                <spring:message code="home.searchingBandsButton"/>
-              </button></a
-            >
+            
           </div>
         </div>
+          
+        </div>
+        
       </div>
 
       <h2 class="text-5xl section-title mt-20 mb-5" id="posts">
