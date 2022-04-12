@@ -10,7 +10,6 @@ import ar.edu.itba.paw.persistence.Audition;
 import ar.edu.itba.paw.service.*;
 import ar.edu.itba.paw.webapp.form.ApplicationForm;
 import ar.edu.itba.paw.webapp.form.AuditionForm;
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
@@ -22,7 +21,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.mail.MessagingException;
 import javax.validation.Valid;
-import java.lang.reflect.MalformedParameterizedTypeException;
 import java.util.List;
 
 @Controller
@@ -73,7 +71,7 @@ public class HomeController {
     @ExceptionHandler({LocationNotFoundException.class, GenreNotFoundException.class, RoleNotFoundException.class})
     @ResponseStatus(code = HttpStatus.NOT_FOUND)
     public ModelAndView badFormData() {
-        return new ModelAndView("404");
+        return new ModelAndView("errors/404");
     }
 
 
