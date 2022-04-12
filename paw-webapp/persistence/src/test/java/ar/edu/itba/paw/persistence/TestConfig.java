@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.persistence;
 
 import org.hsqldb.jdbc.JDBCDriver;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -18,8 +19,8 @@ public class TestConfig {
         final SimpleDriverDataSource ds = new SimpleDriverDataSource();
         ds.setDriverClass(JDBCDriver.class);
         ds.setUrl("jdbc:hsqldb:mem:paw");
-        ds.setUsername("postgres");
-        ds.setPassword("postgres");
+        ds.setUsername("ha");
+        ds.setPassword("");
         return ds;
     }
 
