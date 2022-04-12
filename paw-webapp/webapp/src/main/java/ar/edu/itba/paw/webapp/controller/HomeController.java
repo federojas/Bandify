@@ -59,12 +59,6 @@ public class HomeController {
         mav.addObject("genreList", genreList);
         mav.addObject("locationList", locationList);
 
-//        try {
-//            mailingService.sendAuditionEmail("g8hcicuenta1@gmail.com","franco","asdad@gmail","jpña cp,p aidns", LocaleContextHolder.getLocale());
-//        } catch (MessagingException e) {
-//            e.printStackTrace();
-//        }
-
         return mav;
     }
 
