@@ -22,6 +22,12 @@ public class UserServiceImpl implements UserService {
         return userDao.getUserById(id);
     }
 
+    //TODO IMPLEMENTAR
+    @Override
+    public Optional<User> findByUsername(String username) {
+        return null;
+    }
+
     /* probablemente aca hacemos un chequeo de los parametros
     tmb te mandamos un mail de bienvenida, generamos token, etc. es decir
     aca van las reglas de negocios

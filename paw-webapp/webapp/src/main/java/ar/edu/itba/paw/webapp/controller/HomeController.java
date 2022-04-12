@@ -76,7 +76,10 @@ public class HomeController {
         return new ModelAndView("404");
     }
 
-
+    @RequestMapping("/login")
+    public ModelAndView login() {
+        return new ModelAndView("login");
+    }
 
     @RequestMapping(value = "/create", method = {RequestMethod.POST})
     public ModelAndView create(@Valid @ModelAttribute("auditionForm") final AuditionForm form,

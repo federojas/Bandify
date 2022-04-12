@@ -15,4 +15,6 @@ public interface UserService {
      */
     User create(String username, String password);
 
+    Optional<User> findByUsername(String username);
+
 }
