@@ -56,11 +56,11 @@
         <img src="public/images/guitar.png" alt="guitar" />
         <div class="hero-1">
           <span class="font-bold text-4xl"
-            >Conecta con bandas y artistas cercanos</span
+            ><spring:message code="home.slogan1"/></span
           >
-          <p class="text-lg mt-3">Forme parte de bandas o cree la suya!</p>
+          <p class="text-lg mt-3"><spring:message code="home.slogan2"/></p>
           <div class="hero-2">
-            <span class="text-xl ml-2">Estoy buscando</span>
+            <span class="text-xl ml-2"><spring:message code="home.options"/></span>
           <div class="buttons">
             <button
               type="button"
@@ -211,7 +211,7 @@
                 type="submit"
                 class="post-button bg-sky-600 hover:bg-sky-700"
               >
-                Publicar
+                <spring:message code="home.postButton"/>
               </button>
             </div>
           </form:form>
