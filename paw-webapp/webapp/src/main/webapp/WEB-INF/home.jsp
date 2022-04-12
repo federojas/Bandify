@@ -6,15 +6,17 @@
 <html>
 
   <head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Questrial">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><spring:message code="home.title"/></title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="public/styles/home.css" />
-<%--    <link--%>
-<%--      rel="stylesheet"--%>
-<%--      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"--%>
-<%--    />--%>
+    <style>
+      body {
+        font-family: 'Questrial', sans-serif;
+      }
+    </style>
   </head>
   <body class="bg-gray-100">
     <%--Navbar--%>
@@ -33,28 +35,31 @@
             >Conecta con bandas y artistas cercanos</span
           >
           <p class="text-lg mt-3">Forme parte de bandas o cree la suya!</p>
-        </div>
-        <div class="hero-2">
-            <span class="text-xl">Estoy buscando</span>
+          <div class="hero-2">
+            <span class="text-xl ml-2">Estoy buscando</span>
           <div class="buttons">
+            <a href="#posts"
+            ><button
+              type="button"
+              class="section-button border-2 border-white hover:border-black"
+            >
+              <spring:message code="home.searchingBandsButton"/>
+            </button></a
+          >
             <a href="#form-post"
               ><button
                 type="button"
-                class="ml-5 post-button bg-slate-50 border-2 border-white hover:bg-slate-100 hover:border-black"
+                class="section-button border-2 border-white hover:border-black"
               >
-                Artistas
+                <spring:message code="home.searchingArtistsButton"/>
               </button></a
             >
-            <a href="#posts"
-              ><button
-                type="button"
-                class="ml-5 post-button bg-slate-50 border-2 border-white hover:bg-slate-100 hover:border-black"
-              >
-                Bandas
-              </button></a
-            >
+            
           </div>
         </div>
+          
+        </div>
+        
       </div>
 
       <h2 class="text-5xl section-title mt-20 mb-5" id="posts">
@@ -102,6 +107,7 @@
             modelAttribute="auditionForm"
             action="${postPath}"
             method="post"
+            acceptCharset="utf-8"
           >
             <div>
               <form:label class="home-form-label" path="title">

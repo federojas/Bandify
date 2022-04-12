@@ -1,0 +1,29 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+body{
+    overflow:hidden;
+    background-color: #f4f6ff;
+}
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Poppins", sans-serif;
+    position: relative;
+    text-align: center;
+}
+h1{
+    color:#142833;
+}
+.wrong-para{
+    font-family: "Montserrat", sans-serif;
+    font-size: xxx-large;
+    position: absolute;
+    bottom:15vmin;
+
+    font-weight:600;
+    color:#092532;
+}
