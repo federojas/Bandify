@@ -43,7 +43,7 @@
         </div>
         <div>
             <form:label class="home-form-label mb-3" path="message">
-                Mensaje
+                Mensaje *
             </form:label>
             <form:textarea type="text" maxlength="300" placeholder="(max 300 caracteres)" class="home-form-input" path="message"/>
 
