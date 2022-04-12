@@ -17,6 +17,30 @@
         font-family: 'Questrial', sans-serif;
       }
     </style>
+    <script>
+      slowScroll = function(target) {
+        var scrollContainer = target;
+        do { //find scroll container
+          scrollContainer = scrollContainer.parentNode;
+          if (!scrollContainer) return;
+          scrollContainer.scrollTop += 1;
+        } while (scrollContainer.scrollTop == 0);
+
+        var targetY = 0;
+        do { //find the top of target relatively to the container
+          if (target == scrollContainer) break;
+          targetY += target.offsetTop;
+        } while (target = target.offsetParent);
+
+        scroll = function(c, a, b, i) {
+          i++; if (i > 30) return;
+          c.scrollTop = a + (b - a) / 32 * i;
+          setTimeout(function(){ scroll(c, a, b, i); }, 20);
+        }
+        // start scrolling
+        scroll(scrollContainer, scrollContainer.scrollTop, targetY, 0);
+      }
+    </script>
   </head>
   <body class="bg-gray-100">
     <%--Navbar--%>
@@ -38,23 +62,21 @@
           <div class="hero-2">
             <span class="text-xl ml-2">Estoy buscando</span>
           <div class="buttons">
-            <a href="#posts"
-            ><button
+            <button
               type="button"
               class="section-button border-2 border-white hover:border-black"
+              onclick="slowScroll(document.getElementById('posts'))"
             >
               <spring:message code="home.searchingBandsButton"/>
-            </button></a
-          >
-            <a href="#form-post"
-              ><button
-                type="button"
-                class="section-button border-2 border-white hover:border-black"
-              >
-                <spring:message code="home.searchingArtistsButton"/>
-              </button></a
+            </button>
+            <button
+              type="button"
+              class="section-button border-2 border-white hover:border-black"
+              onclick="slowScroll(document.getElementById('form-post-title'))"
             >
-            
+              <spring:message code="home.searchingArtistsButton"/>
+            </button>
+
           </div>
         </div>
           
@@ -102,7 +124,7 @@
         <h2 class="home-h1-0"><spring:message code="home.formSectionh2"/></h2>
         <c:url value="/create" var="postPath" />
         <!-- Form box -->
-        <div class="inner-box-form">
+        <div class="inner-box-form" id="form-post-title">
           <form:form
             modelAttribute="auditionForm"
             action="${postPath}"
