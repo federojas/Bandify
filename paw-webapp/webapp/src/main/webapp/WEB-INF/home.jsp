@@ -107,6 +107,7 @@
             modelAttribute="auditionForm"
             action="${postPath}"
             method="post"
+            acceptCharset="utf-8"
           >
             <div>
               <form:label class="home-form-label" path="title">

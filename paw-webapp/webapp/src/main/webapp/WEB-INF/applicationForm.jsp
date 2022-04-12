@@ -22,7 +22,7 @@
 <div class="applicationForm">
     <c:url value="/apply" var="postularmeUrl" />
     <%--@elvariable id="applicationForm" type="ar.edu.itba.paw.webapp.form.ApplicationForm"--%>
-    <form:form id="${param.auditionFormId}" modelAttribute="applicationForm" action="${postularmeUrl}" method="post">
+    <form:form id="${param.auditionFormId}" acceptCharset="utf-8" modelAttribute="applicationForm" action="${postularmeUrl}" method="post">
         <div>
             <form:label class="home-form-label" path="name">
                 Nombre completo *
