@@ -13,35 +13,6 @@
     <title><spring:message code="home.title"/></title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="public/styles/home.css" />
-    <style>
-      body {
-        font-family: 'Questrial', sans-serif;
-      }
-    </style>
-    <script>
-      slowScroll = function(target) {
-        var scrollContainer = target;
-        do { //find scroll container
-          scrollContainer = scrollContainer.parentNode;
-          if (!scrollContainer) return;
-          scrollContainer.scrollTop += 1;
-        } while (scrollContainer.scrollTop == 0);
-
-        var targetY = 0;
-        do { //find the top of target relatively to the container
-          if (target == scrollContainer) break;
-          targetY += target.offsetTop;
-        } while (target = target.offsetParent);
-
-        scroll = function(c, a, b, i) {
-          i++; if (i > 30) return;
-          c.scrollTop = a + (b - a) / 32 * i;
-          setTimeout(function(){ scroll(c, a, b, i); }, 20);
-        }
-        // start scrolling
-        scroll(scrollContainer, scrollContainer.scrollTop, targetY, 0);
-      }
-    </script>
   </head>
   <body class="bg-gray-100">
     <%--Navbar--%>
@@ -63,26 +34,25 @@
           <div class="hero-2">
             <span class="text-xl ml-2"><spring:message code="home.options"/></span>
           <div class="buttons">
-            <button
-              type="button"
-              class="section-button border-2 border-white hover:border-black"
-              onclick="slowScroll(document.getElementById('posts'))"
-            >
-              <spring:message code="home.searchingBandsButton"/>
-            </button>
-            <button
-              type="button"
-              class="section-button border-2 border-white hover:border-black"
-              onclick="slowScroll(document.getElementById('form-post-title'))"
-            >
-              <spring:message code="home.searchingArtistsButton"/>
-            </button>
-
+            <a href="<c:url value="/auditions"/> ">
+              <button
+                type="button"
+                class="section-button border-2 border-white hover:border-black"
+              >
+                <spring:message code="home.searchingBandsButton"/>
+              </button>
+            </a>
+            <a href="<c:url value="/newAudition"/> ">
+              <button
+                type="button"
+                class="section-button border-2 border-white hover:border-black"
+              >
+                <spring:message code="home.searchingArtistsButton"/>
+              </button>
+            </a>
           </div>
         </div>
-          
         </div>
-        
       </div>
     </div>
   </body>

@@ -19,8 +19,11 @@
         }
     </style>
 </head>
+<body>
 <div class="applicationForm">
-    <c:url value="/audition" var="postularmeUrl"/>
+    <c:url value="/apply" var="postularmeUrl">
+        <c:param name="id" value="${param.auditionFormId}"/>
+    </c:url>
 
     <%--@elvariable id="applicationForm" type="ar.edu.itba.paw.webapp.form.ApplicationForm"--%>
     <form:form acceptCharset="utf-8" modelAttribute="applicationForm"
@@ -55,8 +58,6 @@
             <form:errors path="message" element="p" cssClass="error">
             </form:errors>
         </div>
-        <input type="hidden" name="auditionEmail" value="${param.auditionEmail}"/>
-        <input type="hidden" name="id" value="${param.auditionFormId}"/>
         <div class="post-button-div">
             <button type="submit"
                     class="post-button bg-sky-600">
@@ -65,4 +66,6 @@
         </div>
     </form:form>
 </div>
+</body>
+
 </html>

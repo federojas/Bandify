@@ -1,6 +1,11 @@
 /* Clases para home */
 
 /* TODO ERROR CLASS */
+
+body {
+    font-family: 'Questrial', sans-serif;
+}
+
 .error {
   color: #b91c1c;
 }
