@@ -60,7 +60,8 @@
     <!-- Formulario -->
     <div class="card-content" id="form-post">
         <h1><spring:message code="home.formSectionh1"/></h1>
-        <h1><spring:message code="home.formSectionh2"/></h2>
+        <br/>
+        <h1><spring:message code="home.formSectionh2"/></h1>
         <c:url value="/postAudition" var="postPath" />
         <!-- Form box -->
         <div class="inner-box-form" id="form-post-title">
@@ -74,8 +75,8 @@
                     <form:label class="form-label" path="title">
                         <spring:message code="home.form.title"/>
                     </form:label>
-                    <spring:message code="audition.form.title.placeholder" var="title.placeholder" />
-                    <form:input type="text"  maxlength="25" placeholder="${title.placeholder}" class="form-input" path="title" />
+                    <spring:message code="audition.form.title.placeholder" var="titleplaceholder" />
+                    <form:input type="text"  maxlength="25" placeholder="${titleplaceholder}" class="form-input" path="title" />
 
                     <form:errors path="title" element="p" cssClass="error"> </form:errors>
                 </div>
@@ -83,9 +84,9 @@
                     <form:label class="form-label" path="description">
                         <spring:message code="home.form.description"/>
                     </form:label>
-                    <spring:message code="audition.form.description.placeholder" var="description.placeholder" />
+                    <spring:message code="audition.form.description.placeholder" var="descriptionplaceholder" />
                     <form:textarea
-                            maxlength="300" placeholder="${description.placeholder}"
+                            maxlength="300" placeholder="${descriptionplaceholder}"
                             class="form-input"
                             type="text"
                             path="description"
@@ -113,13 +114,15 @@
                             </form:option>
                         </c:forEach>
                     </form:select>
+                    <form:errors path="location" element="p" cssClass="error">
+                    </form:errors>
                 </div>
                 <div>
                     <form:label class="form-label" path="email">
                         <spring:message code="home.form.email"/>
                     </form:label>
-                    <spring:message code="audition.form.email.placeholder" var="email.placeholder" />
-                    <form:input type="text"  maxlength="50" placeholder="${email.placeholder}" class="form-input" path="email" />
+                    <spring:message code="audition.form.email.placeholder" var="emailplaceholder" />
+                    <form:input type="text"  maxlength="50" placeholder="${emailplaceholder}" class="form-input" path="email" />
 
                     <form:errors path="email" element="p" cssClass="error"> </form:errors>
                 </div>
@@ -134,6 +137,8 @@
                             <form:option value="${genre.id}"> ${genre.name} </form:option>
                         </c:forEach>
                     </form:select>
+                    <form:errors path="musicGenres" element="p" cssClass="error">
+                    </form:errors>
                 </div>
                 <div>
                     <form:label class="form-label" for="lookingFor" path="lookingFor"> <spring:message code="home.form.lookingFor"/> </form:label>
@@ -146,6 +151,8 @@
                             <form:option value="${role.id}"> ${role.name} </form:option>
                         </c:forEach>
                     </form:select>
+                    <form:errors path="lookingFor" element="p" cssClass="error">
+                    </form:errors>
                 </div>
                 <div class="end-button-div">
                     <button

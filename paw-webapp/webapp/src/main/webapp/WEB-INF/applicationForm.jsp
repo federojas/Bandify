@@ -25,8 +25,8 @@
             <form:label class="form-label" path="name">
                 <spring:message code="application.form.name"/>
             </form:label>
-            <spring:message code="application.form.name.placeholder" var="name.placeholder" />
-            <form:input type="text" maxlength="25" class="form-input" placeholder="${name.placeholder}"
+            <spring:message code="application.form.name.placeholder" var="nameplaceholder" />
+            <form:input type="text" maxlength="25" class="form-input" placeholder="${nameplaceholder}"
                         path="name"/>
 
             <form:errors path="name" element="p" cssClass="error">
@@ -36,8 +36,8 @@
             <form:label class="form-label" path="email">
                 <spring:message code="application.form.email"/>
             </form:label>
-            <spring:message code="application.form.email.placeholder" var="email.placeholder" />
-            <form:input type="email" maxlength="30" placeholder="${email.placeholder}" class="form-input"
+            <spring:message code="application.form.email.placeholder" var="emailplaceholder" />
+            <form:input type="email" maxlength="30" placeholder="${emailplaceholder}" class="form-input"
                         path="email"/>
 
             <form:errors path="email" element="p" cssClass="error">
@@ -47,8 +47,8 @@
             <form:label class="form-label" path="message">
                 <spring:message code="application.form.message"/>
             </form:label>
-            <spring:message code="application.form.message.placeholder" var="message.placeholder" />
-            <form:textarea type="text" maxlength="300" placeholder="${message.placeholder}" class="form-input"
+            <spring:message code="application.form.message.placeholder" var="messageplaceholder" />
+            <form:textarea type="text" maxlength="300" placeholder="${messageplaceholder}" class="form-input"
                            path="message"/>
 
             <form:errors path="message" element="p" cssClass="error">

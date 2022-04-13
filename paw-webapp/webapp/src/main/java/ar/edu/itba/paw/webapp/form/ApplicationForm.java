@@ -10,12 +10,11 @@ import javax.validation.constraints.Size;
 public class ApplicationForm {
 
     @NotBlank
-    @Size(min = 2, max = 50)
+    @Size(max = 50)
     private String name;
 
-    @NotBlank
     @Email(regexp = "^\\w+([\\.-]?\\w+)*@\\w+([\\\\.-]?\\w+)*(\\.\\w{2,3})+$")
-    @Size(min = 1, max = 50)
+    @Size(max = 50)
     private String email;
 
     @NotBlank

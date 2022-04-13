@@ -59,10 +59,9 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
       }
       .card-info {
         padding: 0.5rem;
-      }
-      .card-info {
         font-weight: 500;
       }
+
       li.info-item:not(:last-child) {
         margin-bottom: 1rem;
       }
@@ -82,6 +81,11 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
         flex-direction: row;
         flex-wrap: wrap;
       }
+      .description {
+        word-break: break-all;
+        white-space: normal;
+      }
+
     </style>
   </head>
   <body class="flex flex-col">
@@ -107,11 +111,13 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
               <!-- Left body part (info) -->
               <div class="card-info">
                 <ul>
-                  <li class="info-item">
-                    <b> <spring:message code="audition.about"/></b>
-                    <br />
-                    <c:out value="${audition.description}" />
-                  </li>
+                    <li class="info-item">
+                      <b> <spring:message code="audition.about"/> </b>
+                      <br />
+                      <p class="description">
+                        <c:out value="${audition.description}" />
+                      </p>
+                    </li>
                   <li class="info-item">
                     <b> <spring:message code="audition.location"/> </b>
                     <br />
