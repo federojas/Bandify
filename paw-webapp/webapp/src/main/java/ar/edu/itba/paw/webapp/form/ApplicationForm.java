@@ -18,7 +18,7 @@ public class ApplicationForm {
     private String email;
 
     @NotBlank
-    @Size(max = 512)
+    @Size(max = 300)
     private String message;
 
     public String getName() {
