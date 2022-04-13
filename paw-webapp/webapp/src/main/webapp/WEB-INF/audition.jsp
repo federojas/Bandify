@@ -68,7 +68,9 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
       }
       .tag {
         --tw-bg-opacity: 1;
-    background-color: rgb(243 244 246 / var(--tw-bg-opacity)); /* gray-100 */
+        background-color: rgb(
+          243 244 246 / var(--tw-bg-opacity)
+        ); /* gray-100 */
         padding: 0.5rem;
         margin: 0.5rem;
         border-radius: 0.375rem;
@@ -85,7 +87,7 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
   <body class="flex flex-col">
     <%--Navbar--%>
     <jsp:include page="navbar2.jsp">
-      <jsp:param name="navItem" value="${1}" />
+      <jsp:param name="navItem" value="${2}" />
       <jsp:param name="name" value="Bandify" />
     </jsp:include>
 
