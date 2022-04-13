@@ -24,13 +24,13 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
       .audition-content {
         justify-content: center;
         align-items: center;
-
         padding: 2rem 0;
       }
       .card-extern {
         width: auto;
         margin: 1.5rem auto;
         max-width: 48rem /* 768px */;
+
       }
       .card-content {
         background-color: #ffffff;
@@ -85,7 +85,14 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
         word-break: break-all;
         white-space: normal;
       }
-
+  .back-anchor {
+    font-size: 1.5rem;
+    line-height: 1;
+    font-weight: 500;
+    padding: 1rem;
+    margin: 4rem 0;
+    text-decoration: underline;
+  }
     </style>
   </head>
   <body class="flex flex-col">
@@ -96,7 +103,9 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
     </jsp:include>
 
     <div class="audition-content">
+
       <div class="card-extern">
+
         <!--content-->
         <div class="card-content">
           <!--header-->
@@ -164,7 +173,15 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
             </div>
           </div>
         </div>
+        <div class="mt-10">
+          <a class="back-anchor" href="<c:url value="/auditions" />">
+            <spring:message code="success.link"/>
+          </a>
+        </div>
+
       </div>
+
+
     </div>
   </body>
 </html>
