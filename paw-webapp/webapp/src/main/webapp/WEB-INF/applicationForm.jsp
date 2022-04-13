@@ -13,10 +13,10 @@
     <style>
         .applicationForm {
             padding: 0.5rem 1.5rem;
-        
+            border-color: #6c0c8436;
             border-radius: 0.75rem;
-            border-width: 2px;
-            border-style: solid;
+            border-width: 1px;
+            border-style: dotted;
             font-size: 1.25rem;
             line-height: 1.5rem;
             font-weight: 600;

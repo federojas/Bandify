@@ -68,9 +68,7 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
       }
       .tag {
         --tw-bg-opacity: 1;
-        background-color: rgb(
-          229 231 235 / var(--tw-bg-opacity)
-        ); /* gray-200 */
+    background-color: rgb(243 244 246 / var(--tw-bg-opacity)); /* gray-100 */
         padding: 0.5rem;
         margin: 0.5rem;
         border-radius: 0.375rem;
