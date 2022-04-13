@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <html>
 <head>
     <link rel="stylesheet" href="public/styles/postCard.css"/>
@@ -62,89 +63,22 @@
             </c:forEach>
         </li>
     </ul>
+
     <div class="postCard-div-3">
-        <button
-                class="postCard-button-0 hover:bg-sky-700"
-                type="button"
-                onclick="toggleModal('modal_${param.Id}')"
-        >
-            <spring:message code="postCard.button"/>
-        </button>
+        <c:url value="/audition" var="audition" scope="request">
+            <c:param name="id" value=""/>
+        </c:url>
+        <a href="<c:url value="/audition?id=${param.id}"/>">
+            <button
+                    class="postCard-button-0 hover:bg-sky-700"
+                    type="button"
+            >
+                <spring:message code="postCard.button"/>
+            </button>
+        </a>
     </div>
 </div>
 <%--    Modal--%>
-<div
-        class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center"
-        id="modal_${param.Id}"
->
-    <div class="relative w-auto my-6 mx-auto max-w-3xl">
-        <!--content-->
-        <div class="postCard-div-6">
-            <!--header-->
-            <div class="postCard-div-7">
-                <h3 class="postCard-h3-0">
-                    <c:out value="${param.auditionTitle}"/>
-                </h3>
-                <button onclick="toggleModal('modal_${param.Id}')"><img class="h-12 w-12"
-                                                                        src="public/icons/cross-circle.svg"
-                                                                        alt="close"/></button>
-            </div>
-            <!--body-->
-            <div class="postCard-div-8">
-                <div class="even-columns">
-                    <div>
-                        <p class="mb-5"><c:out value="${param.auditionDescription}"/></p>
-                        <ul>
-                            <li>
-                                <b> Ubicación </b>
-                                <br/>
-                                <div class="bg-gray-200 p-2 rounded-md justify-center tag m-2 w-fit">
-                                <c:out value="${param.auditionLocation}"/></div>
-                            </li>
-                            <li>
-                                <b> Instrumentos deseados </b>
-                                <br/>
-                                <div class="flex flex-row flex-wrap"><c:forEach
-                                        var="item"
-                                        items="${requestScope.lookingFor}"
-                                        varStatus="loop"
-                                >
-                                    <div class="bg-gray-200 p-2 rounded-md justify-center tag m-2">
-                                            ${item.name}
-                                    </div>
-                                </c:forEach></div>
 
-                            </li>
-                            <li>
-                                <b> Interes en géneros </b>
-                                <br/>
-                                <div class="flex flex-row flex-wrap">
-                                <c:forEach
-                                        var="item"
-                                        items="${requestScope.musicGenres}"
-                                        varStatus="loop"
-                                >
-                                    <div class="bg-gray-200 p-2 rounded-md justify-center tag m-2">
-                                            ${item.name}
-                                    </div>
-                                </c:forEach></div>
-                            </li>
-                        </ul>
-                    </div>
-                    <div>
-                        <jsp:include page="applicationForm.jsp">
-                            <jsp:param name="auditionForm" value="${1}"/>
-
-                            <jsp:param name="auditionFormId" value="${param.Id}"/>
-
-                            <jsp:param name="bandName" value="${param.bandName}"/>
-                        </jsp:include>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</div>
 </body>
 </html>
