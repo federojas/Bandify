@@ -84,7 +84,7 @@ public class AuditionsController {
            //TODO: IMPRESION EN LOG
             e.printStackTrace();
         }
-        return new ModelAndView("redirect:/audition?id=" + id);
+        return success();
     }
 
     @RequestMapping(value = "/newAudition", method = {RequestMethod.GET})
@@ -116,12 +116,17 @@ public class AuditionsController {
                 musicGenres(genreService.validateAndReturnGenres(auditionForm.getMusicGenres()))
         );
 
-        return new ModelAndView("redirect:/auditions");
+        return auditions();
     }
 
     @ExceptionHandler({LocationNotFoundException.class, GenreNotFoundException.class, RoleNotFoundException.class})
     @ResponseStatus(code = HttpStatus.NOT_FOUND)
     public ModelAndView badFormData() {
         return new ModelAndView("errors/404");
+    }
+
+    @RequestMapping(value = "/success", method = {RequestMethod.GET})
+    public ModelAndView success() {
+        return new ModelAndView("successMsg");
     }
 }
