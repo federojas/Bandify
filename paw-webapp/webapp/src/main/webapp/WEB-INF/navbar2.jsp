@@ -19,7 +19,7 @@
             alt="Bandify Logo"
           />
         <span
-          class="self-center text-xl font-semibold whitespace-nowrap text-white"
+          class="self-center text-2xl font-semibold whitespace-nowrap text-white"
           >bandify</span
         >
       </a>
@@ -31,21 +31,21 @@
           <li>
             <a
               href="<c:url value="/"/>"
-              class="block py-2 pr-4 pl-3 text-white rounded"
+              class="${param.navItem == 1? "block py-2 pr-4 pl-3 text-purple-400 rounded text-2xl" : "block py-2 pr-4 pl-3 text-white rounded text-2xl" }"
               >Home</a
             >
           </li>
           <li>
             <a
                     href="<c:url value="/auditions"/>"
-                    class="block py-2 pr-4 pl-3 text-white rounded"
+                    class="${param.navItem == 2? "block py-2 pr-4 pl-3 text-purple-400 rounded text-2xl" : "block py-2 pr-4 pl-3 text-white rounded text-2xl" }"
             >Audiciones</a
             >
           </li>
           <li>
             <a
                     href="<c:url value="/newAudition"/>"
-                    class="block py-2 pr-4 pl-3 text-white rounded"
+                    class="${param.navItem == 3? "block py-2 pr-4 pl-3 text-purple-400 rounded text-2xl" : "block py-2 pr-4 pl-3 text-white rounded text-2xl" }"
             >Publicar</a
             >
           </li>

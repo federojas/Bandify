@@ -15,7 +15,7 @@
 <body>
 
     <jsp:include page="navbar2.jsp">
-        <jsp:param name="navItem" value="${1}" />
+        <jsp:param name="navItem" value="${3}" />
         <jsp:param name="name" value="Bandify" />
     </jsp:include>
 

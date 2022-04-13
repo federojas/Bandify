@@ -19,7 +19,7 @@
 <body class="bg-gray-100">
 <%--Navbar--%>
 <jsp:include page="navbar2.jsp">
-    <jsp:param name="navItem" value="${1}" />
+    <jsp:param name="navItem" value="${2}" />
     <jsp:param name="name" value="Bandify" />
 </jsp:include>
 
@@ -57,7 +57,6 @@
             </jsp:include>
         </c:forEach>
     </div>
-
 </div>
 </body>
 </html>
