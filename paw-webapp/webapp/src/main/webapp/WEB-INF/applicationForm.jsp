@@ -6,18 +6,7 @@
 <head>
 
     <link rel="stylesheet" href="public/styles/home.css">
-    <style>
-        .applicationForm {
-            padding-bottom: 0.75rem;
-            padding-left: 1.5rem;
-            padding-right: 1.5rem;
-            margin-top: 0.5rem;
-            max-width: 24rem;
-            border-radius: 0.75rem;
-            border-width: 2px;
-            border-style: solid;
-        }
-    </style>
+    <link rel="stylesheet" href="public/styles/forms.css"
 </head>
 <body>
 <div class="applicationForm">

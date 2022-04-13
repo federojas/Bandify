@@ -13,13 +13,13 @@
     <link rel="stylesheet" href="public/styles/home.css" />
 </head>
 <body>
-
+    <!-- Navbar -->
     <jsp:include page="navbar2.jsp">
         <jsp:param name="navItem" value="${3}" />
         <jsp:param name="name" value="Bandify" />
     </jsp:include>
 
-<%--Formulario--%>
+    <%--Formulario--%>
     <div class="post-form-container" id="form-post">
         <h1 class="home-h1-0"><spring:message code="home.formSectionh1"/></h1>
         <h2 class="home-h1-0"><spring:message code="home.formSectionh2"/></h2>
