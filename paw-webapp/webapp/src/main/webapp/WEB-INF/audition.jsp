@@ -16,10 +16,15 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
     <link rel="stylesheet" href="public/styles/postCard.css" />
     <link rel="stylesheet" href="public/styles/audition.css" />
     <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        background-color: #f3f4f6;
+      }
       .audition-content {
         justify-content: center;
         align-items: center;
-        background-color: #f3f4f6;
+
         padding: 2rem 0;
       }
       .card-extern {
@@ -136,11 +141,7 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
                         items="${audition.musicGenres}"
                         varStatus="loop"
                       >
-                        <div
-                          class="tag"
-                        >
-                          ${item.name}
-                        </div>
+                        <div class="tag">${item.name}</div>
                       </c:forEach>
                     </div>
                   </li>
