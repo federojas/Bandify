@@ -25,6 +25,12 @@
     font-weight: 600;
 }
 
+.form-label-legend {
+    display: block;
+    font-weight: 200;
+    font-size: medium;
+}
+
 .end-button-div {
     display: flex;
     flex-direction: row-reverse;

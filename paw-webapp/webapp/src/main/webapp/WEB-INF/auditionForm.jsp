@@ -128,6 +128,7 @@
                 </div>
                 <div>
                     <form:label class="form-label" for="musicGenres" path="musicGenres"> <spring:message code="home.form.musicGenres"/> </form:label>
+                    <form:label class="form-label-legend" for="musicGenres" path="musicGenres"> <spring:message code="audition.form.musicGenres.maxSelect"/> </form:label>
                     <form:select
                             class="multiple-select form-input"
                             path="musicGenres"
@@ -142,6 +143,7 @@
                 </div>
                 <div>
                     <form:label class="form-label" for="lookingFor" path="lookingFor"> <spring:message code="home.form.lookingFor"/> </form:label>
+                    <form:label class="form-label-legend" for="lookingFor" path="lookingFor"> <spring:message code="audition.form.lookingFor.maxSelect"/> </form:label>
                     <form:select
                             class="multiple-select form-input"
                             path="lookingFor"

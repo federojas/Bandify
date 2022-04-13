@@ -82,7 +82,7 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
         flex-wrap: wrap;
       }
       .description {
-        word-break: break-all;
+        word-break: break-word;
         white-space: normal;
       }
 
