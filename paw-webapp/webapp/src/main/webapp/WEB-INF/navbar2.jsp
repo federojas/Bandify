@@ -1,4 +1,7 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <style>
   .bandify-nav {
     background-color: #1c041c;
@@ -6,18 +9,10 @@
 </style>
 <html>
   <head> </head>
-  <!-- <nav>
-    <div class="nav-wrapper purple px-10">
-        <a href="#" class="brand-logo">Bandify</a>
-        <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li class="active"><a class="nav-items" href="#">Inicio</a></li>
-        </ul>
-    </div>
-</nav> -->
 
   <nav class="bandify-nav px-4 py-2.5 flex items-center">
     <div class="container flex flex-wrap justify-between items-center mx-auto">
-      <a href="#" class="flex items-center">
+      <a href="<c:url value="/"/>" class="flex items-center">
         <img
             src="public/images/logo.png"
             class="mr-3 h-16"
@@ -35,9 +30,23 @@
         >
           <li>
             <a
-              href="#"
+              href="<c:url value="/"/>"
               class="block py-2 pr-4 pl-3 text-white rounded"
               >Home</a
+            >
+          </li>
+          <li>
+            <a
+                    href="<c:url value="/auditions"/>"
+                    class="block py-2 pr-4 pl-3 text-white rounded"
+            >Audiciones</a
+            >
+          </li>
+          <li>
+            <a
+                    href="<c:url value="/newAudition"/>"
+                    class="block py-2 pr-4 pl-3 text-white rounded"
+            >Publicar</a
             >
           </li>
         </ul>
