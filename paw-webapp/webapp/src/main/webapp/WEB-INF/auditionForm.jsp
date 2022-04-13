@@ -52,7 +52,7 @@
 </head>
 <body>
     <!-- Navbar -->
-    <jsp:include page="navbar2.jsp">
+    <jsp:include page="navbar.jsp">
         <jsp:param name="navItem" value="${3}" />
         <jsp:param name="name" value="Bandify" />
     </jsp:include>

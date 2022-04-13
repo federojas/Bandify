@@ -8,17 +8,6 @@
     <style>
 
     </style>
-    <script>
-        function toggleModal(modalID) {
-            document.getElementById(modalID).classList.toggle("hidden");
-            document
-                .getElementById(modalID + "-backdrop")
-                .classList.toggle("hidden");
-            document.getElementById(modalID).classList.toggle("flex");
-            document.getElementById(modalID + "-backdrop").classList.toggle("flex");
-        }
-    </script>
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>

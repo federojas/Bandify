@@ -86,7 +86,7 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
   </head>
   <body class="flex flex-col">
     <%--Navbar--%>
-    <jsp:include page="navbar2.jsp">
+    <jsp:include page="navbar.jsp">
       <jsp:param name="navItem" value="${2}" />
       <jsp:param name="name" value="Bandify" />
     </jsp:include>
