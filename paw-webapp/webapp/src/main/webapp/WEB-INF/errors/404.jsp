@@ -7,7 +7,8 @@
 </head>
 <body>
 <div class="container">
-    <img src="public/images/Error_1.png" alt="404image" />
+    <spring:message code="img.alt.404" var="img404"/>
+    <img src="public/images/Error_1.png" alt="${img404}" />
     <p class="wrong-para"><spring:message code="404.errorMessage"/></p>
 </div>
 </body>

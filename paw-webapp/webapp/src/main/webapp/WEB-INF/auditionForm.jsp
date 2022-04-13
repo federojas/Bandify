@@ -74,7 +74,8 @@
                     <form:label class="form-label" path="title">
                         <spring:message code="home.form.title"/>
                     </form:label>
-                    <form:input type="text"  maxlength="25" placeholder="(max 25 caracteres)" class="form-input" path="title" />
+                    <spring:message code="audition.form.title.placeholder" var="title.placeholder" />
+                    <form:input type="text"  maxlength="25" placeholder="${title.placeholder}" class="form-input" path="title" />
 
                     <form:errors path="title" element="p" cssClass="error"> </form:errors>
                 </div>
@@ -82,8 +83,9 @@
                     <form:label class="form-label" path="description">
                         <spring:message code="home.form.description"/>
                     </form:label>
+                    <spring:message code="audition.form.description.placeholder" var="description.placeholder" />
                     <form:textarea
-                            maxlength="300" placeholder="(max 300 caracteres)"
+                            maxlength="300" placeholder="${description.placeholder}"
                             class="form-input"
                             type="text"
                             path="description"
@@ -99,7 +101,6 @@
                             class="form-input"
                             path="location"
                             multiple="false"
-
                     >
                         <form:option value="0" selected="true" disabled="disabled" hidden="true"><spring:message code="home.form.location.default"/></form:option>
                         <c:forEach
@@ -117,7 +118,8 @@
                     <form:label class="form-label" path="email">
                         <spring:message code="home.form.email"/>
                     </form:label>
-                    <form:input type="text"  maxlength="50" placeholder="ejemplo@email.com" class="form-input" path="email" />
+                    <spring:message code="audition.form.email.placeholder" var="email.placeholder" />
+                    <form:input type="text"  maxlength="50" placeholder="${email.placeholder}" class="form-input" path="email" />
 
                     <form:errors path="email" element="p" cssClass="error"> </form:errors>
                 </div>

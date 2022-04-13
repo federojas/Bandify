@@ -91,14 +91,15 @@
 <nav>
     <div class="container nav-div">
         <a href="<c:url value="/"/>" class="flex items-center">
+            <spring:message code="img.alt.logo" var="bandify" />
             <img
                     src="public/images/logo.png"
                     class="bandify-logo"
-                    alt="Bandify Logo"
+                    alt="${bandify}"
             />
             <span
                     class="bandify-title"
-            >bandify</span
+            ><spring:message code="navbar.bandify"/></span
             >
         </a>
 
@@ -108,21 +109,21 @@
                     <a
                             href="<c:url value="/"/>"
                             class="${param.navItem == 1? "block py-2 pr-4 pl-3 text-white font-black rounded text-2xl" : "block py-2 pr-4 pl-3 text-white rounded text-2xl" }"
-                    >Home</a
+                    ><spring:message code="navbar.home"/></a
                     >
                 </li>
                 <li>
                     <a
                             href="<c:url value="/auditions"/>"
                             class="${param.navItem == 2? "block py-2 pr-4 pl-3 text-white font-black rounded text-2xl" : "block py-2 pr-4 pl-3 text-white rounded text-2xl" }"
-                    >Audiciones</a
+                    ><spring:message code="navbar.auditions"/></a
                     >
                 </li>
                 <li>
                     <a
                             href="<c:url value="/newAudition"/>"
                             class="${param.navItem == 3? "block py-2 pr-4 pl-3 text-white font-black rounded text-2xl" : "block py-2 pr-4 pl-3 text-white rounded text-2xl" }"
-                    >Publicar</a
+                    ><spring:message code="navbar.post"/></a
                     >
                 </li>
             </ul>

@@ -88,7 +88,8 @@
     <div class="content">
       <!-- Hero -->
       <div class="guitar-hero">
-        <img src="public/images/guitar.png" alt="guitar" />
+          <spring:message code="img.alt.guitar" var="guitar" />
+        <img src="public/images/guitar.png" alt="${guitar}" />
         <div class="hero-title">
             <span><spring:message code="home.slogan1"/></span>
             <p><spring:message code="home.slogan2"/></p>

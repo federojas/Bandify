@@ -108,19 +108,19 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
               <div class="card-info">
                 <ul>
                   <li class="info-item">
-                    <b>Acerca de</b>
+                    <b> <spring:message code="audition.about"/></b>
                     <br />
                     <c:out value="${audition.description}" />
                   </li>
                   <li class="info-item">
-                    <b> Ubicación </b>
+                    <b> <spring:message code="audition.location"/> </b>
                     <br />
                     <div class="tag">
                       <c:out value="${audition.location.name}" />
                     </div>
                   </li>
                   <li class="info-item">
-                    <b> Instrumentos deseados </b>
+                    <b> <spring:message code="audition.desired"/> </b>
                     <br />
                     <div class="tag-list">
                       <c:forEach
@@ -133,7 +133,7 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
                     </div>
                   </li>
                   <li class="info-item">
-                    <b> Interes en géneros </b>
+                    <b> <spring:message code="audition.genres"/> </b>
                     <br />
                     <div class="tag-list">
                       <c:forEach

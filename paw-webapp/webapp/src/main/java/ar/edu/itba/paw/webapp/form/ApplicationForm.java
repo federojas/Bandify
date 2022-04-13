@@ -15,6 +15,7 @@ public class ApplicationForm {
 
     @NotBlank
     @Email(regexp = "^\\w+([\\.-]?\\w+)*@\\w+([\\\\.-]?\\w+)*(\\.\\w{2,3})+$")
+    @Size(min = 1, max = 50)
     private String email;
 
     @NotBlank
