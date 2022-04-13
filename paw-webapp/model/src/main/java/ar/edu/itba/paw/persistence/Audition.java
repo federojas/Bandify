@@ -152,6 +152,10 @@ public class Audition {
         this.description = description;
     }
 
+    public LocalDateTime getCreationDate() {
+        return creationDate;
+    }
+
     public String getTimeElapsed() {
         StringBuilder time = new StringBuilder("Hace ");
         LocalDateTime now = LocalDateTime.now();

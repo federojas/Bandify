@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS auditions
     creationDate TIMESTAMP NOT NULL,
     locationId integer NOT NULL,
     email VARCHAR(100) NOT NULL,
-    FOREIGN KEY (locationId) REFERENCES locations ON DELETE SET NULL
+    FOREIGN KEY (locationId) REFERENCES locations
 );
 -- TODO : FOREIGN KEY(band_id) REFERENCES Band(band_id) ON DELETE CASCADE
 
