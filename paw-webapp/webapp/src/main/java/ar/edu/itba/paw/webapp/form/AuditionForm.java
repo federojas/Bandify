@@ -12,7 +12,7 @@ import java.util.List;
 public class AuditionForm {
 
     @NotBlank
-    @Size(max = 25)
+    @Size(max = 50)
     private String title;
 
     @NotBlank
@@ -25,7 +25,6 @@ public class AuditionForm {
 
     @Email
     @NotBlank
-    @Size(max = 50)
     private String email;
 
     @NotEmpty

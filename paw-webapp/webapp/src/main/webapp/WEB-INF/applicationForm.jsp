@@ -26,7 +26,7 @@
                 <spring:message code="application.form.name"/>
             </form:label>
             <spring:message code="application.form.name.placeholder" var="nameplaceholder" />
-            <form:input type="text" maxlength="25" class="form-input" placeholder="${nameplaceholder}"
+            <form:input type="text" maxlength="50" class="form-input" placeholder="${nameplaceholder}"
                         path="name"/>
 
             <form:errors path="name" element="p" cssClass="error">
@@ -37,7 +37,7 @@
                 <spring:message code="application.form.email"/>
             </form:label>
             <spring:message code="application.form.email.placeholder" var="emailplaceholder" />
-            <form:input type="email" maxlength="30" placeholder="${emailplaceholder}" class="form-input"
+            <form:input type="email" maxlength="254" placeholder="${emailplaceholder}" class="form-input"
                         path="email"/>
 
             <form:errors path="email" element="p" cssClass="error">
