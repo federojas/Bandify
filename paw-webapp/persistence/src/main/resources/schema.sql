@@ -8,8 +8,8 @@ CREATE TABLE IF NOT EXISTS auditions
 (
     id SERIAL PRIMARY KEY,
     bandId INT NOT NULL,
-    title VARCHAR(100) UNIQUE NOT NULL,
-    description VARCHAR(512) NOT NULL,
+    title VARCHAR(100) NOT NULL,
+    description VARCHAR(300) NOT NULL,
     creationDate TIMESTAMP NOT NULL,
     locationId integer NOT NULL,
     email VARCHAR(100) NOT NULL,

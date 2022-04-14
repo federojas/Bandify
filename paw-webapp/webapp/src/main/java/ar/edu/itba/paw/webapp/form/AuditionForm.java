@@ -19,14 +19,12 @@ public class AuditionForm {
     @Size(max = 300)
     private String description;
 
-    @NotNull
-    @Max(2147483647)
-    @Min(value = 1, message="Debe elegir al menos una ubicacion")
+    @Max(value = 2147483647)
+    @Min(value = 1)
     private long location;
 
-    @NotBlank
     @Email(regexp = "^\\w+([\\.-]?\\w+)*@\\w+([\\\\.-]?\\w+)*(\\.\\w{2,3})+$")
-    @Size(min = 1, max = 50)
+    @Size(max = 50)
     private String email;
 
     @NotEmpty
