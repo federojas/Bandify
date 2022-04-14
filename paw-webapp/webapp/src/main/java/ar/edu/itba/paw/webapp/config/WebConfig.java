@@ -31,6 +31,7 @@ import java.util.Properties;
 @ComponentScan({"ar.edu.itba.paw.webapp.controller", "ar.edu.itba.paw.service", "ar.edu.itba.paw.persistence" })
 @EnableWebMvc
 @Configuration
+@EnableAsync
 public class WebConfig {
 
     private static final boolean DEPLOY = false;
