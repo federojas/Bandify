@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 
@@ -25,6 +26,7 @@ public class MailingServiceImpl implements MailingService {
         this.templateEngine = templateEngine;
     }
 
+    @Async
     @Override
     public void sendAuditionEmail(String receiverAddress, String senderName, String email, String content, Locale locale) {
 
@@ -44,6 +46,7 @@ public class MailingServiceImpl implements MailingService {
         final String htmlContent = this.templateEngine.process("audition-application.html", ctx);
         sendMessage(htmlContent, receiverAddress, "Nuevo aplicante para audición");
     }
+
 
     private void sendMessage(String htmlContent, String receiverAddress, String subject) {
         try {

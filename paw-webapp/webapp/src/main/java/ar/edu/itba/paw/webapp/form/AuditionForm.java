@@ -12,7 +12,7 @@ import java.util.List;
 public class AuditionForm {
 
     @NotBlank
-    @Size(max = 25)
+    @Size(max = 50)
     private String title;
 
     @NotBlank
@@ -23,8 +23,8 @@ public class AuditionForm {
     @Min(value = 1)
     private long location;
 
-    @Email(regexp = "^\\w+([\\.-]?\\w+)*@\\w+([\\\\.-]?\\w+)*(\\.\\w{2,3})+$")
-    @Size(max = 50)
+    @Email
+    @NotBlank
     private String email;
 
     @NotEmpty

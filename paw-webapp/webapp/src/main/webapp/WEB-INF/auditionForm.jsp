@@ -76,7 +76,7 @@
                         <spring:message code="home.form.title"/>
                     </form:label>
                     <spring:message code="audition.form.title.placeholder" var="titleplaceholder" />
-                    <form:input type="text"  maxlength="25" placeholder="${titleplaceholder}" class="form-input" path="title" />
+                    <form:input type="text"  maxlength="50" placeholder="${titleplaceholder}" class="form-input" path="title" />
 
                     <form:errors path="title" element="p" cssClass="error"> </form:errors>
                 </div>
@@ -122,7 +122,7 @@
                         <spring:message code="home.form.email"/>
                     </form:label>
                     <spring:message code="audition.form.email.placeholder" var="emailplaceholder" />
-                    <form:input type="text"  maxlength="50" placeholder="${emailplaceholder}" class="form-input" path="email" />
+                    <form:input type="text"  maxlength="254" placeholder="${emailplaceholder}" class="form-input" path="email" />
 
                     <form:errors path="email" element="p" cssClass="error"> </form:errors>
                 </div>

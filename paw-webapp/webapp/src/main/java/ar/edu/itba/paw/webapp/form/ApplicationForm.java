@@ -13,8 +13,8 @@ public class ApplicationForm {
     @Size(max = 50)
     private String name;
 
-    @Email(regexp = "^\\w+([\\.-]?\\w+)*@\\w+([\\\\.-]?\\w+)*(\\.\\w{2,3})+$")
-    @Size(max = 50)
+    @Email
+    @NotBlank
     private String email;
 
     @NotBlank

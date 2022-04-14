@@ -1,7 +1,6 @@
 
 package ar.edu.itba.paw.persistence;
 
-import ar.edu.itba.paw.model.Location;
 import ar.edu.itba.paw.model.exceptions.LocationNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -10,7 +9,6 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.time.LocalDateTime;
 import java.util.*;
 
 @Repository
