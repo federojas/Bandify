@@ -107,13 +107,6 @@
             <ul>
                 <li>
                     <a
-                            href="<c:url value="/"/>"
-                            class="${param.navItem == 1? "block py-2 pr-4 pl-3 text-white font-black rounded text-2xl" : "block py-2 pr-4 pl-3 text-white rounded text-2xl" }"
-                    ><spring:message code="navbar.home"/></a
-                    >
-                </li>
-                <li>
-                    <a
                             href="<c:url value="/auditions"/>"
                             class="${param.navItem == 2? "block py-2 pr-4 pl-3 text-white font-black rounded text-2xl" : "block py-2 pr-4 pl-3 text-white rounded text-2xl" }"
                     ><spring:message code="navbar.auditions"/></a
