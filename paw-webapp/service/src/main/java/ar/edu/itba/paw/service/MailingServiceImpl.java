@@ -1,6 +1,8 @@
 package ar.edu.itba.paw.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
@@ -19,6 +21,12 @@ public class MailingServiceImpl implements MailingService {
 
     private final Session session;
     private final SpringTemplateEngine templateEngine;
+
+    @Autowired
+    Environment environment;
+
+    @Autowired
+    private MessageSource messageSource;
 
     @Autowired
     public MailingServiceImpl(Session session, SpringTemplateEngine templateEngine) {
@@ -44,14 +52,14 @@ public class MailingServiceImpl implements MailingService {
         ctx.setVariable("content", variables.get("content"));
 
         final String htmlContent = this.templateEngine.process("audition-application.html", ctx);
-        sendMessage(htmlContent, receiverAddress, "Nuevo aplicante para audición");
+        sendMessage(htmlContent, receiverAddress, messageSource.getMessage("audition-application.subject",null,locale).toString() );
     }
 
 
     private void sendMessage(String htmlContent, String receiverAddress, String subject) {
         try {
             MimeMessage message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("bandifypaw@gmail.com"));
+            message.setFrom(new InternetAddress(environment.getRequiredProperty("mail.username")));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(receiverAddress));
             message.setSubject(subject);
 
