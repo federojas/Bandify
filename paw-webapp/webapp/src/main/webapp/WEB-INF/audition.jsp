@@ -9,12 +9,13 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
       href="https://fonts.googleapis.com/css?family=Questrial"
     />
     <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="../public/images/logo.png"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><spring:message code="home.title"/></title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="public/styles/home.css" />
-    <link rel="stylesheet" href="public/styles/postCard.css" />
-    <link rel="stylesheet" href="public/styles/audition.css" />
+    <link rel="stylesheet" href="../public/styles/home.css" />
+    <link rel="stylesheet" href="../public/styles/postCard.css" />
+    <link rel="stylesheet" href="../public/styles/audition.css" />
     <style>
       body {
         display: flex;

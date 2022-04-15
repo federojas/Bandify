@@ -11,6 +11,7 @@ prefix="spring" uri="http://www.springframework.org/tags"%>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><spring:message code="home.title"/></title>
+    <link rel="icon" type="image/png" href="public/images/logo.png"/>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="public/styles/home.css" />
     <style>

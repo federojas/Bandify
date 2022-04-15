@@ -63,7 +63,7 @@
         }
 
         .bandify-logo {
-            width: 5rem;
+            width: 2.5rem;
         }
 
         #mobile-menu > ul {
