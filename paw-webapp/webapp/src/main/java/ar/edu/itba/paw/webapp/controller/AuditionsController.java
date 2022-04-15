@@ -63,7 +63,7 @@ public class AuditionsController {
         if (audition.isPresent()) {
             mav.addObject("audition", audition.get());
         } else {
-            throw new AuditionNotFoundException();
+            return badFormData();
         }
         return mav;
     }
