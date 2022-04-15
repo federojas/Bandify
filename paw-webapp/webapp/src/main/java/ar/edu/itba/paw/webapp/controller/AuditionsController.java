@@ -44,6 +44,8 @@ public class AuditionsController {
         this.mailingService = mailingService;
     }
 
+
+
     @RequestMapping(value = "/auditions", method = {RequestMethod.GET})
     public ModelAndView auditions() {
         final ModelAndView mav = new ModelAndView("auditions");
@@ -52,9 +54,9 @@ public class AuditionsController {
         return mav;
     }
 
-    @RequestMapping(value = "/audition", method = {RequestMethod.GET})
+    @RequestMapping(value = "/auditions/{id}", method = {RequestMethod.GET})
     public ModelAndView audition(@ModelAttribute("applicationForm") final ApplicationForm applicationForm,
-                                 @RequestParam(required = true) final long id) {
+                                 @PathVariable long id) {
         final ModelAndView mav = new ModelAndView("audition");
 
         Optional<Audition> audition = auditionService.getAuditionById(id);

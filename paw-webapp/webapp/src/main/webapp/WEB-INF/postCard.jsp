@@ -57,7 +57,7 @@
         <c:url value="/audition" var="audition" scope="request">
             <c:param name="id" value=""/>
         </c:url>
-        <a href="<c:url value="/audition?id=${param.id}"/>">
+        <a href="<c:url value="/auditions/${param.id}"/>">
             <button
                     class="postCard-button-0 hover:bg-sky-700"
                     type="button"
