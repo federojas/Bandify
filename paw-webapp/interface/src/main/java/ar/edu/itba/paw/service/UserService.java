@@ -7,14 +7,8 @@ import java.util.Optional;
 public interface UserService {
     Optional<User> getUserById(long id);
 
-    /**
-     * Create a new user.
-     *
-     * @param username The name of the user.
-     * @return The created user.
-     */
-    User create(String username, String password);
+    User create(User.UserBuilder userBuilder);
 
-    Optional<User> findByUsername(String username);
+    Optional<User> findByEmail(String email);
 
 }

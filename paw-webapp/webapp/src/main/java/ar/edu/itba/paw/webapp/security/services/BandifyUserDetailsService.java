@@ -20,12 +20,12 @@ public class BandifyUserDetailsService implements UserDetailsService {
     private UserService us;
 
     @Override
-    public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
-        final User user = us.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("No user by the name " + username));
+    public UserDetails loadUserByUsername(final String email) throws UsernameNotFoundException {
+        final User user = us.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("No user by the name " + email));
         final Collection<? extends GrantedAuthority> authorities = Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"),
                 new SimpleGrantedAuthority("ROLE_ADMIN")
         );
-        return new org.springframework.security.core.userdetails.User(username, user.getPassword(), authorities);
+        return new org.springframework.security.core.userdetails.User(email, user.getPassword(), authorities);
     }
 
 }
