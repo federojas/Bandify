@@ -3,7 +3,6 @@ package ar.edu.itba.paw.webapp.controller;
 import ar.edu.itba.paw.model.Genre;
 import ar.edu.itba.paw.model.Location;
 import ar.edu.itba.paw.model.Role;
-import ar.edu.itba.paw.model.exceptions.AuditionNotFoundException;
 import ar.edu.itba.paw.model.exceptions.GenreNotFoundException;
 import ar.edu.itba.paw.model.exceptions.LocationNotFoundException;
 import ar.edu.itba.paw.model.exceptions.RoleNotFoundException;
@@ -48,7 +47,7 @@ public class AuditionsController {
 
     @RequestMapping(value = "/auditions", method = {RequestMethod.GET})
     public ModelAndView auditions() {
-        final ModelAndView mav = new ModelAndView("auditions");
+        final ModelAndView mav = new ModelAndView("views/auditions");
         List<Audition> auditionList = auditionService.getAll(1);
         mav.addObject("auditionList", auditionList);
         return mav;
@@ -57,7 +56,7 @@ public class AuditionsController {
     @RequestMapping(value = "/auditions/{id}", method = {RequestMethod.GET})
     public ModelAndView audition(@ModelAttribute("applicationForm") final ApplicationForm applicationForm,
                                  @PathVariable long id) {
-        final ModelAndView mav = new ModelAndView("audition");
+        final ModelAndView mav = new ModelAndView("views/audition");
 
         Optional<Audition> audition = auditionService.getAuditionById(id);
         if (audition.isPresent()) {
@@ -91,7 +90,7 @@ public class AuditionsController {
 
     @RequestMapping(value = "/newAudition", method = {RequestMethod.GET})
     public ModelAndView newAudition(@ModelAttribute("auditionForm") final AuditionForm auditionForm) {
-        final ModelAndView mav = new ModelAndView("auditionForm");
+        final ModelAndView mav = new ModelAndView("views/auditionForm");
 
         List<Role> roleList = roleService.getAll();
         List<Genre> genreList = genreService.getAll();
@@ -129,6 +128,6 @@ public class AuditionsController {
 
     @RequestMapping(value = "/success", method = {RequestMethod.GET})
     public ModelAndView success() {
-        return new ModelAndView("successMsg");
+        return new ModelAndView("views/successMsg");
     }
 }

@@ -5,14 +5,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <html>
   <head>
-    <link rel="icon" type="image/png" href="public/images/logo.png" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Questrial">
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><spring:message code="home.title"/></title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="public/styles/home.css" />
-    <style>
+      <c:import url="../config/generalHead.jsp" />
+      <style>
         body {
             /* gray-100 */
             --tw-bg-opacity: 1;
@@ -79,7 +73,7 @@
   </head>
   <body>
     <!-- Navbar -->
-    <jsp:include page="navbar.jsp">
+    <jsp:include page="../components/navbar.jsp">
       <jsp:param name="navItem" value="${1}" />
       <jsp:param name="name" value="Bandify" />
     </jsp:include>
@@ -89,7 +83,7 @@
       <!-- Hero -->
       <div class="guitar-hero">
           <spring:message code="img.alt.guitar" var="guitar" />
-        <img src="public/images/guitar.png" alt="${guitar}" />
+        <img src="<c:url value="${pageContext.request.contextPath}/resources/images/guitar.png"/>" alt="${guitar}" />
         <div class="hero-title">
             <span><spring:message code="home.slogan1"/></span>
             <p><spring:message code="home.slogan2"/></p>

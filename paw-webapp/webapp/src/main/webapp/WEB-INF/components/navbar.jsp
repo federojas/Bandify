@@ -5,7 +5,6 @@
 
 <html>
 <head>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Questrial">
     <style>
         nav {
             background-color: #1c041c;
@@ -93,7 +92,9 @@
         <a href="<c:url value="/"/>" class="flex items-center">
             <spring:message code="img.alt.logo" var="bandify" />
             <img
-                    src="public/images/logo.png"
+                    src=
+                    "<c:url value="${pageContext.request.contextPath}/resources/images/logo.png" />"
+
                     class="bandify-logo"
                     alt="${bandify}"
             />

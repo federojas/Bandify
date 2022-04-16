@@ -4,18 +4,11 @@ contentType="text/html;charset=UTF-8" language="java" %> <%@ taglib
 prefix="spring" uri="http://www.springframework.org/tags" %>
 <html>
   <head>
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css?family=Questrial"
-    />
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="../public/images/logo.png"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><spring:message code="home.title"/></title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="../public/styles/home.css" />
-    <link rel="stylesheet" href="../public/styles/postCard.css" />
-    <link rel="stylesheet" href="../public/styles/audition.css" />
+    <c:import url="../config/generalHead.jsp" />
+    <link rel="stylesheet" href="<c:url value="${pageContext.request.contextPath}/resources/css/home.css" />" />
+    <link rel="stylesheet" href="<c:url value="${pageContext.request.contextPath}/resources/css/postCard.css" />" />
+    <link rel="stylesheet" href="<c:url value="${pageContext.request.contextPath}/resources/css/audition.css" />" />
+    <link rel="stylesheet" href="<c:url value="${pageContext.request.contextPath}/resources/css/forms.css" />" />
     <style>
       body {
         display: flex;
@@ -98,7 +91,7 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
   </head>
   <body class="flex flex-col">
     <%--Navbar--%>
-    <jsp:include page="navbar.jsp">
+    <jsp:include page="../components/navbar.jsp">
       <jsp:param name="navItem" value="${2}" />
       <jsp:param name="name" value="Bandify" />
     </jsp:include>
@@ -165,7 +158,7 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
               </div>
               <!-- Right body part (form) -->
               <div>
-                <jsp:include page="applicationForm.jsp">
+                <jsp:include page="../components/applicationForm.jsp">
                   <jsp:param name="auditionForm" value="${1}" />
                   <jsp:param name="auditionEmail" value="${audition.email}" />
                   <jsp:param name="auditionFormId" value="${audition.id}" />

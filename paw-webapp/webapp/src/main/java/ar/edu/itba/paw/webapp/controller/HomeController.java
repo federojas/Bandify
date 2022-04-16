@@ -10,7 +10,7 @@ public class HomeController {
 
     @RequestMapping(value = "/", method = {RequestMethod.GET})
     public ModelAndView home(@ModelAttribute("auditionForm") final AuditionForm form) {
-        return new ModelAndView("home");
+        return new ModelAndView("views/home");
     }
 
 }
