@@ -1,52 +1,32 @@
 /* Clases para home */
 
 /* TODO ERROR CLASS */
+
+body {
+  font-family: "Questrial", sans-serif;
+}
+
 .error {
   color: #b91c1c;
 }
 
-.home-body-0 {
-  background-color: #f3f4f6;
-}
-.content {
-  display: flex;
-  /* padding: 2.5rem 4.5rem; */
-  background-color: #f3f4f6;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
-  /* flex-wrap: wrap;
-  justify-content: space-evenly; */
-}
+
+
 .post-form-container {
   padding: 2.5rem;
   background-color: #ffffff;
   border-radius: 0.5rem /* 8px */;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
   width: 70%;
-    max-width: 45rem;
+  max-width: 45rem;
   margin-top: 6rem;
-
 }
 .guitar-hero {
-    position: relative;
-}
-.hero-1 {
-    position: absolute;
-    top: 10%;
-    left: 5%;
-    color: #efefef;
-    width: 50%;
+  position: relative;
 }
 
-.hero-2 {
-    color: #efefef;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    margin-left: 16px;
-    margin-top: 32px;
-}
+
+
 .inner-box-form {
   padding: 0.75rem 1.5rem;
   margin-top: 1.5rem;
@@ -58,8 +38,8 @@
 .post-button-div {
   display: flex;
   flex-direction: row-reverse;
-    padding-top: 2rem;
-    margin-top: 2rem;
+  padding-top: 2rem;
+  margin-top: 2rem;
 }
 .posts {
   display: flex;
@@ -77,7 +57,6 @@
   border-radius: 9999px;
   background-color: #6c0c84;
 }
-
 
 .home-h1-0 {
   font-size: 1.75rem;
@@ -115,15 +94,15 @@
 }
 
 @media (min-width: 768px) {
-    .hero {
-        flex-direction: row;
-    }
-    .hero-text {
-        width: 40%;
-    }
-    .hero-image {
-        width: 45%;
-    }
+  .hero {
+    flex-direction: row;
+  }
+  .hero-text {
+    width: 40%;
+  }
+  .hero-image {
+    width: 45%;
+  }
 }
 
 .hero-text {
@@ -149,16 +128,12 @@
   font-weight: 700;
 }
 
-.multiple-select {
-    height: fit-content !important;
-}
-
 .section-button {
-    margin: 0.75rem 0.5rem;
-    padding: 0.5rem 1.25rem;
-    background-color: #1c041c;
-    color: #ffffff;
-    font-weight: 600;
-    line-height: 1.25rem;
-    border-radius: 9999px;
+  margin: 0.75rem 0.5rem;
+  padding: 0.5rem 1.25rem;
+  background-color: #1c041c;
+  color: #ffffff;
+  font-weight: 600;
+  line-height: 1.25rem;
+  border-radius: 9999px;
 }

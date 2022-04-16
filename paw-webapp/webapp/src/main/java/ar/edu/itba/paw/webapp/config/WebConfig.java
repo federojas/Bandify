@@ -1,15 +1,19 @@
 package ar.edu.itba.paw.webapp.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.Resource;
 import org.springframework.jdbc.datasource.init.DataSourceInitializer;
 import org.springframework.jdbc.datasource.init.DatabasePopulator;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -28,7 +32,19 @@ import java.util.Properties;
 @ComponentScan({"ar.edu.itba.paw.webapp.controller", "ar.edu.itba.paw.service", "ar.edu.itba.paw.persistence" })
 @EnableWebMvc
 @Configuration
+@EnableAsync
+@PropertySource(value= {"classpath:application.properties"})
 public class WebConfig {
+
+    private static final boolean DEPLOY = false;
+
+    private static boolean isDeploying() {
+        return DEPLOY;
+    }
+
+    @Autowired
+    Environment environment;
+
 
     @Value("classpath:schema.sql")
     private Resource schemaSql;
@@ -63,9 +79,17 @@ public class WebConfig {
     public DataSource dataSource() {
         final SimpleDriverDataSource ds = new SimpleDriverDataSource();
         ds.setDriverClass(org.postgresql.Driver.class);
-        ds.setUrl("jdbc:postgresql://localhost/paw");
-        ds.setUsername("postgres");
-        ds.setPassword("postgres");
+
+        if (isDeploying()) {
+            ds.setUrl(environment.getRequiredProperty("db.deploy.url"));
+            ds.setUsername(environment.getRequiredProperty("db.deploy.username"));
+            ds.setPassword(environment.getRequiredProperty("db.deploy.password"));
+        } else {
+            ds.setUrl(environment.getRequiredProperty("db.wip.url"));
+            ds.setUsername(environment.getRequiredProperty("db.wip.username"));
+            ds.setPassword(environment.getRequiredProperty("db.wip.password"));
+        }
+
         return ds;
     }
 
@@ -89,10 +113,9 @@ public class WebConfig {
         properties.put("mail.smtp.socketFactory.fallback", "false");
 
         return Session.getInstance(properties, new javax.mail.Authenticator() {
-
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("bandifypaw@gmail.com", "paw2022!");
+                return new PasswordAuthentication(environment.getRequiredProperty("mail.username"), environment.getRequiredProperty("mail.password"));
             }
         });
     }
@@ -100,7 +123,6 @@ public class WebConfig {
     @Bean
     public SpringResourceTemplateResolver templateResolver(){
         SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
-        //templateResolver.setApplicationContext(this.applicationContext);
         templateResolver.setPrefix("classpath:mail-templates/");
         templateResolver.setSuffix(".html");
         templateResolver.setTemplateMode(TemplateMode.HTML);
