@@ -66,6 +66,11 @@ public class User {
             return this;
         }
 
+        public UserBuilder password(String password) {
+            this.password = password;
+            return this;
+        }
+
         public User build() {
             if(this.name == null){
                 throw new NullPointerException("The property 'name' is null.");
