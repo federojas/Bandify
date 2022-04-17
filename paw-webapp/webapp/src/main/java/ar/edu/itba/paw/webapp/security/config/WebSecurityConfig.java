@@ -43,9 +43,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         http.sessionManagement()
-                    .invalidSessionUrl("/login")
+                    .invalidSessionUrl("/welcome")
                 .and().authorizeRequests()
-                    .antMatchers("/login", "/register").anonymous()
+                    .antMatchers( "/welcome","/register").anonymous()
                     //.antMatchers("/admin/**").hasRole("ADMIN")
                     .antMatchers("/apply", "/newAudition", "/postAudition").authenticated()
                     .antMatchers("/**").permitAll()
@@ -53,7 +53,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .usernameParameter("email")
                     .passwordParameter("password")
                     .defaultSuccessUrl("/", false)
-                    .loginPage("/login")
+                    .loginPage("/welcome")
                 .and().rememberMe()
                     .rememberMeParameter("rememberme")
                     .userDetailsService(userDetailsService)
@@ -61,7 +61,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(30))
                 .and().logout()
                     .logoutUrl("/logout")
-                    .logoutSuccessUrl("/login")
+                    .logoutSuccessUrl("/welcome")
                 .and().exceptionHandling()
                     .accessDeniedPage("/403")
                 .and().csrf().disable();
@@ -70,6 +70,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(final WebSecurity web) throws Exception {
-        web.ignoring().antMatchers( "/", "/*.css", "/*.js", " /favicon.ico", "/manifest.json", "/*.png", "/*.svg");
+        web.ignoring().antMatchers( "/*.css", "/*.js", " /favicon.ico", "/manifest.json", "/*.png", "/*.svg");
     }
 }

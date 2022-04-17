@@ -5,7 +5,7 @@ prefix="spring" uri="http://www.springframework.org/tags"%>
 <html>
   <head>
     <c:import url="../config/generalHead.jsp" />
-    <link rel="stylesheet" href="<c:url value="${pageContext.request.contextPath}/resources/css/home.css" />" />
+    <link rel="stylesheet" href="<c:url value="${pageContext.request.contextPath}/resources/css/welcome.css" />" />
     <style>
       body {
         /* gray-100 */
@@ -44,7 +44,7 @@ prefix="spring" uri="http://www.springframework.org/tags"%>
     <!-- Auditions content -->
     <div class="auditions-content">
       <h2 id="posts">
-        <spring:message code="home.auditionsSection" />
+        <spring:message code="welcome.auditionsSection" />
       </h2>
       <%--Publicaciones de audiciones--%>
       <div class="posts">

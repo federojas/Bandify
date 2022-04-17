@@ -5,7 +5,7 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
 <html>
   <head>
     <c:import url="../config/generalHead.jsp" />
-    <link rel="stylesheet" href="<c:url value="${pageContext.request.contextPath}/resources/css/home.css" />" />
+    <link rel="stylesheet" href="<c:url value="${pageContext.request.contextPath}/resources/css/welcome.css" />" />
     <link rel="stylesheet" href="<c:url value="${pageContext.request.contextPath}/resources/css/postCard.css" />" />
     <link rel="stylesheet" href="<c:url value="${pageContext.request.contextPath}/resources/css/audition.css" />" />
     <link rel="stylesheet" href="<c:url value="${pageContext.request.contextPath}/resources/css/forms.css" />" />

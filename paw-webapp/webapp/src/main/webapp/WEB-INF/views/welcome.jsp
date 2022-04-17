@@ -129,17 +129,17 @@
         <img src="<c:url value="${pageContext.request.contextPath}/resources/images/guitar.png"/>" alt="${guitar}"/>
         <%-- Hero text   --%>
         <div class="hero-title">
-            <span><spring:message code="home.slogan1"/></span>
-            <p><spring:message code="home.slogan2"/></p>
+            <span><spring:message code="welcome.slogan1"/></span>
+            <p><spring:message code="welcome.slogan2"/></p>
             <div class="hero-buttons">
-                <p><spring:message code="home.options"/></p>
+                <p><spring:message code="welcome.options"/></p>
                 <div class="buttons">
                     <a href="<c:url value="/auditions"/> ">
                         <button
                                 type="button"
                                 class="purple-hover-button "
                         >
-                            <spring:message code="home.searchingBandsButton"/>
+                            <spring:message code="welcome.searchingBandsButton"/>
                         </button>
                     </a>
                     <a href="<c:url value="/newAudition"/> ">
@@ -147,7 +147,7 @@
                                 type="button"
                                 class="purple-hover-button"
                         >
-                            <spring:message code="home.searchingArtistsButton"/>
+                            <spring:message code="welcome.searchingArtistsButton"/>
                         </button>
                     </a>
                 </div>
@@ -157,27 +157,27 @@
         <%--        Log in --%>
         <div class="login-box">
             <div id="login" style="display: block;">
-                <form action="<c:url value="/login"/> " method="post">
+                <form action="<c:url value="/welcome"/> " method="post">
                     <div class="form-group">
-                        <label for="username" class="form-label">
-                            <spring:message code="home.username"/>
+                        <label for="email" class="form-label">
+                            <spring:message code="welcome.email"/>
                         </label>
-                        <input type="text" class="form-input" id="username" name="username"
-                               placeholder="<spring:message code="home.username"/>"/>
+                        <input type="text" class="form-input" id="email" name="email"
+                               placeholder="<spring:message code="welcome.email"/>"/>
                     </div>
                     <div class="form-group">
                         <label for="password" class="form-label">
-                            <spring:message code="home.password"/>
+                            <spring:message code="welcome.password"/>
                         </label>
                         <input type="password" class="form-input" id="password" name="password"
-                               placeholder="<spring:message code="home.password"/>"/>
+                               placeholder="<spring:message code="welcome.password"/>"/>
                     </div>
                     <div style="display: flex; flex-direction: row-reverse"><button type="submit" class="purple-hover-button">
-                        <spring:message code="home.loginButton"/>
+                        <spring:message code="welcome.loginButton"/>
                     </button></div>
                 </form>
-                <p><spring:message code="home.notMemberYet"/></p>
-                <u onclick="toggleAuth()" style="cursor: pointer;"><spring:message code="home.registerButton" /></u>
+                <p><spring:message code="welcome.notMemberYet"/></p>
+                <u onclick="toggleAuth()" style="cursor: pointer;"><spring:message code="welcome.registerButton" /></u>
             </div>
             <div id="register" style="display: none;">
                 <img onclick="toggleAuth()"
@@ -186,28 +186,28 @@
                 <form action="<c:url value="/register"/> " method="post">
                     <div class="form-group">
                         <label for="usernameRegister" class="form-label">
-                            <spring:message code="home.username"/>
+                            <spring:message code="welcome.email"/>
                         </label>
                         <input type="text" class="form-input" id="usernameRegister" name="usernameRegister"
-                               placeholder="<spring:message code="home.username"/>"/>
+                               placeholder="<spring:message code="welcome.email"/>"/>
                     </div>
                     <div class="form-group">
                         <label for="passwordRegister" class="form-label">
-                            <spring:message code="home.password"/>
+                            <spring:message code="welcome.password"/>
                         </label>
                         <input type="password" class="form-input" id="passwordRegister" name="passwordRegister"
-                               placeholder="<spring:message code="home.password"/>"/>
+                               placeholder="<spring:message code="welcome.password"/>"/>
                     </div>
                     <div class="form-group">
                         <label for="passwordRegister2" class="form-label">
-                            <spring:message code="home.repeatPassword"/>
+                            <spring:message code="welcome.repeatPassword"/>
                         </label>
                         <input type="password" class="form-input" id="passwordRegister2" name="passwordRegister2"
-                               placeholder="<spring:message code="home.repeatPassword"/>"/>
+                               placeholder="<spring:message code="welcome.repeatPassword"/>"/>
                     </div>
                     <div style="display: flex; flex-direction: row-reverse">
                         <button type="submit" class="purple-hover-button">
-                            <spring:message code="home.registerButton"/>
+                            <spring:message code="welcome.registerButton"/>
                         </button>
                     </div>
                 </form>

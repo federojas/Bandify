@@ -5,7 +5,7 @@
 <html>
 <head>
     <c:import url="../config/generalHead.jsp"/>
-    <link rel="stylesheet" href="<c:url value="${pageContext.request.contextPath}/resources/css/home.css" />" />
+    <link rel="stylesheet" href="<c:url value="${pageContext.request.contextPath}/resources/css/welcome.css" />" />
     <link rel="stylesheet" href="<c:url value="${pageContext.request.contextPath}/resources/css/forms.css" />">
     <style>
         /*body {*/
@@ -54,9 +54,9 @@
 
     <!-- Formulario -->
     <div class="card-content" id="form-post">
-        <h1><spring:message code="home.formSectionh1"/></h1>
+        <h1><spring:message code="welcome.formSectionh1"/></h1>
         <br/>
-        <h1><spring:message code="home.formSectionh2"/></h1>
+        <h1><spring:message code="welcome.formSectionh2"/></h1>
         <c:url value="/postAudition" var="postPath" />
         <!-- Form box -->
         <div class="inner-box-form" id="form-post-title">
@@ -68,7 +68,7 @@
             >
                 <div>
                     <form:label class="form-label" path="title">
-                        <spring:message code="home.form.title"/>
+                        <spring:message code="welcome.form.title"/>
                     </form:label>
                     <spring:message code="audition.form.title.placeholder" var="titleplaceholder" />
                     <form:input type="text"  maxlength="50" placeholder="${titleplaceholder}" class="form-input" path="title" />
@@ -77,7 +77,7 @@
                 </div>
                 <div>
                     <form:label class="form-label" path="description">
-                        <spring:message code="home.form.description"/>
+                        <spring:message code="welcome.form.description"/>
                     </form:label>
                     <spring:message code="audition.form.description.placeholder" var="descriptionplaceholder" />
                     <form:textarea
@@ -91,14 +91,14 @@
                 </div>
                 <div>
                     <form:label class="form-label" path="location">
-                        <spring:message code="home.form.location"/>
+                        <spring:message code="welcome.form.location"/>
                     </form:label>
                     <form:select
                             class="form-input"
                             path="location"
                             multiple="false"
                     >
-                        <form:option value="0" selected="true" disabled="disabled" hidden="true"><spring:message code="home.form.location.default"/></form:option>
+                        <form:option value="0" selected="true" disabled="disabled" hidden="true"><spring:message code="welcome.form.location.default"/></form:option>
                         <c:forEach
                                 var="location"
                                 items="${locationList}"
@@ -114,7 +114,7 @@
                 </div>
                 <div>
                     <form:label class="form-label" path="email">
-                        <spring:message code="home.form.email"/>
+                        <spring:message code="welcome.form.email"/>
                     </form:label>
                     <spring:message code="audition.form.email.placeholder" var="emailplaceholder" />
                     <form:input type="text"  maxlength="254" placeholder="${emailplaceholder}" class="form-input" path="email" />
@@ -122,7 +122,7 @@
                     <form:errors path="email" element="p" cssClass="error"> </form:errors>
                 </div>
                 <div>
-                    <form:label class="form-label" for="musicGenres" path="musicGenres"> <spring:message code="home.form.musicGenres"/> </form:label>
+                    <form:label class="form-label" for="musicGenres" path="musicGenres"> <spring:message code="welcome.form.musicGenres"/> </form:label>
                     <form:label class="form-label-legend" for="musicGenres" path="musicGenres"> <spring:message code="audition.form.musicGenres.maxSelect"/> </form:label>
                     <form:select
                             class="multiple-select form-input"
@@ -137,7 +137,7 @@
                     </form:errors>
                 </div>
                 <div>
-                    <form:label class="form-label" for="lookingFor" path="lookingFor"> <spring:message code="home.form.lookingFor"/> </form:label>
+                    <form:label class="form-label" for="lookingFor" path="lookingFor"> <spring:message code="welcome.form.lookingFor"/> </form:label>
                     <form:label class="form-label-legend" for="lookingFor" path="lookingFor"> <spring:message code="audition.form.lookingFor.maxSelect"/> </form:label>
                     <form:select
                             class="multiple-select form-input"
@@ -156,7 +156,7 @@
                             type="submit"
                             class="purple-button"
                     >
-                        <spring:message code="home.postButton"/>
+                        <spring:message code="welcome.postButton"/>
                     </button>
                 </div>
             </form:form>
