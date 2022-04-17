@@ -10,7 +10,7 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Questrial"
     />
-    <link rel="stylesheet" href="public/styles/forms.css">
+    <link rel="stylesheet" href="<c:url value="${pageContext.request.contextPath}/resources/css/forms.css" />">
 </head>
 <body>
 <div class="applicationForm">

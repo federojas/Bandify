@@ -4,18 +4,10 @@ contentType="text/html;charset=UTF-8" language="java" %> <%@ taglib
 prefix="spring" uri="http://www.springframework.org/tags"%>
 <html>
   <head>
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css?family=Questrial"
-    />
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><spring:message code="home.title"/></title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="public/styles/home.css" />
+    <c:import url="../config/generalHead.jsp" />
+    <link rel="stylesheet" href="<c:url value="${pageContext.request.contextPath}/resources/css/home.css" />" />
     <style>
       body {
-        font-family: "Questrial", sans-serif;
         /* gray-100 */
         --tw-bg-opacity: 1;
         background-color: rgb(243 244 246 / var(--tw-bg-opacity));
@@ -44,7 +36,7 @@ prefix="spring" uri="http://www.springframework.org/tags"%>
   </head>
   <body>
     <!-- Navbar -->
-    <jsp:include page="navbar.jsp">
+    <jsp:include page="../components/navbar.jsp">
       <jsp:param name="navItem" value="${2}" />
       <jsp:param name="name" value="Bandify" />
     </jsp:include>
@@ -67,7 +59,7 @@ prefix="spring" uri="http://www.springframework.org/tags"%>
             value="${audition.musicGenres}"
             scope="request"
           />
-          <jsp:include page="postCard.jsp">
+          <jsp:include page="../components/postCard.jsp">
             <jsp:param name="id" value="${audition.id}" />
             <jsp:param name="postCard" value="${1}" />
             <jsp:param name="auditionDate" value="${audition.timeElapsed}" />

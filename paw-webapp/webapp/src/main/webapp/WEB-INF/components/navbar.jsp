@@ -5,7 +5,6 @@
 
 <html>
 <head>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Questrial">
     <style>
         nav {
             background-color: #1c041c;
@@ -63,7 +62,7 @@
         }
 
         .bandify-logo {
-            width: 5rem;
+            width: 2.5rem;
         }
 
         #mobile-menu > ul {
@@ -93,7 +92,9 @@
         <a href="<c:url value="/"/>" class="flex items-center">
             <spring:message code="img.alt.logo" var="bandify" />
             <img
-                    src="public/images/logo.png"
+                    src=
+                    "<c:url value="${pageContext.request.contextPath}/resources/images/logo.png" />"
+
                     class="bandify-logo"
                     alt="${bandify}"
             />
@@ -107,13 +108,6 @@
             <ul>
                 <li>
                     <a
-                            href="<c:url value="/"/>"
-                            class="${param.navItem == 1? "block py-2 pr-4 pl-3 text-white font-black rounded text-2xl" : "block py-2 pr-4 pl-3 text-white rounded text-2xl" }"
-                    ><spring:message code="navbar.home"/></a
-                    >
-                </li>
-                <li>
-                    <a
                             href="<c:url value="/auditions"/>"
                             class="${param.navItem == 2? "block py-2 pr-4 pl-3 text-white font-black rounded text-2xl" : "block py-2 pr-4 pl-3 text-white rounded text-2xl" }"
                     ><spring:message code="navbar.auditions"/></a
@@ -124,6 +118,13 @@
                             href="<c:url value="/newAudition"/>"
                             class="${param.navItem == 3? "block py-2 pr-4 pl-3 text-white font-black rounded text-2xl" : "block py-2 pr-4 pl-3 text-white rounded text-2xl" }"
                     ><spring:message code="navbar.post"/></a
+                    >
+                </li>
+                <li>
+                    <a
+                            href="<c:url value="/profile"/>"
+                            class="${param.navItem == 4? "block py-2 pr-4 pl-3 text-white font-black rounded text-2xl" : "block py-2 pr-4 pl-3 text-white rounded text-2xl" }"
+                    ><spring:message code="navbar.profile"/></a
                     >
                 </li>
             </ul>
