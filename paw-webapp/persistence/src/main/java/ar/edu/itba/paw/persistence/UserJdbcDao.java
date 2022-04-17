@@ -61,6 +61,12 @@ public class UserJdbcDao implements UserDao {
 
     @Override
     public Optional<User> findByEmail(String email) {
+        final List<User.UserBuilder> list = jdbcTemplate.query("SELECT * FROM users WHERE email = ?", new Object[] { email }, ROW_MAPPER);
+        Optional<User.UserBuilder> op = list.stream().findFirst();
+        if (op.isPresent()) {
+            User user = op.get().build();
+            return Optional.of(user);
+        }
         return Optional.empty();
     }
 

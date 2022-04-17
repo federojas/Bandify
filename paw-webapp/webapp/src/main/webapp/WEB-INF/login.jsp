@@ -5,18 +5,18 @@
 <c:url value="/login" var="loginUrl" />
 <form action="${loginUrl}" method="post" enctype="application/x-www-form-urlencoded">
     <div>
-        <label for="username">Username: </label>
-        <input id="username" name="j_username" type="text"/>
+        <label for="email">Email: </label>
+        <input id="email" name="email" type="text"/>
     </div>
     <div>
         <label for="password">Password: </label>
-        <input id="password" name="j_password" type="password"/>
+        <input id="password" name="password" type="password"/>
     </div>
     <div>
-       <label> <spring:message  text="Recordarme: "  />  <%-- code="remember_me"--%> <input name="j_rememberme" type="checkbox"/>  </label>
+       <label> <spring:message  text="Remember me: " />  <input name="rememberme" type="checkbox"/>  </label>
     </div>
     <div>
-        <input type="submit" value="Login!"/>
+        <input type="submit" value="Log in"/>
     </div>
 </form>
 </body>
