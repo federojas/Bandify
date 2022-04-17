@@ -8,41 +8,41 @@
     <link rel="stylesheet" href="<c:url value="${pageContext.request.contextPath}/resources/css/home.css" />" />
     <link rel="stylesheet" href="<c:url value="${pageContext.request.contextPath}/resources/css/forms.css" />">
     <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            background-color: #f3f4f6;
-        }
-        .card-content {
-            background-color: #ffffff;
-            box-shadow: 0 10px 15px -3px #1c041c1a, 0 4px 6px -2px #1c041c0d;
-            padding: 2.5rem;
-            border-radius: 1rem;
-            width: 60%;
-            margin: 1.5rem auto;
-        }
-        .card-content > h1 {
-            font-size: 2rem;
-            line-height: 1.75rem;
-            font-weight: 700;
-            text-align: center;
-        }
-        .inner-box-form {
-            padding: 0.75rem 1.5rem;
-            margin-top: 1.5rem;
-            border-color: #6c0c8436;
-            border-width: 2px;
-            border-style: dotted;
-            border-radius: 0.75rem;
-            font-size: 1.25rem;
-            line-height: 1.5rem;
-        }
-        .multiple-select {
-            height: fit-content !important;
-        }
-        #auditionForm > div {
-            margin: 1.5rem 0;
-        }
+        /*body {*/
+        /*    display: flex;*/
+        /*    flex-direction: column;*/
+        /*    background-color: #f3f4f6;*/
+        /*}*/
+        /*.card-content {*/
+        /*    background-color: #ffffff;*/
+        /*    box-shadow: 0 10px 15px -3px #1c041c1a, 0 4px 6px -2px #1c041c0d;*/
+        /*    padding: 2.5rem;*/
+        /*    border-radius: 1rem;*/
+        /*    width: 60%;*/
+        /*    margin: 1.5rem auto;*/
+        /*}*/
+        /*.card-content > h1 {*/
+        /*    font-size: 2rem;*/
+        /*    line-height: 1.75rem;*/
+        /*    font-weight: 700;*/
+        /*    text-align: center;*/
+        /*}*/
+        /*.inner-box-form {*/
+        /*    padding: 0.75rem 1.5rem;*/
+        /*    margin-top: 1.5rem;*/
+        /*    border-color: #6c0c8436;*/
+        /*    border-width: 2px;*/
+        /*    border-style: dotted;*/
+        /*    border-radius: 0.75rem;*/
+        /*    font-size: 1.25rem;*/
+        /*    line-height: 1.5rem;*/
+        /*}*/
+        /*.multiple-select {*/
+        /*    height: fit-content !important;*/
+        /*}*/
+        /*#auditionForm > div {*/
+        /*    margin: 1.5rem 0;*/
+        /*}*/
     </style>
 </head>
 <body>

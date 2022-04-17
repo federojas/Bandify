@@ -199,9 +199,9 @@ public class Audition {
                 toAppend = now.getDayOfMonth() - creationDate.getDayOfMonth();
             time.append(toAppend);
             if(toAppend == 1)
-                time.append(" dÃ\u00ADa");
+                time.append(" día");
             else
-                time.append(" dÃ\u00ADas");
+                time.append(" días");
         } else if(creationDate.plusYears(1).isAfter(now)) {
             if(now.getMonthValue() < creationDate.getMonthValue())
                 toAppend = Month.values().length - creationDate.getMonthValue() + now.getDayOfMonth();
