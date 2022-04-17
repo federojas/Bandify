@@ -1,4 +1,4 @@
-
+//
 //package ar.edu.itba.paw.persistence;
 //
 //import static org.junit.Assert.*;
@@ -22,7 +22,7 @@
 //
 //@RunWith(SpringJUnit4ClassRunner.class)
 //@ContextConfiguration(classes = TestConfig.class)
-//@Sql("classpath:schema.sql")
+//@Sql("classpath:test.sql")
 //public class AuditionJdbcDaoTest {
 //
 //    private static final String TITLE = "TestTitle";
@@ -50,6 +50,9 @@
 //    public void setUp() {
 //        jdbcTemplate = new JdbcTemplate(dataSource);
 //        JdbcTestUtils.deleteFromTables(jdbcTemplate, "auditions");
+//        JdbcTestUtils.deleteFromTables(jdbcTemplate, "locations");
+//        JdbcTestUtils.deleteFromTables(jdbcTemplate, "genres");
+//        JdbcTestUtils.deleteFromTables(jdbcTemplate, "roles");
 //    }
 //
 //    @Test
@@ -59,11 +62,13 @@
 //        List<Role> roleList = new ArrayList<>();
 //        roleList.add(ROLE);
 //
-//        final Audition audition = auditionJdbcDao.create(new Audition.AuditionBuilder(TITLE, DESCRIPTION, EMAIL, BANDID, LOCALTIME).id(ID).location(LOCATION).musicGenres(genreList).lookingFor(roleList));
-//        final Audition audition2 = auditionJdbcDao.create(new Audition.AuditionBuilder(TITLE, DESCRIPTION, EMAIL, BANDID, LOCALTIME).id(ID2).location(LOCATION).musicGenres(genreList).lookingFor(roleList));
+//        Audition.AuditionBuilder builder = new Audition.AuditionBuilder(TITLE, DESCRIPTION, EMAIL, BANDID, LOCALTIME).id(ID).location(LOCATION).musicGenres(genreList).lookingFor(roleList);
 //
+//        final Audition audition = auditionJdbcDao.create(builder);
+//        //final Audition audition2 = auditionJdbcDao.create(new Audition.AuditionBuilder(TITLE, DESCRIPTION, EMAIL, BANDID, LOCALTIME).id(ID2).location(LOCATION).musicGenres(genreList).lookingFor(roleList));
+//        System.out.println(audition.getId());
 //        assertNotNull(audition);
-//        assertNotNull(audition2);
+//        //assertNotNull(audition2);
 //    }
 //
 //    @Test
@@ -89,6 +94,6 @@
 //
 //        final List<Audition> auditions = auditionJdbcDao.getAll(PAGE);
 //
-//        assertEquals(2, auditions.size());
+//        assertEquals(1, auditions.size());
 //    }
 //}

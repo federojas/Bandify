@@ -112,6 +112,19 @@ public class Audition {
         lookingFor = builder.lookingFor;
     }
 
+    public Audition(long id, long bandId, String title, String description, String email, LocalDateTime creationDate, Location location, List<Genre> musicGenres, List<Role> lookingFor) {
+        this.id = id;
+        this.bandId = bandId;
+        this.title = title;
+        this.description = description;
+        this.email = email;
+        this.creationDate = creationDate;
+        this.location = location;
+        this.musicGenres = musicGenres;
+        this.lookingFor = lookingFor;
+        this.timeElapsed = creationDate.toString();
+    }
+
     public String getEmail() {
         return email;
     }
