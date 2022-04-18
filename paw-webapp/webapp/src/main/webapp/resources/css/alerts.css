@@ -40,3 +40,9 @@
     from {bottom: 30px; opacity: 1;}
     to {bottom: 0; opacity: 0;}
 }
+
+.wrongMessage{
+    color: #b91c1c;
+    visibility: hidden;
+    z-index: 1;
+}
