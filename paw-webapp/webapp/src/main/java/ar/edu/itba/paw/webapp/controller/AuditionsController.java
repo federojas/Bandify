@@ -43,7 +43,10 @@ public class AuditionsController {
         this.mailingService = mailingService;
     }
 
-
+    @RequestMapping(value = "/", method = {RequestMethod.GET})
+    public ModelAndView home() {
+        return auditions();
+    }
 
     @RequestMapping(value = "/auditions", method = {RequestMethod.GET})
     public ModelAndView auditions() {

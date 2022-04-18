@@ -6,7 +6,7 @@
 <html>
 <head>
     <c:import url="../config/generalHead.jsp" />
-    <link rel="stylesheet" href="<c:url value="${pageContext.request.contextPath}/resources/css/home.css" />"/>
+    <link rel="stylesheet" href="<c:url value="${pageContext.request.contextPath}/resources/css/welcome.css" />"/>
     <style>
         .success-content {
             display: flex;

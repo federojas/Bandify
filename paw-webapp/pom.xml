@@ -6,6 +6,9 @@
   <artifactId>paw-webapp</artifactId>
   <version>1.0-SNAPSHOT</version>
 
+  <packaging>pom</packaging>
+  <name>paw-webapp</name>
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
@@ -24,6 +27,11 @@
     <javax.mail.version>1.6.2</javax.mail.version>
     <org.thymeleaf.version>3.0.11.RELEASE</org.thymeleaf.version>
     <joda.time.version>2.10.14</joda.time.version>
+    <spring-security.version>4.0.4.RELEASE</spring-security.version>
+    <org.slf4j.version>1.7.5</org.slf4j.version>
+    <logback.version>1.1.2</logback.version>
+    <logback-ext-spring.version>0.1.1</logback-ext-spring.version>
+    <maven-war-plugin.version>2.6</maven-war-plugin.version>
   </properties>
 
   <dependencyManagement>
@@ -108,11 +116,62 @@
         <artifactId>joda-time</artifactId>
         <version>${joda.time.version}</version>
       </dependency>
+      <dependency>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-core</artifactId>
+        <version>${spring-security.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-web</artifactId>
+        <version>${spring-security.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-config</artifactId>
+        <version>${spring-security.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>${org.slf4j.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>ch.qos.logback</groupId>
+        <artifactId>logback-classic</artifactId>
+        <version>${logback.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>ch.qos.logback</groupId>
+        <artifactId>logback-core</artifactId>
+        <version>${logback.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>jcl-over-slf4j</artifactId>
+        <version>${org.slf4j.version}</version>
+      </dependency>
+      <dependency>
+      <groupId>org.logback-extensions</groupId>
+      <artifactId>logback-ext-spring</artifactId>
+        <version>${logback-ext-spring.version}</version>
+        <scope>runtime</scope>
+      </dependency>
     </dependencies>
   </dependencyManagement>
-  
-  <packaging>pom</packaging>
-  <name>paw-webapp</name>
+
+ <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>${maven-war-plugin.version}</version>
+        <configuration>
+          <packagingExcludes>**/logback-test.xml</packagingExcludes>
+        </configuration>
+      </plugin>
+    </plugins>
+</build>
 
   <modules>
     <module>webapp</module>

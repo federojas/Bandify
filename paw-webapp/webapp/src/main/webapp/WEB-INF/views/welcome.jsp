@@ -7,19 +7,6 @@
 <head>
     <c:import url="../config/generalHead.jsp"/>
     <link rel="stylesheet" href="<c:url value="${pageContext.request.contextPath}/resources/css/forms.css" />"/>
-    <script>
-        function toggleAuth() {
-            let register = document.getElementById("register");
-            let login = document.getElementById("login");
-            if (register.style.display === "none") {
-                register.style.display = "block";
-                login.style.display = "none";
-            } else {
-                register.style.display = "none";
-                login.style.display = "block";
-            }
-        }
-    </script>
     <style>
         body {
             /* gray-100 */
@@ -129,17 +116,17 @@
         <img src="<c:url value="${pageContext.request.contextPath}/resources/images/guitar.png"/>" alt="${guitar}"/>
         <%-- Hero text   --%>
         <div class="hero-title">
-            <span><spring:message code="home.slogan1"/></span>
-            <p><spring:message code="home.slogan2"/></p>
+            <span><spring:message code="welcome.slogan1"/></span>
+            <p><spring:message code="welcome.slogan2"/></p>
             <div class="hero-buttons">
-                <p><spring:message code="home.options"/></p>
+                <p><spring:message code="welcome.options"/></p>
                 <div class="buttons">
                     <a href="<c:url value="/auditions"/> ">
                         <button
                                 type="button"
                                 class="purple-hover-button "
                         >
-                            <spring:message code="home.searchingBandsButton"/>
+                            <spring:message code="welcome.searchingBandsButton"/>
                         </button>
                     </a>
                     <a href="<c:url value="/newAudition"/> ">
@@ -147,7 +134,7 @@
                                 type="button"
                                 class="purple-hover-button"
                         >
-                            <spring:message code="home.searchingArtistsButton"/>
+                            <spring:message code="welcome.searchingArtistsButton"/>
                         </button>
                     </a>
                 </div>
@@ -157,60 +144,30 @@
         <%--        Log in --%>
         <div class="login-box">
             <div id="login" style="display: block;">
-                <form action="<c:url value="/login"/> " method="post">
+                <form action="<c:url value="/welcome"/> " method="post">
                     <div class="form-group">
-                        <label for="username" class="form-label">
-                            <spring:message code="home.username"/>
+                        <label for="email" class="form-label">
+                            <spring:message code="welcome.email"/>
                         </label>
-                        <input type="text" class="form-input" id="username" name="username"
-                               placeholder="<spring:message code="home.username"/>"/>
+                        <input type="text" class="form-input" id="email" name="email"
+                               placeholder="<spring:message code="welcome.email"/>"/>
                     </div>
                     <div class="form-group">
                         <label for="password" class="form-label">
-                            <spring:message code="home.password"/>
+                            <spring:message code="welcome.password"/>
                         </label>
                         <input type="password" class="form-input" id="password" name="password"
-                               placeholder="<spring:message code="home.password"/>"/>
+                               placeholder="<spring:message code="welcome.password"/>"/>
                     </div>
-                    <div style="display: flex; flex-direction: row-reverse"><button type="submit" class="purple-hover-button">
-                        <spring:message code="home.loginButton"/>
-                    </button></div>
-                </form>
-                <p><spring:message code="home.notMemberYet"/></p>
-                <u onclick="toggleAuth()" style="cursor: pointer;"><spring:message code="home.registerButton" /></u>
-            </div>
-            <div id="register" style="display: none;">
-                <img onclick="toggleAuth()"
-                     style="width: 1.5rem; height: 1.5rem; cursor: pointer; margin-top: 0.5rem;"
-                        src="<c:url value="${pageContext.request.contextPath}/resources/icons/arrow-small-left-free-icon-font.svg" />" alt="back"/>
-                <form action="<c:url value="/register"/> " method="post">
-                    <div class="form-group">
-                        <label for="usernameRegister" class="form-label">
-                            <spring:message code="home.username"/>
-                        </label>
-                        <input type="text" class="form-input" id="usernameRegister" name="usernameRegister"
-                               placeholder="<spring:message code="home.username"/>"/>
-                    </div>
-                    <div class="form-group">
-                        <label for="passwordRegister" class="form-label">
-                            <spring:message code="home.password"/>
-                        </label>
-                        <input type="password" class="form-input" id="passwordRegister" name="passwordRegister"
-                               placeholder="<spring:message code="home.password"/>"/>
-                    </div>
-                    <div class="form-group">
-                        <label for="passwordRegister2" class="form-label">
-                            <spring:message code="home.repeatPassword"/>
-                        </label>
-                        <input type="password" class="form-input" id="passwordRegister2" name="passwordRegister2"
-                               placeholder="<spring:message code="home.repeatPassword"/>"/>
-                    </div>
-                    <div style="display: flex; flex-direction: row-reverse">
+                    <div class="end-button-div">
                         <button type="submit" class="purple-hover-button">
-                            <spring:message code="home.registerButton"/>
+                            <spring:message code="welcome.loginButton"/>
                         </button>
                     </div>
                 </form>
+                <p><spring:message code="welcome.notMemberYet"/></p>
+                <a href="<c:url value="/register"/>"><u style="cursor: pointer;"><spring:message code="welcome.registerButton"/></u></a>
+
             </div>
         </div>
     </div>
