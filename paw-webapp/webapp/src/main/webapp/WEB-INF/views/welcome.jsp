@@ -166,7 +166,7 @@
                     </div>
                 </form>
                 <p><spring:message code="welcome.notMemberYet"/></p>
-                <a href="/register"><u style="cursor: pointer;"><spring:message code="welcome.registerButton"/></u></a>
+                <a href="<c:url value="/register"/>"><u style="cursor: pointer;"><spring:message code="welcome.registerButton"/></u></a>
 
             </div>
         </div>

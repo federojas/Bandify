@@ -2,6 +2,8 @@ package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.service.UserService;
+import ar.edu.itba.paw.webapp.form.UserArtistForm;
+import ar.edu.itba.paw.webapp.form.UserBandForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ar.edu.itba.paw.webapp.form.UserForm;
@@ -27,30 +29,52 @@ public class UserController {
         this.userService = userService;
     }
 
-    @RequestMapping(value = "/register", method = {RequestMethod.POST})
-    public ModelAndView register(@Valid @ModelAttribute("userForm") final UserForm userForm,
-                                 final BindingResult errors) {
+    @RequestMapping(value = "/register", method = {RequestMethod.GET})
+    public ModelAndView registerView() {
+        return new ModelAndView("views/register");
+    }
 
+    @RequestMapping(value = "/registerBand", method = {RequestMethod.GET})
+    public ModelAndView registerBandView( @ModelAttribute("userBandForm") final UserBandForm userBandForm) {
+        return new ModelAndView("views/registerBand");
+    }
+
+    @RequestMapping(value = "/registerBand", method = {RequestMethod.POST})
+    public ModelAndView registerBand(@Valid @ModelAttribute("userBandForm") final UserBandForm userBandForm,
+                                     final BindingResult errors) {
         if (errors.hasErrors()) {
-            return registerView(userForm);
+            return registerBandView(userBandForm);
         }
 
-        User.UserBuilder user = new User.UserBuilder(
-                userForm.getEmail(), userForm.getPassword(),
-                userForm.getName(), userForm.isBand(),
-                userForm.isAdmin()
-        ).surname(userForm.getSurname());
+        User.UserBuilder user = new User.UserBuilder(userBandForm.getEmail(), userBandForm.getPassword(),
+                userBandForm.getName(), userBandForm.isBand(), userBandForm.isAdmin());
 
         userService.create(user);
         LOGGER.debug("User with mail {} created", user.getEmail());
 
         return new WelcomeController().welcome();
-//        return new ModelAndView("views/auditions");
     }
 
-    @RequestMapping(value = "/register", method = {RequestMethod.GET})
-    public ModelAndView registerView( @ModelAttribute("userForm") final UserForm userForm) {
-        return new ModelAndView("views/register");
+    @RequestMapping(value = "/registerArtist", method = {RequestMethod.GET})
+    public ModelAndView registerArtistView( @ModelAttribute("userArtistForm") final UserArtistForm userArtistForm) {
+        return new ModelAndView("views/registerArtist");
+    }
+
+    @RequestMapping(value = "/registerArtist", method = {RequestMethod.POST})
+    public ModelAndView registerArtist(@Valid @ModelAttribute("userArtistForm") final UserArtistForm userArtistForm,
+                                       final BindingResult errors) {
+        if (errors.hasErrors()) {
+            return registerArtistView(userArtistForm);
+        }
+
+        User.UserBuilder user = new User.UserBuilder(userArtistForm.getEmail(), userArtistForm.getPassword(),
+                userArtistForm.getName(), userArtistForm.isBand(), userArtistForm.isAdmin())
+                .surname(userArtistForm.getSurname());
+
+        userService.create(user);
+        LOGGER.debug("User with mail {} created", user.getEmail());
+
+        return new WelcomeController().welcome();
     }
 
 }

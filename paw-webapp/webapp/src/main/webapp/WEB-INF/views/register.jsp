@@ -29,12 +29,6 @@
             font-weight: 600;
         }
     </style>
-
-    <script>
-        if (document.getElementById('band-radio').checked) {
-            document.getElementById('surname-div').style.display = 'none';
-        }
-    </script>
 </head>
 <body>
 <!-- Navbar -->
@@ -43,75 +37,10 @@
     <jsp:param name="name" value="Bandify"/>
 </jsp:include>
 
-<div class="register-content">
-    <c:url value="/register" var="registerUrl"/>
-    <form:form
-            modelAttribute="userForm"
-            action="${registerUrl}"
-            method="post"
-            acceptCharset="utf-8"
-            class="box"
-    >
-        <div>
-            <form:label class="form-label" path="band">
-                <spring:message code="register.iam"/>
-            </form:label>
-            <div class="form-input">
-                <form:radiobutton id="artist-radio" path="band" value="false"/>
-                <spring:message code="register.artist_word"/>
-            </div>
-            <div class="form-input"><form:radiobutton id="band-radio" path="band" value="true"/>
-                <spring:message code="register.band_word"/></div>
-
-
-        </div>
-        <div>
-            <form:label class="form-label" path="email">
-                <spring:message code="register.form.email"/>
-            </form:label>
-            <spring:message code="register.form.emailplaceholder" var="emailplaceholder"/>
-            <form:input type="text" maxlength="50" placeholder="${emailplaceholder}" class="form-input" path="email"/>
-            <form:errors path="email" element="p" cssClass="error"> </form:errors>
-        </div>
-
-        <div>
-            <form:label class="form-label" path="password">
-                <spring:message code="register.form.password"/>
-            </form:label>
-            <spring:message code="register.form.passwordplaceholder" var="passwordplaceholder"/>
-            <form:input type="password" maxlength="50" placeholder="${passwordplaceholder}" class="form-input"
-                        path="password"/>
-            <form:errors path="password" element="p" cssClass="error"> </form:errors>
-        </div>
-
-        <div>
-            <form:label class="form-label" path="name">
-                <spring:message code="register.form.name"/>
-            </form:label>
-            <spring:message code="register.form.nameplaceholder" var="nameplaceholder"/>
-            <form:input type="text" maxlength="50" placeholder="${nameplaceholder}" class="form-input" path="name"/>
-            <form:errors path="name" element="p" cssClass="error"> </form:errors>
-        </div>
-
-        <div id="surname-div">
-            <form:label class="form-label" path="surname">
-                <spring:message code="register.form.surname"/>
-            </form:label>
-            <spring:message code="register.form.surnameplaceholder" var="surnameplaceholder"/>
-            <form:input type="text" maxlength="50" placeholder="${surnameplaceholder}" class="form-input"
-                        path="surname"/>
-            <form:errors path="surname" element="p" cssClass="error"> </form:errors>
-        </div>
-
-        <div class="end-button-div">
-            <button
-                    type="submit"
-                    class="purple-button"
-            >
-                <spring:message code="register.postButton"/>
-            </button>
-        </div>
-    </form:form>
+<div class="register-content flex flex-col">
+    REGISTER
+    <a href="<c:url value="/registerArtist"/>">ARTIST</a>
+    <a href="<c:url value="/registerBand"/>">BAND</a>
 </div>
 
 

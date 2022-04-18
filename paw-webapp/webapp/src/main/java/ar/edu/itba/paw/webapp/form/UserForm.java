@@ -19,10 +19,6 @@ public class UserForm {
     @Size(max = 50)
     private String name;
 
-    @NotBlank
-    @Size(max = 50)
-    private String surname;
-
     private boolean isBand, isAdmin;
 
     public String getEmail() {
@@ -47,14 +43,6 @@ public class UserForm {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
     }
 
     public boolean isBand() {
