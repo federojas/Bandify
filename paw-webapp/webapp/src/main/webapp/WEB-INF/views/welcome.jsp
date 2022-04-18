@@ -7,19 +7,6 @@
 <head>
     <c:import url="../config/generalHead.jsp"/>
     <link rel="stylesheet" href="<c:url value="${pageContext.request.contextPath}/resources/css/forms.css" />"/>
-    <script>
-        function toggleAuth() {
-            let register = document.getElementById("register");
-            let login = document.getElementById("login");
-            if (register.style.display === "none") {
-                register.style.display = "block";
-                login.style.display = "none";
-            } else {
-                register.style.display = "none";
-                login.style.display = "block";
-            }
-        }
-    </script>
     <style>
         body {
             /* gray-100 */
@@ -172,12 +159,15 @@
                         <input type="password" class="form-input" id="password" name="password"
                                placeholder="<spring:message code="welcome.password"/>"/>
                     </div>
-                    <div style="display: flex; flex-direction: row-reverse"><button type="submit" class="purple-hover-button">
-                        <spring:message code="welcome.loginButton"/>
-                    </button></div>
+                    <div class="end-button-div">
+                        <button type="submit" class="purple-hover-button">
+                            <spring:message code="welcome.loginButton"/>
+                        </button>
+                    </div>
                 </form>
                 <p><spring:message code="welcome.notMemberYet"/></p>
-                <u onclick="toggleAuth()" style="cursor: pointer;"><spring:message code="welcome.registerButton" /></u>
+                <a href="/register"><u style="cursor: pointer;"><spring:message code="welcome.registerButton"/></u></a>
+
             </div>
         </div>
     </div>

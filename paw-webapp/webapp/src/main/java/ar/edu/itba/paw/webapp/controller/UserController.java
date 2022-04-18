@@ -43,7 +43,9 @@ public class UserController {
 
         userService.create(user);
         LOGGER.debug("User with mail {} created", user.getEmail());
-        return new ModelAndView("views/auditions");
+
+        return new WelcomeController().welcome();
+//        return new ModelAndView("views/auditions");
     }
 
     @RequestMapping(value = "/register", method = {RequestMethod.GET})
