@@ -4,7 +4,6 @@ import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ar.edu.itba.paw.webapp.form.ApplicationForm;
 import ar.edu.itba.paw.webapp.form.UserForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,14 +16,14 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 
 @Controller
-public class RegisterController {
+public class UserController {
 
     private final UserService userService;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RegisterController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
-    public RegisterController(UserService userService) {
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 
