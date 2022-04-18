@@ -52,7 +52,7 @@
                 <spring:message code="register.form.email"/>
             </form:label>
             <spring:message code="register.form.emailplaceholder" var="emailplaceholder"/>
-            <form:input type="text" maxlength="50" placeholder="${emailplaceholder}" class="form-input" path="email"/>
+            <form:input type="text" maxlength="250" placeholder="${emailplaceholder}" class="form-input" path="email"/>
             <form:errors path="email" element="p" cssClass="error"> </form:errors>
         </div>
 

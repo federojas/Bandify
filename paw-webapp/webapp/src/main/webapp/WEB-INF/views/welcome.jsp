@@ -6,6 +6,8 @@
 <html>
 <head>
     <c:import url="../config/generalHead.jsp"/>
+    <link rel="stylesheet" href="<c:url value="${pageContext.request.contextPath}/resources/css/alerts.css" />"/>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/formchecks.js"></script>
     <link rel="stylesheet" href="<c:url value="${pageContext.request.contextPath}/resources/css/forms.css" />"/>
     <style>
         body {
@@ -98,8 +100,27 @@
             line-height: 1.5rem;
             font-weight: 600;
         }
+        
 
     </style>
+    <script>
+        function loginFormCheck(){
+            password=document.getElementById("password").value;
+            email=document.getElementById("email").value;
+            validForm=true;
+            sendForm=true;
+            if(password.length<=0 || password.length>50 || email.length<=0||email.length>250){
+                valid=false;
+            }
+            if(typeof password!='string'||typeof email != 'string'){
+                sendForm=false;
+            }
+            if(!valid){
+                snackbarMessage()
+            }
+            return sendForm;
+        }
+    </script>
 </head>
 <body>
 <!-- Navbar -->
@@ -152,6 +173,7 @@
                         <input type="text" class="form-input" id="email" name="email"
                                placeholder="<spring:message code="welcome.email"/>"/>
                     </div>
+                    <p style="color: #b91c1c">Email invalido</p>
                     <div class="form-group">
                         <label for="password" class="form-label">
                             <spring:message code="welcome.password"/>
@@ -160,7 +182,7 @@
                                placeholder="<spring:message code="welcome.password"/>"/>
                     </div>
                     <div class="end-button-div">
-                        <button type="submit" class="purple-hover-button">
+                        <button type="submit" onclick="return loginFormCheck()" class="purple-hover-button">
                             <spring:message code="welcome.loginButton"/>
                         </button>
                     </div>
@@ -172,5 +194,7 @@
         </div>
     </div>
 </div>
+<div id="snackbar"><spring:message code="snackbar.message"/></div>
+
 </body>
 </html>
