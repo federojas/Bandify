@@ -47,7 +47,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().authorizeRequests()
                     .antMatchers( "/welcome","/register").anonymous()
                     //.antMatchers("/admin/**").hasRole("ADMIN")
-                    .antMatchers("/apply", "/newAudition", "/postAudition").authenticated()
+                    .antMatchers("/apply", "/newAudition", "/postAudition", "/profile").authenticated()
                     .antMatchers("/**").permitAll()
                 .and().formLogin()
                     .usernameParameter("email")
