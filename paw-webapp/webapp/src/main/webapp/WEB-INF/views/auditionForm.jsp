@@ -7,6 +7,8 @@
     <c:import url="../config/generalHead.jsp"/>
     <link rel="stylesheet" href="<c:url value="${pageContext.request.contextPath}/resources/css/home.css" />" />
     <link rel="stylesheet" href="<c:url value="${pageContext.request.contextPath}/resources/css/forms.css" />">
+    <link rel="stylesheet" href="<c:url value="${pageContext.request.contextPath}/resources/css/alerts.css" />"/>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/formchecks.js"></script>
     <style>
         /*body {*/
         /*    display: flex;*/
@@ -44,6 +46,9 @@
         /*    margin: 1.5rem 0;*/
         /*}*/
     </style>
+    <script>
+
+    </script>
 </head>
 <body>
     <!-- Navbar -->
@@ -71,7 +76,7 @@
                         <spring:message code="home.form.title"/>
                     </form:label>
                     <spring:message code="audition.form.title.placeholder" var="titleplaceholder" />
-                    <form:input type="text"  maxlength="50" placeholder="${titleplaceholder}" class="form-input" path="title" />
+                    <form:input type="text" id="title"  maxlength="50" placeholder="${titleplaceholder}" class="form-input" path="title" />
 
                     <form:errors path="title" element="p" cssClass="error"> </form:errors>
                 </div>
@@ -84,6 +89,7 @@
                             maxlength="300" placeholder="${descriptionplaceholder}"
                             class="form-input"
                             type="text"
+                            id="description"
                             path="description"
                     />
 
@@ -97,6 +103,7 @@
                             class="form-input"
                             path="location"
                             multiple="false"
+                            id="location"
                     >
                         <form:option value="0" selected="true" disabled="disabled" hidden="true"><spring:message code="home.form.location.default"/></form:option>
                         <c:forEach
@@ -117,7 +124,7 @@
                         <spring:message code="home.form.email"/>
                     </form:label>
                     <spring:message code="audition.form.email.placeholder" var="emailplaceholder" />
-                    <form:input type="text"  maxlength="254" placeholder="${emailplaceholder}" class="form-input" path="email" />
+                    <form:input type="text" id="email" maxlength="254" placeholder="${emailplaceholder}" class="form-input" path="email" />
 
                     <form:errors path="email" element="p" cssClass="error"> </form:errors>
                 </div>
@@ -154,6 +161,8 @@
                 <div class="end-button-div">
                     <button
                             type="submit"
+                            value="submit"
+                            onclick="return auditionFormCheck()"
                             class="purple-button"
                     >
                         <spring:message code="home.postButton"/>
@@ -162,5 +171,7 @@
             </form:form>
         </div>
     </div>
+    <div id="snackbar"><spring:message code="snackbar.message"/></div>
+
 </body>
 </html>
