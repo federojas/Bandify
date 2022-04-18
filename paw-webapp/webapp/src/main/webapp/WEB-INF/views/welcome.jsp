@@ -179,39 +179,6 @@
                 <p><spring:message code="welcome.notMemberYet"/></p>
                 <u onclick="toggleAuth()" style="cursor: pointer;"><spring:message code="welcome.registerButton" /></u>
             </div>
-            <div id="register" style="display: none;">
-                <img onclick="toggleAuth()"
-                     style="width: 1.5rem; height: 1.5rem; cursor: pointer; margin-top: 0.5rem;"
-                        src="<c:url value="${pageContext.request.contextPath}/resources/icons/arrow-small-left-free-icon-font.svg" />" alt="back"/>
-                <form action="<c:url value="/register"/> " method="post">
-                    <div class="form-group">
-                        <label for="usernameRegister" class="form-label">
-                            <spring:message code="welcome.email"/>
-                        </label>
-                        <input type="text" class="form-input" id="usernameRegister" name="usernameRegister"
-                               placeholder="<spring:message code="welcome.email"/>"/>
-                    </div>
-                    <div class="form-group">
-                        <label for="passwordRegister" class="form-label">
-                            <spring:message code="welcome.password"/>
-                        </label>
-                        <input type="password" class="form-input" id="passwordRegister" name="passwordRegister"
-                               placeholder="<spring:message code="welcome.password"/>"/>
-                    </div>
-                    <div class="form-group">
-                        <label for="passwordRegister2" class="form-label">
-                            <spring:message code="welcome.repeatPassword"/>
-                        </label>
-                        <input type="password" class="form-input" id="passwordRegister2" name="passwordRegister2"
-                               placeholder="<spring:message code="welcome.repeatPassword"/>"/>
-                    </div>
-                    <div style="display: flex; flex-direction: row-reverse">
-                        <button type="submit" class="purple-hover-button">
-                            <spring:message code="welcome.registerButton"/>
-                        </button>
-                    </div>
-                </form>
-            </div>
         </div>
     </div>
 </div>
