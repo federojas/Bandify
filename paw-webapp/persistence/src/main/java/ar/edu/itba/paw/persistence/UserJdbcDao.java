@@ -46,7 +46,6 @@ public class UserJdbcDao implements UserDao {
     public User create(User.UserBuilder userBuilder) {
         final Map<String, Object> userData = new HashMap<>();
 
-        userData.put("id", userBuilder.getId());
         userData.put("email", userBuilder.getEmail());
         userData.put("password", userBuilder.getPassword());
         userData.put("name", userBuilder.getName());
