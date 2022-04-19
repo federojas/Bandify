@@ -1,5 +1,7 @@
 package ar.edu.itba.paw.service;
 
+import ar.edu.itba.paw.model.User;
+import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.core.env.Environment;
@@ -21,6 +23,7 @@ public class MailingServiceImpl implements MailingService {
 
     private final Session session;
     private final SpringTemplateEngine templateEngine;
+    private final UserService userService;
 
     @Autowired
     Environment environment;
@@ -29,18 +32,19 @@ public class MailingServiceImpl implements MailingService {
     private MessageSource messageSource;
 
     @Autowired
-    public MailingServiceImpl(Session session, SpringTemplateEngine templateEngine) {
+    public MailingServiceImpl(Session session, SpringTemplateEngine templateEngine, UserService userService) {
         this.session = session;
         this.templateEngine = templateEngine;
+        this.userService = userService;
     }
 
     @Async
     @Override
-    public void sendAuditionEmail(String receiverAddress, String senderName, String email, String content, Locale locale) {
-
+    public void sendAuditionEmail(String receiverAddress, User user , String content, Locale locale) {
+        User receiver = getUser(receiverAddress);
         Map<String, Object> variables = new HashMap<>();
-        variables.put("senderName", senderName);
-        variables.put("email", email);
+        variables.put("senderName", user.getName() + " " + user.getSurname());
+        variables.put("email", user.getEmail());
         variables.put("content", content);
         sendThymeLeafAuditionEmail(variables, locale, receiverAddress);
     }
@@ -48,9 +52,14 @@ public class MailingServiceImpl implements MailingService {
     @Async
     @Override
     public void sendRecoverPasswordEmail(String receiverAddress, String token, Locale locale) {
+        User receiver = getUser(receiverAddress);
         Map<String, Object> variables = new HashMap<>();
         variables.put("token", token);
         sendThymeLeafRecoverPasswordEmail(variables, locale, receiverAddress);
+    }
+
+    private User getUser(String email) throws UserNotFoundException {
+        return userService.findByEmail(email).orElseThrow(UserNotFoundException::new);
     }
 
     private void sendThymeLeafRecoverPasswordEmail(Map<String, Object> variables, Locale locale, String receiverAddress) {
@@ -58,7 +67,7 @@ public class MailingServiceImpl implements MailingService {
         ctx.setVariable("token", variables.get("token"));
 
         final String htmlContent = this.templateEngine.process("reset-password.html", ctx);
-        sendMessage(htmlContent, receiverAddress, messageSource.getMessage("audition-application.subject",null,locale).toString() );
+        sendMessage(htmlContent, receiverAddress, messageSource.getMessage("reset-password.subject",null,locale).toString() );
     }
 
     private void sendThymeLeafAuditionEmail(Map<String, Object> variables, Locale locale, String receiverAddress) {
@@ -68,7 +77,7 @@ public class MailingServiceImpl implements MailingService {
         ctx.setVariable("content", variables.get("content"));
 
         final String htmlContent = this.templateEngine.process("audition-application.html", ctx);
-        sendMessage(htmlContent, receiverAddress, messageSource.getMessage("reset-password.subject",null,locale).toString() );
+        sendMessage(htmlContent, receiverAddress, messageSource.getMessage("audition-application.subject",null,locale).toString() );
     }
 
 

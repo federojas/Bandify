@@ -20,6 +20,9 @@ public class ErrorController {
             case 401: {
                 return new ModelAndView("errors/401");
             }
+            case 403: {
+                return new ModelAndView("errors/403");
+            }
             case 404: {
                 return new ModelAndView("errors/404");
             }

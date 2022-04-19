@@ -19,7 +19,7 @@ public class UserForm {
     @Size(max = 50)
     private String name;
 
-    private boolean isBand, isAdmin;
+    private boolean isBand;
 
     public String getEmail() {
         return email;
@@ -53,11 +53,4 @@ public class UserForm {
         isBand = band;
     }
 
-    public boolean isAdmin() {
-        return isAdmin;
-    }
-
-    public void setAdmin(boolean admin) {
-        isAdmin = admin;
-    }
 }

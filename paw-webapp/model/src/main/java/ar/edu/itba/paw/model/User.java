@@ -3,7 +3,7 @@ package ar.edu.itba.paw.model;
 public class User {
     private long id;
     private String email, password, name, surname;
-    private boolean isBand, isAdmin;
+    private boolean isBand;
 
     private User(UserBuilder builder) {
         this.name = builder.name;
@@ -12,7 +12,6 @@ public class User {
         this.password = builder.password;
         this.isBand = builder.isBand;
         this.id = builder.id;
-        this.isAdmin = builder.isAdmin;
     }
 
     public long getId() {
@@ -39,21 +38,17 @@ public class User {
         return isBand;
     }
 
-    public boolean isAdmin() {
-        return isAdmin;
-    }
 
     public static class UserBuilder {
         private long id;
         private String email, password, name, surname;
-        private boolean isBand, isAdmin;
+        private boolean isBand;
 
-        public UserBuilder(String email, String password, String name, boolean isBand, boolean isAdmin) {
+        public UserBuilder(String email, String password, String name, boolean isBand) {
             this.email = email;
             this.password = password;
             this.name = name;
             this.isBand = isBand;
-            this.isAdmin = isAdmin;
         }
 
         public UserBuilder id(long id) {
@@ -110,8 +105,5 @@ public class User {
             return isBand;
         }
 
-        public boolean isAdmin() {
-            return isAdmin;
-        }
     }
 }
