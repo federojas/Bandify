@@ -7,7 +7,8 @@
 <head>
     <c:import url="../config/generalHead.jsp"/>
     <link rel="stylesheet" href="<c:url value="${pageContext.request.contextPath}/resources/css/forms.css" />"/>
-
+    <link rel="stylesheet" href="<c:url value="${pageContext.request.contextPath}/resources/css/alerts.css" />"/>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/formchecks.js"></script>
     <style>
         .register-content {
             display: flex;
@@ -51,8 +52,8 @@
                 <spring:message code="register.form.email"/>
             </form:label>
             <spring:message code="register.form.emailplaceholder" var="emailplaceholder"/>
-            <form:input type="text" maxlength="50" placeholder="${emailplaceholder}" class="form-input" path="email"/>
-            <form:errors path="email" element="p" cssClass="error"> </form:errors>
+            <form:input type="text" id="email" maxlength="50" placeholder="${emailplaceholder}" class="form-input" path="email"/>
+            <form:errors path="email"  element="p" cssClass="error"> </form:errors>
         </div>
 
         <div>
@@ -60,7 +61,7 @@
                 <spring:message code="register.form.password"/>
             </form:label>
             <spring:message code="register.form.passwordplaceholder" var="passwordplaceholder"/>
-            <form:input type="password" maxlength="50" placeholder="${passwordplaceholder}" class="form-input"
+            <form:input type="password" id="password" maxlength="50" placeholder="${passwordplaceholder}" class="form-input"
                         path="password"/>
             <form:errors path="password" element="p" cssClass="error"> </form:errors>
         </div>
@@ -70,13 +71,14 @@
                 <spring:message code="register.form.band_name"/>
             </form:label>
             <spring:message code="register.form.nameplaceholder" var="nameplaceholder"/>
-            <form:input type="text" maxlength="50" placeholder="${nameplaceholder}" class="form-input" path="name"/>
+            <form:input id="name" type="text" maxlength="50" placeholder="${nameplaceholder}" class="form-input" path="name"/>
             <form:errors path="name" element="p" cssClass="error"> </form:errors>
         </div>
 
         <div class="end-button-div">
             <button
                     type="submit"
+                    onclick="return registerbandCheck()"
                     class="purple-button"
             >
                 <spring:message code="register.postButton"/>
@@ -84,6 +86,7 @@
         </div>
     </form:form>
 </div>
+<div id="snackbar"><spring:message code="snackbar.message"/></div>
 
 
 </body>
