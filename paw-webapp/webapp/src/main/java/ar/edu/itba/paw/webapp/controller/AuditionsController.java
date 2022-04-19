@@ -34,16 +34,20 @@ public class AuditionsController {
     private final MailingService mailingService;
     private final SecurityFacade securityFacade;
 
+    private final UserService userService;
     @Autowired
     public AuditionsController(final AuditionService auditionService, final MailingService mailingService,
                                final GenreService genreService, final LocationService locationService,
-                               final RoleService roleService, SecurityFacade securityFacade) {
+                               final RoleService roleService, SecurityFacade securityFacade,UserService userService) {
         this.auditionService = auditionService;
         this.roleService = roleService;
         this.genreService = genreService;
         this.locationService = locationService;
         this.mailingService = mailingService;
         this.securityFacade = securityFacade;
+
+        this.userService = userService;
+
     }
 
     @RequestMapping(value = "/", method = {RequestMethod.GET})
@@ -56,6 +60,7 @@ public class AuditionsController {
         final ModelAndView mav = new ModelAndView("views/auditions");
         List<Audition> auditionList = auditionService.getAll(1);
         mav.addObject("auditionList", auditionList);
+        mav.addObject("user", securityFacade.getCurrentUser());
         return mav;
     }
 
