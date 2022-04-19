@@ -43,8 +43,7 @@ public class MailingServiceImpl implements MailingService {
     public void sendAuditionEmail(String receiverAddress, User user , String content, Locale locale) {
         User receiver = getUser(receiverAddress);
         Map<String, Object> variables = new HashMap<>();
-        String fullname = user.getName() + user.getSurname();
-        variables.put("senderName", fullname);
+        variables.put("senderName", user.getName() + " " + user.getSurname());
         variables.put("email", user.getEmail());
         variables.put("content", content);
         sendThymeLeafAuditionEmail(variables, locale, receiverAddress);
@@ -68,7 +67,7 @@ public class MailingServiceImpl implements MailingService {
         ctx.setVariable("token", variables.get("token"));
 
         final String htmlContent = this.templateEngine.process("reset-password.html", ctx);
-        sendMessage(htmlContent, receiverAddress, messageSource.getMessage("audition-application.subject",null,locale).toString() );
+        sendMessage(htmlContent, receiverAddress, messageSource.getMessage("reset-password.subject",null,locale).toString() );
     }
 
     private void sendThymeLeafAuditionEmail(Map<String, Object> variables, Locale locale, String receiverAddress) {
@@ -78,7 +77,7 @@ public class MailingServiceImpl implements MailingService {
         ctx.setVariable("content", variables.get("content"));
 
         final String htmlContent = this.templateEngine.process("audition-application.html", ctx);
-        sendMessage(htmlContent, receiverAddress, messageSource.getMessage("reset-password.subject",null,locale).toString() );
+        sendMessage(htmlContent, receiverAddress, messageSource.getMessage("audition-application.subject",null,locale).toString() );
     }
 
 
