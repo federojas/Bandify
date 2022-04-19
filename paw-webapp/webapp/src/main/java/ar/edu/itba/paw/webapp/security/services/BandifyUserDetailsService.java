@@ -32,7 +32,6 @@ public class BandifyUserDetailsService implements UserDetailsService {
         authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
         if(user.isBand())
             authorities.add(new SimpleGrantedAuthority("ROLE_BAND"));
-        System.out.println("CONTRASEÑA ES:" + user.getPassword());
         return new BandifyUser(email, user.getPassword(), authorities, user.getId(), user.getName(), user.getSurname(), user.isBand());
     }
 
