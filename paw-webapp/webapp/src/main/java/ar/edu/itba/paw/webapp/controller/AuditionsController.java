@@ -11,6 +11,8 @@ import ar.edu.itba.paw.service.*;
 import ar.edu.itba.paw.webapp.form.ApplicationForm;
 import ar.edu.itba.paw.webapp.form.AuditionForm;
 import ar.edu.itba.paw.webapp.security.services.SecurityFacade;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
@@ -33,6 +35,8 @@ public class AuditionsController {
     private final LocationService locationService;
     private final MailingService mailingService;
     private final SecurityFacade securityFacade;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuditionsController.class);
 
     @Autowired
     public AuditionsController(final AuditionService auditionService, final MailingService mailingService,
@@ -88,8 +92,7 @@ public class AuditionsController {
                mailingService.sendAuditionEmail(aud.get().getEmail(), securityFacade.getCurrentUser(), applicationForm.getMessage(), LocaleContextHolder.getLocale());
            }
         } catch (MessagingException e) {
-           //TODO: IMPRESION EN LOG
-            e.printStackTrace();
+           LOGGER.debug("Audition application email threw messaging exception");
         }
         return success();
     }
