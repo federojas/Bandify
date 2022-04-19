@@ -29,7 +29,6 @@ public class BandifyUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(final String email) throws UsernameNotFoundException {
         final User user = us.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("No user by the email " + email));
         final Collection<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
         if(user.isBand())
             authorities.add(new SimpleGrantedAuthority("ROLE_BAND"));
         else

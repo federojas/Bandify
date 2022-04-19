@@ -113,15 +113,6 @@
                     </form:errors>
                 </div>
                 <div>
-                    <form:label class="form-label" path="email">
-                        <spring:message code="welcome.form.email"/>
-                    </form:label>
-                    <spring:message code="audition.form.email.placeholder" var="emailplaceholder" />
-                    <form:input type="text"  maxlength="254" placeholder="${emailplaceholder}" class="form-input" path="email" />
-
-                    <form:errors path="email" element="p" cssClass="error"> </form:errors>
-                </div>
-                <div>
                     <form:label class="form-label" for="musicGenres" path="musicGenres"> <spring:message code="welcome.form.musicGenres"/> </form:label>
                     <form:label class="form-label-legend" for="musicGenres" path="musicGenres"> <spring:message code="audition.form.musicGenres.maxSelect"/> </form:label>
                     <form:select
