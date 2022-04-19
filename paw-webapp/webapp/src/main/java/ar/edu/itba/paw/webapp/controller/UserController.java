@@ -4,9 +4,9 @@ import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.service.UserService;
 import ar.edu.itba.paw.webapp.form.UserArtistForm;
 import ar.edu.itba.paw.webapp.form.UserBandForm;
+import ar.edu.itba.paw.webapp.security.services.SecurityFacade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ar.edu.itba.paw.webapp.form.UserForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -21,12 +21,13 @@ import javax.validation.Valid;
 public class UserController {
 
     private final UserService userService;
-
+    private final SecurityFacade securityFacade;
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, SecurityFacade securityFacade) {
         this.userService = userService;
+        this.securityFacade = securityFacade;
     }
 
     @RequestMapping(value = "/register", method = {RequestMethod.GET})
@@ -47,7 +48,7 @@ public class UserController {
         }
 
         User.UserBuilder user = new User.UserBuilder(userBandForm.getEmail(), userBandForm.getPassword(),
-                userBandForm.getName(), userBandForm.isBand(), userBandForm.isAdmin());
+                userBandForm.getName(), userBandForm.isBand());
 
         userService.create(user);
         LOGGER.debug("User with mail {} created", user.getEmail());
@@ -68,13 +69,20 @@ public class UserController {
         }
 
         User.UserBuilder user = new User.UserBuilder(userArtistForm.getEmail(), userArtistForm.getPassword(),
-                userArtistForm.getName(), userArtistForm.isBand(), userArtistForm.isAdmin())
+                userArtistForm.getName(), userArtistForm.isBand())
                 .surname(userArtistForm.getSurname());
 
         userService.create(user);
         LOGGER.debug("User with mail {} created", user.getEmail());
 
         return new WelcomeController().welcome();
+    }
+
+    @RequestMapping(value = "/profile", method = {RequestMethod.GET})
+    public ModelAndView profile() {
+        ModelAndView mav = new ModelAndView("views/profile");
+        mav.addObject("user", securityFacade.getCurrentUser());
+        return mav;
     }
 
 }

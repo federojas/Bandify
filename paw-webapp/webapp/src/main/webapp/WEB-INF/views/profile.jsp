@@ -31,7 +31,7 @@
                              src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
                              alt="">
                     </div>
-                    <h1 class="full-name">Jane Doe</h1>
+                    <h1 class="full-name">${user.name}</h1>
 
                     <ul
                             class="status-box hover:text-gray-700 hover:shadow ">

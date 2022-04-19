@@ -10,6 +10,7 @@ import ar.edu.itba.paw.persistence.Audition;
 import ar.edu.itba.paw.service.*;
 import ar.edu.itba.paw.webapp.form.ApplicationForm;
 import ar.edu.itba.paw.webapp.form.AuditionForm;
+import ar.edu.itba.paw.webapp.security.services.SecurityFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
@@ -31,16 +32,18 @@ public class AuditionsController {
     private final GenreService genreService;
     private final LocationService locationService;
     private final MailingService mailingService;
+    private final SecurityFacade securityFacade;
 
     @Autowired
     public AuditionsController(final AuditionService auditionService, final MailingService mailingService,
                                final GenreService genreService, final LocationService locationService,
-                               final RoleService roleService ) {
+                               final RoleService roleService, SecurityFacade securityFacade) {
         this.auditionService = auditionService;
         this.roleService = roleService;
         this.genreService = genreService;
         this.locationService = locationService;
         this.mailingService = mailingService;
+        this.securityFacade = securityFacade;
     }
 
     @RequestMapping(value = "/", method = {RequestMethod.GET})
@@ -81,9 +84,9 @@ public class AuditionsController {
         // TODO: el email deberia estar dentro de auditionService
        try {
            Optional<Audition> aud = auditionService.getAuditionById(id);
-           if (aud.isPresent())
-               mailingService.sendAuditionEmail(aud.get().getEmail(), applicationForm.getName(),
-                    applicationForm.getEmail(),applicationForm.getMessage(), LocaleContextHolder.getLocale());
+           if (aud.isPresent()) {
+               mailingService.sendAuditionEmail(aud.get().getEmail(), securityFacade.getCurrentUser(), applicationForm.getMessage(), LocaleContextHolder.getLocale());
+           }
         } catch (MessagingException e) {
            //TODO: IMPRESION EN LOG
             e.printStackTrace();
@@ -114,7 +117,7 @@ public class AuditionsController {
             return newAudition(auditionForm);
         }
 
-        auditionService.create(auditionForm.toBuilder(1).
+        auditionService.create(auditionForm.toBuilder(1, securityFacade.getCurrentUser().getEmail()).
                 location(locationService.getLocation(auditionForm.getLocation()).orElseThrow(LocationNotFoundException::new)).
                 lookingFor(roleService.validateAndReturnRoles(auditionForm.getLookingFor())).
                 musicGenres(genreService.validateAndReturnGenres(auditionForm.getMusicGenres()))
@@ -134,9 +137,5 @@ public class AuditionsController {
         return new ModelAndView("views/successMsg");
     }
 
-    @RequestMapping(value = "/profile", method = {RequestMethod.GET})
-    public ModelAndView profile() {
-        return new ModelAndView("views/profile");
-    }
 
 }

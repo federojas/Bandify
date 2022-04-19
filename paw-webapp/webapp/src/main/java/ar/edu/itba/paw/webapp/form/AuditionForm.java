@@ -23,10 +23,6 @@ public class AuditionForm {
     @Min(value = 1)
     private long location;
 
-    @Email
-    @NotBlank
-    private String email;
-
     @NotEmpty
     @Size(max = 5)
     private List<Long> musicGenres;
@@ -35,7 +31,7 @@ public class AuditionForm {
     @Size(max = 5)
     private List<Long> lookingFor;
 
-    public Audition.AuditionBuilder toBuilder(long bandId) {
+    public Audition.AuditionBuilder toBuilder(long bandId, String email) {
         return new Audition.AuditionBuilder(title, description, email, bandId, LocalDateTime.now());
     }
 
@@ -45,10 +41,6 @@ public class AuditionForm {
 
     public String getDescription() {
         return description;
-    }
-
-    public String getEmail() {
-        return email;
     }
 
     public long getLocation() {
@@ -73,10 +65,6 @@ public class AuditionForm {
 
     public void setLocation(long location) {
         this.location = location;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public void setMusicGenres(List<Long> musicGenres) {
