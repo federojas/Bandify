@@ -5,13 +5,8 @@
 
 <html>
 <head>
-    <link rel="icon" type="image/png" href="public/images/logo.png"/>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Questrial">
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title><spring:message code="home.title"/></title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="public/styles/home.css"/>
+    <c:import url="../config/generalHead.jsp" />
+    <link rel="stylesheet" href="<c:url value="${pageContext.request.contextPath}/resources/css/welcome.css" />"/>
     <style>
         .success-content {
             display: flex;
@@ -48,20 +43,20 @@
     </style>
 </head>
 <body>
-    <!-- Navbar -->
-    <jsp:include page="navbar.jsp">
-        <jsp:param name="navItem" value="${1}"/>
-        <jsp:param name="name" value="Bandify"/>
-    </jsp:include>
+<!-- Navbar -->
+<jsp:include page="../components/navbar.jsp">
+    <jsp:param name="navItem" value="${1}"/>
+    <jsp:param name="name" value="Bandify"/>
+</jsp:include>
 
-    <div class="success-content">
-        <img src="<c:url value="public/icons/success.svg"/>" class="success-icon" alt="success"/>
-        <h1><spring:message code="success.title"/></h1>
-        <p><spring:message code="success.p"/></p>
-        <a href="<c:url value="/auditions" />">
-            <spring:message code="success.link"/>
-        </a>
-    </div>
+<div class="success-content">
+    <img src="<c:url value="${pageContext.request.contextPath}/resources/icons/success.svg"/>" class="success-icon" alt="success"/>
+    <h1><spring:message code="success.title"/></h1>
+    <p><spring:message code="success.p"/></p>
+    <a href="<c:url value="/auditions" />">
+        <spring:message code="success.link"/>
+    </a>
+</div>
 
 
 </body>

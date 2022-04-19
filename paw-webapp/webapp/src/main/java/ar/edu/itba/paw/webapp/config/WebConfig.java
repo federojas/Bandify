@@ -17,6 +17,8 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 import org.thymeleaf.spring4.SpringTemplateEngine;
@@ -34,7 +36,7 @@ import java.util.Properties;
 @Configuration
 @EnableAsync
 @PropertySource(value= {"classpath:application.properties"})
-public class WebConfig {
+public class WebConfig extends WebMvcConfigurerAdapter {
 
     private static final boolean DEPLOY = false;
 
@@ -145,4 +147,8 @@ public class WebConfig {
         return messageSource;
     }
 
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+    }
 }

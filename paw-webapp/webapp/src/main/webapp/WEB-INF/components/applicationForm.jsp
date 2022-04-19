@@ -10,8 +10,11 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Questrial"
     />
-    <link rel="stylesheet" href="public/styles/forms.css">
+    <link rel="stylesheet" href="<c:url value="${pageContext.request.contextPath}/resources/css/forms.css" />">
+    <link rel="stylesheet" href="<c:url value="${pageContext.request.contextPath}/resources/css/alerts.css" />"/>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/formchecks.js"></script>
 </head>
+
 <body>
 <div class="applicationForm">
     <c:url value="/apply" var="postularmeUrl">
@@ -20,13 +23,13 @@
 
     <%--@elvariable id="applicationForm" type="ar.edu.itba.paw.webapp.form.ApplicationForm"--%>
     <form:form acceptCharset="utf-8" modelAttribute="applicationForm"
-               action="${postularmeUrl}" method="post">
+               action="${postularmeUrl}" method="post" id="form">
         <div>
-            <form:label class="form-label" path="name">
+            <form:label class="form-label"  path="name">
                 <spring:message code="application.form.name"/>
             </form:label>
             <spring:message code="application.form.name.placeholder" var="nameplaceholder" />
-            <form:input type="text" maxlength="50" class="form-input" placeholder="${nameplaceholder}"
+            <form:input type="text" maxlength="50" id="name" class="form-input" placeholder="${nameplaceholder}"
                         path="name"/>
 
             <form:errors path="name" element="p" cssClass="error">
@@ -37,7 +40,7 @@
                 <spring:message code="application.form.email"/>
             </form:label>
             <spring:message code="application.form.email.placeholder" var="emailplaceholder" />
-            <form:input type="email" maxlength="254" placeholder="${emailplaceholder}" class="form-input"
+            <form:input type="email" id="email" maxlength="254" placeholder="${emailplaceholder}" class="form-input"
                         path="email"/>
 
             <form:errors path="email" element="p" cssClass="error">
@@ -48,19 +51,23 @@
                 <spring:message code="application.form.message"/>
             </form:label>
             <spring:message code="application.form.message.placeholder" var="messageplaceholder" />
-            <form:textarea type="text" maxlength="300" placeholder="${messageplaceholder}" class="form-input"
+            <form:textarea type="text" id="message" maxlength="300" placeholder="${messageplaceholder}" class="form-input"
                            path="message"/>
 
             <form:errors path="message" element="p" cssClass="error">
             </form:errors>
         </div>
         <div class="end-button-div">
-            <button type="submit"
+            <button
+                    type="submit"
+                    value="submit"
+                    onclick="return applicationCheck()"
                     class="purple-button">
                 <spring:message code="application.form.apply"/>
             </button>
         </div>
     </form:form>
+    <div id="snackbar"><spring:message code="snackbar.message"/></div>
 </div>
 </body>
 

@@ -8,11 +8,11 @@ CREATE TABLE IF NOT EXISTS auditions
 (
     id SERIAL PRIMARY KEY,
     bandId INT NOT NULL,
-    title VARCHAR(100) NOT NULL,
+    title VARCHAR(50) NOT NULL,
     description VARCHAR(300) NOT NULL,
     creationDate TIMESTAMP NOT NULL,
     locationId integer NOT NULL,
-    email VARCHAR(100) NOT NULL,
+    email VARCHAR(254) NOT NULL,
     FOREIGN KEY (locationId) REFERENCES locations
 );
 -- TODO : FOREIGN KEY(band_id) REFERENCES Band(band_id) ON DELETE CASCADE
@@ -46,3 +46,16 @@ CREATE TABLE IF NOT EXISTS auditionRoles
     FOREIGN KEY(roleId) references roles(id) ON DELETE CASCADE,
     UNIQUE(auditionId, roleId)
 );
+
+CREATE TABLE IF NOT EXISTS users
+(
+    id SERIAL PRIMARY KEY,
+    email VARCHAR(254) NOT NULL,
+    password TEXT NOT NULL,
+    name TEXT NOT NULL,
+    surname TEXT,
+    isBand BOOLEAN,
+    isAdmin BOOLEAN,
+    UNIQUE(email)
+);
+
