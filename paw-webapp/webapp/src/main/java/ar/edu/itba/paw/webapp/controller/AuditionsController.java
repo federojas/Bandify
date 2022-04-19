@@ -3,6 +3,7 @@ package ar.edu.itba.paw.webapp.controller;
 import ar.edu.itba.paw.model.Genre;
 import ar.edu.itba.paw.model.Location;
 import ar.edu.itba.paw.model.Role;
+import ar.edu.itba.paw.model.exceptions.AuditionNotFoundException;
 import ar.edu.itba.paw.model.exceptions.GenreNotFoundException;
 import ar.edu.itba.paw.model.exceptions.LocationNotFoundException;
 import ar.edu.itba.paw.model.exceptions.RoleNotFoundException;
@@ -48,13 +49,17 @@ public class AuditionsController {
 
     @RequestMapping(value = "/", method = {RequestMethod.GET})
     public ModelAndView home() {
-        return auditions();
+        return auditions(1);
     }
 
     @RequestMapping(value = "/auditions", method = {RequestMethod.GET})
-    public ModelAndView auditions() {
+    public ModelAndView auditions( @RequestParam(value = "page", defaultValue = "1") int page) {
         final ModelAndView mav = new ModelAndView("views/auditions");
-        List<Audition> auditionList = auditionService.getAll(1);
+        // TODO: Error controller
+        // TODO: Total pages
+        if(page < 0 || page > 5)
+            return new ModelAndView("errors/400");
+        List<Audition> auditionList = auditionService.getAll(page);
         mav.addObject("auditionList", auditionList);
         return mav;
     }
@@ -123,7 +128,7 @@ public class AuditionsController {
                 musicGenres(genreService.validateAndReturnGenres(auditionForm.getMusicGenres()))
         );
 
-        return auditions();
+        return auditions(1);
     }
 
     @ExceptionHandler({LocationNotFoundException.class, GenreNotFoundException.class, RoleNotFoundException.class})
