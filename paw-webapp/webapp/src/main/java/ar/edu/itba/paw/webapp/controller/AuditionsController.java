@@ -134,9 +134,5 @@ public class AuditionsController {
         return new ModelAndView("views/successMsg");
     }
 
-    @RequestMapping(value = "/profile", method = {RequestMethod.GET})
-    public ModelAndView profile() {
-        return new ModelAndView("views/profile");
-    }
 
 }

@@ -22,7 +22,7 @@ public class UserJdbcDao implements UserDao {
     private final static RowMapper<User.UserBuilder> ROW_MAPPER = (rs, rowNum) -> new User.UserBuilder(rs.getString("email"),
             rs.getString("password"),
             rs.getString("name"),
-            rs.getBoolean("isBand"), rs.getBoolean("isAdmin"))
+            rs.getBoolean("isBand"))
             .id(rs.getLong("id")).surname(rs.getString("surname"));
 
     @Autowired
