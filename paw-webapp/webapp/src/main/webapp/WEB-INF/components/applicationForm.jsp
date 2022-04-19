@@ -25,28 +25,6 @@
     <form:form acceptCharset="utf-8" modelAttribute="applicationForm"
                action="${postularmeUrl}" method="post" id="form">
         <div>
-            <form:label class="form-label"  path="name">
-                <spring:message code="application.form.name"/>
-            </form:label>
-            <spring:message code="application.form.name.placeholder" var="nameplaceholder" />
-            <form:input type="text" maxlength="50" id="name" class="form-input" placeholder="${nameplaceholder}"
-                        path="name"/>
-
-            <form:errors path="name" element="p" cssClass="error">
-            </form:errors>
-        </div>
-        <div>
-            <form:label class="form-label" path="email">
-                <spring:message code="application.form.email"/>
-            </form:label>
-            <spring:message code="application.form.email.placeholder" var="emailplaceholder" />
-            <form:input type="email" id="email" maxlength="254" placeholder="${emailplaceholder}" class="form-input"
-                        path="email"/>
-
-            <form:errors path="email" element="p" cssClass="error">
-            </form:errors>
-        </div>
-        <div>
             <form:label class="form-label" path="message">
                 <spring:message code="application.form.message"/>
             </form:label>
