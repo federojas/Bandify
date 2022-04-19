@@ -37,3 +37,43 @@ function auditionFormCheck(){
     }
     return sendForm;
 }
+function loginFormCheck(){
+    password=document.getElementById("password").value;
+    email=document.getElementById("email").value;
+    validForm=true;
+    sendForm=true;
+    var x = document.getElementById("wrongEmail");
+    var y = document.getElementById("wrongPassword");
+    if(password.length<=0 || password.length>50 || email.length<=0||email.length>250){
+        valid=false;
+    }
+    if(typeof password!='string'||typeof email != 'string'){
+        sendForm=false;
+        y.className = "show";
+        x.className = "show";
+    }
+    if(!valid){
+        snackbarMessage()
+    }
+    return sendForm;
+}
+
+function registerArtistCheck(){
+    password=document.getElementById("password").value;
+    email=document.getElementById("email").value;
+    name=document.getElementById("name").value;
+    surname=document.getElementById("surname").value;
+
+    validForm=true;
+    sendForm=true;
+    if(password.length<=0 || password.length>50 || email.length<=0||email.length>250||name.length<=0||name.length>50||surname.length<=0||surname.length>50){
+        valid=false;
+    }
+    if(typeof password!='string'||typeof email != 'string'){
+        sendForm=false;
+    }
+    if(!valid){
+        snackbarMessage()
+    }
+    return sendForm;
+}
