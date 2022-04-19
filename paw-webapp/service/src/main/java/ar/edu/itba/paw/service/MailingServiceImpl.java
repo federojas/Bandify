@@ -1,6 +1,5 @@
 package ar.edu.itba.paw.service;
 
-import ar.edu.itba.paw.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,11 +40,12 @@ public class MailingServiceImpl implements MailingService {
 
     @Async
     @Override
-    public void sendAuditionEmail(String receiverAddress, String senderName, String email, String content, Locale locale) {
+    public void sendAuditionEmail(String receiverAddress, User user , String content, Locale locale) {
         User receiver = getUser(receiverAddress);
         Map<String, Object> variables = new HashMap<>();
-        variables.put("senderName", senderName);
-        variables.put("email", email);
+        String fullname = user.getName() + user.getSurname();
+        variables.put("senderName", fullname);
+        variables.put("email", user.getEmail());
         variables.put("content", content);
         sendThymeLeafAuditionEmail(variables, locale, receiverAddress);
     }

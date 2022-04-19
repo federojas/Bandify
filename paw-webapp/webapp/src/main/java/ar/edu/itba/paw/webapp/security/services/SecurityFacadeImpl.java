@@ -5,7 +5,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AuthFacadeImpl implements AuthFacade {
+public class SecurityFacadeImpl implements SecurityFacade {
     @Override
     public User getCurrentUser() {
         return ((BandifyUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal())).toUser();

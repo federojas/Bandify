@@ -4,10 +4,9 @@ import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.service.UserService;
 import ar.edu.itba.paw.webapp.form.UserArtistForm;
 import ar.edu.itba.paw.webapp.form.UserBandForm;
-import ar.edu.itba.paw.webapp.security.services.AuthFacade;
+import ar.edu.itba.paw.webapp.security.services.SecurityFacade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ar.edu.itba.paw.webapp.form.UserForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -22,13 +21,13 @@ import javax.validation.Valid;
 public class UserController {
 
     private final UserService userService;
-    private final AuthFacade authFacade;
+    private final SecurityFacade securityFacade;
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
-    public UserController(UserService userService, AuthFacade authFacade) {
+    public UserController(UserService userService, SecurityFacade securityFacade) {
         this.userService = userService;
-        this.authFacade = authFacade;
+        this.securityFacade = securityFacade;
     }
 
     @RequestMapping(value = "/register", method = {RequestMethod.GET})
@@ -82,7 +81,7 @@ public class UserController {
     @RequestMapping(value = "/profile", method = {RequestMethod.GET})
     public ModelAndView profile() {
         ModelAndView mav = new ModelAndView("views/profile");
-        mav.addObject("user",authFacade.getCurrentUser());
+        mav.addObject("user", securityFacade.getCurrentUser());
         return mav;
     }
 
