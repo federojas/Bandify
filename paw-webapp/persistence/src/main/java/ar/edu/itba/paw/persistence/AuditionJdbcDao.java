@@ -78,7 +78,7 @@ public class AuditionJdbcDao implements AuditionDao {
 
     @Override
     public List<Audition> getAll(int page) {
-        List<Audition.AuditionBuilder> auditionsBuilders = jdbcTemplate.query("SELECT * FROM auditions LIMIT ? OFFSET ?" ,new Object[] { PAGE_SIZE, (page -1) * PAGE_SIZE}, AUDITION_ROW_MAPPER);
+        List<Audition.AuditionBuilder> auditionsBuilders = jdbcTemplate.query("SELECT * FROM auditions ORDER BY creationdate DESC, title ASC LIMIT ? OFFSET ? " ,new Object[] { PAGE_SIZE, (page -1) * PAGE_SIZE}, AUDITION_ROW_MAPPER);
         List<Audition> toReturn = new ArrayList<>();
         for(Audition.AuditionBuilder builder : auditionsBuilders) {
             Optional<Audition> toAdd = getAuditionById(builder.getId());
