@@ -3,6 +3,7 @@ package ar.edu.itba.paw.webapp.controller;
 import ar.edu.itba.paw.model.Genre;
 import ar.edu.itba.paw.model.Location;
 import ar.edu.itba.paw.model.Role;
+import ar.edu.itba.paw.model.exceptions.AuditionNotFoundException;
 import ar.edu.itba.paw.model.exceptions.LocationNotFoundException;
 import ar.edu.itba.paw.persistence.Audition;
 import ar.edu.itba.paw.service.*;
@@ -63,11 +64,16 @@ public class AuditionsController {
     @RequestMapping(value = "/auditions/{id}", method = {RequestMethod.GET})
     public ModelAndView audition(@ModelAttribute("applicationForm") final ApplicationForm applicationForm,
                                  @PathVariable long id) {
+        // TODO : es necesario este if? sino con el else de abajo seria suficiente creo
+        // TODO : consultar por qué el error controller no agarra la excepción
+        if(id < 0 || id > auditionService.getMaxAuditionId())
+            throw new AuditionNotFoundException();
         final ModelAndView mav = new ModelAndView("views/audition");
-
         Optional<Audition> audition = auditionService.getAuditionById(id);
         if (audition.isPresent()) {
             mav.addObject("audition", audition.get());
+        } else {
+            throw new AuditionNotFoundException();
         }
         return mav;
     }

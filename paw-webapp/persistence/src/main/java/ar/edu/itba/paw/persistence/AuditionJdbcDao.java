@@ -82,4 +82,9 @@ public class AuditionJdbcDao implements AuditionDao {
         return toReturn;
     }
 
+    @Override
+    public long getMaxAuditionId() {
+        return jdbcTemplate.query("SELECT max(id) FROM auditions", (rs,i) -> rs.getLong("max") ).stream().findFirst().orElse(0L);
+    }
+
 }
