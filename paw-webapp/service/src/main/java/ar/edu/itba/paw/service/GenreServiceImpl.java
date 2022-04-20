@@ -30,10 +30,10 @@ public class GenreServiceImpl implements GenreService{
     }
 
     @Override
-    public List<Genre> validateAndReturnGenres(List<Long> genresIds) {
+    public List<Genre> validateAndReturnGenres(List<String> genresNames) {
         List<Genre> genres = new ArrayList<>();
-        for(Long id : genresIds) {
-            genres.add(genreDao.getGenreById(id).orElseThrow(GenreNotFoundException::new));
+        for(String name : genresNames) {
+            genres.add(genreDao.getGenreByName(name).orElseThrow(GenreNotFoundException::new));
         }
         return genres;
     }

@@ -9,5 +9,5 @@ public interface GenreService {
 
     List<Genre> getGenresByAuditionId(long auditionId);
 
-    List<Genre> validateAndReturnGenres(List<Long> genresIds);
+    List<Genre> validateAndReturnGenres(List<String> rolesNames);
 }

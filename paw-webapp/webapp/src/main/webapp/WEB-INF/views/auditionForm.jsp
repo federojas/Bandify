@@ -128,7 +128,7 @@
                             multiple="true"
                     >
                         <c:forEach var="genre" items="${genreList}" varStatus="loop">
-                            <form:option value="${genre.id}"> ${genre.name} </form:option>
+                            <form:option value="${genre.name}"> ${genre.name} </form:option>
                         </c:forEach>
                     </form:select>
                     <form:errors path="musicGenres" element="p" cssClass="error">
@@ -143,7 +143,7 @@
                             multiple="true"
                     >
                         <c:forEach var="role" items="${roleList}" varStatus="loop">
-                            <form:option value="${role.id}"> ${role.name} </form:option>
+                            <form:option value="${role.name}"> ${role.name} </form:option>
                         </c:forEach>
                     </form:select>
                     <form:errors path="lookingFor" element="p" cssClass="error">

@@ -49,4 +49,9 @@ public class GenreJdbcDao implements GenreDao {
     public Optional<Genre> getGenreById(Long id) {
         return jdbcTemplate.query("SELECT * FROM genres WHERE id = ? ", new Object[]{id}, GENRE_ROW_MAPPER).stream().findFirst();
     }
+
+    @Override
+    public Optional<Genre> getGenreByName(String name) {
+        return jdbcTemplate.query("SELECT * FROM genres WHERE genre = ? ", new Object[]{name}, GENRE_ROW_MAPPER).stream().findFirst();
+    }
 }

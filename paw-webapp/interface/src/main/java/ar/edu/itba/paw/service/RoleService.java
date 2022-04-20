@@ -9,5 +9,5 @@ public interface RoleService {
 
     List<Role> getRolesByAuditionId(long auditionId);
 
-    List<Role> validateAndReturnRoles(List<Long> rolesIds);
+    List<Role> validateAndReturnRoles(List<String> rolesNames);
 }

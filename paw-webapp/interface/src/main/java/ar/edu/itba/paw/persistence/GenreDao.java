@@ -12,4 +12,6 @@ public interface GenreDao {
     void createAuditionGenre(List<Genre> genres, long auditionId);
 
     Optional<Genre> getGenreById(Long id);
+
+    Optional<Genre> getGenreByName(String name);
 }

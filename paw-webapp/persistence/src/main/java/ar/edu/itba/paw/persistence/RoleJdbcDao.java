@@ -49,4 +49,9 @@ public class RoleJdbcDao implements RoleDao {
     public Optional<Role> getRoleById(Long id) {
         return jdbcTemplate.query("SELECT * FROM roles WHERE id = ? ", new Object[]{id}, ROLE_ROW_MAPPER).stream().findFirst();
     }
+
+    @Override
+    public Optional<Role> getRoleByName(String name) {
+        return jdbcTemplate.query("SELECT * FROM roles WHERE role = ? ", new Object[]{name}, ROLE_ROW_MAPPER).stream().findFirst();
+    }
 }
