@@ -35,4 +35,9 @@ public class LocationJdbcDao implements LocationDao {
     public Optional<Location> getLocationById(long location) {
         return jdbcTemplate.query("SELECT * FROM LOCATIONS WHERE id = ?", new Object[]{location},LOCATION_ROW_MAPPER).stream().findFirst();
     }
+
+    @Override
+    public Optional<Location> getLocationByName(String name) {
+        return jdbcTemplate.query("SELECT * FROM LOCATIONS WHERE location = ?", new Object[]{name},LOCATION_ROW_MAPPER).stream().findFirst();
+    }
 }

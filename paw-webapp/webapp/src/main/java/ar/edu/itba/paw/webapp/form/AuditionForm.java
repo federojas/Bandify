@@ -19,9 +19,8 @@ public class AuditionForm {
     @Size(max = 300)
     private String description;
 
-    @Max(value = 2147483647)
-    @Min(value = 1)
-    private long location;
+    @NotBlank
+    private String location;
 
     @NotEmpty
     @Size(max = 5)
@@ -43,10 +42,6 @@ public class AuditionForm {
         return description;
     }
 
-    public long getLocation() {
-        return location;
-    }
-
     public List<Long> getMusicGenres() {
         return musicGenres;
     }
@@ -63,15 +58,19 @@ public class AuditionForm {
         this.description = description;
     }
 
-    public void setLocation(long location) {
-        this.location = location;
-    }
-
     public void setMusicGenres(List<Long> musicGenres) {
         this.musicGenres = musicGenres;
     }
 
     public void setLookingFor(List<Long> lookingFor) {
         this.lookingFor = lookingFor;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 }

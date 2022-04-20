@@ -111,7 +111,7 @@
                                 items="${locationList}"
                                 varStatus="loop"
                         >
-                            <form:option value="${location.id}">
+                            <form:option value="${location.name}">
                                 ${location.name}
                             </form:option>
                         </c:forEach>

@@ -3,9 +3,7 @@ package ar.edu.itba.paw.webapp.controller;
 import ar.edu.itba.paw.model.Genre;
 import ar.edu.itba.paw.model.Location;
 import ar.edu.itba.paw.model.Role;
-import ar.edu.itba.paw.model.exceptions.GenreNotFoundException;
 import ar.edu.itba.paw.model.exceptions.LocationNotFoundException;
-import ar.edu.itba.paw.model.exceptions.RoleNotFoundException;
 import ar.edu.itba.paw.persistence.Audition;
 import ar.edu.itba.paw.service.*;
 import ar.edu.itba.paw.webapp.form.ApplicationForm;
@@ -15,7 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -119,7 +116,7 @@ public class AuditionsController {
         }
 
         auditionService.create(auditionForm.toBuilder(1, securityFacade.getCurrentUser().getEmail()).
-                location(locationService.getLocation(auditionForm.getLocation()).orElseThrow(LocationNotFoundException::new)).
+                location(locationService.getLocationByName(auditionForm.getLocation()).orElseThrow(LocationNotFoundException::new)).
                 lookingFor(roleService.validateAndReturnRoles(auditionForm.getLookingFor())).
                 musicGenres(genreService.validateAndReturnGenres(auditionForm.getMusicGenres()))
         );
