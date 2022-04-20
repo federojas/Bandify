@@ -35,4 +35,9 @@ public class AuditionServiceImpl implements AuditionService {
         return auditionDao.getAll(page);
     }
 
+    @Override
+    public int getTotalAuditions() {
+        return auditionDao.getTotalAuditions();
+    }
+
 }

@@ -14,11 +14,14 @@ import java.util.*;
 @Repository
 public class AuditionJdbcDao implements AuditionDao {
 
+
     private JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcAuditionInsert;
     private final GenreDao genreDao;
     private final RoleDao roleDao;
     private final LocationDao locationDao;
+
+    private final int PAGE_SIZE = 9;
 
     @Autowired
     public AuditionJdbcDao(final DataSource ds, GenreDao genreDao, RoleDao roleDao, LocationDao locationDao) {
@@ -38,6 +41,8 @@ public class AuditionJdbcDao implements AuditionDao {
                 rs.getTimestamp("creationDate").toLocalDateTime()
                 ).id(rs.getLong("id"));
     };
+
+    private final static RowMapper<Integer> TOTAL_AUDITION_ROWMAPPER = (rs, i) -> rs.getInt("count");
 
     @Override
     public Optional<Audition> getAuditionById(long id) {
@@ -73,12 +78,20 @@ public class AuditionJdbcDao implements AuditionDao {
 
     @Override
     public List<Audition> getAll(int page) {
-        List<Audition.AuditionBuilder> auditionsBuilders = jdbcTemplate.query("SELECT * FROM auditions LIMIT 9 OFFSET ?", new Object[] { (page -1) * 9}, AUDITION_ROW_MAPPER);
+        List<Audition.AuditionBuilder> auditionsBuilders = jdbcTemplate.query("SELECT * FROM auditions LIMIT ? OFFSET ?" ,new Object[] { PAGE_SIZE, (page -1) * PAGE_SIZE}, AUDITION_ROW_MAPPER);
         List<Audition> toReturn = new ArrayList<>();
         for(Audition.AuditionBuilder builder : auditionsBuilders) {
             Optional<Audition> toAdd = getAuditionById(builder.getId());
             toAdd.ifPresent(toReturn::add);
         }
         return toReturn;
+    }
+
+    @Override
+    public int getTotalAuditions() {
+        Optional<Integer> result = jdbcTemplate.query("SELECT COUNT(*) FROM auditions", TOTAL_AUDITION_ROWMAPPER).stream().findFirst();
+        //TODO Math.ceil casteado a int puede castear un double muy grande y generar una excepcion
+        //TODO tamaño int es la maxima page
+        return result.map(integer -> (int) Math.ceil(integer.doubleValue() / PAGE_SIZE)).orElse(0);
     }
 }
