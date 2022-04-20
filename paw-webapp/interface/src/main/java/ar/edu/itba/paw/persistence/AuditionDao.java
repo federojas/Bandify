@@ -11,5 +11,7 @@ public interface AuditionDao {
 
     List<Audition> getAll(int page);
 
+    public int getTotalAuditions();
+
     long getMaxAuditionId();
 }

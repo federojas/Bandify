@@ -14,4 +14,6 @@ public interface AuditionService {
     List<Audition> getAll(int page);
 
     long getMaxAuditionId();
+
+    public int getTotalAuditions();
 }

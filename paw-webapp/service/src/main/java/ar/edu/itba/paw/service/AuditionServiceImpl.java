@@ -36,6 +36,11 @@ public class AuditionServiceImpl implements AuditionService {
     }
 
     @Override
+    public int getTotalAuditions() {
+        return auditionDao.getTotalAuditions();
+    }
+
+    @Override
     public long getMaxAuditionId() {
         return auditionDao.getMaxAuditionId();
     }
