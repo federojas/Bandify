@@ -99,6 +99,9 @@
             font-weight: 600;
         }
 
+        .remember-me {
+            margin-top: 1rem;
+        }
     </style>
 </head>
 <body>
@@ -158,6 +161,10 @@
                         </label>
                         <input type="password" class="form-input" id="password" name="password"
                                placeholder="<spring:message code="welcome.password"/>"/>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="rememberme" class="remember-me" value="false"/>
+                        <spring:message code="welcome.rememberme"/>
                     </div>
                     <div class="end-button-div">
                         <button type="submit" class="purple-hover-button">
