@@ -1,6 +1,8 @@
 package ar.edu.itba.paw.webapp.controller;
 
+import ar.edu.itba.paw.model.exceptions.AuditionNotFoundException;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -9,6 +11,12 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class ErrorController {
+
+    @ExceptionHandler(AuditionNotFoundException.class)
+    public ModelAndView auditionNotFound() {
+        return new ModelAndView("errors/404");
+    }
+
     @RequestMapping(value = "/error", method = RequestMethod.GET)
     public ModelAndView renderErrorPage(HttpServletRequest httpRequest) {
         int httpErrorCode = getErrorCode(httpRequest);
@@ -36,6 +44,11 @@ public class ErrorController {
                 return errorPage;
             }
         }
+    }
+
+    @RequestMapping(value ="403")
+    public ModelAndView accessDenied() {
+        return new ModelAndView("errors/403");
     }
 
     private int getErrorCode(HttpServletRequest httpRequest) {

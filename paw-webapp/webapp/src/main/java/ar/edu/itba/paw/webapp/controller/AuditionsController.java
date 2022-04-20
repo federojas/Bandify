@@ -71,8 +71,6 @@ public class AuditionsController {
         Optional<Audition> audition = auditionService.getAuditionById(id);
         if (audition.isPresent()) {
             mav.addObject("audition", audition.get());
-        } else {
-            return badFormData();
         }
         return mav;
     }
@@ -129,16 +127,9 @@ public class AuditionsController {
         return auditions();
     }
 
-    @ExceptionHandler({LocationNotFoundException.class, GenreNotFoundException.class, RoleNotFoundException.class})
-    @ResponseStatus(code = HttpStatus.NOT_FOUND)
-    public ModelAndView badFormData() {
-        return new ModelAndView("errors/404");
-    }
-
     @RequestMapping(value = "/success", method = {RequestMethod.GET})
     public ModelAndView success() {
         return new ModelAndView("views/successMsg");
     }
-
 
 }
