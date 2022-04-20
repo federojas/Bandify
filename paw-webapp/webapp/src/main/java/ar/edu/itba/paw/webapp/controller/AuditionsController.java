@@ -57,11 +57,13 @@ public class AuditionsController {
         final ModelAndView mav = new ModelAndView("views/auditions");
         // TODO: Error controller
         // TODO: Total pages
-        System.out.println("Numero de audiciones: " + auditionService.getTotalAuditions());
-        if(page < 0 || page > auditionService.getTotalAuditions())
+        int lastPage = auditionService.getTotalAuditions();
+        if(page < 0 || page > lastPage)
             return new ModelAndView("errors/400");
         List<Audition> auditionList = auditionService.getAll(page);
         mav.addObject("auditionList", auditionList);
+        mav.addObject("currentPage", page);
+        mav.addObject("lastPage", lastPage);
         return mav;
     }
 

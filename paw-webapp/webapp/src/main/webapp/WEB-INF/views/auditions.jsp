@@ -32,6 +32,24 @@ prefix="spring" uri="http://www.springframework.org/tags"%>
         margin: 0.75rem;
         justify-content: space-around;
       }
+
+      .pagination {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        margin: 0.75rem;
+        justify-content: space-around;
+      }
+
+      .pagination-next{
+        margin: 0 10px;
+        height: 40px;
+        cursor: pointer;
+      }
+
+      .rotate{
+        transform: rotate(180deg);
+      }
     </style>
   </head>
   <body>
@@ -75,6 +93,23 @@ prefix="spring" uri="http://www.springframework.org/tags"%>
             />
           </jsp:include>
         </c:forEach>
+      </div>
+      <div class="pagination">
+        <c:if test="${currentPage > 1}">
+          <spring:message code="pagination.previous.page.alt" var="previous"/>
+          <a href="<c:url value="/auditions?page=${currentPage-1}"/>">
+            <img src="<c:url value="/resources/images/page-next.png"/>"
+                 alt="previous" class="pagination-next rotate">
+          </a>
+        </c:if>
+        <spring:message code="page.current" arguments="${currentPage},${lastPage}" />
+        <c:if test="${currentPage < lastPage}">
+          <spring:message code="pagination.next.page.alt" var="next"/>
+          <a href="<c:url value="/auditions?page=${currentPage+1}"/>">
+            <img src="<c:url value="/resources/images/page-next.png"/>"
+                 alt="next" class="pagination-next">
+          </a>
+        </c:if>
       </div>
     </div>
   </body>
