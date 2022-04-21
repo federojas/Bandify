@@ -45,4 +45,9 @@ public class AuditionServiceImpl implements AuditionService {
         return auditionDao.getMaxAuditionId();
     }
 
+    @Override
+    public List<Audition> search(int page, String query) {
+        return auditionDao.search(page, query);
+    }
+
 }

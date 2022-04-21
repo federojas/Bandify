@@ -58,11 +58,23 @@ public class AuditionsController {
     public ModelAndView auditions( @RequestParam(value = "page", defaultValue = "1") int page) {
         final ModelAndView mav = new ModelAndView("views/auditions");
         // TODO: Error controller
-        // TODO: Total pages
         int lastPage = auditionService.getTotalAuditions();
         if(page < 0 || page > lastPage)
             return new ModelAndView("errors/400");
         List<Audition> auditionList = auditionService.getAll(page);
+        mav.addObject("auditionList", auditionList);
+        mav.addObject("currentPage", page);
+        mav.addObject("lastPage", lastPage);
+        return mav;
+    }
+
+    @RequestMapping(value = "/search", method = {RequestMethod.GET})
+    public ModelAndView search( @RequestParam(value = "page", defaultValue = "1") int page) {
+        final ModelAndView mav = new ModelAndView("views/auditions");
+        int lastPage = auditionService.getTotalAuditions();
+        if(page < 0 || page > lastPage)
+            return new ModelAndView("errors/400");
+        List<Audition> auditionList = auditionService.search(page, "dasd");
         mav.addObject("auditionList", auditionList);
         mav.addObject("currentPage", page);
         mav.addObject("lastPage", lastPage);
