@@ -54,13 +54,24 @@
             <c:param name="id" value=""/>
         </c:url>
         <a href="<c:url value="/auditions/${param.id}"/>">
+            <c:if test="${!user.isBand()}">
             <button
                     class="postCard-button-0 hover:bg-sky-700"
                     type="button"
             >
                 <spring:message code="postCard.button"/>
             </button>
+            </c:if>
         </a>
+        <c:if test="${user.isBand()}">
+            <button
+                    class="postCard-button-0 hover:bg-red-700"
+                    type="button"
+            >
+                No disponible para bandas
+            </button>
+        </c:if>
+
     </div>
 </div>
 </body>

@@ -4,6 +4,7 @@ import ar.edu.itba.paw.model.Genre;
 import ar.edu.itba.paw.model.Location;
 import ar.edu.itba.paw.model.Role;
 import ar.edu.itba.paw.model.exceptions.AuditionNotFoundException;
+import ar.edu.itba.paw.model.exceptions.GenreNotFoundException;
 import ar.edu.itba.paw.model.exceptions.LocationNotFoundException;
 import ar.edu.itba.paw.persistence.Audition;
 import ar.edu.itba.paw.service.*;
@@ -36,28 +37,40 @@ public class AuditionsController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AuditionsController.class);
 
+    private final UserService userService;
     @Autowired
     public AuditionsController(final AuditionService auditionService, final MailingService mailingService,
                                final GenreService genreService, final LocationService locationService,
-                               final RoleService roleService, SecurityFacade securityFacade) {
+                               final RoleService roleService, SecurityFacade securityFacade,UserService userService) {
         this.auditionService = auditionService;
         this.roleService = roleService;
         this.genreService = genreService;
         this.locationService = locationService;
         this.mailingService = mailingService;
         this.securityFacade = securityFacade;
+
+        this.userService = userService;
+
     }
 
     @RequestMapping(value = "/", method = {RequestMethod.GET})
     public ModelAndView home() {
-        return auditions();
+        return auditions(1);
     }
 
     @RequestMapping(value = "/auditions", method = {RequestMethod.GET})
-    public ModelAndView auditions() {
+    public ModelAndView auditions( @RequestParam(value = "page", defaultValue = "1") int page) {
         final ModelAndView mav = new ModelAndView("views/auditions");
-        List<Audition> auditionList = auditionService.getAll(1);
+        // TODO: Error controller
+        // TODO: Total pages
+        int lastPage = auditionService.getTotalAuditions();
+        if(page < 0 || page > lastPage)
+            return new ModelAndView("errors/400");
+        List<Audition> auditionList = auditionService.getAll(page);
         mav.addObject("auditionList", auditionList);
+        mav.addObject("currentPage", page);
+        mav.addObject("lastPage", lastPage);
+        mav.addObject("user", securityFacade.getCurrentUser());
         return mav;
     }
 
@@ -127,7 +140,7 @@ public class AuditionsController {
                 musicGenres(genreService.validateAndReturnGenres(auditionForm.getMusicGenres()))
         );
 
-        return auditions();
+        return auditions(1);
     }
 
     @RequestMapping(value = "/success", method = {RequestMethod.GET})
