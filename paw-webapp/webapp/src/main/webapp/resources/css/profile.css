@@ -43,6 +43,37 @@
     border-radius: 0.25rem;
     border-top-width: 1px;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
 
+.edit-btn {
+    margin: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
 
+.logout-btn {
+    margin: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: #b23b3b;
+    color: #fff;
+}
+
+.profile-btns {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 1rem 0;
+}
+
+.icon-img {
+    width: 16px;
+    margin: 0.5rem;
 }
