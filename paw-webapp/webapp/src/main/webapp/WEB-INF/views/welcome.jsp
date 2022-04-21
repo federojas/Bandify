@@ -9,6 +9,15 @@
     <link rel="stylesheet" href="<c:url value="${pageContext.request.contextPath}/resources/css/alerts.css" />"/>
     <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/formchecks.js"></script>
     <link rel="stylesheet" href="<c:url value="${pageContext.request.contextPath}/resources/css/forms.css" />"/>
+    <link rel="stylesheet" href="<c:url value="${pageContext.request.contextPath}/resources/css/welcome.css" />"/>
+
+    <!-- Remember to include jQuery :) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+
+    <!-- jQuery Modal -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
     <style>
         body {
             /* gray-100 */
@@ -101,6 +110,10 @@
             font-weight: 600;
         }
 
+        .register-buttons{
+            padding-top: 1rem
+        }
+
 
     </style>
 </head>
@@ -172,9 +185,19 @@
                     </div>
                 </form>
                 <p><spring:message code="welcome.notMemberYet"/></p>
-                <a href="<c:url value="/register"/>"><u style="cursor: pointer;"><spring:message code="welcome.registerButton"/></u></a>
 
-            </div>
+                <a rel="modal:open" href="#ex2"/><u style="cursor: pointer;"><spring:message code="welcome.registerButton"/></u></a>
+                    <div id="ex2" class="modal center">
+                        <h1><spring:message code="welcome.chooseRegister"/></h1>
+                        <hr>
+                        <div class="register-buttons">
+
+                            <a class="purple-hover-button" href="<c:url value="/registerBand"/>"><spring:message code="register.band_word"/></a>
+                        </div>
+                        <div class="register-buttons">
+                            <a class="purple-hover-button " href="<c:url value="/registerArtist"/>">Artista</a>
+                        </div>
+                    </div>
         </div>
     </div>
 </div>

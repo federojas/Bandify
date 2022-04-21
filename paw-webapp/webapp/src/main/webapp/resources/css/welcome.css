@@ -57,6 +57,10 @@ body {
   border-radius: 9999px;
   background-color: #6c0c84;
 }
+.purple-hover-button:hover {
+  border-width: 2px;
+  border-color: #ffffff;
+}
 
 .home-h1-0 {
   font-size: 1.75rem;
@@ -136,4 +140,20 @@ body {
   font-weight: 600;
   line-height: 1.25rem;
   border-radius: 9999px;
+}
+.login-box {
+  position: absolute;
+  top: 10%;
+  right: 10%;
+  background-color: #efefef;
+  opacity: 0.9;
+  width: fit-content;
+  padding: 0.5rem 1.5rem;
+  border-color: #6c0c8436;
+  border-radius: 0.75rem;
+  border-width: 1px;
+  border-style: dotted;
+  font-size: 1.25rem;
+  line-height: 1.5rem;
+  font-weight: 600;
 }
