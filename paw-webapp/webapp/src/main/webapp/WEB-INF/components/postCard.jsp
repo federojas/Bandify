@@ -68,7 +68,10 @@
                     class="postCard-button-0 hover:bg-red-700"
                     type="button"
             >
-                No disponible para bandas
+                <spring:message code="postCard.NotAvailableFor"/>
+                <br>
+                <spring:message code="postCard.Bands"/>
+
             </button>
         </c:if>
 
