@@ -36,12 +36,20 @@
                                     class="status-box hover:text-gray-700 hover:shadow ">
                                 <li class="flex items-center py-3">
                                     <span><spring:message code="profile.type"/></span>
-                                    <span class="ml-auto"><span
-                                            class="bg-green-500 py-1 px-2 rounded text-white text-sm">Artista</span></span>
+                                    <c:if test="${!user.isBand()}">
+
+
+                            <span class="ml-auto"><span
+                                    class="bg-green-500 py-1 px-2 rounded text-white text-sm"><spring:message code="register.artist_word"></spring:message> </span></span>
+                                    </c:if>
+                                    <c:if test="${user.isBand()}">
+                                <span class="ml-auto"><span
+                                        class="bg-green-500 py-1 px-2 rounded text-white text-sm"><spring:message code="register.band_word"></spring:message> </span></span>
+                                    </c:if>
                                 </li>
                                 <li class="flex items-center py-3">
-                                    <span><spring:message code="profile.memberSince"/>
-                                    </span>
+                            <span><spring:message code="profile.memberSince"/>
+                            </span>
                                     <span class="ml-auto">Nov 07, 2016</span>
                                 </li>
                             </ul>
@@ -72,36 +80,14 @@
                         <!-- About Section -->
                         <div class="bg-white p-3 shadow-sm rounded-sm">
                             <div class="flex items-center space-x-2 font-semibold text-gray-900 leading-8">
-                                <span clas="text-indigo-900">
-                                      <img src="<c:url value="${pageContext.request.contextPath}/resources/icons/user.svg"/>" class="user-icon" alt="user"/>
-
-                    <ul
-                            class="status-box hover:text-gray-700 hover:shadow ">
-                        <li class="flex items-center py-3">
-                            <span><spring:message code="profile.type"/></span>
-                            <c:if test="${!user.isBand()}">
 
 
-                            <span class="ml-auto"><span
-                                    class="bg-green-500 py-1 px-2 rounded text-white text-sm"><spring:message code="register.artist_word"></spring:message> </span></span>
-                            </c:if>
-                            <c:if test="${user.isBand()}">
-                                <span class="ml-auto"><span
-                                        class="bg-green-500 py-1 px-2 rounded text-white text-sm"><spring:message code="register.band_word"></spring:message> </span></span>
-                            </c:if>
-                        </li>
-                        <li class="flex items-center py-3">
-                            <span><spring:message code="profile.memberSince"/>
-                            </span>
-                            <span class="ml-auto">Nov 07, 2016</span>
-                        </li>
-                    </ul>
-                </div>
+
                 <!-- End of profile card -->
                 <div class="my-4"></div>
-            </div>
+
             <!-- Right Side -->
-            <div class="w-full md:w-9/12 mx-2 h-64">
+            <div class="w-full md:w-9/12 mx-2 h-70">
                 <!-- About Section -->
                 <div class="bg-white p-3 shadow-sm rounded-sm">
                     <div class="flex items-center space-x-2 font-semibold text-gray-900 leading-8">
@@ -110,39 +96,6 @@
                                 </span>
                                 <span class="tracking-wide "><spring:message code="profile.about"></spring:message></span>
                             </div>
-                            <div class="text-gray-700 flex justify-start">
-                                <ul>
-                                    <li class="pt-2">
-                                        <spring:message code="profile.firstName"></spring:message>
-                                    </li>
-                                    <hr>
-                                    <li class="pt-2">
-                                        <spring:message code="profile.experience"></spring:message>
-                                    </li>
-                                    <hr>
-                                    <li class="pt-2">
-                                        <spring:message code="profile.Education"></spring:message>
-                                    </li>
-                                    <hr>
-                                    <li class="pt-2">
-                                        <spring:message code="profile.gender"></spring:message>
-                                    </li>
-                                    <hr>
-                                    <li class="pt-2">
-                                        <spring:message code="profile.mail"></spring:message>
-                                    </li>
-                                    <hr>
-                                    <li class="pt-2">
-                                        <spring:message code="profile.birth"></spring:message>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <!-- End of about section -->
-
-                        </span>
-                        <span class="tracking-wide "><spring:message code="profile.about"></spring:message></span>
-                    </div>
                     <div class="text-gray-700 flex justify-start">
                         <ul>
                             <li class="pt-2">
@@ -153,7 +106,7 @@
                             <c:if test="${!user.isBand()}">
                                 <li class="pt-2">
                                     <spring:message code="profile.surname"></spring:message>
-                                    ${user.getSurname()}
+                                        ${user.getSurname()}
                                 </li>
                                 <hr>
                             </c:if>
@@ -171,7 +124,7 @@
                             <hr>
                             <li class="pt-2">
                                 <spring:message code="profile.mail"></spring:message>
-                                 ${user.getEmail()}
+                                ${user.getEmail()}
                             </li>
                             <hr>
                             <li class="pt-2">
@@ -179,51 +132,15 @@
                             </li>
                         </ul>
                     </div>
+                        </div>
+                        <!-- End of about section -->
+
+                        </span>
+
+                    </div>
                 </div>
                 <!-- End of about section -->
-                        <div class="my-4"></div>
 
-                        <!-- Experience and education -->
-                        <div class="bg-white p-3 shadow-sm rounded-sm">
-
-                            <div class="grid grid-cols-2">
-                                <div>
-                                    <div class="flex items-center space-x-2 font-semibold text-gray-900 leading-8 mb-3">
-                                        <span clas="text-indigo-900">
-                                            <img src="<c:url value="${pageContext.request.contextPath}/resources/icons/book.svg"/>" class="user-icon" alt="user"/>
-                                        </span>
-                                        <span class="tracking-wide"><spring:message code="profile.experience" /></span>
-                                    </div>
-                                    <ul class="list-inside space-y-2">
-                                        <li>
-                                            <div class="text-indigo-900">Owner at Her Company Inc.</div>
-                                            <div class="text-gray-500 text-xs">March 2020 - Now</div>
-                                        </li>
-
-                                    </ul>
-                                </div>
-                                <div>
-                                    <div class="flex items-center space-x-2 font-semibold text-gray-900 leading-8 mb-3">
-                                        <span clas="text-indigo-900">
-                                            <img src="<c:url value="${pageContext.request.contextPath}/resources/icons/education.svg"/>" class="user-icon" alt="user"/>
-                                        </span>
-                                        <span class="tracking-wide"><spring:message code="profile.Education" /></span>
-                                    </div>
-                                    <ul class="list-inside space-y-2">
-                                        <li>
-                                            <div class="text-indigo-900">Masters Degree in Oxford</div>
-                                            <div class="text-gray-500 text-xs">March 2020 - Now</div>
-                                        </li>
-                                        <li>
-                                            <div class="text-indigo-900">Bachelors Degreen in LPU</div>
-                                            <div class="text-gray-500 text-xs">March 2020 - Now</div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <!-- End of Experience and education grid -->
-                        </div>
-                        <!-- End of profile tab -->
                     </div>
                 </div>
             </div>
