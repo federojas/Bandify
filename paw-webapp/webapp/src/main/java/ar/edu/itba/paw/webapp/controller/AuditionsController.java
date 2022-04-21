@@ -37,19 +37,16 @@ public class AuditionsController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AuditionsController.class);
 
-    private final UserService userService;
     @Autowired
     public AuditionsController(final AuditionService auditionService, final MailingService mailingService,
                                final GenreService genreService, final LocationService locationService,
-                               final RoleService roleService, SecurityFacade securityFacade,UserService userService) {
+                               final RoleService roleService, SecurityFacade securityFacade) {
         this.auditionService = auditionService;
         this.roleService = roleService;
         this.genreService = genreService;
         this.locationService = locationService;
         this.mailingService = mailingService;
         this.securityFacade = securityFacade;
-
-        this.userService = userService;
 
     }
 
