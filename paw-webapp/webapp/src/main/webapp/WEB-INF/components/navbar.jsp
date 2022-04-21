@@ -93,7 +93,7 @@
             <spring:message code="img.alt.logo" var="bandify" />
             <img
                     src=
-                    "<c:url value="${pageContext.request.contextPath}/resources/images/logo.png" />"
+                    "<c:url value="/resources/images/logo.png" />"
 
                     class="bandify-logo"
                     alt="${bandify}"

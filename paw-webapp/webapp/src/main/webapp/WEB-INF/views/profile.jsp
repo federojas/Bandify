@@ -7,7 +7,7 @@
 <head>
     <c:import url="../config/generalHead.jsp"/>
     <title><spring:message code="navbar.profile" /></title>
-    <link rel="stylesheet" href="<c:url value="${pageContext.request.contextPath}/resources/css/profile.css" />"/>
+    <link rel="stylesheet" href="<c:url value="/resources/css/profile.css" />"/>
 
 </head>
     <body>
@@ -48,18 +48,18 @@
                         </div>
                         <!-- End of profile card -->
                         <div class="profile-btns">
-                            <a href="<c:url value="${pageContext.request.contextPath}/profile/edit" />">
+                            <a href="<c:url value="/profile/edit" />">
                                 <button class="edit-btn">
-                                    <img src="${pageContext.request.contextPath}/resources/icons/edit.svg"
+                                    <img src="/resources/icons/edit.svg"
                                         alt="edit"
                                          class="icon-img"
                                     />
                                     <spring:message code="profile.editProfile"/>
                                 </button>
                             </a>
-                            <a href="<c:url value="${pageContext.request.contextPath}/logout"/>" >
+                            <a href="<c:url value="/logout"/>" >
                                 <button class="logout-btn">
-                                    <img src="${pageContext.request.contextPath}/resources/icons/logout.svg"
+                                    <img src="/resources/icons/logout.svg"
                                         alt="logout"
                                          class="icon-img"/>
                                     <spring:message code="profile.logout"/>
@@ -73,7 +73,7 @@
                         <div class="bg-white p-3 shadow-sm rounded-sm">
                             <div class="flex items-center space-x-2 font-semibold text-gray-900 leading-8">
                                 <span clas="text-indigo-900">
-                                      <img src="<c:url value="${pageContext.request.contextPath}/resources/icons/user.svg"/>" class="user-icon" alt="user"/>
+                                      <img src="<c:url value="/resources/icons/user.svg"/>" class="user-icon" alt="user"/>
 
                                 </span>
                                 <span class="tracking-wide "><spring:message code="profile.about"></spring:message></span>
@@ -117,7 +117,7 @@
                                 <div>
                                     <div class="flex items-center space-x-2 font-semibold text-gray-900 leading-8 mb-3">
                                         <span clas="text-indigo-900">
-                                            <img src="<c:url value="${pageContext.request.contextPath}/resources/icons/book.svg"/>" class="user-icon" alt="user"/>
+                                            <img src="<c:url value="/resources/icons/book.svg"/>" class="user-icon" alt="user"/>
                                         </span>
                                         <span class="tracking-wide"><spring:message code="profile.experience" /></span>
                                     </div>
@@ -132,7 +132,7 @@
                                 <div>
                                     <div class="flex items-center space-x-2 font-semibold text-gray-900 leading-8 mb-3">
                                         <span clas="text-indigo-900">
-                                            <img src="<c:url value="${pageContext.request.contextPath}/resources/icons/education.svg"/>" class="user-icon" alt="user"/>
+                                            <img src="<c:url value="/resources/icons/education.svg"/>" class="user-icon" alt="user"/>
                                         </span>
                                         <span class="tracking-wide"><spring:message code="profile.Education" /></span>
                                     </div>

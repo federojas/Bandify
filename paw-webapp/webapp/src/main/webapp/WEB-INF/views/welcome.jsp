@@ -6,7 +6,7 @@
 <html>
 <head>
     <c:import url="../config/generalHead.jsp"/>
-    <link rel="stylesheet" href="<c:url value="${pageContext.request.contextPath}/resources/css/forms.css" />"/>
+    <link rel="stylesheet" href="<c:url value="/resources/css/forms.css" />"/>
     <style>
         body {
             /* gray-100 */
@@ -116,7 +116,7 @@
     <!-- Hero -->
     <div class="guitar-hero">
         <spring:message code="img.alt.guitar" var="guitar"/>
-        <img src="<c:url value="${pageContext.request.contextPath}/resources/images/guitar.png"/>" alt="${guitar}"/>
+        <img src="<c:url value="/resources/images/guitar.png"/>" alt="${guitar}"/>
         <%-- Hero text   --%>
         <div class="hero-title">
             <span><spring:message code="welcome.slogan1"/></span>
