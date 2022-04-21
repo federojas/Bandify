@@ -37,16 +37,20 @@ public class AuditionsController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AuditionsController.class);
 
+    private final UserService userService;
     @Autowired
     public AuditionsController(final AuditionService auditionService, final MailingService mailingService,
                                final GenreService genreService, final LocationService locationService,
-                               final RoleService roleService, SecurityFacade securityFacade) {
+                               final RoleService roleService, SecurityFacade securityFacade,UserService userService) {
         this.auditionService = auditionService;
         this.roleService = roleService;
         this.genreService = genreService;
         this.locationService = locationService;
         this.mailingService = mailingService;
         this.securityFacade = securityFacade;
+
+        this.userService = userService;
+
     }
 
     @RequestMapping(value = "/", method = {RequestMethod.GET})
@@ -65,6 +69,7 @@ public class AuditionsController {
         mav.addObject("auditionList", auditionList);
         mav.addObject("currentPage", page);
         mav.addObject("lastPage", lastPage);
+        mav.addObject("user", securityFacade.getCurrentUser());
         return mav;
     }
 
