@@ -113,6 +113,7 @@
                     ><spring:message code="navbar.auditions"/></a
                     >
                 </li>
+
                 <li>
                     <a
                             href="<c:url value="/newAudition"/>"

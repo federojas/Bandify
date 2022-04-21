@@ -37,8 +37,16 @@
                             class="status-box hover:text-gray-700 hover:shadow ">
                         <li class="flex items-center py-3">
                             <span><spring:message code="profile.type"/></span>
+                            <c:if test="${!user.isBand()}">
+
+
                             <span class="ml-auto"><span
-                                    class="bg-green-500 py-1 px-2 rounded text-white text-sm">Artista</span></span>
+                                    class="bg-green-500 py-1 px-2 rounded text-white text-sm"><spring:message code="register.artist_word"></spring:message> </span></span>
+                            </c:if>
+                            <c:if test="${user.isBand()}">
+                                <span class="ml-auto"><span
+                                        class="bg-green-500 py-1 px-2 rounded text-white text-sm"><spring:message code="register.band_word"></spring:message> </span></span>
+                            </c:if>
                         </li>
                         <li class="flex items-center py-3">
                             <span><spring:message code="profile.memberSince"/>
@@ -65,26 +73,35 @@
                         <ul>
                             <li class="pt-2">
                                 <spring:message code="profile.firstName"></spring:message>
+                                ${user.getName()}
+                            </li>
+                            <hr>
+                            <c:if test="${!user.isBand()}">
+                                <li class="pt-2">
+                                    <spring:message code="profile.surname"></spring:message>
+                                    ${user.getSurname()}
+                                </li>
+                                <hr>
+                            </c:if>
+                            <li class="pt-2">
+                                <spring:message code="profile.experience"></spring:message> -
                             </li>
                             <hr>
                             <li class="pt-2">
-                                <spring:message code="profile.experience"></spring:message>
+                                <spring:message code="profile.Education"></spring:message> -
                             </li>
                             <hr>
                             <li class="pt-2">
-                                <spring:message code="profile.Education"></spring:message>
-                            </li>
-                            <hr>
-                            <li class="pt-2">
-                                <spring:message code="profile.gender"></spring:message>
+                                <spring:message code="profile.gender"></spring:message> -
                             </li>
                             <hr>
                             <li class="pt-2">
                                 <spring:message code="profile.mail"></spring:message>
+                                 ${user.getEmail()}
                             </li>
                             <hr>
                             <li class="pt-2">
-                                <spring:message code="profile.birth"></spring:message>
+                                <spring:message code="profile.birth"></spring:message> -
                             </li>
                         </ul>
                     </div>
