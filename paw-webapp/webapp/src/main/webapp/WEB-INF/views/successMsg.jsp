@@ -7,40 +7,7 @@
 <head>
     <c:import url="../config/generalHead.jsp" />
     <link rel="stylesheet" href="<c:url value="/resources/css/welcome.css" />"/>
-    <style>
-        .success-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 2rem 1rem;
-        }
-
-        .success-content > h1 {
-            font-size: 3rem;
-            line-height: 1;
-            font-weight: 700;
-            padding: 1rem;
-        }
-        .success-content > p{
-            font-size: 1.5rem;
-            line-height: 1;
-            font-weight: 500;
-            padding: 1rem;
-        }
-        .success-content > a {
-            font-size: 2rem;
-            line-height: 1;
-            font-weight: 500;
-            padding: 1rem;
-            margin: 6rem 0;
-            text-decoration: underline;
-        }
-        .success-icon {
-            width: 100px;
-            height: 100px;
-            margin: 1rem;
-        }
-    </style>
+    <link rel="stylesheet" href="<c:url value="/resources/css/success.css" />"/>
 </head>
 <body>
 <!-- Navbar -->
