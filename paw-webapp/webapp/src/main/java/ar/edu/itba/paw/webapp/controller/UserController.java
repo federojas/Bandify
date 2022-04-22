@@ -49,9 +49,8 @@ public class UserController {
                 userBandForm.getName(), userBandForm.isBand());
 
         userService.create(user);
-        LOGGER.debug("User with mail {} created", user.getEmail());
 
-        return new WelcomeController().welcome();
+        return WelcomeController.welcome();
     }
 
     @RequestMapping(value = "/registerArtist", method = {RequestMethod.POST})
@@ -68,9 +67,8 @@ public class UserController {
                 .surname(userArtistForm.getSurname());
 
         userService.create(user);
-        LOGGER.debug("User with mail {} created", user.getEmail());
 
-        return new WelcomeController().welcome();
+        return WelcomeController.welcome();
     }
 
     @RequestMapping(value = "/profile", method = {RequestMethod.GET})
