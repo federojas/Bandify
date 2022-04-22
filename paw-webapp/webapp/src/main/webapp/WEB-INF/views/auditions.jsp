@@ -6,51 +6,7 @@ prefix="spring" uri="http://www.springframework.org/tags"%>
   <head>
     <c:import url="../config/generalHead.jsp" />
     <link rel="stylesheet" href="<c:url value="/resources/css/welcome.css" />" />
-    <style>
-      body {
-        /* gray-100 */
-        --tw-bg-opacity: 1;
-        background-color: rgb(243 244 246 / var(--tw-bg-opacity));
-      }
-      .auditions-content {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 2rem 1rem;
-      }
-      .auditions-content > h2 {
-        font-size: 3rem;
-        line-height: 1;
-        font-weight: 700;
-        padding: 1rem;
-        margin: 1rem;
-      }
-      .posts {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        margin: 0.75rem;
-        justify-content: space-around;
-      }
-
-      .pagination {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        margin: 0.75rem;
-        justify-content: space-around;
-      }
-
-      .pagination-next{
-        margin: 0 10px;
-        height: 40px;
-        cursor: pointer;
-      }
-
-      .rotate{
-        transform: rotate(180deg);
-      }
-    </style>
+    <link rel="stylesheet" href="<c:url value="/resources/css/auditions.css" />" />
   </head>
   <body>
     <!-- Navbar -->
