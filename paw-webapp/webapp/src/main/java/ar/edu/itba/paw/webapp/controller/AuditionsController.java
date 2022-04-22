@@ -124,7 +124,7 @@ public class AuditionsController {
         return mav;
     }
 
-    @RequestMapping(value="/postAudition", method = {RequestMethod.POST})
+    @RequestMapping(value="/newAudition", method = {RequestMethod.POST})
     public ModelAndView postNewAudition(@Valid @ModelAttribute("auditionForm") final AuditionForm auditionForm,
                                         final BindingResult errors) {
 

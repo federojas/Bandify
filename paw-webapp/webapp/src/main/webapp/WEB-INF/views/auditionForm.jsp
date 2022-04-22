@@ -22,7 +22,7 @@
         <h1><spring:message code="welcome.formSectionh1"/></h1>
         <br/>
         <h1><spring:message code="welcome.formSectionh2"/></h1>
-        <c:url value="/postAudition" var="postPath" />
+        <c:url value="/newAudition" var="postPath" />
         <!-- Form box -->
         <div class="inner-box-form" id="form-post-title">
             <form:form
