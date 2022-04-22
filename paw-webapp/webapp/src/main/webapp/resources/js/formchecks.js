@@ -1,18 +1,25 @@
 function applicationCheck(){
     message=document.getElementById("message").value;;
+    document.getElementById("bigMessage").style.display='none'
+    document.getElementById("emptyMessage").style.display='none'
     validForm=true;
-    sendForm=true;
-    if(message.length<=0||message.length>300){
-        valid=false;
+    if(message.length<=0){
+        validForm=false;
+        document.getElementById("emptyMessage").style.display='block'
+
+    }
+    if(message.length>300){
+        validForm=false;
+        document.getElementById("bigMessage").style.display='block'
     }
     if(typeof message != 'string'){
-        valid=false;
-        sendForm=false;
+        validForm=false;
+
     }
-    if(!valid){
+    if(!validForm){
         snackbarMessage()
     }
-    return sendForm;
+    return validForm;
 }
 function snackbarMessage() {
     var x = document.getElementById("snackbar");
@@ -20,21 +27,41 @@ function snackbarMessage() {
     setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
 }
 function auditionFormCheck(){
+   document.getElementById("emptyTitle").style.display='none'
+    document.getElementById("longTitle").style.display='none'
+    document.getElementById("emptyDescription").style.display='none'
+    document.getElementById("longDescription").style.display='none'
+
     title=document.getElementById("title").value;
     description=document.getElementById("description").value;
     validForm=true;
-    sendForm=true;
-    if(title.length<=0 || title.length>25 || description.length<=0 || description.length>300){
-        valid=false;
+    if(title.length<=0){
+        document.getElementById("emptyTitle").style.display='block'
+
+        validForm=false;
+    }
+    if(title.length>25){
+        document.getElementById("longTitle").style.display='block'
+
+        validForm=false;
+    }
+    if(description.length<=0){
+        document.getElementById("emptyDescription").style.display='block'
+        validForm=false;
+    }
+    if(description.length>=25){
+        document.getElementById("longDescription").style.display='block'
+        validForm=false;
     }
     if(typeof title!='string'||typeof description != 'string'){
-        valid=false;
-        sendForm=false;
+        validForm=false;
+
     }
-    if(!valid){
+    if(!validForm){
         snackbarMessage()
     }
-    return sendForm;
+    return false;
+    return validForm;
 }
 function loginFormCheck(){
     password=document.getElementById("password").value;
@@ -97,9 +124,6 @@ function registerbandCheck(){
         snackbarMessage()
     }
     return sendForm;
-}
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
 }
 function CustomAlert(){
     this.alert = function(message,title){

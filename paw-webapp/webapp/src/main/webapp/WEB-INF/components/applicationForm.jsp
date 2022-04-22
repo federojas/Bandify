@@ -31,7 +31,8 @@
             <spring:message code="application.form.message.placeholder" var="messageplaceholder" />
             <form:textarea type="text" id="message" maxlength="300" placeholder="${messageplaceholder}" class="form-input"
                            path="message"/>
-
+            <p id="emptyMessage" class="error" style="display: none"><spring:message code="applicationForm.error.emptyMessage"/> </p>
+            <p id="bigMessage" class="error" style="display: none"><spring:message code="applicationForm.error.bigMessage" arguments="300"/> </p>
             <form:errors path="message" element="p" cssClass="error">
             </form:errors>
         </div>
