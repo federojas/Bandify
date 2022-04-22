@@ -64,27 +64,30 @@ function auditionFormCheck(){
     return validForm;
 }
 function loginFormCheck(){
+    document.getElementById("invalidMail").style.display='none'
+    document.getElementById("invalidPassword").style.display='none'
+
     password=document.getElementById("password").value;
     email=document.getElementById("email").value;
     validForm=true;
-    sendForm=true;
-    var x = document.getElementById("wrongEmail");
-    var y = document.getElementById("wrongPassword");
-    if(password.length<=0 || password.length>50 || email.length<=0||email.length>250){
-        valid=false;
+    if(email.length<=0 || email.length>=250 ){
+        document.getElementById("invalidMail").style.display='block'
+        validForm=false;
+
+    }
+    if(password.length<=0 || password.length>=50){
+        document.getElementById("invalidPassword").style.display='block'
+
+        validForm=false;
     }
     if(typeof password!='string'||typeof email != 'string'){
-        valid=false;
-        sendForm=false;
-        y.className = "show";
-        x.className = "show";
+        validForm=false;
     }
-    if(!valid){
+    if(!validForm){
         snackbarMessage()
     }
-    return sendForm;
+    return validForm;
 }
-
 function registerArtistCheck(){
     password=document.getElementById("password").value;
     email=document.getElementById("email").value;

@@ -40,18 +40,19 @@
                         <label for="email" class="form-label">
                             <spring:message code="welcome.email"/>
                         </label>
-                        <input type="text" class="form-input" id="email" name="email"
+                        <input type="text" required class="form-input" id="email" name="email"
                                placeholder="<spring:message code="welcome.email"/>"/>
+                        <p id="invalidMail" class="error" style="display: none"><spring:message code="Welcome.error.invalidMail"/> </p>
+
                     </div>
-                    <p id="wrongEmail" class="wrongMessage"><spring:message code="wrong.email"/></p>
                     <div class="form-group">
                         <label for="password" class="form-label">
                             <spring:message code="welcome.password"/>
                         </label>
-                        <input type="password" class="form-input" id="password" name="password"
+                        <input type="password" required class="form-input" id="password" name="password"
                                placeholder="<spring:message code="welcome.password"/>"/>
                     </div>
-                    <p id="wrongPassword" class="wrongMessage"><spring:message code="wrong.password"/></p>
+                    <p id="invalidPassword" class="error" style="display: none"><spring:message code="Welcome.error.invalidPassword"/> </p>
 
                     <div>
                         <input type="checkbox" id="rememberme" class="remember-me" value="false"/>
