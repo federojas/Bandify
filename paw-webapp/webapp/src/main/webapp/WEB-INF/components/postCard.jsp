@@ -42,7 +42,7 @@
                     varStatus="loop"
             >
                 <div class="bg-gray-200 p-2 rounded-md justify-center tag m-2">
-                        ${item.name}
+                    <c:out value="${item.name}"/>
                 </div>
 
             </c:forEach>

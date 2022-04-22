@@ -112,13 +112,13 @@
 
 
                             </c:if>
-                          <c:out value="${user.getName()}" ></c:out>
+                          <c:out value="${user.getName()}"/>
                             </li>
                             <c:if test="${!user.isBand()}">
                             <hr>
                                 <li class="pt-2">
                                     <spring:message code="profile.surname"></spring:message>
-                                        ${user.getSurname()}
+                                       <c:out value=" ${user.getSurname()}"/>
                                 </li>
                                 <hr>
                             </c:if>
@@ -137,7 +137,7 @@
                             <hr>
                             <li class="pt-2">
                                 <spring:message code="profile.mail"></spring:message>
-                                ${user.getEmail()}
+                               <c:out value="${user.getEmail()}"/>
                             </li>
 <%--                            <hr>--%>
 <%--                            <li class="pt-2">--%>
