@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import javax.swing.*;
 import java.util.*;
 
 @Repository
@@ -98,8 +99,12 @@ public class AuditionJdbcDao implements AuditionDao {
     }
 
     @Override
-    public int getTotalAuditions() {
-        Optional<Integer> result = jdbcTemplate.query("SELECT COUNT(*) FROM auditions", TOTAL_AUDITION_ROWMAPPER).stream().findFirst();
+    public int getTotalPages(String query) {
+        Optional<Integer> result;
+        if(query == null || query.isEmpty())
+            result = jdbcTemplate.query("SELECT COUNT(*) FROM auditions", TOTAL_AUDITION_ROWMAPPER).stream().findFirst();
+        else
+            result = jdbcTemplate.query("SELECT COUNT(*) FROM auditions WHERE title LIKE ?", new Object[] {"%" + query + "%"},TOTAL_AUDITION_ROWMAPPER).stream().findFirst();
         //TODO Math.ceil casteado a int puede castear un double muy grande y generar una excepcion
         //TODO tamaño int es la maxima page
         return result.map(integer -> (int) Math.ceil(integer.doubleValue() / PAGE_SIZE)).orElse(0);
