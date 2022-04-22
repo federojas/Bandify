@@ -50,7 +50,8 @@
 </jsp:include>
 
 <div class="success-content">
-    <img src="<c:url value="/resources/icons/success.svg"/>" class="success-icon" alt="success"/>
+    <spring:message code="success.success.alt" var="success"/>
+    <img src="<c:url value="/resources/icons/success.svg"/>" class="success-icon" alt="${success}"/>
     <h1><spring:message code="success.title"/></h1>
     <p><spring:message code="success.p"/></p>
     <a href="<c:url value="/auditions" />">

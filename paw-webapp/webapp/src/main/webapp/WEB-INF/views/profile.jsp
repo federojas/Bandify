@@ -26,9 +26,10 @@
                         <!-- Profile Card -->
                         <div class="bg-white p-3 border-t-4  bg-main-color">
                             <div class="image overflow-hidden">
+                                <spring:message code="profile.img.alt" var="profileImg"/>
                                 <img class="h-auto w-full mx-auto"
                                      src="<c:url value="${pageContext.request.contextPath}/resources/images/profile_anon.png"/>"
-                                     alt="">
+                                     alt="${profileImg}">
                             </div>
                             <h1 class="full-name">
                                 <c:out value=" ${user.name}" /></h1>
@@ -58,18 +59,22 @@
                         <!-- End of profile card -->
                         <div class="profile-btns">
                             <a href="<c:url value="/profile/edit" />">
+                                <spring:message code="profile.edit.alt" var="edit"/>
+
                                 <button class="edit-btn">
                                     <img src="/resources/icons/edit.svg"
-                                        alt="edit"
+                                        alt="${edit}"
                                          class="icon-img"
                                     />
                                     <spring:message code="profile.editProfile"/>
                                 </button>
                             </a>
+                            <spring:message code="profile.logout" var="logout"/>
+
                             <a href="<c:url value="/logout"/>" >
                                 <button class="logout-btn">
                                     <img src="/resources/icons/logout.svg"
-                                        alt="logout"
+                                        alt="${logout}"
                                          class="icon-img"/>
                                     <spring:message code="profile.logout"/>
                                 </button>
@@ -93,7 +98,8 @@
                 <div class="bg-white p-3 shadow-sm rounded-sm">
                     <div class="flex items-center space-x-2 font-semibold text-gray-900 leading-8">
                         <span clas="text-indigo-900">
-                              <img src="<c:url value="${pageContext.request.contextPath}/resources/icons/user.svg"/>" class="user-icon" alt="user"/>
+                             <spring:message code="profile.user.alt" var="user"/>
+                              <img src="<c:url value="${pageContext.request.contextPath}/resources/icons/user.svg"/>" class="user-icon" alt="${user}"/>
                                 </span>
                                 <span class="tracking-wide "><spring:message code="profile.about"></spring:message></span>
                             </div>

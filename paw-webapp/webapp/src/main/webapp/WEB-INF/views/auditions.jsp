@@ -99,7 +99,7 @@ prefix="spring" uri="http://www.springframework.org/tags"%>
           <spring:message code="pagination.previous.page.alt" var="previous"/>
           <a href="<c:url value="/auditions?page=${currentPage-1}"/>">
             <img src="<c:url value="/resources/images/page-next.png"/>"
-                 alt="previous" class="pagination-next rotate">
+                 alt="${previous}" class="pagination-next rotate">
           </a>
         </c:if>
         <spring:message code="page.current" arguments="${currentPage},${lastPage}" />
@@ -107,7 +107,7 @@ prefix="spring" uri="http://www.springframework.org/tags"%>
           <spring:message code="pagination.next.page.alt" var="next"/>
           <a href="<c:url value="/auditions?page=${currentPage+1}"/>">
             <img src="<c:url value="/resources/images/page-next.png"/>"
-                 alt="next" class="pagination-next">
+                 alt="${next}" class="pagination-next">
           </a>
         </c:if>
       </div>
