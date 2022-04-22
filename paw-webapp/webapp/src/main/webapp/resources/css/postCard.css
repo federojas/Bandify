@@ -20,6 +20,7 @@
 }
 .postCard-div-1 {
   margin-bottom: 1rem;
+  overflow: hidden !important;
 }
 .postCard-div-2 {
   margin-bottom: 1rem;
