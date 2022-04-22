@@ -27,6 +27,7 @@ body {
 .pagination {
     display: flex;
     flex-direction: row;
+    align-items: center;
     flex-wrap: wrap;
     margin: 0.75rem;
     justify-content: space-around;
@@ -35,6 +36,7 @@ body {
 .pagination-next{
     margin: 0 10px;
     height: 40px;
+    max-height: 30px;
     cursor: pointer;
 }
 
