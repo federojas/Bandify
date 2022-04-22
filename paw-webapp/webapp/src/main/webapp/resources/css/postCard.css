@@ -22,6 +22,12 @@
   margin-bottom: 1rem;
   overflow: hidden !important;
 }
+button:disabled,
+button[disabled]{
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+}
 .postCard-div-2 {
   margin-bottom: 1rem;
 }

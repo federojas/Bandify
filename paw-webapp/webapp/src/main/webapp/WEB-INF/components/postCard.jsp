@@ -5,6 +5,7 @@
 <html>
 <head>
     <link rel="stylesheet" href="<c:url value="/resources/css/postCard.css" />"/>
+
 </head>
 <body>
 <%--    Card --%>
@@ -65,14 +66,16 @@
         </a>
         <c:if test="${user.isBand()}">
             <button
-                    class="postCard-button-0 hover:bg-red-700"
+                    class="postCard-button-0"
                     type="button"
+                    disabled
+                    onclick="alert()"
             >
-                <spring:message code="postCard.NotAvailableFor"/>
-                <br>
-                <spring:message code="postCard.Bands"/>
+                <spring:message code="postCard.button"/>
+
 
             </button>
+
         </c:if>
 
     </div>
