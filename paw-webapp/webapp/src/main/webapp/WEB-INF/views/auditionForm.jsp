@@ -76,7 +76,7 @@
                         <spring:message code="welcome.form.title"/>
                     </form:label>
                     <spring:message code="audition.form.title.placeholder" var="titleplaceholder" />
-                    <form:input type="text" id="title"  maxlength="50" placeholder="${titleplaceholder}" class="form-input" path="title" />
+                    <form:input type="text" id="title"  maxlength="25" placeholder="${titleplaceholder}" class="form-input" path="title" />
 
                     <form:errors path="title" element="p" cssClass="error"> </form:errors>
                 </div>

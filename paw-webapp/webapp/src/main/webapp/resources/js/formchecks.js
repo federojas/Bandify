@@ -24,7 +24,7 @@ function auditionFormCheck(){
     description=document.getElementById("description").value;
     validForm=true;
     sendForm=true;
-    if(title.length<=0 || title.length>50 || description.length<=0 || description.length>300){
+    if(title.length<=0 || title.length>25 || description.length<=0 || description.length>300){
         valid=false;
     }
     if(typeof title!='string'||typeof description != 'string'){
