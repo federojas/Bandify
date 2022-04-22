@@ -40,7 +40,9 @@ public class UserController {
     public ModelAndView registerBand(@Valid @ModelAttribute("userBandForm") final UserBandForm userBandForm,
                                      final BindingResult errors) {
         if (errors.hasErrors()) {
-            return registerView(userBandForm, new UserArtistForm());
+            ModelAndView returnRegister = registerView(userBandForm, new UserArtistForm());
+            returnRegister.addObject("userArtistForm", new UserArtistForm());
+            return returnRegister;
         }
 
         User.UserBuilder user = new User.UserBuilder(userBandForm.getEmail(), userBandForm.getPassword(),
@@ -56,7 +58,9 @@ public class UserController {
     public ModelAndView registerArtist(@Valid @ModelAttribute("userArtistForm") final UserArtistForm userArtistForm,
                                        final BindingResult errors) {
         if (errors.hasErrors()) {
-            return registerView(new UserBandForm(), userArtistForm);
+            ModelAndView returnRegister = registerView(new UserBandForm(), userArtistForm);
+            returnRegister.addObject("userBandForm", new UserBandForm());
+            return returnRegister;
         }
 
         User.UserBuilder user = new User.UserBuilder(userArtistForm.getEmail(), userArtistForm.getPassword(),
