@@ -40,23 +40,26 @@ public class UserController {
     public ModelAndView registerBand(@Valid @ModelAttribute("userBandForm") final UserBandForm userBandForm,
                                      final BindingResult errors) {
         if (errors.hasErrors()) {
-            return registerView(userBandForm, new UserArtistForm());
+            ModelAndView returnRegister = registerView(userBandForm, new UserArtistForm());
+            returnRegister.addObject("userArtistForm", new UserArtistForm());
+            return returnRegister;
         }
 
         User.UserBuilder user = new User.UserBuilder(userBandForm.getEmail(), userBandForm.getPassword(),
                 userBandForm.getName(), userBandForm.isBand());
 
         userService.create(user);
-        LOGGER.debug("User with mail {} created", user.getEmail());
 
-        return new WelcomeController().welcome();
+        return WelcomeController.welcome();
     }
 
     @RequestMapping(value = "/registerArtist", method = {RequestMethod.POST})
     public ModelAndView registerArtist(@Valid @ModelAttribute("userArtistForm") final UserArtistForm userArtistForm,
                                        final BindingResult errors) {
         if (errors.hasErrors()) {
-            return registerView(new UserBandForm(), userArtistForm);
+            ModelAndView returnRegister = registerView(new UserBandForm(), userArtistForm);
+            returnRegister.addObject("userBandForm", new UserBandForm());
+            return returnRegister;
         }
 
         User.UserBuilder user = new User.UserBuilder(userArtistForm.getEmail(), userArtistForm.getPassword(),
@@ -64,9 +67,8 @@ public class UserController {
                 .surname(userArtistForm.getSurname());
 
         userService.create(user);
-        LOGGER.debug("User with mail {} created", user.getEmail());
 
-        return new WelcomeController().welcome();
+        return WelcomeController.welcome();
     }
 
     @RequestMapping(value = "/profile", method = {RequestMethod.GET})

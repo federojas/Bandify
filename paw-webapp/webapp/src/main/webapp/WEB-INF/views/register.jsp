@@ -122,11 +122,15 @@
     </div>
 
     <div id="artist-form" style="display: block;">
-        <jsp:include page="../components/registerArtistForm.jsp"/>
+        <jsp:include page="../components/registerArtistForm.jsp">
+            <jsp:param name="artist" value="${1}" />
+        </jsp:include>
     </div>
 
     <div id="band-form" style="display: none; ">
-        <jsp:include page="../components/registerBandForm.jsp"/>
+        <jsp:include page="../components/registerBandForm.jsp">
+            <jsp:param name="band" value="${1}" />
+        </jsp:include>
     </div>
 
 

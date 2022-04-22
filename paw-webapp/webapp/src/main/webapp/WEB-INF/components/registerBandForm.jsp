@@ -9,6 +9,18 @@
             href="https://fonts.googleapis.com/css?family=Questrial"
     />
     <link rel="stylesheet" href="<c:url value="/resources/css/forms.css" />">
+    <script>
+        function checkPasswordBand() {
+            if (document.getElementById("password_band").value ===
+            document.getElementById("confirm_password_band").value) {
+                document.getElementById("match_message").style.display = "block";
+                document.getElementById("nonmatch_message").style.display = "none";
+            } else {
+                document.getElementById("match_message").style.display = "none";
+                document.getElementById("nonmatch_message").style.display = "block";
+            }
+        }
+    </script>
 </head>
 <body>
 <div class="register-content">
@@ -35,9 +47,23 @@
                 <spring:message code="register.form.password"/>
             </form:label>
             <spring:message code="register.form.passwordplaceholder" var="passwordplaceholder"/>
-            <form:input type="password" maxlength="50" placeholder="${passwordplaceholder}" class="form-input"
-                        path="password"/>
+            <form:input id="password_band" type="password" maxlength="50" placeholder="${passwordplaceholder}" class="form-input"
+                        path="password" onkeyup="checkPasswordBand()"/>
             <form:errors path="password" element="p" cssClass="error"> </form:errors>
+        </div>
+
+        <div>
+            <label class="form-label">
+                <spring:message code="register.form.confirm_password" />
+            </label>
+            <spring:message code="register.form.passwordplaceholder" var="confirm_passwordplaceholder"/>
+            <input type="password" name="confirm_password" class="form-input" id="confirm_password_band" onkeyup="checkPasswordBand()" placeholder="${confirm_passwordplaceholder}"/>
+            <span id="match_message" style="color: green; display: none;">
+                <spring:message code="register.form.passwordmatch"/>
+            </span>
+            <span id="nonmatch_message" style="color: red; display: none;">
+                <spring:message code="register.form.passwordnomatch"/>
+            </span>
         </div>
 
         <div>
