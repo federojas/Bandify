@@ -10,9 +10,9 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Questrial"
     />
-    <link rel="stylesheet" href="<c:url value="${pageContext.request.contextPath}/resources/css/forms.css" />">
-    <link rel="stylesheet" href="<c:url value="${pageContext.request.contextPath}/resources/css/alerts.css" />"/>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/formchecks.js"></script>
+    <link rel="stylesheet" href="<c:url value="/resources/css/forms.css" />">
+    <link rel="stylesheet" href="<c:url value="/resources/css/alerts.css" />"/>
+    <script type="text/javascript" src="/resources/js/formchecks.js"></script>
 </head>
 
 <body>

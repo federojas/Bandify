@@ -7,7 +7,7 @@
 <head>
     <c:import url="../config/generalHead.jsp"/>
     <title><spring:message code="navbar.profile" /></title>
-    <link rel="stylesheet" href="<c:url value="${pageContext.request.contextPath}/resources/css/profile.css" />"/>
+    <link rel="stylesheet" href="<c:url value="/resources/css/profile.css" />"/>
 
 </head>
     <body>
@@ -30,7 +30,8 @@
                                      src="<c:url value="${pageContext.request.contextPath}/resources/images/profile_anon.png"/>"
                                      alt="">
                             </div>
-                            <h1 class="full-name">${user.name}</h1>
+                            <h1 class="full-name">
+                                <c:out value=" ${user.name}" /></h1>
 
                             <ul
                                     class="status-box hover:text-gray-700 hover:shadow ">
@@ -56,18 +57,18 @@
                         </div>
                         <!-- End of profile card -->
                         <div class="profile-btns">
-                            <a href="<c:url value="${pageContext.request.contextPath}/profile/edit" />">
+                            <a href="<c:url value="/profile/edit" />">
                                 <button class="edit-btn">
-                                    <img src="${pageContext.request.contextPath}/resources/icons/edit.svg"
+                                    <img src="/resources/icons/edit.svg"
                                         alt="edit"
                                          class="icon-img"
                                     />
                                     <spring:message code="profile.editProfile"/>
                                 </button>
                             </a>
-                            <a href="<c:url value="${pageContext.request.contextPath}/logout"/>" >
+                            <a href="<c:url value="/logout"/>" >
                                 <button class="logout-btn">
-                                    <img src="${pageContext.request.contextPath}/resources/icons/logout.svg"
+                                    <img src="/resources/icons/logout.svg"
                                         alt="logout"
                                          class="icon-img"/>
                                     <spring:message code="profile.logout"/>
@@ -99,37 +100,49 @@
                     <div class="text-gray-700 flex justify-start">
                         <ul>
                             <li class="pt-2">
-                                <spring:message code="profile.firstName"></spring:message>
-                                ${user.getName()}
-                            </li>
-                            <hr>
+                            <c:if test="${user.isBand()}">
+
+                                    <spring:message code="profile.bandName"></spring:message>
+
+
+                            </c:if>
                             <c:if test="${!user.isBand()}">
+
+                                <spring:message code="profile.firstName"></spring:message>
+
+
+                            </c:if>
+                          <c:out value="${user.getName()}" ></c:out>
+                            </li>
+                            <c:if test="${!user.isBand()}">
+                            <hr>
                                 <li class="pt-2">
                                     <spring:message code="profile.surname"></spring:message>
                                         ${user.getSurname()}
                                 </li>
                                 <hr>
                             </c:if>
-                            <li class="pt-2">
-                                <spring:message code="profile.experience"></spring:message> -
-                            </li>
-                            <hr>
-                            <li class="pt-2">
-                                <spring:message code="profile.Education"></spring:message> -
-                            </li>
-                            <hr>
-                            <li class="pt-2">
-                                <spring:message code="profile.gender"></spring:message> -
-                            </li>
+
+                        <%--                            <li class="pt-2">--%>
+<%--                                <spring:message code="profile.experience"></spring:message> ---%>
+<%--                            </li>--%>
+<%--                            <hr>--%>
+<%--                            <li class="pt-2">--%>
+<%--                                <spring:message code="profile.Education"></spring:message> ---%>
+<%--                            </li>--%>
+<%--                            <hr>--%>
+<%--                            <li class="pt-2">--%>
+<%--                                <spring:message code="profile.gender"></spring:message> ---%>
+<%--                            </li>--%>
                             <hr>
                             <li class="pt-2">
                                 <spring:message code="profile.mail"></spring:message>
                                 ${user.getEmail()}
                             </li>
-                            <hr>
-                            <li class="pt-2">
-                                <spring:message code="profile.birth"></spring:message> -
-                            </li>
+<%--                            <hr>--%>
+<%--                            <li class="pt-2">--%>
+<%--                                <spring:message code="profile.birth"></spring:message> ---%>
+<%--                            </li>--%>
                         </ul>
                     </div>
                         </div>

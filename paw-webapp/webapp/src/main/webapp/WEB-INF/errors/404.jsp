@@ -4,12 +4,12 @@
 <html>
 <head>
     <title>404</title>
-    <link rel="stylesheet" href="<c:url value="${pageContext.request.contextPath}/resources/css/404.css" />" />
+    <link rel="stylesheet" href="<c:url value="/resources/css/404.css" />" />
 </head>
 <body>
 <div class="container">
     <spring:message code="img.alt.404" var="img404"/>
-    <img src="<c:url value="${pageContext.request.contextPath}/resources/images/Error_1.png" />" alt="${img404}" />
+    <img src="<c:url value="/resources/images/Error_1.png" />" alt="${img404}" />
     <p class="wrong-para"><spring:message code="404.errorMessage"/></p>
 </div>
 </body>

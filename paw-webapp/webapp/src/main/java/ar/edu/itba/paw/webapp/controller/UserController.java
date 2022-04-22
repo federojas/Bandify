@@ -31,20 +31,16 @@ public class UserController {
     }
 
     @RequestMapping(value = "/register", method = {RequestMethod.GET})
-    public ModelAndView registerView() {
+    public ModelAndView registerView(@ModelAttribute("userBandForm") final UserBandForm userBandForm,
+                                     @ModelAttribute("userArtistForm") final UserArtistForm userArtistForm) {
         return new ModelAndView("views/register");
-    }
-
-    @RequestMapping(value = "/registerBand", method = {RequestMethod.GET})
-    public ModelAndView registerBandView( @ModelAttribute("userBandForm") final UserBandForm userBandForm) {
-        return new ModelAndView("views/registerBand");
     }
 
     @RequestMapping(value = "/registerBand", method = {RequestMethod.POST})
     public ModelAndView registerBand(@Valid @ModelAttribute("userBandForm") final UserBandForm userBandForm,
                                      final BindingResult errors) {
         if (errors.hasErrors()) {
-            return registerBandView(userBandForm);
+            return registerView(userBandForm, new UserArtistForm());
         }
 
         User.UserBuilder user = new User.UserBuilder(userBandForm.getEmail(), userBandForm.getPassword(),
@@ -56,16 +52,11 @@ public class UserController {
         return new WelcomeController().welcome();
     }
 
-    @RequestMapping(value = "/registerArtist", method = {RequestMethod.GET})
-    public ModelAndView registerArtistView( @ModelAttribute("userArtistForm") final UserArtistForm userArtistForm) {
-        return new ModelAndView("views/registerArtist");
-    }
-
     @RequestMapping(value = "/registerArtist", method = {RequestMethod.POST})
     public ModelAndView registerArtist(@Valid @ModelAttribute("userArtistForm") final UserArtistForm userArtistForm,
                                        final BindingResult errors) {
         if (errors.hasErrors()) {
-            return registerArtistView(userArtistForm);
+            return registerView(new UserBandForm(), userArtistForm);
         }
 
         User.UserBuilder user = new User.UserBuilder(userArtistForm.getEmail(), userArtistForm.getPassword(),

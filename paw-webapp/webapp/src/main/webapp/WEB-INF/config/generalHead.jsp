@@ -6,7 +6,7 @@
 <title><spring:message code="welcome.title"/></title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="icon" type="image/x-icon"
-      href="<c:url value="${pageContext.request.contextPath}/resources/images/favi.ico"/>"/>
+      href="<c:url value="/resources/images/favi.ico"/>"/>
 <link
         rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Questrial"

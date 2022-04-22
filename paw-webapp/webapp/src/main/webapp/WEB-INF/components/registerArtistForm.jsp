@@ -3,43 +3,17 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <html>
-
 <head>
-    <c:import url="../config/generalHead.jsp"/>
-    <link rel="stylesheet" href="<c:url value="${pageContext.request.contextPath}/resources/css/forms.css" />"/>
-    <link rel="stylesheet" href="<c:url value="${pageContext.request.contextPath}/resources/css/alerts.css" />"/>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/formchecks.js"></script>
-    <style>
-        .register-content {
-            display: flex;
-            justify-content: center;
-            padding: 24px;
-        }
-
-        .box {
-            background-color: #efefef;
-            opacity: 0.9;
-            width: 60%;
-            padding: 0.5rem 1.5rem;
-            border-color: #6c0c8436;
-            border-radius: 0.75rem;
-            border-width: 1px;
-            border-style: dotted;
-            font-size: 1.25rem;
-            line-height: 1.5rem;
-            font-weight: 600;
-        }
-    </style>
+    <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css?family=Questrial"
+    />
+    <link rel="stylesheet" href="<c:url value="/resources/css/forms.css" />">
 </head>
 <body>
-<!-- Navbar -->
-<jsp:include page="../components/navbar.jsp">
-    <jsp:param name="navItem" value="${1}"/>
-    <jsp:param name="name" value="Bandify"/>
-</jsp:include>
-
 <div class="register-content">
     <c:url value="/registerArtist" var="registerUrl"/>
+    <%--@elvariable id="userArtistForm" type="ar.edu.itba.paw.webapp.form.UserArtistForm"--%>
     <form:form
             modelAttribute="userArtistForm"
             action="${registerUrl}"
@@ -53,7 +27,7 @@
                 <spring:message code="register.form.email"/>
             </form:label>
             <spring:message code="register.form.emailplaceholder" var="emailplaceholder"/>
-            <form:input type="text" id="email" maxlength="250" placeholder="${emailplaceholder}" class="form-input" path="email"/>
+            <form:input type="text" maxlength="50" placeholder="${emailplaceholder}" class="form-input" path="email"/>
             <form:errors path="email" element="p" cssClass="error"> </form:errors>
         </div>
 
@@ -63,7 +37,7 @@
             </form:label>
             <spring:message code="register.form.passwordplaceholder" var="passwordplaceholder"/>
             <form:input type="password" maxlength="50" placeholder="${passwordplaceholder}" class="form-input"
-                        path="password" id="password"/>
+                        path="password"/>
             <form:errors path="password" element="p" cssClass="error"> </form:errors>
         </div>
 
@@ -72,7 +46,7 @@
                 <spring:message code="register.form.name"/>
             </form:label>
             <spring:message code="register.form.nameplaceholder" var="nameplaceholder"/>
-            <form:input type="text" maxlength="50" id="name" placeholder="${nameplaceholder}" class="form-input" path="name"/>
+            <form:input type="text" maxlength="50" placeholder="${nameplaceholder}" class="form-input" path="name"/>
             <form:errors path="name" element="p" cssClass="error"> </form:errors>
         </div>
 
@@ -82,14 +56,13 @@
             </form:label>
             <spring:message code="register.form.surnameplaceholder" var="surnameplaceholder"/>
             <form:input type="text" maxlength="50" placeholder="${surnameplaceholder}" class="form-input"
-                        path="surname" id="surname"/>
+                        path="surname"/>
             <form:errors path="surname" element="p" cssClass="error"> </form:errors>
         </div>
 
         <div class="end-button-div">
             <button
                     type="submit"
-                    onclick="return registerArtistCheck()"
                     class="purple-button"
             >
                 <spring:message code="register.postButton"/>
@@ -97,9 +70,6 @@
         </div>
     </form:form>
 </div>
-<div id="snackbar"><spring:message code="snackbar.message"/></div>
-
-
 
 </body>
 </html>

@@ -4,7 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <html>
 <head>
-    <link rel="stylesheet" href="<c:url value="${pageContext.request.contextPath}/resources/css/postCard.css" />"/>
+    <link rel="stylesheet" href="<c:url value="/resources/css/postCard.css" />"/>
 </head>
 <body>
 <%--    Card --%>
