@@ -121,27 +121,6 @@
         <div class="hero-title">
             <span><spring:message code="welcome.slogan1"/></span>
             <p><spring:message code="welcome.slogan2"/></p>
-            <div class="hero-buttons">
-                <p><spring:message code="welcome.options"/></p>
-                <div class="buttons">
-                    <a href="<c:url value="/auditions"/> ">
-                        <button
-                                type="button"
-                                class="purple-hover-button "
-                        >
-                            <spring:message code="welcome.searchingBandsButton"/>
-                        </button>
-                    </a>
-                    <a href="<c:url value="/newAudition"/> ">
-                        <button
-                                type="button"
-                                class="purple-hover-button"
-                        >
-                            <spring:message code="welcome.searchingArtistsButton"/>
-                        </button>
-                    </a>
-                </div>
-            </div>
         </div>
 
         <%--        Log in --%>
