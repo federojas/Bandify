@@ -3,17 +3,18 @@ package ar.edu.itba.paw.webapp.controller;
 import ar.edu.itba.paw.model.Genre;
 import ar.edu.itba.paw.model.Location;
 import ar.edu.itba.paw.model.Role;
+import ar.edu.itba.paw.model.exceptions.AuditionNotFoundException;
 import ar.edu.itba.paw.model.exceptions.GenreNotFoundException;
 import ar.edu.itba.paw.model.exceptions.LocationNotFoundException;
-import ar.edu.itba.paw.model.exceptions.RoleNotFoundException;
 import ar.edu.itba.paw.persistence.Audition;
 import ar.edu.itba.paw.service.*;
 import ar.edu.itba.paw.webapp.form.ApplicationForm;
 import ar.edu.itba.paw.webapp.form.AuditionForm;
 import ar.edu.itba.paw.webapp.security.services.SecurityFacade;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +35,8 @@ public class AuditionsController {
     private final MailingService mailingService;
     private final SecurityFacade securityFacade;
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuditionsController.class);
+
     @Autowired
     public AuditionsController(final AuditionService auditionService, final MailingService mailingService,
                                final GenreService genreService, final LocationService locationService,
@@ -44,31 +47,44 @@ public class AuditionsController {
         this.locationService = locationService;
         this.mailingService = mailingService;
         this.securityFacade = securityFacade;
+
     }
 
     @RequestMapping(value = "/", method = {RequestMethod.GET})
     public ModelAndView home() {
-        return auditions();
+        return auditions(1);
     }
 
     @RequestMapping(value = "/auditions", method = {RequestMethod.GET})
-    public ModelAndView auditions() {
+    public ModelAndView auditions( @RequestParam(value = "page", defaultValue = "1") int page) {
         final ModelAndView mav = new ModelAndView("views/auditions");
-        List<Audition> auditionList = auditionService.getAll(1);
+        // TODO: Error controller
+        // TODO: Total pages
+        int lastPage = auditionService.getTotalAuditions();
+        if(page < 0 || page > lastPage)
+            return new ModelAndView("errors/400");
+        List<Audition> auditionList = auditionService.getAll(page);
         mav.addObject("auditionList", auditionList);
+        mav.addObject("currentPage", page);
+        mav.addObject("lastPage", lastPage);
+        mav.addObject("user", securityFacade.getCurrentUser());
         return mav;
     }
 
     @RequestMapping(value = "/auditions/{id}", method = {RequestMethod.GET})
     public ModelAndView audition(@ModelAttribute("applicationForm") final ApplicationForm applicationForm,
                                  @PathVariable long id) {
+        // TODO : es necesario este if? sino con el else de abajo seria suficiente creo
+        // TODO : consultar por qué el error controller no agarra la excepción
+        if(id < 0 || id > auditionService.getMaxAuditionId())
+            throw new AuditionNotFoundException();
         final ModelAndView mav = new ModelAndView("views/audition");
-
         Optional<Audition> audition = auditionService.getAuditionById(id);
         if (audition.isPresent()) {
             mav.addObject("audition", audition.get());
+            mav.addObject("user",securityFacade.getCurrentUser());
         } else {
-            return badFormData();
+            throw new AuditionNotFoundException();
         }
         return mav;
     }
@@ -88,8 +104,7 @@ public class AuditionsController {
                mailingService.sendAuditionEmail(aud.get().getEmail(), securityFacade.getCurrentUser(), applicationForm.getMessage(), LocaleContextHolder.getLocale());
            }
         } catch (MessagingException e) {
-           //TODO: IMPRESION EN LOG
-            e.printStackTrace();
+           LOGGER.debug("Audition application email threw messaging exception");
         }
         return success();
     }
@@ -109,7 +124,7 @@ public class AuditionsController {
         return mav;
     }
 
-    @RequestMapping(value="/postAudition", method = {RequestMethod.POST})
+    @RequestMapping(value="/newAudition", method = {RequestMethod.POST})
     public ModelAndView postNewAudition(@Valid @ModelAttribute("auditionForm") final AuditionForm auditionForm,
                                         final BindingResult errors) {
 
@@ -118,24 +133,17 @@ public class AuditionsController {
         }
 
         auditionService.create(auditionForm.toBuilder(1, securityFacade.getCurrentUser().getEmail()).
-                location(locationService.getLocation(auditionForm.getLocation()).orElseThrow(LocationNotFoundException::new)).
+                location(locationService.getLocationByName(auditionForm.getLocation()).orElseThrow(LocationNotFoundException::new)).
                 lookingFor(roleService.validateAndReturnRoles(auditionForm.getLookingFor())).
                 musicGenres(genreService.validateAndReturnGenres(auditionForm.getMusicGenres()))
         );
 
-        return auditions();
-    }
-
-    @ExceptionHandler({LocationNotFoundException.class, GenreNotFoundException.class, RoleNotFoundException.class})
-    @ResponseStatus(code = HttpStatus.NOT_FOUND)
-    public ModelAndView badFormData() {
-        return new ModelAndView("errors/404");
+        return auditions(1);
     }
 
     @RequestMapping(value = "/success", method = {RequestMethod.GET})
     public ModelAndView success() {
         return new ModelAndView("views/successMsg");
     }
-
 
 }

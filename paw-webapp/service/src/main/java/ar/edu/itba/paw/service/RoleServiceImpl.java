@@ -30,10 +30,10 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public List<Role> validateAndReturnRoles(List<Long> rolesIds) {
+    public List<Role> validateAndReturnRoles(List<String> rolesNames) {
         List<Role> roles = new ArrayList<>();
-        for(Long id : rolesIds) {
-            roles.add(roleDao.getRoleById(id).orElseThrow(RoleNotFoundException::new));
+        for(String name : rolesNames) {
+            roles.add(roleDao.getRoleByName(name).orElseThrow(RoleNotFoundException::new));
         }
         return roles;
     }

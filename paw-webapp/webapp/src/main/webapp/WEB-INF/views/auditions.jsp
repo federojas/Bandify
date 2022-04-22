@@ -6,33 +6,7 @@ prefix="spring" uri="http://www.springframework.org/tags"%>
   <head>
     <c:import url="../config/generalHead.jsp" />
     <link rel="stylesheet" href="<c:url value="/resources/css/welcome.css" />" />
-    <style>
-      body {
-        /* gray-100 */
-        --tw-bg-opacity: 1;
-        background-color: rgb(243 244 246 / var(--tw-bg-opacity));
-      }
-      .auditions-content {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 2rem 1rem;
-      }
-      .auditions-content > h2 {
-        font-size: 3rem;
-        line-height: 1;
-        font-weight: 700;
-        padding: 1rem;
-        margin: 1rem;
-      }
-      .posts {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        margin: 0.75rem;
-        justify-content: space-around;
-      }
-    </style>
+    <link rel="stylesheet" href="<c:url value="/resources/css/auditions.css" />" />
   </head>
   <body>
     <!-- Navbar -->
@@ -75,6 +49,23 @@ prefix="spring" uri="http://www.springframework.org/tags"%>
             />
           </jsp:include>
         </c:forEach>
+      </div>
+      <div class="pagination">
+        <c:if test="${currentPage > 1}">
+         <spring:message code="pagination.previous.page.alt" var="previous"/>
+          <a href="<c:url value="/auditions?page=${currentPage-1}"/>">
+            <img src="<c:url value="/resources/images/page-next.png"/>"
+                 alt="${previous}" class="pagination-next rotate">
+          </a>
+        </c:if>
+        <b><spring:message code="page.current" arguments="${currentPage},${lastPage}" /></b>
+        <c:if test="${currentPage < lastPage}">
+          <spring:message code="pagination.next.page.alt" var="next"/>
+          <a href="<c:url value="/auditions?page=${currentPage+1}"/>">
+            <img src="<c:url value="/resources/images/page-next.png"/>"
+                 alt="${next}" class="pagination-next">
+          </a>
+        </c:if>
       </div>
     </div>
   </body>

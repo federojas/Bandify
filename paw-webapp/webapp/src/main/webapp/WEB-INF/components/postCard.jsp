@@ -5,6 +5,7 @@
 <html>
 <head>
     <link rel="stylesheet" href="<c:url value="/resources/css/postCard.css" />"/>
+
 </head>
 <body>
 <%--    Card --%>
@@ -42,7 +43,7 @@
                     varStatus="loop"
             >
                 <div class="bg-gray-200 p-2 rounded-md justify-center tag m-2">
-                        ${item.name}
+                    <c:out value="${item.name}"/>
                 </div>
 
             </c:forEach>
@@ -54,13 +55,29 @@
             <c:param name="id" value=""/>
         </c:url>
         <a href="<c:url value="/auditions/${param.id}"/>">
+            <c:if test="${!user.isBand()}">
             <button
                     class="postCard-button-0 hover:bg-sky-700"
                     type="button"
             >
                 <spring:message code="postCard.button"/>
             </button>
+            </c:if>
         </a>
+        <c:if test="${user.isBand()}">
+            <button
+                    class="postCard-button-0"
+                    type="button"
+                    disabled
+                    onclick="alert()"
+            >
+                <spring:message code="postCard.button"/>
+
+
+            </button>
+
+        </c:if>
+
     </div>
 </div>
 </body>

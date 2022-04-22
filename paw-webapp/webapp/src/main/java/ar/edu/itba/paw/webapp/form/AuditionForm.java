@@ -19,17 +19,16 @@ public class AuditionForm {
     @Size(max = 300)
     private String description;
 
-    @Max(value = 2147483647)
-    @Min(value = 1)
-    private long location;
+    @NotBlank
+    private String location;
 
     @NotEmpty
     @Size(max = 5)
-    private List<Long> musicGenres;
+    private List<String> musicGenres;
 
     @NotEmpty
     @Size(max = 5)
-    private List<Long> lookingFor;
+    private List<String> lookingFor;
 
     public Audition.AuditionBuilder toBuilder(long bandId, String email) {
         return new Audition.AuditionBuilder(title, description, email, bandId, LocalDateTime.now());
@@ -43,17 +42,6 @@ public class AuditionForm {
         return description;
     }
 
-    public long getLocation() {
-        return location;
-    }
-
-    public List<Long> getMusicGenres() {
-        return musicGenres;
-    }
-
-    public List<Long> getLookingFor() {
-        return lookingFor;
-    }
 
     public void setTitle(String title) {
         this.title = title;
@@ -63,15 +51,27 @@ public class AuditionForm {
         this.description = description;
     }
 
-    public void setLocation(long location) {
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
         this.location = location;
     }
 
-    public void setMusicGenres(List<Long> musicGenres) {
+    public List<String> getMusicGenres() {
+        return musicGenres;
+    }
+
+    public void setMusicGenres(List<String> musicGenres) {
         this.musicGenres = musicGenres;
     }
 
-    public void setLookingFor(List<Long> lookingFor) {
+    public List<String> getLookingFor() {
+        return lookingFor;
+    }
+
+    public void setLookingFor(List<String> lookingFor) {
         this.lookingFor = lookingFor;
     }
 }

@@ -3,6 +3,6 @@
 <head>
 </head>
 <body>
-<h1>You shall not pass!</h1>
+<h1>403</h1>
 </body>
 </html>

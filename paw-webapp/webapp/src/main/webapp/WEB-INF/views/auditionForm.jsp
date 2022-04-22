@@ -7,43 +7,8 @@
     <c:import url="../config/generalHead.jsp"/>
     <link rel="stylesheet" href="<c:url value="/resources/css/welcome.css" />" />
     <link rel="stylesheet" href="<c:url value="/resources/css/forms.css" />">
-    <style>
-        /*body {*/
-        /*    display: flex;*/
-        /*    flex-direction: column;*/
-        /*    background-color: #f3f4f6;*/
-        /*}*/
-        /*.card-content {*/
-        /*    background-color: #ffffff;*/
-        /*    box-shadow: 0 10px 15px -3px #1c041c1a, 0 4px 6px -2px #1c041c0d;*/
-        /*    padding: 2.5rem;*/
-        /*    border-radius: 1rem;*/
-        /*    width: 60%;*/
-        /*    margin: 1.5rem auto;*/
-        /*}*/
-        /*.card-content > h1 {*/
-        /*    font-size: 2rem;*/
-        /*    line-height: 1.75rem;*/
-        /*    font-weight: 700;*/
-        /*    text-align: center;*/
-        /*}*/
-        /*.inner-box-form {*/
-        /*    padding: 0.75rem 1.5rem;*/
-        /*    margin-top: 1.5rem;*/
-        /*    border-color: #6c0c8436;*/
-        /*    border-width: 2px;*/
-        /*    border-style: dotted;*/
-        /*    border-radius: 0.75rem;*/
-        /*    font-size: 1.25rem;*/
-        /*    line-height: 1.5rem;*/
-        /*}*/
-        /*.multiple-select {*/
-        /*    height: fit-content !important;*/
-        /*}*/
-        /*#auditionForm > div {*/
-        /*    margin: 1.5rem 0;*/
-        /*}*/
-    </style>
+    <link rel="stylesheet" href="<c:url value="/resources/css/alerts.css" />"/>
+    <script type="text/javascript" src="/resources/js/formchecks.js"></script>
 </head>
 <body>
     <!-- Navbar -->
@@ -57,7 +22,7 @@
         <h1><spring:message code="welcome.formSectionh1"/></h1>
         <br/>
         <h1><spring:message code="welcome.formSectionh2"/></h1>
-        <c:url value="/postAudition" var="postPath" />
+        <c:url value="/newAudition" var="postPath" />
         <!-- Form box -->
         <div class="inner-box-form" id="form-post-title">
             <form:form
@@ -71,10 +36,12 @@
                         <spring:message code="welcome.form.title"/>
                     </form:label>
                     <spring:message code="audition.form.title.placeholder" var="titleplaceholder" />
-                    <form:input type="text"  maxlength="50" placeholder="${titleplaceholder}" class="form-input" path="title" />
-
+                    <form:input type="text" id="title"  maxlength="25" placeholder="${titleplaceholder}" class="form-input" path="title" />
+                    <p id="emptyTitle" class="error" style="display: none"><spring:message code="auditionForm.error.emptyTitle"/> </p>
+                    <p id="longTitle" class="error" style="display: none"><spring:message code="auditionForm.error.longTitle"/> </p>
                     <form:errors path="title" element="p" cssClass="error"> </form:errors>
                 </div>
+
                 <div>
                     <form:label class="form-label" path="description">
                         <spring:message code="welcome.form.description"/>
@@ -84,9 +51,11 @@
                             maxlength="300" placeholder="${descriptionplaceholder}"
                             class="form-input"
                             type="text"
+                            id="description"
                             path="description"
                     />
-
+                    <p id="emptyDescription" class="error" style="display: none"><spring:message code="auditionForm.error.emptyDescription" arguments="0"/> </p>
+                    <p id="longDescription" class="error" style="display: none"><spring:message code="auditionForm.error.longDescription" arguments="${300}"/> </p>
                     <form:errors path="description" element="p" cssClass="error"> </form:errors>
                 </div>
                 <div>
@@ -97,6 +66,7 @@
                             class="form-input"
                             path="location"
                             multiple="false"
+                            id="location"
                     >
                         <form:option value="0" selected="true" disabled="disabled" hidden="true"><spring:message code="welcome.form.location.default"/></form:option>
                         <c:forEach
@@ -104,7 +74,7 @@
                                 items="${locationList}"
                                 varStatus="loop"
                         >
-                            <form:option value="${location.id}">
+                            <form:option value="${location.name}">
                                 ${location.name}
                             </form:option>
                         </c:forEach>
@@ -121,7 +91,7 @@
                             multiple="true"
                     >
                         <c:forEach var="genre" items="${genreList}" varStatus="loop">
-                            <form:option value="${genre.id}"> ${genre.name} </form:option>
+                            <form:option value="${genre.name}"> ${genre.name} </form:option>
                         </c:forEach>
                     </form:select>
                     <form:errors path="musicGenres" element="p" cssClass="error">
@@ -136,7 +106,7 @@
                             multiple="true"
                     >
                         <c:forEach var="role" items="${roleList}" varStatus="loop">
-                            <form:option value="${role.id}"> ${role.name} </form:option>
+                            <form:option value="${role.name}"> ${role.name} </form:option>
                         </c:forEach>
                     </form:select>
                     <form:errors path="lookingFor" element="p" cssClass="error">
@@ -145,6 +115,8 @@
                 <div class="end-button-div">
                     <button
                             type="submit"
+                            value="submit"
+                            onclick="return auditionFormCheck()"
                             class="purple-button"
                     >
                         <spring:message code="welcome.postButton"/>
@@ -153,5 +125,7 @@
             </form:form>
         </div>
     </div>
+    <div id="snackbar"><spring:message code="snackbar.message"/></div>
+
 </body>
 </html>

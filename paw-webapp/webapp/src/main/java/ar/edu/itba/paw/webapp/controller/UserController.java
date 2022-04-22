@@ -30,7 +30,8 @@ public class UserController {
         this.securityFacade = securityFacade;
     }
 
-    @RequestMapping(value = "/register", method = {RequestMethod.GET})
+    @RequestMapping(value = {"/register","/registerBand", "/registerArtist"},
+            method = {RequestMethod.GET})
     public ModelAndView registerView(@ModelAttribute("userBandForm") final UserBandForm userBandForm,
                                      @ModelAttribute("userArtistForm") final UserArtistForm userArtistForm) {
         return new ModelAndView("views/register");

@@ -9,85 +9,6 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
     <link rel="stylesheet" href="<c:url value="/resources/css/postCard.css" />" />
     <link rel="stylesheet" href="<c:url value="/resources/css/audition.css" />" />
     <link rel="stylesheet" href="<c:url value="/resources/css/forms.css" />" />
-    <style>
-      body {
-        display: flex;
-        flex-direction: column;
-        background-color: #f3f4f6;
-      }
-      .audition-content {
-        justify-content: center;
-        align-items: center;
-        padding: 2rem 0;
-      }
-      .card-extern {
-        width: auto;
-        margin: 1.5rem auto;
-        max-width: 48rem /* 768px */;
-
-      }
-      .card-content {
-        background-color: #ffffff;
-        box-shadow: 0 10px 15px -3px #1c041c1a, 0 4px 6px -2px #1c041c0d;
-        padding: 1rem;
-      }
-      .card-header {
-        padding: 1.25rem;
-      }
-      .card-header > h3 {
-        font-size: 2.25rem;
-        line-height: 2.5rem;
-        font-weight: 600;
-      }
-      .card-body {
-        padding: 1.25rem;
-        font-size: 1.25rem;
-        line-height: 1.5rem;
-        font-weight: 300;
-      }
-      .even-columns {
-        display: flex;
-      }
-      .even-columns > * {
-        flex-basis: 100%;
-      }
-      .card-info {
-        padding: 0.5rem;
-        font-weight: 500;
-      }
-
-      li.info-item:not(:last-child) {
-        margin-bottom: 1rem;
-      }
-      .tag {
-        --tw-bg-opacity: 1;
-        background-color: rgb(
-          243 244 246 / var(--tw-bg-opacity)
-        ); /* gray-100 */
-        padding: 0.5rem;
-        margin: 0.5rem;
-        border-radius: 0.375rem;
-        justify-content: center;
-        width: fit-content;
-      }
-      .tag-list {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-      }
-      .description {
-        word-break: break-word;
-        white-space: normal;
-      }
-  .back-anchor {
-    font-size: 1.5rem;
-    line-height: 1;
-    font-weight: 500;
-    padding: 1rem;
-    margin: 4rem 0;
-    text-decoration: underline;
-  }
-    </style>
   </head>
   <body class="flex flex-col">
     <%--Navbar--%>
@@ -118,7 +39,7 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
                       <b> <spring:message code="audition.about"/> </b>
                       <br />
                       <p class="description">
-                        <c:out value="${audition.description}" />
+                        &nbsp;&nbsp;<c:out value="${audition.description}" />
                       </p>
                     </li>
                   <li class="info-item">

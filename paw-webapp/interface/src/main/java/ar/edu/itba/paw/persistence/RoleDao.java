@@ -12,4 +12,6 @@ public interface RoleDao {
     void createAuditionRole(List<Role> roles, long auditionId);
 
     Optional<Role> getRoleById(Long id);
+
+    Optional<Role> getRoleByName(String name);
 }

@@ -12,4 +12,8 @@ public interface AuditionService {
     Audition create(Audition.AuditionBuilder builder);
 
     List<Audition> getAll(int page);
+
+    long getMaxAuditionId();
+
+    public int getTotalAuditions();
 }

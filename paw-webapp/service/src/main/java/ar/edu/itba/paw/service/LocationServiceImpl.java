@@ -29,7 +29,12 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public Optional<Location> getLocation(long location) {
+    public Optional<Location> getLocationById(long location) {
         return locationDao.getLocationById(location);
+    }
+
+    @Override
+    public Optional<Location> getLocationByName(String name) {
+        return locationDao.getLocationByName(name);
     }
 }

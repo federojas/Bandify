@@ -19,6 +19,7 @@
     padding: 1.25rem;
     margin-bottom: 1.25rem;
 }
+
 .full-name{
     margin-top: 0.25rem;
     margin-bottom: 0.25rem;
@@ -27,6 +28,14 @@
     line-height: 1.75rem;
     font-weight: 700;
     line-height: 2rem;
+}
+.register-buttons{
+    padding-top: 1rem
+}
+body {
+    /* gray-100 */
+    --tw-bg-opacity: 1;
+    background-color: rgb(243 244 246 / var(--tw-bg-opacity));
 }
 .user-icon{
     max-width: 1.25rem;

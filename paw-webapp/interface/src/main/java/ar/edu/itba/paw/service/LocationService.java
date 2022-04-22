@@ -10,5 +10,7 @@ public interface LocationService {
 
     Optional<Location> getLocationByAuditionId(long auditionId);
 
-    Optional<Location> getLocation(long location);
+    Optional<Location> getLocationById(long location);
+
+    Optional<Location> getLocationByName(String name);
 }
