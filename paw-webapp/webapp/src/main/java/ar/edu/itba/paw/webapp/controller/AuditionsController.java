@@ -82,6 +82,7 @@ public class AuditionsController {
         Optional<Audition> audition = auditionService.getAuditionById(id);
         if (audition.isPresent()) {
             mav.addObject("audition", audition.get());
+            mav.addObject("user",securityFacade.getCurrentUser());
         } else {
             throw new AuditionNotFoundException();
         }
