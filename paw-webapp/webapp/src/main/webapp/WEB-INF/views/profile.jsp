@@ -27,7 +27,7 @@
                         <div class="bg-white p-3 border-t-4  bg-main-color">
                             <div class="image overflow-hidden">
                                 <img class="h-auto w-full mx-auto"
-                                     src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+                                     src="<c:url value="${pageContext.request.contextPath}/resources/images/profile_anon.png"/>"
                                      alt="">
                             </div>
                             <h1 class="full-name">${user.name}</h1>
