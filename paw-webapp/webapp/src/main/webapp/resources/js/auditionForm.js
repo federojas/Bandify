@@ -1,28 +1,34 @@
 function auditionFormCheck(){
-    document.getElementById("emptyTitle").style.display='none'
-    document.getElementById("longTitle").style.display='none'
-    document.getElementById("emptyDescription").style.display='none'
-    document.getElementById("longDescription").style.display='none'
+    emptyTitle=document.getElementById("emptyTitle")
+    longTitle=document.getElementById("longTitle")
+    emptyDescription=document.getElementById("emptyDescription")
+    longDescription=document.getElementById("longDescription")
+
+    emptyTitle.style.display='none'
+    longTitle.style.display='none'
+    emptyDescription.style.display='none'
+    longDescription.style.display='none'
+
 
     title=document.getElementById("title").value;
     description=document.getElementById("description").value;
     validForm=true;
     if(title.length<=0){
-        document.getElementById("emptyTitle").style.display='block'
+        emptyTitle.style.display='block'
 
         validForm=false;
     }
     if(title.length>25){
-        document.getElementById("longTitle").style.display='block'
+        longTitle.style.display='block'
 
         validForm=false;
     }
     if(description.length<=0){
-        document.getElementById("emptyDescription").style.display='block'
+        emptyDescription.style.display='block'
         validForm=false;
     }
     if(description.length>=25){
-        document.getElementById("longDescription").style.display='block'
+        longDescription.style.display='block'
         validForm=false;
     }
     if(typeof title!='string'||typeof description != 'string'){

@@ -1,6 +1,9 @@
 function loginFormCheck(){
-    document.getElementById("invalidMail").style.display='none'
-    document.getElementById("invalidPassword").style.display='none'
+    invalidMail=document.getElementById("invalidMail")
+    invalidPassword=document.getElementById("invalidPassword")
+
+    invalidMail.style.display='none'
+    invalidPassword.style.display='none'
 
     password=document.getElementById("password").value;
     email=document.getElementById("email").value;
@@ -10,18 +13,17 @@ function loginFormCheck(){
 
     if(!validRegex.test(email)){
         validForm=false;
-        document.getElementById("invalidMail").style.display='block'
-        wrongMail.style.display='block'
+        invalidMail.style.display='block'
 
     }
 
     if(email.length<=0 || email.length>=250 ){
-        document.getElementById("invalidMail").style.display='block'
+        invalidMail.style.display='block'
         validForm=false;
 
     }
     if(password.length<=0 || password.length>=50){
-        document.getElementById("invalidPassword").style.display='block'
+        invalidPassword.style.display='block'
 
         validForm=false;
     }
