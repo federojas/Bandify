@@ -2,6 +2,7 @@ package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.service.UserService;
+import ar.edu.itba.paw.service.VerificationTokenService;
 import ar.edu.itba.paw.webapp.form.UserArtistForm;
 import ar.edu.itba.paw.webapp.form.UserBandForm;
 import ar.edu.itba.paw.webapp.security.services.SecurityFacade;
@@ -13,21 +14,25 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.Objects;
 
 @Controller
 public class UserController {
 
     private final UserService userService;
     private final SecurityFacade securityFacade;
+    private final VerificationTokenService verificationTokenService;
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
-    public UserController(UserService userService, SecurityFacade securityFacade) {
+    public UserController(UserService userService, SecurityFacade securityFacade, VerificationTokenService verificationTokenService) {
         this.userService = userService;
         this.securityFacade = securityFacade;
+        this.verificationTokenService = verificationTokenService;
     }
 
     @RequestMapping(value = {"/register","/registerBand", "/registerArtist"},
@@ -77,6 +82,14 @@ public class UserController {
         ModelAndView mav = new ModelAndView("views/profile");
         mav.addObject("user", securityFacade.getCurrentUser());
         return mav;
+    }
+
+    @RequestMapping(value = "/verify")
+    public ModelAndView verify(@RequestParam(required = true) final String token) {
+        if(verificationTokenService.verify(token))
+            return new ModelAndView("redirect:/welcome");
+        //TODO: redirect a algo que diga parece que tu token expiró o está mal escrito
+        return new ModelAndView("redirect:/errors/404");
     }
 
 }

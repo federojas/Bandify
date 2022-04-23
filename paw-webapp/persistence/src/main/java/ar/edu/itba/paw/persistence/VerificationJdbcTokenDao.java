@@ -27,13 +27,13 @@ public class VerificationJdbcTokenDao implements VerificationTokenDao {
     @Autowired
     public VerificationJdbcTokenDao(final DataSource ds) {
         this.jdbcTemplate = new JdbcTemplate(ds);
-        this.simpleJdbcInsert = new SimpleJdbcInsert(ds).withTableName("verificationTokens").usingGeneratedKeyColumns("tokenId");
+        this.simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("verificationtokens").usingGeneratedKeyColumns("tokenid");
     }
 
     @Override
-    public Optional<VerificationToken> getToken(long id) {
-        return jdbcTemplate.query("SELECT * FROM verificationTokens WHERE tokenId = ?",
-                new Object[]{id},
+    public Optional<VerificationToken> getToken(String token) {
+        return jdbcTemplate.query("SELECT * FROM verificationTokens WHERE token = ?",
+                new Object[]{token},
                VERIFICATION_TOKEN_ROW_MAPPER).stream().findFirst();
     }
 

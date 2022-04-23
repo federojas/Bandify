@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface VerificationTokenDao {
 
-    Optional<VerificationToken> getToken(long id);
+    Optional<VerificationToken> getToken(String token);
 
     VerificationToken createToken(long userId, String token, LocalDateTime expiryDate);
 

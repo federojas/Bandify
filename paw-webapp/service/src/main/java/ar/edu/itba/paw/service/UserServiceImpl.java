@@ -59,7 +59,8 @@ public class UserServiceImpl implements UserService {
     private void sendVerificationTokenEmail(User user, VerificationToken token) {
         try {
             Locale locale = LocaleContextHolder.getLocale();
-            final String url = new URL("http", environment.getRequiredProperty("app.base.url"), "/paw-2022a-03/verifyAccount?token=" + token.getToken()).toString();
+            //final String url = new URL("http", environment.getRequiredProperty("app.base.url"), "/paw-2022a-03/verify?token=" + token.getToken()).toString();
+            final String url = new URL("http", "localhost:8080", "/verify?token=" + token.getToken()).toString();
             final Map<String, Object> mailData = new HashMap<>();
             mailData.put("confirmationURL", url);
             mailingService.sendEmail(user, user.getEmail(), messageSource.getMessage("verify-account.subject",null,locale).toString(), "verify-account", mailData, locale);
