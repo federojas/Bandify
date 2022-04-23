@@ -31,7 +31,7 @@
             <spring:message code="register.form.emailplaceholder" var="emailplaceholder"/>
             <form:input type="text" id="artistEmail" maxlength="50" placeholder="${emailplaceholder}" class="form-input" path="email"/>
             <form:errors path="email" element="p" cssClass="error"> </form:errors>
-            <p class="error" id="wrongArtistMail" style="display: none">mensaje de mail</p>
+            <p class="error" id="wrongArtistMail" style="display: none"><spring:message code="register.form.invalidEmail"/> </p>
 
         </div>
 
@@ -43,7 +43,7 @@
             <form:input id="password_artist" type="password" maxlength="50" placeholder="${passwordplaceholder}" class="form-input"
                         path="password"/>
             <form:errors path="password" element="p" cssClass="error"> </form:errors>
-            <p class="error" id="wrongArtistPass" style="display: none">mensaje de pwd</p>
+            <p class="error" id="wrongArtistPass" style="display: none"><spring:message code="register.form.emptyPassword"/></p>
 
         </div>
 
@@ -68,7 +68,7 @@
             <spring:message code="register.form.nameplaceholder" var="nameplaceholder"/>
             <form:input type="text" id="artistName" maxlength="50" placeholder="${nameplaceholder}" class="form-input" path="name"/>
             <form:errors path="name" element="p" cssClass="error"> </form:errors>
-            <p class="error" id="wrongArtistName" style="display: none">mensaje de nombre</p>
+            <p class="error" id="wrongArtistName" style="display: none"><spring:message code="register.form.invalidName"/></p>
 
         </div>
 
@@ -80,7 +80,7 @@
             <form:input type="text" id="artistSurname" maxlength="50" placeholder="${surnameplaceholder}" class="form-input"
                         path="surname"/>
             <form:errors path="surname" element="p" cssClass="error"> </form:errors>
-            <p class="error" id="wrongArtistSurname" style="display: none">mensaje de apellido</p>
+            <p class="error" id="wrongArtistSurname" style="display: none"><spring:message code="register.form.invalidSurname"/> </p>
 
         </div>
 
