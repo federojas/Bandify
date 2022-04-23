@@ -324,57 +324,15 @@
                                                            cellspacing="0" width="100%" role="presentation">
                                                         <tr>
                                                             <td align="center" class="es-m-txt-c" style="padding-bottom:10px">
-                                                                <h1 class="h1-1" th:text="#{audition-application.newApplication}"></h1>
+                                                                <h1 class="h1-1" th:text="#{verify-account.verifyEmail}"></h1>
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <td align="center" class="es-m-p0r es-m-p0l" style="padding: 5px 40px;">
-                                                                <p class="p-1"><b th:text="#{audition-application.informThat}"></b>
-                                                                    <b th:text="${senderName}"></b>
-                                                                    <b th:text="#{audition-application.appliedBand}"></b>
+                                                                <p class="p-1"><b th:text="#{verify-account.thankYou}"></b>
                                                                 </p>
-                                                            </td>
-                                                        </tr>
-                                                    </table></td>
-                                            </tr>
-                                        </table></td>
-                                </tr>
-                                <tr>
-                                    <td class="td-2" align="left">
-                                        <table class="table-6" cellpadding="0" cellspacing="0" width="100%" >
-                                            <tr>
-                                                <td align="center" valign="top" style="width:560px">
-                                                    <table class="table-7" cellpadding="0" cellspacing="0" width="100%"  role="presentation">
-                                                        <tr>
-                                                            <td align="center" class="td-3 es-m-txt-c" >
-                                                                <h2 class="h2-1"  >
-                                                                    <b th:text="#{audition-application.thisIs}"></b>
-                                                                    <b th:text="${senderName}"></b>
-                                                                    <b th:text="#{audition-application.toSay}"></b></h2>
-                                                                <h1 class="h1-2" >
-                                                                    <a class="a-1" target="_blank" >
-                                                                        <b th:text="${content}"></b>
-                                                                    </a>
-                                                                </h1>
-                                                                <h2 class="h2-2" ><br></h2></td>
-                                                        </tr>
-                                                    </table></td>
-                                            </tr>
-                                            <tr>
-                                                <td align="center" valign="top" style="width:560px">
-                                                    <table class="table-8" cellpadding="0" cellspacing="0" width="100%"  role="presentation">
-                                                        <tr>
-                                                            <td align="center" class="es-m-txt-c td-4">
-                                                                <h3 class="h3-1" >
-                                                                    <strong th:text="#{audition-application.contact}"></strong>
-                                                                </h3>
-                                                                <h1 class="h1-3">
-                                                                    <strong>
-                                                                        <a class="a-2" target="_blank">
-                                                                            <p th:text="${email}"></p>
-                                                                        </a>
-                                                                    </strong>
-                                                                </h1>
+                                                                <p class="p-1"><b th:text="#{verify-account.continue}"></b>
+                                                                </p>
                                                             </td>
                                                         </tr>
                                                     </table></td>
@@ -393,9 +351,9 @@
                                                             <td align="center" style="Margin:0;
                                                             padding: 20px 0 10px;">
                                                                 <span class="es-button-border span-1">
-                                                                    <a  th:href="${goToBandifyURL}" class="es-button a-3"
+                                                                    <a  th:href="${confirmationURL}" class="es-button a-3"
                                                                         style="color:#FFFFFF;" target="_blank"
-                                                                        th:text="#{audition-application.goToBandify}">
+                                                                        th:text="#{verify-account.verify}">
                                                                     </a>
                                                                 </span>
                                                             </td>
