@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import javax.swing.*;
 import java.util.*;
 
 @Repository
@@ -78,7 +79,17 @@ public class AuditionJdbcDao implements AuditionDao {
 
     @Override
     public List<Audition> getAll(int page) {
-        List<Audition.AuditionBuilder> auditionsBuilders = jdbcTemplate.query("SELECT * FROM auditions LIMIT ? OFFSET ?" ,new Object[] { PAGE_SIZE, (page -1) * PAGE_SIZE}, AUDITION_ROW_MAPPER);
+        List<Audition.AuditionBuilder> auditionsBuilders = jdbcTemplate.query("SELECT * FROM auditions ORDER BY creationdate DESC, title ASC LIMIT ? OFFSET ? " ,new Object[] { PAGE_SIZE, (page -1) * PAGE_SIZE}, AUDITION_ROW_MAPPER);
+        return getAuditions(auditionsBuilders);
+    }
+
+    @Override
+    public List<Audition> search(int page, String query) {
+        List<Audition.AuditionBuilder> auditionsBuilders = jdbcTemplate.query("SELECT * FROM auditions WHERE title LIKE ? ORDER BY creationdate DESC, title ASC LIMIT ? OFFSET ? " ,new Object[] {"%" + query + "%", PAGE_SIZE, (page -1) * PAGE_SIZE}, AUDITION_ROW_MAPPER);
+        return getAuditions(auditionsBuilders);
+    }
+
+    private List<Audition> getAuditions(List<Audition.AuditionBuilder> auditionsBuilders) {
         List<Audition> toReturn = new ArrayList<>();
         for(Audition.AuditionBuilder builder : auditionsBuilders) {
             Optional<Audition> toAdd = getAuditionById(builder.getId());
@@ -88,8 +99,12 @@ public class AuditionJdbcDao implements AuditionDao {
     }
 
     @Override
-    public int getTotalAuditions() {
-        Optional<Integer> result = jdbcTemplate.query("SELECT COUNT(*) FROM auditions", TOTAL_AUDITION_ROWMAPPER).stream().findFirst();
+    public int getTotalPages(String query) {
+        Optional<Integer> result;
+        if(query == null || query.isEmpty())
+            result = jdbcTemplate.query("SELECT COUNT(*) FROM auditions", TOTAL_AUDITION_ROWMAPPER).stream().findFirst();
+        else
+            result = jdbcTemplate.query("SELECT COUNT(*) FROM auditions WHERE title LIKE ?", new Object[] {"%" + query + "%"},TOTAL_AUDITION_ROWMAPPER).stream().findFirst();
         //TODO Math.ceil casteado a int puede castear un double muy grande y generar una excepcion
         //TODO tamaño int es la maxima page
         return result.map(integer -> (int) Math.ceil(integer.doubleValue() / PAGE_SIZE)).orElse(0);

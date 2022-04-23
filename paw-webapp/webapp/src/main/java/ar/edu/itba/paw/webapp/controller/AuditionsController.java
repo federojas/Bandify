@@ -69,15 +69,31 @@ public class AuditionsController {
     public ModelAndView auditions( @RequestParam(value = "page", defaultValue = "1") int page) {
         final ModelAndView mav = new ModelAndView("views/auditions");
         // TODO: Error controller
-        // TODO: Total pages
-        int lastPage = auditionService.getTotalAuditions();
-        if(page < 0 || page > lastPage)
-            return new ModelAndView("errors/400");
+        int lastPage = auditionService.getTotalPages(null);
+        if(page < 0 || (page > lastPage && lastPage != 0))
+            return new ModelAndView("errors/404");
         List<Audition> auditionList = auditionService.getAll(page);
         mav.addObject("auditionList", auditionList);
         mav.addObject("currentPage", page);
         mav.addObject("lastPage", lastPage);
         mav.addObject("user", securityFacade.getCurrentUser());
+        return mav;
+    }
+
+    @RequestMapping(value = "/search", method = {RequestMethod.GET})
+    public ModelAndView search( @RequestParam(value = "page", defaultValue = "1") int page,
+                                @RequestParam(value = "query", defaultValue = "") String query ) {
+        final ModelAndView mav = new ModelAndView("views/search");
+        int lastPage = auditionService.getTotalPages(query);
+        if(page < 0 || (page > lastPage && lastPage != 0))
+            return new ModelAndView("errors/404");
+        if(query.equals(""))
+            return auditions(1);
+        List<Audition> auditionList = auditionService.search(page, query);
+        mav.addObject("auditionList", auditionList);
+        mav.addObject("currentPage", page);
+        mav.addObject("query", query);
+        mav.addObject("lastPage", lastPage);
         return mav;
     }
 
