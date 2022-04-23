@@ -2,6 +2,7 @@ package ar.edu.itba.paw.service;
 
 import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.model.VerificationToken;
+import ar.edu.itba.paw.model.exceptions.DuplicateUserException;
 import ar.edu.itba.paw.persistence.UserDao;
 import ar.edu.itba.paw.persistence.VerificationTokenDao;
 import org.slf4j.Logger;
@@ -50,6 +51,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public User create(User.UserBuilder userBuilder) {
         userBuilder.password(passwordEncoder.encode(userBuilder.getPassword()));
+        if(userDao.findByEmail(userBuilder.getEmail()).isPresent()) {
+            throw new DuplicateUserException(userBuilder.getName(), userBuilder.getSurname(), userBuilder.isBand());
+        }
         User user = userDao.create(userBuilder);
         final VerificationToken token = generateVerificationToken(user.getId());
         sendVerificationTokenEmail(user, token);
