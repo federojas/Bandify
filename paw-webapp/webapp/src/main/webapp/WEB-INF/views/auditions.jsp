@@ -17,10 +17,15 @@ prefix="spring" uri="http://www.springframework.org/tags"%>
 
     <!-- Auditions content -->
     <div class="auditions-content">
-      <h2 id="posts">
-        <spring:message code="welcome.auditionsSection" />
-      </h2>
       <%--Publicaciones de audiciones--%>
+        <h2 id="posts">
+          <spring:message code="welcome.auditionsSection" />
+        </h2>
+
+        <jsp:include page="../components/searchBar.jsp">
+          <jsp:param name="name" value="Bandify" />
+        </jsp:include>
+
       <div class="posts">
         <c:forEach var="audition" items="${auditionList}" varStatus="loop">
           <c:set
