@@ -1,15 +1,15 @@
 package ar.edu.itba.paw.persistence;
 
-import ar.edu.itba.paw.model.VerifiactionToken;
+import ar.edu.itba.paw.model.VerificationToken;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 
 public interface VerificationTokenDao {
 
-    Optional<VerifiactionToken> getToken(long id);
+    Optional<VerificationToken> getToken(long id);
 
-    VerifiactionToken createToken(long userId, String token, LocalDateTime expiryDate);
+    VerificationToken createToken(long userId, String token, LocalDateTime expiryDate);
 
     void deleteTokenByUserId(long userId);
 }

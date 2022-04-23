@@ -2,19 +2,24 @@ package ar.edu.itba.paw.model;
 
 import java.time.LocalDateTime;
 
-public class VerifiactionToken {
+public class VerificationToken {
 
+    private static final int EXPIRATION_DAYS = 1;
 
     private long id;
     private String token;
     private long userId;
     private LocalDateTime expiryDate;
 
-    public VerifiactionToken(long id, String token, long userId, LocalDateTime expiryDate) {
+    public VerificationToken(long id, String token, long userId, LocalDateTime expiryDate) {
         this.id = id;
         this.token = token;
         this.userId = userId;
         this.expiryDate = expiryDate;
+    }
+
+    public static LocalDateTime getNewExpiryDate() {
+        return LocalDateTime.now().plusDays(EXPIRATION_DAYS);
     }
 
     public boolean isValid() {

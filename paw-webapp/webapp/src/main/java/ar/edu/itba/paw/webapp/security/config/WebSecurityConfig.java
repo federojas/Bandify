@@ -32,7 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Autowired
-    Environment environment;
+    private Environment environment;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {

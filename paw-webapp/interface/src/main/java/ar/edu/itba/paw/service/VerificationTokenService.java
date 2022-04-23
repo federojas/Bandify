@@ -1,15 +1,15 @@
 package ar.edu.itba.paw.service;
 
-import ar.edu.itba.paw.model.VerifiactionToken;
+import ar.edu.itba.paw.model.VerificationToken;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 
 public interface VerificationTokenService {
 
-    Optional<VerifiactionToken> getToken(long id);
+    Optional<VerificationToken> getToken(long id);
 
-    VerifiactionToken createToken(long userId, String token, LocalDateTime expiryDate);
+    VerificationToken createToken(long userId, String token, LocalDateTime expiryDate);
 
     void deleteTokenByUserId(long userId);
 }
