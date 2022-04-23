@@ -1,93 +1,9 @@
-function applicationCheck(){
-    message=document.getElementById("message").value;;
-    document.getElementById("bigMessage").style.display='none'
-    document.getElementById("emptyMessage").style.display='none'
-    validForm=true;
-    if(message.length<=0){
-        validForm=false;
-        document.getElementById("emptyMessage").style.display='block'
-
-    }
-    if(message.length>300){
-        validForm=false;
-        document.getElementById("bigMessage").style.display='block'
-    }
-    if(typeof message != 'string'){
-        validForm=false;
-
-    }
-    if(!validForm){
-        snackbarMessage()
-    }
-    return validForm;
-}
 function snackbarMessage() {
     var x = document.getElementById("snackbar");
     x.className = "show";
     setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
 }
-function auditionFormCheck(){
-   document.getElementById("emptyTitle").style.display='none'
-    document.getElementById("longTitle").style.display='none'
-    document.getElementById("emptyDescription").style.display='none'
-    document.getElementById("longDescription").style.display='none'
 
-    title=document.getElementById("title").value;
-    description=document.getElementById("description").value;
-    validForm=true;
-    if(title.length<=0){
-        document.getElementById("emptyTitle").style.display='block'
-
-        validForm=false;
-    }
-    if(title.length>25){
-        document.getElementById("longTitle").style.display='block'
-
-        validForm=false;
-    }
-    if(description.length<=0){
-        document.getElementById("emptyDescription").style.display='block'
-        validForm=false;
-    }
-    if(description.length>=25){
-        document.getElementById("longDescription").style.display='block'
-        validForm=false;
-    }
-    if(typeof title!='string'||typeof description != 'string'){
-        validForm=false;
-
-    }
-    if(!validForm){
-        snackbarMessage()
-    }
-    return false;
-    return validForm;
-}
-function loginFormCheck(){
-    document.getElementById("invalidMail").style.display='none'
-    document.getElementById("invalidPassword").style.display='none'
-
-    password=document.getElementById("password").value;
-    email=document.getElementById("email").value;
-    validForm=true;
-    if(email.length<=0 || email.length>=250 ){
-        document.getElementById("invalidMail").style.display='block'
-        validForm=false;
-
-    }
-    if(password.length<=0 || password.length>=50){
-        document.getElementById("invalidPassword").style.display='block'
-
-        validForm=false;
-    }
-    if(typeof password!='string'||typeof email != 'string'){
-        validForm=false;
-    }
-    if(!validForm){
-        snackbarMessage()
-    }
-    return validForm;
-}
 function registerArtistCheck(){
     password=document.getElementById("password").value;
     email=document.getElementById("email").value;
