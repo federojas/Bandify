@@ -42,6 +42,7 @@ public class UserController {
         return new ModelAndView("views/register");
     }
 
+    //TODO: MODULARIZAR CODIGO REPETIDO EN REGISTERS
     @RequestMapping(value = "/registerBand", method = {RequestMethod.POST})
     public ModelAndView registerBand(@Valid @ModelAttribute("userBandForm") final UserBandForm userBandForm,
                                      final BindingResult errors) {
@@ -59,6 +60,7 @@ public class UserController {
         return WelcomeController.welcome();
     }
 
+    //TODO: MODULARIZAR CODIGO REPETIDO EN REGISTERS
     @RequestMapping(value = "/registerArtist", method = {RequestMethod.POST})
     public ModelAndView registerArtist(@Valid @ModelAttribute("userArtistForm") final UserArtistForm userArtistForm,
                                        final BindingResult errors) {
@@ -76,6 +78,7 @@ public class UserController {
 
         return WelcomeController.welcome();
     }
+
 
     @RequestMapping(value = "/profile", method = {RequestMethod.GET})
     public ModelAndView profile() {

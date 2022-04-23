@@ -9,18 +9,8 @@
             href="https://fonts.googleapis.com/css?family=Questrial"
     />
     <link rel="stylesheet" href="<c:url value="/resources/css/forms.css" />">
-    <script>
-        function checkPasswordArtist() {
-            if (document.getElementById("password_artist").value ===
-                document.getElementById("confirm_password_artist").value) {
-                document.getElementById("match_message_artist").style.display = "block";
-                document.getElementById("nonmatch_message_artist").style.display = "none";
-            } else {
-                document.getElementById("match_message_artist").style.display = "none";
-                document.getElementById("nonmatch_message_artist").style.display = "block";
-            }
-        }
-    </script>
+    <script src="<c:url value="/resources/js/register.js" />"></script>
+
 </head>
 <body>
 <div class="register-content">
@@ -39,8 +29,10 @@
                 <spring:message code="register.form.email"/>
             </form:label>
             <spring:message code="register.form.emailplaceholder" var="emailplaceholder"/>
-            <form:input type="text" maxlength="50" placeholder="${emailplaceholder}" class="form-input" path="email"/>
+            <form:input type="text" id="artistEmail" maxlength="50" placeholder="${emailplaceholder}" class="form-input" path="email"/>
             <form:errors path="email" element="p" cssClass="error"> </form:errors>
+            <p class="error" id="wrongArtistMail" style="display: none"><spring:message code="register.form.invalidEmail"/> </p>
+
         </div>
 
         <div>
@@ -49,8 +41,10 @@
             </form:label>
             <spring:message code="register.form.passwordplaceholder" var="passwordplaceholder"/>
             <form:input id="password_artist" type="password" maxlength="50" placeholder="${passwordplaceholder}" class="form-input"
-                        path="password" onkeyup="checkPasswordArtist()"/>
+                        path="password"/>
             <form:errors path="password" element="p" cssClass="error"> </form:errors>
+            <p class="error" id="wrongArtistPass" style="display: none"><spring:message code="register.form.emptyPassword"/></p>
+
         </div>
 
         <div>
@@ -72,8 +66,10 @@
                 <spring:message code="register.form.name"/>
             </form:label>
             <spring:message code="register.form.nameplaceholder" var="nameplaceholder"/>
-            <form:input type="text" maxlength="50" placeholder="${nameplaceholder}" class="form-input" path="name"/>
+            <form:input type="text" id="artistName" maxlength="50" placeholder="${nameplaceholder}" class="form-input" path="name"/>
             <form:errors path="name" element="p" cssClass="error"> </form:errors>
+            <p class="error" id="wrongArtistName" style="display: none"><spring:message code="register.form.invalidName"/></p>
+
         </div>
 
         <div id="surname-div">
@@ -81,21 +77,26 @@
                 <spring:message code="register.form.surname"/>
             </form:label>
             <spring:message code="register.form.surnameplaceholder" var="surnameplaceholder"/>
-            <form:input type="text" maxlength="50" placeholder="${surnameplaceholder}" class="form-input"
+            <form:input type="text" id="artistSurname" maxlength="50" placeholder="${surnameplaceholder}" class="form-input"
                         path="surname"/>
             <form:errors path="surname" element="p" cssClass="error"> </form:errors>
+            <p class="error" id="wrongArtistSurname" style="display: none"><spring:message code="register.form.invalidSurname"/> </p>
+
         </div>
 
         <div class="end-button-div">
             <button
                     type="submit"
+                    value="submit"
                     class="purple-button"
+                    onclick="return registerArtistCheck()"
             >
                 <spring:message code="register.postButton"/>
             </button>
         </div>
     </form:form>
 </div>
+<%--<div id="snackbar"><spring:message code="snackbar.message"/></div>--%>
 
 </body>
 </html>
