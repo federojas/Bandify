@@ -45,7 +45,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     }
 
     @Autowired
-    Environment environment;
+    private Environment environment;
 
 
     @Value("classpath:schema.sql")

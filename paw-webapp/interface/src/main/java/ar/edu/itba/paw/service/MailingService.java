@@ -4,10 +4,10 @@ import ar.edu.itba.paw.model.User;
 
 import javax.mail.MessagingException;
 import java.util.Locale;
+import java.util.Map;
 
 public interface MailingService {
 
-    public void sendAuditionEmail(String receiverAddress, User user , String content, Locale locale) throws MessagingException;
+    void sendEmail(User sender, String receiverAddress, String subject, String template, Map<String, Object> mailData,Locale locale) throws MessagingException;
 
-    public void sendRecoverPasswordEmail(String receiverAddress, String token, Locale locale) throws MessagingException;;
 }
