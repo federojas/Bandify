@@ -62,7 +62,6 @@ public class UserServiceImpl implements UserService {
             final String url = new URL("http", environment.getRequiredProperty("app.base.url"), "/paw-2022a-03/verifyAccount?token=" + token.getToken()).toString();
             final Map<String, Object> mailData = new HashMap<>();
             mailData.put("confirmationURL", url);
-            mailData.put("confirmationURL", url);
             mailingService.sendEmail(user, user.getEmail(), messageSource.getMessage("verify-account.subject",null,locale).toString(), "verify-account", mailData, locale);
         } catch (MessagingException | MalformedURLException e) {
             LOGGER.warn("Register verification email failed");
