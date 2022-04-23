@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="<c:url value="/resources/css/forms.css" />"/>
     <link rel="stylesheet" href="<c:url value="/resources/css/register.css" />" />
     <script src="<c:url value="/resources/js/register.js" />"></script>
+
 </head>
 <body>
 <!-- Navbar -->
@@ -46,6 +47,7 @@
 
 
 </div>
+<div id="snackbar"><spring:message code="snackbar.message"/></div>
 
 
 </body>
