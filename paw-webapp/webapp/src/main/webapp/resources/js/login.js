@@ -5,6 +5,16 @@ function loginFormCheck(){
     password=document.getElementById("password").value;
     email=document.getElementById("email").value;
     validForm=true;
+
+    var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
+    if(!validRegex.test(email)){
+        validForm=false;
+        document.getElementById("invalidMail").style.display='block'
+        wrongMail.style.display='block'
+
+    }
+
     if(email.length<=0 || email.length>=250 ){
         document.getElementById("invalidMail").style.display='block'
         validForm=false;

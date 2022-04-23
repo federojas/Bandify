@@ -27,6 +27,13 @@ prefix="spring" uri="http://www.springframework.org/tags"%>
         </jsp:include>
 
       <div class="posts">
+        <c:if test="${auditionList.size() == 0}">
+          <b><p  style="width: 100%; text-align: center">
+            <spring:message code="auditions.noAuditions"/>
+          </p>
+          </b>
+        </c:if>
+
         <c:forEach var="audition" items="${auditionList}" varStatus="loop">
           <c:set
             var="lookingFor"
