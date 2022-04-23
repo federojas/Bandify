@@ -25,25 +25,7 @@ function registerArtistCheck(){
     return sendForm;
 }
 
-function registerbandCheck(){
-    password=document.getElementById("password").value;
-    email=document.getElementById("email").value;
-    name=document.getElementById("name").value;
-    validForm=true;
-    sendForm=true;
-    if(password.length<=0 || password.length>50 || email.length<=0||email.length>250||name.length<=0||name.length>50){
-        valid=false;
-    }
-    if(typeof password!='string'||typeof email != 'string'||typeof name != 'string'){
-        valid=false;
-        sendForm=false;
-    }
-    if(!valid){
-        // customAlert.alert('This is a custom alert without heading.');
-        snackbarMessage()
-    }
-    return sendForm;
-}
+
 function CustomAlert(){
     this.alert = function(message,title){
         document.body.innerHTML = document.body.innerHTML + '<div id="dialogoverlay"></div><div id="dialogbox" class="slit-in-vertical"><div><div id="dialogboxhead"></div><div id="dialogboxbody"></div><div id="dialogboxfoot"></div></div></div>';

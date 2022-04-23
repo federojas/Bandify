@@ -32,6 +32,5 @@ function auditionFormCheck(){
     if(!validForm){
         snackbarMessage()
     }
-    return false;
     return validForm;
 }
