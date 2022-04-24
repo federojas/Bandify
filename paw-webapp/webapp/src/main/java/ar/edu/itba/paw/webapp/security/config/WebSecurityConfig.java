@@ -45,7 +45,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement()
                     .invalidSessionUrl("/welcome")
                 .and().authorizeRequests()
-                    .antMatchers( "/welcome","/register","/registerBand","/registerArtist","/verify","/aboutUs").anonymous()
+                    .antMatchers( "/welcome","/register","/registerBand","/registerArtist","/verify",
+                                 "/resetPassword","/aboutUs").anonymous()
                     .antMatchers("/apply").hasRole("ARTIST")
                     .antMatchers("/newAudition").hasRole("BAND")
                     .antMatchers("/profile","/","/auditions","/search").authenticated()
