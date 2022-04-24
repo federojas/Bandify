@@ -1,8 +1,6 @@
 package ar.edu.itba.paw.webapp.controller;
 
-import ar.edu.itba.paw.model.exceptions.*;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -11,31 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class ErrorController {
-
-    @ExceptionHandler(AuditionNotFoundException.class)
-    public ModelAndView auditionNotFound() {
-        return new ModelAndView("errors/404");
-    }
-//TODO estas excepciones van asi?
-//    @ExceptionHandler(GenreNotFoundException.class)
-//    public ModelAndView genreNotFound() {
-//        return new ModelAndView("errors/404");
-//    }
-//
-//    @ExceptionHandler(LocationNotFoundException.class)
-//    public ModelAndView LocationNotFound() {
-//        return new ModelAndView("errors/404");
-//    }
-//
-//    @ExceptionHandler(RoleNotFoundException.class)
-//    public ModelAndView RoleNotFound() {
-//        return new ModelAndView("errors/404");
-//    }
-//
-//    @ExceptionHandler(UserNotFoundException.class)
-//    public ModelAndView UserNotFound() {
-//        return new ModelAndView("errors/404");
-//    }
 
     @RequestMapping(value = "/error", method = RequestMethod.GET)
     public ModelAndView renderErrorPage(HttpServletRequest httpRequest) {

@@ -3,6 +3,7 @@ package ar.edu.itba.paw.webapp.controller;
 import ar.edu.itba.paw.model.Genre;
 import ar.edu.itba.paw.model.Location;
 import ar.edu.itba.paw.model.Role;
+import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.model.exceptions.AuditionNotFoundException;
 import ar.edu.itba.paw.model.exceptions.GenreNotFoundException;
 import ar.edu.itba.paw.model.exceptions.LocationNotFoundException;
@@ -14,7 +15,9 @@ import ar.edu.itba.paw.webapp.security.services.SecurityFacade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -22,8 +25,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.mail.MessagingException;
 import javax.validation.Valid;
-import java.util.List;
-import java.util.Optional;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.*;
 
 @Controller
 public class AuditionsController {
@@ -35,21 +39,24 @@ public class AuditionsController {
     private final MailingService mailingService;
     private final SecurityFacade securityFacade;
 
+    @Autowired
+    private MessageSource messageSource;
+
+    @Autowired
+    private Environment environment;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(AuditionsController.class);
 
-    private final UserService userService;
     @Autowired
     public AuditionsController(final AuditionService auditionService, final MailingService mailingService,
                                final GenreService genreService, final LocationService locationService,
-                               final RoleService roleService, SecurityFacade securityFacade,UserService userService) {
+                               final RoleService roleService, SecurityFacade securityFacade) {
         this.auditionService = auditionService;
         this.roleService = roleService;
         this.genreService = genreService;
         this.locationService = locationService;
         this.mailingService = mailingService;
         this.securityFacade = securityFacade;
-
-        this.userService = userService;
 
     }
 
@@ -101,6 +108,7 @@ public class AuditionsController {
         Optional<Audition> audition = auditionService.getAuditionById(id);
         if (audition.isPresent()) {
             mav.addObject("audition", audition.get());
+            mav.addObject("user",securityFacade.getCurrentUser());
         } else {
             throw new AuditionNotFoundException();
         }
@@ -116,13 +124,24 @@ public class AuditionsController {
         }
 
         // TODO: el email deberia estar dentro de auditionService
+        // TODO: FOTO NO FUNCIONA EN AUDITION-APPLICATION.HTML
        try {
            Optional<Audition> aud = auditionService.getAuditionById(id);
            if (aud.isPresent()) {
-               mailingService.sendAuditionEmail(aud.get().getEmail(), securityFacade.getCurrentUser(), applicationForm.getMessage(), LocaleContextHolder.getLocale());
+               Locale locale = LocaleContextHolder.getLocale();
+               final String url = new URL("http", environment.getRequiredProperty("app.base.url"), "/paw-2022a-03/").toString();
+               Map<String, Object> mailData = new HashMap<>();
+               mailData.put("content", applicationForm.getMessage());
+               mailData.put("goToBandifyURL", url);
+
+               mailingService.sendEmail(securityFacade.getCurrentUser(), aud.get().getEmail(),
+                       messageSource.getMessage("audition-application.subject",null,locale),
+                       "audition-application", mailData, locale);
            }
         } catch (MessagingException e) {
-           LOGGER.debug("Audition application email threw messaging exception");
+           LOGGER.warn("Audition application email threw messaging exception");
+        } catch (MalformedURLException e) {
+           LOGGER.warn("Audition application email threw url exception");
         }
         return success();
     }
@@ -142,7 +161,7 @@ public class AuditionsController {
         return mav;
     }
 
-    @RequestMapping(value="/postAudition", method = {RequestMethod.POST})
+    @RequestMapping(value="/newAudition", method = {RequestMethod.POST})
     public ModelAndView postNewAudition(@Valid @ModelAttribute("auditionForm") final AuditionForm auditionForm,
                                         final BindingResult errors) {
 

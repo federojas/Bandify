@@ -6,29 +6,10 @@
 
 <head>
     <c:import url="../config/generalHead.jsp"/>
-    <link rel="stylesheet" href="<c:url value="${pageContext.request.contextPath}/resources/css/forms.css" />"/>
+    <link rel="stylesheet" href="<c:url value="/resources/css/forms.css" />"/>
+    <link rel="stylesheet" href="<c:url value="/resources/css/register.css" />" />
+    <script src="<c:url value="/resources/js/register.js" />"></script>
 
-    <style>
-        .register-content {
-            display: flex;
-            justify-content: center;
-            padding: 24px;
-        }
-
-        .box {
-            background-color: #efefef;
-            opacity: 0.9;
-            width: 60%;
-            padding: 0.5rem 1.5rem;
-            border-color: #6c0c8436;
-            border-radius: 0.75rem;
-            border-width: 1px;
-            border-style: dotted;
-            font-size: 1.25rem;
-            line-height: 1.5rem;
-            font-weight: 600;
-        }
-    </style>
 </head>
 <body>
 <!-- Navbar -->
@@ -38,10 +19,35 @@
 </jsp:include>
 
 <div class="register-content flex flex-col">
-    REGISTER
-    <a href="<c:url value="/registerArtist"/>">ARTIST</a>
-    <a href="<c:url value="/registerBand"/>">BAND</a>
+
+    <div class="header">
+        <spring:message code="register.header" />
+        <div class="forms-buttons">
+            <button id="artist-button" onclick="toggleForm()">
+                <spring:message code="register.artist_word" />
+            </button>
+            <button id="band-button" onclick="toggleForm()" style="background-color: rgba(108, 12, 132, 0.69);">
+                <spring:message code="register.band_word" />
+            </button>
+        </div>
+
+    </div>
+
+    <div id="artist-form" style="display: block;">
+        <jsp:include page="../components/registerArtistForm.jsp">
+            <jsp:param name="artist" value="${1}" />
+        </jsp:include>
+    </div>
+
+    <div id="band-form" style="display: none; ">
+        <jsp:include page="../components/registerBandForm.jsp">
+            <jsp:param name="band" value="${1}" />
+        </jsp:include>
+    </div>
+
+
 </div>
+<div id="snackbar"><spring:message code="snackbar.message"/></div>
 
 
 </body>

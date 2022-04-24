@@ -5,86 +5,7 @@
 
 <html>
 <head>
-    <style>
-        nav {
-            background-color: #1c041c;
-            padding: 0.75rem 1rem;
-            display: flex;
-            align-items: center;
-        }
-        .container {
-            width: 100%;
-        }
-        @media (min-width: 640px) {
-            .container {
-                max-width: 640px;
-            }
-        }
-        @media (min-width: 768px) {
-            .container {
-                max-width: 768px;
-            }
-        }
-        @media (min-width: 1024px) {
-            .container {
-                max-width: 1024px;
-            }
-        }
-        @media (min-width: 1280px) {
-            .container {
-                max-width: 1280px;
-            }
-        }
-        @media (min-width: 1536px) {
-            .container {
-                max-width: 1536px;
-            }
-        }
-        body {
-            font-family: 'Questrial', sans-serif;
-        }
-        .nav-div {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: center;
-            margin: 0 auto;
-        }
-        .bandify-title {
-            align-self: center;
-            font-size: 2rem;
-            line-height: 2.25rem;
-            font-weight: 600;
-            padding: 0.5rem;
-            white-space: nowrap;
-            --tw-text-opacity: 1;
-            color: rgb(255 255 255 / var(--tw-text-opacity));
-        }
-
-        .bandify-logo {
-            width: 2.5rem;
-        }
-
-        #mobile-menu > ul {
-            display: flex;
-            flex-direction: column;
-            margin-top: 1rem;
-        }
-
-        @media (min-width: 768px) {
-                    #mobile-menu > ul {
-                        font-weight: 500;
-                        flex-direction: row;
-                        font-size: 0.875rem/* 14px */;
-                        line-height: 1.25rem/* 20px */;
-                        margin-top: 0px;
-                    }
-        }
-
-        #mobile-menu > ul > li {
-            margin: 0 0.5rem;
-        }
-    </style>
+    <link rel="stylesheet" href="<c:url value="/resources/css/navbar.css" />" />
 </head>
 <body>
 <nav>
@@ -93,7 +14,7 @@
             <spring:message code="img.alt.logo" var="bandify" />
             <img
                     src=
-                    "<c:url value="${pageContext.request.contextPath}/resources/images/logo.png" />"
+                    "<c:url value="/resources/images/logo.png" />"
 
                     class="bandify-logo"
                     alt="${bandify}"
@@ -106,6 +27,7 @@
 
         <div class="w-full md:block md:w-auto" id="mobile-menu">
             <ul>
+                <c:if test="${user != null}">
                 <li>
                     <a
                             href="<c:url value="/auditions"/>"
@@ -113,14 +35,17 @@
                     ><spring:message code="navbar.auditions"/></a
                     >
                 </li>
-
-                <li>
-                    <a
-                            href="<c:url value="/newAudition"/>"
-                            class="${param.navItem == 3? "block py-2 pr-4 pl-3 text-white font-black rounded text-2xl" : "block py-2 pr-4 pl-3 text-white rounded text-2xl" }"
-                    ><spring:message code="navbar.post"/></a
-                    >
-                </li>
+                </c:if>
+                <c:if test="${user.isBand()}">
+                    <li>
+                        <a
+                                href="<c:url value="/newAudition"/>"
+                                class="${param.navItem == 3? "block py-2 pr-4 pl-3 text-white font-black rounded text-2xl" : "block py-2 pr-4 pl-3 text-white rounded text-2xl" }"
+                        ><spring:message code="navbar.post"/></a
+                        >
+                    </li>
+                </c:if>
+                <c:if test="${user != null}">
                 <li>
                     <a
                             href="<c:url value="/profile"/>"
@@ -128,6 +53,17 @@
                     ><spring:message code="navbar.profile"/></a
                     >
                 </li>
+                </c:if>
+                <c:if test="${user == null }">
+                <li>
+                    <a
+                            href="<c:url value="/profile"/>"
+                            class="${param.navItem == 4? "block py-2 pr-4 pl-3 text-white font-black rounded text-2xl" : "block py-2 pr-4 pl-3 text-white rounded text-2xl" }"
+                    ><spring:message code="navbar.aboutUs"/></a
+                    >
+                </li>
+                </c:if>
+
             </ul>
         </div>
     </div>

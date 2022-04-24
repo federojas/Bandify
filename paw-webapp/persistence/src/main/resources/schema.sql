@@ -58,3 +58,10 @@ CREATE TABLE IF NOT EXISTS users
     UNIQUE(email)
 );
 
+CREATE TABLE IF NOT EXISTS verificationTokens (
+    tokenId SERIAL PRIMARY KEY,
+    userId INTEGER NOT NULL,
+    token TEXT NOT NULL,
+    expiryDate TIMESTAMP NOT NULL,
+    FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE
+);

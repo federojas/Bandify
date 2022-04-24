@@ -13,12 +13,15 @@ body {
     flex-direction: column;
     background-color: #f3f4f6;
 }
+.error {
+    color: #b91c1c;
+}
 .card-content {
     background-color: #ffffff;
     box-shadow: 0 10px 15px -3px #1c041c1a, 0 4px 6px -2px #1c041c0d;
     padding: 2.5rem;
     border-radius: 1rem;
-    width: 60%;
+    width: 80%;
     margin: 1.5rem auto;
 }
 .card-content > h1 {

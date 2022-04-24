@@ -4,7 +4,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <html>
 <head>
-    <link rel="stylesheet" href="<c:url value="${pageContext.request.contextPath}/resources/css/postCard.css" />"/>
+    <link rel="stylesheet" href="<c:url value="/resources/css/postCard.css" />"/>
+
 </head>
 <body>
 <%--    Card --%>
@@ -42,7 +43,7 @@
                     varStatus="loop"
             >
                 <div class="bg-gray-200 p-2 rounded-md justify-center tag m-2">
-                        ${item.name}
+                    <c:out value="${item.name}"/>
                 </div>
 
             </c:forEach>
@@ -65,11 +66,16 @@
         </a>
         <c:if test="${user.isBand()}">
             <button
-                    class="postCard-button-0 hover:bg-red-700"
+                    class="postCard-button-0"
                     type="button"
+                    disabled
+                    onclick="alert()"
             >
-                No disponible para bandas
+                <spring:message code="postCard.button"/>
+
+
             </button>
+
         </c:if>
 
     </div>

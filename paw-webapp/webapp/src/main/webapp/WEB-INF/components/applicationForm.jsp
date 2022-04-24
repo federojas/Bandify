@@ -10,9 +10,11 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Questrial"
     />
-    <link rel="stylesheet" href="<c:url value="${pageContext.request.contextPath}/resources/css/forms.css" />">
-    <link rel="stylesheet" href="<c:url value="${pageContext.request.contextPath}/resources/css/alerts.css" />"/>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/formchecks.js"></script>
+    <link rel="stylesheet" href="<c:url value="/resources/css/forms.css" />">
+    <link rel="stylesheet" href="<c:url value="/resources/css/alerts.css" />"/>
+    <script type="text/javascript" src="/resources/js/alerts.js"></script>
+    <script src="<c:url value="/resources/js/application.js" />"></script>
+
 </head>
 
 <body>
@@ -31,7 +33,8 @@
             <spring:message code="application.form.message.placeholder" var="messageplaceholder" />
             <form:textarea type="text" id="message" maxlength="300" placeholder="${messageplaceholder}" class="form-input"
                            path="message"/>
-
+            <p id="emptyMessage" class="error" style="display: none"><spring:message code="application.form.error.emptyMessage"/> </p>
+            <p id="bigMessage" class="error" style="display: none"><spring:message code="application.form.error.bigMessage" arguments="300"/> </p>
             <form:errors path="message" element="p" cssClass="error">
             </form:errors>
         </div>

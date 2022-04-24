@@ -32,7 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Autowired
-    Environment environment;
+    private Environment environment;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -45,12 +45,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement()
                     .invalidSessionUrl("/welcome")
                 .and().authorizeRequests()
-                    .antMatchers( "/welcome","/register", "/registerArtist", "/registerBand").anonymous()
-                    .antMatchers("/").hasAnyRole("ARTIST","BAND")
+                    .antMatchers( "/welcome","/register","/registerBand","/registerArtist","/verify").anonymous()
                     .antMatchers("/apply").hasRole("ARTIST")
-                    .antMatchers("/newAudition", "/postAudition").hasRole("BAND")
-                    .antMatchers("/profile").authenticated()
-                    .antMatchers("/**").permitAll()
+                    .antMatchers("/newAudition").hasRole("BAND")
+                    .antMatchers("/profile","/","/auditions","/search").authenticated()
                 .and().formLogin()
                     .usernameParameter("email")
                     .passwordParameter("password")
