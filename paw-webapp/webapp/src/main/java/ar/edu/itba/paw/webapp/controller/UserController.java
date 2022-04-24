@@ -42,6 +42,7 @@ public class UserController {
                                      boolean isBand) {
         ModelAndView mav = new ModelAndView("views/register");
         mav.addObject("isBand", isBand);
+        mav.addObject("userEmailAlreadyExists", false);
         return mav;
     }
 
