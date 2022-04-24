@@ -1,22 +1,51 @@
-function toggleForm() {
+function toggleForm(isBand) {
     let artistForm = document.getElementById("artist-form");
     let bandForm = document.getElementById("band-form");
     let artistButton = document.getElementById("artist-button");
     let bandButton = document.getElementById("band-button");
 
-    if (artistForm.style.display === "none") {
-        artistForm.style.display = "block";
-        bandForm.style.display = "none";
-        artistButton.style.backgroundColor = "#6c0c84";
-        bandButton.style.backgroundColor = "rgba(108, 12, 132, 0.6)";
-    } else {
+    if (isBand) {
         artistForm.style.display = "none";
         bandForm.style.display = "block";
         artistButton.style.backgroundColor = "rgba(108, 12, 132, 0.6)";
         bandButton.style.backgroundColor = "#6c0c84";
+    } else {
+        artistForm.style.display = "block";
+        bandForm.style.display = "none";
+        artistButton.style.backgroundColor = "#6c0c84";
+        bandButton.style.backgroundColor = "rgba(108, 12, 132, 0.6)";
     }
 
 }
+
+function checkPasswordBand() {
+    let pass1 = document.getElementById("password_band").value
+    let pass2 = document.getElementById("confirm_password_band").value
+    if (pass1 === pass2 && pass1.length > 0) {
+        document.getElementById("match_message").style.display = "block";
+        document.getElementById("nonmatch_message").style.display = "none";
+        return true;
+    } else {
+        document.getElementById("match_message").style.display = "none";
+        document.getElementById("nonmatch_message").style.display = "block";
+        return false;
+    }
+}
+
+function checkPasswordArtist() {
+    let pass1 = document.getElementById("password_artist").value
+    let pass2 = document.getElementById("confirm_password_artist").value
+    if (pass1 === pass2 && pass1.length > 0) {
+        document.getElementById("match_message_artist").style.display = "block";
+        document.getElementById("nonmatch_message_artist").style.display = "none";
+        return true;
+    } else {
+        document.getElementById("match_message_artist").style.display = "none";
+        document.getElementById("nonmatch_message_artist").style.display = "block";
+        return false;
+    }
+}
+
 function registerbandCheck(){
     password=document.getElementById("password_band").value;
     email=document.getElementById("bandEmaill").value;
@@ -74,18 +103,7 @@ function registerbandCheck(){
 
     return validForm;
 }
-function checkPasswordBand() {
-    if (document.getElementById("password_band").value ===
-        document.getElementById("confirm_password_band").value) {
-        document.getElementById("match_message").style.display = "block";
-        document.getElementById("nonmatch_message").style.display = "none";
-        return true;
-    } else {
-        document.getElementById("match_message").style.display = "none";
-        document.getElementById("nonmatch_message").style.display = "block";
-        return false;
-    }
-}
+
 function registerArtistCheck(){
     password=document.getElementById("password_artist").value;
     email=document.getElementById("artistEmail").value;
@@ -148,18 +166,7 @@ function registerArtistCheck(){
     return validForm;
 }
 
-function checkPasswordArtist() {
-    if (document.getElementById("password_artist").value ===
-        document.getElementById("confirm_password_artist").value) {
-        document.getElementById("match_message_artist").style.display = "block";
-        document.getElementById("nonmatch_message_artist").style.display = "none";
-        return true;
-    } else {
-        document.getElementById("match_message_artist").style.display = "none";
-        document.getElementById("nonmatch_message_artist").style.display = "block";
-        return false;
-    }
-}
+
 function snackbarMessage() {
     var x = document.getElementById("snackbar");
     x.className = "show";

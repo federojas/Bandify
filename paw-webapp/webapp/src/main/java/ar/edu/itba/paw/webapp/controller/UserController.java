@@ -3,6 +3,7 @@ package ar.edu.itba.paw.webapp.controller;
 import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.service.UserService;
 import ar.edu.itba.paw.service.VerificationTokenService;
+import ar.edu.itba.paw.webapp.form.ResetPasswordForm;
 import ar.edu.itba.paw.webapp.form.UserArtistForm;
 import ar.edu.itba.paw.webapp.form.UserBandForm;
 import ar.edu.itba.paw.webapp.security.services.SecurityFacade;
@@ -38,8 +39,12 @@ public class UserController {
     @RequestMapping(value = {"/register","/registerBand", "/registerArtist"},
             method = {RequestMethod.GET})
     public ModelAndView registerView(@ModelAttribute("userBandForm") final UserBandForm userBandForm,
-                                     @ModelAttribute("userArtistForm") final UserArtistForm userArtistForm) {
-        return new ModelAndView("views/register");
+                                     @ModelAttribute("userArtistForm") final UserArtistForm userArtistForm,
+                                     boolean isBand) {
+        ModelAndView mav = new ModelAndView("views/register");
+        mav.addObject("isBand", isBand);
+        mav.addObject("userEmailAlreadyExists", false);
+        return mav;
     }
 
     //TODO: MODULARIZAR CODIGO REPETIDO EN REGISTERS
@@ -47,7 +52,7 @@ public class UserController {
     public ModelAndView registerBand(@Valid @ModelAttribute("userBandForm") final UserBandForm userBandForm,
                                      final BindingResult errors) {
         if (errors.hasErrors()) {
-            ModelAndView returnRegister = registerView(userBandForm, new UserArtistForm());
+            ModelAndView returnRegister = registerView(userBandForm, new UserArtistForm(), true);
             returnRegister.addObject("userArtistForm", new UserArtistForm());
             return returnRegister;
         }
@@ -65,7 +70,7 @@ public class UserController {
     public ModelAndView registerArtist(@Valid @ModelAttribute("userArtistForm") final UserArtistForm userArtistForm,
                                        final BindingResult errors) {
         if (errors.hasErrors()) {
-            ModelAndView returnRegister = registerView(new UserBandForm(), userArtistForm);
+            ModelAndView returnRegister = registerView(new UserBandForm(), userArtistForm, false);
             returnRegister.addObject("userBandForm", new UserBandForm());
             return returnRegister;
         }
@@ -95,4 +100,20 @@ public class UserController {
         return new ModelAndView("redirect:/errors/404");
     }
 
+    @RequestMapping(value = "/resetPassword", method = {RequestMethod.GET})
+    public ModelAndView resetPassword(@ModelAttribute("resetPasswordForm") final ResetPasswordForm resetPasswordForm) {
+        return new ModelAndView("/views/resetPassword");
+    }
+
+    @RequestMapping(value = "/resetPassword", method = {RequestMethod.POST})
+    public ModelAndView resetPassword(@Valid @ModelAttribute("resetPasswordForm")
+                                      final ResetPasswordForm resetPasswordForm,
+                                      final BindingResult errors) {
+        if (errors.hasErrors()) {
+           return resetPassword(resetPasswordForm);
+        }
+        // TODO: GENERACION DE TOKEN Y ENVÍO DE MAIL
+        return WelcomeController.welcome();
+    }
+    
 }

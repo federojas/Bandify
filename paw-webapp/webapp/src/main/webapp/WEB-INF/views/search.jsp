@@ -2,10 +2,11 @@
         prefix="form" uri="http://www.springframework.org/tags/form" %> <%@ page
         contentType="text/html;charset=UTF-8" language="java" %> <%@ taglib
         prefix="spring" uri="http://www.springframework.org/tags"%>
+
 <html>
 <head>
     <c:import url="../config/generalHead.jsp" />
-    <link rel="stylesheet" href="<c:url value="${pageContext.request.contextPath}/resources/css/welcome.css" />" />
+    <link rel="stylesheet" href="<c:url value="/resources/css/welcome.css" />" />
     <style>
         body {
             /* gray-100 */
@@ -58,6 +59,8 @@
     <jsp:param name="navItem" value="${2}" />
     <jsp:param name="name" value="Bandify" />
 </jsp:include>
+
+
 
 <!-- Auditions content -->
 <div class="auditions-content">

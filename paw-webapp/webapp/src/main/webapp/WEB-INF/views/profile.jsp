@@ -28,7 +28,7 @@
                     <div class="image overflow-hidden">
                         <img class="h-auto w-full mx-auto"
                             <spring:message code="profile.img.alt" var="img"/>
-                             src="<c:url value="${pageContext.request.contextPath}/resources/images/profile_anon.png"/>"
+                             src="<c:url value="/resources/images/profile_anon.png"/>"
                              alt="${img}">
                     </div>
                     <h1 class="full-name">
@@ -100,7 +100,7 @@
                         <span clas="text-indigo-900">
                             <spring:message code="profile.user.alt" var="userimg"/>
 
-                              <img src="<c:url value="${pageContext.request.contextPath}/resources/icons/user.svg"/>" class="user-icon" alt="${userimg}"/>
+                              <img src="<c:url value="/resources/icons/user.svg"/>" class="user-icon" alt="${userimg}"/>
                                 </span>
                                     <span class="tracking-wide "><spring:message code="profile.about"></spring:message></span>
                                 </div>

@@ -41,7 +41,7 @@
             </form:label>
             <spring:message code="register.form.passwordplaceholder" var="passwordplaceholder"/>
             <form:input id="password_band" type="password" maxlength="50" placeholder="${passwordplaceholder}" class="form-input"
-                        path="password" />
+                        path="password" onkeyup="checkPasswordBand()" />
             <form:errors path="password" element="p" cssClass="error"> </form:errors>
             <p class="error" id="emptyPass" style="display: none"><spring:message code="register.form.emptyPassword"/></p>
 

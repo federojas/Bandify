@@ -49,17 +49,19 @@ public class ErrorAdviceController {
         ModelAndView mav = new ModelAndView("/views/register");
         UserBandForm bandForm = new UserBandForm();
         UserArtistForm artistForm = new UserArtistForm();
-        if(ex.isBand()) {
+        boolean isBand = ex.isBand();
+        if(isBand) {
             bandForm.setName(ex.getName());
-            bandForm.setBand(ex.isBand());
+            bandForm.setBand(true);
         } else {
             artistForm.setSurname(ex.getSurname());
             artistForm.setName(ex.getName());
-            artistForm.setBand(ex.isBand());
+            artistForm.setBand(false);
         }
         mav.addObject("userArtistForm", artistForm);
         mav.addObject("userBandForm", bandForm);
         mav.addObject("userEmailAlreadyExists", true);
+        mav.addObject("isBand", isBand);
         return mav;
     }
 

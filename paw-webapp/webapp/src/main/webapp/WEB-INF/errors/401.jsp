@@ -1,16 +1,13 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: ssandrini
-  Date: 12/4/22
-  Time: 08:19
-  To change this template use File | Settings | File Templates.
---%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>401</title>
 </head>
 <body>
-<h1>401</h1>
+<spring:message code="img.alt.401" var="img401"/>
+<img src="<c:url value="/resources/images/401.png" />" alt="${img401}" style="margin-bottom: 2rem" />
+<p class="wrong-para"><spring:message code="404.errorMessage"/></p>
 </body>
 </html>
