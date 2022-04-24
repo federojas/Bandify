@@ -3,6 +3,7 @@ package ar.edu.itba.paw.webapp.controller;
 import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.service.UserService;
 import ar.edu.itba.paw.service.VerificationTokenService;
+import ar.edu.itba.paw.webapp.form.ResetPasswordForm;
 import ar.edu.itba.paw.webapp.form.UserArtistForm;
 import ar.edu.itba.paw.webapp.form.UserBandForm;
 import ar.edu.itba.paw.webapp.security.services.SecurityFacade;
@@ -99,4 +100,20 @@ public class UserController {
         return new ModelAndView("redirect:/errors/404");
     }
 
+    @RequestMapping(value = "/resetPassword", method = {RequestMethod.GET})
+    public ModelAndView resetPassword(@ModelAttribute("resetPasswordForm") final ResetPasswordForm resetPasswordForm) {
+        return new ModelAndView("/views/resetPassword");
+    }
+
+    @RequestMapping(value = "/resetPassword", method = {RequestMethod.POST})
+    public ModelAndView resetPassword(@Valid @ModelAttribute("resetPasswordForm")
+                                      final ResetPasswordForm resetPasswordForm,
+                                      final BindingResult errors) {
+        if (errors.hasErrors()) {
+           return resetPassword(resetPasswordForm);
+        }
+        // TODO: GENERACION DE TOKEN Y ENVÍO DE MAIL
+        return WelcomeController.welcome();
+    }
+    
 }
