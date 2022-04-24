@@ -33,18 +33,30 @@
 
     </div>
 
-    <div id="artist-form" style="display: block;">
-        <jsp:include page="../components/registerArtistForm.jsp">
-            <jsp:param name="artist" value="${1}" />
-        </jsp:include>
-    </div>
-
-    <div id="band-form" style="display: none; ">
-        <jsp:include page="../components/registerBandForm.jsp">
-            <jsp:param name="band" value="${1}" />
-        </jsp:include>
-    </div>
-
+    <c:if test="${!isBand}">
+        <div id="artist-form" style="display: block;">
+            <jsp:include page="../components/registerArtistForm.jsp">
+                <jsp:param name="artist" value="${1}" />
+            </jsp:include>
+        </div>
+        <div id="band-form" style="display: none; ">
+            <jsp:include page="../components/registerBandForm.jsp">
+                <jsp:param name="band" value="${1}" />
+            </jsp:include>
+        </div>
+    </c:if>
+    <c:if test="${isBand}">
+        <div id="artist-form" style="display: none;">
+            <jsp:include page="../components/registerArtistForm.jsp">
+                <jsp:param name="artist" value="${1}" />
+            </jsp:include>
+        </div>
+        <div id="band-form" style="display: block; ">
+            <jsp:include page="../components/registerBandForm.jsp">
+                <jsp:param name="band" value="${1}" />
+            </jsp:include>
+        </div>
+    </c:if>
 
 </div>
 <div id="snackbar"><spring:message code="snackbar.message"/></div>

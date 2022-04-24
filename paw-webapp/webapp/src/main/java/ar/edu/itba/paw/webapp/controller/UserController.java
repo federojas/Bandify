@@ -38,8 +38,11 @@ public class UserController {
     @RequestMapping(value = {"/register","/registerBand", "/registerArtist"},
             method = {RequestMethod.GET})
     public ModelAndView registerView(@ModelAttribute("userBandForm") final UserBandForm userBandForm,
-                                     @ModelAttribute("userArtistForm") final UserArtistForm userArtistForm) {
-        return new ModelAndView("views/register");
+                                     @ModelAttribute("userArtistForm") final UserArtistForm userArtistForm,
+                                     boolean isBand) {
+        ModelAndView mav = new ModelAndView("views/register");
+        mav.addObject("isBand", isBand);
+        return mav;
     }
 
     //TODO: MODULARIZAR CODIGO REPETIDO EN REGISTERS
@@ -47,7 +50,7 @@ public class UserController {
     public ModelAndView registerBand(@Valid @ModelAttribute("userBandForm") final UserBandForm userBandForm,
                                      final BindingResult errors) {
         if (errors.hasErrors()) {
-            ModelAndView returnRegister = registerView(userBandForm, new UserArtistForm());
+            ModelAndView returnRegister = registerView(userBandForm, new UserArtistForm(), true);
             returnRegister.addObject("userArtistForm", new UserArtistForm());
             return returnRegister;
         }
@@ -65,7 +68,7 @@ public class UserController {
     public ModelAndView registerArtist(@Valid @ModelAttribute("userArtistForm") final UserArtistForm userArtistForm,
                                        final BindingResult errors) {
         if (errors.hasErrors()) {
-            ModelAndView returnRegister = registerView(new UserBandForm(), userArtistForm);
+            ModelAndView returnRegister = registerView(new UserBandForm(), userArtistForm, false);
             returnRegister.addObject("userBandForm", new UserBandForm());
             return returnRegister;
         }
