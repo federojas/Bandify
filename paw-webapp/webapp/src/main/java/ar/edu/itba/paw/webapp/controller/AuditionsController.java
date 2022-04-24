@@ -157,7 +157,7 @@ public class AuditionsController {
         mav.addObject("roleList", roleList);
         mav.addObject("genreList", genreList);
         mav.addObject("locationList", locationList);
-
+        mav.addObject("user",securityFacade.getCurrentUser());
         return mav;
     }
 
