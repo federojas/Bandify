@@ -5,18 +5,16 @@
 <html>
 <head>
     <title>SearchBar</title>
-    <link rel="stylesheet" href="<c:url value="${pageContext.request.contextPath}/resources/css/searchBar.css" />"/>
+    <link rel="stylesheet" href="<c:url value="/resources/css/searchBar.css" />"/>
 </head>
 <body>
-<div class="wrap">
+<div>
     <c:url value="/search" var="searchUrl"/>
     <spring:message code="search.placeholder" var="searchPlaceholder"/>
     <div class="search">
         <form action="${searchUrl}" method="get">
             <input type="text" class="searchTerm" placeholder="${searchPlaceholder}" name="query">
-            <button type="submit" class="searchButton">
-                <i class="fa fa-search"></i>
-            </button>
+
         </form>
     </div>
 </div>
