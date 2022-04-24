@@ -70,7 +70,9 @@ public class AuditionsController {
         final ModelAndView mav = new ModelAndView("views/auditions");
         // TODO: Error controller
         int lastPage = auditionService.getTotalPages(null);
-        if(page < 0 || (page > lastPage && lastPage != 0))
+        if(lastPage == 0)
+            lastPage = 1;
+        if(page < 0 || page > lastPage)
             return new ModelAndView("errors/404");
         List<Audition> auditionList = auditionService.getAll(page);
         mav.addObject("auditionList", auditionList);
@@ -85,7 +87,9 @@ public class AuditionsController {
                                 @RequestParam(value = "query", defaultValue = "") String query ) {
         final ModelAndView mav = new ModelAndView("views/search");
         int lastPage = auditionService.getTotalPages(query);
-        if(page < 0 || (page > lastPage && lastPage != 0))
+        if(lastPage == 0)
+            lastPage = 1;
+        if(page < 0 || page > lastPage)
             return new ModelAndView("errors/404");
         if(query.equals(""))
             return auditions(1);
