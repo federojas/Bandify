@@ -10,4 +10,6 @@ public interface UserDao {
     User create(User.UserBuilder userBuilder);
 
     Optional<User> findByEmail(String email);
+
+    void changePassword(long userId, String newPassword);
 }

@@ -1,22 +1,15 @@
 package ar.edu.itba.paw.service;
-
+import ar.edu.itba.paw.model.TokenType;
 import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.model.VerificationToken;
 import ar.edu.itba.paw.model.exceptions.DuplicateUserException;
+import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.persistence.UserDao;
-import ar.edu.itba.paw.persistence.VerificationTokenDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.core.env.Environment;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import javax.mail.MessagingException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.*;
 
 @Service
@@ -24,23 +17,17 @@ public class UserServiceImpl implements UserService {
 
     private final UserDao userDao;
     private final PasswordEncoder passwordEncoder;
-    private final VerificationTokenDao verificationTokenDao;
-    private final MailingService mailingService;
-
-    @Autowired
-    private Environment environment;
-
-    @Autowired
-    private MessageSource messageSource;
+    private final VerificationTokenService verificationTokenService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
+    //  TODO: uso de LOGGER
 
     @Autowired
-    public UserServiceImpl(final UserDao userDao, final PasswordEncoder passwordEncoder, final VerificationTokenDao verificationTokenDao, MailingService mailingService) {
+    public UserServiceImpl(final UserDao userDao, final PasswordEncoder passwordEncoder,
+                           final VerificationTokenService verificationTokenService) {
         this.userDao = userDao;
         this.passwordEncoder = passwordEncoder;
-        this.verificationTokenDao = verificationTokenDao;
-        this.mailingService = mailingService;
+        this.verificationTokenService = verificationTokenService;
     }
 
     @Override
@@ -55,22 +42,9 @@ public class UserServiceImpl implements UserService {
             throw new DuplicateUserException(userBuilder.getName(), userBuilder.getSurname(), userBuilder.isBand());
         }
         User user = userDao.create(userBuilder);
-        final VerificationToken token = generateVerificationToken(user.getId());
-        sendVerificationTokenEmail(user, token);
+        final VerificationToken token = verificationTokenService.generate(user.getId(), TokenType.VERIFY);
+        verificationTokenService.sendVerifyEmail(user, token);
         return user;
-    }
-
-    private void sendVerificationTokenEmail(User user, VerificationToken token) {
-        try {
-            Locale locale = LocaleContextHolder.getLocale();
-            //final String url = new URL("http", environment.getRequiredProperty("app.base.url"), "/paw-2022a-03/verify?token=" + token.getToken()).toString();
-            final String url = new URL("http", "localhost:8080", "/verify?token=" + token.getToken()).toString();
-            final Map<String, Object> mailData = new HashMap<>();
-            mailData.put("confirmationURL", url);
-            mailingService.sendEmail(user, user.getEmail(), messageSource.getMessage("verify-account.subject",null,locale).toString(), "verify-account", mailData, locale);
-        } catch (MessagingException | MalformedURLException e) {
-            LOGGER.warn("Register verification email failed");
-        }
     }
 
     @Override
@@ -78,10 +52,33 @@ public class UserServiceImpl implements UserService {
         return userDao.findByEmail(email);
     }
 
+    @Override
+    public boolean verifyUser(String token) {
+        Long userId = verificationTokenService.validateToken(token, TokenType.VERIFY);
 
-
-    private VerificationToken generateVerificationToken(long userId) {
-        final String token = UUID.randomUUID().toString();
-        return verificationTokenDao.createToken(userId, token, VerificationToken.getNewExpiryDate());
+        if(userId != null) {
+            // TODO: validar usuario
+            return true;
+        } else {
+            throw new UserNotFoundException();
+        }
     }
+
+    @Override
+    public void sendResetEmail(String email) {
+        Optional<User> user = userDao.findByEmail(email);
+        if(!user.isPresent())
+            throw new UserNotFoundException();
+
+        verificationTokenService.sendResetEmail(user.get());
+    }
+
+    @Override
+    public void changePassword(String token, String newPassword) {
+        Long userId = verificationTokenService.validateToken(token, TokenType.RESET);
+        if(userId == null)
+            throw new UserNotFoundException();
+        userDao.changePassword(userId, passwordEncoder.encode(newPassword));
+    }
+
 }

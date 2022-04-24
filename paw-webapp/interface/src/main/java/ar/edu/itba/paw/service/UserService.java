@@ -11,4 +11,9 @@ public interface UserService {
 
     Optional<User> findByEmail(String email);
 
+    boolean verifyUser(String token);
+
+    void sendResetEmail(String email);
+
+    void changePassword(String token, String newPassword);
 }

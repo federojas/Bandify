@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.model.User;
+import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -67,6 +68,11 @@ public class UserJdbcDao implements UserDao {
             return Optional.of(user);
         }
         return Optional.empty();
+    }
+
+    @Override
+    public void changePassword(long userId, String newPassword) {
+        jdbcTemplate.update("UPDATE users SET password = ? WHERE id = ?", newPassword,userId);
     }
 
 }

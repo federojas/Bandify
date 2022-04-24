@@ -1,8 +1,10 @@
 package ar.edu.itba.paw.webapp.controller;
 
+import ar.edu.itba.paw.model.TokenType;
 import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.service.UserService;
 import ar.edu.itba.paw.service.VerificationTokenService;
+import ar.edu.itba.paw.webapp.form.NewPasswordForm;
 import ar.edu.itba.paw.webapp.form.ResetPasswordForm;
 import ar.edu.itba.paw.webapp.form.UserArtistForm;
 import ar.edu.itba.paw.webapp.form.UserBandForm;
@@ -19,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.util.Objects;
 
 @Controller
 public class UserController {
@@ -94,14 +95,13 @@ public class UserController {
 
     @RequestMapping(value = "/verify")
     public ModelAndView verify(@RequestParam(required = true) final String token) {
-        if(verificationTokenService.verify(token))
-            return new ModelAndView("redirect:/welcome");
-        //TODO: redirect a algo que diga parece que tu token expiró o está mal escrito
-        return new ModelAndView("redirect:/errors/404");
+        userService.verifyUser(token);
+        return new ModelAndView("redirect:/welcome");
     }
 
     @RequestMapping(value = "/resetPassword", method = {RequestMethod.GET})
-    public ModelAndView resetPassword(@ModelAttribute("resetPasswordForm") final ResetPasswordForm resetPasswordForm) {
+    public ModelAndView resetPassword(@ModelAttribute("resetPasswordForm")
+                                      final ResetPasswordForm resetPasswordForm) {
         return new ModelAndView("/views/resetPassword");
     }
 
@@ -112,8 +112,33 @@ public class UserController {
         if (errors.hasErrors()) {
            return resetPassword(resetPasswordForm);
         }
-        // TODO: GENERACION DE TOKEN Y ENVÍO DE MAIL
-        return WelcomeController.welcome();
+        userService.sendResetEmail(resetPasswordForm.getEmail());
+        return new ModelAndView("redirect:/welcome");
     }
-    
+
+    @RequestMapping(value = "/newPassword", method = {RequestMethod.GET})
+    public ModelAndView newPassword(@RequestParam(required = true) final String token,
+                                    @ModelAttribute("newPasswordForm") final NewPasswordForm newPasswordForm) {
+        if(verificationTokenService.isValid(token)) {
+            ModelAndView mav = new ModelAndView("/views/newPassword");
+            mav.addObject("token",token);
+            return mav;
+        }
+
+        return new ModelAndView("redirect:/errors/404");
+    }
+
+    @RequestMapping(value = "/newPassword", method = {RequestMethod.POST})
+    public ModelAndView newPassword(@RequestParam(required = true) final String token,
+                                    @Valid @ModelAttribute("newPasswordForm") final NewPasswordForm newPasswordForm,
+                                    final BindingResult errors) {
+        if (errors.hasErrors()) {
+            return newPassword(token, newPasswordForm);
+        }
+
+        userService.changePassword(token, newPasswordForm.getNewPassword());
+
+        return new ModelAndView("redirect:/welcome");
+    }
+
 }

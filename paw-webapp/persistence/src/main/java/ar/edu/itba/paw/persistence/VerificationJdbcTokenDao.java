@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.persistence;
 
+import ar.edu.itba.paw.model.TokenType;
 import ar.edu.itba.paw.model.VerificationToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -39,19 +40,20 @@ public class VerificationJdbcTokenDao implements VerificationTokenDao {
 
 
     @Override
-    public VerificationToken createToken(long userId, String token, LocalDateTime expiryDate) {
+    public VerificationToken createToken(long userId, String token, LocalDateTime expiryDate, TokenType type) {
         final Map<String, Object> tokenData = new HashMap<>();
         tokenData.put("userId", userId);
         tokenData.put("token", token);
         tokenData.put("expiryDate", expiryDate);
+        tokenData.put("type",type.getType());
 
         final Number tokenId = simpleJdbcInsert.executeAndReturnKey(tokenData);
         return  new VerificationToken(tokenId.longValue(), token, userId, expiryDate);
     }
 
     @Override
-    public void deleteTokenByUserId(long userId) {
-        final String query = "DELETE FROM verificationTokens WHERE userId = ?";
-        jdbcTemplate.update(query, userId);
+    public void deleteTokenByUserId(long userId, TokenType type) {
+        final String query = "DELETE FROM verificationTokens WHERE userId = ? AND type = ?";
+        jdbcTemplate.update(query, userId, type.getType());
     }
 }

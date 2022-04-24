@@ -63,5 +63,7 @@ CREATE TABLE IF NOT EXISTS verificationTokens (
     userId INTEGER NOT NULL,
     token TEXT NOT NULL,
     expiryDate TIMESTAMP NOT NULL,
+    type TEXT NOT NULL,
     FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE
 );
+
