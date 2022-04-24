@@ -10,5 +10,9 @@ public class WelcomeController {
     public static ModelAndView welcome() {
         return new ModelAndView("views/welcome");
     }
+    @RequestMapping(value = "/aboutUs", method = {RequestMethod.GET})
+    public static ModelAndView aboutUs() {
+        return new ModelAndView("views/aboutUs");
+    }
 
 }
