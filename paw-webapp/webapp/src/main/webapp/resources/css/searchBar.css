@@ -8,6 +8,10 @@
     padding: 5px 10px;
     border-radius: 9999px;
     color: #ffffff;
+    background-image: url('/resources/icons/search.svg');
+    background-repeat: no-repeat;
+    background-position: 95% 50%;
+    background-size: 12px;
 }
 
 .searchTerm:focus{

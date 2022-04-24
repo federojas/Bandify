@@ -13,7 +13,8 @@
     <spring:message code="search.placeholder" var="searchPlaceholder"/>
     <div class="search">
         <form action="${searchUrl}" method="get">
-            <input type="text" class="searchTerm" placeholder="${searchPlaceholder}" name="query">
+            <input type="text" class="searchTerm" placeholder="${searchPlaceholder}" name="query"
+            >
 
         </form>
     </div>
