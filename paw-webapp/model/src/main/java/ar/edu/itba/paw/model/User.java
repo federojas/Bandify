@@ -110,8 +110,8 @@ public class User {
             return isBand;
         }
 
-        public void setEnabled(boolean enabled) {
-            isEnabled = enabled;
+        public boolean isEnabled() {
+            return isEnabled;
         }
     }
 }

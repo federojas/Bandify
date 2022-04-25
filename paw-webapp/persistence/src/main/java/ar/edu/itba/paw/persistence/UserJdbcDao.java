@@ -52,6 +52,7 @@ public class UserJdbcDao implements UserDao {
         userData.put("name", userBuilder.getName());
         userData.put("surname", userBuilder.getSurname());
         userData.put("isBand", userBuilder.isBand());
+        userData.put("isEnabled", userBuilder.isEnabled());
 
         final Number id = jdbcInsert.executeAndReturnKey(userData);
 
