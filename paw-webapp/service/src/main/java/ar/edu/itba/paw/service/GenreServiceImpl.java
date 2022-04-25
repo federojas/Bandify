@@ -44,4 +44,9 @@ public class GenreServiceImpl implements GenreService{
         return genreDao.getUserGenres(userId);
     }
 
+    @Override
+    public void addUserGenres(List<String> genresNames, long userId) {
+        genreDao.addUserGenres(genresNames,userId);
+    }
+
 }

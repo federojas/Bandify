@@ -12,4 +12,6 @@ public interface GenreService {
     List<Genre> validateAndReturnGenres(List<String> rolesNames);
 
     List<Genre> getUserGenres(long userId);
+
+    void addUserGenres(List<String> genresNames, long userId);
 }

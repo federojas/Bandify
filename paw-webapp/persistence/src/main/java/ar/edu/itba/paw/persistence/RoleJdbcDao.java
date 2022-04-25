@@ -6,22 +6,21 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Repository
 public class RoleJdbcDao implements RoleDao {
 
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcRoleInsert;
+    private final SimpleJdbcInsert jdbcUserRoleInsert;
     private final static RowMapper<Role> ROLE_ROW_MAPPER = (rs, i) -> new Role(rs.getLong("id"), rs.getString("role"));
 
     @Autowired
     public RoleJdbcDao(final DataSource ds) {
         jdbcTemplate = new JdbcTemplate(ds);
         jdbcRoleInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("auditionRoles");
+        jdbcUserRoleInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("userRoles");
     }
 
     @Override
@@ -56,7 +55,25 @@ public class RoleJdbcDao implements RoleDao {
     }
 
     @Override
+    public List<Role> getRolesByNames(List<String> rolesNames) {
+        String inSql = String.join(",", Collections.nCopies(rolesNames.size(), "?"));
+        return jdbcTemplate.query(String.format("SELECT * FROM roles WHERE role IN (%s)", inSql), rolesNames.toArray(),ROLE_ROW_MAPPER);
+    }
+
+    @Override
     public List<Role> getUserRoles(long userId) {
         return jdbcTemplate.query("SELECT roles.id,roles.role FROM roles JOIN userRoles ON roles.id = userRoles.roleId JOIN users ON userRoles.userId = users.id",ROLE_ROW_MAPPER);
+    }
+
+    @Override
+    public void addUserRoles(List<String> rolesNames, long userId) {
+        List<Role> roles = getRolesByNames(rolesNames);
+        final Map<String, Object> userRoleData = new HashMap<>();
+        userRoleData.put("userId", userId);
+        userRoleData.put("roleId", 0);
+        for(Role role : roles) {
+            userRoleData.replace("roleId", role.getId());
+            jdbcUserRoleInsert.execute(userRoleData);
+        }
     }
 }

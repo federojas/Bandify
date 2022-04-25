@@ -15,5 +15,9 @@ public interface GenreDao {
 
     Optional<Genre> getGenreByName(String name);
 
+    List<Genre> getGenresByNames(List<String> genresNames);
+
     List<Genre> getUserGenres(long userId);
+
+    void addUserGenres(List<String> genresNames, long userId);
 }

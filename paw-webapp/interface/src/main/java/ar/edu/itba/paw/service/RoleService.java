@@ -11,4 +11,6 @@ public interface RoleService {
     List<Role> validateAndReturnRoles(List<String> rolesNames);
 
     List<Role> getUserRoles(long userId);
+
+    void addUserRoles(List<String> rolesNames, long userId);
 }

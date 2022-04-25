@@ -2,6 +2,7 @@ package ar.edu.itba.paw.service;
 
 import ar.edu.itba.paw.model.User;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
@@ -16,4 +17,8 @@ public interface UserService {
     void sendResetEmail(String email);
 
     void changePassword(String token, String newPassword);
+
+    void addUserRoles(List<String> rolesNames, long userId);
+
+    void addUserGenres(List<String> genresNames, long userId);
 }

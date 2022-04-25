@@ -18,16 +18,21 @@ public class UserServiceImpl implements UserService {
     private final UserDao userDao;
     private final PasswordEncoder passwordEncoder;
     private final VerificationTokenService verificationTokenService;
+    private final RoleService roleService;
+    private final GenreService genreService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
     //  TODO: uso de LOGGER
 
     @Autowired
     public UserServiceImpl(final UserDao userDao, final PasswordEncoder passwordEncoder,
-                           final VerificationTokenService verificationTokenService) {
+                           final VerificationTokenService verificationTokenService,
+                           final RoleService roleService, final GenreService genreService) {
         this.userDao = userDao;
         this.passwordEncoder = passwordEncoder;
         this.verificationTokenService = verificationTokenService;
+        this.roleService = roleService;
+        this.genreService = genreService;
     }
 
     @Override
@@ -79,6 +84,20 @@ public class UserServiceImpl implements UserService {
         if(userId == null)
             throw new UserNotFoundException();
         userDao.changePassword(userId, passwordEncoder.encode(newPassword));
+    }
+
+    @Override
+    public void addUserRoles(List<String> rolesNames, long userId) {
+        if(getUserById(userId).isPresent())
+            roleService.addUserRoles(rolesNames,userId);
+        throw new UserNotFoundException();
+    }
+
+    @Override
+    public void addUserGenres(List<String> genresNames, long userId) {
+        if(getUserById(userId).isPresent())
+            genreService.addUserGenres(genresNames,userId);
+        throw new UserNotFoundException();
     }
 
 }
