@@ -9,7 +9,6 @@
     <c:import url="../config/generalHead.jsp"/>
     <title><spring:message code="navbar.profile" /></title>
     <link rel="stylesheet" href="<c:url value="/resources/css/profile.css" />"/>
-
 </head>
 <body>
 <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
@@ -25,7 +24,7 @@
             <!-- Left Side -->
             <div class="w-full md:w-3/12 md:mx-2">
                 <!-- Profile Card -->
-                <div class="bg-white p-3 border-t-4  bg-main-color">
+                <div class="bg-white box p-3 border-t-4  bg-main-color">
                     <div class="image overflow-hidden">
                         <img class="h-auto w-full mx-auto"
                             <spring:message code="profile.img.alt" var="img"/>
@@ -67,17 +66,17 @@
                             <spring:message code="profile.logout"/>
                         </button>
                     </a>
-                    <a href="<c:url value="/profile/edit" />">
-                        <button class="edit-btn">
-                            <spring:message code="profile.edit.alt" var="edit"/>
+<%--                    <a href="<c:url value="/profile/edit" />">--%>
+<%--                        <button class="edit-btn">--%>
+<%--                            <spring:message code="profile.edit.alt" var="edit"/>--%>
 
-                            <img src="/resources/icons/edit.svg"
-                                 alt="${edit}"
-                                 class="icon-img"
-                            />
-                            <spring:message code="profile.editProfile"/>
-                        </button>
-                    </a>
+<%--                            <img src="/resources/icons/edit.svg"--%>
+<%--                                 alt="${edit}"--%>
+<%--                                 class="icon-img"--%>
+<%--                            />--%>
+<%--                            <spring:message code="profile.editProfile"/>--%>
+<%--                        </button>--%>
+<%--                    </a>--%>
                 </div>
             </div>
             <!-- Right Side -->
