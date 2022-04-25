@@ -21,4 +21,6 @@ public interface UserService {
     void addUserRoles(List<String> rolesNames, long userId);
 
     void addUserGenres(List<String> genresNames, long userId);
+
+    void resendUserVerification(String email);
 }

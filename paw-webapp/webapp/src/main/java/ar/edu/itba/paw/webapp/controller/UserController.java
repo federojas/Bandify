@@ -67,7 +67,7 @@ public class UserController {
 
         userService.create(user);
 
-        return WelcomeController.welcome();
+        return new ModelAndView("redirect:/welcome");
     }
 
     //TODO: MODULARIZAR CODIGO REPETIDO EN REGISTERS
@@ -86,7 +86,7 @@ public class UserController {
 
         userService.create(user);
 
-        return WelcomeController.welcome();
+        return new ModelAndView("redirect:/welcome");
     }
 
 

@@ -53,6 +53,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void resendUserVerification(String email) {
+        Optional<User> user = findByEmail(email);
+
+        if(!user.isPresent())
+            throw new UserNotFoundException();
+
+        verificationTokenService.deleteTokenByUserId(user.get().getId(), TokenType.VERIFY);
+
+        VerificationToken token = verificationTokenService.generate(user.get().getId(), TokenType.VERIFY);
+
+        verificationTokenService.sendVerifyEmail(user.get(), token);
+    }
+
+    @Override
     public Optional<User> findByEmail(String email) {
         return userDao.findByEmail(email);
     }
