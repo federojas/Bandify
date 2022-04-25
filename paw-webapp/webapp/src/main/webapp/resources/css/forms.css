@@ -82,3 +82,23 @@ body {
     border-radius: 9999px;
     background-color: #6c0c84 !important;
 }
+
+.email-reset-password-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem 2rem;
+    margin: 1rem;
+    justify-items: center;
+    box-shadow: 0 10px 15px -3px #1c041c1a, 0 4px 6px -2px #1c041c0d;
+    border-radius: 1rem;
+    width: fit-content;
+    align-self: center;
+}
+
+.reset-pwd-header {
+    text-align: center;
+    margin: 2rem;
+    font-size: larger;
+    font-weight: 600;
+}
