@@ -16,4 +16,6 @@ public interface AuditionDao {
     long getMaxAuditionId();
 
     List<Audition> search(int page, String query);
+
+    List<Audition> getBandAuditions(long userId);
 }

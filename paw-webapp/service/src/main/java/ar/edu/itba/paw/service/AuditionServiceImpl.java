@@ -48,4 +48,9 @@ public class AuditionServiceImpl implements AuditionService {
         return auditionDao.search(page, query);
     }
 
+    @Override
+    public List<Audition> getBandAuditions(long userId) {
+        return auditionDao.getBandAuditions(userId);
+    }
+
 }

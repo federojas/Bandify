@@ -89,6 +89,19 @@ public class AuditionJdbcDao implements AuditionDao {
         return getAuditions(auditionsBuilders);
     }
 
+    @Override
+    public List<Audition> getBandAuditions(long userId) {
+        List<Audition.AuditionBuilder> auditionsBuilders = jdbcTemplate.query("SELECT * FROM auditions WHERE bandId = ? " ,new Object[] {userId}, AUDITION_ROW_MAPPER);
+        List<Audition> toReturn = new ArrayList<>();
+        for(Audition.AuditionBuilder builder : auditionsBuilders) {
+            Audition audition = builder.musicGenres(genreDao.getGenresByAuditionId(builder.getId()))
+                    .lookingFor(roleDao.getRolesByAuditionId(builder.getId())).
+                    location(locationDao.getLocationByAuditionId(builder.getId()).orElseThrow(LocationNotFoundException::new)).build();
+            toReturn.add(audition);
+        }
+        return toReturn;
+    }
+
     private List<Audition> getAuditions(List<Audition.AuditionBuilder> auditionsBuilders) {
         List<Audition> toReturn = new ArrayList<>();
         for(Audition.AuditionBuilder builder : auditionsBuilders) {

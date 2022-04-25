@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.service;
 
+import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.persistence.Audition;
 
 import java.util.List;
@@ -18,4 +19,6 @@ public interface AuditionService {
     int getTotalPages(String query);
 
     List<Audition> search(int page, String query);
+
+    List<Audition> getBandAuditions(long userId);
 }

@@ -173,7 +173,7 @@ public class AuditionsController {
             return newAudition(auditionForm);
         }
 
-        auditionService.create(auditionForm.toBuilder(1, securityFacade.getCurrentUser().getEmail()).
+        auditionService.create(auditionForm.toBuilder(securityFacade.getCurrentUser().getId(), securityFacade.getCurrentUser().getEmail()).
                 location(locationService.getLocationByName(auditionForm.getLocation()).orElseThrow(LocationNotFoundException::new)).
                 lookingFor(roleService.validateAndReturnRoles(auditionForm.getLookingFor())).
                 musicGenres(genreService.validateAndReturnGenres(auditionForm.getMusicGenres()))
