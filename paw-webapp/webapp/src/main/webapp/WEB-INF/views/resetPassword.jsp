@@ -5,9 +5,11 @@
 <html>
 <head>
     <c:import url="../config/generalHead.jsp"/>
+    <script type="text/javascript" src="/resources/js/resetPassword.js"></script>
+
     <link rel="stylesheet" href="<c:url value="/resources/css/forms.css" />"/>
 </head>
-<body>
+<body onload="load()">
 <jsp:include page="../components/navbar.jsp">
     <jsp:param name="navItem" value="${1}"/>
     <jsp:param name="name" value="Bandify"/>
@@ -23,6 +25,7 @@
             method="post"
             acceptCharset="utf-8"
             class="box"
+            id="form"
     >
         <div>
             <form:label class="form-label" path="email">
@@ -31,12 +34,14 @@
             <spring:message code="resetPassword.form.emailplaceholder" var="placeholder"/>
             <form:input type="text" id="email" maxlength="50" placeholder="${placeholder}" class="form-input" path="email"/>
             <form:errors path="email" cssClass="error" element="p"> </form:errors>
+            <p class="error" id="invalidEmail" style="display: none"><spring:message code="Email.resetPasswordForm.email"/></p>
         </div>
         <div class="mt-4">
             <button
                     type="submit"
                     value="submit"
                     class="purple-button"
+                    id="sumbitButton"
             >
                 <spring:message code="resetPassword.form.postButton"/>
             </button>
