@@ -26,8 +26,8 @@
     <c:url value="/resendEmail" var="resendEmailUrl" >
         <c:param name="email" value="${email}" />
     </c:url>
-    <a href="${resendEmailUrl}"><button><spring:message code="email_sent.resend" /></button></a>
-    <a href="<c:url value="/welcome" />">
+    <a class="resend-button" href="${resendEmailUrl}"><button><spring:message code="email_sent.resend" /></button></a>
+    <a class="back-bandify" href="<c:url value="/welcome" />">
         <spring:message code="email_sent.link"/>
     </a>
 </div>
