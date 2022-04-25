@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="<c:url value="/resources/css/welcome.css" />"/>
     <link rel="stylesheet" href="<c:url value="/resources/css/forms.css" />"/>
     <script src="<c:url value="/resources/js/login.js" />"></script>
-
 </head>
 
 <body>
@@ -60,6 +59,8 @@
                         <input type="checkbox" id="rememberme" class="remember-me" value="false"/>
                         <spring:message code="welcome.rememberme"/>
                     </div>
+                    <a href="<c:url value="/resetPassword"/>"><u style="cursor: pointer;"><spring:message code="welcome.resetButton"/></u></a>
+
                     <div class="errorDiv">
                         <p class="error">
                             <c:if test="${param.error}"><c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}" /></c:if>
@@ -75,12 +76,10 @@
                 <a href="<c:url value="/register"/>"><u style="cursor: pointer;"><spring:message code="welcome.registerButton"/></u></a>
                 <br/>
                 <br/>
-                <a href="<c:url value="/resetPassword"/>"><u style="cursor: pointer;"><spring:message code="welcome.resetButton"/></u></a>
                 <br/><br/>
             </div>
         </div>
     </div>
-
 </div>
 <div id="snackbar"><spring:message code="snackbar.message"/></div>
 

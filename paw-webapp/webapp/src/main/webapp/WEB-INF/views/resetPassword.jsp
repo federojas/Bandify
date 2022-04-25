@@ -4,34 +4,45 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <html>
 <head>
-    <title>Reset Password</title>
+    <c:import url="../config/generalHead.jsp"/>
+    <link rel="stylesheet" href="<c:url value="/resources/css/forms.css" />"/>
 </head>
 <body>
+<jsp:include page="../components/navbar.jsp">
+    <jsp:param name="navItem" value="${1}"/>
+    <jsp:param name="name" value="Bandify"/>
+</jsp:include>
+
+<h1 class="reset-pwd-header"><spring:message code="resetPassword.instructions" /></h1>
 <c:url value="/resetPassword" var="resetUrl"/>
 <%--@elvariable id="resetPasswordForm" type="ar.edu.itba.paw.webapp.form.ResetPasswordForm"--%>
-<form:form
-        modelAttribute="resetPasswordForm"
-        action="${resetUrl}"
-        method="post"
-        acceptCharset="utf-8"
-        class="box"
->
-    <div>
-        <form:label path="email">
-            <spring:message code="resetPassword.form.email"/>
-        </form:label>
-        <spring:message code="resetPassword.form.emailplaceholder" var="placeholder"/>
-        <form:input type="text" id="email" maxlength="50" placeholder="${placeholder}" class="form-input" path="email"/>
-        <form:errors path="email" element="p"> </form:errors>
-    </div>
-    <div>
-        <button
-                type="submit"
-                value="submit"
-        >
-            <spring:message code="resetPassword.form.postButton"/>
-        </button>
-    </div>
-</form:form>
+<div class="email-reset-password-box">
+    <form:form
+            modelAttribute="resetPasswordForm"
+            action="${resetUrl}"
+            method="post"
+            acceptCharset="utf-8"
+            class="box"
+    >
+        <div>
+            <form:label class="form-label" path="email">
+                <spring:message code="resetPassword.form.email"/>
+            </form:label>
+            <spring:message code="resetPassword.form.emailplaceholder" var="placeholder"/>
+            <form:input type="text" id="email" maxlength="50" placeholder="${placeholder}" class="form-input" path="email"/>
+            <form:errors path="email" cssClass="error" element="p"> </form:errors>
+        </div>
+        <div class="mt-4">
+            <button
+                    type="submit"
+                    value="submit"
+                    class="purple-button"
+            >
+                <spring:message code="resetPassword.form.postButton"/>
+            </button>
+        </div>
+    </form:form>
+</div>
+
 </body>
 </html>

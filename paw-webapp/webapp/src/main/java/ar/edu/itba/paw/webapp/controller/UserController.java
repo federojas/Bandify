@@ -14,10 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -67,7 +64,7 @@ public class UserController {
 
         userService.create(user);
 
-        return new ModelAndView("redirect:/welcome");
+        return emailSent(userBandForm.getEmail());
     }
 
     //TODO: MODULARIZAR CODIGO REPETIDO EN REGISTERS
@@ -86,7 +83,7 @@ public class UserController {
 
         userService.create(user);
 
-        return new ModelAndView("redirect:/welcome");
+        return emailSent(userArtistForm.getEmail());
     }
 
 
@@ -151,4 +148,15 @@ public class UserController {
         return new ModelAndView("redirect:/welcome");
     }
 
+    @RequestMapping(value = "/emailSent", method = {RequestMethod.GET})
+    public ModelAndView emailSent(String email) {
+        ModelAndView emailSent = new ModelAndView("/views/emailSent");
+        emailSent.addObject("email", email);
+        return emailSent;
+    }
+    @RequestMapping(value = "/resendEmail", method = {RequestMethod.GET})
+    public ModelAndView resendEmail(@RequestParam("email") String email) {
+        userService.resendUserVerification(email);
+        return new ModelAndView("redirect:/welcome");
+    }
 }
