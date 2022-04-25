@@ -30,7 +30,7 @@
             </form:label>
             <spring:message code="resetPassword.form.emailplaceholder" var="placeholder"/>
             <form:input type="text" id="email" maxlength="50" placeholder="${placeholder}" class="form-input" path="email"/>
-            <form:errors path="email" element="p"> </form:errors>
+            <form:errors path="email" cssClass="error" element="p"> </form:errors>
         </div>
         <div class="mt-4">
             <button
