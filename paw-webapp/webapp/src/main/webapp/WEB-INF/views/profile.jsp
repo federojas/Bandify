@@ -159,8 +159,37 @@
 
                         </div>
                     </div>
+                    <br><br>
                     <!-- End of about section -->
-
+                    <div>
+                        <c:forEach var="audition" items="${auditions}" varStatus="loop">
+                            <c:set
+                                    var="lookingFor"
+                                    value="${audition.lookingFor}"
+                                    scope="request"
+                            />
+                            <c:set
+                                    var="musicGenres"
+                                    value="${audition.musicGenres}"
+                                    scope="request"
+                            />
+                            <jsp:include page="../components/postCard.jsp">
+                                <jsp:param name="id" value="${audition.id}" />
+                                <jsp:param name="postCard" value="${1}" />
+                                <jsp:param name="auditionDate" value="${audition.timeElapsed}" />
+                                <jsp:param name="auditionTitle" value="${audition.title}" />
+                                <jsp:param name="auditionEmail" value="${audition.email}" />
+                                <jsp:param
+                                        name="auditionLocation"
+                                        value="${audition.location.name}"
+                                />
+                                <jsp:param
+                                        name="auditionDescription"
+                                        value="${audition.description}"
+                                />
+                            </jsp:include>
+                        </c:forEach>
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,7 +1,7 @@
 package ar.edu.itba.paw.webapp.controller;
 
-import ar.edu.itba.paw.model.TokenType;
 import ar.edu.itba.paw.model.User;
+import ar.edu.itba.paw.service.AuditionService;
 import ar.edu.itba.paw.service.UserService;
 import ar.edu.itba.paw.service.VerificationTokenService;
 import ar.edu.itba.paw.webapp.form.NewPasswordForm;
@@ -28,13 +28,17 @@ public class UserController {
     private final UserService userService;
     private final SecurityFacade securityFacade;
     private final VerificationTokenService verificationTokenService;
+    private final AuditionService auditionService;
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
-    public UserController(UserService userService, SecurityFacade securityFacade, VerificationTokenService verificationTokenService) {
+    public UserController(UserService userService, SecurityFacade securityFacade,
+                          VerificationTokenService verificationTokenService,
+                          AuditionService auditionService) {
         this.userService = userService;
         this.securityFacade = securityFacade;
         this.verificationTokenService = verificationTokenService;
+        this.auditionService = auditionService;
     }
 
     @RequestMapping(value = {"/register","/registerBand", "/registerArtist"},
@@ -89,7 +93,10 @@ public class UserController {
     @RequestMapping(value = "/profile", method = {RequestMethod.GET})
     public ModelAndView profile() {
         ModelAndView mav = new ModelAndView("views/profile");
-        mav.addObject("user", securityFacade.getCurrentUser());
+        User user = securityFacade.getCurrentUser();
+        mav.addObject("user", user);
+        if(user.isBand())
+            mav.addObject("auditions", auditionService.getBandAuditions(securityFacade.getCurrentUser().getId()));
         return mav;
     }
 
