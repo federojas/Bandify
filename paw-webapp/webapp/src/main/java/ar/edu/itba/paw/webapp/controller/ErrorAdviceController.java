@@ -39,6 +39,7 @@ public class ErrorAdviceController {
 
     @ExceptionHandler(UserNotFoundException.class)
     public ModelAndView UserNotFound() {
+        // TODO: que muestre algo sobre que no se encontro el usuario
         LOGGER.warn("User could not be found");
         return new ModelAndView("errors/404");
     }
