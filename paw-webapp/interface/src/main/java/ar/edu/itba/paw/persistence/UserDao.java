@@ -12,4 +12,6 @@ public interface UserDao {
     Optional<User> findByEmail(String email);
 
     void changePassword(long userId, String newPassword);
+
+    void verifyUser(long userId);
 }

@@ -63,7 +63,7 @@ public class UserController {
         }
 
         User.UserBuilder user = new User.UserBuilder(userBandForm.getEmail(), userBandForm.getPassword(),
-                userBandForm.getName(), userBandForm.isBand());
+                userBandForm.getName(), userBandForm.isBand(), false);
 
         userService.create(user);
 
@@ -81,7 +81,7 @@ public class UserController {
         }
 
         User.UserBuilder user = new User.UserBuilder(userArtistForm.getEmail(), userArtistForm.getPassword(),
-                userArtistForm.getName(), userArtistForm.isBand())
+                userArtistForm.getName(), userArtistForm.isBand(), false)
                 .surname(userArtistForm.getSurname());
 
         userService.create(user);

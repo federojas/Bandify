@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
         Long userId = verificationTokenService.validateToken(token, TokenType.VERIFY);
 
         if(userId != null) {
-            // TODO: validar usuario
+            userDao.verifyUser(userId);
             return true;
         } else {
             throw new UserNotFoundException();

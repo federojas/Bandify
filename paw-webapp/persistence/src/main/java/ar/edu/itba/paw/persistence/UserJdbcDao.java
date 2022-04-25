@@ -1,7 +1,6 @@
 package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.model.User;
-import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -23,7 +22,8 @@ public class UserJdbcDao implements UserDao {
     private final static RowMapper<User.UserBuilder> ROW_MAPPER = (rs, rowNum) -> new User.UserBuilder(rs.getString("email"),
             rs.getString("password"),
             rs.getString("name"),
-            rs.getBoolean("isBand"))
+            rs.getBoolean("isBand"),
+            rs.getBoolean("isEnabled"))
             .id(rs.getLong("id")).surname(rs.getString("surname"));
 
     @Autowired
@@ -73,6 +73,11 @@ public class UserJdbcDao implements UserDao {
     @Override
     public void changePassword(long userId, String newPassword) {
         jdbcTemplate.update("UPDATE users SET password = ? WHERE id = ?", newPassword,userId);
+    }
+
+    @Override
+    public void verifyUser(long userId) {
+        jdbcTemplate.update("UPDATE users SET isEnabled = TRUE WHERE id = ?", userId);
     }
 
 }

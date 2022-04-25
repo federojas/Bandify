@@ -9,10 +9,10 @@ import java.util.Objects;
 public class BandifyUser extends User {
     private long id;
     private String email, name, password, surname;
-    private boolean isBand;
+    private boolean isBand, isEnabled;
 
     public BandifyUser(String username, String password, Collection<? extends GrantedAuthority> authorities,
-                       long id, String name, String surname, boolean isBand) {
+                       long id, String name, String surname, boolean isBand, boolean isEnabled) {
         super(username, password, authorities);
         this.id = id;
         this.password = password;
@@ -20,11 +20,12 @@ public class BandifyUser extends User {
         this.name = name;
         this.surname = surname;
         this.isBand = isBand;
+        this.isEnabled = isEnabled;
     }
 
     public ar.edu.itba.paw.model.User toUser() {
         return new ar.edu.itba.paw.model.User.UserBuilder(
-                email,password,name,isBand
+                email,password,name,isBand,isEnabled
         ).id(id).surname(surname).build();
     }
 
@@ -75,6 +76,11 @@ public class BandifyUser extends User {
         if (!super.equals(o)) return false;
         BandifyUser that = (BandifyUser) o;
         return id == that.id ;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return isEnabled;
     }
 
     @Override

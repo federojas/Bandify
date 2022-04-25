@@ -3,7 +3,7 @@ package ar.edu.itba.paw.model;
 public class User {
     private long id;
     private String email, password, name, surname;
-    private boolean isBand;
+    private boolean isBand, isEnabled;
 
     private User(UserBuilder builder) {
         this.name = builder.name;
@@ -11,6 +11,7 @@ public class User {
         this.email = builder.email;
         this.password = builder.password;
         this.isBand = builder.isBand;
+        this.isEnabled = builder.isEnabled;
         this.id = builder.id;
     }
 
@@ -38,17 +39,21 @@ public class User {
         return isBand;
     }
 
+    public boolean isEnabled() {
+        return isEnabled;
+    }
 
     public static class UserBuilder {
         private long id;
         private String email, password, name, surname;
-        private boolean isBand;
+        private boolean isBand, isEnabled;
 
-        public UserBuilder(String email, String password, String name, boolean isBand) {
+        public UserBuilder(String email, String password, String name, boolean isBand, boolean isEnabled) {
             this.email = email;
             this.password = password;
             this.name = name;
             this.isBand = isBand;
+            this.isEnabled = isEnabled;
         }
 
         public UserBuilder id(long id) {
@@ -105,5 +110,8 @@ public class User {
             return isBand;
         }
 
+        public void setEnabled(boolean enabled) {
+            isEnabled = enabled;
+        }
     }
 }

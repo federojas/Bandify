@@ -33,7 +33,7 @@ public class BandifyUserDetailsService implements UserDetailsService {
             authorities.add(new SimpleGrantedAuthority("ROLE_BAND"));
         else
             authorities.add(new SimpleGrantedAuthority("ROLE_ARTIST"));
-        return new BandifyUser(email, user.getPassword(), authorities, user.getId(), user.getName(), user.getSurname(), user.isBand());
+        return new BandifyUser(email, user.getPassword(), authorities, user.getId(), user.getName(), user.getSurname(), user.isBand(), user.isEnabled());
     }
 
 }

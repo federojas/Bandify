@@ -55,6 +55,7 @@ CREATE TABLE IF NOT EXISTS users
     name TEXT NOT NULL,
     surname TEXT,
     isBand BOOLEAN,
+    isEnabled BOOLEAN,
     UNIQUE(email)
 );
 
