@@ -36,26 +36,18 @@ public class AuditionsController {
     private final RoleService roleService;
     private final GenreService genreService;
     private final LocationService locationService;
-    private final MailingService mailingService;
     private final SecurityFacade securityFacade;
-
-    @Autowired
-    private MessageSource messageSource;
-
-    @Autowired
-    private Environment environment;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AuditionsController.class);
 
     @Autowired
-    public AuditionsController(final AuditionService auditionService, final MailingService mailingService,
+    public AuditionsController(final AuditionService auditionService,
                                final GenreService genreService, final LocationService locationService,
                                final RoleService roleService, SecurityFacade securityFacade) {
         this.auditionService = auditionService;
         this.roleService = roleService;
         this.genreService = genreService;
         this.locationService = locationService;
-        this.mailingService = mailingService;
         this.securityFacade = securityFacade;
 
     }
@@ -127,26 +119,9 @@ public class AuditionsController {
             return audition(applicationForm,id);
         }
 
-        // TODO: el email deberia estar dentro de auditionService
         // TODO: FOTO NO FUNCIONA EN AUDITION-APPLICATION.HTML
-       try {
-           Optional<Audition> aud = auditionService.getAuditionById(id);
-           if (aud.isPresent()) {
-               Locale locale = LocaleContextHolder.getLocale();
-               final String url = new URL("http", environment.getRequiredProperty("app.base.url"), "/paw-2022a-03/").toString();
-               Map<String, Object> mailData = new HashMap<>();
-               mailData.put("content", applicationForm.getMessage());
-               mailData.put("goToBandifyURL", url);
+        auditionService.sendApplicationEmail(id, securityFacade.getCurrentUser(), applicationForm.getMessage());
 
-               mailingService.sendEmail(securityFacade.getCurrentUser(), aud.get().getEmail(),
-                       messageSource.getMessage("audition-application.subject",null,locale),
-                       "audition-application", mailData, locale);
-           }
-        } catch (MessagingException e) {
-           LOGGER.warn("Audition application email threw messaging exception");
-        } catch (MalformedURLException e) {
-           LOGGER.warn("Audition application email threw url exception");
-        }
         return success();
     }
 
