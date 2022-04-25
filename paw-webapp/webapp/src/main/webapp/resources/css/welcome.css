@@ -8,9 +8,22 @@ body {
 
 .error {
   color: #b91c1c;
+  word-break: break-word;
 }
 
+.check-box {
+  margin-top: 10px;
+}
+.errorDiv {
+  width: 300px;
+  margin-top:10px;
+}
 
+.loginButton {
+  margin-top:10px;
+  display: flex;
+  flex-direction: row-reverse;
+}
 
 .post-form-container {
   padding: 2.5rem;
