@@ -94,6 +94,7 @@ body {
     border-radius: 1rem;
     width: fit-content;
     align-self: center;
+    background-color: white;
 }
 
 .reset-pwd-header {
