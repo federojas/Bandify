@@ -38,9 +38,9 @@
                         <spring:message code="welcome.form.title"/>
                     </form:label>
                     <spring:message code="audition.form.title.placeholder" var="titleplaceholder" />
-                    <form:input type="text" id="title"  maxlength="50" placeholder="${titleplaceholder}" class="form-input" path="title" />
-                    <p id="emptyTitle" class="error" style="display: none"><spring:message code="auditionForm.error.emptyTitle"/> </p>
-                    <p id="longTitle" class="error" style="display: none"><spring:message code="auditionForm.error.longTitle"/> </p>
+                    <form:input type="text" id="title"  maxlength="25" placeholder="${titleplaceholder}" class="form-input" path="title" />
+                    <p id="emptyTitle" class="error" style="display: none"><spring:message code="NotBlank.auditionForm.title"/> </p>
+                    <p id="longTitle" class="error" style="display: none"><spring:message code="Size.auditionForm.title"/> </p>
                     <form:errors path="title" element="p" cssClass="error"> </form:errors>
                 </div>
 
@@ -56,8 +56,8 @@
                             id="description"
                             path="description"
                     />
-                    <p id="emptyDescription" class="error" style="display: none"><spring:message code="auditionForm.error.emptyDescription" arguments="0"/> </p>
-                    <p id="longDescription" class="error" style="display: none"><spring:message code="auditionForm.error.longDescription" arguments="${300}"/> </p>
+                    <p id="emptyDescription" class="error" style="display: none"><spring:message code="NotBlank.auditionForm.description" arguments="0"/> </p>
+                    <p id="longDescription" class="error" style="display: none"><spring:message code="Size.auditionForm.description" arguments="${300}"/> </p>
                     <form:errors path="description" element="p" cssClass="error"> </form:errors>
                 </div>
                 <div>

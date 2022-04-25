@@ -73,11 +73,11 @@ function registerbandCheck(){
 
     }
 
-    if(email.length<=0 || email.length >250){
+    if(email.length<=0 || email.length >300){
         wrongMail.style.display='block'
         validForm=false;
     }
-    if(password.length<8 || password.length>50){
+    if(password.length<8 || password.length>25){
         emptypass.style.display='block'
         validForm=false;
 
@@ -130,14 +130,11 @@ function registerArtistCheck(){
         wrongArtistMail.style.display='block'
 
     }
-    if(email.length<=0|| email.length >250){
+    if(email.length<=0|| email.length >300){
         validForm=false;
         wrongArtistMail.style.display='block'
     }
-    if(password.length<=0 || password.length>50 || email.length<=0||email.length>250||name.length<=0||name.length>50||surname.length<=0||surname.length>50){
-        validForm=false;
-    }
-    if(password.length<8 || password.length>50){
+    if(password.length<8 || password.length>25){
         wrongArtistPass.style.display='block'
         validForm=false;
 
