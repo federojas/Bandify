@@ -3,6 +3,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <html>
 <head>
     <c:import url="../config/generalHead.jsp"/>
@@ -38,16 +39,14 @@
                             class="status-box hover:text-gray-700 hover:shadow ">
                         <li class="flex items-center py-3">
                             <span><spring:message code="profile.type"/></span>
-                            <c:if test="${!user.isBand()}">
-
-
+                            <sec:authorize access="hasRole('ARTIST')">
                             <span class="ml-auto"><span
                                     class="bg-green-500 py-1 px-2 rounded text-white text-sm"><spring:message code="register.artist_word"/> </span></span>
-                            </c:if>
-                            <c:if test="${user.isBand()}">
+                            </sec:authorize>
+                            <sec:authorize access="hasRole('BAND')">
                                 <span class="ml-auto"><span
                                         class="bg-green-500 py-1 px-2 rounded text-white text-sm"><spring:message code="register.band_word"/> </span></span>
-                            </c:if>
+                            </sec:authorize>
                         </li>
                         <%--                                <li class="flex items-center py-3">--%>
                         <%--                            <span><spring:message code="profile.memberSince"/>--%>
@@ -107,28 +106,22 @@
                                 <div class="text-gray-700 flex justify-start">
                                     <ul>
                                         <li class="pt-2">
-                                            <c:if test="${user.isBand()}">
-
+                                            <sec:authorize access="hasRole('BAND')">
                                                 <spring:message code="profile.bandName"/>
-
-
-                                            </c:if>
-                                            <c:if test="${!user.isBand()}">
-
+                                            </sec:authorize>
+                                            <sec:authorize access="hasRole('ARTIST')">
                                                 <spring:message code="profile.firstName"/>
-
-
-                                            </c:if>
+                                            </sec:authorize>
                                             <c:out value="${user.getName()}"/>
                                         </li>
-                                        <c:if test="${!user.isBand()}">
+                                        <sec:authorize access="hasRole('ARTIST')">
                                             <hr>
                                             <li class="pt-2">
                                                 <spring:message code="profile.surname"/>
                                                 <c:out value=" ${user.getSurname()}"/>
                                             </li>
                                             <hr>
-                                        </c:if>
+                                        </sec:authorize>
 
                                         <%--                            <li class="pt-2">--%>
                                         <%--                                <spring:message code="profile.experience"></spring:message> ---%>
