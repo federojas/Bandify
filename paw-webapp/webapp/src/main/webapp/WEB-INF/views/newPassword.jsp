@@ -8,10 +8,10 @@
     <c:import url="../config/generalHead.jsp"/>
     <link rel="stylesheet" href="<c:url value="/resources/css/forms.css" />"/>
 
-    <script type="text/javascript" src="/resources/js/resetPassword.js"></script>
+    <script type="text/javascript" src="/resources/js/newPassword.js"></script>
 
 </head>
-<body>
+<body onload="load()">
 <%--@elvariable id="newPasswordForm" type="ar.edu.itba.paw.webapp.form.NewPasswordForm"--%>
 <c:url value="/newPassword?token=${token}" var="newPasswordUrl"/>
 <jsp:include page="../components/navbar.jsp">
@@ -25,15 +25,16 @@
         action="${newPasswordUrl}"
         method="post"
         acceptCharset="utf-8"
-        class="box"
+        id="form"
 >
     <div>
         <form:label path="newPassword">
             <spring:message code="newPassword.form.newPassword"/>
         </form:label>
         <spring:message code="newPassword.form.placeholder" var="placeholder"/>
-        <form:input type="password" id="password" maxlength="25" placeholder="${placeholder}" class="form-input" path="newPassword"/>
+        <form:input type="password" id="password" maxlength="25"  placeholder="${placeholder}" class="form-input recovery-input" path="newPassword"/>
         <form:errors cssClass="error" path="newPassword" element="p"> </form:errors>
+        <p class="error" id="invalidPassword" style="display: none"><spring:message code="Size.newPasswordForm.newPassword"/> </p>
     </div>
     <div class="mt-4">
         <button
