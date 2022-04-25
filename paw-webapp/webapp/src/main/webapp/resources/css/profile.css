@@ -19,7 +19,9 @@
     padding: 1.25rem;
     margin-bottom: 1.25rem;
 }
-
+.box{
+    overflow-wrap: break-word ;
+}
 .full-name{
     margin-top: 0.25rem;
     margin-bottom: 0.25rem;
@@ -98,5 +100,6 @@ auditions-title-div {
 }
 
 .auditions-title {
+    text-align: center;
     font-size: 30px;
 }
