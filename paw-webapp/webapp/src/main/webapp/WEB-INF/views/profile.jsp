@@ -42,11 +42,11 @@
 
 
                             <span class="ml-auto"><span
-                                    class="bg-green-500 py-1 px-2 rounded text-white text-sm"><spring:message code="register.artist_word"></spring:message> </span></span>
+                                    class="bg-green-500 py-1 px-2 rounded text-white text-sm"><spring:message code="register.artist_word"/> </span></span>
                             </c:if>
                             <c:if test="${user.isBand()}">
                                 <span class="ml-auto"><span
-                                        class="bg-green-500 py-1 px-2 rounded text-white text-sm"><spring:message code="register.band_word"></spring:message> </span></span>
+                                        class="bg-green-500 py-1 px-2 rounded text-white text-sm"><spring:message code="register.band_word"/> </span></span>
                             </c:if>
                         </li>
                         <%--                                <li class="flex items-center py-3">--%>
@@ -58,6 +58,16 @@
                 </div>
                 <!-- End of profile card -->
                 <div class="profile-btns">
+                    <a href="<c:url value="/logout"/>" >
+                        <button class="logout-btn">
+                            <spring:message code="profile.logout" var="logout"/>
+
+                            <img src="/resources/icons/logout.svg"
+                                 alt="${logout}"
+                                 class="icon-img"/>
+                            <spring:message code="profile.logout"/>
+                        </button>
+                    </a>
                     <a href="<c:url value="/profile/edit" />">
                         <button class="edit-btn">
                             <spring:message code="profile.edit.alt" var="edit"/>
@@ -67,16 +77,6 @@
                                  class="icon-img"
                             />
                             <spring:message code="profile.editProfile"/>
-                        </button>
-                    </a>
-                    <a href="<c:url value="/logout"/>" >
-                        <button class="logout-btn">
-                            <spring:message code="profile.logout" var="logout"/>
-
-                            <img src="/resources/icons/logout.svg"
-                                 alt="${logout}"
-                                 class="icon-img"/>
-                            <spring:message code="profile.logout"/>
                         </button>
                     </a>
                 </div>
@@ -102,20 +102,20 @@
 
                               <img src="<c:url value="/resources/icons/user.svg"/>" class="user-icon" alt="${userimg}"/>
                                 </span>
-                                    <span class="tracking-wide "><spring:message code="profile.about"></spring:message></span>
+                                    <span class="tracking-wide "><spring:message code="profile.about"/></span>
                                 </div>
                                 <div class="text-gray-700 flex justify-start">
                                     <ul>
                                         <li class="pt-2">
                                             <c:if test="${user.isBand()}">
 
-                                                <spring:message code="profile.bandName"></spring:message>
+                                                <spring:message code="profile.bandName"/>
 
 
                                             </c:if>
                                             <c:if test="${!user.isBand()}">
 
-                                                <spring:message code="profile.firstName"></spring:message>
+                                                <spring:message code="profile.firstName"/>
 
 
                                             </c:if>
@@ -124,7 +124,7 @@
                                         <c:if test="${!user.isBand()}">
                                             <hr>
                                             <li class="pt-2">
-                                                <spring:message code="profile.surname"></spring:message>
+                                                <spring:message code="profile.surname"/>
                                                 <c:out value=" ${user.getSurname()}"/>
                                             </li>
                                             <hr>
@@ -143,7 +143,7 @@
                                         <%--                            </li>--%>
                                         <hr>
                                         <li class="pt-2">
-                                            <spring:message code="profile.mail"></spring:message>
+                                            <spring:message code="profile.mail"/>
                                             <c:out value="${user.getEmail()}"/>
                                         </li>
                                         <%--                            <hr>--%>
@@ -159,38 +159,41 @@
 
                         </div>
                     </div>
-                    <br><br>
+                    <br/>
                     <!-- End of about section -->
-                    <div>
+                    <div class="auditions-title-div">
+                        <h2 class="auditions-title"><spring:message code="profile.auditions"/></h2>
+                    </div>
+                    <div class = "auditions-div">
                         <c:forEach var="audition" items="${auditions}" varStatus="loop">
-                            <c:set
-                                    var="lookingFor"
-                                    value="${audition.lookingFor}"
-                                    scope="request"
-                            />
-                            <c:set
-                                    var="musicGenres"
-                                    value="${audition.musicGenres}"
-                                    scope="request"
-                            />
-                            <jsp:include page="../components/postCard.jsp">
-                                <jsp:param name="id" value="${audition.id}" />
-                                <jsp:param name="postCard" value="${1}" />
-                                <jsp:param name="auditionDate" value="${audition.timeElapsed}" />
-                                <jsp:param name="auditionTitle" value="${audition.title}" />
-                                <jsp:param name="auditionEmail" value="${audition.email}" />
-                                <jsp:param
-                                        name="auditionLocation"
-                                        value="${audition.location.name}"
+                                <c:set
+                                        var="lookingFor"
+                                        value="${audition.lookingFor}"
+                                        scope="request"
                                 />
-                                <jsp:param
-                                        name="auditionDescription"
-                                        value="${audition.description}"
+                                <c:set
+                                        var="musicGenres"
+                                        value="${audition.musicGenres}"
+                                        scope="request"
                                 />
-                            </jsp:include>
+                                <jsp:include page="../components/postCard.jsp">
+                                    <jsp:param name="id" value="${audition.id}" />
+                                    <jsp:param name="postCard" value="${1}" />
+                                    <jsp:param name="auditionDate" value="${audition.timeElapsed}" />
+                                    <jsp:param name="auditionTitle" value="${audition.title}" />
+                                    <jsp:param name="auditionEmail" value="${audition.email}" />
+                                    <jsp:param
+                                            name="auditionLocation"
+                                            value="${audition.location.name}"
+                                    />
+                                    <jsp:param
+                                            name="auditionDescription"
+                                            value="${audition.description}"
+                                    />
+                                </jsp:include>
                         </c:forEach>
                     </div>
-                </div>
+                </>
             </div>
         </div>
     </div>

@@ -25,7 +25,6 @@
     margin-bottom: 0.25rem;
     color: #312E81;
     font-size: 1.25rem;
-    line-height: 1.75rem;
     font-weight: 700;
     line-height: 2rem;
 }
@@ -42,10 +41,7 @@ body {
     max-height: 1.25rem;
 }
 .status-box{
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
+    padding: 0.5rem 0.75rem;
     margin-top: 0.75rem;
     background-color: #F3F4F6;
     color: #4B5563;
@@ -77,12 +73,30 @@ body {
 
 .profile-btns {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    margin: 1rem 0;
+    justify-content: space-around;
 }
 
 .icon-img {
     width: 16px;
     margin: 0.5rem;
+}
+
+.auditions-div {
+    flex-wrap: wrap;
+    display: flex;
+    flex-direction: row;
+    margin: 0.75rem;
+    justify-content: space-around;
+}
+
+auditions-title-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.auditions-title {
+    font-size: 30px;
 }
