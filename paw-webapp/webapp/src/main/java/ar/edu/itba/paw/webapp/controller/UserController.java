@@ -120,7 +120,10 @@ public class UserController {
            return resetPassword(resetPasswordForm);
         }
         userService.sendResetEmail(resetPasswordForm.getEmail());
-        return new ModelAndView("redirect:/welcome");
+
+        // TODO: avisar que se envio el mail
+        // TODO: dejar un boton que te haga volver al login
+        return resetPassword(new ResetPasswordForm());
     }
 
     @RequestMapping(value = "/newPassword", method = {RequestMethod.GET})
