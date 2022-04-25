@@ -56,6 +56,9 @@ body {
     border-width: 1px;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
+.recovery-input{
+    width: 400px;
+}
 
 .form-label {
     display: block;
@@ -95,6 +98,7 @@ body {
     width: fit-content;
     align-self: center;
     background-color: white;
+    width: 500px;
 }
 
 .reset-pwd-header {
