@@ -12,7 +12,6 @@ body {
     width: auto;
     margin: 1.5rem auto;
     max-width: 48rem /* 768px */;
-
 }
 .card-content {
     background-color: #ffffff;
@@ -67,11 +66,20 @@ li.info-item:not(:last-child) {
     word-break: break-word;
     white-space: normal;
 }
+.title {
+    word-break: break-word;
+    white-space: normal;
+}
 .back-anchor {
     font-size: 1.5rem;
     line-height: 1;
     font-weight: 500;
     padding: 1rem;
-    margin: 4rem 0;
     text-decoration: underline;
+}
+
+.back-auditions-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
 }

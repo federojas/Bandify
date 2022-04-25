@@ -158,9 +158,6 @@ body {
   .hero-text {
     width: 40%;
   }
-  .hero-image {
-    width: 45%;
-  }
 }
 
 .hero-text {
@@ -170,11 +167,6 @@ body {
   justify-content: space-around;
 }
 
-.hero-image {
-  width: auto;
-  padding-left: 0.5rem;
-  padding: 0.25rem;
-}
 
 .buttons {
   display: flex;

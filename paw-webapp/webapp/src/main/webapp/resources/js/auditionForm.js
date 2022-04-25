@@ -18,7 +18,7 @@ function auditionFormCheck(){
 
         validForm=false;
     }
-    if(title.length>25){
+    if(title.length>50){
         longTitle.style.display='block'
 
         validForm=false;
@@ -27,7 +27,7 @@ function auditionFormCheck(){
         emptyDescription.style.display='block'
         validForm=false;
     }
-    if(description.length>=25){
+    if(description.length>300){
         longDescription.style.display='block'
         validForm=false;
     }

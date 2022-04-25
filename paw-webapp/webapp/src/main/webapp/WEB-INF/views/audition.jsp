@@ -2,6 +2,7 @@
 prefix="form" uri="http://www.springframework.org/tags/form" %> <%@ page
 contentType="text/html;charset=UTF-8" language="java" %> <%@ taglib
 prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <html>
   <head>
     <c:import url="../config/generalHead.jsp" />
@@ -25,7 +26,7 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
         <div class="card-content">
           <!--header-->
           <div class="card-header">
-            <h3>
+            <h3 class="title">
               <c:out value="${audition.title}" />
             </h3>
           </div>
@@ -78,17 +79,19 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
                 </ul>
               </div>
               <!-- Right body part (form) -->
-              <div>
-                <jsp:include page="../components/applicationForm.jsp">
-                  <jsp:param name="auditionForm" value="${1}" />
-                  <jsp:param name="auditionEmail" value="${audition.email}" />
-                  <jsp:param name="auditionFormId" value="${audition.id}" />
-                </jsp:include>
-              </div>
+              <sec:authorize access="hasRole('ARTIST')">
+                <div>
+                  <jsp:include page="../components/applicationForm.jsp">
+                    <jsp:param name="auditionForm" value="${1}" />
+                    <jsp:param name="auditionEmail" value="${audition.email}" />
+                    <jsp:param name="auditionFormId" value="${audition.id}" />
+                  </jsp:include>
+                </div>
+              </sec:authorize>
             </div>
           </div>
         </div>
-        <div class="mt-10">
+        <div class="back-auditions-div">
           <a class="back-anchor" href="<c:url value="/auditions" />">
             <spring:message code="success.link"/>
           </a>
