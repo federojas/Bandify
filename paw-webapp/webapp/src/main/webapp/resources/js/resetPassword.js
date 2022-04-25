@@ -3,7 +3,6 @@ function load(){
     email=document.getElementById("email");
     form.addEventListener('submit',function(e){
 
-        email=document.getElementById("email");
         invalidEmail =document.getElementById("invalidEmail")
 
         invalidEmail.style.display='none'
