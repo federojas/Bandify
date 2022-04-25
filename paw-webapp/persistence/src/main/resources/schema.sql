@@ -67,3 +67,18 @@ CREATE TABLE IF NOT EXISTS verificationTokens (
     FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS userGenres (
+    userId INTEGER NOT NULL,
+    genreId INTEGER NOT NULL,
+    FOREIGN KEY(userId) references users(id) ON DELETE CASCADE,
+    FOREIGN KEY(genreId) references genres(id) ON DELETE CASCADE,
+    UNIQUE(userId, genreId)
+);
+
+CREATE TABLE IF NOT EXISTS userRoles (
+    userId INTEGER NOT NULL,
+    roleId INTEGER NOT NULL,
+    FOREIGN KEY(userId) references users(id) ON DELETE CASCADE,
+    FOREIGN KEY(roleId) references roles(id) ON DELETE CASCADE,
+    UNIQUE(userId, roleId)
+);

@@ -31,11 +31,17 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public List<Role> validateAndReturnRoles(List<String> rolesNames) {
+        // TODO: MEJORAR
         List<Role> roles = new ArrayList<>();
         for(String name : rolesNames) {
             roles.add(roleDao.getRoleByName(name).orElseThrow(RoleNotFoundException::new));
         }
         return roles;
+    }
+
+    @Override
+    public List<Role> getUserRoles(long userId) {
+        return roleDao.getUserRoles(userId);
     }
 
 

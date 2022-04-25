@@ -31,11 +31,17 @@ public class GenreServiceImpl implements GenreService{
 
     @Override
     public List<Genre> validateAndReturnGenres(List<String> genresNames) {
+        // TODO: MEJORAR
         List<Genre> genres = new ArrayList<>();
         for(String name : genresNames) {
             genres.add(genreDao.getGenreByName(name).orElseThrow(GenreNotFoundException::new));
         }
         return genres;
+    }
+
+    @Override
+    public List<Genre> getUserGenres(long userId) {
+        return genreDao.getUserGenres(userId);
     }
 
 }

@@ -10,4 +10,6 @@ public interface GenreService {
     List<Genre> getGenresByAuditionId(long auditionId);
 
     List<Genre> validateAndReturnGenres(List<String> rolesNames);
+
+    List<Genre> getUserGenres(long userId);
 }

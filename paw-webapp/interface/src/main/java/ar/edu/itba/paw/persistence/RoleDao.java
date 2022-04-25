@@ -14,4 +14,6 @@ public interface RoleDao {
     Optional<Role> getRoleById(Long id);
 
     Optional<Role> getRoleByName(String name);
+
+    List<Role> getUserRoles(long userId);
 }
