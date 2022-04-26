@@ -19,7 +19,7 @@ public class AuditionForm {
     @Size(max = 300)
     private String description;
 
-    @NotBlank
+    @NotEmpty
     private String location;
 
     @NotEmpty

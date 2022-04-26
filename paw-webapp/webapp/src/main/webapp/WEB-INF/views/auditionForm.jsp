@@ -70,7 +70,7 @@
                             multiple="false"
                             id="location"
                     >
-                        <form:option value="0" selected="true" disabled="disabled" hidden="true"><spring:message code="welcome.form.location.default"/></form:option>
+                        <form:option value="" selected="true" disabled="disabled" hidden="true"><spring:message code="welcome.form.location.default"/></form:option>
                         <c:forEach
                                 var="location"
                                 items="${locationList}"
