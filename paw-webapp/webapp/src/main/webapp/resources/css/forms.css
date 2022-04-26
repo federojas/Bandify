@@ -107,3 +107,11 @@ body {
     font-size: larger;
     font-weight: 600;
 }
+
+.email-not-found {
+    color:red;
+}
+
+.email-sent {
+    color:forestgreen;
+}

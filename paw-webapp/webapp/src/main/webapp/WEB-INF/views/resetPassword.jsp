@@ -6,7 +6,6 @@
 <head>
     <c:import url="../config/generalHead.jsp"/>
     <script type="text/javascript" src="/resources/js/resetPassword.js"></script>
-
     <link rel="stylesheet" href="<c:url value="/resources/css/forms.css" />"/>
 </head>
 <body onload="load()">
@@ -36,6 +35,16 @@
             <form:errors path="email" cssClass="error" element="p"> </form:errors>
             <p class="error" id="invalidEmail" style="display: none"><spring:message code="Email.resetPasswordForm.email"/></p>
         </div>
+        <c:if test="${emailNotFound}">
+            <div class="email-not-found">
+                <spring:message code="resetPassword.invalidEmailSnackbar.message"/>
+            </div>
+        </c:if>
+        <c:if test="${emailSent}">
+            <div class="email-sent">
+                <spring:message code="resetPassword.validEmailSnackbar.message"/>
+            </div>
+        </c:if>
         <div class="mt-4">
             <button
                     type="submit"

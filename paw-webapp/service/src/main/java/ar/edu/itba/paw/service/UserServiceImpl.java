@@ -3,6 +3,7 @@ import ar.edu.itba.paw.model.TokenType;
 import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.model.VerificationToken;
 import ar.edu.itba.paw.model.exceptions.DuplicateUserException;
+import ar.edu.itba.paw.model.exceptions.EmailNotFoundException;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.persistence.UserDao;
 import org.slf4j.Logger;
@@ -87,8 +88,7 @@ public class UserServiceImpl implements UserService {
     public void sendResetEmail(String email) {
         Optional<User> user = userDao.findByEmail(email);
         if(!user.isPresent())
-            throw new UserNotFoundException();
-
+            throw new EmailNotFoundException();
         verificationTokenService.sendResetEmail(user.get());
     }
 

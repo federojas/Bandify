@@ -8,6 +8,7 @@
     <c:import url="../config/generalHead.jsp" />
     <link rel="stylesheet" href="<c:url value="/resources/css/welcome.css" />"/>
     <link rel="stylesheet" href="<c:url value="/resources/css/success.css" />"/>
+    <script type="text/javascript" src="/resources/js/emailSent.js"></script>
 </head>
 <body>
 <!-- Navbar -->
@@ -26,7 +27,7 @@
     <c:url value="/resendEmail" var="resendEmailUrl" >
         <c:param name="email" value="${email}" />
     </c:url>
-    <a class="resend-button" href="${resendEmailUrl}"><button><spring:message code="email_sent.resend" /></button></a>
+    <a class="resend-button" href="${resendEmailUrl}" id="resendButton"><button><spring:message code="email_sent.resend" /></button></a>
     <a class="back-bandify" href="<c:url value="/welcome" />">
         <spring:message code="email_sent.link"/>
     </a>

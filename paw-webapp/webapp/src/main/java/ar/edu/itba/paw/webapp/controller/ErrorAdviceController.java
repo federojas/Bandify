@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.model.exceptions.*;
+import ar.edu.itba.paw.webapp.form.ResetPasswordForm;
 import ar.edu.itba.paw.webapp.form.UserArtistForm;
 import ar.edu.itba.paw.webapp.form.UserBandForm;
 import org.slf4j.Logger;
@@ -63,6 +64,15 @@ public class ErrorAdviceController {
         mav.addObject("userBandForm", bandForm);
         mav.addObject("userEmailAlreadyExists", true);
         mav.addObject("isBand", isBand);
+        return mav;
+    }
+
+    @ExceptionHandler(EmailNotFoundException.class)
+    public ModelAndView EmailNotFound() {
+        LOGGER.error("Email not found");
+        ModelAndView mav = new ModelAndView("views/resetPassword");
+        mav.addObject("emailNotFound", true);
+        mav.addObject("resetPasswordForm", new ResetPasswordForm());
         return mav;
     }
 

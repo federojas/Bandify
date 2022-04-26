@@ -9,6 +9,7 @@ import ar.edu.itba.paw.webapp.form.ResetPasswordForm;
 import ar.edu.itba.paw.webapp.form.UserArtistForm;
 import ar.edu.itba.paw.webapp.form.UserBandForm;
 import ar.edu.itba.paw.webapp.security.services.SecurityFacade;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,7 +107,11 @@ public class UserController {
     @RequestMapping(value = "/resetPassword", method = {RequestMethod.GET})
     public ModelAndView resetPassword(@ModelAttribute("resetPasswordForm")
                                       final ResetPasswordForm resetPasswordForm) {
-        return new ModelAndView("/views/resetPassword");
+
+        ModelAndView mav = new ModelAndView("/views/resetPassword");
+        mav.addObject("emailNotFound", false);
+        mav.addObject("emailSent", false);
+        return mav;
     }
 
     @RequestMapping(value = "/resetPassword", method = {RequestMethod.POST})
@@ -117,10 +122,11 @@ public class UserController {
            return resetPassword(resetPasswordForm);
         }
         userService.sendResetEmail(resetPasswordForm.getEmail());
-
-        // TODO: avisar que se envio el mail
-        // TODO: dejar un boton que te haga volver al login
-        return resetPassword(new ResetPasswordForm());
+        ModelAndView mav = new ModelAndView("/views/resetPassword");
+        mav.addObject("resetPasswordForm",resetPasswordForm);
+        mav.addObject("emailNotFound", false);
+        mav.addObject("emailSent", true);
+        return mav;
     }
 
     @RequestMapping(value = "/newPassword", method = {RequestMethod.GET})
@@ -157,6 +163,6 @@ public class UserController {
     @RequestMapping(value = "/resendEmail", method = {RequestMethod.GET})
     public ModelAndView resendEmail(@RequestParam("email") String email) {
         userService.resendUserVerification(email);
-        return new ModelAndView("redirect:/welcome");
+        return emailSent(email);
     }
 }
