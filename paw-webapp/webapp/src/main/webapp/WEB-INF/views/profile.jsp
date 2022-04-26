@@ -153,9 +153,11 @@
                     </div>
                     <br/>
                     <!-- End of about section -->
-                    <div class="auditions-title-div">
-                        <h2 class="auditions-title"><spring:message code="profile.auditions"/></h2>
-                    </div>
+                    <sec:authorize access="hasRole('BAND')">
+                        <div class="auditions-title-div">
+                            <h2 class="auditions-title"><spring:message code="profile.auditions"/></h2>
+                        </div>
+                    </sec:authorize>
                     <div class = "auditions-div">
                         <c:forEach var="audition" items="${auditions}" varStatus="loop">
                                 <c:set
@@ -185,9 +187,10 @@
                                 </jsp:include>
                         </c:forEach>
                     </div>
-                </>
+                </div>
             </div>
         </div>
     </div>
+</div>
 </body>
 </html>
