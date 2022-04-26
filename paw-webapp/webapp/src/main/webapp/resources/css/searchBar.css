@@ -19,3 +19,7 @@
 .searchTerm:focus{
     color: #000000;
 }
+
+.searchTerm::placeholder {
+    color: black;
+}
