@@ -26,10 +26,18 @@
                 <!-- Profile Card -->
                 <div class="bg-white box p-3 border-t-4  bg-main-color">
                     <div class="image overflow-hidden">
-                        <img class="h-auto w-full mx-auto"
-                            <spring:message code="profile.img.alt" var="img"/>
-                             src="<c:url value="/resources/images/profile_anon.png"/>"
-                             alt="${img}">
+                        <sec:authorize access="hasRole('ARTIST')">
+                            <img class="h-auto w-full mx-auto"
+                                <spring:message code="profile.img.alt" var="img"/>
+                                 src="<c:url value="/resources/images/artist.png"/>"
+                                 alt="${img}">
+                        </sec:authorize>
+                        <sec:authorize access="hasRole('BAND')">
+                            <img class="h-auto w-full mx-auto"
+                                <spring:message code="profile.img.alt" var="img"/>
+                                 src="<c:url value="/resources/images/band.jpg"/>"
+                                 alt="${img}">
+                        </sec:authorize>
                     </div>
                     <h1 class="full-name">
                         <c:out value=" ${user.name}" /></h1>
