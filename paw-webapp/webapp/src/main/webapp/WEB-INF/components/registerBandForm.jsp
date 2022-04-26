@@ -31,7 +31,7 @@
             <spring:message code="register.form.emailplaceholder" var="emailplaceholder"/>
             <form:input type="text" maxlength="50" placeholder="${emailplaceholder}" id="bandEmaill" class="form-input" path="email"/>
             <form:errors path="email" element="p" cssClass="error"> </form:errors>
-            <p class="error" id="wrongMail" style="display: none"><spring:message code="register.form.invalidEmail"/></p>
+            <p class="error" id="wrongMail" style="display: none"><spring:message code="Email.userBandForm.email"/></p>
 
         </div>
 
