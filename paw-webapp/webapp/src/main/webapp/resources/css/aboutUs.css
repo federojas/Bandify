@@ -77,7 +77,6 @@ li{
     border-width: 2px;
     border-color: #1c041c;
     background-color: #1c041c !important;
-    margin: 1rem;
 }
 .purple-hover-button:nth-child(1n) {
     margin-left: 0;

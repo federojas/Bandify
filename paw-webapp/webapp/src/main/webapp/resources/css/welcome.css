@@ -102,7 +102,6 @@ body {
   border-width: 2px;
   border-color: #1c041c;
   background-color: #1c041c !important;
-  margin: 1rem;
 }
 .purple-hover-button:nth-child(1n) {
   margin-left: 0;
@@ -214,3 +213,11 @@ body {
   align-items: center;
 }
 
+.notMemberYet {
+  display: flex;
+  flex-direction: row;
+  font-size: 1.25rem;
+  line-height: 1.5rem;
+  font-weight: 500;
+  text-align: center;
+}
