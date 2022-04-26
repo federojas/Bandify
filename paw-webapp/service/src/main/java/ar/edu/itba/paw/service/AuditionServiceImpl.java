@@ -1,6 +1,8 @@
 package ar.edu.itba.paw.service;
 
 import ar.edu.itba.paw.model.User;
+import ar.edu.itba.paw.model.exceptions.AuditionNotFoundException;
+import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.persistence.Audition;
 import ar.edu.itba.paw.persistence.AuditionDao;
 import org.slf4j.Logger;
@@ -8,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
@@ -21,6 +22,7 @@ public class AuditionServiceImpl implements AuditionService {
 
     private final AuditionDao auditionDao;
     private final MailingService mailingService;
+    private final UserService userService;
 
     @Autowired
     private MessageSource messageSource;
@@ -28,9 +30,10 @@ public class AuditionServiceImpl implements AuditionService {
     private static final Logger LOGGER = LoggerFactory.getLogger(AuditionServiceImpl.class);
 
     @Autowired
-    public AuditionServiceImpl(AuditionDao auditionDao, MailingService mailingService) {
+    public AuditionServiceImpl(AuditionDao auditionDao, MailingService mailingService, UserService userService) {
         this.auditionDao = auditionDao;
         this.mailingService = mailingService;
+        this.userService = userService;
     }
 
     @Override
@@ -79,10 +82,16 @@ public class AuditionServiceImpl implements AuditionService {
                 Map<String, Object> mailData = new HashMap<>();
                 mailData.put("content", message);
                 mailData.put("goToBandifyURL", url);
+                Optional<User> band = userService.getUserById(aud.get().getBandId());
+                if(band.isPresent()) {
+                    String bandEmail = band.get().getEmail();
+                    mailingService.sendEmail(user, bandEmail,
+                            messageSource.getMessage("audition-application.subject",null,locale),
+                            "audition-application", mailData, locale);
+                }else {
+                    throw new UserNotFoundException();
+                }
 
-                mailingService.sendEmail(user, aud.get().getEmail(),
-                        messageSource.getMessage("audition-application.subject",null,locale),
-                        "audition-application", mailData, locale);
             }
         } catch (MessagingException e) {
             LOGGER.warn("Audition application email threw messaging exception");

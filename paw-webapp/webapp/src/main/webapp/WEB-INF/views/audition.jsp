@@ -83,7 +83,6 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
                 <div>
                   <jsp:include page="../components/applicationForm.jsp">
                     <jsp:param name="auditionForm" value="${1}" />
-                    <jsp:param name="auditionEmail" value="${audition.email}" />
                     <jsp:param name="auditionFormId" value="${audition.id}" />
                   </jsp:include>
                 </div>

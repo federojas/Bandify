@@ -37,7 +37,6 @@ public class AuditionJdbcDao implements AuditionDao {
         return new Audition.AuditionBuilder(
                 rs.getString("title"),
                 rs.getString("description"),
-                rs.getString("email"),
                 rs.getLong("bandId"),
                 rs.getTimestamp("creationDate").toLocalDateTime()
                 ).id(rs.getLong("id"));
@@ -67,7 +66,6 @@ public class AuditionJdbcDao implements AuditionDao {
         auditionData.put("description", builder.getDescription());
         auditionData.put("locationId", builder.getLocation().getId());
         auditionData.put("creationDate", builder.getCreationDate());
-        auditionData.put("email", builder.getEmail());
 
         final Number id = jdbcAuditionInsert.executeAndReturnKey(auditionData);
 

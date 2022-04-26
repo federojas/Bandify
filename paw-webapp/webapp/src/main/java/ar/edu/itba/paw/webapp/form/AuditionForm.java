@@ -30,8 +30,8 @@ public class AuditionForm {
     @Size(max = 5)
     private List<String> lookingFor;
 
-    public Audition.AuditionBuilder toBuilder(long bandId, String email) {
-        return new Audition.AuditionBuilder(title, description, email, bandId, LocalDateTime.now());
+    public Audition.AuditionBuilder toBuilder(long bandId) {
+        return new Audition.AuditionBuilder(title, description, bandId, LocalDateTime.now());
     }
 
     public String getTitle() {
@@ -41,7 +41,6 @@ public class AuditionForm {
     public String getDescription() {
         return description;
     }
-
 
     public void setTitle(String title) {
         this.title = title;

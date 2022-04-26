@@ -3,9 +3,7 @@ package ar.edu.itba.paw.webapp.controller;
 import ar.edu.itba.paw.model.Genre;
 import ar.edu.itba.paw.model.Location;
 import ar.edu.itba.paw.model.Role;
-import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.model.exceptions.AuditionNotFoundException;
-import ar.edu.itba.paw.model.exceptions.GenreNotFoundException;
 import ar.edu.itba.paw.model.exceptions.LocationNotFoundException;
 import ar.edu.itba.paw.persistence.Audition;
 import ar.edu.itba.paw.service.*;
@@ -15,18 +13,12 @@ import ar.edu.itba.paw.webapp.security.services.SecurityFacade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.mail.MessagingException;
 import javax.validation.Valid;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.*;
 
 @Controller
@@ -97,7 +89,6 @@ public class AuditionsController {
     public ModelAndView audition(@ModelAttribute("applicationForm") final ApplicationForm applicationForm,
                                  @PathVariable long id) {
         // TODO : es necesario este if? sino con el else de abajo seria suficiente creo
-        // TODO : consultar por qué el error controller no agarra la excepción
         if(id < 0 || id > auditionService.getMaxAuditionId())
             throw new AuditionNotFoundException();
         final ModelAndView mav = new ModelAndView("views/audition");
@@ -120,7 +111,8 @@ public class AuditionsController {
         }
 
         // TODO: FOTO NO FUNCIONA EN AUDITION-APPLICATION.HTML
-        auditionService.sendApplicationEmail(id, securityFacade.getCurrentUser(), applicationForm.getMessage());
+        auditionService.sendApplicationEmail(id, securityFacade.getCurrentUser(),
+                applicationForm.getMessage());
 
         return success();
     }
@@ -148,7 +140,7 @@ public class AuditionsController {
             return newAudition(auditionForm);
         }
 
-        auditionService.create(auditionForm.toBuilder(securityFacade.getCurrentUser().getId(), securityFacade.getCurrentUser().getEmail()).
+        auditionService.create(auditionForm.toBuilder(securityFacade.getCurrentUser().getId()).
                 location(locationService.getLocationByName(auditionForm.getLocation()).orElseThrow(LocationNotFoundException::new)).
                 lookingFor(roleService.validateAndReturnRoles(auditionForm.getLookingFor())).
                 musicGenres(genreService.validateAndReturnGenres(auditionForm.getMusicGenres()))

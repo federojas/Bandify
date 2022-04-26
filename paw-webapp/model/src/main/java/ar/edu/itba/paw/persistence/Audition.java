@@ -13,7 +13,7 @@ import static org.joda.time.DateTimeConstants.*;
 
 public class Audition {
     private long id, bandId;
-    private String title, description, email;
+    private String title, description;
     private LocalDateTime creationDate;
     private Location location;
     private List<Genre> musicGenres;
@@ -21,7 +21,7 @@ public class Audition {
     private String timeElapsed;
 
     public static class AuditionBuilder {
-        private String title, description, email;
+        private String title, description;
         private LocalDateTime creationDate;
         private Location location;
         private List<Genre> musicGenres;
@@ -30,11 +30,10 @@ public class Audition {
         private long id;
         private String timeElapsed;
 
-        public AuditionBuilder(String title, String description, String email, long bandId, LocalDateTime creationDate) {
+        public AuditionBuilder(String title, String description,long bandId, LocalDateTime creationDate) {
             this.creationDate = creationDate;
             this.title = title;
             this.description = description;
-            this.email = email;
             this.bandId = bandId;
             this.timeElapsed = creationDate.toString();
         }
@@ -71,10 +70,6 @@ public class Audition {
             return description;
         }
 
-        public String getEmail() {
-            return email;
-        }
-
         public LocalDateTime getCreationDate() {
             return creationDate;
         }
@@ -106,31 +101,21 @@ public class Audition {
         title = builder.title;
         description = builder.description;
         location = builder.location;
-        email = builder.email;
         creationDate = builder.creationDate;
         musicGenres = builder.musicGenres;
         lookingFor = builder.lookingFor;
     }
 
-    public Audition(long id, long bandId, String title, String description, String email, LocalDateTime creationDate, Location location, List<Genre> musicGenres, List<Role> lookingFor) {
+    public Audition(long id, long bandId, String title, String description, LocalDateTime creationDate, Location location, List<Genre> musicGenres, List<Role> lookingFor) {
         this.id = id;
         this.bandId = bandId;
         this.title = title;
         this.description = description;
-        this.email = email;
         this.creationDate = creationDate;
         this.location = location;
         this.musicGenres = musicGenres;
         this.lookingFor = lookingFor;
         this.timeElapsed = creationDate.toString();
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public long getId() {

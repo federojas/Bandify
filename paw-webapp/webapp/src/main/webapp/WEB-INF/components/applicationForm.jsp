@@ -19,14 +19,14 @@
 
 <body>
 <div class="applicationForm">
-    <c:url value="/apply" var="postularmeUrl">
+    <c:url value="/apply" var="applyUrl">
         <c:param name="id" value="${param.auditionFormId}"/>
     </c:url>
 
 
         <%--@elvariable id="applicationForm" type="ar.edu.itba.paw.webapp.form.ApplicationForm"--%>
         <form:form acceptCharset="utf-8" modelAttribute="applicationForm"
-                   action="${postularmeUrl}" method="post" id="form">
+                   action="${applyUrl}" method="post" id="form">
             <div>
                 <form:label class="form-label" path="message">
                     <spring:message code="application.form.message"/>

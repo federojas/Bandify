@@ -50,7 +50,6 @@ prefix="spring" uri="http://www.springframework.org/tags"%>
             <jsp:param name="postCard" value="${1}" />
             <jsp:param name="auditionDate" value="${audition.timeElapsed}" />
             <jsp:param name="auditionTitle" value="${audition.title}" />
-            <jsp:param name="auditionEmail" value="${audition.email}" />
             <jsp:param
               name="auditionLocation"
               value="${audition.location.name}"
