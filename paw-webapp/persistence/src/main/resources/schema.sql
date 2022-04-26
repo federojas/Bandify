@@ -1,3 +1,4 @@
+-- TODO: CHEQUEAR LOS TIPOS DE DATOS, INT, BIGINT, VARCHAR, TIMESTAMP,ETC
 CREATE TABLE IF NOT EXISTS locations
 (
     id SERIAL PRIMARY KEY,
@@ -56,6 +57,7 @@ CREATE TABLE IF NOT EXISTS users
     surname TEXT,
     isBand BOOLEAN,
     isEnabled BOOLEAN,
+   -- profileImage BIGINT,
     UNIQUE(email)
 );
 
@@ -83,3 +85,10 @@ CREATE TABLE IF NOT EXISTS userRoles (
     FOREIGN KEY(roleId) references roles(id) ON DELETE CASCADE,
     UNIQUE(userId, roleId)
 );
+
+--CREATE TABLE IF NOT EXISTS IMAGES
+--(
+--    id       SERIAL PRIMARY KEY,
+--    image    BYTEA,
+--    mimeType TEXT,
+--);
