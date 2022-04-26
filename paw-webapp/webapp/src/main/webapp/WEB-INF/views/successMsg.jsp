@@ -21,7 +21,7 @@
     <img src="<c:url value="/resources/icons/success.svg"/>" class="success-icon" alt="${success}"/>
     <h1><spring:message code="success.title"/></h1>
     <p><spring:message code="success.p"/></p>
-    <a href="<c:url value="/auditions" />">
+    <a class="back-bandify" href="<c:url value="/auditions" />">
         <spring:message code="success.link"/>
     </a>
 </div>
