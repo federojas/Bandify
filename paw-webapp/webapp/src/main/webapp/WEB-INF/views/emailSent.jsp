@@ -24,10 +24,14 @@
     <p><spring:message code="email_sent.p0"/><b><c:out value="${email}" /></b></p>
     <p><spring:message code="email_sent.p"/></p>
     <p><spring:message code="email_sent.didntrecieve" /></p>
-    <c:url value="/resendEmail" var="resendEmailUrl" >
-        <c:param name="email" value="${email}" />
-    </c:url>
-    <a class="resend-button" href="${resendEmailUrl}" id="resendButton"><button><spring:message code="email_sent.resend" /></button></a>
+    <c:url value="/emailSent" var="resendEmailUrl" />
+
+    <form method="post" action="${resendEmailUrl}">
+        <input type="hidden" name="email" value="${email}"/>
+        <button type="submit" class="resend-button" id="resendButton">
+            <spring:message code="email_sent.resend" /></button>
+    </form>
+
     <a class="back-bandify" href="<c:url value="/welcome" />">
         <spring:message code="email_sent.link"/>
     </a>
