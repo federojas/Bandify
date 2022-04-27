@@ -21,31 +21,50 @@
 <h1 class="reset-pwd-header"><spring:message code="newPassword.instructions"/></h1>
 <div class="email-reset-password-box">
     <form:form
-        modelAttribute="newPasswordForm"
-        action="${newPasswordUrl}"
-        method="post"
-        acceptCharset="utf-8"
-        id="form"
->
-    <div>
-        <form:label path="newPassword">
-            <spring:message code="newPassword.form.newPassword"/>
-        </form:label>
-        <spring:message code="newPassword.form.placeholder" var="placeholder"/>
-        <form:input type="password" id="password" maxlength="25"  placeholder="${placeholder}" class="form-input recovery-input" path="newPassword"/>
-        <form:errors cssClass="error" path="newPassword" element="p"> </form:errors>
-        <p class="error" id="invalidPassword" style="display: none"><spring:message code="Size.newPasswordForm.newPassword"/> </p>
-    </div>
-    <div class="mt-4">
-        <button
-                type="submit"
-                value="submit"
-                class="purple-button"
-        >
-            <spring:message code="newPassword.form.postButton"/>
-        </button>
-    </div>
-</form:form>
+            modelAttribute="newPasswordForm"
+            action="${newPasswordUrl}"
+            method="post"
+            acceptCharset="utf-8"
+            id="form"
+    ><spring:message code="newPassword.form.placeholder" var="placeholder"/>
+        <div>
+            <form:label path="newPassword" class="form-label">
+                <spring:message code="newPassword.form.newPassword"/>
+            </form:label>
+
+            <form:input type="password" id="password" maxlength="25" placeholder="${placeholder}"
+                        class="form-input recovery-input" path="newPassword" onkeyup="checkPasswordsReset()"/>
+            <form:errors cssClass="error" path="newPassword" element="p"> </form:errors>
+            <p class="error" id="invalidPassword" style="display: none"><spring:message
+                    code="Size.newPasswordForm.newPassword"/></p>
+        </div>
+        <div>
+            <form:label path="newPasswordConfirmation" class="form-label">
+                <spring:message code="newPassword.form.newPasswordConfirmation"/>
+            </form:label>
+
+            <form:input type="password" id="passwordConfirmation" maxlength="25" placeholder="${placeholder}"
+                        class="form-input recovery-input" path="newPasswordConfirmation" onkeyup="checkPasswordsReset()"/>
+            <form:errors cssClass="error" path="newPassword" element="p"> </form:errors>
+            <p class="error" id="invalidPasswordConfirmation" style="display: none"><spring:message
+                    code="Size.newPasswordForm.newPassword"/></p>
+        </div>
+        <span id="match_message" style="color: green; display: none;">
+                <spring:message code="register.form.passwordmatch"/>
+            </span>
+        <span id="nonmatch_message" style="color: red; display: none;">
+                <spring:message code="register.form.passwordnomatch"/>
+        </span>
+        <div class="mt-4">
+            <button
+                    type="submit"
+                    value="submit"
+                    class="purple-button"
+            >
+                <spring:message code="newPassword.form.postButton"/>
+            </button>
+        </div>
+    </form:form>
 </div>
 </body>
 </html>

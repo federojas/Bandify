@@ -145,7 +145,11 @@ public class UserController {
     public ModelAndView newPassword(@RequestParam(required = true) final String token,
                                     @Valid @ModelAttribute("newPasswordForm") final NewPasswordForm newPasswordForm,
                                     final BindingResult errors) {
-        if (errors.hasErrors()) {
+
+        String pwd = newPasswordForm.getNewPassword();
+        String pwdConf = newPasswordForm.getNewPasswordConfirmation();
+
+        if (errors.hasErrors() || !pwd.equals(pwdConf)) {
             return newPassword(token, newPasswordForm);
         }
 

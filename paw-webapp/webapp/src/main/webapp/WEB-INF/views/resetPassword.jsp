@@ -35,6 +35,7 @@
             <form:errors path="email" cssClass="error" element="p"> </form:errors>
             <p class="error" id="invalidEmail" style="display: none"><spring:message code="Email.resetPasswordForm.email"/></p>
         </div>
+
         <c:if test="${emailNotFound}">
             <div class="error">
                 <spring:message code="resetPassword.invalidEmailSnackbar.message"/>
