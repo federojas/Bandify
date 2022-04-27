@@ -83,8 +83,7 @@ public class AuditionServiceImpl implements AuditionService {
             Optional<Audition> aud = getAuditionById(id);
             if (aud.isPresent()) {
                 Locale locale = LocaleContextHolder.getLocale();
-                //final String url = new URL("http", environment.getRequiredProperty("app.base.url"), "/paw-2022a-03/").toString();
-                final String url = new URL("http","localhost", "/").toString();
+                final String url = new URL("http", environment.getRequiredProperty("app.base.url"), "/paw-2022a-03/").toString();
                 Map<String, Object> mailData = new HashMap<>();
                 mailData.put("content", message);
                 mailData.put("goToBandifyURL", url);
