@@ -4,12 +4,11 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <html>
 <head>
-    <title>New Password</title>
     <c:import url="../config/generalHead.jsp"/>
     <link rel="stylesheet" href="<c:url value="/resources/css/forms.css" />"/>
-
     <script type="text/javascript" src="/resources/js/newPassword.js"></script>
-
+    <script type="text/javascript" src="/resources/js/alerts.js"></script>
+    <link rel="stylesheet" href="<c:url value="/resources/css/alerts.css" />"/>
 </head>
 <body onload="load()">
 <%--@elvariable id="newPasswordForm" type="ar.edu.itba.paw.webapp.form.NewPasswordForm"--%>
@@ -67,6 +66,5 @@
         </div>
     </form:form>
 </div>
-<div id="snackbar"><spring:message code="snackbar.message"/></div>
 </body>
 </html>
