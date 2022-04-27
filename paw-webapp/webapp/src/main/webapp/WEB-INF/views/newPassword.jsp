@@ -60,11 +60,13 @@
                     type="submit"
                     value="submit"
                     class="purple-button"
+                    onclick="return validateNewPasswordForm()"
             >
                 <spring:message code="newPassword.form.postButton"/>
             </button>
         </div>
     </form:form>
 </div>
+<div id="snackbar"><spring:message code="snackbar.message"/></div>
 </body>
 </html>
