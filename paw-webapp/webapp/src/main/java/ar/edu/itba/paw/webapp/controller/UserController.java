@@ -160,9 +160,11 @@ public class UserController {
         emailSent.addObject("email", email);
         return emailSent;
     }
-    @RequestMapping(value = "/resendEmail", method = {RequestMethod.GET})
-    public ModelAndView resendEmail(@RequestParam("email") String email) {
+
+    @RequestMapping(value = "/emailSent", method = {RequestMethod.POST})
+    public ModelAndView resendEmail(@RequestParam final String email) {
         userService.resendUserVerification(email);
         return emailSent(email);
     }
+
 }
