@@ -25,10 +25,10 @@
 </div>
     <br>
     <hr>
-<h2 style="text-align:center; margin-bottom: 2rem" class="about-us"><spring:message code="aboutUs.inBandify"/></h2>
+<h2 style="text-align:center; margin-bottom: 2rem" class="card-be-header about-us"><spring:message code="aboutUs.inBandify"/></h2>
     <div class="items">
         <div class="card">
-           <h1><spring:message code="aboutUs.beArtist"/> </h1>
+           <h1 class="card-be-header"><spring:message code="aboutUs.beArtist"/> </h1>
             <hr>
             <p> <spring:message code="aboutUs.asArtist"/> </p>
             <p> <spring:message code="aboutUs.artistLookingFor"/> </p>
@@ -41,7 +41,7 @@
 
         </div>
         <div class="card">
-            <h1><spring:message code="aboutUs.beBand"/></h1>
+            <h1 class="card-be-header"><spring:message code="aboutUs.beBand"/></h1>
             <hr>
             <p><spring:message code="aboutUs.asBand"/> </p>
             <p><spring:message code="aboutUs.bandLookingFor"/> </p>

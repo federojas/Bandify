@@ -13,7 +13,7 @@
     <script src="<c:url value="/resources/js/login.js" />"></script>
 </head>
 
-<body>
+<body class="bg">
 
 <!-- Navbar -->
 <jsp:include page="../components/navbar.jsp">

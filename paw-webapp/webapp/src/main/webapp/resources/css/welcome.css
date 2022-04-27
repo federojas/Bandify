@@ -5,7 +5,11 @@
 body {
   font-family: "Questrial", sans-serif;
 }
-
+.bg{
+  height: 100%;
+  background: rgb(108,39,186);
+  background: linear-gradient(9deg, rgba(108,39,186,1) 18%, rgba(8,1,18,1) 100%);
+}
 .error {
   color: #b91c1c;
   word-break: break-word;
