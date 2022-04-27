@@ -2,12 +2,19 @@ function load(){
     var form=document.getElementById("form");
     password=document.getElementById("password");
     form.addEventListener('submit',function(e){
+        invalidPassword.style.display='none'
 
         invalidPassword =document.getElementById("invalidPassword")
 
-        if(password.value.length<8||password.value.length>25){
-            e.preventDefault();
+        if(password.value.length<8||password.value.length>25 ){
             invalidPassword.style.display='block'
+            e.preventDefault();
+            snackbarMessage()
+
+        }
+        if(!checkPasswordsReset()){
+            e.preventDefault();
+            snackbarMessage()
         }
     });
 }
@@ -26,15 +33,15 @@ function checkPasswordsReset() {
     }
 }
 
-function validateNewPasswordForm() {
-    if(!checkPasswordsReset() ){
-        snackbarMessage();
-    }
-    return checkPasswordsReset();
-}
-
-function snackbarMessage() {
-    let x = document.getElementById("snackbar");
-    x.className = "show";
-    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
-}
+// function validateNewPasswordForm() {
+//     if(!checkPasswordsReset() ){
+//         snackbarMessage();
+//     }
+//     return checkPasswordsReset();
+// }
+//
+// function snackbarMessage() {
+//     let x = document.getElementById("snackbar");
+//     x.className = "show";
+//     setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+// }

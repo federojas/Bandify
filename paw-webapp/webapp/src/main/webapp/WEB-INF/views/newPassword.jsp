@@ -66,5 +66,6 @@
         </div>
     </form:form>
 </div>
+<div id="snackbar"><spring:message code="snackbar.message"/></div>
 </body>
 </html>
