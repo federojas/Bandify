@@ -29,7 +29,7 @@
                 <spring:message code="register.form.email"/>
             </form:label>
             <spring:message code="register.form.emailplaceholder" var="emailplaceholder"/>
-            <form:input type="text" id="artistEmail" maxlength="50" placeholder="${emailplaceholder}" class="form-input" path="email"/>
+            <form:input type="text" id="artistEmail" maxlength="254" placeholder="${emailplaceholder}" class="form-input" path="email"/>
             <form:errors path="email" element="p" cssClass="error"> </form:errors>
             <p class="error" id="wrongArtistMail" style="display: none"><spring:message code="Email.userArtistForm.email"/> </p>
 
@@ -40,7 +40,7 @@
                 <spring:message code="register.form.password"/>
             </form:label>
             <spring:message code="register.form.passwordplaceholder" var="passwordplaceholder"/>
-            <form:input id="password_artist" type="password" maxlength="50" placeholder="${passwordplaceholder}" class="form-input"
+            <form:input id="password_artist" type="password" maxlength="25" placeholder="${passwordplaceholder}" class="form-input"
                         path="password" onkeyup="checkPasswordArtist()"/>
             <form:errors path="password" element="p" cssClass="error"> </form:errors>
             <p class="error" id="wrongArtistPass" style="display: none"><spring:message code="register.form.emptyPassword"/></p>
@@ -48,15 +48,17 @@
         </div>
 
         <div>
-            <label class="form-label">
-                <spring:message code="register.form.confirm_password" />
-            </label>
-            <spring:message code="register.form.passwordplaceholder" var="confirm_passwordplaceholder"/>
-            <input type="password" name="confirm_password" class="form-input" id="confirm_password_artist" onkeyup="checkPasswordArtist()" placeholder="${confirm_passwordplaceholder}"/>
-            <span id="match_message_artist" style="color: green; display: none;">
+            <form:label class="form-label" path="passwordConfirmation">
+                <spring:message code="register.form.confirm_password"/>
+            </form:label>
+            <spring:message code="register.form.passwordplaceholder" var="passwordplaceholder"/>
+            <form:input id="confirm_password_artist" type="password" maxlength="25" placeholder="${passwordplaceholder}" class="form-input"
+                        path="passwordConfirmation" onkeyup="checkPasswordArtist()"/>
+            <form:errors path="passwordConfirmation" element="p" cssClass="error"> </form:errors>
+            <span id="match_message_artist" class="success" style="display: none;">
                 <spring:message code="register.form.passwordmatch"/>
             </span>
-            <span id="nonmatch_message_artist" style="color: red; display: none;">
+            <span id="nonmatch_message_artist" class="error" style="display: none;">
                 <spring:message code="register.form.passwordnomatch"/>
             </span>
         </div>

@@ -36,7 +36,7 @@
                         class="form-input recovery-input" path="newPassword" onkeyup="checkPasswordsReset()"/>
             <form:errors cssClass="error" path="newPassword" element="p"> </form:errors>
             <p class="error" id="invalidPassword" style="display: none"><spring:message
-                    code="Size.newPasswordForm.newPassword"/></p>
+                    code="newPasswordForm.newPassword"/></p>
         </div>
         <div>
             <form:label path="newPasswordConfirmation" class="form-label">
@@ -45,14 +45,14 @@
 
             <form:input type="password" id="passwordConfirmation" maxlength="25" placeholder="${placeholder}"
                         class="form-input recovery-input" path="newPasswordConfirmation" onkeyup="checkPasswordsReset()"/>
-            <form:errors cssClass="error" path="newPassword" element="p"> </form:errors>
+            <form:errors cssClass="error" path="newPasswordConfirmation" element="p"> </form:errors>
             <p class="error" id="invalidPasswordConfirmation" style="display: none"><spring:message
-                    code="Size.newPasswordForm.newPassword"/></p>
+                    code="newPasswordForm.newPassword"/></p>
         </div>
-        <span id="match_message" style="color: green; display: none;">
+        <span id="match_message" class="success" style="display: none;">
                 <spring:message code="register.form.passwordmatch"/>
             </span>
-        <span id="nonmatch_message" style="color: red; display: none;">
+        <span id="nonmatch_message" class="error" style="display: none;">
                 <spring:message code="register.form.passwordnomatch"/>
         </span>
         <div class="mt-4">

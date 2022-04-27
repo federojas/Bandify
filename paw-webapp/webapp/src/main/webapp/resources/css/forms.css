@@ -16,6 +16,10 @@ body {
 .error {
     color: #b91c1c;
 }
+
+.success{
+    color: green;
+}
 .card-content {
     background-color: #ffffff;
     box-shadow: 0 10px 15px -3px #1c041c1a, 0 4px 6px -2px #1c041c0d;

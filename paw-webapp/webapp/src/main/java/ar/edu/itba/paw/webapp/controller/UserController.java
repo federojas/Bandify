@@ -146,10 +146,7 @@ public class UserController {
                                     @Valid @ModelAttribute("newPasswordForm") final NewPasswordForm newPasswordForm,
                                     final BindingResult errors) {
 
-        String pwd = newPasswordForm.getNewPassword();
-        String pwdConf = newPasswordForm.getNewPasswordConfirmation();
-
-        if (errors.hasErrors() || !pwd.equals(pwdConf)) {
+        if (errors.hasErrors()) {
             return newPassword(token, newPasswordForm);
         }
 
