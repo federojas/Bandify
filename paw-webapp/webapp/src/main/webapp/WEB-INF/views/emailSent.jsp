@@ -8,7 +8,7 @@
     <c:import url="../config/generalHead.jsp" />
     <link rel="stylesheet" href="<c:url value="/resources/css/welcome.css" />"/>
     <link rel="stylesheet" href="<c:url value="/resources/css/success.css" />"/>
-    <script type="text/javascript" src="/resources/js/emailSent.js"></script>
+    <script type="text/javascript" src="<c:url value="/resources/js/emailSent.js" />"></script>
 </head>
 <body>
 <!-- Navbar -->

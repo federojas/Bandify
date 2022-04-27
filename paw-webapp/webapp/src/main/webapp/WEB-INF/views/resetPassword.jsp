@@ -5,7 +5,7 @@
 <html>
 <head>
     <c:import url="../config/generalHead.jsp"/>
-    <script type="text/javascript" src="/resources/js/resetPassword.js"></script>
+    <script type="text/javascript" src="<c:url value="/resources/js/resetPassword.js" />"></script>
     <link rel="stylesheet" href="<c:url value="/resources/css/forms.css" />"/>
 </head>
 <body onload="load()">

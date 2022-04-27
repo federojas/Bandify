@@ -12,7 +12,7 @@
     />
     <link rel="stylesheet" href="<c:url value="/resources/css/forms.css" />">
     <link rel="stylesheet" href="<c:url value="/resources/css/alerts.css" />"/>
-    <script type="text/javascript" src="/resources/js/alerts.js"></script>
+    <script type="text/javascript" src="<c:url value="/resources/js/alerts.js" />"</script>
     <script src="<c:url value="/resources/js/application.js" />"></script>
 
 </head>

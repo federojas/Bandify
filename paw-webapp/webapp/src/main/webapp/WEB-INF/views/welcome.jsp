@@ -7,7 +7,7 @@
 <head>
     <c:import url="../config/generalHead.jsp"/>
     <link rel="stylesheet" href="<c:url value="/resources/css/alerts.css" />"/>
-    <script type="text/javascript" src="/resources/js/alerts.js"></script>
+    <script type="text/javascript" src="<c:url value="/resources/js/alerts.js" />"></script>
     <link rel="stylesheet" href="<c:url value="/resources/css/welcome.css" />"/>
     <link rel="stylesheet" href="<c:url value="/resources/css/forms.css" />"/>
     <script src="<c:url value="/resources/js/login.js" />"></script>
