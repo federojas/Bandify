@@ -101,7 +101,7 @@ public class UserController {
     @RequestMapping(value = "/verify")
     public ModelAndView verify(@RequestParam(required = true) final String token) {
         userService.verifyUser(token);
-        return new ModelAndView("redirect:/welcome");
+        return new ModelAndView("views/verified");
     }
 
     @RequestMapping(value = "/resetPassword", method = {RequestMethod.GET})
@@ -168,4 +168,8 @@ public class UserController {
         return emailSent(email);
     }
 
+    @RequestMapping(value = "/login", method = {RequestMethod.GET})
+    public ModelAndView login() {
+        return new ModelAndView("views/login");
+    }
 }

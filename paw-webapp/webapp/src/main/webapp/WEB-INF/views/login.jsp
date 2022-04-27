@@ -10,35 +10,23 @@
     <script type="text/javascript" src="<c:url value="/resources/js/alerts.js" />"></script>
     <link rel="stylesheet" href="<c:url value="/resources/css/welcome.css" />"/>
     <link rel="stylesheet" href="<c:url value="/resources/css/forms.css" />"/>
+    <script src="<c:url value="/resources/js/login.js" />"></script>
+    <style>
+        .login-loginform {
+            align-self: center;
+            margin-top: 4rem;
+        }
+    </style>
 </head>
-
-<body class="bg">
-
+<body>
 <!-- Navbar -->
 <jsp:include page="../components/navbar.jsp">
     <jsp:param name="navItem" value="${1}"/>
     <jsp:param name="name" value="Bandify"/>
 </jsp:include>
 
-<!-- Content -->
-<div class="content">
-    <!-- Hero -->
-    <div class="guitar-hero">
-        <spring:message code="img.alt.guitar" var="guitar"/>
-        <img src="<c:url value="/resources/images/guitar.png"/>" alt="${guitar}"/>
-        <%-- Hero text   --%>
-        <div class="hero-title">
-            <span><spring:message code="welcome.slogan1"/></span>
-            <p><spring:message code="welcome.slogan2"/></p>
-        </div>
-
-        <div class="welcome-loginform">
-            <jsp:include page="../components/login_form.jsp" />
-        </div>
-
-    </div>
+<div class="login-loginform">
+    <jsp:include page="../components/login_form.jsp" />
 </div>
-<div id="snackbar"><spring:message code="snackbar.message"/></div>
-
 </body>
 </html>

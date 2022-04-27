@@ -46,7 +46,10 @@ public class AuditionsController {
 
     @RequestMapping(value = "/", method = {RequestMethod.GET})
     public ModelAndView home() {
-        return auditions(1);
+        if (securityFacade.getCurrentUser() != null) {
+            return new ModelAndView("redirect:/auditions");
+        }
+        return new ModelAndView("redirect:/welcome");
     }
 
     @RequestMapping(value = "/auditions", method = {RequestMethod.GET})
@@ -62,7 +65,7 @@ public class AuditionsController {
         mav.addObject("auditionList", auditionList);
         mav.addObject("currentPage", page);
         mav.addObject("lastPage", lastPage);
-        mav.addObject("user", securityFacade.getCurrentUser());
+
         return mav;
     }
 

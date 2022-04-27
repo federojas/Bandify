@@ -27,6 +27,13 @@
 
         <div class="w-full md:block md:w-auto" id="mobile-menu">
             <ul>
+                <li>
+                    <a
+                            href="<c:url value="/auditions"/>"
+                            class="${param.navItem == 2? "block py-2 pr-4 pl-3 text-white font-black rounded text-2xl" : "block py-2 pr-4 pl-3 text-white rounded text-2xl" }"
+                    ><spring:message code="navbar.auditions"/></a
+                    >
+                </li>
                 <sec:authorize access="!isAuthenticated()">
 
                     <li>
@@ -38,13 +45,6 @@
                     </li>
                 </sec:authorize>
                 <sec:authorize access="isAuthenticated()">
-                    <li>
-                        <a
-                                href="<c:url value="/auditions"/>"
-                                class="${param.navItem == 2? "block py-2 pr-4 pl-3 text-white font-black rounded text-2xl" : "block py-2 pr-4 pl-3 text-white rounded text-2xl" }"
-                        ><spring:message code="navbar.auditions"/></a
-                        >
-                    </li>
                     <sec:authorize access="hasRole('BAND')">
                         <li>
                             <a
