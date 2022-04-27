@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
@@ -23,17 +24,22 @@ public class AuditionServiceImpl implements AuditionService {
     private final AuditionDao auditionDao;
     private final MailingService mailingService;
     private final UserService userService;
-
-    @Autowired
-    private MessageSource messageSource;
+    private final MessageSource messageSource;
+    private final Environment environment;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AuditionServiceImpl.class);
 
     @Autowired
-    public AuditionServiceImpl(AuditionDao auditionDao, MailingService mailingService, UserService userService) {
+    public AuditionServiceImpl(final AuditionDao auditionDao,
+                               final MailingService mailingService,
+                               final UserService userService,
+                               final MessageSource messageSource,
+                               final Environment environment) {
         this.auditionDao = auditionDao;
         this.mailingService = mailingService;
         this.userService = userService;
+        this.messageSource = messageSource;
+        this.environment = environment;
     }
 
     @Override

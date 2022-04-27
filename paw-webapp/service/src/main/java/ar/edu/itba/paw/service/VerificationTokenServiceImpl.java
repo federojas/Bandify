@@ -4,12 +4,12 @@ import ar.edu.itba.paw.model.TokenType;
 import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.model.VerificationToken;
 import ar.edu.itba.paw.persistence.VerificationTokenDao;
-import jdk.nashorn.internal.parser.Token;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
@@ -25,14 +25,17 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
     private final MailingService mailingService;
     private final MessageSource messageSource;
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
+    private final Environment environment;
 
     @Autowired
     public VerificationTokenServiceImpl(final VerificationTokenDao verificationTokenDao,
                                         final MailingService mailingService,
-                                        final MessageSource messageSource) {
+                                        final MessageSource messageSource,
+                                        final Environment environment) {
         this.verificationTokenDao = verificationTokenDao;
         this.mailingService = mailingService;
         this.messageSource = messageSource;
+        this.environment = environment;
     }
 
     @Override
