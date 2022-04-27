@@ -68,7 +68,7 @@
                         <button class="logout-btn">
                             <spring:message code="profile.logout" var="logout"/>
 
-                            <img src="/resources/icons/logout.svg"
+                            <img src="<c:url value="/resources/icons/logout.svg" />"
                                  alt="${logout}"
                                  class="icon-img"/>
                             <spring:message code="profile.logout"/>
