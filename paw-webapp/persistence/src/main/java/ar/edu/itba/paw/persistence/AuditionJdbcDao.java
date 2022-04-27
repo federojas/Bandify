@@ -22,7 +22,7 @@ public class AuditionJdbcDao implements AuditionDao {
     private final RoleDao roleDao;
     private final LocationDao locationDao;
 
-    private final int PAGE_SIZE = 9;
+    private final int PAGE_SIZE = 12;
 
     @Autowired
     public AuditionJdbcDao(final DataSource ds, GenreDao genreDao, RoleDao roleDao, LocationDao locationDao) {
