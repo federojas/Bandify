@@ -64,15 +64,15 @@
                 </div>
                 <!-- End of profile card -->
                 <div class="profile-btns">
-                    <a href="<c:url value="/logout"/>" >
-                        <button class="logout-btn">
-                            <spring:message code="profile.logout" var="logout"/>
+<%--                    <a href="<c:url value="/logout"/>" >--%>
+<%--                        <button class="logout-btn">--%>
+<%--                            <spring:message code="profile.logout" var="logout"/>--%>
 
-                            <img src="<c:url value="/resources/icons/logout.svg" />"
-                                 alt="${logout}"
-                                 class="icon-img"/>
-                            <spring:message code="profile.logout"/>
-                        </button>
+<%--                            <img src="<c:url value="/resources/icons/logout.svg" />"--%>
+<%--                                 alt="${logout}"--%>
+<%--                                 class="icon-img"/>--%>
+<%--                            <spring:message code="profile.logout"/>--%>
+<%--                        </button>--%>
                     </a>
 <%--                    <a href="<c:url value="/profile/edit" />">--%>
 <%--                        <button class="edit-btn">--%>

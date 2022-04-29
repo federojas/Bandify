@@ -6,6 +6,7 @@
 <html>
 <head>
     <link rel="stylesheet" href="<c:url value="/resources/css/navbar.css" />" />
+    <link rel="stylesheet" href="<c:url value="/resources/css/profile.css" />"/>
 </head>
 <body>
 <nav>
@@ -43,6 +44,18 @@
                         ><spring:message code="navbar.aboutUs"/></a
                         >
                     </li>
+
+                    <c:if test="${param.navItem != 0 && param.navItem != 5}">
+                        <li>
+                            <div class="flex">
+                                <a href="<c:url value="/login" />"
+                                   class="purple-login-button">
+                                    <spring:message code="navbar.login" />
+                                </a>
+                            </div>
+                        </li>
+                    </c:if>
+
                 </sec:authorize>
                 <sec:authorize access="isAuthenticated()">
                     <sec:authorize access="hasRole('BAND')">
@@ -64,6 +77,19 @@
                                 class="${param.navItem == 4? "block py-2 pr-4 pl-3 text-white font-black rounded text-2xl" : "block py-2 pr-4 pl-3 text-white rounded text-2xl" }"
                         ><spring:message code="navbar.profile"/></a
                         >
+                    </li>
+
+                    <li>
+                    <div class="flex">
+                        <a href="<c:url value="/logout" />">
+                            <spring:message code="profile.logout" var="logout"/>
+                            <img src="<c:url value="/resources/icons/logout.svg" />"
+                                 alt="${logout}"
+                                 />
+                        </a>
+                    </div>
+
+
                     </li>
                 </sec:authorize>
 
