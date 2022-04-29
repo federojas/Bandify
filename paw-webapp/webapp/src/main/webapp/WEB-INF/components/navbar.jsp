@@ -80,11 +80,12 @@
                     </li>
 
                     <li>
-                    <div class="flex">
-                        <a href="<c:url value="/logout" />">
+                    <div class="flex ml-4">
+                        <a href="<c:url value="/logout" />" class="block py-2 pr-4 pl-3 text-white font-black rounded text-2xl">
                             <spring:message code="profile.logout" var="logout"/>
                             <img src="<c:url value="/resources/icons/logout.svg" />"
                                  alt="${logout}"
+                                 class="icon-img"
                                  />
                         </a>
                     </div>
