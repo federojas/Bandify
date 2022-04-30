@@ -14,7 +14,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.*;
@@ -84,18 +83,22 @@ public class UserServiceImpl implements UserService {
 
         if(userId != null) {
             userDao.verifyUser(userId);
-            final User user = getUserById(userId).orElseThrow(UserNotFoundException::new);
-            final Collection<GrantedAuthority> authorities = new ArrayList<>();
-            if(user.isBand())
-                authorities.add(new SimpleGrantedAuthority("ROLE_BAND"));
-            else
-                authorities.add(new SimpleGrantedAuthority("ROLE_ARTIST"));
-            Authentication auth = new UsernamePasswordAuthenticationToken(user.getEmail(),null,authorities);
-            SecurityContextHolder.getContext().setAuthentication(auth);
+            autoLogin(userId);
             return true;
         } else {
             throw new UserNotFoundException();
         }
+    }
+
+    private void autoLogin(long userId) {
+        final User user = getUserById(userId).orElseThrow(UserNotFoundException::new);
+        final Collection<GrantedAuthority> authorities = new ArrayList<>();
+        if(user.isBand())
+            authorities.add(new SimpleGrantedAuthority("ROLE_BAND"));
+        else
+            authorities.add(new SimpleGrantedAuthority("ROLE_ARTIST"));
+        Authentication auth = new UsernamePasswordAuthenticationToken(user.getEmail(),null,authorities);
+        SecurityContextHolder.getContext().setAuthentication(auth);
     }
 
     @Override
@@ -115,6 +118,7 @@ public class UserServiceImpl implements UserService {
         if(userId == null)
             throw new UserNotFoundException();
         userDao.changePassword(userId, passwordEncoder.encode(newPassword));
+        autoLogin(userId);
     }
 
     @Override

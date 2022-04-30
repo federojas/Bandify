@@ -151,7 +151,7 @@ public class UserController {
 
         userService.changePassword(token, newPasswordForm.getNewPassword());
 
-        return new ModelAndView("redirect:/welcome");
+        return new ModelAndView("redirect:/auditions");
     }
 
     @RequestMapping(value = "/resetEmailSent", method = {RequestMethod.GET})
