@@ -3,15 +3,16 @@ package ar.edu.itba.paw.service;
 import ar.edu.itba.paw.model.Genre;
 
 import java.util.List;
+import java.util.Set;
 
 public interface GenreService {
-    List<Genre> getAll();
+    Set<Genre> getAll();
 
-    List<Genre> getGenresByAuditionId(long auditionId);
+    Set<Genre> getGenresByAuditionId(long auditionId);
 
-    List<Genre> validateAndReturnGenres(List<String> rolesNames);
+    Set<Genre> validateAndReturnGenres(List<String> rolesNames);
 
-    List<Genre> getUserGenres(long userId);
+    Set<Genre> getUserGenres(long userId);
 
     void addUserGenres(List<String> genresNames, long userId);
 }

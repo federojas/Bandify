@@ -124,8 +124,8 @@ public class AuditionsController {
     public ModelAndView newAudition(@ModelAttribute("auditionForm") final AuditionForm auditionForm) {
         final ModelAndView mav = new ModelAndView("views/auditionForm");
 
-        List<Role> roleList = roleService.getAll();
-        List<Genre> genreList = genreService.getAll();
+        Set<Role> roleList = roleService.getAll();
+        Set<Genre> genreList = genreService.getAll();
         List<Location> locationList = locationService.getAll();
 
         mav.addObject("roleList", roleList);

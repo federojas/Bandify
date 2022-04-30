@@ -4,20 +4,21 @@ import ar.edu.itba.paw.model.Genre;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface GenreDao {
-    List<Genre> getAll();
-    List<Genre> getGenresByAuditionId(long auditionId);
+    Set<Genre> getAll();
+    Set<Genre> getGenresByAuditionId(long auditionId);
 
-    void createAuditionGenre(List<Genre> genres, long auditionId);
+    void createAuditionGenre(Set<Genre> genres, long auditionId);
 
     Optional<Genre> getGenreById(Long id);
 
     Optional<Genre> getGenreByName(String name);
 
-    List<Genre> getGenresByNames(List<String> genresNames);
+    Set<Genre> getGenresByNames(List<String> genresNames);
 
-    List<Genre> getUserGenres(long userId);
+    Set<Genre> getUserGenres(long userId);
 
     void addUserGenres(List<String> genresNames, long userId);
 }

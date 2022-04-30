@@ -4,20 +4,21 @@ import ar.edu.itba.paw.model.Role;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface RoleDao {
-    List<Role> getAll();
-    List<Role> getRolesByAuditionId(long auditionId);
+    Set<Role> getAll();
+    Set<Role> getRolesByAuditionId(long auditionId);
 
-    void createAuditionRole(List<Role> roles, long auditionId);
+    void createAuditionRole(Set<Role> roles, long auditionId);
 
     Optional<Role> getRoleById(Long id);
 
     Optional<Role> getRoleByName(String name);
 
-    List<Role> getRolesByNames(List<String> rolesNames);
+    Set<Role> getRolesByNames(List<String> rolesNames);
 
-    List<Role> getUserRoles(long userId);
+    Set<Role> getUserRoles(long userId);
 
     void addUserRoles(List<String> rolesNames, long userId);
 }

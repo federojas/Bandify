@@ -5,6 +5,7 @@ import ar.edu.itba.paw.persistence.RoleDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class RoleServiceImpl implements RoleService {
@@ -16,25 +17,25 @@ public class RoleServiceImpl implements RoleService {
         this.roleDao = roleDao;
     }
     @Override
-    public List<Role> getAll() {
+    public Set<Role> getAll() {
         return roleDao.getAll();
     }
 
     @Override
-    public List<Role> getRolesByAuditionId(long auditionId) {
+    public Set<Role> getRolesByAuditionId(long auditionId) {
         return roleDao.getRolesByAuditionId(auditionId);
     }
 
     @Override
-    public List<Role> validateAndReturnRoles(List<String> rolesNames) {
-        List<Role> roles = roleDao.getRolesByNames(rolesNames);
+    public Set<Role> validateAndReturnRoles(List<String> rolesNames) {
+        Set<Role> roles = roleDao.getRolesByNames(rolesNames);
         if(roles.size() != rolesNames.size())
             throw new RoleNotFoundException();
         return roles;
     }
 
     @Override
-    public List<Role> getUserRoles(long userId) {
+    public Set<Role> getUserRoles(long userId) {
         return roleDao.getUserRoles(userId);
     }
 

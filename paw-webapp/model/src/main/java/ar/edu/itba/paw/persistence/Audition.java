@@ -6,7 +6,8 @@ import ar.edu.itba.paw.model.Role;
 
 import java.time.LocalDateTime;
 import java.time.Month;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import static java.time.Year.isLeap;
 import static org.joda.time.DateTimeConstants.*;
@@ -16,16 +17,16 @@ public class Audition {
     private String title, description;
     private LocalDateTime creationDate;
     private Location location;
-    private List<Genre> musicGenres;
-    private List<Role> lookingFor;
+    private Set<Genre> musicGenres;
+    private Set<Role> lookingFor;
     private String timeElapsed;
 
     public static class AuditionBuilder {
         private String title, description;
         private LocalDateTime creationDate;
         private Location location;
-        private List<Genre> musicGenres;
-        private List<Role> lookingFor;
+        private Set<Genre> musicGenres;
+        private Set<Role> lookingFor;
         private long bandId;
         private long id;
         private String timeElapsed;
@@ -36,6 +37,8 @@ public class Audition {
             this.description = description;
             this.bandId = bandId;
             this.timeElapsed = creationDate.toString();
+            this.lookingFor = new HashSet<>();
+            this.musicGenres = new HashSet<>();
         }
 
         public AuditionBuilder location(Location location) {
@@ -43,13 +46,23 @@ public class Audition {
             return this;
         }
 
-        public AuditionBuilder musicGenres(List<Genre> musicGenres) {
+        public AuditionBuilder musicGenres(Set<Genre> musicGenres) {
             this.musicGenres = musicGenres;
             return this;
         }
 
-        public AuditionBuilder lookingFor(List<Role> lookingFor) {
+        public AuditionBuilder lookingFor(Set<Role> lookingFor) {
             this.lookingFor = lookingFor;
+            return this;
+        }
+
+        public AuditionBuilder lookingFor(Role role) {
+            this.lookingFor.add(role);
+            return this;
+        }
+
+        public AuditionBuilder musicGenres(Genre genre) {
+            this.musicGenres.add(genre);
             return this;
         }
 
@@ -82,11 +95,11 @@ public class Audition {
             return location;
         }
 
-        public List<Genre> getMusicGenres() {
+        public Set<Genre> getMusicGenres() {
             return musicGenres;
         }
 
-        public List<Role> getLookingFor() {
+        public Set<Role> getLookingFor() {
             return lookingFor;
         }
 
@@ -106,7 +119,7 @@ public class Audition {
         lookingFor = builder.lookingFor;
     }
 
-    public Audition(long id, long bandId, String title, String description, LocalDateTime creationDate, Location location, List<Genre> musicGenres, List<Role> lookingFor) {
+    public Audition(long id, long bandId, String title, String description, LocalDateTime creationDate, Location location, Set<Genre> musicGenres, Set<Role> lookingFor) {
         this.id = id;
         this.bandId = bandId;
         this.title = title;
@@ -220,11 +233,11 @@ public class Audition {
         return location;
     }
 
-    public List<Genre> getMusicGenres() {
+    public Set<Genre> getMusicGenres() {
         return musicGenres;
     }
 
-    public List<Role> getLookingFor() {
+    public Set<Role> getLookingFor() {
         return lookingFor;
     }
 }

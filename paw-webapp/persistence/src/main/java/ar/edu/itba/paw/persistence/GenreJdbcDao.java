@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Repository
 public class GenreJdbcDao implements GenreDao {
@@ -24,17 +25,17 @@ public class GenreJdbcDao implements GenreDao {
     }
 
     @Override
-    public List<Genre> getAll() {
-        return jdbcTemplate.query("SELECT * FROM genres", GENRE_ROW_MAPPER);
+    public Set<Genre> getAll() {
+        return jdbcTemplate.query("SELECT * FROM genres", GENRE_ROW_MAPPER).stream().collect(Collectors.toSet());
     }
 
     @Override
-    public List<Genre> getGenresByAuditionId(long auditionId) {
-        return jdbcTemplate.query("SELECT genres.id, genres.genre FROM AUDITIONGENRES JOIN GENRES ON auditiongenres.genreid = genres.id WHERE auditionId = ?", new Object[]{auditionId}, GENRE_ROW_MAPPER);
+    public Set<Genre> getGenresByAuditionId(long auditionId) {
+        return jdbcTemplate.query("SELECT genres.id, genres.genre FROM AUDITIONGENRES JOIN GENRES ON auditiongenres.genreid = genres.id WHERE auditionId = ?", new Object[]{auditionId}, GENRE_ROW_MAPPER).stream().collect(Collectors.toSet());
     }
 
     @Override
-    public void createAuditionGenre(List<Genre> genres, long auditionId) {
+    public void createAuditionGenre(Set<Genre> genres, long auditionId) {
         final Map<String, Object> audGenreData = new HashMap<>();
         audGenreData.put("auditionId", auditionId);
         audGenreData.put("genreId", 0);
@@ -55,19 +56,19 @@ public class GenreJdbcDao implements GenreDao {
     }
 
     @Override
-    public List<Genre> getGenresByNames(List<String> genresNames) {
+    public Set<Genre> getGenresByNames(List<String> genresNames) {
         String inSql = String.join(",", Collections.nCopies(genresNames.size(), "?"));
-        return jdbcTemplate.query(String.format("SELECT * FROM genres WHERE genre IN (%s)", inSql), genresNames.toArray(),GENRE_ROW_MAPPER);
+        return jdbcTemplate.query(String.format("SELECT * FROM genres WHERE genre IN (%s)", inSql), genresNames.toArray(),GENRE_ROW_MAPPER).stream().collect(Collectors.toSet());
     }
 
     @Override
-    public List<Genre> getUserGenres(long userId) {
-        return jdbcTemplate.query("SELECT genres.id,genres.genre FROM genres JOIN userGenres ON genres.id = userGenres.genreId JOIN users ON userGenres.userId = users.id",GENRE_ROW_MAPPER);
+    public Set<Genre> getUserGenres(long userId) {
+        return jdbcTemplate.query("SELECT genres.id,genres.genre FROM genres JOIN userGenres ON genres.id = userGenres.genreId JOIN users ON userGenres.userId = users.id",GENRE_ROW_MAPPER).stream().collect(Collectors.toSet());
     }
 
     @Override
     public void addUserGenres(List<String> genresNames, long userId) {
-        List<Genre> genres = getGenresByNames(genresNames);
+        Set<Genre> genres = getGenresByNames(genresNames);
         final Map<String, Object> userGenreData = new HashMap<>();
         userGenreData.put("userId", userId);
         userGenreData.put("genreId", 0);

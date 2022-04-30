@@ -2,15 +2,16 @@ package ar.edu.itba.paw.service;
 import ar.edu.itba.paw.model.Role;
 
 import java.util.List;
+import java.util.Set;
 
 public interface RoleService {
-    List<Role> getAll();
+    Set<Role> getAll();
 
-    List<Role> getRolesByAuditionId(long auditionId);
+    Set<Role> getRolesByAuditionId(long auditionId);
 
-    List<Role> validateAndReturnRoles(List<String> rolesNames);
+    Set<Role> validateAndReturnRoles(List<String> rolesNames);
 
-    List<Role> getUserRoles(long userId);
+    Set<Role> getUserRoles(long userId);
 
     void addUserRoles(List<String> rolesNames, long userId);
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class GenreServiceImpl implements GenreService{
@@ -20,25 +21,25 @@ public class GenreServiceImpl implements GenreService{
     }
 
     @Override
-    public List<Genre> getAll() {
+    public Set<Genre> getAll() {
         return genreDao.getAll();
     }
 
     @Override
-    public List<Genre> getGenresByAuditionId(long auditionId) {
+    public Set<Genre> getGenresByAuditionId(long auditionId) {
         return genreDao.getGenresByAuditionId(auditionId);
     }
 
     @Override
-    public List<Genre> validateAndReturnGenres(List<String> genresNames) {
-        List<Genre> genres = genreDao.getGenresByNames(genresNames);
+    public Set<Genre> validateAndReturnGenres(List<String> genresNames) {
+        Set<Genre> genres = genreDao.getGenresByNames(genresNames);
         if(genres.size() != genresNames.size())
             throw new GenreNotFoundException();
         return genres;
     }
 
     @Override
-    public List<Genre> getUserGenres(long userId) {
+    public Set<Genre> getUserGenres(long userId) {
         return genreDao.getUserGenres(userId);
     }
 

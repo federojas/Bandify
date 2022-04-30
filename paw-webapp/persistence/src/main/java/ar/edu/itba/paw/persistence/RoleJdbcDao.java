@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Repository
 public class RoleJdbcDao implements RoleDao {
@@ -24,17 +25,17 @@ public class RoleJdbcDao implements RoleDao {
     }
 
     @Override
-    public List<Role> getAll() {
-        return jdbcTemplate.query("SELECT * FROM roles", ROLE_ROW_MAPPER);
+    public Set<Role> getAll() {
+        return jdbcTemplate.query("SELECT * FROM roles", ROLE_ROW_MAPPER).stream().collect(Collectors.toSet());
     }
 
     @Override
-    public List<Role> getRolesByAuditionId(long auditionId) {
-        return jdbcTemplate.query("SELECT roles.id, roles.role FROM AUDITIONROLES JOIN ROLES ON auditionroles.roleid = roles.id WHERE auditionId = ?", new Object[]{auditionId}, ROLE_ROW_MAPPER);
+    public Set<Role> getRolesByAuditionId(long auditionId) {
+        return jdbcTemplate.query("SELECT roles.id, roles.role FROM AUDITIONROLES JOIN ROLES ON auditionroles.roleid = roles.id WHERE auditionId = ?", new Object[]{auditionId}, ROLE_ROW_MAPPER).stream().collect(Collectors.toSet());
     }
 
     @Override
-    public void createAuditionRole(List<Role> roles, long auditionId) {
+    public void createAuditionRole(Set<Role> roles, long auditionId) {
         final Map<String, Object> audRoleData = new HashMap<>();
         audRoleData.put("auditionId", auditionId);
         audRoleData.put("roleId", 0);
@@ -55,19 +56,19 @@ public class RoleJdbcDao implements RoleDao {
     }
 
     @Override
-    public List<Role> getRolesByNames(List<String> rolesNames) {
+    public Set<Role> getRolesByNames(List<String> rolesNames) {
         String inSql = String.join(",", Collections.nCopies(rolesNames.size(), "?"));
-        return jdbcTemplate.query(String.format("SELECT * FROM roles WHERE role IN (%s)", inSql), rolesNames.toArray(),ROLE_ROW_MAPPER);
+        return jdbcTemplate.query(String.format("SELECT * FROM roles WHERE role IN (%s)", inSql), rolesNames.toArray(),ROLE_ROW_MAPPER).stream().collect(Collectors.toSet());
     }
 
     @Override
-    public List<Role> getUserRoles(long userId) {
-        return jdbcTemplate.query("SELECT roles.id,roles.role FROM roles JOIN userRoles ON roles.id = userRoles.roleId JOIN users ON userRoles.userId = users.id",ROLE_ROW_MAPPER);
+    public Set<Role> getUserRoles(long userId) {
+        return jdbcTemplate.query("SELECT roles.id,roles.role FROM roles JOIN userRoles ON roles.id = userRoles.roleId JOIN users ON userRoles.userId = users.id",ROLE_ROW_MAPPER).stream().collect(Collectors.toSet());
     }
 
     @Override
     public void addUserRoles(List<String> rolesNames, long userId) {
-        List<Role> roles = getRolesByNames(rolesNames);
+        Set<Role> roles = getRolesByNames(rolesNames);
         final Map<String, Object> userRoleData = new HashMap<>();
         userRoleData.put("userId", userId);
         userRoleData.put("roleId", 0);
