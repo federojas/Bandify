@@ -3,16 +3,20 @@ package ar.edu.itba.paw.webapp.controller;
 import ar.edu.itba.paw.model.Genre;
 import ar.edu.itba.paw.model.Location;
 import ar.edu.itba.paw.model.Role;
+import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.model.exceptions.AuditionNotFoundException;
 import ar.edu.itba.paw.model.exceptions.LocationNotFoundException;
+import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.persistence.Audition;
 import ar.edu.itba.paw.service.*;
 import ar.edu.itba.paw.webapp.form.ApplicationForm;
 import ar.edu.itba.paw.webapp.form.AuditionForm;
-import ar.edu.itba.paw.webapp.security.services.SecurityFacade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -28,25 +32,24 @@ public class AuditionsController {
     private final RoleService roleService;
     private final GenreService genreService;
     private final LocationService locationService;
-    private final SecurityFacade securityFacade;
+    private final UserService userService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AuditionsController.class);
 
     @Autowired
     public AuditionsController(final AuditionService auditionService,
                                final GenreService genreService, final LocationService locationService,
-                               final RoleService roleService, SecurityFacade securityFacade) {
+                               final RoleService roleService, final UserService userService) {
         this.auditionService = auditionService;
         this.roleService = roleService;
         this.genreService = genreService;
         this.locationService = locationService;
-        this.securityFacade = securityFacade;
-
+        this.userService = userService;
     }
 
     @RequestMapping(value = "/", method = {RequestMethod.GET})
     public ModelAndView home() {
-        if (securityFacade.getCurrentUser() != null) {
+        if (! (SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) {
             return new ModelAndView("redirect:/auditions");
         }
         return new ModelAndView("redirect:/welcome");
@@ -98,7 +101,6 @@ public class AuditionsController {
         Optional<Audition> audition = auditionService.getAuditionById(id);
         if (audition.isPresent()) {
             mav.addObject("audition", audition.get());
-            mav.addObject("user",securityFacade.getCurrentUser());
         } else {
             throw new AuditionNotFoundException();
         }
@@ -112,9 +114,12 @@ public class AuditionsController {
         if (errors.hasErrors()) {
             return audition(applicationForm,id);
         }
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> optionalUser = userService.findByEmail(auth.getName());
+        User user = optionalUser.orElseThrow(UserNotFoundException::new);
 
         // TODO: FOTO NO FUNCIONA EN AUDITION-APPLICATION.HTML
-        auditionService.sendApplicationEmail(id, securityFacade.getCurrentUser(),
+        auditionService.sendApplicationEmail(id, user,
                 applicationForm.getMessage());
 
         return success();
@@ -127,11 +132,14 @@ public class AuditionsController {
         Set<Role> roleList = roleService.getAll();
         Set<Genre> genreList = genreService.getAll();
         List<Location> locationList = locationService.getAll();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> optionalUser = userService.findByEmail(auth.getName());
+        User user = optionalUser.orElseThrow(UserNotFoundException::new);
 
         mav.addObject("roleList", roleList);
         mav.addObject("genreList", genreList);
         mav.addObject("locationList", locationList);
-        mav.addObject("user",securityFacade.getCurrentUser());
+        mav.addObject("user",user);
         return mav;
     }
 
@@ -142,8 +150,11 @@ public class AuditionsController {
         if(errors.hasErrors()) {
             return newAudition(auditionForm);
         }
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> optionalUser = userService.findByEmail(auth.getName());
+        User user = optionalUser.orElseThrow(UserNotFoundException::new);
 
-        auditionService.create(auditionForm.toBuilder(securityFacade.getCurrentUser().getId()).
+        auditionService.create(auditionForm.toBuilder(user.getId()).
                 location(locationService.getLocationByName(auditionForm.getLocation()).orElseThrow(LocationNotFoundException::new)).
                 lookingFor(roleService.validateAndReturnRoles(auditionForm.getLookingFor())).
                 musicGenres(genreService.validateAndReturnGenres(auditionForm.getMusicGenres()))

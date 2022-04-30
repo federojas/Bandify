@@ -2,7 +2,6 @@ package ar.edu.itba.paw.webapp.security.services;
 
 import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.service.UserService;
-import ar.edu.itba.paw.webapp.security.BandifyUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -33,7 +32,7 @@ public class BandifyUserDetailsService implements UserDetailsService {
             authorities.add(new SimpleGrantedAuthority("ROLE_BAND"));
         else
             authorities.add(new SimpleGrantedAuthority("ROLE_ARTIST"));
-        return new BandifyUser(email, user.getPassword(), authorities, user.getId(), user.getName(), user.getSurname(), user.isBand(), user.isEnabled());
+        return new org.springframework.security.core.userdetails.User(email, user.getPassword(), authorities);
     }
 
 }

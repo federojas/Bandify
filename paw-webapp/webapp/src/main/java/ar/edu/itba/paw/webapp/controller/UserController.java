@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.model.User;
+import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.service.AuditionService;
 import ar.edu.itba.paw.service.UserService;
 import ar.edu.itba.paw.service.VerificationTokenService;
@@ -8,33 +9,31 @@ import ar.edu.itba.paw.webapp.form.NewPasswordForm;
 import ar.edu.itba.paw.webapp.form.ResetPasswordForm;
 import ar.edu.itba.paw.webapp.form.UserArtistForm;
 import ar.edu.itba.paw.webapp.form.UserBandForm;
-import ar.edu.itba.paw.webapp.security.services.SecurityFacade;
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 public class UserController {
 
     private final UserService userService;
-    private final SecurityFacade securityFacade;
     private final VerificationTokenService verificationTokenService;
     private final AuditionService auditionService;
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
-    public UserController(UserService userService, SecurityFacade securityFacade,
-                          VerificationTokenService verificationTokenService,
+    public UserController(UserService userService, VerificationTokenService verificationTokenService,
                           AuditionService auditionService) {
         this.userService = userService;
-        this.securityFacade = securityFacade;
         this.verificationTokenService = verificationTokenService;
         this.auditionService = auditionService;
     }
@@ -91,10 +90,12 @@ public class UserController {
     @RequestMapping(value = "/profile", method = {RequestMethod.GET})
     public ModelAndView profile() {
         ModelAndView mav = new ModelAndView("views/profile");
-        User user = securityFacade.getCurrentUser();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> optionalUser = userService.findByEmail(auth.getName());
+        User user = optionalUser.orElseThrow(UserNotFoundException::new);
         mav.addObject("user", user);
         if(user.isBand())
-            mav.addObject("auditions", auditionService.getBandAuditions(securityFacade.getCurrentUser().getId()));
+            mav.addObject("auditions", auditionService.getBandAuditions(user.getId()));
         return mav;
     }
 
