@@ -44,8 +44,9 @@ public class GenreServiceImpl implements GenreService{
     }
 
     @Override
-    public void addUserGenres(List<String> genresNames, long userId) {
-        genreDao.addUserGenres(genresNames,userId);
+    public void updateUserGenres(List<String> genresNames, long userId) {
+        Set<Genre> newGenres = validateAndReturnGenres(genresNames);
+        genreDao.updateUserGenres(newGenres, userId);
     }
 
 }

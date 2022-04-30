@@ -80,4 +80,9 @@ public class UserJdbcDao implements UserDao {
         jdbcTemplate.update("UPDATE users SET isEnabled = TRUE WHERE id = ?", userId);
     }
 
+    @Override
+    public void editUser(long id, User.UserBuilder userBuilder) {
+        // TODO: terminar
+    }
+
 }

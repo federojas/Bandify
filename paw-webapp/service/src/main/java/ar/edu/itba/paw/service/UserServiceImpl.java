@@ -76,6 +76,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void editUser(User.UserBuilder userBuilder, List<String> genresNames, List<String> rolesNames) {
+        /*
+        long id = findByEmail(userBuilder.getEmail()).orElseThrow(UserNotFoundException::new).getId();
+        userDao.editUser(id,userBuilder);
+        genreService.addUserGenres(genresNames,id);
+        roleService.addUserRoles(rolesNames,id);
+        */
+    }
+
+    @Override
     public Optional<User> findByEmail(String email) {
         return userDao.findByEmail(email);
     }
@@ -99,7 +109,7 @@ public class UserServiceImpl implements UserService {
             authorities.add(new SimpleGrantedAuthority("ROLE_BAND"));
         else
             authorities.add(new SimpleGrantedAuthority("ROLE_ARTIST"));
-        Authentication auth = new UsernamePasswordAuthenticationToken(user.getEmail(),null,authorities);
+        Authentication auth = new UsernamePasswordAuthenticationToken(user.getEmail(),user.getPassword(),authorities);
         SecurityContextHolder.getContext().setAuthentication(auth);
     }
 
@@ -123,19 +133,6 @@ public class UserServiceImpl implements UserService {
         autoLogin(userId);
     }
 
-    @Override
-    public void addUserRoles(List<String> rolesNames, long userId) {
-        if(getUserById(userId).isPresent())
-            roleService.addUserRoles(rolesNames,userId);
-        throw new UserNotFoundException();
-    }
-
-    @Override
-    public void addUserGenres(List<String> genresNames, long userId) {
-        if(getUserById(userId).isPresent())
-            genreService.addUserGenres(genresNames,userId);
-        throw new UserNotFoundException();
-    }
 
     @Override
     public void updateProfilePicture(long userId, byte[] image) {

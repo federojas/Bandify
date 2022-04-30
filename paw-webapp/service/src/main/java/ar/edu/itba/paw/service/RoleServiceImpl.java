@@ -1,4 +1,5 @@
 package ar.edu.itba.paw.service;
+import ar.edu.itba.paw.model.Genre;
 import ar.edu.itba.paw.model.Role;
 import ar.edu.itba.paw.model.exceptions.RoleNotFoundException;
 import ar.edu.itba.paw.persistence.RoleDao;
@@ -40,8 +41,9 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public void addUserRoles(List<String> rolesNames, long userId) {
-        roleDao.addUserRoles(rolesNames,userId);
+    public void updateUserRoles(List<String> rolesNames, long userId) {
+        Set<Role> newRoles = validateAndReturnRoles(rolesNames);
+        roleDao.updateUserRoles(newRoles, userId);
     }
 
 

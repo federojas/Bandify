@@ -77,4 +77,9 @@ public class GenreJdbcDao implements GenreDao {
             jdbcUserGenreInsert.execute(userGenreData);
         }
     }
+
+    @Override
+    public void updateUserGenres(Set<Genre> newGenres, long userId) {
+        // TODO: terminar
+    }
 }

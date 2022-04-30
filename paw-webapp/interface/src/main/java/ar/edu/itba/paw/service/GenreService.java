@@ -14,5 +14,5 @@ public interface GenreService {
 
     Set<Genre> getUserGenres(long userId);
 
-    void addUserGenres(List<String> genresNames, long userId);
+    void updateUserGenres(List<String> genresNames, long userId);
 }

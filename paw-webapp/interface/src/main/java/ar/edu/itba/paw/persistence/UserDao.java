@@ -14,4 +14,6 @@ public interface UserDao {
     void changePassword(long userId, String newPassword);
 
     void verifyUser(long userId);
+
+    void editUser(long id, User.UserBuilder userBuilder);
 }

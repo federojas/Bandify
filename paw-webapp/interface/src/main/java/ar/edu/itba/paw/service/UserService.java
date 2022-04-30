@@ -4,6 +4,7 @@ import ar.edu.itba.paw.model.User;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface UserService {
     Optional<User> getUserById(long id);
@@ -18,10 +19,6 @@ public interface UserService {
 
     void changePassword(String token, String newPassword);
 
-    void addUserRoles(List<String> rolesNames, long userId);
-
-    void addUserGenres(List<String> genresNames, long userId);
-
     void resendUserVerification(String email);
 
     void createProfilePicture(long userId, byte[] image);
@@ -30,4 +27,5 @@ public interface UserService {
 
     Optional<byte[]> getProfilePictureByUserId(long userId);
 
+    void editUser(User.UserBuilder userBuilder, List<String> genresNames, List<String> rolesNames);
 }

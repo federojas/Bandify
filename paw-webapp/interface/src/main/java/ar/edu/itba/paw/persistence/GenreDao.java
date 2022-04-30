@@ -21,4 +21,6 @@ public interface GenreDao {
     Set<Genre> getUserGenres(long userId);
 
     void addUserGenres(List<String> genresNames, long userId);
+
+    void updateUserGenres(Set<Genre> newGenres, long userId);
 }

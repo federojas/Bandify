@@ -13,5 +13,5 @@ public interface RoleService {
 
     Set<Role> getUserRoles(long userId);
 
-    void addUserRoles(List<String> rolesNames, long userId);
+    void updateUserRoles(List<String> rolesNames, long userId);
 }
