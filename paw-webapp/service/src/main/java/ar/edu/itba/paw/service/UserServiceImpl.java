@@ -26,6 +26,7 @@ public class UserServiceImpl implements UserService {
     private final VerificationTokenService verificationTokenService;
     private final RoleService roleService;
     private final GenreService genreService;
+    private final ImageService imageService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
     //  TODO: uso de LOGGER
@@ -33,12 +34,14 @@ public class UserServiceImpl implements UserService {
     @Autowired
     public UserServiceImpl(final UserDao userDao, final PasswordEncoder passwordEncoder,
                            final VerificationTokenService verificationTokenService,
-                           final RoleService roleService, final GenreService genreService) {
+                           final RoleService roleService, final GenreService genreService,
+                           final ImageService imageService) {
         this.userDao = userDao;
         this.passwordEncoder = passwordEncoder;
         this.verificationTokenService = verificationTokenService;
         this.roleService = roleService;
         this.genreService = genreService;
+        this.imageService = imageService;
     }
 
     @Override
@@ -78,13 +81,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean verifyUser(String token) {
+    public void verifyUser(String token) {
         Long userId = verificationTokenService.validateToken(token, TokenType.VERIFY);
 
         if(userId != null) {
             userDao.verifyUser(userId);
             autoLogin(userId);
-            return true;
         } else {
             throw new UserNotFoundException();
         }
@@ -133,6 +135,25 @@ public class UserServiceImpl implements UserService {
         if(getUserById(userId).isPresent())
             genreService.addUserGenres(genresNames,userId);
         throw new UserNotFoundException();
+    }
+
+    @Override
+    public void updateProfilePicture(long userId, byte[] image) {
+        if(getUserById(userId).isPresent())
+            imageService.updateProfilePicture(userId, image);
+        throw new UserNotFoundException();
+    }
+
+    @Override
+    public void createProfilePicture(long userId, byte[] image) {
+        if(getUserById(userId).isPresent())
+            imageService.createProfilePicture(userId, image);
+        throw new UserNotFoundException();
+    }
+
+    @Override
+    public Optional<byte[]> getProfilePictureByUserId(long userId) {
+        return imageService.getProfilePicture(userId);
     }
 
 }

@@ -20,14 +20,13 @@ public class MailingServiceImpl implements MailingService {
 
     private final Session session;
     private final SpringTemplateEngine templateEngine;
+    private final Environment environment;
 
     @Autowired
-    private Environment environment;
-
-    @Autowired
-    public MailingServiceImpl(Session session, SpringTemplateEngine templateEngine) {
+    public MailingServiceImpl(final Session session, final SpringTemplateEngine templateEngine, final Environment environment) {
         this.session = session;
         this.templateEngine = templateEngine;
+        this.environment = environment;
     }
 
     @Async

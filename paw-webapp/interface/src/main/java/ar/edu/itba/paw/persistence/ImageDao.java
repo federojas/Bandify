@@ -1,12 +1,13 @@
-package ar.edu.itba.paw.service;
+package ar.edu.itba.paw.persistence;
 
-import java.util.*;
+import java.util.Optional;
 
-public interface ImageService {
-
+public interface ImageDao {
     void updateProfilePicture(long userId, byte[] image);
+
     void deleteProfilePicture(long userId);
-    void createProfilePicture(long userId, byte[] image);
+
+    void crateProfilePicture(long userId, byte[] image);
+
     Optional<byte[]> getProfilePicture(long userId);
 }
-

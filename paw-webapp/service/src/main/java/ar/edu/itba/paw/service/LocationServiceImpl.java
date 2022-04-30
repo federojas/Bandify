@@ -11,7 +11,7 @@ import java.util.Optional;
 @Service
 public class LocationServiceImpl implements LocationService {
 
-    LocationDao locationDao;
+    private final LocationDao locationDao;
 
     @Autowired
     public LocationServiceImpl(LocationDao locationDao) {

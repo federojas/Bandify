@@ -16,7 +16,7 @@ import java.util.Optional;
 @Repository
 public class UserJdbcDao implements UserDao {
 
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcInsert;
 
     private final static RowMapper<User.UserBuilder> ROW_MAPPER = (rs, rowNum) -> new User.UserBuilder(rs.getString("email"),
@@ -57,7 +57,6 @@ public class UserJdbcDao implements UserDao {
         final Number id = jdbcInsert.executeAndReturnKey(userData);
 
         return userBuilder.id(id.longValue()).build();
-
     }
 
     @Override

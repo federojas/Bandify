@@ -86,9 +86,9 @@ CREATE TABLE IF NOT EXISTS userRoles (
     UNIQUE(userId, roleId)
 );
 
---CREATE TABLE IF NOT EXISTS IMAGES
---(
---    id       SERIAL PRIMARY KEY,
---    image    BYTEA,
---    mimeType TEXT,
---);
+CREATE TABLE IF NOT EXISTS profileImages
+(
+   userId INTEGER PRIMARY KEY,
+   image    BYTEA,
+   FOREIGN KEY (userId) REFERENCES users ON DELETE CASCADE
+);
