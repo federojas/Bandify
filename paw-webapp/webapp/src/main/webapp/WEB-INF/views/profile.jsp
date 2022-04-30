@@ -24,7 +24,7 @@
             <!-- Left Side -->
             <div class="w-full md:w-3/12 md:mx-2">
                 <!-- Profile Card -->
-                <div class="bg-white box p-3 border-t-4  bg-main-color">
+                <div class="bg-white box p-3 border-t-4  ">
                     <div class="image overflow-hidden">
                         <sec:authorize access="hasRole('ARTIST')">
                             <img class="h-auto w-full mx-auto"
@@ -33,11 +33,26 @@
                                  alt="${img}">
                         </sec:authorize>
                         <sec:authorize access="hasRole('BAND')">
+
                             <img class="h-auto w-full mx-auto"
                                 <spring:message code="profile.img.alt" var="img"/>
                                  src="<c:url value="/resources/images/band.jpg"/>"
                                  alt="${img}">
+
                         </sec:authorize>
+                        <div style=" display: flex; justify-content: end;">
+                            <a href="<c:url value="/profile/edit" />">
+                                <button class="edit-btn hover:bg-sky-700">
+                                    <spring:message code="profile.edit.alt" var="edit"/>
+
+                                    <img src="/resources/icons/edit-white-icon.svg"
+                                         alt="${edit}"
+                                         class="icon-img"
+                                    />
+                                    <spring:message code="profile.editProfile"/>
+                                </button>
+                            </a>
+                        </div>
                     </div>
                     <h1 class="full-name">
                         <c:out value=" ${user.name}" /></h1>
@@ -55,25 +70,15 @@
                                         class="bg-green-500 py-1 px-2 rounded text-white text-sm"><spring:message code="register.band_word"/> </span></span>
                             </sec:authorize>
                         </li>
-                        <%--                                <li class="flex items-center py-3">--%>
-                        <%--                            <span><spring:message code="profile.memberSince"/>--%>
-                        <%--                            </span>--%>
-                        <%--                                    <span class="ml-auto">Nov 07, 2016</span>--%>
-                        <%--                                </li>--%>
+<%--                                                        <li class="flex items-center py-3">--%>
+<%--                                                    <span><spring:message code="profile.memberSince"/>--%>
+<%--                                                    </span>--%>
+<%--                                                            <span class="ml-auto">Nov 07, 2016</span>--%>
+<%--                                                        </li>--%>
                     </ul>
                 </div>
                 <!-- End of profile card -->
-                <div class="profile-btns">
-<%--                    <a href="<c:url value="/logout"/>" >--%>
-<%--                        <button class="logout-btn">--%>
-<%--                            <spring:message code="profile.logout" var="logout"/>--%>
-
-<%--                            <img src="<c:url value="/resources/icons/logout.svg" />"--%>
-<%--                                 alt="${logout}"--%>
-<%--                                 class="icon-img"/>--%>
-<%--                            <spring:message code="profile.logout"/>--%>
-<%--                        </button>--%>
-                    </a>
+<%--                <div class="profile-btns">--%>
 <%--                    <a href="<c:url value="/profile/edit" />">--%>
 <%--                        <button class="edit-btn">--%>
 <%--                            <spring:message code="profile.edit.alt" var="edit"/>--%>
@@ -85,7 +90,7 @@
 <%--                            <spring:message code="profile.editProfile"/>--%>
 <%--                        </button>--%>
 <%--                    </a>--%>
-                </div>
+<%--                </div>--%>
             </div>
             <!-- Right Side -->
             <div class="w-full md:w-9/12 mx-2 h-64">
@@ -195,6 +200,7 @@
                                     </jsp:include>
                             </c:forEach>
                         </div>
+
                     </sec:authorize>
                 </div>
             </div>
