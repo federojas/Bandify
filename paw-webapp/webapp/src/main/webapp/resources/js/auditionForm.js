@@ -1,8 +1,8 @@
 function auditionFormCheck(){
-    emptyTitle=document.getElementById("emptyTitle")
-    longTitle=document.getElementById("longTitle")
-    emptyDescription=document.getElementById("emptyDescription")
-    longDescription=document.getElementById("longDescription")
+    let emptyTitle=document.getElementById("emptyTitle")
+    let longTitle=document.getElementById("longTitle")
+    let emptyDescription=document.getElementById("emptyDescription")
+    let longDescription=document.getElementById("longDescription")
 
     emptyTitle.style.display='none'
     longTitle.style.display='none'
@@ -10,9 +10,9 @@ function auditionFormCheck(){
     longDescription.style.display='none'
 
 
-    title=document.getElementById("title").value;
-    description=document.getElementById("description").value;
-    validForm=true;
+    let title=document.getElementById("title").value;
+    let description=document.getElementById("description").value;
+    let validForm=true;
     if(title.length<=0){
         emptyTitle.style.display='block'
 

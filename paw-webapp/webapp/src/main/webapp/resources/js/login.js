@@ -1,15 +1,15 @@
 function loginFormCheck(){
-    invalidMail=document.getElementById("invalidMail")
-    invalidPassword=document.getElementById("invalidPassword")
+    let invalidMail=document.getElementById("invalidMail")
+    let invalidPassword=document.getElementById("invalidPassword")
 
     invalidMail.style.display='none'
     invalidPassword.style.display='none'
 
-    password=document.getElementById("password").value;
-    email=document.getElementById("email").value;
-    validForm=true;
+    let password=document.getElementById("password").value;
+    let email=document.getElementById("email").value;
+    let validForm=true;
 
-    var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    let validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
     if(!validRegex.test(email)){
         validForm=false;

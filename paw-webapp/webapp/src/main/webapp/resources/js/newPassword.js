@@ -1,10 +1,10 @@
 function load(){
-    var form=document.getElementById("form");
-    password=document.getElementById("password");
+    let form=document.getElementById("form");
+    let password=document.getElementById("password");
     form.addEventListener('submit',function(e){
-        invalidPassword.style.display='none'
 
-        invalidPassword =document.getElementById("invalidPassword")
+        let invalidPassword =document.getElementById("invalidPassword")
+            invalidPassword.style.display='none'
 
         if(password.value.length<8||password.value.length>25 ){
             invalidPassword.style.display='block'
