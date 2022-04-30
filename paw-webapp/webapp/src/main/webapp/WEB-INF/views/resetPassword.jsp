@@ -41,11 +41,6 @@
                 <spring:message code="resetPassword.invalidEmailSnackbar.message"/>
             </div>
         </c:if>
-        <c:if test="${emailSent}">
-            <div class="email-sent">
-                <spring:message code="resetPassword.validEmailSnackbar.message"/>
-            </div>
-        </c:if>
         <div class="mt-4">
             <button
                     type="submit"

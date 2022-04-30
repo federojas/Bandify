@@ -22,9 +22,9 @@
     <img src="<c:url value="/resources/icons/mail.svg"/>" class="success-icon" alt="${email_alt}"/>
     <h1><spring:message code="email_sent.title"/></h1>
     <p><spring:message code="email_sent.p0"/><b><c:out value="${email}" /></b></p>
-    <p><spring:message code="email_sent.p"/></p>
+    <p><spring:message code="email_sent.reset"/></p>
     <p><spring:message code="email_sent.didntrecieve" /></p>
-    <c:url value="/emailSent" var="resendEmailUrl" />
+    <c:url value="/resetEmailSent" var="resendEmailUrl" />
 
     <form method="post" action="${resendEmailUrl}">
         <input type="hidden" name="email" value="${email}"/>

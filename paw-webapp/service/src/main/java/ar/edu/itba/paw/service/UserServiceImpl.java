@@ -89,6 +89,9 @@ public class UserServiceImpl implements UserService {
         Optional<User> user = userDao.findByEmail(email);
         if(!user.isPresent())
             throw new EmailNotFoundException();
+
+        verificationTokenService.deleteTokenByUserId(user.get().getId(), TokenType.RESET);
+
         verificationTokenService.sendResetEmail(user.get());
     }
 

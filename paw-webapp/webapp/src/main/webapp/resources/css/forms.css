@@ -90,6 +90,14 @@ body {
     background-color: #6c0c84 !important;
 }
 
+#sumbitButton:disabled {
+    padding: 0.5rem 1.25rem;
+    color: #ffffff;
+    font-weight: 600;
+    border-radius: 9999px;
+    background-color: #8c8181 !important;
+}
+
 .email-reset-password-box {
     display: flex;
     flex-direction: column;

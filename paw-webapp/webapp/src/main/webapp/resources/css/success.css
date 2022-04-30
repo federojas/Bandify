@@ -28,6 +28,19 @@
     border-radius: 9999px;
     background-color: #6c0c84 !important;
 }
+
+#resendButton:disabled {
+    font-size: 2rem;
+    line-height: 1;
+    font-weight: 500;
+    padding: 1rem;
+    margin: 3rem 0;
+    color: #ffffff;
+    justify-content: flex-end;
+    border-radius: 9999px;
+    background-color: #8c8181 !important;
+}
+
 .success-icon {
     width: 100px;
     height: 100px;

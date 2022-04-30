@@ -111,7 +111,6 @@ public class UserController {
 
         ModelAndView mav = new ModelAndView("/views/resetPassword");
         mav.addObject("emailNotFound", false);
-        mav.addObject("emailSent", false);
         return mav;
     }
 
@@ -126,8 +125,7 @@ public class UserController {
         ModelAndView mav = new ModelAndView("/views/resetPassword");
         mav.addObject("resetPasswordForm",resetPasswordForm);
         mav.addObject("emailNotFound", false);
-        mav.addObject("emailSent", true);
-        return mav;
+        return resetEmailSent(resetPasswordForm.getEmail());
     }
 
     @RequestMapping(value = "/newPassword", method = {RequestMethod.GET})
@@ -154,6 +152,19 @@ public class UserController {
         userService.changePassword(token, newPasswordForm.getNewPassword());
 
         return new ModelAndView("redirect:/welcome");
+    }
+
+    @RequestMapping(value = "/resetEmailSent", method = {RequestMethod.GET})
+    public ModelAndView resetEmailSent(String email) {
+        ModelAndView emailSent = new ModelAndView("/views/resetEmailSent");
+        emailSent.addObject("email", email);
+        return emailSent;
+    }
+
+    @RequestMapping(value = "/resetEmailSent", method = {RequestMethod.POST})
+    public ModelAndView resendResetEmail(@RequestParam final String email) {
+        userService.sendResetEmail(email);
+        return resetEmailSent(email);
     }
 
     @RequestMapping(value = "/emailSent", method = {RequestMethod.GET})

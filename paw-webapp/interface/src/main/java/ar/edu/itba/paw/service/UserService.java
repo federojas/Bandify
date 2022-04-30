@@ -23,4 +23,5 @@ public interface UserService {
     void addUserGenres(List<String> genresNames, long userId);
 
     void resendUserVerification(String email);
+
 }
