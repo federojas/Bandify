@@ -19,13 +19,11 @@ import java.util.stream.Collectors;
 @Repository
 public class AuditionJdbcDao implements AuditionDao {
 
-
     private final JdbcTemplate jdbcTemplate;
     private final int PAGE_SIZE = 12;
     private final SimpleJdbcInsert jdbcAuditionInsert;
     private final GenreDao genreDao;
     private final RoleDao roleDao;
-    private final LocationDao locationDao;
 
     private final static RowMapper<Genre> GENRE_ROW_MAPPER = (rs, i) -> new Genre(rs.getLong("id"), rs.getString("genre"));
     private final static RowMapper<Role> ROLE_ROW_MAPPER = (rs, i) -> new Role(rs.getLong("id"), rs.getString("role"));
@@ -38,14 +36,11 @@ public class AuditionJdbcDao implements AuditionDao {
                 rs.getTimestamp("creationDate").toLocalDateTime()
         ).id(rs.getLong("id"));
     };
-
     private final static ResultSetExtractor<List<Audition.AuditionBuilder>> AUDITION_MAPPER = rs -> {
         Map<Long, Audition.AuditionBuilder> auditionsById = new HashMap<>();
         int i = 0;
         while (rs.next()) {
-            System.out.println("what??");
             Long id = rs.getLong("id");
-            System.out.println(id);
             Location location = LOCATION_ROW_MAPPER.mapRow(rs,i);
             Genre genre = GENRE_ROW_MAPPER.mapRow(rs,i);
             Role role = ROLE_ROW_MAPPER.mapRow(rs,i);
@@ -56,30 +51,31 @@ public class AuditionJdbcDao implements AuditionDao {
             auditionsById.putIfAbsent(id,auditionBuilder);
             i++;
         }
-        System.out.println("EL SIZE:" + auditionsById.size());
         return auditionsById.values().stream().collect(Collectors.toList());
     };
+    private final static RowMapper<Integer> TOTAL_AUDITION_ROW_MAPPER = (rs, i) -> rs.getInt("count");
+
+    private final String GET_FULL_AUD_QUERY = "SELECT auditions.id,bandid,title,description,creationdate,location,genre,role" +
+            " FROM auditions JOIN auditiongenres ON id = auditiongenres.auditionid JOIN auditionroles ON id = auditionroles.auditionid" +
+            " JOIN locations ON auditions.locationid = locations.id JOIN genres ON genres.id = auditiongenres.genreid" +
+            " JOIN roles ON roles.id = auditionroles.roleid";
 
     @Autowired
-    public AuditionJdbcDao(final DataSource ds, GenreDao genreDao, RoleDao roleDao, LocationDao locationDao) {
-        jdbcTemplate = new JdbcTemplate(ds);
+    public AuditionJdbcDao(final DataSource ds, GenreDao genreDao, RoleDao roleDao) {
+        this.jdbcTemplate = new JdbcTemplate(ds);
         this.genreDao = genreDao;
         this.roleDao = roleDao;
-        this.locationDao = locationDao;
-        jdbcAuditionInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("auditions").usingGeneratedKeyColumns("id");
+        this.jdbcAuditionInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("auditions").usingGeneratedKeyColumns("id");
     }
-
-
-    private final static RowMapper<Integer> TOTAL_AUDITION_ROWMAPPER = (rs, i) -> rs.getInt("count");
 
     @Override
     public Optional<Audition> getAuditionById(long id) {
-        final List<Audition.AuditionBuilder> auditionsBuilders = jdbcTemplate.query("SELECT * FROM auditions WHERE id = ?", new Object[]{id}, AUDITION_ROW_MAPPER);
+        StringBuilder sb = new StringBuilder(GET_FULL_AUD_QUERY).append(" WHERE auditions.id = ?");
+        final String query = sb.toString();
+        List<Audition.AuditionBuilder> auditionsBuilders = jdbcTemplate.query(query,new Object[] { id }, AUDITION_MAPPER);
         Optional<Audition.AuditionBuilder> builder = auditionsBuilders.stream().findFirst();
         if(builder.isPresent()) {
-            Audition toReturn = builder.get().musicGenres(genreDao.getGenresByAuditionId(id))
-                    .lookingFor(roleDao.getRolesByAuditionId(id)).
-                    location(locationDao.getLocationByAuditionId(id).orElseThrow(LocationNotFoundException::new)).build();
+            Audition toReturn = builder.get().build();
             return Optional.of(toReturn);
         }
         return Optional.empty();
@@ -88,13 +84,11 @@ public class AuditionJdbcDao implements AuditionDao {
     @Override
     public Audition create(Audition.AuditionBuilder builder) {
         final Map<String, Object> auditionData = new HashMap<>();
-
         auditionData.put("title", builder.getTitle());
         auditionData.put("bandid", builder.getBandId());
         auditionData.put("description", builder.getDescription());
         auditionData.put("locationId", builder.getLocation().getId());
         auditionData.put("creationDate", builder.getCreationDate());
-
         final Number id = jdbcAuditionInsert.executeAndReturnKey(auditionData);
 
         roleDao.createAuditionRole(builder.getLookingFor(),id.longValue());
@@ -105,57 +99,59 @@ public class AuditionJdbcDao implements AuditionDao {
 
     @Override
     public List<Audition> getAll(int page) {
-
-        //         List<Audition.AuditionBuilder> auditionsBuilders = jdbcTemplate.query("SELECT * FROM auditions JOIN auditiongenres ON id = auditiongenres.auditionid JOIN auditionroles ON id = auditionroles.auditionid JOIN locations ON auditions.locationid = locations.id JOIN genres ON genres.id = auditiongenres.genreid JOIN roles ON roles.id = auditionroles.roleid ORDER BY creationdate DESC, title ASC LIMIT ? OFFSET ?" ,new Object[] { PAGE_SIZE, (page -1) * PAGE_SIZE}, AUDITION_MAPPER);
-        List<Audition.AuditionBuilder> auditionsBuilders = jdbcTemplate.query("SELECT auditions.id,bandid,title,description,creationdate,location,genre,role FROM auditions JOIN auditiongenres ON id = auditiongenres.auditionid JOIN auditionroles ON id = auditionroles.auditionid JOIN locations ON auditions.locationid = locations.id JOIN genres ON genres.id = auditiongenres.genreid JOIN roles ON roles.id = auditionroles.roleid WHERE auditions.id IN (SELECT id FROM auditions LIMIT ? OFFSET ?) ORDER BY creationdate DESC, title ASC",new Object[] { PAGE_SIZE, (page -1) * PAGE_SIZE}, AUDITION_MAPPER);
+        StringBuilder sb = new StringBuilder(GET_FULL_AUD_QUERY).append(" WHERE auditions.id IN (SELECT id FROM auditions LIMIT ? OFFSET ?)" +
+                " ORDER BY creationdate DESC, title ASC");
+        final String query = sb.toString();
+        List<Audition.AuditionBuilder> auditionsBuilders = jdbcTemplate.query(query,new Object[] { PAGE_SIZE, (page -1) * PAGE_SIZE}, AUDITION_MAPPER);
         // TODO: pasar a funcional
         List<Audition> list = new LinkedList<>();
         for(Audition.AuditionBuilder auditionBuilder : auditionsBuilders) {
             list.add(auditionBuilder.build());
         }
         return list;
-
-    }
-
-    @Override
-    public List<Audition> search(int page, String query) {
-        List<Audition.AuditionBuilder> auditionsBuilders = jdbcTemplate.query("SELECT * FROM auditions WHERE LOWER(title) LIKE ? ORDER BY creationdate DESC, title ASC LIMIT ? OFFSET ? " ,new Object[] {"%" + query.replace("%", "\\%").replace("_", "\\_").toLowerCase() + "%", PAGE_SIZE, (page -1) * PAGE_SIZE}, AUDITION_ROW_MAPPER);
-        return getAuditions(auditionsBuilders);
     }
 
     @Override
     public List<Audition> getBandAuditions(long userId) {
-        List<Audition.AuditionBuilder> auditionsBuilders = jdbcTemplate.query("SELECT * FROM auditions WHERE bandId = ? " ,new Object[] {userId}, AUDITION_ROW_MAPPER);
-        List<Audition> toReturn = new ArrayList<>();
-        for(Audition.AuditionBuilder builder : auditionsBuilders) {
-            Audition audition = builder.musicGenres(genreDao.getGenresByAuditionId(builder.getId()))
-                    .lookingFor(roleDao.getRolesByAuditionId(builder.getId())).
-                    location(locationDao.getLocationByAuditionId(builder.getId()).orElseThrow(LocationNotFoundException::new)).build();
-            toReturn.add(audition);
+        StringBuilder sb = new StringBuilder(GET_FULL_AUD_QUERY).append(" WHERE bandId = ?" +
+                " ORDER BY creationdate DESC, title ASC");
+        final String query = sb.toString();
+        List<Audition.AuditionBuilder> auditionsBuilders = jdbcTemplate.query(query,new Object[] { userId }, AUDITION_MAPPER);
+        // TODO: pasar a funcional
+        List<Audition> list = new LinkedList<>();
+        for(Audition.AuditionBuilder auditionBuilder : auditionsBuilders) {
+            list.add(auditionBuilder.build());
         }
-        return toReturn;
+        return list;
     }
 
-    private List<Audition> getAuditions(List<Audition.AuditionBuilder> auditionsBuilders) {
-        List<Audition> toReturn = new ArrayList<>();
-        for(Audition.AuditionBuilder builder : auditionsBuilders) {
-            Optional<Audition> toAdd = getAuditionById(builder.getId());
-            toAdd.ifPresent(toReturn::add);
+    @Override
+    public List<Audition> search(int page, String query) {
+        StringBuilder sb = new StringBuilder(GET_FULL_AUD_QUERY).append(" WHERE LOWER(title) LIKE ?" +
+                " AND auditions.id IN (SELECT id FROM auditions LIMIT ? OFFSET ?)" +
+                " ORDER BY creationdate DESC, title ASC");
+        final String sqlQuery = sb.toString();
+        List<Audition.AuditionBuilder> auditionsBuilders = jdbcTemplate.query(sqlQuery,new Object[] { query, PAGE_SIZE, (page -1) * PAGE_SIZE}, AUDITION_MAPPER);
+        // TODO: pasar a funcional
+        List<Audition> list = new LinkedList<>();
+        for(Audition.AuditionBuilder auditionBuilder : auditionsBuilders) {
+            list.add(auditionBuilder.build());
         }
-        return toReturn;
+        return list;
     }
 
     @Override
     public int getTotalPages(String query) {
         Optional<Integer> result;
         if(query == null || query.isEmpty())
-            result = jdbcTemplate.query("SELECT COUNT(*) FROM auditions", TOTAL_AUDITION_ROWMAPPER).stream().findFirst();
+            result = jdbcTemplate.query("SELECT COUNT(*) FROM auditions", TOTAL_AUDITION_ROW_MAPPER).stream().findFirst();
         else
-            result = jdbcTemplate.query("SELECT COUNT(*) FROM auditions WHERE title LIKE ?", new Object[] {"%" + query + "%"},TOTAL_AUDITION_ROWMAPPER).stream().findFirst();
+            result = jdbcTemplate.query("SELECT COUNT(*) FROM auditions WHERE title LIKE ?", new Object[] {"%" + query + "%"}, TOTAL_AUDITION_ROW_MAPPER).stream().findFirst();
         //TODO Math.ceil casteado a int puede castear un double muy grande y generar una excepcion
         //TODO tamaño int es la maxima page
         return result.map(integer -> (int) Math.ceil(integer.doubleValue() / PAGE_SIZE)).orElse(0);
     }
+
     @Override
     public long getMaxAuditionId() {
         return jdbcTemplate.query("SELECT max(id) FROM auditions", (rs,i) -> rs.getLong("max") ).stream().findFirst().orElse(0L);
