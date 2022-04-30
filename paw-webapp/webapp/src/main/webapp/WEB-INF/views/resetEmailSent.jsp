@@ -28,7 +28,7 @@
 
     <form method="post" action="${resendEmailUrl}">
         <input type="hidden" name="email" value="${email}"/>
-        <button type="submit" class="resend-button" id="resendButton">
+        <button type="submit" class="resend-button" id="resendButton" disabled = true>
             <spring:message code="email_sent.resend" /></button>
     </form>
 
