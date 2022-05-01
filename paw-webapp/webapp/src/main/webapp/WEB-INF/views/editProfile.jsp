@@ -50,15 +50,6 @@
         </div>
 
         <div>
-                <form:label class="form-label" path="profileImage" >
-                    <spring:message code="editProfile.form.image"/>
-                </form:label>
-                <form:input type="file" class="form-input" path="profileImage" accept="image/png, image/jpeg" />
-                <form:errors path="profileImage" element="p" cssClass="error"/>
-                <button class="insertImageButton"> <spring:message code="editProfile.form.imageButton"/></button>
-        </div>
-
-        <div>
             <form:label class="form-label" path="description">
                 <spring:message code="edituser.form.description"/>
             </form:label>
@@ -72,6 +63,19 @@
         </div>
 
     </form:form>
+
+    <div>
+        <%--TODO PONER ESTO BIEN--%>
+        <img src="<c:url value="/resources/images/band.jpg"/>"
+        <spring:message code="profile.img.alt" var="img"/> alt="${img}" >
+            <div>
+                <form:label class="form-label" path="profileImage" >
+                    <spring:message code="editProfile.form.image"/>
+                </form:label>
+                <form:input type="file" path="profileImage" accept="image/png, image/jpeg" />
+                <form:errors path="profileImage" element="p" cssClass="error"/>
+            </div>
+    </div>
 
     <div>
         <div class="form-label">
