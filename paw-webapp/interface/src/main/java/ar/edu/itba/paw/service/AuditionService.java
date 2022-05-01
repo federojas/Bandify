@@ -26,8 +26,4 @@ public interface AuditionService {
 
     void sendApplicationEmail(long id, User user, String message);
 
-    List<Application> getAllApplications(long bandId);
-
-    List<Application> getApplicationsByState(long bandId, ApplicationState state);
-
 }

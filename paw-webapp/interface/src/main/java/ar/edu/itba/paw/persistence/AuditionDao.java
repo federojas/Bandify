@@ -19,7 +19,4 @@ public interface AuditionDao {
 
     List<Audition> getBandAuditions(long userId);
 
-    List<Application> getApplicationsByState(long bandId, ApplicationState state);
-
-    List<Application> getAllApplications(long bandId);
 }

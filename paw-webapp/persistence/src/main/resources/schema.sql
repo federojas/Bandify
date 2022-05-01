@@ -94,13 +94,12 @@ CREATE TABLE IF NOT EXISTS profileImages
    FOREIGN KEY (userId) REFERENCES users ON DELETE CASCADE
 );
 
-CREATE TYPE applicationState AS ENUM ('ACCEPTED','REJECTED','PENDING');
-
+-- TODO: usar enum para state
 CREATE TABLE IF NOT EXISTS applications
 (
     auditionId INTEGER NOT NULL,
     applicantId INTEGER NOT NULL,
-    state applicationState NOT NULL,
+    state TEXT NOT NULL,
     PRIMARY KEY(auditionId,applicantId),
     FOREIGN KEY (auditionId) REFERENCES auditions(id) ON DELETE CASCADE,
     FOREIGN KEY (applicantId) REFERENCES users(id) ON DELETE CASCADE

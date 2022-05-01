@@ -1,7 +1,7 @@
 package ar.edu.itba.paw.service;
 
-import ar.edu.itba.paw.persistence.*;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
+import ar.edu.itba.paw.persistence.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,70 +16,56 @@ import java.net.URL;
 import java.util.*;
 
 @Service
-public class AuditionServiceImpl implements AuditionService {
-
-    // TODO: pasar las cosas de aplicar al applicationService.
-
-    private final AuditionDao auditionDao;
+public class ApplicationServiceImpl implements ApplicationService {
+    private final ApplicationDao applicationDao;
     private final MailingService mailingService;
     private final UserService userService;
-    private final MessageSource messageSource;
+    private final AuditionService auditionService;
     private final Environment environment;
-
+    private final MessageSource messageSource;
     private static final Logger LOGGER = LoggerFactory.getLogger(AuditionServiceImpl.class);
 
     @Autowired
-    public AuditionServiceImpl(final AuditionDao auditionDao,
-                               final MailingService mailingService,
-                               final UserService userService,
-                               final MessageSource messageSource,
-                               final Environment environment) {
-        this.auditionDao = auditionDao;
+    public ApplicationServiceImpl(final ApplicationDao applicationDao,
+                                  final MailingService mailingService,
+                                  final UserService userService,
+                                  final AuditionService auditionService,
+                                  final Environment environment,
+                                  final MessageSource messageSource) {
+        this.applicationDao = applicationDao;
         this.mailingService = mailingService;
         this.userService = userService;
-        this.messageSource = messageSource;
+        this.auditionService = auditionService;
         this.environment = environment;
+        this.messageSource = messageSource;
+    }
+
+
+    @Override
+    public List<Application> getAllApplications(long bandId) {
+        return applicationDao.getAllApplications(bandId);
     }
 
     @Override
-    public Optional<Audition> getAuditionById(long id) {
-        return auditionDao.getAuditionById(id);
+    public List<Application> getApplicationsByState(long bandId, ApplicationState state) {
+        return applicationDao.getApplicationsByState(bandId, state);
     }
 
     @Override
-    public Audition create(Audition.AuditionBuilder builder) {
-        return auditionDao.create(builder);
+    public List<Application> getAuditionApplications(long auditionId) {
+        return null;
     }
 
     @Override
-    public List<Audition> getAll(int page) {
-        return auditionDao.getAll(page);
+    public List<Application> getAuditionApplicationsByState(long bandId, ApplicationState state) {
+        return null;
     }
 
     @Override
-    public int getTotalPages(String query) {
-        return auditionDao.getTotalPages(query);
-    }
+    public void apply(long auditionId, User user, String message) {
 
-    @Override
-    public long getMaxAuditionId() {
-        return auditionDao.getMaxAuditionId();
-    }
-
-    @Override
-    public List<Audition> search(int page, String query) {
-        return auditionDao.search(page, query);
-    }
-
-    @Override
-    public List<Audition> getBandAuditions(long userId) {
-        return auditionDao.getBandAuditions(userId);
-    }
-
-    @Override
-    public void sendApplicationEmail(long id, User user, String message) {
         try {
-            Optional<Audition> aud = getAuditionById(id);
+            Optional<Audition> aud = auditionService.getAuditionById(auditionId);
             if (aud.isPresent()) {
                 Locale locale = LocaleContextHolder.getLocale();
                 final String url = new URL("http", environment.getRequiredProperty("app.base.url"), "/paw-2022a-03/").toString();
@@ -92,10 +78,9 @@ public class AuditionServiceImpl implements AuditionService {
                     mailingService.sendEmail(user, bandEmail,
                             messageSource.getMessage("audition-application.subject",null,locale),
                             "audition-application", mailData, locale);
-                }else {
+                } else {
                     throw new UserNotFoundException();
                 }
-
             }
         } catch (MessagingException e) {
             LOGGER.warn("Audition application email threw messaging exception");
@@ -104,4 +89,8 @@ public class AuditionServiceImpl implements AuditionService {
         }
     }
 
+    @Override
+    public void setApplicationState(long auditionId, long applicantId, ApplicationState state) {
+
+    }
 }
