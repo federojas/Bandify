@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="<c:url value="/resources/css/profile.css" />"/>
 </head>
 <body>
-<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
 
 
 <jsp:include page="../components/navbar.jsp">
@@ -107,14 +106,19 @@
                         <div class="my-4"></div>
 
                         <!-- Right Side -->
-                        <div class=" mx-2 h-70 about-section">
+                        <div class=" mx-2 h-70 about-section-profile">
 
                             <!-- About Section -->
                             <div class="about-section-biografy">
 
                                 <div>
                                 <h1 class="auditions-title" ><spring:message code="profile.biography"/> </h1>
-                                <p><spring:message code="profile.emptyBiography"/> </p>
+                                    <c:if test="${user.getDescription()==null}" >
+                                            <p><spring:message code="profile.emptyBiography"/> </p>
+                                    </c:if>
+                                    <c:if test="${!(user.getDescription()==null)}" >
+                                        <c:out value="${user.getDescription()}"></c:out>
+                                    </c:if>
                                 </div>
                             </div>
                             <!-- End of about section -->
@@ -130,7 +134,7 @@
                             </span>
                             <span class="tracking-wide "><spring:message code="profile.about"/></span>
                         </div>
-                        <div class="">
+                        <div>
                             <ul>
                                 <li class="pt-2">
                                     <sec:authorize access="hasRole('BAND')">
