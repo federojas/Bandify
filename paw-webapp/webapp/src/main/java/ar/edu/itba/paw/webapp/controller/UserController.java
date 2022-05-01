@@ -5,10 +5,7 @@ import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.service.AuditionService;
 import ar.edu.itba.paw.service.UserService;
 import ar.edu.itba.paw.service.VerificationTokenService;
-import ar.edu.itba.paw.webapp.form.NewPasswordForm;
-import ar.edu.itba.paw.webapp.form.ResetPasswordForm;
-import ar.edu.itba.paw.webapp.form.UserArtistForm;
-import ar.edu.itba.paw.webapp.form.UserBandForm;
+import ar.edu.itba.paw.webapp.form.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -97,6 +96,42 @@ public class UserController {
         if(user.isBand())
             mav.addObject("auditions", auditionService.getBandAuditions(user.getId()));
         return mav;
+    }
+
+    @RequestMapping(value = "/profile/edit", method = {RequestMethod.GET})
+    public ModelAndView editProfile(@ModelAttribute("userEditForm") final UserEditForm userEditForm) {
+        ModelAndView mav = new ModelAndView("views/editProfile");
+        List<String> experiences = new ArrayList<String>();
+        experiences.add("Experiencia 1");
+        experiences.add("Experiencia 2");
+        experiences.add("Experiencia 3");
+        mav.addObject("experienceList", experiences);
+
+        return mav;
+    }
+
+    @RequestMapping(value = "/profile/edit", method = {RequestMethod.POST})
+    public ModelAndView postEditProfile(@Valid @ModelAttribute("userEditForm") final UserEditForm userEditForm,
+                                        final BindingResult errors) {
+        if (errors.hasErrors()) {
+            return editProfile(userEditForm);
+        }
+
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        Optional<User> optionalUser = userService.findByEmail(auth.getName());
+//        User user = optionalUser.orElseThrow(UserNotFoundException::new);
+//
+//        User.UserBuilder userBuilder = new User.UserBuilder(user.getEmail(), userEditForm.getPassword(),
+//                userEditForm.getName(), user.isBand(), user.isArtist())
+//                .surname(userEditForm.getSurname())
+//                .description(userEditForm.getDescription())
+//                .experience(userEditForm.getExperience())
+//                .genre(userEditForm.getGenre());
+//
+//        userService.update(userBuilder);
+
+        return profile();
+
     }
 
     @RequestMapping(value = "/verify")
