@@ -1,9 +1,7 @@
 package ar.edu.itba.paw.service;
 
-import ar.edu.itba.paw.persistence.User;
+import ar.edu.itba.paw.persistence.*;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
-import ar.edu.itba.paw.persistence.Audition;
-import ar.edu.itba.paw.persistence.AuditionDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,5 +100,15 @@ public class AuditionServiceImpl implements AuditionService {
         } catch (MalformedURLException e) {
             LOGGER.warn("Audition application email threw url exception");
         }
+    }
+
+    @Override
+    public List<Application> getAllApplications(long bandId) {
+        return auditionDao.getAllApplications(bandId);
+    }
+
+    @Override
+    public List<Application> getApplicationsByState(long bandId, ApplicationState state) {
+        return auditionDao.getApplicationsByState(bandId, state);
     }
 }

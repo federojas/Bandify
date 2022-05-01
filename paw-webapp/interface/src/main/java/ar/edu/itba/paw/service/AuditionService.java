@@ -1,5 +1,7 @@
 package ar.edu.itba.paw.service;
 
+import ar.edu.itba.paw.persistence.Application;
+import ar.edu.itba.paw.persistence.ApplicationState;
 import ar.edu.itba.paw.persistence.User;
 import ar.edu.itba.paw.persistence.Audition;
 
@@ -23,4 +25,9 @@ public interface AuditionService {
     List<Audition> getBandAuditions(long userId);
 
     void sendApplicationEmail(long id, User user, String message);
+
+    List<Application> getAllApplications(long bandId);
+
+    List<Application> getApplicationsByState(long bandId, ApplicationState state);
+
 }

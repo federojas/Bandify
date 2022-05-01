@@ -18,4 +18,8 @@ public interface AuditionDao {
     List<Audition> search(int page, String query);
 
     List<Audition> getBandAuditions(long userId);
+
+    List<Application> getApplicationsByState(long bandId, ApplicationState state);
+
+    List<Application> getAllApplications(long bandId);
 }
