@@ -77,12 +77,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void editUser(User.UserBuilder userBuilder, List<String> genresNames, List<String> rolesNames) {
-        /*
         long id = findByEmail(userBuilder.getEmail()).orElseThrow(UserNotFoundException::new).getId();
         userDao.editUser(id,userBuilder);
-        genreService.addUserGenres(genresNames,id);
-        roleService.addUserRoles(rolesNames,id);
-        */
+        genreService.updateUserGenres(genresNames,id);
+        roleService.updateUserRoles(rolesNames,id);
     }
 
     @Override

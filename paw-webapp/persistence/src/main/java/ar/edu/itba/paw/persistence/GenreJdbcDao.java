@@ -66,20 +66,16 @@ public class GenreJdbcDao implements GenreDao {
         return jdbcTemplate.query("SELECT genres.id,genres.genre FROM genres JOIN userGenres ON genres.id = userGenres.genreId JOIN users ON userGenres.userId = users.id",GENRE_ROW_MAPPER).stream().collect(Collectors.toSet());
     }
 
-    @Override
-    public void addUserGenres(List<String> genresNames, long userId) {
-        Set<Genre> genres = getGenresByNames(genresNames);
-        final Map<String, Object> userGenreData = new HashMap<>();
-        userGenreData.put("userId", userId);
-        userGenreData.put("genreId", 0);
-        for(Genre genre : genres) {
-            userGenreData.replace("genreId", genre.getId());
-            jdbcUserGenreInsert.execute(userGenreData);
-        }
-    }
 
     @Override
     public void updateUserGenres(Set<Genre> newGenres, long userId) {
-        // TODO: terminar
+        jdbcTemplate.update("DELETE FROM userGenres WHERE userId = ?", new Object[] {userId});
+        final Map<String, Object> userGenreData = new HashMap<>();
+        userGenreData.put("userId", userId);
+        userGenreData.put("genreId", 0);
+        for(Genre genre : newGenres) {
+            userGenreData.replace("genreId", genre.getId());
+            jdbcUserGenreInsert.execute(userGenreData);
+        }
     }
 }

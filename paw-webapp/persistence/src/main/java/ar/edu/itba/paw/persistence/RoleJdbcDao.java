@@ -67,23 +67,14 @@ public class RoleJdbcDao implements RoleDao {
     }
 
     @Override
-    public void addUserRoles(List<String> rolesNames, long userId) {
-        Set<Role> roles = getRolesByNames(rolesNames);
+    public void updateUserRoles(Set<Role> newRoles, long userId) {
+        jdbcTemplate.update("DELETE FROM userRoles WHERE userId = ?", new Object[] {userId});
         final Map<String, Object> userRoleData = new HashMap<>();
         userRoleData.put("userId", userId);
         userRoleData.put("roleId", 0);
-        for(Role role : roles) {
+        for(Role role : newRoles) {
             userRoleData.replace("roleId", role.getId());
             jdbcUserRoleInsert.execute(userRoleData);
-        }
-    }
-
-    @Override
-    public void updateUserRoles(Set<Role> newRoles, long userId) {
-        // TODO: terminar
-        for(Role role : newRoles) {
-            jdbcTemplate.update("INSERT INTO userRoles SELECT ?,? WHERE NOT EXISTS (SELECT userId,roleId FROM userRoles WHERE userId = ? and roleId = ? );",
-                            new Object[]{userId,role.getId(),userId,role.getId()});
         }
     }
 }
