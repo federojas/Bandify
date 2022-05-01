@@ -42,7 +42,7 @@
                         </sec:authorize>
                         <div style=" display: flex; justify-content: end;">
                             <a href="<c:url value="/profile/edit" />">
-                                <button class="edit-btn hover:bg-sky-700">
+                                <button class="edit-btn hover:bg-sky-700 shadow-sm">
                                     <spring:message code="profile.edit.alt" var="edit"/>
 
                                     <img src="/resources/icons/edit-white-icon.svg"
@@ -56,7 +56,31 @@
                     </div>
                     <h1 class="full-name">
                         <c:out value=" ${user.name}" /></h1>
-
+                    <ul>
+                        <li class="pt-2">
+                            <sec:authorize access="hasRole('BAND')">
+                                <spring:message code="profile.bandName"/>
+                            </sec:authorize>
+                            <sec:authorize access="hasRole('ARTIST')">
+                                <spring:message code="profile.firstName"/>
+                            </sec:authorize>
+                            <c:out value="${user.getName()}"/>
+                        </li>
+                        <sec:authorize access="hasRole('ARTIST')">
+                            <hr>
+                            <li class="pt-2">
+                                <spring:message code="profile.surname"/>
+                                <c:out value=" ${user.getSurname()}"/>
+                            </li>
+                            <hr>
+                        </sec:authorize>
+                        <hr>
+                        <li class="pt-2">
+                            <spring:message code="profile.mail"/>
+                            <c:out value="${user.getEmail()}"/>
+                        </li>
+                        <hr>
+                    </ul>
                     <ul
                             class="status-box hover:text-gray-700 hover:shadow ">
                         <li class="flex items-center py-3">
@@ -70,98 +94,78 @@
                                         class="bg-green-500 py-1 px-2 rounded text-white text-sm"><spring:message code="register.band_word"/> </span></span>
                             </sec:authorize>
                         </li>
-<%--                                                        <li class="flex items-center py-3">--%>
-<%--                                                    <span><spring:message code="profile.memberSince"/>--%>
-<%--                                                    </span>--%>
-<%--                                                            <span class="ml-auto">Nov 07, 2016</span>--%>
-<%--                                                        </li>--%>
                     </ul>
-                </div>
-                <!-- End of profile card -->
-<%--                <div class="profile-btns">--%>
-<%--                    <a href="<c:url value="/profile/edit" />">--%>
-<%--                        <button class="edit-btn">--%>
-<%--                            <spring:message code="profile.edit.alt" var="edit"/>--%>
 
-<%--                            <img src="/resources/icons/edit.svg"--%>
-<%--                                 alt="${edit}"--%>
-<%--                                 class="icon-img"--%>
-<%--                            />--%>
-<%--                            <spring:message code="profile.editProfile"/>--%>
-<%--                        </button>--%>
-<%--                    </a>--%>
-<%--                </div>--%>
+                </div>
             </div>
             <!-- Right Side -->
             <div class="w-full md:w-9/12 mx-2 h-64">
                 <!-- About Section -->
                 <div class="bg-white p-3 shadow-sm rounded-sm">
-                    <div class="flex items-center space-x-2 font-semibold text-gray-900 leading-8">
-
-
-
+                    <div class="space-x-2 font-semibold text-gray-900 leading-8">
                         <!-- End of profile card -->
                         <div class="my-4"></div>
 
                         <!-- Right Side -->
-                        <div class="w-full md:w-9/12 mx-2 h-70">
+                        <div class=" mx-2 h-70 about-section">
+
                             <!-- About Section -->
-                            <div class="bg-white p-3 shadow-sm rounded-sm">
-                                <div class="flex items-center space-x-2 font-semibold text-gray-900 leading-8">
-                        <span clas="text-indigo-900">
-                            <spring:message code="profile.user.alt" var="userimg"/>
+                            <div class="about-section-biografy">
 
-                              <img src="<c:url value="/resources/icons/user.svg"/>" class="user-icon" alt="${userimg}"/>
-                                </span>
-                                    <span class="tracking-wide "><spring:message code="profile.about"/></span>
-                                </div>
-                                <div class="text-gray-700 flex justify-start">
-                                    <ul>
-                                        <li class="pt-2">
-                                            <sec:authorize access="hasRole('BAND')">
-                                                <spring:message code="profile.bandName"/>
-                                            </sec:authorize>
-                                            <sec:authorize access="hasRole('ARTIST')">
-                                                <spring:message code="profile.firstName"/>
-                                            </sec:authorize>
-                                            <c:out value="${user.getName()}"/>
-                                        </li>
-                                        <sec:authorize access="hasRole('ARTIST')">
-                                            <hr>
-                                            <li class="pt-2">
-                                                <spring:message code="profile.surname"/>
-                                                <c:out value=" ${user.getSurname()}"/>
-                                            </li>
-                                            <hr>
-                                        </sec:authorize>
-
-                                        <%--                            <li class="pt-2">--%>
-                                        <%--                                <spring:message code="profile.experience"></spring:message> ---%>
-                                        <%--                            </li>--%>
-                                        <%--                            <hr>--%>
-                                        <%--                            <li class="pt-2">--%>
-                                        <%--                                <spring:message code="profile.Education"></spring:message> ---%>
-                                        <%--                            </li>--%>
-                                        <%--                            <hr>--%>
-                                        <%--                            <li class="pt-2">--%>
-                                        <%--                                <spring:message code="profile.gender"></spring:message> ---%>
-                                        <%--                            </li>--%>
-                                        <hr>
-                                        <li class="pt-2">
-                                            <spring:message code="profile.mail"/>
-                                            <c:out value="${user.getEmail()}"/>
-                                        </li>
-                                        <%--                            <hr>--%>
-                                        <%--                            <li class="pt-2">--%>
-                                        <%--                                <spring:message code="profile.birth"></spring:message> ---%>
-                                        <%--                            </li>--%>
-                                    </ul>
+                                <div>
+                                <h1 class="auditions-title" ><spring:message code="profile.biography"/> </h1>
+                                <p><spring:message code="profile.emptyBiography"/> </p>
                                 </div>
                             </div>
                             <!-- End of about section -->
 
                             </span>
 
+                        </div>
+                    </div>
+                    <div class="user-data">
+                        <div class="about-section-heading">
+                            <spring:message code="profile.user.alt" var="userimg"/>
+                            <img src="<c:url value="/resources/icons/user.svg"/>" class="user-icon" alt="${userimg}"/>
+                            </span>
+                            <span class="tracking-wide "><spring:message code="profile.about"/></span>
+                        </div>
+                        <div class="">
+                            <ul>
+                                <li class="pt-2">
+                                    <sec:authorize access="hasRole('BAND')">
+                                        <spring:message code="profile.bandName"/>
+                                    </sec:authorize>
+                                    <sec:authorize access="hasRole('ARTIST')">
+                                        <spring:message code="profile.firstName"/>
+                                    </sec:authorize>
+                                    <c:out value="${user.getName()}"/>
+                                </li>
+                                <sec:authorize access="hasRole('ARTIST')">
+                                    <hr>
+                                    <li class="pt-2">
+                                        <spring:message code="profile.surname"/>
+                                        <c:out value=" ${user.getSurname()}"/>
+                                    </li>
+                                    <hr>
+                                </sec:authorize>
+                                <hr>
+                                <li class="pt-2">
+                                    <spring:message code="profile.experience"/>
+                                    <c:out value="experiencia(MOCK)"/>
+                                </li>
+                                <hr>
+                                <li class="pt-2">
+                                    <spring:message code="profile.preferedGenres"/>
+                                    <c:out value="generos de preferencia (MOCK)"/>
+                                </li>
+                                <hr>
+                                <li class="pt-2">
+                                    <spring:message code="profile.roles"/>
+                                    <c:out value="roles que puede cumplir(MOCK)"/>
+                                </li>
+                                <hr>
+                            </ul>
                         </div>
                     </div>
                     <br/>

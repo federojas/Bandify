@@ -52,14 +52,6 @@ body {
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
-.postCard-button-0 {
-    padding: 0.5rem 1.25rem;
-    color: #ffffff;
-    font-weight: 600;
-    line-height: 1.25rem;
-    border-radius: 9999px;
-    background-color: #6c0c84;
-}
 .edit-btn {
     margin: 0.5rem;
     /*padding: 0.5rem;*/
@@ -72,7 +64,37 @@ body {
     border-radius: 9999px;
     color: #ffffff;
 }
+.about-section{
+    display: flex;
+    justify-content: center;
+}
+.about-section-biografy{
+    background-color: white;
+    width: 100%;
+    padding: 1rem;
+    margin: 1rem;
+}
 
+.about-section-list{
+    padding: 1rem;
+    display: flex;
+    justify-content: start;
+}
+.about-section-heading{
+    display: flex;
+    justify-content: start;
+    padding: 1rem;
+}
+.about-section-data{
+    display: flex;
+    justify-content: start;
+}
+.user-data{
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    padding: 1rem;
+    margin: 1rem;
+}
 .logout-btn {
     margin: 0.5rem;
     padding: 0.5rem;
