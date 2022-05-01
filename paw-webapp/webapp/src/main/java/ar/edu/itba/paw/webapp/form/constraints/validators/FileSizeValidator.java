@@ -11,8 +11,8 @@ public class FileSizeValidator implements ConstraintValidator<MaxFileSize, Commo
     private long size;
 
     @Override
-    public void initialize(MaxFileSize constraint) {
-        this.size = constraint.value();
+    public void initialize(MaxFileSize size) {
+        this.size = size.value();
     }
 
     @Override

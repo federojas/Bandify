@@ -22,7 +22,7 @@
 
     <%--@elvariable id="editUserForm" type="ar.edu.itba.paw.webapp.form.UserEditForm"--%>
     <form:form method="post" acceptCharset="utf-8" modelAttribute="userEditForm"
-               action="${editProfileUrl}" id="editUserForm">
+               action="${editProfileUrl}" id="editUserForm" enctype="multipart/form-data">
         <div>
             <form:label class="form-label" path="name">
                 <spring:message code="register.form.name"/>
@@ -47,7 +47,15 @@
             <form:errors path="surname" element="p" cssClass="error"> </form:errors>
             <p class="error" id="wrongArtistSurname" style="display: none"><spring:message
                     code="register.form.invalidSurname"/></p>
+        </div>
 
+        <div>
+                <form:label class="form-label" path="profileImage" >
+                    <spring:message code="editProfile.form.image"/>
+                </form:label>
+                <form:input type="file" class="form-input" path="profileImage" accept="image/png, image/jpeg" />
+                <form:errors path="profileImage" element="p" cssClass="error"/>
+                <button class="insertImageButton"> <spring:message code="editProfile.form.imageButton"/></button>
         </div>
 
         <div>
@@ -62,9 +70,6 @@
             <p class="error" id="wrongArtistDescription" style="display: none"><spring:message
                     code="edituser.form.invalidDescription"/></p>
         </div>
-
-
-
 
     </form:form>
 

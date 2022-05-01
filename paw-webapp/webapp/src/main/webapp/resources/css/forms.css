@@ -162,3 +162,10 @@ body {
     width: 32px;
     margin-left: 1rem;
 }
+
+.insertImageButton {
+    border-radius:4px;
+    font-size: 20px;
+    padding:4px;
+    margin-top: 5px
+}

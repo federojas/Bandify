@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.webapp.form;
 
+import ar.edu.itba.paw.webapp.form.constraints.annotations.ImageType;
 import ar.edu.itba.paw.webapp.form.constraints.annotations.MaxFileSize;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
@@ -20,7 +21,8 @@ public class UserEditForm {
     @Size(max = 500)
     private String description;
 
-    @MaxFileSize(8)
+    @MaxFileSize(8) //mb
+    @ImageType(types = {"image/png", "image/jpeg"})
     private CommonsMultipartFile profileImage;
 
     public CommonsMultipartFile getProfileImage() {
