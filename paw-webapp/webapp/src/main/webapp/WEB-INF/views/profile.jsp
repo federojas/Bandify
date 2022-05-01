@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="<c:url value="/resources/css/profile.css" />"/>
 </head>
 <body>
-<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
 
 
 <jsp:include page="../components/navbar.jsp">
@@ -107,7 +106,7 @@
                         <div class="my-4"></div>
 
                         <!-- Right Side -->
-                        <div class=" mx-2 h-70 about-section">
+                        <div class=" mx-2 h-70 about-section-profile">
 
                             <!-- About Section -->
                             <div class="about-section-biografy">
