@@ -23,7 +23,8 @@ public class UserJdbcDao implements UserDao {
             rs.getString("name"),
             rs.getBoolean("isBand"),
             rs.getBoolean("isEnabled"))
-            .id(rs.getLong("id")).surname(rs.getString("surname"));
+            .id(rs.getLong("id")).surname(rs.getString("surname"))
+            .description(rs.getString("description"));
 
     @Autowired
     public UserJdbcDao(final DataSource ds) {
