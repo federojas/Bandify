@@ -1,6 +1,6 @@
 package ar.edu.itba.paw.service;
 
-import ar.edu.itba.paw.model.User;
+import ar.edu.itba.paw.persistence.User;
 
 import javax.mail.MessagingException;
 import java.util.Locale;

@@ -2,9 +2,9 @@
 //package ar.edu.itba.paw.persistence;
 //
 //import static org.junit.Assert.*;
-//import ar.edu.itba.paw.model.Genre;
-//import ar.edu.itba.paw.model.Location;
-//import ar.edu.itba.paw.model.Role;
+//import ar.edu.itba.paw.persistence.Genre;
+//import ar.edu.itba.paw.persistence.Location;
+//import ar.edu.itba.paw.persistence.Role;
 //import org.junit.*;
 //import org.junit.runner.RunWith;
 //import org.springframework.beans.factory.annotation.Autowired;

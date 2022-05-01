@@ -1,6 +1,6 @@
 package ar.edu.itba.paw.service;
 
-import ar.edu.itba.paw.model.User;
+import ar.edu.itba.paw.persistence.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Async;

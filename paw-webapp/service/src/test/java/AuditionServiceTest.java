@@ -1,6 +1,6 @@
-//import ar.edu.itba.paw.model.Genre;
-//import ar.edu.itba.paw.model.Location;
-//import ar.edu.itba.paw.model.Role;
+//import ar.edu.itba.paw.persistence.Genre;
+//import ar.edu.itba.paw.persistence.Location;
+//import ar.edu.itba.paw.persistence.Role;
 //import ar.edu.itba.paw.persistence.Audition;
 //import ar.edu.itba.paw.persistence.AuditionDao;
 //import ar.edu.itba.paw.service.AuditionServiceImpl;

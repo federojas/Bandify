@@ -1,9 +1,5 @@
 package ar.edu.itba.paw.persistence;
 
-import ar.edu.itba.paw.model.Genre;
-import ar.edu.itba.paw.model.Location;
-import ar.edu.itba.paw.model.Role;
-
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.HashSet;

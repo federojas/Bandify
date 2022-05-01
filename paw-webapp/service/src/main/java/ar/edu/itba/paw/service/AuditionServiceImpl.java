@@ -1,7 +1,6 @@
 package ar.edu.itba.paw.service;
 
-import ar.edu.itba.paw.model.User;
-import ar.edu.itba.paw.model.exceptions.AuditionNotFoundException;
+import ar.edu.itba.paw.persistence.User;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.persistence.Audition;
 import ar.edu.itba.paw.persistence.AuditionDao;

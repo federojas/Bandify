@@ -1,6 +1,6 @@
 package ar.edu.itba.paw.webapp.controller;
 
-import ar.edu.itba.paw.model.User;
+import ar.edu.itba.paw.persistence.User;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.service.AuditionService;
 import ar.edu.itba.paw.service.UserService;

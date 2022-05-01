@@ -1,6 +1,6 @@
 package ar.edu.itba.paw.service;
 
-import ar.edu.itba.paw.model.Genre;
+import ar.edu.itba.paw.persistence.Genre;
 
 import java.util.List;
 import java.util.Set;

@@ -1,8 +1,8 @@
-package ar.edu.itba.paw.model;
+package ar.edu.itba.paw.persistence;
 
 public class User {
     private long id;
-    private String email, password, name, surname;
+    private String email, password, name, surname, description;
     private boolean isBand, isEnabled;
 
     private User(UserBuilder builder) {
@@ -13,6 +13,7 @@ public class User {
         this.isBand = builder.isBand;
         this.isEnabled = builder.isEnabled;
         this.id = builder.id;
+        this.description = builder.description;
     }
 
     public long getId() {
@@ -43,9 +44,13 @@ public class User {
         return isEnabled;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
     public static class UserBuilder {
         private long id;
-        private String email, password, name, surname;
+        private String email, password, name, surname, description;
         private boolean isBand, isEnabled;
 
         public UserBuilder(String email, String password, String name, boolean isBand, boolean isEnabled) {
@@ -68,6 +73,11 @@ public class User {
 
         public UserBuilder password(String password) {
             this.password = password;
+            return this;
+        }
+
+        public UserBuilder description(String description) {
+            this.description = description;
             return this;
         }
 
@@ -112,6 +122,10 @@ public class User {
 
         public boolean isEnabled() {
             return isEnabled;
+        }
+
+        public String getDescription() {
+            return description;
         }
     }
 }

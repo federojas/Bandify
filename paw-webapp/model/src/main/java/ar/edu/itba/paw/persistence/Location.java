@@ -1,10 +1,10 @@
-package ar.edu.itba.paw.model;
+package ar.edu.itba.paw.persistence;
 
 public class Location {
     private long id;
     private String name;
 
-    public Location(long id, String name) {
+    protected Location(long id, String name) {
         this.id = id;
         this.name = name;
     }

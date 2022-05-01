@@ -1,10 +1,6 @@
 
 package ar.edu.itba.paw.persistence;
 
-import ar.edu.itba.paw.model.Genre;
-import ar.edu.itba.paw.model.Location;
-import ar.edu.itba.paw.model.Role;
-import ar.edu.itba.paw.model.exceptions.LocationNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;

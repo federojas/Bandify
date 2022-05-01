@@ -1,5 +1,5 @@
 package ar.edu.itba.paw.service;
-import ar.edu.itba.paw.model.Role;
+import ar.edu.itba.paw.persistence.Role;
 
 import java.util.List;
 import java.util.Set;

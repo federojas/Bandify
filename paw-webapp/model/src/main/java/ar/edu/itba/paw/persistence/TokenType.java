@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.model;
+package ar.edu.itba.paw.persistence;
 
 public enum TokenType {
     VERIFY("verify"),
@@ -14,7 +14,4 @@ public enum TokenType {
         return type;
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
 }

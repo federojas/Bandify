@@ -1,6 +1,5 @@
 package ar.edu.itba.paw.persistence;
 
-import ar.edu.itba.paw.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -82,8 +81,8 @@ public class UserJdbcDao implements UserDao {
 
     @Override
     public void editUser(long id, User.UserBuilder userBuilder) {
-        jdbcTemplate.update("UPDATE users SET name = ?, surname = ? WHERE id = ?",
-                new Object[]{userBuilder.getName(), userBuilder.getSurname(), id});
+        jdbcTemplate.update("UPDATE users SET name = ?, surname = ?, description = ? WHERE id = ?",
+                new Object[]{userBuilder.getName(), userBuilder.getSurname(), userBuilder.getDescription(), id});
     }
 
 }

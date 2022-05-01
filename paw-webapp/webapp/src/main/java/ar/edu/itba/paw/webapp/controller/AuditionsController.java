@@ -1,9 +1,9 @@
 package ar.edu.itba.paw.webapp.controller;
 
-import ar.edu.itba.paw.model.Genre;
-import ar.edu.itba.paw.model.Location;
-import ar.edu.itba.paw.model.Role;
-import ar.edu.itba.paw.model.User;
+import ar.edu.itba.paw.persistence.Genre;
+import ar.edu.itba.paw.persistence.Location;
+import ar.edu.itba.paw.persistence.Role;
+import ar.edu.itba.paw.persistence.User;
 import ar.edu.itba.paw.model.exceptions.AuditionNotFoundException;
 import ar.edu.itba.paw.model.exceptions.LocationNotFoundException;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;

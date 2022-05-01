@@ -1,10 +1,9 @@
 package ar.edu.itba.paw.service;
 
-import ar.edu.itba.paw.model.User;
+import ar.edu.itba.paw.persistence.User;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 public interface UserService {
     Optional<User> getUserById(long id);

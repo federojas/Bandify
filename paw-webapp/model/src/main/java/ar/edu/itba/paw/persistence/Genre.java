@@ -1,12 +1,12 @@
-package ar.edu.itba.paw.model;
+package ar.edu.itba.paw.persistence;
 
 import java.util.Objects;
 
-public class Role {
+public class Genre {
     private long id;
     private String name;
 
-    public Role(long id, String name) {
+    protected Genre(long id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -23,8 +23,8 @@ public class Role {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Role role = (Role) o;
-        return id == role.id && Objects.equals(name, role.name);
+        Genre genre = (Genre) o;
+        return id == genre.id && Objects.equals(name, genre.name);
     }
 
     @Override

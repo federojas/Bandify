@@ -27,6 +27,7 @@ CREATE TABLE IF NOT EXISTS users
     surname TEXT,
     isBand BOOLEAN,
     isEnabled BOOLEAN,
+    description TEXT,
    -- profileImage BIGINT,
     UNIQUE(email)
 );
