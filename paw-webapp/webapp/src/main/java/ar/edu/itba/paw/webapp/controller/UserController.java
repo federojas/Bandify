@@ -31,17 +31,19 @@ public class UserController {
     private final AuditionService auditionService;
     private final RoleService roleService;
     private final GenreService genreService;
+    private final ImageService imageService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     public UserController(UserService userService, VerificationTokenService verificationTokenService,
-                          AuditionService auditionService, RoleService roleService, GenreService genreService) {
+                          AuditionService auditionService, RoleService roleService, GenreService genreService, ImageService imageService) {
         this.userService = userService;
         this.verificationTokenService = verificationTokenService;
         this.auditionService = auditionService;
         this.roleService = roleService;
         this.genreService = genreService;
+        this.imageService = imageService;
     }
 
     @RequestMapping(value = {"/register","/registerBand", "/registerArtist"},
@@ -106,30 +108,10 @@ public class UserController {
     }
 
     @RequestMapping( value = "/profile/profile-image/{userId}", method = {RequestMethod.GET})
-    public void profilePicture(@PathVariable(value = "userId") Long userId,
+    public void profilePicture(@PathVariable(value = "userId") long userId,
                                HttpServletResponse response) throws IOException {
-
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Optional<User> optionalUser = userService.findByEmail(auth.getName());
-        User user = optionalUser.orElseThrow(UserNotFoundException::new);
-
-        Optional<byte[]> image = userService.getProfilePictureByUserId(user.getId());
-        InputStream stream;
-        if(!image.isPresent()) {
-            File file;
-            if(user.isBand())
-                file = ResourceUtils.getFile("classpath:images/band.jpg");
-            else
-                file = ResourceUtils.getFile("classpath:images/artist.png");
-
-            InputStream fileStream = new FileInputStream(file);
-
-            byte[] defaultImage = IOUtils.toByteArray(Objects.requireNonNull(fileStream));
-
-            stream = new ByteArrayInputStream(defaultImage);
-        } else
-            stream = new ByteArrayInputStream(image.get());
-
+        byte[] image = imageService.getProfilePicture(userId, userService.getUserById(userId).orElseThrow(UserNotFoundException::new).isBand());
+        InputStream stream = new ByteArrayInputStream(image);
         IOUtils.copy(stream, response.getOutputStream());
     }
 

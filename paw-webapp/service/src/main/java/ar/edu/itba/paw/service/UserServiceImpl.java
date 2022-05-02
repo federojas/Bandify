@@ -132,8 +132,4 @@ public class UserServiceImpl implements UserService {
         autoLogin(userId);
     }
 
-    @Override
-    public Optional<byte[]> getProfilePictureByUserId(long userId) {
-        return imageService.getProfilePicture(userId);
-    }
 }
