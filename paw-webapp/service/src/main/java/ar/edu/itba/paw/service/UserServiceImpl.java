@@ -76,11 +76,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void editUser(User.UserBuilder userBuilder, List<String> genresNames, List<String> rolesNames) {
+    public void editUser(User.UserBuilder userBuilder, List<String> genresNames, List<String> rolesNames, byte[] image) {
         long id = findByEmail(userBuilder.getEmail()).orElseThrow(UserNotFoundException::new).getId();
         userDao.editUser(id,userBuilder);
         genreService.updateUserGenres(genresNames,id);
         roleService.updateUserRoles(rolesNames,id);
+        imageService.updateProfilePicture(id,image);
     }
 
     @Override

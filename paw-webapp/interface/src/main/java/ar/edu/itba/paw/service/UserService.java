@@ -26,4 +26,5 @@ public interface UserService {
 
     void editUser(User.UserBuilder userBuilder, List<String> genresNames, List<String> rolesNames);
 
+    void editUser(User.UserBuilder userBuilder, List<String> genresNames, List<String> rolesNames, byte[] image);
 }
