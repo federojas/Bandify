@@ -11,13 +11,12 @@
 <div>
     <c:url value="/search" var="searchUrl"/>
     <spring:message code="search.placeholder" var="searchPlaceholder"/>
-    <div class="search">
-        <form action="${searchUrl}" method="get">
-            <input type="text" class="searchTerm" placeholder="${searchPlaceholder}" name="query"
-            >
-
-        </form>
-    </div>
+    <form action="${searchUrl}" method="get" class="searchForm">
+        <div class="search">
+            <input type="text" maxlength="80" size="43" placeholder="${searchPlaceholder}" name="query">
+            <button type="submit" aria-hidden="true"></button>
+        </div>
+    </form>
 </div>
 </body>
 </html>
