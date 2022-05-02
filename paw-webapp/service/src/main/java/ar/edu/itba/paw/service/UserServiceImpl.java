@@ -131,19 +131,10 @@ public class UserServiceImpl implements UserService {
         autoLogin(userId);
     }
 
-
     @Override
     public void updateProfilePicture(long userId, byte[] image) {
         if(getUserById(userId).isPresent())
             imageService.updateProfilePicture(userId, image);
-        else
-            throw new UserNotFoundException();
-    }
-
-    @Override
-    public void createProfilePicture(long userId, byte[] image) {
-        if(getUserById(userId).isPresent())
-            imageService.createProfilePicture(userId, image);
         else
             throw new UserNotFoundException();
     }

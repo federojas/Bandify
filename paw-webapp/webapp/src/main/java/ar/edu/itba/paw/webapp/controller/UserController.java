@@ -6,20 +6,22 @@ import ar.edu.itba.paw.service.AuditionService;
 import ar.edu.itba.paw.service.UserService;
 import ar.edu.itba.paw.service.VerificationTokenService;
 import ar.edu.itba.paw.webapp.form.*;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.ResourceUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.io.*;
+import java.util.*;
 
 @Controller
 public class UserController {
@@ -98,14 +100,51 @@ public class UserController {
         return mav;
     }
 
+    @RequestMapping( value = "/profile/profile-image/{userId}", method = {RequestMethod.GET})
+    public void profilePicture(@PathVariable(value = "userId") Long userId,
+                               HttpServletResponse response) throws IOException {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> optionalUser = userService.findByEmail(auth.getName());
+        User user = optionalUser.orElseThrow(UserNotFoundException::new);
+
+        Optional<byte[]> image = userService.getProfilePictureByUserId(user.getId());
+        InputStream stream = null;
+        if(!image.isPresent()) {
+            File file;
+            if(user.isBand())
+                file = ResourceUtils.getFile("classpath:images/band.jpg");
+            else
+                file = ResourceUtils.getFile("classpath:images/artist.png");
+
+            InputStream fileStream = new FileInputStream(file);
+
+            byte[] defaultImage = IOUtils.toByteArray(Objects.requireNonNull(fileStream));
+
+            stream = new ByteArrayInputStream(defaultImage);
+        } else
+            stream = new ByteArrayInputStream(image.get());
+
+        IOUtils.copy(stream, response.getOutputStream());
+    }
+
+    //TODO: MODULARIZAR CODIGO REPETIDO EN AUTH USER
     @RequestMapping(value = "/profile/edit", method = {RequestMethod.GET})
     public ModelAndView editProfile(@ModelAttribute("userEditForm") final UserEditForm userEditForm) {
         ModelAndView mav = new ModelAndView("views/editProfile");
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> optionalUser = userService.findByEmail(auth.getName());
+        User user = optionalUser.orElseThrow(UserNotFoundException::new);
+
         List<String> experiences = new ArrayList<String>();
         experiences.add("Experiencia 1");
         experiences.add("Experiencia 2");
         experiences.add("Experiencia 3");
         mav.addObject("experienceList", experiences);
+
+
+        mav.addObject("userId", user.getId());
 
         return mav;
     }
@@ -117,10 +156,14 @@ public class UserController {
             return editProfile(userEditForm);
         }
 
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        Optional<User> optionalUser = userService.findByEmail(auth.getName());
-//        User user = optionalUser.orElseThrow(UserNotFoundException::new);
-//
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> optionalUser = userService.findByEmail(auth.getName());
+        User user = optionalUser.orElseThrow(UserNotFoundException::new);
+
+        if(!userEditForm.getProfileImage().isEmpty()) {
+            userService.updateProfilePicture(user.getId(), userEditForm.getProfileImage().getBytes());
+        }
+
 //        User.UserBuilder userBuilder = new User.UserBuilder(user.getEmail(), userEditForm.getPassword(),
 //                userEditForm.getName(), user.isBand(), user.isArtist())
 //                .surname(userEditForm.getSurname())

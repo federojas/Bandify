@@ -25,26 +25,16 @@
                 <!-- Profile Card -->
                 <div class="bg-white box p-3 border-t-4  ">
                     <div class="image overflow-hidden">
-                        <sec:authorize access="hasRole('ARTIST')">
-                            <img class="h-auto w-full mx-auto"
-                                <spring:message code="profile.img.alt" var="img"/>
-                                 src="<c:url value="/resources/images/artist.png"/>"
-                                 alt="${img}">
-                        </sec:authorize>
-                        <sec:authorize access="hasRole('BAND')">
-
-                            <img class="h-auto w-full mx-auto"
-                                <spring:message code="profile.img.alt" var="img"/>
-                                 src="<c:url value="/resources/images/band.jpg"/>"
-                                 alt="${img}">
-
-                        </sec:authorize>
+                        <img class="profileImage"
+                        <spring:message code="profile.img.alt" var="img"/>
+                             src="<c:url value="/profile/profile-image/${user.id}"/>"
+                             alt="${img}">
                         <div style=" display: flex; justify-content: end;">
                             <a href="<c:url value="/profile/edit" />">
                                 <button class="edit-btn hover:bg-sky-700 shadow-sm">
                                     <spring:message code="profile.edit.alt" var="edit"/>
 
-                                    <img src="/resources/icons/edit-white-icon.svg"
+                                    <img src="<c:url value="/resources/icons/edit-white-icon.svg"/>"
                                          alt="${edit}"
                                          class="icon-img"
                                     />
@@ -63,20 +53,20 @@
                             <sec:authorize access="hasRole('ARTIST')">
                                 <spring:message code="profile.firstName"/>
                             </sec:authorize>
-                            <c:out value="${user.getName()}"/>
+                            <c:out value="${user.name}"/>
                         </li>
                         <sec:authorize access="hasRole('ARTIST')">
                             <hr>
                             <li class="pt-2">
                                 <spring:message code="profile.surname"/>
-                                <c:out value=" ${user.getSurname()}"/>
+                                <c:out value=" ${user.surname}"/>
                             </li>
                             <hr>
                         </sec:authorize>
                         <hr>
                         <li class="pt-2">
                             <spring:message code="profile.mail"/>
-                            <c:out value="${user.getEmail()}"/>
+                            <c:out value="${user.email}"/>
                         </li>
                         <hr>
                     </ul>
@@ -113,18 +103,15 @@
 
                                 <div>
                                 <h1 class="auditions-title" ><spring:message code="profile.biography"/> </h1>
-                                    <c:if test="${user.getDescription()==null}" >
+                                    <c:if test="${user.description==null}" >
                                             <p><spring:message code="profile.emptyBiography"/> </p>
                                     </c:if>
-                                    <c:if test="${!(user.getDescription()==null)}" >
-                                        <c:out value="${user.getDescription()}"></c:out>
+                                    <c:if test="${!(user.description==null)}" >
+                                        <c:out value="${user.description}"/>
                                     </c:if>
                                 </div>
                             </div>
                             <!-- End of about section -->
-
-                            </span>
-
                         </div>
                     </div>
                     <div class="user-data">
@@ -143,13 +130,13 @@
                                     <sec:authorize access="hasRole('ARTIST')">
                                         <spring:message code="profile.firstName"/>
                                     </sec:authorize>
-                                    <c:out value="${user.getName()}"/>
+                                    <c:out value="${user.name}"/>
                                 </li>
                                 <sec:authorize access="hasRole('ARTIST')">
                                     <hr>
                                     <li class="pt-2">
                                         <spring:message code="profile.surname"/>
-                                        <c:out value=" ${user.getSurname()}"/>
+                                        <c:out value=" ${user.surname}"/>
                                     </li>
                                     <hr>
                                 </sec:authorize>

@@ -169,3 +169,16 @@ body {
     padding:4px;
     margin-top: 5px
 }
+
+.editProfilePicture {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.editProfileImg {
+    height: 200px;
+    width: 250px;
+    border-width: 2px;
+    border-color: black;
+}

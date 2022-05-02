@@ -2,6 +2,7 @@ package ar.edu.itba.paw.service;
 
 import ar.edu.itba.paw.persistence.ImageDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -19,16 +20,6 @@ public class ImageServiceImpl implements ImageService {
     @Override
     public void updateProfilePicture(long userId, byte[] image) {
         imageDao.updateProfilePicture(userId, image);
-    }
-
-    @Override
-    public void deleteProfilePicture(long userId) {
-        imageDao.deleteProfilePicture(userId);
-    }
-
-    @Override
-    public void createProfilePicture(long userId, byte[] image) {
-        imageDao.crateProfilePicture(userId, image);
     }
 
     @Override

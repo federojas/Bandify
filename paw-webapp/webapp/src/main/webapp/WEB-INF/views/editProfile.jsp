@@ -50,6 +50,19 @@
         </div>
 
         <div>
+            <form:label class="form-label" path="profileImage" >
+                <spring:message code="editProfile.form.image"/>
+            </form:label>
+            <br/>
+            <div class = "editProfilePicture">
+                <spring:message code="profile.img.alt" var="img"/>
+                <img src="<c:url value="/profile/profile-image/${userId}"/>" class="editProfileImg" alt="${img}"/>
+                <form:input type="file" path="profileImage" accept="image/png, image/jpeg" />
+                <form:errors path="profileImage" element="p" cssClass="error"/>
+            </div>
+        </div>
+
+        <div>
             <form:label class="form-label" path="description">
                 <spring:message code="edituser.form.description"/>
             </form:label>
@@ -60,19 +73,6 @@
             <form:errors path="description" element="p" cssClass="error"> </form:errors>
             <p class="error" id="wrongArtistDescription" style="display: none"><spring:message
                     code="edituser.form.invalidDescription"/></p>
-        </div>
-
-        <div>
-                <%--TODO PONER ESTO BIEN--%>
-            <spring:message code="profile.img.alt" var="img"/>
-            <img src="<c:url value="/resources/images/band.jpg"/>" alt="${img}"/>
-            <div>
-                <form:label class="form-label" path="profileImage" >
-                    <spring:message code="editProfile.form.image"/>
-                </form:label>
-                <form:input type="file" path="profileImage" accept="image/png, image/jpeg" />
-                <form:errors path="profileImage" element="p" cssClass="error"/>
-            </div>
         </div>
 
     </form:form>
