@@ -130,7 +130,6 @@
                         <div class="about-section-heading">
                             <spring:message code="profile.user.alt" var="userimg"/>
                             <img src="<c:url value="/resources/icons/user.svg"/>" class="user-icon" alt="${userimg}"/>
-                            </span>
                             <span class="tracking-wide "><spring:message code="profile.about"/></span>
                         </div>
                         <div>

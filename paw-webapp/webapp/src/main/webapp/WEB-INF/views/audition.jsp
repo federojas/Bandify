@@ -104,8 +104,11 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
           <div style="display: flex; justify-content: end">
             <form class="postcard-delete-btn" action="/profile/deleteAudition/${audition.id}" method="post">
               <button type="submit">
-                <spring:message code="audition.delete" var="delete"/>
-                <img src="<c:url value="/resources/icons/trash.svg"/>" class="user-icon" alt="${delete}"/>
+                <spring:message code="audition.alt.delete" var="delete"/>
+                <div class="postcard-delete-btn-container">
+                  <img src="<c:url value="/resources/icons/trash.svg"/>" class="user-icon" alt="${delete}"/>
+                  <spring:message code="audition.delete" />
+                </div>
               </button>
             </form>
           </div>
