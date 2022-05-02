@@ -21,7 +21,8 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public void updateProfilePicture(long userId, byte[] image) {
-        imageDao.updateProfilePicture(userId, image);
+        if (image.length > 0)
+            imageDao.updateProfilePicture(userId, image);
     }
 
     @Override

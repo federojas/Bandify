@@ -4,8 +4,10 @@ import ar.edu.itba.paw.webapp.form.constraints.annotations.ImageType;
 import ar.edu.itba.paw.webapp.form.constraints.annotations.MaxFileSize;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
+
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 import java.util.List;
 

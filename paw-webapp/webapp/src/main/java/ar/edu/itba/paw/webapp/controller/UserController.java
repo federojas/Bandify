@@ -151,7 +151,10 @@ public class UserController {
         genreList.removeAll(userGenres);
         roleList.removeAll(userRoles);
 
-        mav.addObject("userId", user.getId());
+        mav.addObject("user", user);
+        userEditForm.setName(user.getName());
+        userEditForm.setSurname(user.getSurname());
+        userEditForm.setDescription(user.getDescription());
         mav.addObject("userRoles", userRoles);
         mav.addObject("userGenres", userGenres);
         mav.addObject("roleList", roleList);

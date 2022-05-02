@@ -56,8 +56,8 @@
             <br/>
             <div class = "editProfilePicture">
                 <spring:message code="profile.img.alt" var="img"/>
-                <img src="<c:url value="/profile/profile-image/${userId}"/>" class="editProfileImg" alt="${img}"/>
-                <form:input type="file" path="profileImage" accept="image/png, image/jpeg" />
+                <img src="<c:url value="/profile/profile-image/${user.id}"/>" class="editProfileImg" alt="${img}"/>
+                <form:input id="selectImage" type="file" path="profileImage" accept="image/png, image/jpeg" />
                 <form:errors path="profileImage" element="p" cssClass="error"/>
             </div>
         </div>

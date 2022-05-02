@@ -20,7 +20,7 @@ public class ImageTypeValidator implements ConstraintValidator<ImageType, Common
 
     @Override
     public boolean isValid(CommonsMultipartFile image, ConstraintValidatorContext constraintValidatorContext) {
-        if(image == null)
+        if(image.getSize() == 0)
             return true;
         return types.contains(image.getContentType());
     }
