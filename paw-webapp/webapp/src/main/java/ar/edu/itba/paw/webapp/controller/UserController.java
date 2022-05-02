@@ -109,7 +109,7 @@ public class UserController {
         User user = optionalUser.orElseThrow(UserNotFoundException::new);
 
         Optional<byte[]> image = userService.getProfilePictureByUserId(user.getId());
-        InputStream stream = null;
+        InputStream stream;
         if(!image.isPresent()) {
             File file;
             if(user.isBand())
