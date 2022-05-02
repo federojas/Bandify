@@ -10,7 +10,7 @@
 <div class="container">
     <spring:message code="img.alt.403" var="img403"/>
     <img src="<c:url value="/resources/images/403.png" />" alt="${img403}" style="margin-bottom: 2rem" />
-    <p class="wrong-para"><spring:message code="404.errorMessage"/></p>
+    <p class="wrong-para"><spring:message code="403.errorMessage"/></p>
 </div>
 </body>
 </html>
