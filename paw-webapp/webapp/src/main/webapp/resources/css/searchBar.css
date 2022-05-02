@@ -39,3 +39,12 @@
 .search > input[type=text]::placeholder {
     color: black;
 }
+.filter-button{
+    max-height: 40px;
+    margin-left: 1rem;
+}
+.filter-button:hover{
+    background-color: #4B5563;
+    border-radius: 10px;
+}
+
