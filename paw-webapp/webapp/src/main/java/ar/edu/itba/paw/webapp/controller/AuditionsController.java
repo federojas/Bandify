@@ -1,13 +1,9 @@
 package ar.edu.itba.paw.webapp.controller;
 
-import ar.edu.itba.paw.persistence.Genre;
-import ar.edu.itba.paw.persistence.Location;
-import ar.edu.itba.paw.persistence.Role;
-import ar.edu.itba.paw.persistence.User;
+import ar.edu.itba.paw.persistence.*;
 import ar.edu.itba.paw.model.exceptions.AuditionNotFoundException;
 import ar.edu.itba.paw.model.exceptions.LocationNotFoundException;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
-import ar.edu.itba.paw.persistence.Audition;
 import ar.edu.itba.paw.service.*;
 import ar.edu.itba.paw.webapp.form.ApplicationForm;
 import ar.edu.itba.paw.webapp.form.AuditionForm;
@@ -33,18 +29,21 @@ public class AuditionsController {
     private final GenreService genreService;
     private final LocationService locationService;
     private final UserService userService;
+    private final ApplicationService applicationService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AuditionsController.class);
 
     @Autowired
     public AuditionsController(final AuditionService auditionService,
                                final GenreService genreService, final LocationService locationService,
-                               final RoleService roleService, final UserService userService) {
+                               final RoleService roleService, final UserService userService,
+                               final ApplicationService applicationService) {
         this.auditionService = auditionService;
         this.roleService = roleService;
         this.genreService = genreService;
         this.locationService = locationService;
         this.userService = userService;
+        this.applicationService = applicationService;
     }
 
     @RequestMapping(value = "/", method = {RequestMethod.GET})
@@ -104,6 +103,8 @@ public class AuditionsController {
         } else {
             throw new AuditionNotFoundException();
         }
+
+        mav.addObject("applications", applicationService.getAuditionApplications(id));
         return mav;
     }
 
@@ -119,7 +120,7 @@ public class AuditionsController {
         User user = optionalUser.orElseThrow(UserNotFoundException::new);
 
         // TODO: FOTO NO FUNCIONA EN AUDITION-APPLICATION.HTML
-        auditionService.sendApplicationEmail(id, user,
+        applicationService.apply(id, user,
                 applicationForm.getMessage());
 
         return success();

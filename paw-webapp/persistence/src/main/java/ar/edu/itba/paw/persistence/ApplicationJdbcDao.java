@@ -75,6 +75,7 @@ public class ApplicationJdbcDao implements ApplicationDao {
 
     @Override
     public Application createApplication(Application.ApplicationBuilder applicationBuilder) {
+        System.out.println("la cree");
         final Map<String, Object> applicationData = new HashMap<>();
         applicationData.put("auditionId", applicationBuilder.getAuditionId());
         applicationData.put("applicantId", applicationBuilder.getApplicantId());

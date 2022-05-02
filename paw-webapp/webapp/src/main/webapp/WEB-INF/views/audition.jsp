@@ -98,7 +98,15 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
 
       </div>
 
-
+      <div>
+        <c:forEach var="app" items="${applications}" varStatus="loop">
+          <jsp:include page="../components/application.jsp">
+            <jsp:param name="applicantName" value="${app.applicantName}" />
+            <jsp:param name="applicantSurname" value="${app.applicantSurname}" />
+            <jsp:param name="applicantId" value="${app.applicantId}" />
+          </jsp:include>
+        </c:forEach>
+      </div>
     </div>
   </body>
 </html>
