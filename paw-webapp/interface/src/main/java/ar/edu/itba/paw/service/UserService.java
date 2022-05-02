@@ -22,6 +22,4 @@ public interface UserService {
 
     void editUser(long userId, String name, String surname, String description, List<String> genresNames, List<String> rolesNames, byte[] image);
 
-    Optional<byte[]> getProfilePictureByUserId(long userId);
-
 }
