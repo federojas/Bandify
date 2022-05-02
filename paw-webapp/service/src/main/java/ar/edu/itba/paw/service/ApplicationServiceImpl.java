@@ -64,6 +64,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Override
     public void apply(long auditionId, User user, String message) {
 
+        applicationDao.createApplication(new Application.ApplicationBuilder(auditionId,user.getId(),ApplicationState.PENDING));
         try {
             Optional<Audition> aud = auditionService.getAuditionById(auditionId);
             if (aud.isPresent()) {

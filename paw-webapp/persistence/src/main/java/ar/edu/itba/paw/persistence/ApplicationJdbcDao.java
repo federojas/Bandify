@@ -7,9 +7,10 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.util.LinkedList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Repository
@@ -18,9 +19,11 @@ public class ApplicationJdbcDao implements ApplicationDao {
     @Autowired
     public ApplicationJdbcDao(final DataSource ds) {
         this.jdbcTemplate = new JdbcTemplate(ds);
+        this.jdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("applications");
     }
 
     private final JdbcTemplate jdbcTemplate;
+    private final SimpleJdbcInsert jdbcInsert;
 
     private final static RowMapper<Application.ApplicationBuilder> APPLICATION_ROW_MAPPER =
             (rs, i) -> new Application.ApplicationBuilder(
@@ -68,5 +71,15 @@ public class ApplicationJdbcDao implements ApplicationDao {
                         " WHERE auditionId = ? AND state = ?"
                 , new Object[]{auditionId, state.getState().toUpperCase(Locale.ROOT)}, APPLICATION_ROW_MAPPER);
         return list.stream().map(Application.ApplicationBuilder::build).collect(Collectors.toList());
+    }
+
+    @Override
+    public Application createApplication(Application.ApplicationBuilder applicationBuilder) {
+        final Map<String, Object> applicationData = new HashMap<>();
+        applicationData.put("auditionId", applicationBuilder.getAuditionId());
+        applicationData.put("applicantId", applicationBuilder.getApplicantId());
+        applicationData.put("state", applicationBuilder.getState().getState().toUpperCase(Locale.ROOT));
+        jdbcInsert.execute(applicationData);
+        return applicationBuilder.build();
     }
 }

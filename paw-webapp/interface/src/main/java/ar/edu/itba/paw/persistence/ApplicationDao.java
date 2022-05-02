@@ -10,4 +10,6 @@ public interface ApplicationDao {
     List<Application> getAuditionApplications(long auditionId);
 
     List<Application> getAuditionApplicationsByState(long auditionId, ApplicationState state);
+
+    Application createApplication(Application.ApplicationBuilder applicationBuilder);
 }
