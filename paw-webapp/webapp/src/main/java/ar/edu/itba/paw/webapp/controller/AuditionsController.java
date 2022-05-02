@@ -60,8 +60,7 @@ public class AuditionsController {
         final ModelAndView mav = new ModelAndView("views/auditions");
         // TODO: Error controller
         int lastPage = auditionService.getTotalPages(null);
-        if(lastPage == 0)
-            lastPage = 1;
+
         if(page < 0 || page > lastPage)
             return new ModelAndView("errors/404");
         List<Audition> auditionList = auditionService.getAll(page);

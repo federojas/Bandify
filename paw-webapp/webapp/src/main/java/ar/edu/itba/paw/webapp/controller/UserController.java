@@ -2,6 +2,7 @@ package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.persistence.Genre;
 import ar.edu.itba.paw.persistence.Role;
+import ar.edu.itba.paw.persistence.Audition;
 import ar.edu.itba.paw.persistence.User;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.service.*;
@@ -100,8 +101,27 @@ public class UserController {
         Optional<User> optionalUser = userService.findByEmail(auth.getName());
         User user = optionalUser.orElseThrow(UserNotFoundException::new);
         mav.addObject("user", user);
-        if(user.isBand())
-            mav.addObject("auditions", auditionService.getBandAuditions(user.getId()));
+        return mav;
+    }
+
+    @RequestMapping(value = "/profile/auditions", method = {RequestMethod.GET})
+    public ModelAndView profileAuditions(@RequestParam(value = "page", defaultValue = "1") int page) {
+        ModelAndView mav = new ModelAndView("views/profileAuditions");
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> optionalUser = userService.findByEmail(auth.getName());
+        User user = optionalUser.orElseThrow(UserNotFoundException::new);
+
+        int lastPage = auditionService.getTotalBandAuditionPages(user.getId());
+        if(lastPage == 0)
+            lastPage = 1;
+        if(page < 0 || page > lastPage)
+            return new ModelAndView("errors/404");
+
+        List<Audition> auditionList = auditionService.getBandAuditions(user.getId(), page);
+        mav.addObject("auditionList", auditionList);
+        mav.addObject("currentPage", page);
+        mav.addObject("lastPage", lastPage);
         return mav;
     }
 

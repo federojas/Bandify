@@ -108,11 +108,11 @@ public class AuditionJdbcDao implements AuditionDao {
     }
 
     @Override
-    public List<Audition> getBandAuditions(long userId) {
-        StringBuilder sb = new StringBuilder(GET_FULL_AUD_QUERY).append(" WHERE bandId = ?" +
+    public List<Audition> getBandAuditions(long userId, int page) {
+        StringBuilder sb = new StringBuilder(GET_FULL_AUD_QUERY).append(" WHERE auditions.bandId = ? AND auditions.id IN (SELECT id FROM auditions WHERE bandID = ? LIMIT ? OFFSET ?)" +
                 " ORDER BY creationdate DESC, title ASC");
         final String query = sb.toString();
-        List<Audition.AuditionBuilder> auditionsBuilders = jdbcTemplate.query(query,new Object[] { userId }, AUDITION_MAPPER);
+        List<Audition.AuditionBuilder> auditionsBuilders = jdbcTemplate.query(query,new Object[] { userId, userId, PAGE_SIZE,(page -1) * PAGE_SIZE }, AUDITION_MAPPER);
         // TODO: pasar a funcional
         List<Audition> list = new LinkedList<>();
         for(Audition.AuditionBuilder auditionBuilder : auditionsBuilders) {
@@ -145,6 +145,12 @@ public class AuditionJdbcDao implements AuditionDao {
             result = jdbcTemplate.query("SELECT COUNT(*) FROM auditions WHERE title LIKE ?", new Object[] {"%" + query + "%"}, TOTAL_AUDITION_ROW_MAPPER).stream().findFirst();
         //TODO Math.ceil casteado a int puede castear un double muy grande y generar una excepcion
         //TODO tamaño int es la maxima page
+        return result.map(integer -> (int) Math.ceil(integer.doubleValue() / PAGE_SIZE)).orElse(0);
+    }
+
+    @Override
+    public int getTotalBandAuditionPages(long userId) {
+        Optional<Integer> result = jdbcTemplate.query("SELECT COUNT(*) FROM auditions WHERE bandId = ?", new Object[] {userId} ,TOTAL_AUDITION_ROW_MAPPER).stream().findFirst();
         return result.map(integer -> (int) Math.ceil(integer.doubleValue() / PAGE_SIZE)).orElse(0);
     }
 

@@ -17,5 +17,7 @@ public interface AuditionDao {
 
     List<Audition> search(int page, String query);
 
-    List<Audition> getBandAuditions(long userId);
+    List<Audition> getBandAuditions(long userId, int page);
+
+    int getTotalBandAuditionPages(long userId);
 }

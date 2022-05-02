@@ -72,8 +72,13 @@ public class AuditionServiceImpl implements AuditionService {
     }
 
     @Override
-    public List<Audition> getBandAuditions(long userId) {
-        return auditionDao.getBandAuditions(userId);
+    public List<Audition> getBandAuditions(long userId, int page) {
+        return auditionDao.getBandAuditions(userId, page);
+    }
+
+    @Override
+    public int getTotalBandAuditionPages(long userId) {
+        return auditionDao.getTotalBandAuditionPages(userId);
     }
 
     @Override

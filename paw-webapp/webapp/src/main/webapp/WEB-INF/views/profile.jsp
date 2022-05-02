@@ -84,7 +84,19 @@
                             </sec:authorize>
                         </li>
                     </ul>
-
+                    <sec:authorize access="hasRole('BAND')">
+                    <div class = "auditions-div">
+                            <ul>
+                                <li class="pt-2">
+                                    <a href="<c:url value="/profile/auditions"/>">
+                                        <button class="auditions-btn hover:bg-sky-700 shadow-sm">
+                                            <spring:message code="profile.auditions"/>
+                                        </button>
+                                    </a>
+                                </li>
+                            </ul>
+                    </div>
+                    </sec:authorize>
                 </div>
             </div>
             <!-- Right Side -->
@@ -160,43 +172,6 @@
                         </div>
                     </div>
                     <br/>
-                    <!-- End of about section -->
-                    <sec:authorize access="hasRole('BAND')">
-                        <c:if test="${auditions.size() > 0}">
-                            <div class="auditions-title-div">
-                                <h2 class="auditions-title"><spring:message code="profile.auditions"/></h2>
-                            </div>
-                        </c:if>
-                        <div class = "auditions-div">
-                            <c:forEach var="audition" items="${auditions}" varStatus="loop">
-                                    <c:set
-                                            var="lookingFor"
-                                            value="${audition.lookingFor}"
-                                            scope="request"
-                                    />
-                                    <c:set
-                                            var="musicGenres"
-                                            value="${audition.musicGenres}"
-                                            scope="request"
-                                    />
-                                    <jsp:include page="../components/postCard.jsp">
-                                        <jsp:param name="id" value="${audition.id}" />
-                                        <jsp:param name="postCard" value="${1}" />
-                                        <jsp:param name="auditionDate" value="${audition.timeElapsed}" />
-                                        <jsp:param name="auditionTitle" value="${audition.title}" />
-                                        <jsp:param
-                                                name="auditionLocation"
-                                                value="${audition.location.name}"
-                                        />
-                                        <jsp:param
-                                                name="auditionDescription"
-                                                value="${audition.description}"
-                                        />
-                                    </jsp:include>
-                            </c:forEach>
-                        </div>
-
-                    </sec:authorize>
                 </div>
 
             </div>
