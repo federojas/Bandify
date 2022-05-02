@@ -62,12 +62,10 @@
                     code="edituser.form.invalidDescription"/></p>
         </div>
 
-    </form:form>
-
-    <div>
-        <%--TODO PONER ESTO BIEN--%>
-        <img src="<c:url value="/resources/images/band.jpg"/>"
-        <spring:message code="profile.img.alt" var="img"/> alt="${img}" >
+        <div>
+                <%--TODO PONER ESTO BIEN--%>
+            <spring:message code="profile.img.alt" var="img"/>
+            <img src="<c:url value="/resources/images/band.jpg"/>" alt="${img}"/>
             <div>
                 <form:label class="form-label" path="profileImage" >
                     <spring:message code="editProfile.form.image"/>
@@ -75,7 +73,9 @@
                 <form:input type="file" path="profileImage" accept="image/png, image/jpeg" />
                 <form:errors path="profileImage" element="p" cssClass="error"/>
             </div>
-    </div>
+        </div>
+
+    </form:form>
 
     <div>
         <div class="form-label">
