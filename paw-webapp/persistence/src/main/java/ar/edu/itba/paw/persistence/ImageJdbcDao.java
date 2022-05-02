@@ -27,7 +27,7 @@ public class ImageJdbcDao implements ImageDao {
 
     @Override
     public void updateProfilePicture(long userId, byte[] image) {
-        jdbcTemplate.update("UPDATE profileimages SET image = ? WHERE userid = ?", image, userId);
+        jdbcTemplate.update("INSERT INTO profileimages values(?,?) ON CONFLICT (userId) DO UPDATE profileimages SET image = ? WHERE userid = ?",userId,image,image, userId);
     }
 
     @Override
