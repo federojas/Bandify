@@ -99,7 +99,16 @@ public class AuditionsController {
             throw new AuditionNotFoundException();
         final ModelAndView mav = new ModelAndView("views/audition");
         Optional<Audition> audition = auditionService.getAuditionById(id);
+
         if (audition.isPresent()) {
+            if(SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
+                Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+                Optional<User> optionalUser = userService.findByEmail(auth.getName());
+                User user = optionalUser.orElseThrow(UserNotFoundException::new);
+                mav.addObject("isOwner", user.getId() == audition.get().getBandId());
+            } else {
+                mav.addObject("isOwner", false);
+            }
             mav.addObject("audition", audition.get());
         } else {
             throw new AuditionNotFoundException();

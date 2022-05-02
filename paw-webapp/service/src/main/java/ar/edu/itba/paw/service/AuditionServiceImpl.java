@@ -82,6 +82,11 @@ public class AuditionServiceImpl implements AuditionService {
     }
 
     @Override
+    public void deleteAuditionById(long id) {
+        auditionDao.deleteAuditionById(id);
+    }
+
+    @Override
     public void sendApplicationEmail(long id, User user, String message) {
         try {
             Optional<Audition> aud = getAuditionById(id);

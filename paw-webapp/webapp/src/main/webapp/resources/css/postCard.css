@@ -90,20 +90,32 @@ button[disabled]{
   word-break: break-word;
   white-space: normal;
 }
-.postCard-button-1 {
+.postcard-delete-btn {
   padding: 0.5rem 1.25rem;
-  margin-right: 0.25rem;
-  margin-bottom: 0.25rem;
-  margin-top: 1rem;
-  transition-property: all;
-  transition-duration: 150ms;
-  transition-timing-function: linear;
-  color: #ef4444;
-  font-size: 0.875rem;
+  background-color: #b91c1c;
+  color: white;
   line-height: 1.25rem;
   font-weight: 700;
-  outline: 0;
+  display: flex;
+  justify-content: center;
+  border-radius: 9999px;
 }
+
+.postcard-delete-btn:hover{
+  background-color: #ff3b3b;
+}
+
+
+.postCard-button-0 {
+  padding: 0.5rem 1.25rem;
+  color: #ffffff;
+  font-weight: 600;
+  line-height: 1.25rem;
+  justify-content: flex-end;
+  border-radius: 9999px;
+  background-color: #6c0c84;
+}
+
 .postCard-div-8 {
   position: relative;
   padding: 1.5rem;
@@ -127,15 +139,7 @@ button[disabled]{
   font-size: 1.125rem;
   line-height: 1.75rem;
 }
-.postCard-button-0 {
-  padding: 0.5rem 1.25rem;
-  color: #ffffff;
-  font-weight: 600;
-  line-height: 1.25rem;
-  justify-content: flex-end;
-  border-radius: 9999px;
-  background-color: #6c0c84;
-}
+
 .postCard-div-10 {
   display: none;
   position: fixed;

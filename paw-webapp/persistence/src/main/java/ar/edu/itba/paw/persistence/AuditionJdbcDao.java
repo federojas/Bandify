@@ -155,6 +155,11 @@ public class AuditionJdbcDao implements AuditionDao {
     }
 
     @Override
+    public void deleteAuditionById(long id) {
+        jdbcTemplate.update("DELETE FROM auditions WHERE id = ?", id);
+    }
+
+    @Override
     public long getMaxAuditionId() {
         return jdbcTemplate.query("SELECT max(id) FROM auditions", (rs,i) -> rs.getLong("max") ).stream().findFirst().orElse(0L);
     }

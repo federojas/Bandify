@@ -1,5 +1,7 @@
 package ar.edu.itba.paw.webapp.controller;
 
+import ar.edu.itba.paw.model.exceptions.AuditionNotFoundException;
+import ar.edu.itba.paw.model.exceptions.AuditionNotOwnedException;
 import ar.edu.itba.paw.persistence.Genre;
 import ar.edu.itba.paw.persistence.Role;
 import ar.edu.itba.paw.persistence.Audition;
@@ -22,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.*;
+import java.security.acl.NotOwnerException;
 import java.util.*;
 
 @Controller
@@ -266,5 +269,36 @@ public class UserController {
     @RequestMapping(value = "/login", method = {RequestMethod.GET})
     public ModelAndView login() {
         return new ModelAndView("views/login");
+    }
+
+    @RequestMapping(value = "/profile/deleteAudition/{id}", method = {RequestMethod.POST})
+    public ModelAndView deleteAudition(@PathVariable long id) {
+
+        // TODO : es necesario este if? sino con el else de abajo seria suficiente creo
+        if(id < 0 || id > auditionService.getMaxAuditionId())
+            throw new AuditionNotFoundException();
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> optionalUser = userService.findByEmail(auth.getName());
+        User user = optionalUser.orElseThrow(UserNotFoundException::new);
+
+        Optional<Audition> audition = auditionService.getAuditionById(id);
+
+        if(!audition.isPresent()) {
+            throw new AuditionNotFoundException();
+        } else if(user.getId() != audition.get().getBandId()) {
+            throw new AuditionNotOwnedException();
+        } else {
+            auditionService.deleteAuditionById(id);
+        }
+
+        return new ModelAndView("redirect:/profile/auditions");
+    }
+
+
+    //TODO ESTA BIEN ESTO?
+    @RequestMapping(value = "/profile/deleteAudition/{id}", method = {RequestMethod.GET})
+    public ModelAndView getDeleteAudition(@PathVariable long id) {
+        return new ModelAndView("redirect:/profile");
     }
 }

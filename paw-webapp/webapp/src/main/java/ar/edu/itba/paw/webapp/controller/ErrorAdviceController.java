@@ -20,6 +20,13 @@ public class ErrorAdviceController {
         return new ModelAndView("errors/404");
     }
 
+    @ExceptionHandler(AuditionNotOwnedException.class)
+    public ModelAndView auditionNotOwned() {
+        LOGGER.warn("Audition is not owned by current user");
+        return new ModelAndView("errors/403");
+    }
+
+
     @ExceptionHandler(GenreNotFoundException.class)
     public ModelAndView genreNotFound() {
         LOGGER.warn("Genre could not be found");

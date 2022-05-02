@@ -87,6 +87,20 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
                   </jsp:include>
                 </div>
               </sec:authorize>
+              <c:if test="${isOwner}">
+                <div>
+<%--                  <a href="<c:url value="/profile/editAudition/${audition.id}"/>">--%>
+<%--                    <button class="auditions-btn hover:bg-sky-700 shadow-sm">--%>
+<%--                      <spring:message code="profile.auditions"/>--%>
+<%--                    </button>--%>
+<%--                  </a>--%>
+                  <form class="postcard-delete-btn" action="/profile/deleteAudition/${audition.id}" method="post">
+                    <button type="submit">
+                      <spring:message code="audition.delete"/>
+                    </button>
+                  </form>
+                </div>
+              </c:if>
             </div>
           </div>
         </div>
