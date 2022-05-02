@@ -75,28 +75,56 @@
                     code="edituser.form.invalidDescription"/></p>
         </div>
 
+
+        <div>
+            <form:label class="form-label" path="musicGenres">
+                <spring:message code="welcome.form.musicGenres"/>
+            </form:label>
+            <form:label class="form-label-legend" for="musicGenres" path="musicGenres"> <spring:message code="audition.form.musicGenres.maxSelect"/> </form:label>
+            <form:select
+                    class="multiple-select form-input"
+                    path="musicGenres"
+                    multiple="true"
+            >
+                <c:forEach var="userGenre" items="${userGenres}" varStatus="loop">
+                    <form:option value="${userGenre.name}" selected="true">
+                        ${userGenre.name}
+                    </form:option>
+                </c:forEach>
+                <c:forEach var="genre" items="${genreList}" varStatus="loop">
+                        <form:option value="${genre.name}">
+                            ${genre.name}
+                        </form:option>
+                </c:forEach>
+
+
+            </form:select>
+            <form:errors path="musicGenres" element="p" cssClass="error">
+            </form:errors>
+        </div>
+        <div>
+            <form:label class="form-label" for="lookingFor" path="lookingFor"> <spring:message code="welcome.form.lookingFor"/> </form:label>
+            <form:label class="form-label-legend" for="lookingFor" path="lookingFor"> <spring:message code="audition.form.lookingFor.maxSelect"/> </form:label>
+            <form:select
+                    class="multiple-select form-input"
+                    path="lookingFor"
+                    multiple="true"
+            >
+                <c:forEach var="userRole" items="${userRoles}" varStatus="loop">
+                    <form:option value="${userRole.name}" selected="true">
+                        ${userRole.name}
+                    </form:option>
+                </c:forEach>
+                <c:forEach var="role" items="${roleList}" varStatus="loop">
+                    <form:option value="${role.name}"> ${role.name} </form:option>
+                </c:forEach>
+
+            </form:select>
+            <form:errors path="lookingFor" element="p" cssClass="error">
+            </form:errors>
+        </div>
     </form:form>
 
-    <div>
-        <div class="form-label">
-            <spring:message code="edituser.form.experience"/>
-        </div>
-        <spring:message code="edituser.form.experienceplaceholder" var="experienceplaceholder"/>
-        <form id="experienceForm" data-list="list" class="addExperienceForm">
-            <input type="text" id="experience" maxlength="50" placeholder="${experienceplaceholder}" class="form-input"
-            />
-            <spring:message code="edituser.form.experienceadd" var="experienceadd"/>
-            <button type="submit" form="experienceForm" class="add-button">
-                <img src="<c:url value="/resources/icons/add.svg" />"  alt="${experienceadd}" />
-            </button>
-
-        </form>
-        <ul id="experienceList">
-            <c:forEach items="${experienceList}" var="experience">
-                <li>${experience}</li>
-            </c:forEach>
-        </ul>
-    </div>
 
     <div class="end-button-div">
         <button

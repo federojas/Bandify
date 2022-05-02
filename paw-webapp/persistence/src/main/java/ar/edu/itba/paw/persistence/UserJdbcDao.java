@@ -81,9 +81,9 @@ public class UserJdbcDao implements UserDao {
     }
 
     @Override
-    public void editUser(long id, User.UserBuilder userBuilder) {
+    public void editUser(long id, String name, String surname, String description) {
         jdbcTemplate.update("UPDATE users SET name = ?, surname = ?, description = ? WHERE id = ?",
-                new Object[]{userBuilder.getName(), userBuilder.getSurname(), userBuilder.getDescription(), id});
+                new Object[]{name, surname, description, id});
     }
 
 }

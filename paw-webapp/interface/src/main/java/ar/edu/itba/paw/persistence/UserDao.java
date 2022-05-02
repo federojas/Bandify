@@ -13,5 +13,5 @@ public interface UserDao {
 
     void verifyUser(long userId);
 
-    void editUser(long id, User.UserBuilder userBuilder);
+    void editUser(long id, String name, String surname, String description);
 }

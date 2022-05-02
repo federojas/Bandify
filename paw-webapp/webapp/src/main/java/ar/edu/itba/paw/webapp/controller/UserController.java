@@ -1,10 +1,10 @@
 package ar.edu.itba.paw.webapp.controller;
 
+import ar.edu.itba.paw.persistence.Genre;
+import ar.edu.itba.paw.persistence.Role;
 import ar.edu.itba.paw.persistence.User;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
-import ar.edu.itba.paw.service.AuditionService;
-import ar.edu.itba.paw.service.UserService;
-import ar.edu.itba.paw.service.VerificationTokenService;
+import ar.edu.itba.paw.service.*;
 import ar.edu.itba.paw.webapp.form.*;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
@@ -29,14 +29,19 @@ public class UserController {
     private final UserService userService;
     private final VerificationTokenService verificationTokenService;
     private final AuditionService auditionService;
+    private final RoleService roleService;
+    private final GenreService genreService;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     public UserController(UserService userService, VerificationTokenService verificationTokenService,
-                          AuditionService auditionService) {
+                          AuditionService auditionService, RoleService roleService, GenreService genreService) {
         this.userService = userService;
         this.verificationTokenService = verificationTokenService;
         this.auditionService = auditionService;
+        this.roleService = roleService;
+        this.genreService = genreService;
     }
 
     @RequestMapping(value = {"/register","/registerBand", "/registerArtist"},
@@ -132,19 +137,23 @@ public class UserController {
     @RequestMapping(value = "/profile/edit", method = {RequestMethod.GET})
     public ModelAndView editProfile(@ModelAttribute("userEditForm") final UserEditForm userEditForm) {
         ModelAndView mav = new ModelAndView("views/editProfile");
-
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> optionalUser = userService.findByEmail(auth.getName());
         User user = optionalUser.orElseThrow(UserNotFoundException::new);
 
-        List<String> experiences = new ArrayList<String>();
-        experiences.add("Experiencia 1");
-        experiences.add("Experiencia 2");
-        experiences.add("Experiencia 3");
-        mav.addObject("experienceList", experiences);
+        Set<Role> roleList = roleService.getAll();
+        Set<Genre> genreList = genreService.getAll();
+        Set<Role> userRoles = roleService.getUserRoles(user.getId());
+        Set<Genre> userGenres = genreService.getUserGenres(user.getId());
 
+        genreList.removeAll(userGenres);
+        roleList.removeAll(userRoles);
 
         mav.addObject("userId", user.getId());
+        mav.addObject("userRoles", userRoles);
+        mav.addObject("userGenres", userGenres);
+        mav.addObject("roleList", roleList);
+        mav.addObject("genreList", genreList);
 
         return mav;
     }
@@ -160,18 +169,9 @@ public class UserController {
         Optional<User> optionalUser = userService.findByEmail(auth.getName());
         User user = optionalUser.orElseThrow(UserNotFoundException::new);
 
-        if(!userEditForm.getProfileImage().isEmpty()) {
-            userService.updateProfilePicture(user.getId(), userEditForm.getProfileImage().getBytes());
-        }
-
-//        User.UserBuilder userBuilder = new User.UserBuilder(user.getEmail(), userEditForm.getPassword(),
-//                userEditForm.getName(), user.isBand(), user.isArtist())
-//                .surname(userEditForm.getSurname())
-//                .description(userEditForm.getDescription())
-//                .experience(userEditForm.getExperience())
-//                .genre(userEditForm.getGenre());
-//
-//        userService.update(userBuilder);
+        userService.editUser(user.getId(), userEditForm.getName(), userEditForm.getSurname(), userEditForm.getDescription(),
+                userEditForm.getMusicGenres(), userEditForm.getLookingFor(),
+                userEditForm.getProfileImage().getBytes());
 
         return profile();
 

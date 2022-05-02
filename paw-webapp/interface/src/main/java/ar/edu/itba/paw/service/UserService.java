@@ -20,11 +20,8 @@ public interface UserService {
 
     void resendUserVerification(String email);
 
-    void updateProfilePicture(long userId, byte[] image);
+    void editUser(long userId, String name, String surname, String description, List<String> genresNames, List<String> rolesNames, byte[] image);
 
     Optional<byte[]> getProfilePictureByUserId(long userId);
 
-    void editUser(User.UserBuilder userBuilder, List<String> genresNames, List<String> rolesNames);
-
-    void editUser(User.UserBuilder userBuilder, List<String> genresNames, List<String> rolesNames, byte[] image);
 }

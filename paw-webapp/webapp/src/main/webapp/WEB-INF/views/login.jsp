@@ -26,7 +26,7 @@
 </jsp:include>
 
 <div class="login-loginform">
-    <jsp:include page="../components/login_form.jsp" />
+    <jsp:include page="../components/loginForm.jsp" />
 </div>
 </body>
 </html>
