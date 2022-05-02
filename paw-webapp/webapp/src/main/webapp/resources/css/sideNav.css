@@ -31,7 +31,9 @@
     transition: 0.3s;
 }
 .sidenav select{
-    padding: 10% 8px 8px 8px;
+    padding:  8px 8px 8px;
+    margin-top: 10%;
+    width: 200px;
     text-decoration: none;
     font-size: 25px;
     color: #111;
@@ -68,4 +70,7 @@
 @media screen and (max-height: 450px) {
     .sidenav {padding-top: 15px;}
     .sidenav a {font-size: 18px;}
+}
+.filter-button-1{
+    display: flex;justify-content: end;margin: 1rem
 }

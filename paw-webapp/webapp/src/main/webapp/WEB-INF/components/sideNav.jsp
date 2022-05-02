@@ -14,7 +14,7 @@
 <div id="mySidenav" class="sidenav">
     <b><h1><spring:message code="sideNav.filter"/></h1></b>
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    <select name="location" id="">
+    <select  id="selectLocation" multiple name="location" id="">
         <option disabled selected><spring:message code="sideNav.location"/> </option>
         <c:forEach
                 var="location"
@@ -26,20 +26,23 @@
             </option>
         </c:forEach>
     </select>
-    <select>
+    <select id="selectGenres" multiple>
         <option disabled selected><spring:message code="sideNav.genres"/> </option>
 
         <c:forEach var="genre" items="${genreList}" varStatus="loop">
             <option value="${genre.name}"> ${genre.name} </option>
         </c:forEach>
     </select>
-    <select>
+    <select id="selectRoles" multiple>
         <option disabled selected><spring:message code="sideNav.roles"/> </option>
 
         <c:forEach var="role" items="${roleList}" varStatus="loop">
             <option value="${role.name}"> ${role.name} </option>
         </c:forEach>
     </select>
+    <div class="filter-button-1">
+        <button  class=" postCard-button-0 hover:bg-sky-700">Filtrar</button>
+    </div>
 </div>
 </body>
 </html>

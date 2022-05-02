@@ -2,7 +2,6 @@
 function openNav() {
     document.getElementById("mySidenav").style.width = "20%";
     document.getElementById("mySidenav").style.padding = "5%";
-
     document.getElementById("main").style.marginLeft = "250px";
 }
 /* Set the width of the side navigation to 0 */
