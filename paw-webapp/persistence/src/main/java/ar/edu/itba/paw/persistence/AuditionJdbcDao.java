@@ -127,7 +127,7 @@ public class AuditionJdbcDao implements AuditionDao {
                 " AND auditions.id IN (SELECT id FROM auditions LIMIT ? OFFSET ?)" +
                 " ORDER BY creationdate DESC, title ASC");
         final String sqlQuery = sb.toString();
-        List<Audition.AuditionBuilder> auditionsBuilders = jdbcTemplate.query(sqlQuery,new Object[] { query, PAGE_SIZE, (page -1) * PAGE_SIZE}, AUDITION_MAPPER);
+        List<Audition.AuditionBuilder> auditionsBuilders = jdbcTemplate.query(sqlQuery,new Object[] { "%" + query.replace("%", "\\%").replace("_", "\\_").toLowerCase() + "%", PAGE_SIZE, (page -1) * PAGE_SIZE}, AUDITION_MAPPER);
         // TODO: pasar a funcional
         List<Audition> list = new LinkedList<>();
         for(Audition.AuditionBuilder auditionBuilder : auditionsBuilders) {
