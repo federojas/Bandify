@@ -24,8 +24,10 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
 
         <!--content-->
         <div class="card-content">
+
           <!--header-->
           <div class="card-header">
+
             <h3 class="title">
               <c:out value="${audition.title}" />
             </h3>
@@ -94,14 +96,18 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
 <%--                      <spring:message code="profile.auditions"/>--%>
 <%--                    </button>--%>
 <%--                  </a>--%>
-                  <form class="postcard-delete-btn" action="/profile/deleteAudition/${audition.id}" method="post">
-                    <button type="submit">
-                      <spring:message code="audition.delete"/>
-                    </button>
-                  </form>
+
                 </div>
               </c:if>
             </div>
+          </div>
+          <div style="display: flex; justify-content: end">
+            <form class="postcard-delete-btn" action="/profile/deleteAudition/${audition.id}" method="post">
+              <button type="submit">
+                <spring:message code="audition.delete" var="delete"/>
+                <img src="<c:url value="/resources/icons/trash.svg"/>" class="user-icon" alt="${delete}"/>
+              </button>
+            </form>
           </div>
         </div>
         <div class="back-auditions-div">
