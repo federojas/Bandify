@@ -10,6 +10,7 @@ import javax.sql.DataSource;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 @Repository
 public class ApplicationJdbcDao implements ApplicationDao {
@@ -39,21 +40,33 @@ public class ApplicationJdbcDao implements ApplicationDao {
         final String sqlQuery = sb.toString();
         List<Application.ApplicationBuilder> list = jdbcTemplate.query(sqlQuery
                 , new Object[]{bandId, state.getState().toUpperCase(Locale.ROOT)}, APPLICATION_ROW_MAPPER);
-        List<Application> toReturn = new LinkedList<>();
-        for(Application.ApplicationBuilder applicationBuilder : list) {
-            toReturn.add(applicationBuilder.build());
-        }
-        return toReturn;
+        return list.stream().map(Application.ApplicationBuilder::build).collect(Collectors.toList());
     }
 
     @Override
     public List<Application> getAllApplications(long bandId) {
         List<Application.ApplicationBuilder> list = jdbcTemplate.query(GET_APPLICATION_QUERY
                 , new Object[]{bandId}, APPLICATION_ROW_MAPPER);
-        List<Application> toReturn = new LinkedList<>();
-        for(Application.ApplicationBuilder applicationBuilder : list) {
-            toReturn.add(applicationBuilder.build());
-        }
-        return toReturn;
+        return list.stream().map(Application.ApplicationBuilder::build).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Application> getAuditionApplications(long auditionId) {
+        List<Application.ApplicationBuilder> list = jdbcTemplate.query("SELECT auditionId,applicantId,state,name,surname FROM applications" +
+                        " JOIN users ON applications.applicantId = users.id" +
+                        " JOIN auditions ON applications.auditionId = auditions.id" +
+                        " WHERE auditionId = ?"
+                , new Object[]{auditionId}, APPLICATION_ROW_MAPPER);
+        return list.stream().map(Application.ApplicationBuilder::build).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Application> getAuditionApplicationsByState(long auditionId, ApplicationState state) {
+        List<Application.ApplicationBuilder> list = jdbcTemplate.query("SELECT auditionId,applicantId,state,name,surname FROM applications" +
+                        " JOIN users ON applications.applicantId = users.id" +
+                        " JOIN auditions ON applications.auditionId = auditions.id" +
+                        " WHERE auditionId = ? AND state = ?"
+                , new Object[]{auditionId, state.getState().toUpperCase(Locale.ROOT)}, APPLICATION_ROW_MAPPER);
+        return list.stream().map(Application.ApplicationBuilder::build).collect(Collectors.toList());
     }
 }

@@ -14,7 +14,7 @@ public interface ApplicationService {
 
     List<Application> getAuditionApplications(long auditionId);
 
-    List<Application> getAuditionApplicationsByState(long bandId, ApplicationState state);
+    List<Application> getAuditionApplicationsByState(long auditionId, ApplicationState state);
 
     void apply(long auditionId, User user, String message);
 

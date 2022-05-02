@@ -53,12 +53,12 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public List<Application> getAuditionApplications(long auditionId) {
-        return null;
+        return applicationDao.getAuditionApplications(auditionId);
     }
 
     @Override
-    public List<Application> getAuditionApplicationsByState(long bandId, ApplicationState state) {
-        return null;
+    public List<Application> getAuditionApplicationsByState(long auditionId, ApplicationState state) {
+        return applicationDao.getAuditionApplicationsByState(auditionId,state);
     }
 
     @Override

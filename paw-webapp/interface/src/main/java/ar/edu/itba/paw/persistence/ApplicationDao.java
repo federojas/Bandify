@@ -7,4 +7,7 @@ public interface ApplicationDao {
 
     List<Application> getAllApplications(long bandId);
 
+    List<Application> getAuditionApplications(long auditionId);
+
+    List<Application> getAuditionApplicationsByState(long auditionId, ApplicationState state);
 }
