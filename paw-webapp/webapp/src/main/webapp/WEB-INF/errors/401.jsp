@@ -8,6 +8,6 @@
 <body>
 <spring:message code="img.alt.401" var="img401"/>
 <img src="<c:url value="/resources/images/401.png" />" alt="${img401}" style="margin-bottom: 2rem" />
-<p class="wrong-para"><spring:message code="404.errorMessage"/></p>
+<p class="wrong-para"><spring:message code="401.errorMessage"/></p>
 </body>
 </html>
