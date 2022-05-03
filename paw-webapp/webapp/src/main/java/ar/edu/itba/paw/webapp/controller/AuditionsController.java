@@ -242,7 +242,7 @@ public class AuditionsController {
         mav.addObject("roleList", roleList);
         mav.addObject("genreList", genreList);
         mav.addObject("locationList", locationList);
-        mav.addObject("user",user);
+        mav.addObject("auditionId", id);
 
         auditionForm.setTitle(audition.get().getTitle());
         auditionForm.setDescription(audition.get().getDescription());
@@ -292,7 +292,9 @@ public class AuditionsController {
                 musicGenres(genreService.validateAndReturnGenres(auditionEditForm.getMusicGenres()))
         , id);
 
-        return audition(null, id);
+        String redirect = "redirect:/auditions/" + id;
+
+        return new ModelAndView(redirect);
     }
 
 }

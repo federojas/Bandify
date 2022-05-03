@@ -21,7 +21,7 @@
 <!-- Formulario -->
 <div class="card-content" id="form-post">
     <h1><spring:message code="edit.formSectionh1"/></h1>
-    <c:url value="/profile/editAudition/${user.id}" var="postPath" />
+    <c:url value="/profile/editAudition/${auditionId}" var="postPath" />
     <!-- Form box -->
     <div class="inner-box-form" id="form-post-title">
         <form:form
