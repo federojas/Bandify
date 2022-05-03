@@ -23,7 +23,7 @@
     transition: 0.3s;
 }
 .sidenav p{
-    padding: 8px 8px 8px 8px;
+    padding: 8px 8px 2px 8px;
     text-decoration: none;
     font-size: 25px;
     color: #111;
@@ -72,5 +72,10 @@
     .sidenav a {font-size: 18px;}
 }
 .filter-button-1{
-    display: flex;justify-content: end;margin: 1rem
+    display: flex;
+;margin: 1rem
+}
+
+.sidenav-input-label{
+    font-size: 20px;
 }
