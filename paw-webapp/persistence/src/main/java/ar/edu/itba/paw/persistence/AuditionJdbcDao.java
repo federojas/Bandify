@@ -160,6 +160,18 @@ public class AuditionJdbcDao implements AuditionDao {
     }
 
     @Override
+    public void editAuditionById(Audition.AuditionBuilder builder, long id) {
+        jdbcTemplate.update("UPDATE auditions SET title = ?, description = ?, locationid = ? WHERE id = ?",
+                new Object[]{builder.getTitle(), builder.getDescription(), builder.getLocation().getId(), id});
+
+        jdbcTemplate.update("DELETE FROM auditiongenres WHERE auditionid = ?", id);
+        jdbcTemplate.update("DELETE FROM auditionroles WHERE auditionid = ?", id);
+
+        roleDao.createAuditionRole(builder.getLookingFor(), id);
+        genreDao.createAuditionGenre(builder.getMusicGenres(), id);
+    }
+
+    @Override
     public long getMaxAuditionId() {
         return jdbcTemplate.query("SELECT max(id) FROM auditions", (rs,i) -> rs.getLong("max") ).stream().findFirst().orElse(0L);
     }

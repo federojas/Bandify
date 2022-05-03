@@ -27,4 +27,6 @@ public interface AuditionService {
     int getTotalBandAuditionPages(long userId);
 
     void deleteAuditionById(long id);
+
+    void editAuditionById(Audition.AuditionBuilder builder, long id);
 }

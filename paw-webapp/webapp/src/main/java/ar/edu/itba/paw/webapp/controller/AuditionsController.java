@@ -212,7 +212,7 @@ public class AuditionsController {
 
     //TODO CODIGO REPETIDO MODULARIZAR
     @RequestMapping(value = "/profile/editAudition/{id}", method = {RequestMethod.GET})
-    public ModelAndView editAudition(@PathVariable long id) {
+    public ModelAndView editAudition(@ModelAttribute("auditionForm") final AuditionForm auditionForm, @PathVariable long id) {
 
         // TODO : es necesario este if? sino con el else de abajo seria suficiente creo
         if(id < 0 || id > auditionService.getMaxAuditionId())
@@ -243,24 +243,36 @@ public class AuditionsController {
         return mav;
     }
 
-//    @RequestMapping(value="/profile/editAudition/{id}", method = {RequestMethod.POST})
-//    public ModelAndView postEditAudition(@Valid @ModelAttribute("auditionEditForm") final AuditionEditForm auditionEditForm,
-//                                         final BindingResult errors, @PathVariable String id) {
-//
-////        if(errors.hasErrors()) {
-////            return newAudition(auditionEditForm);
-////        }
-////        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-////        Optional<User> optionalUser = userService.findByEmail(auth.getName());
-////        User user = optionalUser.orElseThrow(UserNotFoundException::new);
-////
-////        auditionService.create(auditionEditForm.toBuilder(user.getId()).
-////                location(locationService.getLocationByName(auditionEditForm.getLocation()).orElseThrow(LocationNotFoundException::new)).
-////                lookingFor(roleService.validateAndReturnRoles(auditionEditForm.getLookingFor())).
-////                musicGenres(genreService.validateAndReturnGenres(auditionEditForm.getMusicGenres()))
-////        );
-////
-////        return auditions(1);
-//    }
+    //TODO CODIGO REPETIDO
+    @RequestMapping(value="/profile/editAudition/{id}", method = {RequestMethod.POST})
+    public ModelAndView postEditAudition(@Valid @ModelAttribute("auditionEditForm") final AuditionForm auditionEditForm,
+                                         final BindingResult errors, @PathVariable long id) {
+
+        if(id < 0 || id > auditionService.getMaxAuditionId())
+            throw new AuditionNotFoundException();
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> optionalUser = userService.findByEmail(auth.getName());
+        User user = optionalUser.orElseThrow(UserNotFoundException::new);
+
+        Optional<Audition> audition = auditionService.getAuditionById(id);
+
+        if(!audition.isPresent())
+            throw new AuditionNotFoundException();
+        else if(user.getId() != audition.get().getBandId())
+            throw new AuditionNotOwnedException();
+
+        if(errors.hasErrors()) {
+            return newAudition(auditionEditForm);
+        }
+
+        auditionService.editAuditionById(auditionEditForm.toBuilder(user.getId()).
+                location(locationService.getLocationByName(auditionEditForm.getLocation()).orElseThrow(LocationNotFoundException::new)).
+                lookingFor(roleService.validateAndReturnRoles(auditionEditForm.getLookingFor())).
+                musicGenres(genreService.validateAndReturnGenres(auditionEditForm.getMusicGenres()))
+        , id);
+
+        return audition(null, id);
+    }
 
 }

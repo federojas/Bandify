@@ -52,6 +52,11 @@ public class AuditionServiceImpl implements AuditionService {
     }
 
     @Override
+    public void editAuditionById(Audition.AuditionBuilder builder, long id) {
+        auditionDao.editAuditionById(builder, id);
+    }
+
+    @Override
     public List<Audition> getAll(int page) {
         return auditionDao.getAll(page);
     }
