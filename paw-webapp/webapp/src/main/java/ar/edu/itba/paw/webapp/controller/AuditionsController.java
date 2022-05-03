@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.webapp.controller;
 
+import ar.edu.itba.paw.model.exceptions.AuditionNotOwnedException;
 import ar.edu.itba.paw.persistence.Genre;
 import ar.edu.itba.paw.persistence.Location;
 import ar.edu.itba.paw.persistence.Role;
@@ -176,5 +177,90 @@ public class AuditionsController {
     public ModelAndView success() {
         return new ModelAndView("views/successMsg");
     }
+
+    @RequestMapping(value = "/profile/deleteAudition/{id}", method = {RequestMethod.POST})
+    public ModelAndView deleteAudition(@PathVariable long id) {
+
+        // TODO : es necesario este if? sino con el else de abajo seria suficiente creo
+        if(id < 0 || id > auditionService.getMaxAuditionId())
+            throw new AuditionNotFoundException();
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> optionalUser = userService.findByEmail(auth.getName());
+        User user = optionalUser.orElseThrow(UserNotFoundException::new);
+
+        Optional<Audition> audition = auditionService.getAuditionById(id);
+
+        if(!audition.isPresent()) {
+            throw new AuditionNotFoundException();
+        } else if(user.getId() != audition.get().getBandId()) {
+            throw new AuditionNotOwnedException();
+        } else {
+            auditionService.deleteAuditionById(id);
+        }
+
+        return new ModelAndView("redirect:/profile/auditions");
+    }
+
+
+    //TODO ESTA BIEN ESTO?
+    @RequestMapping(value = "/profile/deleteAudition/{id}", method = {RequestMethod.GET})
+    public ModelAndView getDeleteAudition(@PathVariable long id) {
+        return new ModelAndView("redirect:/profile");
+    }
+
+
+    //TODO CODIGO REPETIDO MODULARIZAR
+    @RequestMapping(value = "/profile/editAudition/{id}", method = {RequestMethod.GET})
+    public ModelAndView editAudition(@PathVariable long id) {
+
+        // TODO : es necesario este if? sino con el else de abajo seria suficiente creo
+        if(id < 0 || id > auditionService.getMaxAuditionId())
+            throw new AuditionNotFoundException();
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> optionalUser = userService.findByEmail(auth.getName());
+        User user = optionalUser.orElseThrow(UserNotFoundException::new);
+
+        Optional<Audition> audition = auditionService.getAuditionById(id);
+
+        if(!audition.isPresent())
+            throw new AuditionNotFoundException();
+        else if(user.getId() != audition.get().getBandId())
+            throw new AuditionNotOwnedException();
+
+        ModelAndView mav = new ModelAndView("views/editAudition");
+
+        Set<Role> roleList = roleService.getAll();
+        Set<Genre> genreList = genreService.getAll();
+        List<Location> locationList = locationService.getAll();
+
+        mav.addObject("roleList", roleList);
+        mav.addObject("genreList", genreList);
+        mav.addObject("locationList", locationList);
+        mav.addObject("user",user);
+
+        return mav;
+    }
+
+//    @RequestMapping(value="/profile/editAudition/{id}", method = {RequestMethod.POST})
+//    public ModelAndView postEditAudition(@Valid @ModelAttribute("auditionEditForm") final AuditionEditForm auditionEditForm,
+//                                         final BindingResult errors, @PathVariable String id) {
+//
+////        if(errors.hasErrors()) {
+////            return newAudition(auditionEditForm);
+////        }
+////        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+////        Optional<User> optionalUser = userService.findByEmail(auth.getName());
+////        User user = optionalUser.orElseThrow(UserNotFoundException::new);
+////
+////        auditionService.create(auditionEditForm.toBuilder(user.getId()).
+////                location(locationService.getLocationByName(auditionEditForm.getLocation()).orElseThrow(LocationNotFoundException::new)).
+////                lookingFor(roleService.validateAndReturnRoles(auditionEditForm.getLookingFor())).
+////                musicGenres(genreService.validateAndReturnGenres(auditionEditForm.getMusicGenres()))
+////        );
+////
+////        return auditions(1);
+//    }
 
 }

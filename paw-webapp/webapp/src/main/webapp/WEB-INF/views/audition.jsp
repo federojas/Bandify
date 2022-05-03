@@ -93,13 +93,13 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
           </div>
           <c:if test="${isOwner}">
             <div class="buttonry">
-              <form class="audition-edit-btn hover:bg-sky-700 shadow-sm" action="/profile/editAudition/${audition.id}" method="post">
+              <a class="audition-edit-btn hover:bg-sky-700 shadow-sm" href="/profile/editAudition/${audition.id}">
                 <button class="audition-btn" type="submit">
                   <spring:message code="audition.alt.edit" var="edit"/>
                     <spring:message code="audition.edit" />
                     <img src="<c:url value="/resources/icons/edit-white-icon.svg"/>" class="audition-icon" alt="${edit}"/>
                 </button>
-              </form>
+              </a>
               <form class="audition-delete-btn" action="/profile/deleteAudition/${audition.id}" method="post">
                   <button class="audition-btn" type="submit">
                   <spring:message code="audition.alt.delete" var="delete"/>
