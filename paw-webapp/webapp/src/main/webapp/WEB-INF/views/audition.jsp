@@ -89,29 +89,26 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
                   </jsp:include>
                 </div>
               </sec:authorize>
-              <c:if test="${isOwner}">
-                <div>
-<%--                  <a href="<c:url value="/profile/editAudition/${audition.id}"/>">--%>
-<%--                    <button class="auditions-btn hover:bg-sky-700 shadow-sm">--%>
-<%--                      <spring:message code="profile.auditions"/>--%>
-<%--                    </button>--%>
-<%--                  </a>--%>
-
-                </div>
-              </c:if>
             </div>
           </div>
-          <div style="display: flex; justify-content: end">
-            <form class="postcard-delete-btn" action="/profile/deleteAudition/${audition.id}" method="post">
-              <button type="submit">
-                <spring:message code="audition.alt.delete" var="delete"/>
-                <div class="postcard-delete-btn-container">
-                  <img src="<c:url value="/resources/icons/trash.svg"/>" class="user-icon" alt="${delete}"/>
-                  <spring:message code="audition.delete" />
-                </div>
-              </button>
-            </form>
-          </div>
+          <c:if test="${isOwner}">
+            <div class="buttonry">
+              <form class="audition-edit-btn hover:bg-sky-700 shadow-sm" action="/profile/editAudition/${audition.id}" method="post">
+                <button class="audition-btn" type="submit">
+                  <spring:message code="audition.alt.edit" var="edit"/>
+                    <spring:message code="audition.edit" />
+                    <img src="<c:url value="/resources/icons/edit-white-icon.svg"/>" class="audition-icon" alt="${edit}"/>
+                </button>
+              </form>
+              <form class="audition-delete-btn" action="/profile/deleteAudition/${audition.id}" method="post">
+                  <button class="audition-btn" type="submit">
+                  <spring:message code="audition.alt.delete" var="delete"/>
+                    <spring:message code="audition.delete" />
+                    <img src="<c:url value="/resources/icons/trash.svg"/>" class="audition-icon" alt="${delete}"/>
+                </button>
+              </form>
+            </div>
+          </c:if>
         </div>
         <div class="back-auditions-div">
           <a class="back-anchor" href="<c:url value="/auditions" />">
