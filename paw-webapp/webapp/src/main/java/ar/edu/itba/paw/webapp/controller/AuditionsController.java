@@ -252,6 +252,22 @@ public class AuditionsController {
         mav.addObject("locationList", locationList);
         mav.addObject("user",user);
 
+        auditionForm.setTitle(audition.get().getTitle());
+        auditionForm.setDescription(audition.get().getDescription());
+        auditionForm.setLocation(audition.get().getLocation().getName());
+
+        List<String> selectedRoles = new ArrayList<>();
+        for (Role role : audition.get().getLookingFor()) {
+            selectedRoles.add(role.getName());
+        }
+        auditionForm.setLookingFor(selectedRoles);
+
+        List<String> selectedGenres = new ArrayList<>();
+        for (Genre genre : audition.get().getMusicGenres()) {
+            selectedGenres.add(genre.getName());
+        }
+        auditionForm.setMusicGenres(selectedGenres);
+
         return mav;
     }
 
