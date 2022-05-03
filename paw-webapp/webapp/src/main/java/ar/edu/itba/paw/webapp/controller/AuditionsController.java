@@ -67,14 +67,6 @@ public class AuditionsController {
         List<Audition> auditionList = auditionService.getAll(page);
 
 
-        Set<Role> roleList = roleService.getAll();
-        Set<Genre> genreList = genreService.getAll();
-        List<Location> locationList = locationService.getAll();
-        mav.addObject("roleList", roleList);
-        mav.addObject("genreList", genreList);
-        mav.addObject("locationList", locationList);
-
-
         mav.addObject("auditionList", auditionList);
         mav.addObject("currentPage", page);
         mav.addObject("lastPage", lastPage);
