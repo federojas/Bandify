@@ -99,6 +99,11 @@ public class ApplicationServiceImpl implements ApplicationService {
         setApplicationState(auditionId,applicantId,ApplicationState.REJECTED);
     }
 
+    @Override
+    public List<Application> getMyApplications(long applicantId) {
+        return applicationDao.getMyApplications(applicantId);
+    }
+
     private void setApplicationState(long auditionId, long applicantId, ApplicationState state) {
         applicationDao.setApplicationState(auditionId, applicantId, state);
     }

@@ -22,4 +22,6 @@ public interface ApplicationService {
 
     void reject(long auditionId, long applicantId);
 
+    List<Application> getMyApplications(long applicantId);
+
 }

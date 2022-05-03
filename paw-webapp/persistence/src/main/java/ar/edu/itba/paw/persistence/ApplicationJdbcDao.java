@@ -88,4 +88,16 @@ public class ApplicationJdbcDao implements ApplicationDao {
         jdbcTemplate.update("UPDATE applications SET state = ? WHERE applicantId = ? AND auditionId = ?",
                 new Object[]{state.getState().toUpperCase(Locale.ROOT), applicantId, auditionId});
     }
+
+    // TODO: revisar
+
+    @Override
+    public List<Application> getMyApplications(long applicantId) {
+        String query = "SELECT auditionId,applicantId,state,name,surname FROM applications" +
+                " JOIN users ON applications.applicantId = users.id" +
+                " JOIN auditions ON applications.auditionId = auditions.id" +
+                " WHERE applicantId = ?";
+        List<Application.ApplicationBuilder> list = jdbcTemplate.query(query,new Object[]{applicantId},APPLICATION_ROW_MAPPER);
+        return list.stream().map(Application.ApplicationBuilder::build).collect(Collectors.toList());
+    }
 }

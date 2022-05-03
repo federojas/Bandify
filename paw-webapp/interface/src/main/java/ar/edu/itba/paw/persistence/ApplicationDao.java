@@ -14,4 +14,6 @@ public interface ApplicationDao {
     Application createApplication(Application.ApplicationBuilder applicationBuilder);
 
     void setApplicationState(long auditionId, long applicantId, ApplicationState state);
+
+    List<Application> getMyApplications(long applicantId);
 }
