@@ -63,7 +63,6 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public void apply(long auditionId, User user, String message) {
-        System.out.println("applying en primer lugar");
         applicationDao.createApplication(new Application.ApplicationBuilder(auditionId,user.getId(),ApplicationState.PENDING));
         try {
             Optional<Audition> aud = auditionService.getAuditionById(auditionId);
@@ -88,11 +87,19 @@ public class ApplicationServiceImpl implements ApplicationService {
         } catch (MalformedURLException e) {
             LOGGER.warn("Audition application email threw url exception");
         }
-        System.out.println("applying en segundo lugar");
     }
 
     @Override
-    public void setApplicationState(long auditionId, long applicantId, ApplicationState state) {
+    public void accept(long auditionId, long applicantId) {
+        setApplicationState(auditionId,applicantId,ApplicationState.ACCEPTED);
+    }
 
+    @Override
+    public void reject(long auditionId, long applicantId) {
+        setApplicationState(auditionId,applicantId,ApplicationState.REJECTED);
+    }
+
+    private void setApplicationState(long auditionId, long applicantId, ApplicationState state) {
+        applicationDao.setApplicationState(auditionId, applicantId, state);
     }
 }

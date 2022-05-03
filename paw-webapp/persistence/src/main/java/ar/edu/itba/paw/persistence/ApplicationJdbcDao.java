@@ -75,12 +75,17 @@ public class ApplicationJdbcDao implements ApplicationDao {
 
     @Override
     public Application createApplication(Application.ApplicationBuilder applicationBuilder) {
-        System.out.println("la cree");
         final Map<String, Object> applicationData = new HashMap<>();
         applicationData.put("auditionId", applicationBuilder.getAuditionId());
         applicationData.put("applicantId", applicationBuilder.getApplicantId());
         applicationData.put("state", applicationBuilder.getState().getState().toUpperCase(Locale.ROOT));
         jdbcInsert.execute(applicationData);
         return applicationBuilder.build();
+    }
+
+    @Override
+    public void setApplicationState(long auditionId, long applicantId, ApplicationState state) {
+        jdbcTemplate.update("UPDATE applications SET state = ? WHERE applicantId = ? AND auditionId = ?",
+                new Object[]{state.getState().toUpperCase(Locale.ROOT), applicantId, auditionId});
     }
 }

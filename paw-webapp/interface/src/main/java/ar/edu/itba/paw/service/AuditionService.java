@@ -24,6 +24,4 @@ public interface AuditionService {
 
     List<Audition> getBandAuditions(long userId);
 
-    void sendApplicationEmail(long id, User user, String message);
-
 }

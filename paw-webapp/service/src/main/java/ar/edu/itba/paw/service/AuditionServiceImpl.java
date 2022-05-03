@@ -76,32 +76,4 @@ public class AuditionServiceImpl implements AuditionService {
         return auditionDao.getBandAuditions(userId);
     }
 
-    @Override
-    public void sendApplicationEmail(long id, User user, String message) {
-        try {
-            Optional<Audition> aud = getAuditionById(id);
-            if (aud.isPresent()) {
-                Locale locale = LocaleContextHolder.getLocale();
-                final String url = new URL("http", environment.getRequiredProperty("app.base.url"), "/paw-2022a-03/").toString();
-                Map<String, Object> mailData = new HashMap<>();
-                mailData.put("content", message);
-                mailData.put("goToBandifyURL", url);
-                Optional<User> band = userService.getUserById(aud.get().getBandId());
-                if(band.isPresent()) {
-                    String bandEmail = band.get().getEmail();
-                    mailingService.sendEmail(user, bandEmail,
-                            messageSource.getMessage("audition-application.subject",null,locale),
-                            "audition-application", mailData, locale);
-                }else {
-                    throw new UserNotFoundException();
-                }
-
-            }
-        } catch (MessagingException e) {
-            LOGGER.warn("Audition application email threw messaging exception");
-        } catch (MalformedURLException e) {
-            LOGGER.warn("Audition application email threw url exception");
-        }
-    }
-
 }

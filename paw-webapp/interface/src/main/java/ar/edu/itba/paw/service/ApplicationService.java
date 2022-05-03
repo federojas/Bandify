@@ -18,6 +18,8 @@ public interface ApplicationService {
 
     void apply(long auditionId, User user, String message);
 
-    void setApplicationState(long auditionId, long applicantId, ApplicationState state);
+    void accept(long auditionId, long applicantId);
+
+    void reject(long auditionId, long applicantId);
 
 }
