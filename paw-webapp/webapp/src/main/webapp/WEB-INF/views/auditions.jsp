@@ -16,7 +16,7 @@ prefix="spring" uri="http://www.springframework.org/tags"%>
       <jsp:param name="navItem" value="${2}" />
       <jsp:param name="name" value="Bandify" />
     </jsp:include>
-    <div  id="main" style="margin-left: 250px">
+    <div>
     <!-- Auditions content -->
       <div class="auditions-content">
       <%--Publicaciones de audiciones--%>
