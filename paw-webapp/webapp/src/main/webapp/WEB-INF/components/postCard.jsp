@@ -51,7 +51,7 @@
     <div class="postCard-div-3">
         <a href="<c:url value="/auditions/${param.id}"/>">
             <button
-                    class="postCard-button-0 hover:bg-sky-700"
+                    class="postCard-button-0"
                     type="button"
             >
                 <spring:message code="postCard.button"/>

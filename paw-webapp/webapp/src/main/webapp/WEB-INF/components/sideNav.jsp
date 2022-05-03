@@ -41,7 +41,7 @@
         </c:forEach>
     </select>
     <div class="filter-button-1">
-        <button  class=" postCard-button-0 hover:bg-sky-700">Filtrar</button>
+        <button  class=" postCard-button-0">Filtrar</button>
     </div>
 </div>
 </body>

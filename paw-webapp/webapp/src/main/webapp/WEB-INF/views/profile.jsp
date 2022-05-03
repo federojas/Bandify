@@ -31,7 +31,7 @@
                              alt="${img}">
                         <div style=" display: flex; justify-content: end;">
                             <a href="<c:url value="/profile/edit" />">
-                                <button class="edit-btn hover:bg-sky-700 shadow-sm">
+                                <button class="edit-btn hover: shadow-sm">
                                     <spring:message code="profile.edit.alt" var="edit"/>
 
                                     <img src="<c:url value="/resources/icons/edit-white-icon.svg"/>"
@@ -89,7 +89,7 @@
                             <ul>
                                 <li class="pt-2">
                                     <a href="<c:url value="/profile/auditions"/>">
-                                        <button class="auditions-btn hover:bg-sky-700 shadow-sm">
+                                        <button class="auditions-btn hover: shadow-sm">
                                             <spring:message code="profile.auditions"/>
                                         </button>
                                     </a>

@@ -93,7 +93,7 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
           </div>
           <c:if test="${isOwner}">
             <div class="buttonry">
-              <a class="audition-edit-btn hover:bg-sky-700 shadow-sm" href="/profile/editAudition/${audition.id}">
+              <a class="audition-edit-btn hover: shadow-sm" href="/profile/editAudition/${audition.id}">
                 <button class="audition-btn" type="submit">
                   <spring:message code="audition.alt.edit" var="edit"/>
                     <spring:message code="audition.edit" />

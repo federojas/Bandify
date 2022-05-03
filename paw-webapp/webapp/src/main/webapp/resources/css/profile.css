@@ -64,6 +64,10 @@ body {
     color: #ffffff;
 }
 
+.edit-btn:hover {
+    background-color: #0369a1;
+}
+
 .auditions-btn {
     margin: 0.5rem;
     height: 40px;
@@ -75,6 +79,10 @@ body {
     align-items: center;
     border-radius: 9999px;
     color: #ffffff;
+}
+
+.auditions-btn:hover{
+    background-color: #0369a1;
 }
 
 .auditions-div{

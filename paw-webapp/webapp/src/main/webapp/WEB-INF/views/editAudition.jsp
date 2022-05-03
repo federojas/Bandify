@@ -116,7 +116,7 @@
                         type="submit"
                         value="submit"
                         onclick="return auditionFormCheck()"
-                        class="purple-button hover:bg-sky-700 shadow-sm"
+                        class="purple-button"
                 >
                     <spring:message code="edit.postButton"/>
                 </button>

@@ -90,6 +90,10 @@ body {
     background-color: #6c0c84 !important;
 }
 
+.purple-button:hover {
+    background-color: #0369a1 !important;
+}
+
 #sumbitButton:disabled {
     padding: 0.5rem 1.25rem;
     color: #ffffff;

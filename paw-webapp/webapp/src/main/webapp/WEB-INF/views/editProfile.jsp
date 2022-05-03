@@ -131,7 +131,7 @@
                 type="submit"
                 form="editUserForm"
                 value="submit"
-                class="purple-button hover:bg-sky-700 shadow-sm"
+                class="purple-button"
         >
             <spring:message code="edituser.saveChangesBtn"/>
         </button>
