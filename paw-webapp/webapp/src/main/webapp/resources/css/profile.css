@@ -171,5 +171,12 @@ auditions-title-div {
 
 .profileImage {
     height: 200px;
-    width: 280px;
+    width: 200px;
+    object-fit: contain;
+    border-radius: 10000px;
+    border:3px solid black;
+}
+.profile-image-container{
+    display: flex;
+    justify-content: center;
 }

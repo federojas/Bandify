@@ -25,10 +25,12 @@
                 <!-- Profile Card -->
                 <div class="bg-white box p-3 border-t-4  ">
                     <div class="image overflow-hidden">
-                        <img class="profileImage"
-                        <spring:message code="profile.img.alt" var="img"/>
-                             src="<c:url value="/user/${user.id}/profile-image"/>"
-                             alt="${img}">
+                        <div class="profile-image-container">
+                            <img class="profileImage"
+                            <spring:message code="profile.img.alt" var="img"/>
+                                 src="<c:url value="/user/${user.id}/profile-image"/>"
+                                 alt="${img}">
+                        </div>
                         <div style=" display: flex; justify-content: end;">
                             <a href="<c:url value="/profile/edit" />">
                                 <button class="edit-btn hover: shadow-sm">
