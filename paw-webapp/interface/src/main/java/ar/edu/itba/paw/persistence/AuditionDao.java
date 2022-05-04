@@ -1,5 +1,7 @@
 package ar.edu.itba.paw.persistence;
 
+import ar.edu.itba.paw.AuditionFilter;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -20,4 +22,6 @@ public interface AuditionDao {
     List<Audition> getBandAuditions(long userId, int page);
 
     int getTotalBandAuditionPages(long userId);
+
+    List<Audition> filter(AuditionFilter filter);
 }

@@ -1,10 +1,13 @@
 
 package ar.edu.itba.paw.persistence;
 
+import ar.edu.itba.paw.AuditionFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
@@ -18,6 +21,7 @@ public class AuditionJdbcDao implements AuditionDao {
     private final JdbcTemplate jdbcTemplate;
     private final int PAGE_SIZE = 12;
     private final SimpleJdbcInsert jdbcAuditionInsert;
+    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
     private final GenreDao genreDao;
     private final RoleDao roleDao;
 
@@ -62,6 +66,7 @@ public class AuditionJdbcDao implements AuditionDao {
         this.genreDao = genreDao;
         this.roleDao = roleDao;
         this.jdbcAuditionInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("auditions").usingGeneratedKeyColumns("id");
+        this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(ds);
     }
 
     @Override
@@ -159,4 +164,25 @@ public class AuditionJdbcDao implements AuditionDao {
         return jdbcTemplate.query("SELECT max(id) FROM auditions", (rs,i) -> rs.getLong("max") ).stream().findFirst().orElse(0L);
     }
 
+    @Override
+    public List<Audition> filter(AuditionFilter filter) {
+        MapSqlParameterSource in = new MapSqlParameterSource();
+        in.addValue("genresNames", filter.getGenresNames());
+        in.addValue("rolesNames", filter.getRolesNames());
+        in.addValue("location", filter.getLocation());
+        in.addValue("title", filter.getTitle());
+        in.addValue("pageSize", filter.getPageSize());
+        in.addValue("page",filter.getPage());
+
+        String query = new StringBuilder(GET_FULL_AUD_QUERY)
+                .append(" WHERE (COALESCE(:genresNames,null) IS NULL OR genre IN (:genresNames)) AND ")
+                .append("(COALESCE(:rolesNames,null) IS NULL OR role IN (:rolesNames)) AND ")
+                .append("location = :location").toString();
+        List<Audition.AuditionBuilder> auditionsBuilders = namedParameterJdbcTemplate.query(query,in,AUDITION_MAPPER);
+        List<Audition> list = new LinkedList<>();
+        for(Audition.AuditionBuilder auditionBuilder : auditionsBuilders) {
+            list.add(auditionBuilder.build());
+        }
+        return list;
+    }
 }
