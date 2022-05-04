@@ -106,7 +106,9 @@ public class AuditionsController {
         Optional<Audition> audition = auditionService.getAuditionById(id);
 
         if (audition.isPresent()) {
-            if(SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
+            if(SecurityContextHolder.getContext().getAuthentication() != null &&
+                    SecurityContextHolder.getContext().getAuthentication().isAuthenticated() &&
+                    !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) {
                 Authentication auth = SecurityContextHolder.getContext().getAuthentication();
                 Optional<User> optionalUser = userService.findByEmail(auth.getName());
                 User user = optionalUser.orElseThrow(UserNotFoundException::new);

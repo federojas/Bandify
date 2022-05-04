@@ -127,7 +127,7 @@ public class UserController {
         return mav;
     }
 
-    @RequestMapping( value = "/profile/profile-image/{userId}", method = {RequestMethod.GET})
+    @RequestMapping( value = "/user/{userId}/profile-image", method = {RequestMethod.GET})
     public void profilePicture(@PathVariable(value = "userId") long userId,
                                HttpServletResponse response) throws IOException {
         byte[] image = imageService.getProfilePicture(userId, userService.getUserById(userId).orElseThrow(UserNotFoundException::new).isBand());

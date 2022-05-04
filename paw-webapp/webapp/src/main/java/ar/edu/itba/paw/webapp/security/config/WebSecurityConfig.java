@@ -60,7 +60,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/apply").hasRole("ARTIST")
                     .antMatchers("/newAudition", "/profile/auditions", "/profile/editAudition/{\\d+}", "/profile/deleteAudition/{\\d+}").hasRole("BAND")
                     .antMatchers("/profile/**","/auditions/{\\d+}").authenticated()
-                    .antMatchers("/auditions","/search", "/").permitAll()
+                    .antMatchers("/auditions","/search", "/", "/user/{\\d+}","/user/{\\d+}/profile-image").permitAll()
                 .and().formLogin()
                     .usernameParameter("email")
                     .passwordParameter("password")
