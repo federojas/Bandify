@@ -11,7 +11,8 @@
   border-radius: 0.5rem;
   border-width: 1px;
   transition: 1s;
-  width: 300px;
+  width: 400px;
+  height: 400px;
   position: relative;
 }
 .postCard-div-0:hover {
@@ -91,6 +92,10 @@ button[disabled]{
   white-space: normal;
 }
 
+.content-div {
+  margin-left: 10px;
+}
+
 .postCard-button-0 {
   padding: 0.5rem 1.25rem;
   color: #ffffff;
@@ -143,4 +148,11 @@ button[disabled]{
 
 ul > li {
   margin-top: 0.75rem;
+}
+
+.postcard-profile {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  margin-bottom: 10px;
 }

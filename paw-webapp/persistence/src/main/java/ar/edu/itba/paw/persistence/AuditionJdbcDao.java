@@ -15,8 +15,9 @@ import java.util.stream.Collectors;
 @Repository
 public class AuditionJdbcDao implements AuditionDao {
 
+    private final int PAGE_SIZE = 9;
+
     private final JdbcTemplate jdbcTemplate;
-    private final int PAGE_SIZE = 12;
     private final SimpleJdbcInsert jdbcAuditionInsert;
     private final GenreDao genreDao;
     private final RoleDao roleDao;

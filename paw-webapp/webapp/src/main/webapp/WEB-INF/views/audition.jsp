@@ -24,10 +24,13 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
 
         <!--content-->
         <div class="card-content">
+          <div class="audition-profile">
+            <button>IMAGEN</button>
+            <h1>NOMBRE DE PERFIL</h1>
+          </div>
 
           <!--header-->
           <div class="card-header">
-
             <h3 class="title">
               <c:out value="${audition.title}" />
             </h3>
