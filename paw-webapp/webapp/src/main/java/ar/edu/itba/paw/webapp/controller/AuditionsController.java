@@ -162,8 +162,7 @@ public class AuditionsController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> optionalUser = userService.findByEmail(auth.getName());
         User user = optionalUser.orElseThrow(UserNotFoundException::new);
-
-        // TODO: FOTO NO FUNCIONA EN AUDITION-APPLICATION.HTML
+        
         auditionService.sendApplicationEmail(id, user,
                 applicationForm.getMessage());
 
