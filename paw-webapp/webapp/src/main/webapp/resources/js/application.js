@@ -1,7 +1,7 @@
 function loadApplication() {
     let form= document.getElementById("form");
     let bigMessage=document.getElementById("bigMessage");
-    let emptyMessage=document.getElementById("emptyMessage")
+    let emptyMessage=document.getElementById("emptyMessage");
 
     form.addEventListener('submit',function(e) {
         bigMessage.style.display = 'none'

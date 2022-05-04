@@ -8,7 +8,7 @@ prefix="spring" uri="http://www.springframework.org/tags"%>
     <link rel="stylesheet" href="<c:url value="/resources/css/welcome.css" />" />
     <link rel="stylesheet" href="<c:url value="/resources/css/auditions.css" />" />
     <script src="<c:url value="/resources/js/sideNav.js" />"></script>
-
+    <script src="<c:url value="/resources/js/pagination.js" />"></script>
   </head>
   <body>
     <!-- Navbar -->
@@ -68,7 +68,7 @@ prefix="spring" uri="http://www.springframework.org/tags"%>
       <div class="pagination">
         <c:if test="${currentPage > 1}">
          <spring:message code="pagination.previous.page.alt" var="previous"/>
-          <a href="<c:url value="/auditions?page=${currentPage-1}"/>">
+          <a onclick="getPaginationURL(${currentPage-1});">
             <img src="<c:url value="/resources/images/page-next.png"/>"
                  alt="${previous}" class="pagination-next rotate">
           </a>
@@ -76,7 +76,7 @@ prefix="spring" uri="http://www.springframework.org/tags"%>
         <b><spring:message code="page.current" arguments="${currentPage},${lastPage}" /></b>
         <c:if test="${currentPage < lastPage}">
           <spring:message code="pagination.next.page.alt" var="next"/>
-          <a href="<c:url value="/auditions?page=${currentPage+1}"/>">
+          <a onclick="getPaginationURL(${currentPage+1});">
             <img src="<c:url value="/resources/images/page-next.png"/>"
                  alt="${next}" class="pagination-next">
           </a>
