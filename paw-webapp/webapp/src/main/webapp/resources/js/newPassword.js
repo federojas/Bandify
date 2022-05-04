@@ -32,16 +32,3 @@ function checkPasswordsReset() {
         return false;
     }
 }
-
-// function validateNewPasswordForm() {
-//     if(!checkPasswordsReset() ){
-//         snackbarMessage();
-//     }
-//     return checkPasswordsReset();
-// }
-//
-// function snackbarMessage() {
-//     let x = document.getElementById("snackbar");
-//     x.className = "show";
-//     setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
-// }

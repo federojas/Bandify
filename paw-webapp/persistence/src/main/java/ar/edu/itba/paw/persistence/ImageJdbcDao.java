@@ -27,18 +27,19 @@ public class ImageJdbcDao implements ImageDao {
 
     @Override
     public void updateProfilePicture(long userId, byte[] image) {
-        jdbcTemplate.update("UPDATE profileimages SET image = ? WHERE userid = ?", image, userId);
+        if(hasProfilePicture(userId))
+            jdbcTemplate.update("UPDATE profileimages SET image = ? WHERE userid = ?", image, userId);
+        else
+            crateProfilePicture(userId, image);
     }
 
-    @Override
-    public void deleteProfilePicture(long userId) {
-        jdbcTemplate.update("DELETE FROM profileimages WHERE userid = ?", userId);
+    private boolean hasProfilePicture(long userId) {
+        return jdbcTemplate.queryForObject("SELECT EXISTS(SELECT * FROM profileimages WHERE userid = ?)", new Object[] {userId}, Boolean.class);
     }
 
-    @Override
-    public void crateProfilePicture(long userId, byte[] image) {
+    private void crateProfilePicture(long userId, byte[] image) {
         final Map<String, Object> imageData = new HashMap<>();
-        imageData.put("userId", userId);
+        imageData.put("userid", userId);
         imageData.put("image", image);
         jdbcInsert.execute(imageData);
     }

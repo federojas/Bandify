@@ -58,9 +58,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers( "/welcome","/register","/registerBand","/registerArtist","/verify",
                                  "/resetPassword","/aboutUs","/newPassword","/login").anonymous()
                     .antMatchers("/apply").hasRole("ARTIST")
-                    .antMatchers("/newAudition").hasRole("BAND")
-                    .antMatchers("/profile","/auditions/{\\d+}").authenticated()
-                    .antMatchers("/auditions","/search", "/").permitAll()
+                    .antMatchers("/newAudition", "/profile/auditions", "/profile/editAudition/{\\d+}", "/profile/deleteAudition/{\\d+}").hasRole("BAND")
+                    .antMatchers("/profile/**","/auditions/{\\d+}").authenticated()
+                    .antMatchers("/auditions","/search", "/", "/user/{\\d+}","/user/{\\d+}/profile-image").permitAll()
                 .and().formLogin()
                     .usernameParameter("email")
                     .passwordParameter("password")

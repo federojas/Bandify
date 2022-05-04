@@ -6,17 +6,20 @@
 <head>
     <title>SearchBar</title>
     <link rel="stylesheet" href="<c:url value="/resources/css/searchBar.css" />"/>
+    <script src="<c:url value="/resources/js/sideNav.js" />"></script>
+
 </head>
 <body>
 <div>
     <c:url value="/search" var="searchUrl"/>
     <spring:message code="search.placeholder" var="searchPlaceholder"/>
-    <div class="search">
-        <form action="${searchUrl}" method="get">
-            <input type="text" class="searchTerm" placeholder="${searchPlaceholder}" name="query"
-            >
-
-        </form>
+    <div style="display: flex">
+    <form action="${searchUrl}" method="get" class="searchForm">
+        <div class="search">
+            <input type="text" maxlength="80" size="43" placeholder="${searchPlaceholder}" name="query">
+            <button type="submit" aria-hidden="true"></button>
+        </div>
+    </form>
     </div>
 </div>
 </body>

@@ -33,7 +33,7 @@
         </div>
 
         <div class="welcome-loginform">
-            <jsp:include page="../components/login_form.jsp" />
+            <jsp:include page="../components/loginForm.jsp" />
         </div>
 
     </div>

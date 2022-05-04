@@ -1,5 +1,7 @@
 package ar.edu.itba.paw.service;
 
+import ar.edu.itba.paw.model.exceptions.AuditionNotFoundException;
+import ar.edu.itba.paw.persistence.User;
 import ar.edu.itba.paw.persistence.*;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import org.slf4j.Logger;
@@ -52,6 +54,11 @@ public class AuditionServiceImpl implements AuditionService {
     }
 
     @Override
+    public void editAuditionById(Audition.AuditionBuilder builder, long id) {
+        auditionDao.editAuditionById(builder, id);
+    }
+
+    @Override
     public List<Audition> getAll(int page) {
         return auditionDao.getAll(page);
     }
@@ -72,8 +79,41 @@ public class AuditionServiceImpl implements AuditionService {
     }
 
     @Override
-    public List<Audition> getBandAuditions(long userId) {
-        return auditionDao.getBandAuditions(userId);
+    public List<Audition> getBandAuditions(long userId, int page) {
+        return auditionDao.getBandAuditions(userId, page);
     }
 
+    @Override
+    public int getTotalBandAuditionPages(long userId) {
+        return auditionDao.getTotalBandAuditionPages(userId);
+    }
+
+    @Override
+    public void deleteAuditionById(long id) {
+        auditionDao.deleteAuditionById(id);
+    }
+
+    @Override
+    public void sendApplicationEmail(long id, User user, String message) {
+        try {
+            Audition aud = getAuditionById(id).orElseThrow(AuditionNotFoundException::new);
+            User band = userService.getUserById(aud.getBandId()).orElseThrow(UserNotFoundException::new);
+            Locale locale = LocaleContextHolder.getLocale();
+
+            final String url = new URL("http", environment.getRequiredProperty("app.base.url"), "/paw-2022a-03/user/" + user.getId()).toString();
+            Map<String, Object> mailData = new HashMap<>();
+            mailData.put("content", message);
+            mailData.put("goToBandifyURL", url);
+            String bandEmail = band.getEmail();
+
+            mailingService.sendEmail(user, bandEmail,
+                    messageSource.getMessage("audition-application.subject",null,locale),
+                    "audition-application", mailData, locale);
+
+        } catch (MessagingException e) {
+            LOGGER.warn("Audition application email threw messaging exception");
+        } catch (MalformedURLException e) {
+            LOGGER.warn("Audition application email threw url exception");
+        }
+    }
 }

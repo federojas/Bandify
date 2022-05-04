@@ -22,6 +22,13 @@ public interface AuditionService {
 
     List<Audition> search(int page, String query);
 
-    List<Audition> getBandAuditions(long userId);
+    List<Audition> getBandAuditions(long userId, int page);
 
+    void sendApplicationEmail(long id, User user, String message);
+
+    int getTotalBandAuditionPages(long userId);
+
+    void deleteAuditionById(long id);
+
+    void editAuditionById(Audition.AuditionBuilder builder, long id);
 }

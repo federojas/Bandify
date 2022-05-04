@@ -76,11 +76,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void editUser(User.UserBuilder userBuilder, List<String> genresNames, List<String> rolesNames) {
-        long id = findByEmail(userBuilder.getEmail()).orElseThrow(UserNotFoundException::new).getId();
-        userDao.editUser(id,userBuilder);
-        genreService.updateUserGenres(genresNames,id);
-        roleService.updateUserRoles(rolesNames,id);
+    public void editUser(long userId, String name, String surname, String description, List<String> genresNames, List<String> rolesNames, byte[] image) {
+
+        userDao.editUser(userId, name, surname, description);
+        genreService.updateUserGenres(genresNames,userId);
+        roleService.updateUserRoles(rolesNames,userId);
+        imageService.updateProfilePicture(userId,image);
     }
 
     @Override
@@ -129,28 +130,6 @@ public class UserServiceImpl implements UserService {
             throw new UserNotFoundException();
         userDao.changePassword(userId, passwordEncoder.encode(newPassword));
         autoLogin(userId);
-    }
-
-
-    @Override
-    public void updateProfilePicture(long userId, byte[] image) {
-        if(getUserById(userId).isPresent())
-            imageService.updateProfilePicture(userId, image);
-        else
-            throw new UserNotFoundException();
-    }
-
-    @Override
-    public void createProfilePicture(long userId, byte[] image) {
-        if(getUserById(userId).isPresent())
-            imageService.createProfilePicture(userId, image);
-        else
-            throw new UserNotFoundException();
-    }
-
-    @Override
-    public Optional<byte[]> getProfilePictureByUserId(long userId) {
-        return imageService.getProfilePicture(userId);
     }
 
 }

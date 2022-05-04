@@ -1,25 +1,28 @@
 package ar.edu.itba.paw.webapp.controller;
 
-import ar.edu.itba.paw.persistence.User;
+import ar.edu.itba.paw.model.exceptions.AuditionNotFoundException;
+import ar.edu.itba.paw.model.exceptions.AuditionNotOwnedException;
+import ar.edu.itba.paw.persistence.*;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
-import ar.edu.itba.paw.service.AuditionService;
-import ar.edu.itba.paw.service.UserService;
-import ar.edu.itba.paw.service.VerificationTokenService;
+import ar.edu.itba.paw.service.*;
 import ar.edu.itba.paw.webapp.form.*;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.ResourceUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.io.*;
+import java.security.acl.NotOwnerException;
+import java.util.*;
 
 @Controller
 public class UserController {
@@ -27,14 +30,21 @@ public class UserController {
     private final UserService userService;
     private final VerificationTokenService verificationTokenService;
     private final AuditionService auditionService;
+    private final RoleService roleService;
+    private final GenreService genreService;
+    private final ImageService imageService;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     public UserController(UserService userService, VerificationTokenService verificationTokenService,
-                          AuditionService auditionService) {
+                          AuditionService auditionService, RoleService roleService, GenreService genreService, ImageService imageService) {
         this.userService = userService;
         this.verificationTokenService = verificationTokenService;
         this.auditionService = auditionService;
+        this.roleService = roleService;
+        this.genreService = genreService;
+        this.imageService = imageService;
     }
 
     @RequestMapping(value = {"/register","/registerBand", "/registerArtist"},
@@ -93,19 +103,41 @@ public class UserController {
         Optional<User> optionalUser = userService.findByEmail(auth.getName());
         User user = optionalUser.orElseThrow(UserNotFoundException::new);
         mav.addObject("user", user);
-        if(user.isBand())
-            mav.addObject("auditions", auditionService.getBandAuditions(user.getId()));
         return mav;
     }
 
+    @RequestMapping( value = "/user/{userId}/profile-image", method = {RequestMethod.GET})
+    public void profilePicture(@PathVariable(value = "userId") long userId,
+                               HttpServletResponse response) throws IOException {
+        byte[] image = imageService.getProfilePicture(userId, userService.getUserById(userId).orElseThrow(UserNotFoundException::new).isBand());
+        InputStream stream = new ByteArrayInputStream(image);
+        IOUtils.copy(stream, response.getOutputStream());
+    }
+
+    //TODO: MODULARIZAR CODIGO REPETIDO EN AUTH USER
     @RequestMapping(value = "/profile/edit", method = {RequestMethod.GET})
     public ModelAndView editProfile(@ModelAttribute("userEditForm") final UserEditForm userEditForm) {
         ModelAndView mav = new ModelAndView("views/editProfile");
-        List<String> experiences = new ArrayList<String>();
-        experiences.add("Experiencia 1");
-        experiences.add("Experiencia 2");
-        experiences.add("Experiencia 3");
-        mav.addObject("experienceList", experiences);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> optionalUser = userService.findByEmail(auth.getName());
+        User user = optionalUser.orElseThrow(UserNotFoundException::new);
+
+        Set<Role> roleList = roleService.getAll();
+        Set<Genre> genreList = genreService.getAll();
+        Set<Role> userRoles = roleService.getUserRoles(user.getId());
+        Set<Genre> userGenres = genreService.getUserGenres(user.getId());
+
+        genreList.removeAll(userGenres);
+        roleList.removeAll(userRoles);
+
+        mav.addObject("user", user);
+        userEditForm.setName(user.getName());
+        userEditForm.setSurname(user.getSurname());
+        userEditForm.setDescription(user.getDescription());
+        mav.addObject("userRoles", userRoles);
+        mav.addObject("userGenres", userGenres);
+        mav.addObject("roleList", roleList);
+        mav.addObject("genreList", genreList);
 
         return mav;
     }
@@ -117,18 +149,13 @@ public class UserController {
             return editProfile(userEditForm);
         }
 
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        Optional<User> optionalUser = userService.findByEmail(auth.getName());
-//        User user = optionalUser.orElseThrow(UserNotFoundException::new);
-//
-//        User.UserBuilder userBuilder = new User.UserBuilder(user.getEmail(), userEditForm.getPassword(),
-//                userEditForm.getName(), user.isBand(), user.isArtist())
-//                .surname(userEditForm.getSurname())
-//                .description(userEditForm.getDescription())
-//                .experience(userEditForm.getExperience())
-//                .genre(userEditForm.getGenre());
-//
-//        userService.update(userBuilder);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> optionalUser = userService.findByEmail(auth.getName());
+        User user = optionalUser.orElseThrow(UserNotFoundException::new);
+
+        userService.editUser(user.getId(), userEditForm.getName(), userEditForm.getSurname(), userEditForm.getDescription(),
+                userEditForm.getMusicGenres(), userEditForm.getLookingFor(),
+                userEditForm.getProfileImage().getBytes());
 
         return profile();
 
@@ -219,4 +246,5 @@ public class UserController {
     public ModelAndView login() {
         return new ModelAndView("views/login");
     }
+
 }

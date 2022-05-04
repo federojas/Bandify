@@ -44,7 +44,7 @@ body {
 }
 .status-box{
     padding: 0.5rem 0.75rem;
-    margin-top: 0.75rem;
+    margin-top: 0.5rem;
     background-color: #F3F4F6;
     color: #4B5563;
     border-radius: 0.25rem;
@@ -54,17 +54,44 @@ body {
 
 .edit-btn {
     margin: 0.5rem;
-    /*padding: 0.5rem;*/
     padding-right: 1.25rem;
-    /*border-radius: 0.5rem;*/
-    background-color: #808080;
+    padding-left: 10px;
+    background-color: #6c0c84;
     display: flex;
     flex-direction: row;
     align-items: center;
     border-radius: 9999px;
     color: #ffffff;
 }
-.about-section{
+
+.edit-btn:hover {
+    background-color: #0369a1;
+}
+
+.auditions-btn {
+    margin: 0.5rem;
+    height: 40px;
+    padding: 20px;
+    font-size: larger;
+    background-color: #6c0c84;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-radius: 9999px;
+    color: #ffffff;
+}
+
+.auditions-btn:hover{
+    background-color: #0369a1;
+}
+
+.auditions-div{
+    display: flex;
+    justify-content: center;
+}
+
+
+.about-section-profile{
     display: flex;
     justify-content: center;
 }
@@ -119,6 +146,10 @@ body {
     color: #ffffff;
 }
 
+.logout{
+    margin: 0;
+}
+
 .auditions-div {
     flex-wrap: wrap;
     display: flex;
@@ -136,4 +167,16 @@ auditions-title-div {
 .auditions-title {
     text-align: center;
     font-size: 30px;
+}
+
+.profileImage {
+    height: 200px;
+    width: 200px;
+    object-fit: cover;
+    border-radius: 10000px;
+    border:3px solid black;
+}
+.profile-image-container{
+    display: flex;
+    justify-content: center;
 }

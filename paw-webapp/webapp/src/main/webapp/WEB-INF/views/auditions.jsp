@@ -7,6 +7,8 @@ prefix="spring" uri="http://www.springframework.org/tags"%>
     <c:import url="../config/generalHead.jsp" />
     <link rel="stylesheet" href="<c:url value="/resources/css/welcome.css" />" />
     <link rel="stylesheet" href="<c:url value="/resources/css/auditions.css" />" />
+    <script src="<c:url value="/resources/js/sideNav.js" />"></script>
+
   </head>
   <body>
     <!-- Navbar -->
@@ -14,9 +16,9 @@ prefix="spring" uri="http://www.springframework.org/tags"%>
       <jsp:param name="navItem" value="${2}" />
       <jsp:param name="name" value="Bandify" />
     </jsp:include>
-
+    <div>
     <!-- Auditions content -->
-    <div class="auditions-content">
+      <div class="auditions-content">
       <%--Publicaciones de audiciones--%>
         <h2 id="posts">
           <spring:message code="welcome.auditionsSection" />
@@ -46,6 +48,8 @@ prefix="spring" uri="http://www.springframework.org/tags"%>
             scope="request"
           />
           <jsp:include page="../components/postCard.jsp">
+            <jsp:param name="userName" value="${userMap[audition.id]}"/>
+            <jsp:param name="userId" value="${audition.bandId}"/>
             <jsp:param name="id" value="${audition.id}" />
             <jsp:param name="postCard" value="${1}" />
             <jsp:param name="auditionDate" value="${audition.timeElapsed}" />
@@ -78,6 +82,7 @@ prefix="spring" uri="http://www.springframework.org/tags"%>
           </a>
         </c:if>
       </div>
+    </div>
     </div>
   </body>
 </html>

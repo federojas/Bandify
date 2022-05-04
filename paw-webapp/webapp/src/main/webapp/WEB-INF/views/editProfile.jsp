@@ -5,6 +5,8 @@
 <html>
 <head>
     <c:import url="../config/generalHead.jsp"/>
+    <c:import url="../config/materializeHead.jsp"/>
+
     <title><spring:message code="edituser.title"/></title>
     <link rel="stylesheet" href="<c:url value="/resources/css/forms.css" />"/>
     <script src="<c:url value="/resources/js/editProfile.js"/>"></script>
@@ -22,7 +24,7 @@
 
     <%--@elvariable id="editUserForm" type="ar.edu.itba.paw.webapp.form.UserEditForm"--%>
     <form:form method="post" acceptCharset="utf-8" modelAttribute="userEditForm"
-               action="${editProfileUrl}" id="editUserForm">
+               action="${editProfileUrl}" id="editUserForm" enctype="multipart/form-data">
         <div>
             <form:label class="form-label" path="name">
                 <spring:message code="register.form.name"/>
@@ -47,7 +49,19 @@
             <form:errors path="surname" element="p" cssClass="error"> </form:errors>
             <p class="error" id="wrongArtistSurname" style="display: none"><spring:message
                     code="register.form.invalidSurname"/></p>
+        </div>
 
+        <div>
+            <form:label class="form-label" path="profileImage" >
+                <spring:message code="editProfile.form.image"/>
+            </form:label>
+            <br/>
+            <div class = "editProfilePicture">
+                <spring:message code="profile.img.alt" var="img"/>
+                <img src="<c:url value="/user/${user.id}/profile-image"/>" class="editProfileImg" alt="${img}"/>
+                <form:input id="selectImage" type="file" path="profileImage" accept="image/png, image/jpeg" />
+                <form:errors path="profileImage" element="p" cssClass="error"/>
+            </div>
         </div>
 
         <div>
@@ -64,30 +78,56 @@
         </div>
 
 
+        <div>
+            <form:label class="form-label" path="musicGenres">
+                <spring:message code="welcome.form.musicGenres"/>
+            </form:label>
+            <form:select
+                    class="multiple-select"
+                    path="musicGenres"
+                    multiple="true"
+            >
+                <form:option value="" disabled="true" selected="true"><spring:message code="audition.form.musicGenres.maxSelect"/></form:option>
+                <c:forEach var="userGenre" items="${userGenres}" varStatus="loop">
+                    <form:option value="${userGenre.name}" selected="true">
+                        ${userGenre.name}
+                    </form:option>
+                </c:forEach>
+                <c:forEach var="genre" items="${genreList}" varStatus="loop">
+                        <form:option value="${genre.name}">
+                            ${genre.name}
+                        </form:option>
+                </c:forEach>
 
 
+            </form:select>
+            <form:errors path="musicGenres" element="p" cssClass="error">
+            </form:errors>
+        </div>
+        <div>
+            <form:label class="form-label" for="lookingFor" path="lookingFor"> <spring:message code="welcome.form.lookingFor"/> </form:label>
+            <form:select
+                    class="multiple-select"
+                    path="lookingFor"
+                    multiple="true"
+            >
+                <form:option value="" disabled="true" selected="true"><spring:message code="audition.form.lookingFor.maxSelect"/></form:option>
+
+                <c:forEach var="userRole" items="${userRoles}" varStatus="loop">
+                    <form:option value="${userRole.name}" selected="true">
+                        ${userRole.name}
+                    </form:option>
+                </c:forEach>
+                <c:forEach var="role" items="${roleList}" varStatus="loop">
+                    <form:option value="${role.name}"> ${role.name} </form:option>
+                </c:forEach>
+
+            </form:select>
+            <form:errors path="lookingFor" element="p" cssClass="error">
+            </form:errors>
+        </div>
     </form:form>
 
-    <div>
-        <div class="form-label">
-            <spring:message code="edituser.form.experience"/>
-        </div>
-        <spring:message code="edituser.form.experienceplaceholder" var="experienceplaceholder"/>
-        <form id="experienceForm" data-list="list" class="addExperienceForm">
-            <input type="text" id="experience" maxlength="50" placeholder="${experienceplaceholder}" class="form-input"
-            />
-            <spring:message code="edituser.form.experienceadd" var="experienceadd"/>
-            <button type="submit" form="experienceForm" class="add-button">
-                <img src="<c:url value="/resources/icons/add.svg" />"  alt="${experienceadd}" />
-            </button>
-
-        </form>
-        <ul id="experienceList">
-            <c:forEach items="${experienceList}" var="experience">
-                <li>${experience}</li>
-            </c:forEach>
-        </ul>
-    </div>
 
     <div class="end-button-div">
         <button
