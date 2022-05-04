@@ -136,6 +136,9 @@ button[disabled]{
   border-radius: 9999px;
   background-color: #6c0c84;
 }
+.postCard-button-0:hover {
+  background-color: #0369a1;
+}
 .postCard-div-10 {
   display: none;
   position: fixed;
