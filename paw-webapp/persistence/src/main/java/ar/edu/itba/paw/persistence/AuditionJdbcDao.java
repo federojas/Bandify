@@ -60,6 +60,14 @@ public class AuditionJdbcDao implements AuditionDao {
             " JOIN locations ON auditions.locationid = locations.id JOIN genres ON genres.id = auditiongenres.genreid" +
             " JOIN roles ON roles.id = auditionroles.roleid";
 
+    private final String FILTER_QUERY = GET_FULL_AUD_QUERY +
+            " WHERE (COALESCE(:genresNames,null) IS NULL OR genre IN (:genresNames)) AND " +
+            "(COALESCE(:rolesNames,null) IS NULL OR role IN (:rolesNames)) AND " +
+            "location = :location AND " +
+            "title LIKE :title " +
+            "LIMIT :pageSize " +
+            "OFFSET :offset";
+
     @Autowired
     public AuditionJdbcDao(final DataSource ds, GenreDao genreDao, RoleDao roleDao) {
         this.jdbcTemplate = new JdbcTemplate(ds);
@@ -166,23 +174,39 @@ public class AuditionJdbcDao implements AuditionDao {
 
     @Override
     public List<Audition> filter(AuditionFilter filter) {
-        MapSqlParameterSource in = new MapSqlParameterSource();
-        in.addValue("genresNames", filter.getGenresNames());
-        in.addValue("rolesNames", filter.getRolesNames());
-        in.addValue("location", filter.getLocation());
-        in.addValue("title", filter.getTitle());
-        in.addValue("pageSize", filter.getPageSize());
-        in.addValue("page",filter.getPage());
-
-        String query = new StringBuilder(GET_FULL_AUD_QUERY)
-                .append(" WHERE (COALESCE(:genresNames,null) IS NULL OR genre IN (:genresNames)) AND ")
-                .append("(COALESCE(:rolesNames,null) IS NULL OR role IN (:rolesNames)) AND ")
-                .append("location = :location").toString();
-        List<Audition.AuditionBuilder> auditionsBuilders = namedParameterJdbcTemplate.query(query,in,AUDITION_MAPPER);
+        MapSqlParameterSource in = parameterSource(filter);
+        List<Audition.AuditionBuilder> auditionsBuilders = namedParameterJdbcTemplate.query(FILTER_QUERY,in,AUDITION_MAPPER);
         List<Audition> list = new LinkedList<>();
         for(Audition.AuditionBuilder auditionBuilder : auditionsBuilders) {
             list.add(auditionBuilder.build());
         }
         return list;
+    }
+
+    private MapSqlParameterSource parameterSource(AuditionFilter filter) {
+        return new MapSqlParameterSource()
+                .addValue("genresNames", filter.getGenresNames())
+                .addValue("rolesNames", filter.getRolesNames())
+                .addValue("location", filter.getLocation())
+                .addValue("title", "%" + filter.getTitle().replace("%", "\\%").replace("_", "\\_").toLowerCase() + "%")
+                .addValue("pageSize", filter.getPageSize())
+                .addValue("offset",(filter.getPage()-1) * filter.getPageSize());
+    }
+
+    @Override
+    public int getTotalPages(AuditionFilter filter) {
+        MapSqlParameterSource in = parameterSource(filter);
+        String sqlQuery = "SELECT COUNT(*) " +
+                " FROM auditions JOIN auditiongenres ON id = auditiongenres.auditionid JOIN auditionroles ON id = auditionroles.auditionid" +
+                " JOIN locations ON auditions.locationid = locations.id JOIN genres ON genres.id = auditiongenres.genreid" +
+                " JOIN roles ON roles.id = auditionroles.roleid" +
+                " WHERE (COALESCE(:genresNames,null) IS NULL OR genre IN (:genresNames)) AND " +
+                "(COALESCE(:rolesNames,null) IS NULL OR role IN (:rolesNames)) AND " +
+                "location = :location AND " +
+                "title LIKE :title " +
+                "LIMIT :pageSize " +
+                "OFFSET :offset";
+        Optional<Integer> result = namedParameterJdbcTemplate.query(sqlQuery,in,TOTAL_AUDITION_ROW_MAPPER).stream().findFirst();
+        return result.map(integer -> (int) Math.ceil(integer.doubleValue() / PAGE_SIZE)).orElse(0);
     }
 }

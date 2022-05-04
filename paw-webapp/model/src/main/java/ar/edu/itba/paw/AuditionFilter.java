@@ -71,6 +71,8 @@ public class AuditionFilter {
     }
 
     public String getTitle() {
+        if(title == null)
+            return "";
         return title;
     }
 
