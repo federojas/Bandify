@@ -14,10 +14,6 @@ public interface VerificationTokenService {
 
     VerificationToken generate(long userId, TokenType type);
 
-    void sendVerifyEmail(User user, VerificationToken token);
-
-    void sendResetEmail(User user);
-
     Long validateToken(String token, TokenType type);
 
     boolean isValid(String token);
