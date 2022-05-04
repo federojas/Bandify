@@ -5,6 +5,8 @@
 <html>
 <head>
     <c:import url="../config/generalHead.jsp"/>
+    <c:import url="../config/materializeHead.jsp"/>
+
     <link rel="stylesheet" href="<c:url value="/resources/css/welcome.css" />" />
     <link rel="stylesheet" href="<c:url value="/resources/css/forms.css" />">
     <link rel="stylesheet" href="<c:url value="/resources/css/alerts.css" />"/>
@@ -62,7 +64,6 @@
                     <spring:message code="welcome.form.location"/>
                 </form:label>
                 <form:select
-                        class="form-input"
                         path="location"
                         multiple="false"
                         id="location"
@@ -83,12 +84,13 @@
             </div>
             <div>
                 <form:label class="form-label" for="musicGenres" path="musicGenres"> <spring:message code="welcome.form.musicGenres"/> </form:label>
-                <form:label class="form-label-legend" for="musicGenres" path="musicGenres"> <spring:message code="audition.form.musicGenres.maxSelect"/> </form:label>
                 <form:select
-                        class="multiple-select form-input"
+                        class="multiple-select"
                         path="musicGenres"
                         multiple="true"
                 >
+                    <form:option value="" disabled="true" selected="true"> <spring:message code="audition.form.musicGenres.maxSelect"/></form:option>
+
                     <c:forEach var="genre" items="${genreList}" varStatus="loop">
                         <form:option value="${genre.name}"> ${genre.name} </form:option>
                     </c:forEach>
@@ -98,12 +100,12 @@
             </div>
             <div>
                 <form:label class="form-label" for="lookingFor" path="lookingFor"> <spring:message code="welcome.form.lookingFor"/> </form:label>
-                <form:label class="form-label-legend" for="lookingFor" path="lookingFor"> <spring:message code="audition.form.lookingFor.maxSelect"/> </form:label>
                 <form:select
-                        class="multiple-select form-input"
                         path="lookingFor"
                         multiple="true"
                 >
+                    <form:option value="" disabled="true" selected="true"> <spring:message code="audition.form.lookingFor.maxSelect"/></form:option>
+
                     <c:forEach var="role" items="${roleList}" varStatus="loop">
                         <form:option value="${role.name}"> ${role.name} </form:option>
                     </c:forEach>
