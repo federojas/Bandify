@@ -106,27 +106,6 @@ public class UserController {
         return mav;
     }
 
-    @RequestMapping(value = "/profile/auditions", method = {RequestMethod.GET})
-    public ModelAndView profileAuditions(@RequestParam(value = "page", defaultValue = "1") int page) {
-        ModelAndView mav = new ModelAndView("views/profileAuditions");
-
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Optional<User> optionalUser = userService.findByEmail(auth.getName());
-        User user = optionalUser.orElseThrow(UserNotFoundException::new);
-
-        int lastPage = auditionService.getTotalBandAuditionPages(user.getId());
-        if(lastPage == 0)
-            lastPage = 1;
-        if(page < 0 || page > lastPage)
-            return new ModelAndView("errors/404");
-
-        List<Audition> auditionList = auditionService.getBandAuditions(user.getId(), page);
-        mav.addObject("auditionList", auditionList);
-        mav.addObject("currentPage", page);
-        mav.addObject("lastPage", lastPage);
-        return mav;
-    }
-
     @RequestMapping( value = "/user/{userId}/profile-image", method = {RequestMethod.GET})
     public void profilePicture(@PathVariable(value = "userId") long userId,
                                HttpServletResponse response) throws IOException {

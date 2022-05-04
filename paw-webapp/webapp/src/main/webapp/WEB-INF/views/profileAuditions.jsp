@@ -46,6 +46,8 @@
                 <jsp:param name="postCard" value="${1}" />
                 <jsp:param name="auditionDate" value="${audition.timeElapsed}" />
                 <jsp:param name="auditionTitle" value="${audition.title}" />
+                <jsp:param name="userName" value="${userName}"/>
+                <jsp:param name="userId" value="${userId}"/>
                 <jsp:param
                         name="auditionLocation"
                         value="${audition.location.name}"

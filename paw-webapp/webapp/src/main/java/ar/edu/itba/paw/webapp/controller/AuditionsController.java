@@ -65,14 +65,15 @@ public class AuditionsController {
             lastPage = 1;
         if(page < 0 || page > lastPage)
             return new ModelAndView("errors/404");
+
         List<Audition> auditionList = auditionService.getAll(page);
 
+        Map<Long, String> userMap = getUserMap(auditionList);
 
         mav.addObject("auditionList", auditionList);
+        mav.addObject("userMap", userMap);
         mav.addObject("currentPage", page);
         mav.addObject("lastPage", lastPage);
-
-
 
         return mav;
     }
@@ -88,12 +89,27 @@ public class AuditionsController {
             return new ModelAndView("errors/404");
         if(query.equals(""))
             return auditions(1);
+
         List<Audition> auditionList = auditionService.search(page, query);
+
+        Map<Long, String> userMap = getUserMap(auditionList);
+
         mav.addObject("auditionList", auditionList);
+        mav.addObject("userMap", userMap);
         mav.addObject("currentPage", page);
         mav.addObject("query", query);
         mav.addObject("lastPage", lastPage);
         return mav;
+    }
+
+    private Map<Long, String> getUserMap(List<Audition> auditionList) {
+        Map<Long, String> userMap = new HashMap<>();
+
+        for(Audition audition : auditionList) {
+            userMap.put(audition.getId(), userService.getUserById(audition.getBandId()).orElseThrow(UserNotFoundException::new).getName());
+        }
+
+        return userMap;
     }
 
     //TODO CODIGO REPETIDO
@@ -309,6 +325,30 @@ public class AuditionsController {
         String redirect = "redirect:/auditions/" + id;
 
         return new ModelAndView(redirect);
+    }
+
+    @RequestMapping(value = "/profile/auditions", method = {RequestMethod.GET})
+    public ModelAndView profileAuditions(@RequestParam(value = "page", defaultValue = "1") int page) {
+        ModelAndView mav = new ModelAndView("views/profileAuditions");
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> optionalUser = userService.findByEmail(auth.getName());
+        User user = optionalUser.orElseThrow(UserNotFoundException::new);
+
+        int lastPage = auditionService.getTotalBandAuditionPages(user.getId());
+        if(lastPage == 0)
+            lastPage = 1;
+        if(page < 0 || page > lastPage)
+            return new ModelAndView("errors/404");
+
+        List<Audition> auditionList = auditionService.getBandAuditions(user.getId(), page);
+
+        mav.addObject("userName", user.getName());
+        mav.addObject("userId", user.getId());
+        mav.addObject("auditionList", auditionList);
+        mav.addObject("currentPage", page);
+        mav.addObject("lastPage", lastPage);
+        return mav;
     }
 
 }

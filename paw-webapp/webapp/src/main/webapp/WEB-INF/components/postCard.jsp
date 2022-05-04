@@ -5,15 +5,21 @@
 <html>
 <head>
     <link rel="stylesheet" href="<c:url value="/resources/css/postCard.css" />"/>
-
 </head>
 <body>
 <%--    Card --%>
 <div class="postCard-div-0 shadow-lg">
-    <div class="postcard-profile">
-        <button>IMAGEN</button>
-        <h1>NOMBRE DE PERFIL</h1>
-    </div>
+    <a href="/user/${param.userId}">
+        <div class="postcard-profile">
+                    <div class="image overflow-hidden">
+                        <img class="postcard-profile-image"
+                        <spring:message code="profile.img.alt" var="img"/>
+                             src="<c:url value="/user/${param.userId}/profile-image"/>"
+                             alt="${img}">
+                    </div>
+                    <h1 class="postcard-band-name"><c:out value=" ${param.userName}" /></h1>
+        </div>
+    </a>
     <div class="content-div">
         <div class="postCard-div-1">
             <h2 class="postCard-h2-0">

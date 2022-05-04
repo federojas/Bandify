@@ -85,7 +85,7 @@ button[disabled]{
 }
 .postCard-h2-0 {
   color: #111827;
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   line-height: 1.75rem;
   font-weight: 600;
   word-break: break-word;
@@ -93,7 +93,7 @@ button[disabled]{
 }
 
 .content-div {
-  margin-left: 10px;
+  margin-left: 20px;
 }
 
 .postCard-button-0 {
@@ -155,4 +155,21 @@ ul > li {
   flex-direction: row;
   justify-content: left;
   margin-bottom: 10px;
+  align-items: center;
+}
+
+.postcard-profile-image{
+  height: 50px;
+  width: 50px;
+  object-fit: cover;
+  border-radius: 10000px;
+  border:2px solid black;
+}
+
+.postcard-band-name {
+  margin-left: 20px;
+  color: black;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 2rem;
 }
