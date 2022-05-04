@@ -62,11 +62,15 @@ public class AuditionJdbcDao implements AuditionDao {
             " JOIN roles ON roles.id = auditionroles.roleid";
 
     private final String FILTER_QUERY = GET_FULL_AUD_QUERY +
-            " WHERE auditions.id IN (SELECT id FROM auditions LIMIT :pageSize OFFSET :offset) AND " +
-            "(COALESCE(:genresNames,null) IS NULL OR genre IN (:genresNames)) AND " +
+            " WHERE auditions.id IN (SELECT DISTINCT auditions.id" +
+            " FROM auditions JOIN auditiongenres ON id = auditiongenres.auditionid JOIN auditionroles ON id = auditionroles.auditionid" +
+            " JOIN locations ON auditions.locationid = locations.id JOIN genres ON genres.id = auditiongenres.genreid" +
+            " JOIN roles ON roles.id = auditionroles.roleid " +
+            "WHERE (COALESCE(:genresNames,null) IS NULL OR genre IN (:genresNames)) AND " +
             "(COALESCE(:rolesNames,null) IS NULL OR role IN (:rolesNames)) AND " +
             "(COALESCE(:locations,null) IS NULL OR location IN (:locations)) AND "+
-            "(COALESCE(:title,null) IS NULL OR LOWER(title) LIKE :title) ";
+            "(COALESCE(:title,null) IS NULL OR LOWER(title) LIKE :title) " +
+            "LIMIT :pageSize OFFSET :offset)";
 
     @Autowired
     public AuditionJdbcDao(final DataSource ds, GenreDao genreDao, RoleDao roleDao) {
