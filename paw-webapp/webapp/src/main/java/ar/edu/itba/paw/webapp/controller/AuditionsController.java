@@ -96,6 +96,7 @@ public class AuditionsController {
         return mav;
     }
 
+    //TODO CODIGO REPETIDO
     @RequestMapping(value = "/auditions/{id}", method = {RequestMethod.GET})
     public ModelAndView audition(@ModelAttribute("applicationForm") final ApplicationForm applicationForm,
                                  @PathVariable long id) {
@@ -106,20 +107,31 @@ public class AuditionsController {
         Optional<Audition> audition = auditionService.getAuditionById(id);
 
         if (audition.isPresent()) {
+
+            long auditionOwnerId = audition.get().getBandId();
+            Optional<User> optionalUser = userService.getUserById(auditionOwnerId);
+            User owner = optionalUser.orElseThrow(UserNotFoundException::new);
+
             if(SecurityContextHolder.getContext().getAuthentication() != null &&
                     SecurityContextHolder.getContext().getAuthentication().isAuthenticated() &&
                     !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) {
+
                 Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-                Optional<User> optionalUser = userService.findByEmail(auth.getName());
-                User user = optionalUser.orElseThrow(UserNotFoundException::new);
-                mav.addObject("isOwner", user.getId() == audition.get().getBandId());
+                optionalUser = userService.findByEmail(auth.getName());
+                User currentUser = optionalUser.orElseThrow(UserNotFoundException::new);
+                mav.addObject("isOwner", currentUser.getId() == auditionOwnerId);
+
             } else {
                 mav.addObject("isOwner", false);
             }
+
             mav.addObject("audition", audition.get());
+            mav.addObject("user", owner);
+
         } else {
             throw new AuditionNotFoundException();
         }
+
         return mav;
     }
 
