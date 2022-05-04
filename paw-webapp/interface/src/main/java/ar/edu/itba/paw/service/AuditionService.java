@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.service;
 
+import ar.edu.itba.paw.AuditionFilter;
 import ar.edu.itba.paw.persistence.User;
 import ar.edu.itba.paw.persistence.Audition;
 
@@ -25,4 +26,8 @@ public interface AuditionService {
     void sendApplicationEmail(long id, User user, String message);
 
     int getTotalBandAuditionPages(long userId);
+
+    List<Audition> filter(AuditionFilter filter, int page);
+
+    int getFilterTotalPages(AuditionFilter filter);
 }

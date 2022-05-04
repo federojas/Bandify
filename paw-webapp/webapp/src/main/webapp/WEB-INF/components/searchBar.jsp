@@ -20,12 +20,6 @@
             <button type="submit" aria-hidden="true"></button>
         </div>
     </form>
-    <jsp:include page="../components/sideNav.jsp">
-        <jsp:param name="genreList" value="${genreList}" />
-        <jsp:param name="role" value="${roleList}" />
-        <jsp:param name="location" value="${locationList}"/>
-
-    </jsp:include>
     </div>
 </div>
 </body>

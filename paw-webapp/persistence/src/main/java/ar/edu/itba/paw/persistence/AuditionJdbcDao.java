@@ -61,12 +61,11 @@ public class AuditionJdbcDao implements AuditionDao {
             " JOIN roles ON roles.id = auditionroles.roleid";
 
     private final String FILTER_QUERY = GET_FULL_AUD_QUERY +
-            " WHERE (COALESCE(:genresNames,null) IS NULL OR genre IN (:genresNames)) AND " +
+            " WHERE auditions.id IN (SELECT id FROM auditions LIMIT :pageSize OFFSET :offset) AND " +
+            "(COALESCE(:genresNames,null) IS NULL OR genre IN (:genresNames)) AND " +
             "(COALESCE(:rolesNames,null) IS NULL OR role IN (:rolesNames)) AND " +
-            "location = :location AND " +
-            "title LIKE :title " +
-            "LIMIT :pageSize " +
-            "OFFSET :offset";
+            "(COALESCE(:locations,null) IS NULL OR location IN (:locations)) AND "+
+            "(COALESCE(:title,null) IS NULL OR LOWER(title) LIKE :title) ";
 
     @Autowired
     public AuditionJdbcDao(final DataSource ds, GenreDao genreDao, RoleDao roleDao) {
@@ -173,8 +172,8 @@ public class AuditionJdbcDao implements AuditionDao {
     }
 
     @Override
-    public List<Audition> filter(AuditionFilter filter) {
-        MapSqlParameterSource in = parameterSource(filter);
+    public List<Audition> filter(AuditionFilter filter, int page) {
+        MapSqlParameterSource in = parameterSource(filter,page);
         List<Audition.AuditionBuilder> auditionsBuilders = namedParameterJdbcTemplate.query(FILTER_QUERY,in,AUDITION_MAPPER);
         List<Audition> list = new LinkedList<>();
         for(Audition.AuditionBuilder auditionBuilder : auditionsBuilders) {
@@ -183,29 +182,28 @@ public class AuditionJdbcDao implements AuditionDao {
         return list;
     }
 
-    private MapSqlParameterSource parameterSource(AuditionFilter filter) {
+    private MapSqlParameterSource parameterSource(AuditionFilter filter, int page) {
+        String title = filter.getTitle().equals("") ? null : "%" + filter.getTitle().replace("%", "\\%").replace("_", "\\_").toLowerCase() + "%";
         return new MapSqlParameterSource()
                 .addValue("genresNames", filter.getGenresNames())
                 .addValue("rolesNames", filter.getRolesNames())
-                .addValue("location", filter.getLocation())
-                .addValue("title", "%" + filter.getTitle().replace("%", "\\%").replace("_", "\\_").toLowerCase() + "%")
-                .addValue("pageSize", filter.getPageSize())
-                .addValue("offset",(filter.getPage()-1) * filter.getPageSize());
+                .addValue("locations", filter.getLocations())
+                .addValue("title", title)
+                .addValue("pageSize", PAGE_SIZE)
+                .addValue("offset",(page-1) * PAGE_SIZE);
     }
 
     @Override
     public int getTotalPages(AuditionFilter filter) {
-        MapSqlParameterSource in = parameterSource(filter);
-        String sqlQuery = "SELECT COUNT(*) " +
+        MapSqlParameterSource in = parameterSource(filter,1);
+        String sqlQuery = "SELECT COUNT(DISTINCT auditions.id) " +
                 " FROM auditions JOIN auditiongenres ON id = auditiongenres.auditionid JOIN auditionroles ON id = auditionroles.auditionid" +
                 " JOIN locations ON auditions.locationid = locations.id JOIN genres ON genres.id = auditiongenres.genreid" +
                 " JOIN roles ON roles.id = auditionroles.roleid" +
                 " WHERE (COALESCE(:genresNames,null) IS NULL OR genre IN (:genresNames)) AND " +
                 "(COALESCE(:rolesNames,null) IS NULL OR role IN (:rolesNames)) AND " +
-                "location = :location AND " +
-                "title LIKE :title " +
-                "LIMIT :pageSize " +
-                "OFFSET :offset";
+                "(COALESCE(:locations,null) IS NULL OR location IN (:locations)) AND " +
+                "(COALESCE(:title,null) IS NULL OR LOWER(title) LIKE :title) ";
         Optional<Integer> result = namedParameterJdbcTemplate.query(sqlQuery,in,TOTAL_AUDITION_ROW_MAPPER).stream().findFirst();
         return result.map(integer -> (int) Math.ceil(integer.doubleValue() / PAGE_SIZE)).orElse(0);
     }

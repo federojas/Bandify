@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.webapp.controller;
 
+import ar.edu.itba.paw.AuditionFilter;
 import ar.edu.itba.paw.persistence.Genre;
 import ar.edu.itba.paw.persistence.Location;
 import ar.edu.itba.paw.persistence.Role;
@@ -19,11 +20,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 public class AuditionsController {
@@ -66,36 +69,45 @@ public class AuditionsController {
             return new ModelAndView("errors/404");
         List<Audition> auditionList = auditionService.getAll(page);
 
-
         Set<Role> roleList = roleService.getAll();
         Set<Genre> genreList = genreService.getAll();
         List<Location> locationList = locationService.getAll();
-        mav.addObject("roleList", roleList);
-        mav.addObject("genreList", genreList);
-        mav.addObject("locationList", locationList);
-
-
+        mav.addObject("roleList", roleList.stream().map(Role::getName).collect(Collectors.toList()));
+        mav.addObject("genreList", genreList.stream().map(Genre::getName).collect(Collectors.toList()));
+        mav.addObject("locationList", locationList.stream().map(Location::getName).collect(Collectors.toList()));
         mav.addObject("auditionList", auditionList);
         mav.addObject("currentPage", page);
         mav.addObject("lastPage", lastPage);
-
-
 
         return mav;
     }
 
     @RequestMapping(value = "/search", method = {RequestMethod.GET})
     public ModelAndView search( @RequestParam(value = "page", defaultValue = "1") int page,
-                                @RequestParam(value = "query", defaultValue = "") String query ) {
+                                @RequestParam(value = "query", defaultValue = "") String query,
+                                @RequestParam(value = "genre", required = false) String[] genres,
+                                @RequestParam(value = "role", required = false) String[] roles,
+                                @RequestParam(value = "location", required = false) String[] locations) {
         final ModelAndView mav = new ModelAndView("views/search");
-        int lastPage = auditionService.getTotalPages(query);
+        AuditionFilter filter = new AuditionFilter.AuditionFilterBuilder().
+                withGenres(genres == null ? null : Arrays.asList(genres))
+                .withRoles(roles == null ? null : Arrays.asList(roles))
+                .withLocations(locations == null ? null : Arrays.asList(locations))
+                .withTitle(query).build();
+        int lastPage = auditionService.getFilterTotalPages(filter);
         if(lastPage == 0)
             lastPage = 1;
         if(page < 0 || page > lastPage)
             return new ModelAndView("errors/404");
-        if(query.equals(""))
-            return auditions(1);
-        List<Audition> auditionList = auditionService.search(page, query);
+
+        Set<Role> roleList = roleService.getAll();
+        Set<Genre> genreList = genreService.getAll();
+        List<Location> locationList = locationService.getAll();
+        mav.addObject("roleList", roleList.stream().map(Role::getName).collect(Collectors.toList()));
+        mav.addObject("genreList", genreList.stream().map(Genre::getName).collect(Collectors.toList()));
+        mav.addObject("locationList", locationList.stream().map(Location::getName).collect(Collectors.toList()));
+
+        List<Audition> auditionList = auditionService.filter(filter,page);
         mav.addObject("auditionList", auditionList);
         mav.addObject("currentPage", page);
         mav.addObject("query", query);

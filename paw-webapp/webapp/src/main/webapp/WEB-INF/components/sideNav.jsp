@@ -10,41 +10,46 @@
 </head>
 <body>
 <spring:message code="search.alt.filter" var="filter"/>
-<img onclick="openNav()" class="filter-button" src="<c:url value="/resources/icons/filter.svg" />" alt="${filter}">
-<div id="mySidenav" class="sidenav">
-    <b><h1><spring:message code="sideNav.filter"/></h1></b>
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    <hr>
-        <p><spring:message code="sideNav.location"/> </p>
-        <c:forEach
-                var="location"
-                items="${locationList}"
-                varStatus="loop"
+    <img onclick="openNav()" class="filter-button" src="<c:url value="/resources/icons/filter.svg" />" alt="${filter}">
+    <div id="mySidenav" class="sidenav">
+        <h1><b><spring:message code="sideNav.filter"/></b></h1>
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <c:url value="/search" var="searchUrl"/>
+        <%--@elvariable id="filterForm" type="ar.edu.itba.paw.webapp.form.FilterForm"--%>
+        <form
+                method="get"
+                action="${searchUrl}"
+                class="box"
         >
-            <input type="checkbox" id="${location.id}">
-            <label class="sidenav-input-label" for="${location.id}">${location.name}</label>
+            <div>
+                <hr/>
+                <p><spring:message code="sideNav.genres"/></p>
+                <c:forEach var="genre" items="${genreList}" varStatus="loop">
+                    <input type="checkbox" name="genre" id="${genre}" value="${genre}">
+                    <label  class="sidenav-input-label" for="${genre}">${genre}</label>
+                </c:forEach>
+            </div>
 
-            </input>
-        </c:forEach>
-    <hr>
-        <p><spring:message code="sideNav.genres"/> </p>
-        <c:forEach var="genre" items="${genreList}" varStatus="loop">
-            <input type="checkbox" id="${genre.id}">
-            <label  class="sidenav-input-label" for="${genre.id}">${genre.name}</label>
+            <div>
+                <hr/>
+                <p><spring:message code="sideNav.roles"/></p>
+                <c:forEach var="role" items="${roleList}" varStatus="loop">
+                    <input type="checkbox" name="role" id="${role}" value="${role}">
+                    <label  class="sidenav-input-label" for="${role}">${role}</label>
+                </c:forEach>
+            </div>
 
-        </c:forEach>
-    <hr>
-    <p><spring:message code="sideNav.roles"/></p>
-
-        <c:forEach var="role" items="${roleList}" varStatus="loop">
-            <input type="checkbox" id="${role.id}">
-            <label  class="sidenav-input-label" for="${role.id}">${role.name}</label>
-            <br>
-        </c:forEach>
+            <div class="filter-button-1">
+                <button  class=" postCard-button-0 hover:bg-sky-700"
+                         type="submit"
+                >
+                    Filtrar
+                </button>
+            </div>
+        </form>
     <hr>
     <div class="filter-button-1">
         <button  class=" postCard-button-0">Filtrar</button>
     </div>
-</div>
 </body>
 </html>

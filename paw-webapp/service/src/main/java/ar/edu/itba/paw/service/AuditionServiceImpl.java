@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.service;
 
+import ar.edu.itba.paw.AuditionFilter;
 import ar.edu.itba.paw.persistence.User;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.persistence.Audition;
@@ -79,6 +80,16 @@ public class AuditionServiceImpl implements AuditionService {
     @Override
     public int getTotalBandAuditionPages(long userId) {
         return auditionDao.getTotalBandAuditionPages(userId);
+    }
+
+    @Override
+    public List<Audition> filter(AuditionFilter filter, int page) {
+        return auditionDao.filter(filter, page);
+    }
+
+    @Override
+    public int getFilterTotalPages(AuditionFilter filter) {
+        return auditionDao.getTotalPages(filter);
     }
 
     @Override

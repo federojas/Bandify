@@ -25,5 +25,5 @@ public interface AuditionDao {
 
     int getTotalBandAuditionPages(long userId);
 
-    List<Audition> filter(AuditionFilter filter);
+    List<Audition> filter(AuditionFilter filter, int page);
 }

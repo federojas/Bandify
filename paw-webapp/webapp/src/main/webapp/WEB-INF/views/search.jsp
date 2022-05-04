@@ -68,9 +68,7 @@
         <spring:message code="search.title" />
     </h2>
 
-    <jsp:include page="../components/searchBar.jsp">
-        <jsp:param name="name" value="Bandify" />
-    </jsp:include>
+
 
     <%--Publicaciones de audiciones--%>
     <c:if test="${auditionList.size() != 0}">
