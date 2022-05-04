@@ -131,16 +131,17 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
         </div>
 
       </div>
+      <h1 class="applicants-header"><spring:message code="audition.applicantsHeader"/></h1>
 
-      <div>
-        <c:forEach var="app" items="${applications}" varStatus="loop">
-          <jsp:include page="../components/application.jsp">
-            <jsp:param name="applicantName" value="${app.applicantName}" />
-            <jsp:param name="applicantSurname" value="${app.applicantSurname}" />
-            <jsp:param name="applicantId" value="${app.applicantId}" />
-          </jsp:include>
-        </c:forEach>
-      </div>
+      <c:set var="pendingAppsS" value="${pendingApps}" scope="request"/>
+      <c:set var="approvedAppsS" value="${acceptedApps}" scope="request"/>
+      <c:set var="rejectedAppsS" value="${rejectedApps}" scope="request"/>
+      <jsp:include page="../components/applicantsByState.jsp">
+        <jsp:param name="auditionId" value="${audition.id}" />
+        <jsp:param name="pendingApps" value="${pendingAppsS}" />
+        <jsp:param name="approvedApps" value="${approvedAppsS}" />
+        <jsp:param name="rejectedApps" value="${rejectedAppsS}" />
+      </jsp:include>
     </div>
   </body>
 </html>

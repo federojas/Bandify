@@ -151,7 +151,12 @@ public class AuditionsController {
             throw new AuditionNotFoundException();
         }
 
-        mav.addObject("applications", applicationService.getAuditionApplications(id));
+        List<Application> pendingApps = applicationService.getApplicationsByState(id, ApplicationState.PENDING);
+        List<Application> acceptedApps = applicationService.getApplicationsByState(id, ApplicationState.ACCEPTED);
+        List<Application> rejectedApps = applicationService.getApplicationsByState(id, ApplicationState.REJECTED);
+        mav.addObject("pendingApps", pendingApps);
+        mav.addObject("acceptedApps", acceptedApps);
+        mav.addObject("rejectedApps", rejectedApps);
 
         return mav;
     }
@@ -349,6 +354,19 @@ public class AuditionsController {
 
         List<Audition> auditionList = auditionService.getBandAuditions(user.getId(), page);
 
+        Map<Long, List<List<Application>>> auditionApps = new HashMap<>();
+        for (Audition audition : auditionList) {
+            List<Application> pendingApps = applicationService.getApplicationsByState(audition.getId(), ApplicationState.PENDING);
+            List<Application> acceptedApps = applicationService.getApplicationsByState(audition.getId(), ApplicationState.ACCEPTED);
+            List<Application> rejectedApps = applicationService.getApplicationsByState(audition.getId(), ApplicationState.REJECTED);
+            List<List<Application>> apps = new ArrayList<>();
+            apps.add(pendingApps);
+            apps.add(acceptedApps);
+            apps.add(rejectedApps);
+            auditionApps.put(audition.getId(), apps);
+        }
+
+        mav.addObject("auditionsApps", auditionApps);
         mav.addObject("userName", user.getName());
         mav.addObject("userId", user.getId());
         mav.addObject("auditionList", auditionList);

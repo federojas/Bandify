@@ -7,6 +7,7 @@
 <html>
 <head>
     <c:import url="../config/generalHead.jsp"/>
+    <c:import url="../config/materializeHead.jsp"/>
     <title><spring:message code="navbar.profile" /></title>
     <link rel="stylesheet" href="<c:url value="/resources/css/profile.css" />"/>
 </head>
@@ -171,7 +172,9 @@
                                 <hr>
                             </ul>
                         </div>
+
                     </div>
+
                     <br/>
                 </div>
 

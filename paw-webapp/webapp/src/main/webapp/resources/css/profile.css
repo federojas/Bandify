@@ -180,3 +180,7 @@ auditions-title-div {
     display: flex;
     justify-content: center;
 }
+
+.my-auditions {
+    margin-top: 4rem;
+}

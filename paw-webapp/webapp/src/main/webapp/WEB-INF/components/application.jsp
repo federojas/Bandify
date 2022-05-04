@@ -14,12 +14,22 @@
             border: 1px solid #ccc;
             border-radius: 5px;
             justify-content: space-around;
+            background-color: white;
+            width: 50%;
+            align-self: center;
         }
 
         .application-icon {
-            width: 16px;
-            height: 16px;
+            width: 32px;
             margin: 0 0.25rem;
+        }
+
+        .application-icons {
+            display: flex;
+            flex-direction: row;
+            justify-items: center;
+            align-items: center;
+
         }
     </style>
 </head>
@@ -29,8 +39,10 @@
     <div>
         <spring:message code="application.accept" var="accept"/>
         <spring:message code="application.reject" var="reject"/>
-        <img src="<c:url value="/resources/icons/success.svg" />" alt="${accept}" class="application-icon"/>
-        <img src="<c:url value="/resources/icons/reject.svg" />" alt="${reject}" class="application-icon"/>
+        <div class="application-icons">
+            <img src="<c:url value="/resources/icons/success.svg" />" alt="${accept}" class="application-icon"/>
+            <img src="<c:url value="/resources/icons/reject.svg" />" alt="${reject}" class="application-icon"/>
+        </div>
     </div>
 </div>
 
