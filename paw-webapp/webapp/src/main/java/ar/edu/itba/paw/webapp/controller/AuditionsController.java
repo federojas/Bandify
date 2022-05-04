@@ -158,6 +158,7 @@ public class AuditionsController {
         if (errors.hasErrors()) {
             return audition(applicationForm,id);
         }
+
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> optionalUser = userService.findByEmail(auth.getName());
         User user = optionalUser.orElseThrow(UserNotFoundException::new);
