@@ -66,7 +66,6 @@
 //
 //        final Audition audition = auditionJdbcDao.create(builder);
 //        //final Audition audition2 = auditionJdbcDao.create(new Audition.AuditionBuilder(TITLE, DESCRIPTION, EMAIL, BANDID, LOCALTIME).id(ID2).location(LOCATION).musicGenres(genreList).lookingFor(roleList));
-//        System.out.println(audition.getId());
 //        assertNotNull(audition);
 //        //assertNotNull(audition2);
 //    }

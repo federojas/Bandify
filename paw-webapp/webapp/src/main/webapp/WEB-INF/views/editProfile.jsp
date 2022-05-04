@@ -2,6 +2,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <html>
 <head>
     <c:import url="../config/generalHead.jsp"/>
@@ -37,19 +38,20 @@
                     code="register.form.invalidName"/></p>
 
         </div>
-
-        <div id="surname-div">
-            <form:label class="form-label" path="surname">
-                <spring:message code="register.form.surname"/>
-            </form:label>
-            <spring:message code="register.form.surnameplaceholder" var="surnameplaceholder"/>
-            <form:input type="text" id="artistSurname" maxlength="50" placeholder="${surnameplaceholder}"
-                        class="form-input"
-                        path="surname"/>
-            <form:errors path="surname" element="p" cssClass="error"> </form:errors>
-            <p class="error" id="wrongArtistSurname" style="display: none"><spring:message
-                    code="register.form.invalidSurname"/></p>
-        </div>
+        <sec:authorize access="hasRole('ARTIST')">
+            <div id="surname-div">
+                <form:label class="form-label" path="surname">
+                    <spring:message code="register.form.surname"/>
+                </form:label>
+                <spring:message code="register.form.surnameplaceholder" var="surnameplaceholder"/>
+                <form:input type="text" id="artistSurname" maxlength="50" placeholder="${surnameplaceholder}"
+                            class="form-input"
+                            path="surname"/>
+                <form:errors path="surname" element="p" cssClass="error"> </form:errors>
+                <p class="error" id="wrongArtistSurname" style="display: none"><spring:message
+                        code="register.form.invalidSurname"/></p>
+            </div>
+        </sec:authorize>
 
         <div>
             <form:label class="form-label" path="profileImage" >
