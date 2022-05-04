@@ -11,7 +11,7 @@
 
 .search > input[type=text] {
     flex: 1;
-    color: #ffffff;
+    color: black;
     border-radius: 9999px;
     height: 40px;
     width: 90%;
@@ -29,7 +29,7 @@
     background-size: 15px;
     float: right;
     cursor: pointer;
-    color: #ffffff;
+    color: black;
 }
 
 .search > input[type=text]:focus{

@@ -18,8 +18,9 @@ import java.util.stream.Collectors;
 @Repository
 public class AuditionJdbcDao implements AuditionDao {
 
+    private final int PAGE_SIZE = 9;
+
     private final JdbcTemplate jdbcTemplate;
-    private final int PAGE_SIZE = 12;
     private final SimpleJdbcInsert jdbcAuditionInsert;
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
     private final GenreDao genreDao;
@@ -136,10 +137,11 @@ public class AuditionJdbcDao implements AuditionDao {
     @Override
     public List<Audition> search(int page, String query) {
         StringBuilder sb = new StringBuilder(GET_FULL_AUD_QUERY).append(" WHERE LOWER(title) LIKE ?" +
-                " AND auditions.id IN (SELECT id FROM auditions LIMIT ? OFFSET ?)" +
+                " AND auditions.id IN (SELECT id FROM auditions WHERE LOWER(title) LIKE ? LIMIT ? OFFSET ?)" +
                 " ORDER BY creationdate DESC, title ASC");
         final String sqlQuery = sb.toString();
-        List<Audition.AuditionBuilder> auditionsBuilders = jdbcTemplate.query(sqlQuery,new Object[] { "%" + query.replace("%", "\\%").replace("_", "\\_").toLowerCase() + "%", PAGE_SIZE, (page -1) * PAGE_SIZE}, AUDITION_MAPPER);
+        String builtQuery = "%" + query.replace("%", "\\%").replace("_", "\\_").toLowerCase() + "%";
+        List<Audition.AuditionBuilder> auditionsBuilders = jdbcTemplate.query(sqlQuery,new Object[] { builtQuery, builtQuery, PAGE_SIZE, (page -1) * PAGE_SIZE}, AUDITION_MAPPER);
         // TODO: pasar a funcional
         List<Audition> list = new LinkedList<>();
         for(Audition.AuditionBuilder auditionBuilder : auditionsBuilders) {
@@ -154,7 +156,7 @@ public class AuditionJdbcDao implements AuditionDao {
         if(query == null || query.isEmpty())
             result = jdbcTemplate.query("SELECT COUNT(*) FROM auditions", TOTAL_AUDITION_ROW_MAPPER).stream().findFirst();
         else
-            result = jdbcTemplate.query("SELECT COUNT(*) FROM auditions WHERE title LIKE ?", new Object[] {"%" + query + "%"}, TOTAL_AUDITION_ROW_MAPPER).stream().findFirst();
+            result = jdbcTemplate.query("SELECT COUNT(*) FROM auditions WHERE LOWER(title) LIKE ?", new Object[] {"%" + query.replace("%", "\\%").replace("_", "\\_").toLowerCase() + "%"}, TOTAL_AUDITION_ROW_MAPPER).stream().findFirst();
         //TODO Math.ceil casteado a int puede castear un double muy grande y generar una excepcion
         //TODO tamaño int es la maxima page
         return result.map(integer -> (int) Math.ceil(integer.doubleValue() / PAGE_SIZE)).orElse(0);
@@ -164,6 +166,23 @@ public class AuditionJdbcDao implements AuditionDao {
     public int getTotalBandAuditionPages(long userId) {
         Optional<Integer> result = jdbcTemplate.query("SELECT COUNT(*) FROM auditions WHERE bandId = ?", new Object[] {userId} ,TOTAL_AUDITION_ROW_MAPPER).stream().findFirst();
         return result.map(integer -> (int) Math.ceil(integer.doubleValue() / PAGE_SIZE)).orElse(0);
+    }
+
+    @Override
+    public void deleteAuditionById(long id) {
+        jdbcTemplate.update("DELETE FROM auditions WHERE id = ?", id);
+    }
+
+    @Override
+    public void editAuditionById(Audition.AuditionBuilder builder, long id) {
+        jdbcTemplate.update("UPDATE auditions SET title = ?, description = ?, locationid = ? WHERE id = ?",
+                new Object[]{builder.getTitle(), builder.getDescription(), builder.getLocation().getId(), id});
+
+        jdbcTemplate.update("DELETE FROM auditiongenres WHERE auditionid = ?", id);
+        jdbcTemplate.update("DELETE FROM auditionroles WHERE auditionid = ?", id);
+
+        roleDao.createAuditionRole(builder.getLookingFor(), id);
+        genreDao.createAuditionGenre(builder.getMusicGenres(), id);
     }
 
     @Override

@@ -7,7 +7,6 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 import java.util.List;
 

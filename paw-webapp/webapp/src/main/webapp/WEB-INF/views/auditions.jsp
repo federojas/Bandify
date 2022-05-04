@@ -16,7 +16,7 @@ prefix="spring" uri="http://www.springframework.org/tags"%>
       <jsp:param name="navItem" value="${2}" />
       <jsp:param name="name" value="Bandify" />
     </jsp:include>
-    <div  id="main" style="margin-left: 250px">
+    <div>
     <!-- Auditions content -->
       <div class="auditions-content">
       <%--Publicaciones de audiciones--%>
@@ -48,6 +48,8 @@ prefix="spring" uri="http://www.springframework.org/tags"%>
             scope="request"
           />
           <jsp:include page="../components/postCard.jsp">
+            <jsp:param name="userName" value="${userMap[audition.id]}"/>
+            <jsp:param name="userId" value="${audition.bandId}"/>
             <jsp:param name="id" value="${audition.id}" />
             <jsp:param name="postCard" value="${1}" />
             <jsp:param name="auditionDate" value="${audition.timeElapsed}" />

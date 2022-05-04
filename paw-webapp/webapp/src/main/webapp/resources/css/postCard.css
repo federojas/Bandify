@@ -11,7 +11,8 @@
   border-radius: 0.5rem;
   border-width: 1px;
   transition: 1s;
-  width: 300px;
+  width: 400px;
+  height: 400px;
   position: relative;
 }
 .postCard-div-0:hover {
@@ -84,26 +85,31 @@ button[disabled]{
 }
 .postCard-h2-0 {
   color: #111827;
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   line-height: 1.75rem;
   font-weight: 600;
   word-break: break-word;
   white-space: normal;
 }
-.postCard-button-1 {
-  padding: 0.5rem 1.25rem;
-  margin-right: 0.25rem;
-  margin-bottom: 0.25rem;
-  margin-top: 1rem;
-  transition-property: all;
-  transition-duration: 150ms;
-  transition-timing-function: linear;
-  color: #ef4444;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  font-weight: 700;
-  outline: 0;
+
+.content-div {
+  margin-left: 20px;
 }
+
+.postCard-button-0 {
+  padding: 0.5rem 1.25rem;
+  color: #ffffff;
+  font-weight: 600;
+  line-height: 1.25rem;
+  justify-content: flex-end;
+  border-radius: 9999px;
+  background-color: #6c0c84;
+}
+
+.postCard-button-0:hover {
+  background-color: #0369a1;
+}
+
 .postCard-div-8 {
   position: relative;
   padding: 1.5rem;
@@ -139,6 +145,7 @@ button[disabled]{
 .postCard-button-0:hover {
   background-color: #0369a1;
 }
+
 .postCard-div-10 {
   display: none;
   position: fixed;
@@ -153,4 +160,28 @@ button[disabled]{
 
 ul > li {
   margin-top: 0.75rem;
+}
+
+.postcard-profile {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  margin-bottom: 10px;
+  align-items: center;
+}
+
+.postcard-profile-image{
+  height: 50px;
+  width: 50px;
+  object-fit: cover;
+  border-radius: 10000px;
+  border:2px solid black;
+}
+
+.postcard-band-name {
+  margin-left: 10px;
+  color: black;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 2rem;
 }
