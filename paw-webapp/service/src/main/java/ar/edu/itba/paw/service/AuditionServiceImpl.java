@@ -52,6 +52,11 @@ public class AuditionServiceImpl implements AuditionService {
     }
 
     @Override
+    public void editAuditionById(Audition.AuditionBuilder builder, long id) {
+        auditionDao.editAuditionById(builder, id);
+    }
+
+    @Override
     public List<Audition> getAll(int page) {
         return auditionDao.getAll(page);
     }
@@ -79,6 +84,11 @@ public class AuditionServiceImpl implements AuditionService {
     @Override
     public int getTotalBandAuditionPages(long userId) {
         return auditionDao.getTotalBandAuditionPages(userId);
+    }
+
+    @Override
+    public void deleteAuditionById(long id) {
+        auditionDao.deleteAuditionById(id);
     }
 
     @Override

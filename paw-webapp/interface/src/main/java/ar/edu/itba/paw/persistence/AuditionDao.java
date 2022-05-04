@@ -20,4 +20,8 @@ public interface AuditionDao {
     List<Audition> getBandAuditions(long userId, int page);
 
     int getTotalBandAuditionPages(long userId);
+
+    void deleteAuditionById(long id);
+
+    void editAuditionById(Audition.AuditionBuilder builder, long id);
 }

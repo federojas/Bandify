@@ -15,8 +15,9 @@ import java.util.stream.Collectors;
 @Repository
 public class AuditionJdbcDao implements AuditionDao {
 
+    private final int PAGE_SIZE = 9;
+
     private final JdbcTemplate jdbcTemplate;
-    private final int PAGE_SIZE = 12;
     private final SimpleJdbcInsert jdbcAuditionInsert;
     private final GenreDao genreDao;
     private final RoleDao roleDao;
@@ -153,6 +154,23 @@ public class AuditionJdbcDao implements AuditionDao {
     public int getTotalBandAuditionPages(long userId) {
         Optional<Integer> result = jdbcTemplate.query("SELECT COUNT(*) FROM auditions WHERE bandId = ?", new Object[] {userId} ,TOTAL_AUDITION_ROW_MAPPER).stream().findFirst();
         return result.map(integer -> (int) Math.ceil(integer.doubleValue() / PAGE_SIZE)).orElse(0);
+    }
+
+    @Override
+    public void deleteAuditionById(long id) {
+        jdbcTemplate.update("DELETE FROM auditions WHERE id = ?", id);
+    }
+
+    @Override
+    public void editAuditionById(Audition.AuditionBuilder builder, long id) {
+        jdbcTemplate.update("UPDATE auditions SET title = ?, description = ?, locationid = ? WHERE id = ?",
+                new Object[]{builder.getTitle(), builder.getDescription(), builder.getLocation().getId(), id});
+
+        jdbcTemplate.update("DELETE FROM auditiongenres WHERE auditionid = ?", id);
+        jdbcTemplate.update("DELETE FROM auditionroles WHERE auditionid = ?", id);
+
+        roleDao.createAuditionRole(builder.getLookingFor(), id);
+        genreDao.createAuditionGenre(builder.getMusicGenres(), id);
     }
 
     @Override

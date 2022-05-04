@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.webapp.controller;
 
+import ar.edu.itba.paw.model.exceptions.AuditionNotOwnedException;
 import ar.edu.itba.paw.persistence.Genre;
 import ar.edu.itba.paw.persistence.Location;
 import ar.edu.itba.paw.persistence.Role;
@@ -64,14 +65,15 @@ public class AuditionsController {
             lastPage = 1;
         if(page < 0 || page > lastPage)
             return new ModelAndView("errors/404");
+
         List<Audition> auditionList = auditionService.getAll(page);
 
+        Map<Long, String> userMap = getUserMap(auditionList);
 
         mav.addObject("auditionList", auditionList);
+        mav.addObject("userMap", userMap);
         mav.addObject("currentPage", page);
         mav.addObject("lastPage", lastPage);
-
-
 
         return mav;
     }
@@ -87,14 +89,30 @@ public class AuditionsController {
             return new ModelAndView("errors/404");
         if(query.equals(""))
             return auditions(1);
+
         List<Audition> auditionList = auditionService.search(page, query);
+
+        Map<Long, String> userMap = getUserMap(auditionList);
+
         mav.addObject("auditionList", auditionList);
+        mav.addObject("userMap", userMap);
         mav.addObject("currentPage", page);
         mav.addObject("query", query);
         mav.addObject("lastPage", lastPage);
         return mav;
     }
 
+    private Map<Long, String> getUserMap(List<Audition> auditionList) {
+        Map<Long, String> userMap = new HashMap<>();
+
+        for(Audition audition : auditionList) {
+            userMap.put(audition.getId(), userService.getUserById(audition.getBandId()).orElseThrow(UserNotFoundException::new).getName());
+        }
+
+        return userMap;
+    }
+
+    //TODO CODIGO REPETIDO
     @RequestMapping(value = "/auditions/{id}", method = {RequestMethod.GET})
     public ModelAndView audition(@ModelAttribute("applicationForm") final ApplicationForm applicationForm,
                                  @PathVariable long id) {
@@ -103,11 +121,33 @@ public class AuditionsController {
             throw new AuditionNotFoundException();
         final ModelAndView mav = new ModelAndView("views/audition");
         Optional<Audition> audition = auditionService.getAuditionById(id);
+
         if (audition.isPresent()) {
+
+            long auditionOwnerId = audition.get().getBandId();
+            Optional<User> optionalUser = userService.getUserById(auditionOwnerId);
+            User owner = optionalUser.orElseThrow(UserNotFoundException::new);
+
+            if(SecurityContextHolder.getContext().getAuthentication() != null &&
+                    SecurityContextHolder.getContext().getAuthentication().isAuthenticated() &&
+                    !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) {
+
+                Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+                optionalUser = userService.findByEmail(auth.getName());
+                User currentUser = optionalUser.orElseThrow(UserNotFoundException::new);
+                mav.addObject("isOwner", currentUser.getId() == auditionOwnerId);
+
+            } else {
+                mav.addObject("isOwner", false);
+            }
+
             mav.addObject("audition", audition.get());
+            mav.addObject("user", owner);
+
         } else {
             throw new AuditionNotFoundException();
         }
+
         return mav;
     }
 
@@ -170,6 +210,145 @@ public class AuditionsController {
     @RequestMapping(value = "/success", method = {RequestMethod.GET})
     public ModelAndView success() {
         return new ModelAndView("views/successMsg");
+    }
+
+    @RequestMapping(value = "/profile/deleteAudition/{id}", method = {RequestMethod.POST})
+    public ModelAndView deleteAudition(@PathVariable long id) {
+
+        // TODO : es necesario este if? sino con el else de abajo seria suficiente creo
+        if(id < 0 || id > auditionService.getMaxAuditionId())
+            throw new AuditionNotFoundException();
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> optionalUser = userService.findByEmail(auth.getName());
+        User user = optionalUser.orElseThrow(UserNotFoundException::new);
+
+        Optional<Audition> audition = auditionService.getAuditionById(id);
+
+        if(!audition.isPresent()) {
+            throw new AuditionNotFoundException();
+        } else if(user.getId() != audition.get().getBandId()) {
+            throw new AuditionNotOwnedException();
+        } else {
+            auditionService.deleteAuditionById(id);
+        }
+
+        return new ModelAndView("redirect:/profile/auditions");
+    }
+
+
+    //TODO ESTA BIEN ESTO?
+    @RequestMapping(value = "/profile/deleteAudition/{id}", method = {RequestMethod.GET})
+    public ModelAndView getDeleteAudition(@PathVariable long id) {
+        return new ModelAndView("redirect:/profile");
+    }
+
+
+    //TODO CODIGO REPETIDO MODULARIZAR
+    @RequestMapping(value = "/profile/editAudition/{id}", method = {RequestMethod.GET})
+    public ModelAndView editAudition(@ModelAttribute("auditionForm") final AuditionForm auditionForm, @PathVariable long id) {
+
+        // TODO : es necesario este if? sino con el else de abajo seria suficiente creo
+        if(id < 0 || id > auditionService.getMaxAuditionId())
+            throw new AuditionNotFoundException();
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> optionalUser = userService.findByEmail(auth.getName());
+        User user = optionalUser.orElseThrow(UserNotFoundException::new);
+
+        Optional<Audition> audition = auditionService.getAuditionById(id);
+
+        if(!audition.isPresent())
+            throw new AuditionNotFoundException();
+        else if(user.getId() != audition.get().getBandId())
+            throw new AuditionNotOwnedException();
+
+        ModelAndView mav = new ModelAndView("views/editAudition");
+
+        Set<Role> roleList = roleService.getAll();
+        Set<Genre> genreList = genreService.getAll();
+        List<Location> locationList = locationService.getAll();
+
+        mav.addObject("roleList", roleList);
+        mav.addObject("genreList", genreList);
+        mav.addObject("locationList", locationList);
+        mav.addObject("auditionId", id);
+
+        auditionForm.setTitle(audition.get().getTitle());
+        auditionForm.setDescription(audition.get().getDescription());
+        auditionForm.setLocation(audition.get().getLocation().getName());
+
+        List<String> selectedRoles = new ArrayList<>();
+        for (Role role : audition.get().getLookingFor()) {
+            selectedRoles.add(role.getName());
+        }
+        auditionForm.setLookingFor(selectedRoles);
+
+        List<String> selectedGenres = new ArrayList<>();
+        for (Genre genre : audition.get().getMusicGenres()) {
+            selectedGenres.add(genre.getName());
+        }
+        auditionForm.setMusicGenres(selectedGenres);
+
+        return mav;
+    }
+
+    //TODO CODIGO REPETIDO
+    @RequestMapping(value="/profile/editAudition/{id}", method = {RequestMethod.POST})
+    public ModelAndView postEditAudition(@Valid @ModelAttribute("auditionEditForm") final AuditionForm auditionEditForm,
+                                         final BindingResult errors, @PathVariable long id) {
+
+        if(id < 0 || id > auditionService.getMaxAuditionId())
+            throw new AuditionNotFoundException();
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> optionalUser = userService.findByEmail(auth.getName());
+        User user = optionalUser.orElseThrow(UserNotFoundException::new);
+
+        Optional<Audition> audition = auditionService.getAuditionById(id);
+
+        if(!audition.isPresent())
+            throw new AuditionNotFoundException();
+        else if(user.getId() != audition.get().getBandId())
+            throw new AuditionNotOwnedException();
+
+        if(errors.hasErrors()) {
+            return newAudition(auditionEditForm);
+        }
+
+        auditionService.editAuditionById(auditionEditForm.toBuilder(user.getId()).
+                location(locationService.getLocationByName(auditionEditForm.getLocation()).orElseThrow(LocationNotFoundException::new)).
+                lookingFor(roleService.validateAndReturnRoles(auditionEditForm.getLookingFor())).
+                musicGenres(genreService.validateAndReturnGenres(auditionEditForm.getMusicGenres()))
+        , id);
+
+        String redirect = "redirect:/auditions/" + id;
+
+        return new ModelAndView(redirect);
+    }
+
+    @RequestMapping(value = "/profile/auditions", method = {RequestMethod.GET})
+    public ModelAndView profileAuditions(@RequestParam(value = "page", defaultValue = "1") int page) {
+        ModelAndView mav = new ModelAndView("views/profileAuditions");
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> optionalUser = userService.findByEmail(auth.getName());
+        User user = optionalUser.orElseThrow(UserNotFoundException::new);
+
+        int lastPage = auditionService.getTotalBandAuditionPages(user.getId());
+        if(lastPage == 0)
+            lastPage = 1;
+        if(page < 0 || page > lastPage)
+            return new ModelAndView("errors/404");
+
+        List<Audition> auditionList = auditionService.getBandAuditions(user.getId(), page);
+
+        mav.addObject("userName", user.getName());
+        mav.addObject("userId", user.getId());
+        mav.addObject("auditionList", auditionList);
+        mav.addObject("currentPage", page);
+        mav.addObject("lastPage", lastPage);
+        return mav;
     }
 
 }

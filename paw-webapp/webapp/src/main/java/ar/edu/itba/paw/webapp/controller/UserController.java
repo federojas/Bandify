@@ -1,9 +1,8 @@
 package ar.edu.itba.paw.webapp.controller;
 
-import ar.edu.itba.paw.persistence.Genre;
-import ar.edu.itba.paw.persistence.Role;
-import ar.edu.itba.paw.persistence.Audition;
-import ar.edu.itba.paw.persistence.User;
+import ar.edu.itba.paw.model.exceptions.AuditionNotFoundException;
+import ar.edu.itba.paw.model.exceptions.AuditionNotOwnedException;
+import ar.edu.itba.paw.persistence.*;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.service.*;
 import ar.edu.itba.paw.webapp.form.*;
@@ -22,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.*;
+import java.security.acl.NotOwnerException;
 import java.util.*;
 
 @Controller
@@ -106,28 +106,7 @@ public class UserController {
         return mav;
     }
 
-    @RequestMapping(value = "/profile/auditions", method = {RequestMethod.GET})
-    public ModelAndView profileAuditions(@RequestParam(value = "page", defaultValue = "1") int page) {
-        ModelAndView mav = new ModelAndView("views/profileAuditions");
-
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Optional<User> optionalUser = userService.findByEmail(auth.getName());
-        User user = optionalUser.orElseThrow(UserNotFoundException::new);
-
-        int lastPage = auditionService.getTotalBandAuditionPages(user.getId());
-        if(lastPage == 0)
-            lastPage = 1;
-        if(page < 0 || page > lastPage)
-            return new ModelAndView("errors/404");
-
-        List<Audition> auditionList = auditionService.getBandAuditions(user.getId(), page);
-        mav.addObject("auditionList", auditionList);
-        mav.addObject("currentPage", page);
-        mav.addObject("lastPage", lastPage);
-        return mav;
-    }
-
-    @RequestMapping( value = "/profile/profile-image/{userId}", method = {RequestMethod.GET})
+    @RequestMapping( value = "/user/{userId}/profile-image", method = {RequestMethod.GET})
     public void profilePicture(@PathVariable(value = "userId") long userId,
                                HttpServletResponse response) throws IOException {
         byte[] image = imageService.getProfilePicture(userId, userService.getUserById(userId).orElseThrow(UserNotFoundException::new).isBand());
@@ -267,4 +246,5 @@ public class UserController {
     public ModelAndView login() {
         return new ModelAndView("views/login");
     }
+
 }

@@ -25,4 +25,8 @@ public interface AuditionService {
     void sendApplicationEmail(long id, User user, String message);
 
     int getTotalBandAuditionPages(long userId);
+
+    void deleteAuditionById(long id);
+
+    void editAuditionById(Audition.AuditionBuilder builder, long id);
 }
