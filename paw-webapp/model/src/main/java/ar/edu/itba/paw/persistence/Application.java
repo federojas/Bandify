@@ -6,6 +6,7 @@ public class Application {
     private final String applicantName;
     private final String applicantSurname;
     private final ApplicationState state;
+    private final String auditionTitle;
 
     private Application(ApplicationBuilder builder) {
         this.auditionId = builder.applicantId;
@@ -13,6 +14,7 @@ public class Application {
         this.applicantName = builder.applicantName;
         this.applicantSurname = builder.applicantSurname;
         this.state = builder.state;
+        this.auditionTitle = builder.auditionTitle;
     }
 
     public long getAuditionId() {
@@ -35,12 +37,17 @@ public class Application {
         return state;
     }
 
+    public String getAuditionTitle() {
+        return auditionTitle;
+    }
+
     public static class ApplicationBuilder {
         private final long auditionId;
         private final long applicantId;
         private String applicantName;
         private String applicantSurname;
         private final ApplicationState state;
+        private String auditionTitle;
 
         public ApplicationBuilder(long auditionId, long applicantId, ApplicationState state) {
             this.auditionId = auditionId;
@@ -55,6 +62,11 @@ public class Application {
 
         public ApplicationBuilder applicantSurname(String applicantSurname) {
             this.applicantSurname = applicantSurname;
+            return this;
+        }
+
+        public ApplicationBuilder auditionTitle(String auditionTitle) {
+            this.auditionTitle = auditionTitle;
             return this;
         }
 

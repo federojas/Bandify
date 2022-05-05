@@ -31,9 +31,10 @@ public class ApplicationJdbcDao implements ApplicationDao {
             rs.getLong("applicantId"),
             ApplicationState.valueOf(rs.getString("state"))
             ).applicantName(rs.getString("name"))
-             .applicantSurname(rs.getString("surname"));
+             .applicantSurname(rs.getString("surname"))
+             .auditionTitle(rs.getString("title"));
 
-    private final String GET_APPLICATION_QUERY = "SELECT auditionId,applicantId,state,name,surname FROM applications" +
+    private final String GET_APPLICATION_QUERY = "SELECT auditionId,applicantId,state,name,surname,title FROM applications" +
             " JOIN users ON applications.applicantId = users.id" +
             " JOIN auditions ON applications.auditionId = auditions.id" +
             " WHERE auditionId IN (SELECT id FROM auditions WHERE bandId = ?)";

@@ -174,8 +174,7 @@ public class AuditionsController {
         User user = optionalUser.orElseThrow(UserNotFoundException::new);
 
         // TODO: FOTO NO FUNCIONA EN AUDITION-APPLICATION.HTML
-        applicationService.apply(id, user,
-                applicationForm.getMessage());
+        applicationService.apply(id, user, applicationForm.getMessage());
 
         return success();
     }
@@ -354,19 +353,7 @@ public class AuditionsController {
 
         List<Audition> auditionList = auditionService.getBandAuditions(user.getId(), page);
 
-        Map<Long, List<List<Application>>> auditionApps = new HashMap<>();
-        for (Audition audition : auditionList) {
-            List<Application> pendingApps = applicationService.getApplicationsByState(audition.getId(), ApplicationState.PENDING);
-            List<Application> acceptedApps = applicationService.getApplicationsByState(audition.getId(), ApplicationState.ACCEPTED);
-            List<Application> rejectedApps = applicationService.getApplicationsByState(audition.getId(), ApplicationState.REJECTED);
-            List<List<Application>> apps = new ArrayList<>();
-            apps.add(pendingApps);
-            apps.add(acceptedApps);
-            apps.add(rejectedApps);
-            auditionApps.put(audition.getId(), apps);
-        }
 
-        mav.addObject("auditionsApps", auditionApps);
         mav.addObject("userName", user.getName());
         mav.addObject("userId", user.getId());
         mav.addObject("auditionList", auditionList);
