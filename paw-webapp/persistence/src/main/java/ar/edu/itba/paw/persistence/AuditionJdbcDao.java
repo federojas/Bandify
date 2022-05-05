@@ -38,7 +38,7 @@ public class AuditionJdbcDao implements AuditionDao {
         ).id(rs.getLong("id"));
     };
     private final static ResultSetExtractor<List<Audition.AuditionBuilder>> AUDITION_MAPPER = rs -> {
-        Map<Long, Audition.AuditionBuilder> auditionsById = new HashMap<>();
+        Map<Long, Audition.AuditionBuilder> auditionsById = new LinkedHashMap<>();
         int i = 0;
         while (rs.next()) {
             Long id = rs.getLong("id");
