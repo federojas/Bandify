@@ -20,10 +20,10 @@
             </div>
             <div class="orderBy">
                 <select name="order">
-                    <option value="desc" selected>
+                    <option value="DESC" selected>
                         <spring:message code="filters.order.desc"/>
                     </option>
-                    <option value="asc">
+                    <option value="ASC">
                         <spring:message code="filters.order.asc"/>
                     </option>
                 </select>

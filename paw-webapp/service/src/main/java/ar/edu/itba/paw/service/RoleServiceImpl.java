@@ -1,4 +1,6 @@
 package ar.edu.itba.paw.service;
+import ar.edu.itba.paw.model.exceptions.LocationNotFoundException;
+import ar.edu.itba.paw.persistence.Location;
 import ar.edu.itba.paw.persistence.Role;
 import ar.edu.itba.paw.model.exceptions.RoleNotFoundException;
 import ar.edu.itba.paw.persistence.RoleDao;
@@ -6,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class RoleServiceImpl implements RoleService {
@@ -28,10 +31,12 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Set<Role> validateAndReturnRoles(List<String> rolesNames) {
-        Set<Role> roles = roleDao.getRolesByNames(rolesNames);
-        if(roles.size() != rolesNames.size())
+        List<String> roles = roleDao.getAll().stream().map(Role::getName).collect(Collectors.toList());
+
+        if(!roles.containsAll(rolesNames))
             throw new RoleNotFoundException();
-        return roles;
+
+        return roleDao.getRolesByNames(rolesNames);
     }
 
     @Override

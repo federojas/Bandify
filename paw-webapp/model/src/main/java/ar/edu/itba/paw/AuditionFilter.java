@@ -8,12 +8,14 @@ public class AuditionFilter {
     private final List<String> rolesNames;
     private final List<String> locations;
     private final String title;
+    private final String order;
 
     private AuditionFilter(AuditionFilterBuilder builder) {
         this.genresNames = builder.genresNames;
         this.rolesNames = builder.rolesNames;
         this.locations = builder.locations;
         this.title = builder.title;
+        this.order = builder.order;
     }
 
     public static class AuditionFilterBuilder {
@@ -21,6 +23,7 @@ public class AuditionFilter {
         private List<String> rolesNames;
         private List<String> locations;
         private String title;
+        private String order;
 
         public AuditionFilterBuilder withGenres(List<String> genresNames) {
             this.genresNames = genresNames;
@@ -42,6 +45,14 @@ public class AuditionFilter {
             return this;
         }
 
+        public AuditionFilterBuilder withOrder(String order) {
+            if(order.equalsIgnoreCase("ASC"))
+                this.order = order;
+            else
+                this.order = "DESC";
+            return this;
+        }
+
         public AuditionFilter build() {
             return new AuditionFilter(this);
         }
@@ -57,6 +68,10 @@ public class AuditionFilter {
 
     public List<String> getLocations() {
         return locations;
+    }
+
+    public String getOrder() {
+        return order;
     }
 
     public String getTitle() {

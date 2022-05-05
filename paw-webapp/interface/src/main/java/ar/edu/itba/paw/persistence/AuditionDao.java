@@ -13,13 +13,11 @@ public interface AuditionDao {
 
     List<Audition> getAll(int page);
 
-    int getTotalPages(String query);
+    int getTotalPages();
 
     int getTotalPages(AuditionFilter filter);
 
     long getMaxAuditionId();
-
-    List<Audition> search(int page, String query);
 
     List<Audition> getBandAuditions(long userId, int page);
 

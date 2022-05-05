@@ -21,7 +21,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -63,7 +62,7 @@ public class AuditionsController {
     public ModelAndView auditions( @RequestParam(value = "page", defaultValue = "1") int page) {
         final ModelAndView mav = new ModelAndView("views/auditions");
         // TODO: Error controller
-        int lastPage = auditionService.getTotalPages(null);
+        int lastPage = auditionService.getTotalPages();
         if(lastPage == 0)
             lastPage = 1;
         if(page < 0 || page > lastPage)
@@ -95,11 +94,12 @@ public class AuditionsController {
                                 @RequestParam(value = "location", required = false) String[] locations,
                                 @RequestParam(value = "order", defaultValue = "desc") String order) {
         final ModelAndView mav = new ModelAndView("views/search");
+
         AuditionFilter filter = new AuditionFilter.AuditionFilterBuilder().
                 withGenres(genres == null ? null : Arrays.asList(genres))
                 .withRoles(roles == null ? null : Arrays.asList(roles))
                 .withLocations(locations == null ? null : Arrays.asList(locations))
-                .withTitle(query).build();
+                .withTitle(query).withOrder(order).build();
         int lastPage = auditionService.getFilterTotalPages(filter);
         if(lastPage == 0)
             lastPage = 1;

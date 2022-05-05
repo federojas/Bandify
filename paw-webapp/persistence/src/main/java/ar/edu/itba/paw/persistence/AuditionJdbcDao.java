@@ -69,8 +69,8 @@ public class AuditionJdbcDao implements AuditionDao {
             "WHERE (COALESCE(:genresNames,null) IS NULL OR genre IN (:genresNames)) AND " +
             "(COALESCE(:rolesNames,null) IS NULL OR role IN (:rolesNames)) AND " +
             "(COALESCE(:locations,null) IS NULL OR location IN (:locations)) AND "+
-            "(COALESCE(:title,null) IS NULL OR LOWER(title) LIKE :title) " +
-            "LIMIT :pageSize OFFSET :offset)";
+            "(COALESCE(:title,null) IS NULL OR LOWER(title) LIKE :title) ORDER BY creationdate :order " +
+            "LIMIT :pageSize OFFSET :offset) ORDER BY creationdate :order";
 
     @Autowired
     public AuditionJdbcDao(final DataSource ds, GenreDao genreDao, RoleDao roleDao) {
@@ -112,8 +112,7 @@ public class AuditionJdbcDao implements AuditionDao {
 
     @Override
     public List<Audition> getAll(int page) {
-        StringBuilder sb = new StringBuilder(GET_FULL_AUD_QUERY).append(" WHERE auditions.id IN (SELECT id FROM auditions LIMIT ? OFFSET ?)" +
-                " ORDER BY creationdate DESC, title ASC");
+        StringBuilder sb = new StringBuilder(GET_FULL_AUD_QUERY).append(" WHERE auditions.id IN (SELECT id FROM auditions ORDER BY creationdate DESC LIMIT ? OFFSET ?) ORDER BY creationdate DESC");
         final String query = sb.toString();
         List<Audition.AuditionBuilder> auditionsBuilders = jdbcTemplate.query(query,new Object[] { PAGE_SIZE, (page -1) * PAGE_SIZE}, AUDITION_MAPPER);
         // TODO: pasar a funcional
@@ -126,8 +125,7 @@ public class AuditionJdbcDao implements AuditionDao {
 
     @Override
     public List<Audition> getBandAuditions(long userId, int page) {
-        StringBuilder sb = new StringBuilder(GET_FULL_AUD_QUERY).append(" WHERE auditions.bandId = ? AND auditions.id IN (SELECT id FROM auditions WHERE bandID = ? LIMIT ? OFFSET ?)" +
-                " ORDER BY creationdate DESC, title ASC");
+        StringBuilder sb = new StringBuilder(GET_FULL_AUD_QUERY).append(" WHERE auditions.bandId = ? AND auditions.id IN (SELECT id FROM auditions WHERE bandId = ? ORDER BY creationdate DESC LIMIT ? OFFSET ?) ORDER BY creationdate DESC");
         final String query = sb.toString();
         List<Audition.AuditionBuilder> auditionsBuilders = jdbcTemplate.query(query,new Object[] { userId, userId, PAGE_SIZE,(page -1) * PAGE_SIZE }, AUDITION_MAPPER);
         // TODO: pasar a funcional
@@ -139,28 +137,8 @@ public class AuditionJdbcDao implements AuditionDao {
     }
 
     @Override
-    public List<Audition> search(int page, String query) {
-        StringBuilder sb = new StringBuilder(GET_FULL_AUD_QUERY).append(" WHERE LOWER(title) LIKE ?" +
-                " AND auditions.id IN (SELECT id FROM auditions WHERE LOWER(title) LIKE ? LIMIT ? OFFSET ?)" +
-                " ORDER BY creationdate DESC, title ASC");
-        final String sqlQuery = sb.toString();
-        String builtQuery = "%" + query.replace("%", "\\%").replace("_", "\\_").toLowerCase() + "%";
-        List<Audition.AuditionBuilder> auditionsBuilders = jdbcTemplate.query(sqlQuery,new Object[] { builtQuery, builtQuery, PAGE_SIZE, (page -1) * PAGE_SIZE}, AUDITION_MAPPER);
-        // TODO: pasar a funcional
-        List<Audition> list = new LinkedList<>();
-        for(Audition.AuditionBuilder auditionBuilder : auditionsBuilders) {
-            list.add(auditionBuilder.build());
-        }
-        return list;
-    }
-
-    @Override
-    public int getTotalPages(String query) {
-        Optional<Integer> result;
-        if(query == null || query.isEmpty())
-            result = jdbcTemplate.query("SELECT COUNT(*) FROM auditions", TOTAL_AUDITION_ROW_MAPPER).stream().findFirst();
-        else
-            result = jdbcTemplate.query("SELECT COUNT(*) FROM auditions WHERE LOWER(title) LIKE ?", new Object[] {"%" + query.replace("%", "\\%").replace("_", "\\_").toLowerCase() + "%"}, TOTAL_AUDITION_ROW_MAPPER).stream().findFirst();
+    public int getTotalPages() {
+        Optional<Integer> result = jdbcTemplate.query("SELECT COUNT(*) FROM auditions", TOTAL_AUDITION_ROW_MAPPER).stream().findFirst();
         //TODO Math.ceil casteado a int puede castear un double muy grande y generar una excepcion
         //TODO tamaño int es la maxima page
         return result.map(integer -> (int) Math.ceil(integer.doubleValue() / PAGE_SIZE)).orElse(0);
@@ -213,6 +191,7 @@ public class AuditionJdbcDao implements AuditionDao {
                 .addValue("locations", filter.getLocations())
                 .addValue("title", title)
                 .addValue("pageSize", PAGE_SIZE)
+                .addValue("order", filter.getOrder())
                 .addValue("offset",(page-1) * PAGE_SIZE);
     }
 

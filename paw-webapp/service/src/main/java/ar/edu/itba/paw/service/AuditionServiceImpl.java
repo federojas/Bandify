@@ -27,6 +27,10 @@ public class AuditionServiceImpl implements AuditionService {
     private final UserService userService;
     private final MessageSource messageSource;
     private final Environment environment;
+    private final RoleService roleService;
+    private final GenreService genreService;
+    private final LocationService locationService;
+
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AuditionServiceImpl.class);
 
@@ -35,12 +39,19 @@ public class AuditionServiceImpl implements AuditionService {
                                final MailingService mailingService,
                                final UserService userService,
                                final MessageSource messageSource,
-                               final Environment environment) {
+                               final Environment environment,
+                               final RoleService roleService,
+                               final GenreService genreService,
+                               final LocationService locationService
+    ) {
         this.auditionDao = auditionDao;
         this.mailingService = mailingService;
         this.userService = userService;
         this.messageSource = messageSource;
         this.environment = environment;
+        this.locationService = locationService;
+        this.roleService = roleService;
+        this.genreService = genreService;
     }
 
     @Override
@@ -64,18 +75,13 @@ public class AuditionServiceImpl implements AuditionService {
     }
 
     @Override
-    public int getTotalPages(String query) {
-        return auditionDao.getTotalPages(query);
+    public int getTotalPages() {
+        return auditionDao.getTotalPages();
     }
 
     @Override
     public long getMaxAuditionId() {
         return auditionDao.getMaxAuditionId();
-    }
-
-    @Override
-    public List<Audition> search(int page, String query) {
-        return auditionDao.search(page, query);
     }
 
     @Override
