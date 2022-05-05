@@ -92,7 +92,8 @@ public class AuditionsController {
                                 @RequestParam(value = "query", defaultValue = "") String query,
                                 @RequestParam(value = "genre", required = false) String[] genres,
                                 @RequestParam(value = "role", required = false) String[] roles,
-                                @RequestParam(value = "location", required = false) String[] locations) {
+                                @RequestParam(value = "location", required = false) String[] locations,
+                                @RequestParam(value = "order", defaultValue = "desc") String order) {
         final ModelAndView mav = new ModelAndView("views/search");
         AuditionFilter filter = new AuditionFilter.AuditionFilterBuilder().
                 withGenres(genres == null ? null : Arrays.asList(genres))
