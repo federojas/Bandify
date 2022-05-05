@@ -180,3 +180,9 @@ auditions-title-div {
     display: flex;
     justify-content: center;
 }
+.filter-by{
+    display: flex;
+    align-self: center;
+    margin-bottom: 1rem;
+    margin-left: 2rem;
+}
