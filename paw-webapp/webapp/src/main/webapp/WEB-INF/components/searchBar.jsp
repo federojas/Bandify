@@ -21,14 +21,19 @@
                 <button type="submit" aria-hidden="true"></button>
             </div>
             <div class="orderBy">
-                <select name="order">
-                    <option value="DESC" selected>
-                        <spring:message code="filters.order.desc"/>
-                    </option>
-                    <option value="ASC">
-                        <spring:message code="filters.order.asc"/>
-                    </option>
-                </select>
+                <div class="order-by-title">
+                    <p><spring:message code="filters.orderBy"/> </p>
+                </div>
+                <div>
+                    <select name="order">
+                        <option value="DESC" selected>
+                            <spring:message code="filters.order.desc"/>
+                        </option>
+                        <option value="ASC">
+                            <spring:message code="filters.order.asc"/>
+                        </option>
+                    </select>
+                </div>
             </div>
         </div>
         <div class="filters">
