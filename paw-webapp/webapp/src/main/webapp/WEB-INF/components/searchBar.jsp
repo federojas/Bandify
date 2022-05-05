@@ -7,6 +7,8 @@
     <title>SearchBar</title>
     <c:import url="../config/materializeHead.jsp"/>
     <c:import url="../config/generalHead.jsp" />
+    <link rel="stylesheet" href="<c:url value="/resources/css/searchBar.css" />" />
+
 </head>
 <body>
 <div class="search-general-div">
@@ -30,7 +32,9 @@
             </div>
         </div>
         <div class="filters">
-            <p><spring:message code="filters.title"/></p>
+            <div class="filter-by">
+                <b><p><spring:message code="filters.title"/></p></b>
+            </div>
             <div>
                 <select  multiple name="location">
                     <option disabled selected><spring:message code="filters.location"/></option>
