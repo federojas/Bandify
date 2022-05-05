@@ -7,15 +7,16 @@ prefix="spring" uri="http://www.springframework.org/tags"%>
     <c:import url="../config/generalHead.jsp" />
     <link rel="stylesheet" href="<c:url value="/resources/css/welcome.css" />" />
     <link rel="stylesheet" href="<c:url value="/resources/css/auditions.css" />" />
-    <script src="<c:url value="/resources/js/sideNav.js" />"></script>
     <script src="<c:url value="/resources/js/pagination.js" />"></script>
   </head>
   <body>
+
     <!-- Navbar -->
     <jsp:include page="../components/navbar.jsp">
       <jsp:param name="navItem" value="${2}" />
       <jsp:param name="name" value="Bandify" />
     </jsp:include>
+
     <div>
     <!-- Auditions content -->
       <div class="auditions-content">
@@ -24,6 +25,9 @@ prefix="spring" uri="http://www.springframework.org/tags"%>
           <spring:message code="welcome.auditionsSection" />
         </h2>
 
+        <c:set var="locationList" value="${locationList}" scope="request"/>
+        <c:set var="genreList" value="${locationList}" scope="request"/>
+        <c:set var="roleList" value="${locationList}" scope="request"/>
         <jsp:include page="../components/searchBar.jsp">
           <jsp:param name="name" value="Bandify" />
         </jsp:include>

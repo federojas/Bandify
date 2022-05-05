@@ -49,3 +49,27 @@
     border-radius: 10px;
 }
 
+.search-general-div{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.searchBarAndOrderBy {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+}
+
+.orderBy{
+    display: flex;
+    margin-left: 10px;
+}
+
+.filters {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
