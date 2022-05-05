@@ -63,13 +63,26 @@
 }
 
 .orderBy{
-    display: flex;
     margin-left: 10px;
+    margin-bottom: 1rem;
 }
+
 
 .filters {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    background-color: #cad3e5;
+    padding-right: 1rem;
+    border-radius: 9999px;
 }
 
+.filter-by{
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    margin-left: 3rem;
+}
+.order-by-title{
+    color: #8c8181;
+}
