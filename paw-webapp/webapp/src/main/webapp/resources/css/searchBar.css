@@ -53,10 +53,12 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    background-color: #cad3e5;
-    /*padding-right: 1rem;*/
+    background-color: #ced7de;
     border-radius: 9999px;
-    padding: 2rem;
+    padding-top: 25px;
+    padding-left: 25px;
+    padding-right: 25px;
+    margin-bottom: 20px;
 }
 
 .searchBarAndOrderBy {
@@ -64,11 +66,13 @@
     justify-content: space-between;
     flex-direction: row;
     align-items: center;
+    width: 650px;
 }
 
 .orderBy{
     margin-left: 10px;
-    margin-bottom: 1rem;
+    display: flex;
+    justify-content: left;
 }
 
 
@@ -76,17 +80,14 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    /*background-color: #cad3e5;*/
-    /*padding-right: 1rem;*/
-    /*border-radius: 9999px;*/
+    width: 650px;
 }
 
 .filter-by{
     display: flex;
     align-items: center;
     align-content: center;
-    margin-bottom: 1rem;
-    margin-left: 3rem;
+    margin-left: 10px;
 }
 .order-by-title{
     color: #8c8181;
