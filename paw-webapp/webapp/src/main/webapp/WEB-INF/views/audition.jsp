@@ -131,17 +131,15 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
         </div>
 
       </div>
-      <h1 class="applicants-header"><spring:message code="audition.applicantsHeader"/></h1>
+      <sec:authorize access="hasRole('BAND')">
+        <c:if test="${isOwner}">
+          <h1 class="applicants-header"><spring:message code="audition.applicantsHeader"/></h1>
 
-      <c:set var="pendingAppsS" value="${pendingApps}" scope="request"/>
-      <c:set var="approvedAppsS" value="${acceptedApps}" scope="request"/>
-      <c:set var="rejectedAppsS" value="${rejectedApps}" scope="request"/>
-      <jsp:include page="../components/applicantsByState.jsp">
-        <jsp:param name="auditionId" value="${audition.id}" />
-        <jsp:param name="pendingApps" value="${pendingAppsS}" />
-        <jsp:param name="approvedApps" value="${approvedAppsS}" />
-        <jsp:param name="rejectedApps" value="${rejectedAppsS}" />
-      </jsp:include>
+          <jsp:include page="../components/applicantsByState.jsp">
+            <jsp:param name="auditionId" value="${audition.id}" />
+          </jsp:include>
+        </c:if>
+      </sec:authorize>
     </div>
   </body>
 </html>

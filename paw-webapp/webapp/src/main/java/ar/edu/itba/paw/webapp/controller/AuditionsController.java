@@ -151,9 +151,10 @@ public class AuditionsController {
             throw new AuditionNotFoundException();
         }
 
-        List<Application> pendingApps = applicationService.getApplicationsByState(id, ApplicationState.PENDING);
-        List<Application> acceptedApps = applicationService.getApplicationsByState(id, ApplicationState.ACCEPTED);
-        List<Application> rejectedApps = applicationService.getApplicationsByState(id, ApplicationState.REJECTED);
+        List<Application> pendingApps = applicationService.getAuditionApplicationsByState(id, ApplicationState.PENDING);
+        List<Application> acceptedApps = applicationService.getAuditionApplicationsByState(id, ApplicationState.ACCEPTED);
+        List<Application> rejectedApps = applicationService.getAuditionApplicationsByState(id, ApplicationState.REJECTED);
+
         mav.addObject("pendingApps", pendingApps);
         mav.addObject("acceptedApps", acceptedApps);
         mav.addObject("rejectedApps", rejectedApps);
@@ -363,4 +364,19 @@ public class AuditionsController {
         return mav;
     }
 
+    @RequestMapping(value = "/auditions/{auditionId}", method = {RequestMethod.POST})
+    public ModelAndView acceptAudition(@PathVariable long auditionId,
+                                       @RequestParam(value = "accept") boolean accept,
+                                       @RequestParam(value = "userId") long userId) {
+        if(auditionId < 0 || auditionId > auditionService.getMaxAuditionId())
+            throw new AuditionNotFoundException();
+
+        if (accept) {
+            applicationService.accept(auditionId, userId);
+        } else {
+            applicationService.reject(auditionId, userId);
+        }
+
+        return new ModelAndView("redirect:/auditions/" + auditionId);
+    }
 }

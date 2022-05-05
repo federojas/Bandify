@@ -22,29 +22,32 @@
       </ul>
     </div>
     <div id="pendingTab" class="col s12">
-      <c:forEach var="app" items="${requestScope.pendingApps}" varStatus="loop">
-        <jsp:include page="../components/application.jsp">
+      <c:forEach var="app" items="${pendingApps}" varStatus="loop">
+        <jsp:include page="applicationItem.jsp">
           <jsp:param name="applicantName" value="${app.applicantName}" />
           <jsp:param name="applicantSurname" value="${app.applicantSurname}" />
-          <jsp:param name="applicantId" value="${app.applicantId}" />
+          <jsp:param name="auditionId" value="${param.auditionId}" />
+          <jsp:param name="userId" value="${app.applicantId}" />
         </jsp:include>
       </c:forEach>
     </div>
     <div id="approvedTab" class="col s12">
-      <c:forEach var="app" items="${requestScope.approvedApps}" varStatus="loop">
-        <jsp:include page="../components/application.jsp">
+      <c:forEach var="app" items="${acceptedApps}" varStatus="loop">
+        <jsp:include page="applicationItem.jsp">
           <jsp:param name="applicantName" value="${app.applicantName}" />
           <jsp:param name="applicantSurname" value="${app.applicantSurname}" />
-          <jsp:param name="applicantId" value="${app.applicantId}" />
+          <jsp:param name="auditionId" value="${param.auditionId}" />
+          <jsp:param name="userId" value="${app.applicantId}" />
         </jsp:include>
       </c:forEach>
     </div>
     <div id="rejectedTab" class="col s12">
-      <c:forEach var="app" items="${requestScope.rejectedApps}" varStatus="loop">
-        <jsp:include page="../components/application.jsp">
+      <c:forEach var="app" items="${rejectedApps}" varStatus="loop">
+        <jsp:include page="applicationItem.jsp">
           <jsp:param name="applicantName" value="${app.applicantName}" />
           <jsp:param name="applicantSurname" value="${app.applicantSurname}" />
-          <jsp:param name="applicantId" value="${app.applicantId}" />
+          <jsp:param name="auditionId" value="${param.auditionId}" />
+          <jsp:param name="userId" value="${app.applicantId}" />
         </jsp:include>
       </c:forEach>
     </div>
