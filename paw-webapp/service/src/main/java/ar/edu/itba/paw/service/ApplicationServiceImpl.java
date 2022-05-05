@@ -62,7 +62,9 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public void apply(long auditionId, User user, String message) {
+    public boolean apply(long auditionId, User user, String message) {
+        if(applicationDao.exists(auditionId,user.getId()))
+            return false;
         applicationDao.createApplication(new Application.ApplicationBuilder(auditionId,user.getId(),ApplicationState.PENDING));
         try {
             Optional<Audition> aud = auditionService.getAuditionById(auditionId);
@@ -87,6 +89,7 @@ public class ApplicationServiceImpl implements ApplicationService {
         } catch (MalformedURLException e) {
             LOGGER.warn("Audition application email threw url exception");
         }
+        return true;
     }
 
     @Override

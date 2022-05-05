@@ -174,10 +174,11 @@ public class AuditionsController {
         User user = optionalUser.orElseThrow(UserNotFoundException::new);
 
         // TODO: FOTO NO FUNCIONA EN AUDITION-APPLICATION.HTML
-        applicationService.apply(id, user, applicationForm.getMessage());
-
-        return success();
+        if(applicationService.apply(id, user, applicationForm.getMessage()))
+            return success();
+        return new ModelAndView("views/applicationFailed");
     }
+
 
     @RequestMapping(value = "/newAudition", method = {RequestMethod.GET})
     public ModelAndView newAudition(@ModelAttribute("auditionForm") final AuditionForm auditionForm) {
