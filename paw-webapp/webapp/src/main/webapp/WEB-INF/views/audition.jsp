@@ -133,6 +133,9 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
       </div>
       <sec:authorize access="hasRole('BAND')">
         <c:if test="${isOwner}">
+          <div class="applicants">
+
+          </div>
           <h1 class="applicants-header"><spring:message code="audition.applicantsHeader"/></h1>
 
           <jsp:include page="../components/applicantsByState.jsp">

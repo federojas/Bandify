@@ -12,8 +12,8 @@
     <a href="/user/${param.userId}">
         <div class="postcard-profile">
             <div class="image overflow-hidden">
-                <img class="postcard-profile-image"
                 <spring:message code="profile.img.alt" var="img"/>
+                <img class="postcard-profile-image"
                      src="<c:url value="/user/${param.userId}/profile-image"/>"
                      alt="${img}">
             </div>
