@@ -5,8 +5,9 @@
 <html>
 <head>
     <title>SearchBar</title>
-    <c:import url="../config/materializeHead.jsp"/>
+
     <c:import url="../config/generalHead.jsp" />
+    <c:import url="../config/materializeHead.jsp"/>
     <link rel="stylesheet" href="<c:url value="/resources/css/searchBar.css" />" />
 
 </head>
