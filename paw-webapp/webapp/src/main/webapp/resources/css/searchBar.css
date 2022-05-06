@@ -54,7 +54,7 @@
     flex-direction: column;
     justify-content: space-between;
     background-color: #ced7de;
-    border-radius: 9999px;
+    border-radius: 40px;
     padding-top: 25px;
     padding-left: 25px;
     padding-right: 25px;
@@ -81,6 +81,8 @@
     flex-direction: row;
     justify-content: space-between;
     width: 650px;
+    padding-bottom: 1rem;
+    padding-top: 1rem;
 }
 
 .filter-by{
