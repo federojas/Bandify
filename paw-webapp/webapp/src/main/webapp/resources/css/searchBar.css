@@ -68,7 +68,13 @@
     align-items: center;
     width: 650px;
 }
-
+::placeholder {
+    color: #818181!important;
+    opacity: 1!important; /* Firefox */
+}
+.select-placeholder{
+    color: #5a5a5a!important;
+}
 .orderBy{
     margin-left: 10px;
     display: flex;

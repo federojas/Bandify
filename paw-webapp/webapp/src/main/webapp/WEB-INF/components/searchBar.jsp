@@ -22,10 +22,12 @@
                 <button type="submit" aria-hidden="true"></button>
             </div>
             <div class="orderBy">
+                <label class="select-placeholder">
                     <select name="order">
                         <option value="DESC" selected><spring:message code="filters.order.desc"/></option>
                         <option value="ASC"><spring:message code="filters.order.asc"/></option>
                     </select>
+                </label>
             </div>
         </div>
         <div class="filters">
@@ -33,28 +35,34 @@
                 <b><p><spring:message code="filters.title"/></p></b>
             </div>
             <div>
-                <select  multiple name="location">
-                    <option disabled selected><spring:message code="filters.location"/></option>
-                    <c:forEach var="location" items="${requestScope.locationList}" varStatus="loop">
-                        <option value="${location}">${location}</option>
-                    </c:forEach>
-                </select>
+                <label  class="select-placeholder" >
+                    <select  multiple name="location">
+                        <option disabled selected><spring:message code="filters.location"/></option>
+                        <c:forEach var="location" items="${requestScope.locationList}" varStatus="loop">
+                            <option value="${location}">${location}</option>
+                        </c:forEach>
+                    </select>
+                </label>
             </div>
             <div>
-                <select  multiple name="genre">
-                    <option disabled selected><spring:message code="filters.genres"/></option>
-                    <c:forEach var="genre" items="${requestScope.genreList}" varStatus="loop">
-                        <option value="${genre}">${genre}</option>
-                    </c:forEach>
-            </select>
+                <label  class="select-placeholder">
+                    <select  multiple name="genre">
+                        <option disabled selected><spring:message code="filters.genres"/></option>
+                        <c:forEach var="genre" items="${requestScope.genreList}" varStatus="loop">
+                            <option value="${genre}">${genre}</option>
+                        </c:forEach>
+                </select>
+                </label>
             </div>
             <div>
-                <select  multiple name="role">
-                    <option disabled selected><spring:message code="filters.roles"/></option>
-                    <c:forEach var="role" items="${requestScope.roleList}" varStatus="loop">
-                        <option value="${role}">${role}</option>
-                    </c:forEach>
-                </select>
+                <label  class="select-placeholder">
+                    <select  multiple name="role">
+                        <option disabled selected><spring:message code="filters.roles"/></option>
+                        <c:forEach var="role" items="${requestScope.roleList}" varStatus="loop">
+                            <option value="${role}">${role}</option>
+                        </c:forEach>
+                    </select>
+                </label>
             </div>
         </div>
     </form>
