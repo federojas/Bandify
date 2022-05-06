@@ -116,7 +116,7 @@ public class AuditionServiceImpl implements AuditionService {
             User band = userService.getUserById(aud.getBandId()).orElseThrow(UserNotFoundException::new);
             Locale locale = LocaleContextHolder.getLocale();
 
-            final String url = new URL("http", environment.getRequiredProperty("app.base.url"), "/paw-2022a-03/user/" + user.getId()).toString();
+            final String url = new URL(environment.getRequiredProperty("app.protocol"), environment.getRequiredProperty("app.base.url"), environment.getRequiredProperty("app.group.directory") + "/user/" + user.getId()).toString();
             Map<String, Object> mailData = new HashMap<>();
             mailData.put("content", message);
             mailData.put("goToBandifyURL", url);
