@@ -52,7 +52,7 @@
                     <spring:message code="audition.form.description.placeholder" var="descriptionplaceholder" />
                     <form:textarea
                             maxlength="300" placeholder="${descriptionplaceholder}"
-                            class="form-input"
+                            class="form-input-application"
                             type="text"
                             id="description"
                             path="description"

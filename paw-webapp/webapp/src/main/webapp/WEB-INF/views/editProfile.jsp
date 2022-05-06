@@ -10,6 +10,7 @@
 
     <title><spring:message code="edituser.title"/></title>
     <link rel="stylesheet" href="<c:url value="/resources/css/forms.css" />"/>
+    <link rel="stylesheet" href="<c:url value="/resources/css/profile.css" />"/>
     <script src="<c:url value="/resources/js/editProfile.js"/>"></script>
 </head>
 <body>
@@ -60,8 +61,8 @@
             <br/>
             <div class = "editProfilePicture">
                 <spring:message code="profile.img.alt" var="img"/>
-                <img src="<c:url value="/user/${user.id}/profile-image"/>" class="editProfileImg" alt="${img}"/>
-                <form:input id="selectImage" type="file" path="profileImage" accept="image/png, image/jpeg" />
+                <img id="imagePreview" src="<c:url value="/user/${user.id}/profile-image"/>" class="profileImage" alt="${img}"/>
+                <form:input id="selectImage" type="file" path="profileImage" accept="image/png, image/jpeg" onchange="previewImage()" />
                 <form:errors path="profileImage" element="p" cssClass="error"/>
             </div>
         </div>
@@ -72,7 +73,7 @@
             </form:label>
             <spring:message code="edituser.form.descriptionplaceholder" var="descriptionplaceholder"/>
             <form:textarea type="text" id="artistDescription" maxlength="500" placeholder="${descriptionplaceholder}"
-                           class="form-input"
+                           class="form-input-application"
                            path="description"/>
             <form:errors path="description" element="p" cssClass="error"> </form:errors>
             <p class="error" id="wrongArtistDescription" style="display: none"><spring:message
