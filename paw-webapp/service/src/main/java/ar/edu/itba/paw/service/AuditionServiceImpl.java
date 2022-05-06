@@ -21,16 +21,11 @@ import java.util.*;
 @Service
 public class AuditionServiceImpl implements AuditionService {
 
-    // TODO: pasar las cosas de aplicar al applicationService.
-
     private final AuditionDao auditionDao;
     private final MailingService mailingService;
     private final UserService userService;
     private final MessageSource messageSource;
     private final Environment environment;
-    private final RoleService roleService;
-    private final GenreService genreService;
-    private final LocationService locationService;
 
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AuditionServiceImpl.class);
@@ -40,19 +35,12 @@ public class AuditionServiceImpl implements AuditionService {
                                final MailingService mailingService,
                                final UserService userService,
                                final MessageSource messageSource,
-                               final Environment environment,
-                               final RoleService roleService,
-                               final GenreService genreService,
-                               final LocationService locationService
-    ) {
+                               final Environment environment) {
         this.auditionDao = auditionDao;
         this.mailingService = mailingService;
         this.userService = userService;
         this.messageSource = messageSource;
         this.environment = environment;
-        this.locationService = locationService;
-        this.roleService = roleService;
-        this.genreService = genreService;
     }
 
     @Override
