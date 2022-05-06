@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.service;
 
 import ar.edu.itba.paw.model.exceptions.AuditionNotFoundException;
+import ar.edu.itba.paw.model.exceptions.AuditionNotOwnedException;
 import ar.edu.itba.paw.persistence.User;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.persistence.Audition;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.core.env.Environment;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
@@ -54,6 +56,7 @@ public class AuditionServiceImpl implements AuditionService {
 
     @Override
     public void editAuditionById(Audition.AuditionBuilder builder, long id) {
+        checkPermissions(id);
         auditionDao.editAuditionById(builder, id);
     }
 
@@ -89,6 +92,7 @@ public class AuditionServiceImpl implements AuditionService {
 
     @Override
     public void deleteAuditionById(long id) {
+        checkPermissions(id);
         auditionDao.deleteAuditionById(id);
     }
 
@@ -114,5 +118,11 @@ public class AuditionServiceImpl implements AuditionService {
         } catch (MalformedURLException e) {
             LOGGER.warn("Audition application email threw url exception");
         }
+    }
+
+    private void checkPermissions(long id) {
+        if(getAuditionById(id).orElseThrow(AuditionNotFoundException::new).getBandId() !=
+                userService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(UserNotFoundException::new).getId())
+            throw new AuditionNotOwnedException();
     }
 }

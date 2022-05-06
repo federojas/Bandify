@@ -219,20 +219,7 @@ public class AuditionsController {
         // TODO : es necesario este if? sino con el else de abajo seria suficiente creo
         if(id < 0 || id > auditionService.getMaxAuditionId())
             throw new AuditionNotFoundException();
-
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Optional<User> optionalUser = userService.findByEmail(auth.getName());
-        User user = optionalUser.orElseThrow(UserNotFoundException::new);
-
-        Optional<Audition> audition = auditionService.getAuditionById(id);
-
-        if(!audition.isPresent()) {
-            throw new AuditionNotFoundException();
-        } else if(user.getId() != audition.get().getBandId()) {
-            throw new AuditionNotOwnedException();
-        } else {
-            auditionService.deleteAuditionById(id);
-        }
+        auditionService.deleteAuditionById(id);
 
         return new ModelAndView("redirect:/profile/auditions");
     }
@@ -305,13 +292,6 @@ public class AuditionsController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> optionalUser = userService.findByEmail(auth.getName());
         User user = optionalUser.orElseThrow(UserNotFoundException::new);
-
-        Optional<Audition> audition = auditionService.getAuditionById(id);
-
-        if(!audition.isPresent())
-            throw new AuditionNotFoundException();
-        else if(user.getId() != audition.get().getBandId())
-            throw new AuditionNotOwnedException();
 
         if(errors.hasErrors()) {
             return newAudition(auditionEditForm);
