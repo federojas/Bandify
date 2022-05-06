@@ -20,6 +20,7 @@ import javax.validation.Valid;
 import java.io.*;
 import java.util.*;
 
+
 @Controller
 public class UserController {
 
@@ -108,6 +109,12 @@ public class UserController {
             System.out.println(applications);
             mav.addObject("artistApplications", applications);
         }
+
+        Set<Genre> preferredGenres = genreService.getUserGenres(user.getId());
+        mav.addObject("preferredGenres", preferredGenres);
+        System.out.println(preferredGenres);
+        Set<Role> roles = roleService.getUserRoles(user.getId());
+        mav.addObject("roles", roles);
 
         return mav;
     }

@@ -23,12 +23,12 @@
     overflow-wrap: break-word ;
 }
 .full-name{
-    margin-top: 0.25rem;
-    margin-bottom: 0.25rem;
+    margin: 0.75rem 0;
     color: #312E81;
-    font-size: 1.25rem;
+    font-size: 1.75rem;
     font-weight: 700;
     line-height: 2rem;
+    text-align: center;
 }
 .register-buttons{
     padding-top: 1rem
@@ -41,6 +41,7 @@ body {
 .user-icon{
     max-width: 1.25rem;
     max-height: 1.25rem;
+    align-self: center;
 }
 .status-box{
     padding: 0.5rem 0.75rem;
@@ -56,7 +57,7 @@ body {
     margin: 0.5rem;
     padding-right: 1.25rem;
     padding-left: 10px;
-    background-color: #6c0c84;
+    background-color: #71D7D1;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -65,7 +66,7 @@ body {
 }
 
 .edit-btn:hover {
-    background-color: #0369a1;
+    background-color: rgba(113, 215, 209, 0.53);
 }
 
 .auditions-btn {
@@ -110,8 +111,19 @@ body {
 .about-section-heading{
     display: flex;
     justify-content: start;
-    padding: 1rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+    padding: 1rem 0 1rem 0.25rem;
 }
+
+.myApplicationsHeader {
+    display: flex;
+    justify-content: start;
+    font-size: 1.25rem;
+    font-weight: 700;
+    padding: 1rem 0 1rem 0.25rem;
+}
+
 .about-section-data{
     display: flex;
     justify-content: start;
@@ -119,7 +131,7 @@ body {
 .user-data{
     background-color: white;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-    padding: 1rem;
+    padding: 0.75rem 1.25rem;
     margin: 1rem;
 }
 .logout-btn {
@@ -175,8 +187,94 @@ auditions-title-div {
 .profile-image-container{
     display: flex;
     justify-content: center;
+    margin: 10px 0;
 }
 
 .my-auditions {
     margin-top: 4rem;
+}
+
+.profile-left-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.account-type-label-artist {
+    padding: 0.25rem 0.5rem;
+    background-color: #2E2B48;
+    border-radius: 0.25rem;
+    color: #fff;
+    font-size: 1.25rem;
+    line-height: 1.25rem;
+    margin: 0.25rem;
+}
+
+.account-type-label-band {
+    padding: 0.25rem 0.5rem;
+    background-color: #1C041C;
+    border-radius: 0.25rem;
+    color: #fff;
+    font-size: 1.25rem;
+    line-height: 1.25rem;
+    margin: 0.25rem;
+
+}
+
+.edit-div {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.profile-card {
+    background-color: white;
+    overflow-wrap: break-word;
+    padding: 0.75rem;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+
+.left-side {
+    margin: 1rem;
+    width: 100%;
+}
+
+@media (min-width: 768px) {
+    .left-side {
+        width: 25%;
+    }
+}
+
+.genres-div {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.genre-span {
+    padding: 0.25rem 0.5rem;
+    background-color: #3B7D9D;
+    border-radius: 0.25rem;
+    color: #fff;
+    font-size: 1.25rem;
+    line-height: 1.25rem;
+    margin: 0.25rem;
+}
+
+.roles-div {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.roles-span {
+    padding: 0.25rem 0.5rem;
+    background-color: #4AAABC;
+    border-radius: 0.25rem;
+    color: #fff;
+    font-size: 1.25rem;
+    line-height: 1.25rem;
+    margin: 0.25rem;
 }
