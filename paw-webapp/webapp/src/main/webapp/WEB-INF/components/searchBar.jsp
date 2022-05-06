@@ -22,10 +22,6 @@
                 <button type="submit" aria-hidden="true"></button>
             </div>
             <div class="orderBy">
-                <div class="order-by-title">
-                    <p><spring:message code="filters.orderBy"/> </p>
-                </div>
-                <div>
                     <select name="order">
                         <option value="DESC" selected>
                             <spring:message code="filters.order.desc"/>
@@ -34,7 +30,6 @@
                             <spring:message code="filters.order.asc"/>
                         </option>
                     </select>
-                </div>
             </div>
         </div>
         <div class="filters">
