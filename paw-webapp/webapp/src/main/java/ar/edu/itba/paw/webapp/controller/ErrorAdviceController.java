@@ -14,6 +14,12 @@ import org.springframework.web.servlet.ModelAndView;
 public class ErrorAdviceController {
     private static final Logger LOGGER = LoggerFactory.getLogger(ErrorController.class);
 
+    @ExceptionHandler(NoPermissionsException.class)
+    public ModelAndView noPermissions() {
+        LOGGER.warn("No permissions for this action");
+        return new ModelAndView("errors/403");
+    }
+
     @ExceptionHandler(AuditionNotFoundException.class)
     public ModelAndView auditionNotFound() {
         LOGGER.warn("Audition could not be found");

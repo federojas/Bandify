@@ -34,7 +34,7 @@ public class ApplicationJdbcDao implements ApplicationDao {
              .applicantSurname(rs.getString("surname"))
              .auditionTitle(rs.getString("title"));
 
-    private final static RowMapper<Integer> COUNT_ROW_MAPPER = ((resultSet, i) -> resultSet.getInt("count"));
+    private final static RowMapper<Boolean> EXISTS_ROW_MAPPER = ((resultSet, i) -> resultSet.getBoolean("exists"));
 
     private final String GET_APPLICATION_QUERY = "SELECT auditionId,applicantId,state,name,surname,title FROM applications" +
             " JOIN users ON applications.applicantId = users.id" +
@@ -108,6 +108,6 @@ public class ApplicationJdbcDao implements ApplicationDao {
 
     @Override
     public boolean exists(long auditionId, long id) {
-        return !jdbcTemplate.query("SELECT COUNT(*) FROM applications WHERE auditionId= ? AND applicantId = ? ", new Object[]{auditionId,id}, COUNT_ROW_MAPPER).isEmpty();
+        return jdbcTemplate.query("SELECT EXISTS (SELECT * FROM applications WHERE auditionId=? AND applicantId=?)", new Object[]{auditionId,id}, EXISTS_ROW_MAPPER).stream().findFirst().orElse(false);
     }
 }
