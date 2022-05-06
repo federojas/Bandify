@@ -174,9 +174,21 @@
                         </div>
 
                     </div>
-                    <div>
-
-                    </div>
+                    <sec:authorize access="hasRole('ARTIST')">
+                        <div class="myApplications">
+                            <div class="myApplicationsHeader">
+                                <spring:message code="profile.myApplications"/>
+                            </div>
+                            <c:forEach var="artistApplication" items="${artistApplications}">
+                                <jsp:include page="../components/artistApplicationItem.jsp">
+                                    <jsp:param name="artistApplicationState" value="${artistApplication.state}"/>
+                                    <jsp:param name="auditionTitle" value="${artistApplication.auditionTitle}"/>
+                                    <jsp:param name="auditionId" value="${artistApplication.auditionId}"/>
+                                </jsp:include>
+                            </c:forEach>
+                        </div>
+                    </sec:authorize>
+                    
                     <br/>
                 </div>
 

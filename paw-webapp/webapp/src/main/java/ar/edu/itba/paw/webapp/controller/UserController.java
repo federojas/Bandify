@@ -33,18 +33,21 @@ public class UserController {
     private final RoleService roleService;
     private final GenreService genreService;
     private final ImageService imageService;
+    private final ApplicationService applicationService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     public UserController(UserService userService, VerificationTokenService verificationTokenService,
-                          AuditionService auditionService, RoleService roleService, GenreService genreService, ImageService imageService) {
+                          AuditionService auditionService, RoleService roleService, GenreService genreService,
+                          ImageService imageService, ApplicationService applicationService) {
         this.userService = userService;
         this.verificationTokenService = verificationTokenService;
         this.auditionService = auditionService;
         this.roleService = roleService;
         this.genreService = genreService;
         this.imageService = imageService;
+        this.applicationService = applicationService;
     }
 
     @RequestMapping(value = {"/register","/registerBand", "/registerArtist"},
@@ -103,6 +106,13 @@ public class UserController {
         Optional<User> optionalUser = userService.findByEmail(auth.getName());
         User user = optionalUser.orElseThrow(UserNotFoundException::new);
         mav.addObject("user", user);
+
+        if (!user.isBand()) {
+            List<Application> applications = applicationService.getMyApplications(user.getId());
+            System.out.println(applications);
+            mav.addObject("artistApplications", applications);
+        }
+
         return mav;
     }
 
