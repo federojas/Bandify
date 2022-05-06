@@ -22,20 +22,11 @@ import java.util.*;
 public class VerificationTokenServiceImpl implements VerificationTokenService {
 
     private final VerificationTokenDao verificationTokenDao;
-    private final MailingService mailingService;
-    private final MessageSource messageSource;
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
-    private final Environment environment;
 
     @Autowired
-    public VerificationTokenServiceImpl(final VerificationTokenDao verificationTokenDao,
-                                        final MailingService mailingService,
-                                        final MessageSource messageSource,
-                                        final Environment environment) {
+    public VerificationTokenServiceImpl(final VerificationTokenDao verificationTokenDao) {
         this.verificationTokenDao = verificationTokenDao;
-        this.mailingService = mailingService;
-        this.messageSource = messageSource;
-        this.environment = environment;
     }
 
     @Override
@@ -77,30 +68,4 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
         return verificationTokenDao.createToken(userId, token, VerificationToken.getNewExpiryDate(), type);
     }
 
-    @Override
-    public void sendVerifyEmail(User user, VerificationToken token) {
-        try {
-            Locale locale = LocaleContextHolder.getLocale();
-            final String url = new URL("http", environment.getRequiredProperty("app.base.url"), "/paw-2022a-03/verify?token=" + token.getToken()).toString();
-            final Map<String, Object> mailData = new HashMap<>();
-            mailData.put("confirmationURL", url);
-            mailingService.sendEmail(user, user.getEmail(), messageSource.getMessage("verify-account.subject",null,locale), "verify-account", mailData, locale);
-        } catch (MessagingException | MalformedURLException e) {
-            LOGGER.warn("Register verification email failed");
-        }
-    }
-
-    @Override
-    public void sendResetEmail(User user) {
-        VerificationToken token = generate(user.getId(),TokenType.RESET);
-        try {
-            Locale locale = LocaleContextHolder.getLocale();
-            final String url = new URL("http", environment.getRequiredProperty("app.base.url"), "/paw-2022a-03/newPassword?token=" + token.getToken()).toString();
-            final Map<String, Object> mailData = new HashMap<>();
-            mailData.put("resetPasswordURL", url);
-            mailingService.sendEmail(user, user.getEmail(), messageSource.getMessage("reset-password.subject",null,locale), "reset-password", mailData, locale);
-        } catch (MessagingException | MalformedURLException e) {
-            LOGGER.warn("Reset password email failed");
-        }
-    }
 }

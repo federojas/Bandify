@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.service;
 
 import ar.edu.itba.paw.model.exceptions.AuditionNotFoundException;
+import ar.edu.itba.paw.AuditionFilter;
 import ar.edu.itba.paw.persistence.User;
 import ar.edu.itba.paw.persistence.*;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
@@ -27,6 +28,10 @@ public class AuditionServiceImpl implements AuditionService {
     private final UserService userService;
     private final MessageSource messageSource;
     private final Environment environment;
+    private final RoleService roleService;
+    private final GenreService genreService;
+    private final LocationService locationService;
+
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AuditionServiceImpl.class);
 
@@ -35,12 +40,19 @@ public class AuditionServiceImpl implements AuditionService {
                                final MailingService mailingService,
                                final UserService userService,
                                final MessageSource messageSource,
-                               final Environment environment) {
+                               final Environment environment,
+                               final RoleService roleService,
+                               final GenreService genreService,
+                               final LocationService locationService
+    ) {
         this.auditionDao = auditionDao;
         this.mailingService = mailingService;
         this.userService = userService;
         this.messageSource = messageSource;
         this.environment = environment;
+        this.locationService = locationService;
+        this.roleService = roleService;
+        this.genreService = genreService;
     }
 
     @Override
@@ -64,18 +76,13 @@ public class AuditionServiceImpl implements AuditionService {
     }
 
     @Override
-    public int getTotalPages(String query) {
-        return auditionDao.getTotalPages(query);
+    public int getTotalPages() {
+        return auditionDao.getTotalPages();
     }
 
     @Override
     public long getMaxAuditionId() {
         return auditionDao.getMaxAuditionId();
-    }
-
-    @Override
-    public List<Audition> search(int page, String query) {
-        return auditionDao.search(page, query);
     }
 
     @Override
@@ -94,13 +101,23 @@ public class AuditionServiceImpl implements AuditionService {
     }
 
     @Override
+    public List<Audition> filter(AuditionFilter filter, int page) {
+        return auditionDao.filter(filter, page);
+    }
+
+    @Override
+    public int getFilterTotalPages(AuditionFilter filter) {
+        return auditionDao.getTotalPages(filter);
+    }
+
+    @Override
     public void sendApplicationEmail(long id, User user, String message) {
         try {
             Audition aud = getAuditionById(id).orElseThrow(AuditionNotFoundException::new);
             User band = userService.getUserById(aud.getBandId()).orElseThrow(UserNotFoundException::new);
             Locale locale = LocaleContextHolder.getLocale();
 
-            final String url = new URL("http", environment.getRequiredProperty("app.base.url"), "/paw-2022a-03/user/" + user.getId()).toString();
+            final String url = new URL(environment.getRequiredProperty("app.protocol"), environment.getRequiredProperty("app.base.url"), environment.getRequiredProperty("app.group.directory") + "/user/" + user.getId()).toString();
             Map<String, Object> mailData = new HashMap<>();
             mailData.put("content", message);
             mailData.put("goToBandifyURL", url);

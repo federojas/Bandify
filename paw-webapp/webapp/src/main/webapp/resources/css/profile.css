@@ -146,10 +146,6 @@ body {
     color: #ffffff;
 }
 
-.logout{
-    margin: 0;
-}
-
 .auditions-div {
     flex-wrap: wrap;
     display: flex;

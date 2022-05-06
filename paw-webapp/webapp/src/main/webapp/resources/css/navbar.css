@@ -61,6 +61,11 @@ body {
   width: 2.5rem;
 }
 
+.logout{
+  margin: 0;
+}
+
+
 #mobile-menu > ul {
   display: flex;
   flex-direction: column;

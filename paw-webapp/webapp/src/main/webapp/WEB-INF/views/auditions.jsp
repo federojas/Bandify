@@ -7,15 +7,16 @@ prefix="spring" uri="http://www.springframework.org/tags"%>
     <c:import url="../config/generalHead.jsp" />
     <link rel="stylesheet" href="<c:url value="/resources/css/welcome.css" />" />
     <link rel="stylesheet" href="<c:url value="/resources/css/auditions.css" />" />
-    <script src="<c:url value="/resources/js/sideNav.js" />"></script>
-
+    <script src="<c:url value="/resources/js/pagination.js" />"></script>
   </head>
   <body>
+
     <!-- Navbar -->
     <jsp:include page="../components/navbar.jsp">
       <jsp:param name="navItem" value="${2}" />
       <jsp:param name="name" value="Bandify" />
     </jsp:include>
+
     <div>
     <!-- Auditions content -->
       <div class="auditions-content">
@@ -24,6 +25,9 @@ prefix="spring" uri="http://www.springframework.org/tags"%>
           <spring:message code="welcome.auditionsSection" />
         </h2>
 
+        <c:set var="locationList" value="${locationList}" scope="request"/>
+        <c:set var="genreList" value="${locationList}" scope="request"/>
+        <c:set var="roleList" value="${locationList}" scope="request"/>
         <jsp:include page="../components/searchBar.jsp">
           <jsp:param name="name" value="Bandify" />
         </jsp:include>
@@ -68,7 +72,7 @@ prefix="spring" uri="http://www.springframework.org/tags"%>
       <div class="pagination">
         <c:if test="${currentPage > 1}">
          <spring:message code="pagination.previous.page.alt" var="previous"/>
-          <a href="<c:url value="/auditions?page=${currentPage-1}"/>">
+          <a onclick="getPaginationURL(${currentPage-1});">
             <img src="<c:url value="/resources/images/page-next.png"/>"
                  alt="${previous}" class="pagination-next rotate">
           </a>
@@ -76,7 +80,7 @@ prefix="spring" uri="http://www.springframework.org/tags"%>
         <b><spring:message code="page.current" arguments="${currentPage},${lastPage}" /></b>
         <c:if test="${currentPage < lastPage}">
           <spring:message code="pagination.next.page.alt" var="next"/>
-          <a href="<c:url value="/auditions?page=${currentPage+1}"/>">
+          <a onclick="getPaginationURL(${currentPage+1});">
             <img src="<c:url value="/resources/images/page-next.png"/>"
                  alt="${next}" class="pagination-next">
           </a>

@@ -9,6 +9,9 @@ import ar.edu.itba.paw.persistence.UserDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -16,6 +19,10 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import javax.mail.MessagingException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.*;
 
 @Service
@@ -27,6 +34,9 @@ public class UserServiceImpl implements UserService {
     private final RoleService roleService;
     private final GenreService genreService;
     private final ImageService imageService;
+    private final Environment environment;
+    private final MailingService mailingService;
+    private final MessageSource messageSource;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
     //  TODO: uso de LOGGER
@@ -35,13 +45,17 @@ public class UserServiceImpl implements UserService {
     public UserServiceImpl(final UserDao userDao, final PasswordEncoder passwordEncoder,
                            final VerificationTokenService verificationTokenService,
                            final RoleService roleService, final GenreService genreService,
-                           final ImageService imageService) {
+                           final ImageService imageService, final Environment environment,
+                            final MailingService mailingService, final MessageSource messageSource) {
         this.userDao = userDao;
         this.passwordEncoder = passwordEncoder;
         this.verificationTokenService = verificationTokenService;
         this.roleService = roleService;
         this.genreService = genreService;
         this.imageService = imageService;
+        this.environment = environment;
+        this.mailingService = mailingService;
+        this.messageSource = messageSource;
     }
 
     @Override
@@ -57,22 +71,31 @@ public class UserServiceImpl implements UserService {
         }
         User user = userDao.create(userBuilder);
         final VerificationToken token = verificationTokenService.generate(user.getId(), TokenType.VERIFY);
-        verificationTokenService.sendVerifyEmail(user, token);
+        sendVerifyEmail(user, token);
         return user;
     }
 
     @Override
     public void resendUserVerification(String email) {
-        Optional<User> user = findByEmail(email);
+        User user = findByEmail(email).orElseThrow(UserNotFoundException::new);
 
-        if(!user.isPresent())
-            throw new UserNotFoundException();
+        verificationTokenService.deleteTokenByUserId(user.getId(), TokenType.VERIFY);
 
-        verificationTokenService.deleteTokenByUserId(user.get().getId(), TokenType.VERIFY);
+        VerificationToken token = verificationTokenService.generate(user.getId(), TokenType.VERIFY);
 
-        VerificationToken token = verificationTokenService.generate(user.get().getId(), TokenType.VERIFY);
+        sendVerifyEmail(user, token);
+    }
 
-        verificationTokenService.sendVerifyEmail(user.get(), token);
+    private void sendVerifyEmail(User user, VerificationToken token) {
+        try {
+            Locale locale = LocaleContextHolder.getLocale();
+            final String url = new URL(environment.getRequiredProperty("app.protocol"), environment.getRequiredProperty("app.base.url"), environment.getRequiredProperty("app.group.directory") + "/verify?token=" + token.getToken()).toString();
+            final Map<String, Object> mailData = new HashMap<>();
+            mailData.put("confirmationURL", url);
+            mailingService.sendEmail(user, user.getEmail(), messageSource.getMessage("verify-account.subject",null,locale), "verify-account", mailData, locale);
+        } catch (MessagingException | MalformedURLException e) {
+            LOGGER.warn("Register verification email failed");
+        }
     }
 
     @Override
@@ -114,13 +137,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void sendResetEmail(String email) {
-        Optional<User> user = userDao.findByEmail(email);
-        if(!user.isPresent())
-            throw new EmailNotFoundException();
+        User user = userDao.findByEmail(email).orElseThrow(UserNotFoundException::new);
 
-        verificationTokenService.deleteTokenByUserId(user.get().getId(), TokenType.RESET);
-
-        verificationTokenService.sendResetEmail(user.get());
+        verificationTokenService.deleteTokenByUserId(user.getId(), TokenType.RESET);
+        VerificationToken token = verificationTokenService.generate(user.getId(),TokenType.RESET);
+        try {
+            Locale locale = LocaleContextHolder.getLocale();
+            final String url = new URL(environment.getRequiredProperty("app.protocol"), environment.getRequiredProperty("app.base.url"),environment.getRequiredProperty("app.group.directory") + "/newPassword?token=" + token.getToken()).toString();
+            final Map<String, Object> mailData = new HashMap<>();
+            mailData.put("resetPasswordURL", url);
+            mailingService.sendEmail(user, user.getEmail(), messageSource.getMessage("reset-password.subject",null,locale), "reset-password", mailData, locale);
+        } catch (MessagingException | MalformedURLException e) {
+            LOGGER.warn("Reset password email failed");
+        }
     }
 
     @Override

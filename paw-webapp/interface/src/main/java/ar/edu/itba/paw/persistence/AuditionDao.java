@@ -1,5 +1,7 @@
 package ar.edu.itba.paw.persistence;
 
+import ar.edu.itba.paw.AuditionFilter;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -11,11 +13,11 @@ public interface AuditionDao {
 
     List<Audition> getAll(int page);
 
-    int getTotalPages(String query);
+    int getTotalPages();
+
+    int getTotalPages(AuditionFilter filter);
 
     long getMaxAuditionId();
-
-    List<Audition> search(int page, String query);
 
     List<Audition> getBandAuditions(long userId, int page);
 
@@ -24,4 +26,6 @@ public interface AuditionDao {
     void deleteAuditionById(long id);
 
     void editAuditionById(Audition.AuditionBuilder builder, long id);
+
+    List<Audition> filter(AuditionFilter filter, int page);
 }

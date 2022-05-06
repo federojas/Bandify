@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.model.exceptions.AuditionNotOwnedException;
+import ar.edu.itba.paw.AuditionFilter;
 import ar.edu.itba.paw.persistence.Genre;
 import ar.edu.itba.paw.persistence.Location;
 import ar.edu.itba.paw.persistence.Role;
@@ -25,6 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 public class AuditionsController {
@@ -63,7 +65,7 @@ public class AuditionsController {
     public ModelAndView auditions( @RequestParam(value = "page", defaultValue = "1") int page) {
         final ModelAndView mav = new ModelAndView("views/auditions");
         // TODO: Error controller
-        int lastPage = auditionService.getTotalPages(null);
+        int lastPage = auditionService.getTotalPages();
         if(lastPage == 0)
             lastPage = 1;
         if(page < 0 || page > lastPage)
@@ -73,6 +75,12 @@ public class AuditionsController {
 
         Map<Long, String> userMap = getUserMap(auditionList);
 
+        Set<Role> roleList = roleService.getAll();
+        Set<Genre> genreList = genreService.getAll();
+        List<Location> locationList = locationService.getAll();
+        mav.addObject("roleList", roleList.stream().map(Role::getName).collect(Collectors.toList()));
+        mav.addObject("genreList", genreList.stream().map(Genre::getName).collect(Collectors.toList()));
+        mav.addObject("locationList", locationList.stream().map(Location::getName).collect(Collectors.toList()));
         mav.addObject("auditionList", auditionList);
         mav.addObject("userMap", userMap);
         mav.addObject("currentPage", page);
@@ -83,20 +91,33 @@ public class AuditionsController {
 
     @RequestMapping(value = "/search", method = {RequestMethod.GET})
     public ModelAndView search( @RequestParam(value = "page", defaultValue = "1") int page,
-                                @RequestParam(value = "query", defaultValue = "") String query ) {
+                                @RequestParam(value = "query", defaultValue = "") String query,
+                                @RequestParam(value = "genre", required = false) String[] genres,
+                                @RequestParam(value = "role", required = false) String[] roles,
+                                @RequestParam(value = "location", required = false) String[] locations,
+                                @RequestParam(value = "order", defaultValue = "desc") String order) {
         final ModelAndView mav = new ModelAndView("views/search");
-        int lastPage = auditionService.getTotalPages(query);
+
+        AuditionFilter filter = new AuditionFilter.AuditionFilterBuilder().
+                withGenres(genres == null ? null : Arrays.asList(genres))
+                .withRoles(roles == null ? null : Arrays.asList(roles))
+                .withLocations(locations == null ? null : Arrays.asList(locations))
+                .withTitle(query).withOrder(order).build();
+        int lastPage = auditionService.getFilterTotalPages(filter);
         if(lastPage == 0)
             lastPage = 1;
         if(page < 0 || page > lastPage)
             return new ModelAndView("errors/404");
-        if(query.equals(""))
-            return auditions(1);
 
-        List<Audition> auditionList = auditionService.search(page, query);
+        Set<Role> roleList = roleService.getAll();
+        Set<Genre> genreList = genreService.getAll();
+        List<Location> locationList = locationService.getAll();
+        mav.addObject("roleList", roleList.stream().map(Role::getName).collect(Collectors.toList()));
+        mav.addObject("genreList", genreList.stream().map(Genre::getName).collect(Collectors.toList()));
+        mav.addObject("locationList", locationList.stream().map(Location::getName).collect(Collectors.toList()));
 
+        List<Audition> auditionList = auditionService.filter(filter,page);
         Map<Long, String> userMap = getUserMap(auditionList);
-
         mav.addObject("auditionList", auditionList);
         mav.addObject("userMap", userMap);
         mav.addObject("currentPage", page);

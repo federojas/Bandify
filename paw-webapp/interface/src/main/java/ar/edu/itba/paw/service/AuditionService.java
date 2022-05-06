@@ -2,6 +2,7 @@ package ar.edu.itba.paw.service;
 
 import ar.edu.itba.paw.persistence.Application;
 import ar.edu.itba.paw.persistence.ApplicationState;
+import ar.edu.itba.paw.AuditionFilter;
 import ar.edu.itba.paw.persistence.User;
 import ar.edu.itba.paw.persistence.Audition;
 
@@ -18,9 +19,7 @@ public interface AuditionService {
 
     long getMaxAuditionId();
 
-    int getTotalPages(String query);
-
-    List<Audition> search(int page, String query);
+    int getTotalPages();
 
     List<Audition> getBandAuditions(long userId, int page);
 
@@ -31,4 +30,8 @@ public interface AuditionService {
     void deleteAuditionById(long id);
 
     void editAuditionById(Audition.AuditionBuilder builder, long id);
+
+    List<Audition> filter(AuditionFilter filter, int page);
+
+    int getFilterTotalPages(AuditionFilter filter);
 }
