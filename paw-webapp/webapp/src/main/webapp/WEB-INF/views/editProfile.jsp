@@ -89,14 +89,10 @@
             >
                 <form:option value="" disabled="true" selected="true"><spring:message code="audition.form.musicGenres.maxSelect"/></form:option>
                 <c:forEach var="userGenre" items="${userGenres}" varStatus="loop">
-                    <form:option value="${userGenre.name}" selected="true">
-                        ${userGenre.name}
-                    </form:option>
+                    <form:option value="${userGenre.name}" selected="true">${userGenre.name}</form:option>
                 </c:forEach>
                 <c:forEach var="genre" items="${genreList}" varStatus="loop">
-                        <form:option value="${genre.name}">
-                            ${genre.name}
-                        </form:option>
+                        <form:option value="${genre.name}">${genre.name}</form:option>
                 </c:forEach>
 
 
@@ -114,12 +110,10 @@
                 <form:option value="" disabled="true" selected="true"><spring:message code="audition.form.lookingFor.maxSelect"/></form:option>
 
                 <c:forEach var="userRole" items="${userRoles}" varStatus="loop">
-                    <form:option value="${userRole.name}" selected="true">
-                        ${userRole.name}
-                    </form:option>
+                    <form:option value="${userRole.name}" selected="true">${userRole.name}</form:option>
                 </c:forEach>
                 <c:forEach var="role" items="${roleList}" varStatus="loop">
-                    <form:option value="${role.name}"> ${role.name} </form:option>
+                    <form:option value="${role.name}">${role.name}</form:option>
                 </c:forEach>
 
             </form:select>

@@ -77,9 +77,7 @@
                                 items="${locationList}"
                                 varStatus="loop"
                         >
-                            <form:option value="${location.name}">
-                                ${location.name}
-                            </form:option>
+                            <form:option value="${location.name}">${location.name}</form:option>
                         </c:forEach>
                     </form:select>
                     <form:errors path="location" element="p" cssClass="error">
