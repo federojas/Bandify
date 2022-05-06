@@ -27,6 +27,7 @@ public class UserServiceImpl implements UserService {
     private final RoleService roleService;
     private final GenreService genreService;
     private final ImageService imageService;
+    private final MailingService mailingService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
     //  TODO: uso de LOGGER
@@ -35,13 +36,14 @@ public class UserServiceImpl implements UserService {
     public UserServiceImpl(final UserDao userDao, final PasswordEncoder passwordEncoder,
                            final VerificationTokenService verificationTokenService,
                            final RoleService roleService, final GenreService genreService,
-                           final ImageService imageService) {
+                           final ImageService imageService, final MailingService mailingService) {
         this.userDao = userDao;
         this.passwordEncoder = passwordEncoder;
         this.verificationTokenService = verificationTokenService;
         this.roleService = roleService;
         this.genreService = genreService;
         this.imageService = imageService;
+        this.mailingService = mailingService;
     }
 
     @Override
@@ -57,7 +59,7 @@ public class UserServiceImpl implements UserService {
         }
         User user = userDao.create(userBuilder);
         final VerificationToken token = verificationTokenService.generate(user.getId(), TokenType.VERIFY);
-        verificationTokenService.sendVerifyEmail(user, token);
+        mailingService.sendVerificationEmail(user, token);
         return user;
     }
 
@@ -72,7 +74,7 @@ public class UserServiceImpl implements UserService {
 
         VerificationToken token = verificationTokenService.generate(user.get().getId(), TokenType.VERIFY);
 
-        verificationTokenService.sendVerifyEmail(user.get(), token);
+        mailingService.sendVerificationEmail(user.get(), token);
     }
 
     @Override
@@ -119,8 +121,8 @@ public class UserServiceImpl implements UserService {
             throw new EmailNotFoundException();
 
         verificationTokenService.deleteTokenByUserId(user.get().getId(), TokenType.RESET);
-
-        verificationTokenService.sendResetEmail(user.get());
+        VerificationToken token = verificationTokenService.generate(user.get().getId(), TokenType.RESET);
+        mailingService.sendResetPasswordEmail(user.get(), token);
     }
 
     @Override

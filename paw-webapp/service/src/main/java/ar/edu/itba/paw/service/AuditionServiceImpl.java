@@ -24,7 +24,6 @@ public class AuditionServiceImpl implements AuditionService {
     private final AuditionDao auditionDao;
     private final MailingService mailingService;
     private final UserService userService;
-    private final MessageSource messageSource;
     private final Environment environment;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AuditionServiceImpl.class);
@@ -33,12 +32,10 @@ public class AuditionServiceImpl implements AuditionService {
     public AuditionServiceImpl(final AuditionDao auditionDao,
                                final MailingService mailingService,
                                final UserService userService,
-                               final MessageSource messageSource,
                                final Environment environment) {
         this.auditionDao = auditionDao;
         this.mailingService = mailingService;
         this.userService = userService;
-        this.messageSource = messageSource;
         this.environment = environment;
     }
 
@@ -93,26 +90,10 @@ public class AuditionServiceImpl implements AuditionService {
     }
 
     @Override
-    public void sendApplicationEmail(long id, User user, String message) {
-        try {
-            Audition aud = getAuditionById(id).orElseThrow(AuditionNotFoundException::new);
-            User band = userService.getUserById(aud.getBandId()).orElseThrow(UserNotFoundException::new);
-            Locale locale = LocaleContextHolder.getLocale();
-
-            final String url = new URL("http", environment.getRequiredProperty("app.base.url"), "/paw-2022a-03/user/" + user.getId()).toString();
-            Map<String, Object> mailData = new HashMap<>();
-            mailData.put("content", message);
-            mailData.put("goToBandifyURL", url);
-            String bandEmail = band.getEmail();
-
-            mailingService.sendEmail(user, bandEmail,
-                    messageSource.getMessage("audition-application.subject",null,locale),
-                    "audition-application", mailData, locale);
-
-        } catch (MessagingException e) {
-            LOGGER.warn("Audition application email threw messaging exception");
-        } catch (MalformedURLException e) {
-            LOGGER.warn("Audition application email threw url exception");
-        }
+    public void sendApplicationEmail(long bandId, User user, String message) {
+        Audition aud = getAuditionById(bandId).orElseThrow(AuditionNotFoundException::new);
+        User band = userService.getUserById(aud.getBandId()).orElseThrow(UserNotFoundException::new);
+        String bandEmail = band.getEmail();
+        mailingService.sendApplicationEmail(user, bandEmail, message);
     }
 }
