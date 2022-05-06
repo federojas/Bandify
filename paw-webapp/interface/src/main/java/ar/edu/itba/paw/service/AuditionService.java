@@ -22,7 +22,7 @@ public interface AuditionService {
 
     List<Audition> getBandAuditions(long userId, int page);
 
-    void sendApplicationEmail(long id, User user, String message);
+    void sendApplicationEmail(long bandId, User user, String message);
 
     int getTotalBandAuditionPages(long userId);
 
