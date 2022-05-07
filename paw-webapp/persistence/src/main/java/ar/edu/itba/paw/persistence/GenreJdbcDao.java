@@ -65,7 +65,6 @@ public class GenreJdbcDao implements GenreDao {
         return jdbcTemplate.query("SELECT genres.id,genres.genre FROM genres JOIN userGenres ON genres.id = userGenres.genreId JOIN users ON userGenres.userId = users.id",GENRE_ROW_MAPPER).stream().collect(Collectors.toSet());
     }
 
-
     @Override
     public void updateUserGenres(Set<Genre> newGenres, long userId) {
         jdbcTemplate.update("DELETE FROM userGenres WHERE userId = ?", new Object[] {userId});

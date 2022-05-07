@@ -44,9 +44,9 @@ public class RoleDaoTest {
     private static final long AUDITION_ID = 1;
     private static final String INVALID_NAME = "INVALIDO";
     private static final List<String> ROLE_NAMES = Arrays.asList(role.getName(), role2.getName());
-    private static final List<Long> ROLE_IDS = Arrays.asList((long) 1,(long) 2);
-    private static final List<String> ALL_ROLE_NAMES = Arrays.asList(role.getName(), role2.getName(), role3.getName(), role4.getName(), role5.getName());
-    private static final List<Long> ALL_ROLE_IDS = Arrays.asList((long) 1,(long) 2,(long) 3, (long) 4, (long) 5);
+    private static final List<Role> ROLES = Arrays.asList(role, role2);
+    private static final List<Role> AUDITION_ROLES = Arrays.asList(role, role2, role3);
+    private static final List<Role> ALL_ROLES = Arrays.asList(role, role2, role3, role4, role5);
 
     @Before
     public void setUp() {
@@ -87,28 +87,14 @@ public class RoleDaoTest {
     @Test
     public void testGetAll() {
         final Set<Role> roleSet = roleDao.getAll();
-        final List<String> names = new ArrayList<>();
-        final List<Long> ids = new ArrayList<>();
-        for (Role role : roleSet) {
-            ids.add(role.getId());
-            names.add(role.getName());
-        }
-        assertTrue(ALL_ROLE_NAMES.containsAll(names));
-        assertTrue(ALL_ROLE_IDS.containsAll(ids));
+        assertTrue(ALL_ROLES.containsAll(roleSet));
         assertEquals(JdbcTestUtils.countRowsInTable(jdbcTemplate, "roles"), roleSet.size());
     }
 
     @Test
     public void testGetRolesByNames() {
         final Set<Role> roleSet = roleDao.getRolesByNames(ROLE_NAMES);
-        final List<String> names = new ArrayList<>();
-        final List<Long> ids = new ArrayList<>();
-        for (Role role : roleSet) {
-            ids.add(role.getId());
-            names.add(role.getName());
-        }
-        assertTrue(ROLE_NAMES.containsAll(names));
-        assertTrue(ROLE_IDS.containsAll(ids));
+        assertTrue(ROLES.containsAll(roleSet));
         assertEquals(JdbcTestUtils.countRowsInTableWhere(jdbcTemplate, "roles", "role = '" + ROLE_NAMES.get(0) + "' OR role = '" + ROLE_NAMES.get(1) + "'"), roleSet.size());
     }
 
@@ -121,14 +107,7 @@ public class RoleDaoTest {
     @Test
     public void testGetRolesByAuditionId() {
         final Set<Role> roleSet = roleDao.getRolesByAuditionId(AUDITION_ID);
-        final List<String> names = new ArrayList<>();
-        final List<Long> ids = new ArrayList<>();
-        for (Role role : roleSet) {
-            ids.add(role.getId());
-            names.add(role.getName());
-        }
-        assertTrue(ALL_ROLE_NAMES.containsAll(names));
-        assertTrue(ALL_ROLE_IDS.containsAll(ids));
+        assertTrue(AUDITION_ROLES.containsAll(roleSet));
         assertEquals(JdbcTestUtils.countRowsInTableWhere(jdbcTemplate, "auditionroles", "auditionid = " + AUDITION_ID), roleSet.size());
     }
 
