@@ -106,7 +106,6 @@ public class UserController {
 
         if (!user.isBand()) {
             List<Application> applications = applicationService.getMyApplications(user.getId());
-            System.out.println(applications);
             mav.addObject("artistApplications", applications);
         }
 

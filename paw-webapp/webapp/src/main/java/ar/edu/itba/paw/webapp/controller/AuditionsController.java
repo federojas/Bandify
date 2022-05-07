@@ -195,7 +195,6 @@ public class AuditionsController {
         Optional<User> optionalUser = userService.findByEmail(auth.getName());
         User user = optionalUser.orElseThrow(UserNotFoundException::new);
 
-        // TODO: FOTO NO FUNCIONA EN AUDITION-APPLICATION.HTML
         if(applicationService.apply(id, user, applicationForm.getMessage()))
             return success();
         return new ModelAndView("views/applicationFailed");

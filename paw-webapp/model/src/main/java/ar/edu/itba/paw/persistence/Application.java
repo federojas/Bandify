@@ -9,7 +9,7 @@ public class Application {
     private final String auditionTitle;
 
     private Application(ApplicationBuilder builder) {
-        this.auditionId = builder.applicantId;
+        this.auditionId = builder.auditionId;
         this.applicantId = builder.applicantId;
         this.applicantName = builder.applicantName;
         this.applicantSurname = builder.applicantSurname;

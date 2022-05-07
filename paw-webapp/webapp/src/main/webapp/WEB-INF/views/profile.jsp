@@ -51,7 +51,9 @@
                                         class="account-type-label-band"><spring:message code="register.band_word"/> </span>
                         </sec:authorize>
 
-                        <c:out value="${user.email}"/>
+                        <h1 class="email">
+                            <c:out value="${user.email}"/>
+                        </h1>
                     </div>
                     <%--                        Edit button--%>
                     <div class="edit-div">
@@ -102,12 +104,6 @@
                         </c:if>
                     </div>
                 </div>
-
-<%--                &lt;%&ndash;  Experience                  &ndash;%&gt;--%>
-<%--                <div class="user-data">--%>
-<%--                    <div class="about-section-heading"><span><spring:message code="profile.experience"/></span></div>--%>
-
-<%--                </div>--%>
 
                 <%--  Prefered genres                  --%>
                 <div class="user-data">

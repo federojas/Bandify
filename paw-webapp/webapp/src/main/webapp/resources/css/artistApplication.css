@@ -1,0 +1,12 @@
+.artistApplicationItem {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.auditionName {
+    font-size: 1.25em;
+    font-weight: 500px;
+    color: black;
+    word-break: break-word;
+    white-space: normal;
+}

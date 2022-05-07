@@ -124,11 +124,6 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
             </div>
           </c:if>
         </div>
-        <div class="back-auditions-div">
-          <a class="back-anchor" href="<c:url value="/auditions" />">
-            <spring:message code="success.link"/>
-          </a>
-        </div>
 
       </div>
       <sec:authorize access="hasRole('BAND')">
@@ -143,6 +138,11 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
           </jsp:include>
         </c:if>
       </sec:authorize>
+    </div>
+    <div class="back-auditions-div">
+      <a class="back-anchor" href="<c:url value="/auditions" />">
+        <spring:message code="success.link"/>
+      </a>
     </div>
   </body>
 </html>

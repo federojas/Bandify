@@ -3,19 +3,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-
-    <style>
-        .artistApplicationItem {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-        }
-        .auditionName {
-            font-size: 1.25em;
-            font-weight: 500px;
-            color: black;
-        }
-    </style>
+    <link rel="stylesheet" href="<c:url value="/resources/css/artistApplication.css" />"/>
 </head>
 <body>
 <%-- ArtistApplicationItem --%>

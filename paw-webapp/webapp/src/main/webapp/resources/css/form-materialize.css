@@ -59,7 +59,9 @@
   color: #8b1014 !important; }
 
 .red {
-  background-color: #F44336 !important; }
+  background-color: #F44336 !important;
+  color: #1f1d1d !important;
+}
 
 .red-text {
   color: #F44336 !important; }
@@ -815,7 +817,9 @@
   color: #00bfa5 !important; }
 
 .green {
-  background-color: #4CAF50 !important; }
+  background-color: #4CAF50 !important;
+  color: black !important;
+}
 
 .green-text {
   color: #4CAF50 !important; }
@@ -1235,7 +1239,9 @@
   color: #ffab00 !important; }
 
 .orange {
-  background-color: #ff9800 !important; }
+  background-color: #ff9800 !important;
+  color: #1f1d1d !important;
+}
 
 .orange-text {
   color: #ff9800 !important; }
@@ -2359,6 +2365,7 @@ th {
 span.badge {
   min-width: 3rem;
   padding: 0 6px;
+  width: 100px;
   margin-left: 14px;
   text-align: center;
   font-size: 1rem;
