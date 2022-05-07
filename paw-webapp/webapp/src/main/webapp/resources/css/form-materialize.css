@@ -1803,7 +1803,6 @@ samp {
  * 2. Correct font properties not being inherited.
  * 3. Address margins set differently in Firefox 4+, Safari, and Chrome.
  */
-button,
 input,
 optgroup,
 select,
@@ -3071,7 +3070,8 @@ select:focus {
 
 button:focus {
   outline: none;
-  background-color: #2ab7a9; }
+  /*background-color: #2ab7a9;*/
+}
 
 label {
   font-size: 0.8rem;
