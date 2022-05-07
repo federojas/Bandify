@@ -24,6 +24,9 @@ public class TestConfig {
     @Value("classpath:hsqldb.sql")
     private Resource hsqldb;
 
+    @Value("classpath:schema.sql")
+    private Resource schema;
+
     @Bean
     public DataSource dataSource() {
         final SimpleDriverDataSource ds = new SimpleDriverDataSource();
@@ -36,7 +39,7 @@ public class TestConfig {
 
     private DatabasePopulator databasePopulator() {
         final ResourceDatabasePopulator dbp = new ResourceDatabasePopulator();
-        dbp.addScripts(hsqldb);
+        dbp.addScripts(hsqldb, schema);
         return dbp;
     }
 
