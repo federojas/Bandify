@@ -5,7 +5,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
@@ -32,7 +31,6 @@ public class GenreDaoTest {
     private DataSource ds;
 
     private JdbcTemplate jdbcTemplate;
-    private SimpleJdbcInsert simpleJdbcInsert;
 
     private static final Genre genre = new Genre(1, "genre");
     private static final Genre genre2 = new Genre(2, "genre2");
@@ -50,7 +48,6 @@ public class GenreDaoTest {
     @Before
     public void setUp() {
         jdbcTemplate = new JdbcTemplate(ds);
-        simpleJdbcInsert = new SimpleJdbcInsert(ds).withTableName("genres");
     }
 
     @Test

@@ -5,7 +5,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
@@ -15,10 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
 
-import java.sql.Timestamp;
+
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
@@ -36,7 +33,6 @@ public class VerificationTokenDaoTest {
     private DataSource ds;
 
     private JdbcTemplate jdbcTemplate;
-    private SimpleJdbcInsert simpleJdbcInsert;
 
     private static final long USER_ID = 1;
     private static final long OTHER_USER_ID = 2;
@@ -54,7 +50,6 @@ public class VerificationTokenDaoTest {
     @Before
     public void setUp() {
         jdbcTemplate = new JdbcTemplate(ds);
-        simpleJdbcInsert = new SimpleJdbcInsert(ds).withTableName("verificationtokens");
     }
 
     @Test

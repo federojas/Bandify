@@ -3,6 +3,7 @@ package ar.edu.itba.paw.persistence;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import static java.time.Year.isLeap;
@@ -115,18 +116,6 @@ public class Audition {
         lookingFor = builder.lookingFor;
     }
 
-    public Audition(long id, long bandId, String title, String description, LocalDateTime creationDate, Location location, Set<Genre> musicGenres, Set<Role> lookingFor) {
-        this.id = id;
-        this.bandId = bandId;
-        this.title = title;
-        this.description = description;
-        this.creationDate = creationDate;
-        this.location = location;
-        this.musicGenres = musicGenres;
-        this.lookingFor = lookingFor;
-        this.timeElapsed = creationDate.toString();
-    }
-
     public long getId() {
         return id;
     }
@@ -235,5 +224,18 @@ public class Audition {
 
     public Set<Role> getLookingFor() {
         return lookingFor;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Audition audition = (Audition) o;
+        return getId() == audition.getId() && getBandId() == audition.getBandId() && Objects.equals(getTitle(), audition.getTitle()) && Objects.equals(getDescription(), audition.getDescription()) && Objects.equals(getCreationDate(), audition.getCreationDate()) && Objects.equals(getLocation(), audition.getLocation()) && Objects.equals(getMusicGenres(), audition.getMusicGenres()) && Objects.equals(getLookingFor(), audition.getLookingFor());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getBandId(), getTitle(), getDescription(), getCreationDate(), getLocation(), getMusicGenres(), getLookingFor());
     }
 }

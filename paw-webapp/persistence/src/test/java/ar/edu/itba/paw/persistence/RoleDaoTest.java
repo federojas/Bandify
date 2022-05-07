@@ -5,7 +5,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
@@ -32,7 +31,6 @@ public class RoleDaoTest {
     private DataSource ds;
 
     private JdbcTemplate jdbcTemplate;
-    private SimpleJdbcInsert simpleJdbcInsert;
 
     private static final Role role = new Role(1,"role");
     private static final Role role2 = new Role(2,"role2");
@@ -51,7 +49,6 @@ public class RoleDaoTest {
     @Before
     public void setUp() {
         jdbcTemplate = new JdbcTemplate(ds);
-        simpleJdbcInsert = new SimpleJdbcInsert(ds).withTableName("roles");
     }
 
     @Test

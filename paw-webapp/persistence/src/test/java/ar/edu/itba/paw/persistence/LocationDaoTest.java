@@ -5,7 +5,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
@@ -32,7 +31,6 @@ public class LocationDaoTest {
     private DataSource ds;
 
     private JdbcTemplate jdbcTemplate;
-    private SimpleJdbcInsert simpleJdbcInsert;
 
     private static final Location location = new Location(1,"loc");
     private static final Location location2 = new Location(2,"loc2");
@@ -46,7 +44,6 @@ public class LocationDaoTest {
     @Before
     public void setUp() {
         jdbcTemplate = new JdbcTemplate(ds);
-        simpleJdbcInsert = new SimpleJdbcInsert(ds).withTableName("locations");
     }
 
     @Test
