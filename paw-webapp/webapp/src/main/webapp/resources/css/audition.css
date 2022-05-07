@@ -171,3 +171,15 @@ li.info-item:not(:last-child) {
     font-weight: 700;
     line-height: 2rem;
 }
+
+.applicants {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1.5rem;
+}
+
+.applicants-header {
+    font-size: xx-large;
+    text-align: center;
+    font-weight: 600;
+}
