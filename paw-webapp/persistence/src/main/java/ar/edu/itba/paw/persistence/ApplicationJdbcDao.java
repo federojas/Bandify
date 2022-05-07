@@ -102,7 +102,7 @@ public class ApplicationJdbcDao implements ApplicationDao {
         String query = "SELECT auditionId,applicantId,state,name,surname,title FROM applications" +
                 " JOIN users ON applications.applicantId = users.id" +
                 " JOIN auditions ON applications.auditionId = auditions.id" +
-                " WHERE applicantId = ? LIMIT ? OFFSET ?";
+                " WHERE applicantId = ? ORDER BY auditionId DESC LIMIT ? OFFSET ?";
         List<Application.ApplicationBuilder> list = jdbcTemplate.query(query,new Object[]{applicantId, PAGE_SIZE, (page -1) * PAGE_SIZE},APPLICATION_ROW_MAPPER);
         return list.stream().map(Application.ApplicationBuilder::build).collect(Collectors.toList());
     }
