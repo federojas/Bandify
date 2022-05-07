@@ -69,29 +69,10 @@ public class ApplicationServiceImpl implements ApplicationService {
         if(applicationDao.exists(auditionId,user.getId()))
             return false;
         applicationDao.createApplication(new Application.ApplicationBuilder(auditionId,user.getId(),ApplicationState.PENDING));
-        try {
-            Optional<Audition> aud = auditionService.getAuditionById(auditionId);
-            if (aud.isPresent()) {
-                Locale locale = LocaleContextHolder.getLocale();
-                final String url = new URL("http", environment.getRequiredProperty("app.base.url"), "/paw-2022a-03/").toString();
-                Map<String, Object> mailData = new HashMap<>();
-                mailData.put("content", message);
-                mailData.put("goToBandifyURL", url);
-                Optional<User> band = userService.getUserById(aud.get().getBandId());
-                if(band.isPresent()) {
-                    String bandEmail = band.get().getEmail();
-                    mailingService.sendEmail(user, bandEmail,
-                            messageSource.getMessage("audition-application.subject",null,locale),
-                            "audition-application", mailData, locale);
-                } else {
-                    throw new UserNotFoundException();
-                }
-            }
-        } catch (MessagingException e) {
-            LOGGER.warn("Audition application email threw messaging exception");
-        } catch (MalformedURLException e) {
-            LOGGER.warn("Audition application email threw url exception");
-        }
+        Audition aud = auditionService.getAuditionById(auditionId).orElseThrow(AuditionNotFoundException::new);
+        User band = userService.getUserById(aud.getBandId()).orElseThrow(UserNotFoundException::new);
+        String bandEmail = band.getEmail();
+        mailingService.sendApplicationEmail(user, bandEmail, message);
         return true;
     }
 
