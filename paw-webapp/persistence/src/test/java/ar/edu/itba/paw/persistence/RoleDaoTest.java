@@ -1,6 +1,5 @@
 package ar.edu.itba.paw.persistence;
 
-import com.sun.javafx.collections.UnmodifiableListSet;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,10 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
 
-import java.io.IOException;
-import java.nio.file.Files;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
 

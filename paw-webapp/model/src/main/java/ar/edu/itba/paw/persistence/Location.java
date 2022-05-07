@@ -1,5 +1,7 @@
 package ar.edu.itba.paw.persistence;
 
+import java.util.Objects;
+
 public class Location {
     private long id;
     private String name;
@@ -11,6 +13,19 @@ public class Location {
 
     public long getId() {
         return id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Location location = (Location) o;
+        return getId() == location.getId() && Objects.equals(getName(), location.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName());
     }
 
     public String getName() {
