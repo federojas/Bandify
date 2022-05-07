@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.sql.Timestamp;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -85,7 +86,7 @@ public class AuditionJdbcDao implements AuditionDao {
         auditionData.put("bandid", builder.getBandId());
         auditionData.put("description", builder.getDescription());
         auditionData.put("locationId", builder.getLocation().getId());
-        auditionData.put("creationDate", builder.getCreationDate());
+        auditionData.put("creationDate", Timestamp.valueOf(builder.getCreationDate()));
         final Number id = jdbcAuditionInsert.executeAndReturnKey(auditionData);
 
         roleDao.createAuditionRole(builder.getLookingFor(),id.longValue());

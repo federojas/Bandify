@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.persistence;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class VerificationToken {
 
@@ -36,6 +37,19 @@ public class VerificationToken {
 
     public long getUserId() {
         return userId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        VerificationToken token1 = (VerificationToken) o;
+        return getId() == token1.getId() && getUserId() == token1.getUserId() && Objects.equals(getToken(), token1.getToken()) && Objects.equals(getExpiryDate(), token1.getExpiryDate());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getToken(), getUserId(), getExpiryDate());
     }
 
     public LocalDateTime getExpiryDate() {
