@@ -4,9 +4,8 @@ import ar.edu.itba.paw.model.exceptions.AuditionNotFoundException;
 import ar.edu.itba.paw.model.exceptions.AuditionNotOwnedException;
 import ar.edu.itba.paw.AuditionFilter;
 import ar.edu.itba.paw.persistence.User;
+import ar.edu.itba.paw.persistence.*;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
-import ar.edu.itba.paw.persistence.Audition;
-import ar.edu.itba.paw.persistence.AuditionDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +27,6 @@ public class AuditionServiceImpl implements AuditionService {
     private final MailingService mailingService;
     private final UserService userService;
     private final Environment environment;
-    private final RoleService roleService;
-    private final GenreService genreService;
-    private final LocationService locationService;
 
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AuditionServiceImpl.class);
@@ -40,18 +36,11 @@ public class AuditionServiceImpl implements AuditionService {
                                final MailingService mailingService,
                                final UserService userService,
                                final MessageSource messageSource,
-                               final Environment environment,
-                               final RoleService roleService,
-                               final GenreService genreService,
-                               final LocationService locationService
-    ) {
+                               final Environment environment) {
         this.auditionDao = auditionDao;
         this.mailingService = mailingService;
         this.userService = userService;
         this.environment = environment;
-        this.locationService = locationService;
-        this.roleService = roleService;
-        this.genreService = genreService;
     }
 
     @Override
