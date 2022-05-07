@@ -237,7 +237,7 @@ public class AuditionsController {
                 musicGenres(genreService.validateAndReturnGenres(auditionForm.getMusicGenres()))
         );
 
-        return auditions(1);
+        return new ModelAndView("redirect:/auditions");
     }
 
     @RequestMapping(value = "/success", method = {RequestMethod.GET})
