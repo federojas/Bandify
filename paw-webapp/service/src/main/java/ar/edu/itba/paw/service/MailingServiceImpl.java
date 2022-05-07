@@ -96,10 +96,10 @@ public class MailingServiceImpl implements MailingService {
         for (String data : mailData.keySet()) {
             ctx.setVariable(data, mailData.get(data));
         }
-        sendThymeLeafEmail(sender, receiverAddress, subject, template, ctx);
+        sendThymeLeafEmail(receiverAddress, subject, template, ctx);
     }
 
-    private void sendThymeLeafEmail(User sender, String receiverAddress, String subject, String template, Context ctx) {
+    private void sendThymeLeafEmail(String receiverAddress, String subject, String template, Context ctx) {
         final String htmlContent = this.templateEngine.process(template, ctx);
         sendMessage(htmlContent, receiverAddress, subject);
     }

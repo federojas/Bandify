@@ -2,6 +2,7 @@ package ar.edu.itba.paw.service;
 
 import ar.edu.itba.paw.persistence.Location;
 
+import javax.xml.soap.SAAJResult;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,4 +14,6 @@ public interface LocationService {
     Optional<Location> getLocationById(long location);
 
     Optional<Location> getLocationByName(String name);
+
+    void validateLocations(List<String> locationsNames);
 }
