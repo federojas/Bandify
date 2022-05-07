@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfig.class)
-@Sql("classpath:roleDaoTest.sql")
+@Sql("classpath:locationDaoTest.sql")
 @Rollback
 @Transactional
 public class LocationDaoTest {
@@ -39,7 +39,7 @@ public class LocationDaoTest {
     private static final Location location3 = new Location(3,"loc3");
     private static final List<Location> ALL_LOCATIONS = Arrays.asList(location, location2, location3);
 
-    private static final long INVALID_ID = 20;
+    private static final long INVALID_ID = 0;
     private static final long AUDITION_ID = 1;
     private static final String INVALID_NAME = "INVALIDO";
 
@@ -56,4 +56,48 @@ public class LocationDaoTest {
         assertEquals(JdbcTestUtils.countRowsInTable(jdbcTemplate, "locations"), locations.size());
     }
 
+    @Test
+    public void testGetLocationByAuditionId() {
+        final Optional<Location> optionalLocation = locationDao.getLocationByAuditionId(AUDITION_ID);
+        assertNotNull(optionalLocation);
+        assertTrue(optionalLocation.isPresent());
+        assertEquals(location, optionalLocation.get());
+    }
+
+    @Test
+    public void testGetLocationByInvalidAuditionId() {
+        final Optional<Location> optionalLocation = locationDao.getLocationByAuditionId(INVALID_ID);
+        assertNotNull(optionalLocation);
+        assertFalse(optionalLocation.isPresent());
+    }
+
+    @Test
+    public void testGetLocationById() {
+        final Optional<Location> optionalLocation = locationDao.getLocationById(location.getId());
+        assertNotNull(optionalLocation);
+        assertTrue(optionalLocation.isPresent());
+        assertEquals(location, optionalLocation.get());
+    }
+
+    @Test
+    public void testGetLocationByInvalidId() {
+        final Optional<Location> optionalLocation = locationDao.getLocationById(INVALID_ID);
+        assertNotNull(optionalLocation);
+        assertFalse(optionalLocation.isPresent());
+    }
+
+    @Test
+    public void testGetLocationByName() {
+        final Optional<Location> optionalLocation = locationDao.getLocationByName(location.getName());
+        assertNotNull(optionalLocation);
+        assertTrue(optionalLocation.isPresent());
+        assertEquals(location, optionalLocation.get());
+    }
+
+    @Test
+    public void testGetLocationByInvalidName() {
+        final Optional<Location> optionalLocation = locationDao.getLocationByName(INVALID_NAME);
+        assertNotNull(optionalLocation);
+        assertFalse(optionalLocation.isPresent());
+    }
 }
