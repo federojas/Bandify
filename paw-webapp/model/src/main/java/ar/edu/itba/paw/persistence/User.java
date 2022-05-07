@@ -1,5 +1,7 @@
 package ar.edu.itba.paw.persistence;
 
+import java.util.Objects;
+
 public class User {
     private long id;
     private String email, password, name, surname, description;
@@ -14,6 +16,19 @@ public class User {
         this.isEnabled = builder.isEnabled;
         this.id = builder.id;
         this.description = builder.description;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return getId() == user.getId() && isBand() == user.isBand() && isEnabled() == user.isEnabled() && Objects.equals(getEmail(), user.getEmail()) && Objects.equals(getPassword(), user.getPassword()) && Objects.equals(getName(), user.getName()) && Objects.equals(getSurname(), user.getSurname()) && Objects.equals(getDescription(), user.getDescription());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getEmail(), getPassword(), getName(), getSurname(), getDescription(), isBand(), isEnabled());
     }
 
     public long getId() {
