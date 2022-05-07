@@ -46,6 +46,8 @@ public class UserDaoTest {
     private static final String NEWSURNAME = "newsurname";
     private static final String NEWDESCRIPTION = "newdescription";
 
+    private static final int INVALIDID = 20;
+    private static final String INVALIDEMAIL = "invalid@mail.com";
 
     private static final String BANDEMAIL = "band@mail.com";
 
@@ -55,7 +57,7 @@ public class UserDaoTest {
     }
 
     @Test
-    public void testCreateUser() throws DuplicateUserException {
+    public void testCreateUser() {
         JdbcTestUtils.deleteFromTableWhere(jdbcTemplate,"users", "id <> 1");
         final User user = userDao.create(new User.UserBuilder(BANDEMAIL, PASSWORD, NAME, true, false).description(DESCRIPTION));
         assertNotNull(user);
@@ -68,6 +70,7 @@ public class UserDaoTest {
         assertFalse(user.isEnabled());
         assertEquals(1, JdbcTestUtils.countRowsInTableWhere(jdbcTemplate, "users", "id = " + user.getId()));
     }
+
 
     @Test
     public void testEditUser() {
@@ -85,11 +88,25 @@ public class UserDaoTest {
     }
 
     @Test
+    public void testGetUserByInvalidId(){
+        final Optional<User> user = userDao.getUserById(INVALIDID);
+        assertNotNull(user);
+        assertFalse(user.isPresent());
+    }
+
+    @Test
     public void testFindByEmail(){
         final Optional<User> user = userDao.findByEmail(artist.getEmail());
         assertNotNull(user);
         assertTrue(user.isPresent());
         assertEquals(user.get(), artist);
+    }
+
+    @Test
+    public void testFindByInvalidEmail(){
+        final Optional<User> user = userDao.findByEmail(INVALIDEMAIL);
+        assertNotNull(user);
+        assertFalse(user.isPresent());
     }
 
     @Test
