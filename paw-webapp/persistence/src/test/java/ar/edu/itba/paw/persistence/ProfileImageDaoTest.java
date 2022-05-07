@@ -68,4 +68,6 @@ public class ProfileImageDaoTest {
             LOGGER.warn("Get profile picture test threw io exception");
         }
     }
+
+    //TODO resto de metodos
 }

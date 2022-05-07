@@ -38,18 +38,18 @@ public class UserDaoTest {
     private static final String NAME = "name";
     private static final String SURNAME = "surname";
     private static final String EMAIL = "artist@mail.com";
-    private static final String EMAIL2 = "artist2@mail.com";
+    private static final String EMAIL_2 = "artist2@mail.com";
     private static final String DESCRIPTION = "description";
 
-    private static final String NEWPASSWORD = "87654321";
-    private static final String NEWNAME = "newname";
-    private static final String NEWSURNAME = "newsurname";
-    private static final String NEWDESCRIPTION = "newdescription";
+    private static final String NEW_PASSWORD = "87654321";
+    private static final String NEW_NAME = "newname";
+    private static final String NEW_SURNAME = "newsurname";
+    private static final String NEW_DESCRIPTION = "newdescription";
 
-    private static final int INVALIDID = 20;
-    private static final String INVALIDEMAIL = "invalid@mail.com";
+    private static final long INVALID_ID = 20;
+    private static final String INVALID_EMAIL = "invalid@mail.com";
 
-    private static final String BANDEMAIL = "band@mail.com";
+    private static final String BAND_EMAIL = "band@mail.com";
 
     @Before
     public void setUp() {
@@ -59,11 +59,11 @@ public class UserDaoTest {
     @Test
     public void testCreateUser() {
         JdbcTestUtils.deleteFromTableWhere(jdbcTemplate,"users", "id <> 1");
-        final User user = userDao.create(new User.UserBuilder(BANDEMAIL, PASSWORD, NAME, true, false).description(DESCRIPTION));
+        final User user = userDao.create(new User.UserBuilder(BAND_EMAIL, PASSWORD, NAME, true, false).description(DESCRIPTION));
         assertNotNull(user);
         assertEquals(NAME, user.getName());
         assertNull(SURNAME, user.getSurname());
-        assertEquals(BANDEMAIL, user.getEmail());
+        assertEquals(BAND_EMAIL, user.getEmail());
         assertEquals(PASSWORD, user.getPassword());
         assertEquals(DESCRIPTION, user.getDescription());
         assertTrue(user.isBand());
@@ -74,8 +74,8 @@ public class UserDaoTest {
 
     @Test
     public void testEditUser() {
-        userDao.editUser(2, NEWNAME, NEWSURNAME, NEWDESCRIPTION);
-        String query = "name = '" + NEWNAME + "' AND surname = '" + NEWSURNAME + "' AND description = '" + NEWDESCRIPTION + "'";
+        userDao.editUser(2, NEW_NAME, NEW_SURNAME, NEW_DESCRIPTION);
+        String query = "name = '" + NEW_NAME + "' AND surname = '" + NEW_SURNAME + "' AND description = '" + NEW_DESCRIPTION + "'";
         assertEquals(1, JdbcTestUtils.countRowsInTableWhere(jdbcTemplate, "users", query));
     }
 
@@ -89,7 +89,7 @@ public class UserDaoTest {
 
     @Test
     public void testGetUserByInvalidId(){
-        final Optional<User> user = userDao.getUserById(INVALIDID);
+        final Optional<User> user = userDao.getUserById(INVALID_ID);
         assertNotNull(user);
         assertFalse(user.isPresent());
     }
@@ -104,15 +104,15 @@ public class UserDaoTest {
 
     @Test
     public void testFindByInvalidEmail(){
-        final Optional<User> user = userDao.findByEmail(INVALIDEMAIL);
+        final Optional<User> user = userDao.findByEmail(INVALID_EMAIL);
         assertNotNull(user);
         assertFalse(user.isPresent());
     }
 
     @Test
     public void testChangePassword(){
-        userDao.changePassword(artist2.getId(), NEWPASSWORD);
-        assertEquals(1, JdbcTestUtils.countRowsInTableWhere(jdbcTemplate, "users", "id = " + artist2.getId() + " AND password = " + NEWPASSWORD));
+        userDao.changePassword(artist2.getId(), NEW_PASSWORD);
+        assertEquals(1, JdbcTestUtils.countRowsInTableWhere(jdbcTemplate, "users", "id = " + artist2.getId() + " AND password = " + NEW_PASSWORD));
     }
 
     @Test
