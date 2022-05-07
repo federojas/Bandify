@@ -1,7 +1,7 @@
 package ar.edu.itba.paw.persistence;
 
-import com.sun.org.slf4j.internal.Logger;
-import com.sun.org.slf4j.internal.LoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -68,4 +68,6 @@ public class ProfileImageDaoTest {
             LOGGER.warn("Get profile picture test threw io exception");
         }
     }
+
+    //TODO resto de metodos
 }
