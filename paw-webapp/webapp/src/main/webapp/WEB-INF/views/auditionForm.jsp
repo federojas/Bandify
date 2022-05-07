@@ -52,7 +52,7 @@
                     <spring:message code="audition.form.description.placeholder" var="descriptionplaceholder" />
                     <form:textarea
                             maxlength="300" placeholder="${descriptionplaceholder}"
-                            class="form-input-application"
+                            class="form-input"
                             type="text"
                             id="description"
                             path="description"
@@ -77,7 +77,9 @@
                                 items="${locationList}"
                                 varStatus="loop"
                         >
-                            <form:option value="${location.name}">${location.name}</form:option>
+                            <form:option value="${location.name}">
+                                ${location.name}
+                            </form:option>
                         </c:forEach>
                     </form:select>
                     <form:errors path="location" element="p" cssClass="error">

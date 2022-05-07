@@ -34,7 +34,9 @@ public class UserServiceImpl implements UserService {
     private final RoleService roleService;
     private final GenreService genreService;
     private final ImageService imageService;
+    private final Environment environment;
     private final MailingService mailingService;
+    private final MessageSource messageSource;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
     //  TODO: uso de LOGGER
@@ -43,14 +45,17 @@ public class UserServiceImpl implements UserService {
     public UserServiceImpl(final UserDao userDao, final PasswordEncoder passwordEncoder,
                            final VerificationTokenService verificationTokenService,
                            final RoleService roleService, final GenreService genreService,
-                           final ImageService imageService, final MailingService mailingService) {
+                           final ImageService imageService, final Environment environment,
+                            final MailingService mailingService, final MessageSource messageSource) {
         this.userDao = userDao;
         this.passwordEncoder = passwordEncoder;
         this.verificationTokenService = verificationTokenService;
         this.roleService = roleService;
         this.genreService = genreService;
         this.imageService = imageService;
+        this.environment = environment;
         this.mailingService = mailingService;
+        this.messageSource = messageSource;
     }
 
     @Override
@@ -66,7 +71,7 @@ public class UserServiceImpl implements UserService {
         }
         User user = userDao.create(userBuilder);
         final VerificationToken token = verificationTokenService.generate(user.getId(), TokenType.VERIFY);
-        mailingService.sendVerificationEmail(user, token);
+        sendVerifyEmail(user, token);
         return user;
     }
 
@@ -78,9 +83,20 @@ public class UserServiceImpl implements UserService {
 
         VerificationToken token = verificationTokenService.generate(user.getId(), TokenType.VERIFY);
 
-        mailingService.sendVerificationEmail(user, token);
+        sendVerifyEmail(user, token);
     }
 
+    private void sendVerifyEmail(User user, VerificationToken token) {
+        try {
+            Locale locale = LocaleContextHolder.getLocale();
+            final String url = new URL(environment.getRequiredProperty("app.protocol"), environment.getRequiredProperty("app.base.url"), environment.getRequiredProperty("app.group.directory") + "/verify?token=" + token.getToken()).toString();
+            final Map<String, Object> mailData = new HashMap<>();
+            mailData.put("confirmationURL", url);
+            mailingService.sendEmail(user, user.getEmail(), messageSource.getMessage("verify-account.subject",null,locale), "verify-account", mailData, locale);
+        } catch (MessagingException | MalformedURLException e) {
+            LOGGER.warn("Register verification email failed");
+        }
+    }
 
     @Override
     public void editUser(long userId, String name, String surname, String description, List<String> genresNames, List<String> rolesNames, byte[] image) {
@@ -124,8 +140,16 @@ public class UserServiceImpl implements UserService {
         User user = userDao.findByEmail(email).orElseThrow(UserNotFoundException::new);
 
         verificationTokenService.deleteTokenByUserId(user.getId(), TokenType.RESET);
-        VerificationToken token = verificationTokenService.generate(user.getId(), TokenType.RESET);
-        mailingService.sendResetPasswordEmail(user, token);
+        VerificationToken token = verificationTokenService.generate(user.getId(),TokenType.RESET);
+        try {
+            Locale locale = LocaleContextHolder.getLocale();
+            final String url = new URL(environment.getRequiredProperty("app.protocol"), environment.getRequiredProperty("app.base.url"),environment.getRequiredProperty("app.group.directory") + "/newPassword?token=" + token.getToken()).toString();
+            final Map<String, Object> mailData = new HashMap<>();
+            mailData.put("resetPasswordURL", url);
+            mailingService.sendEmail(user, user.getEmail(), messageSource.getMessage("reset-password.subject",null,locale), "reset-password", mailData, locale);
+        } catch (MessagingException | MalformedURLException e) {
+            LOGGER.warn("Reset password email failed");
+        }
     }
 
     @Override
