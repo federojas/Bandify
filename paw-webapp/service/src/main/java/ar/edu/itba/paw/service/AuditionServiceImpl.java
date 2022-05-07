@@ -1,19 +1,16 @@
 package ar.edu.itba.paw.service;
 
 import ar.edu.itba.paw.model.exceptions.AuditionNotFoundException;
-import ar.edu.itba.paw.model.exceptions.AuditionNotOwnedException;
 import ar.edu.itba.paw.AuditionFilter;
 import ar.edu.itba.paw.persistence.User;
+import ar.edu.itba.paw.persistence.*;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
-import ar.edu.itba.paw.persistence.Audition;
-import ar.edu.itba.paw.persistence.AuditionDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.core.env.Environment;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
@@ -27,10 +24,8 @@ public class AuditionServiceImpl implements AuditionService {
     private final AuditionDao auditionDao;
     private final MailingService mailingService;
     private final UserService userService;
+    private final MessageSource messageSource;
     private final Environment environment;
-    private final RoleService roleService;
-    private final GenreService genreService;
-    private final LocationService locationService;
 
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AuditionServiceImpl.class);
@@ -40,18 +35,12 @@ public class AuditionServiceImpl implements AuditionService {
                                final MailingService mailingService,
                                final UserService userService,
                                final MessageSource messageSource,
-                               final Environment environment,
-                               final RoleService roleService,
-                               final GenreService genreService,
-                               final LocationService locationService
-    ) {
+                               final Environment environment) {
         this.auditionDao = auditionDao;
         this.mailingService = mailingService;
         this.userService = userService;
+        this.messageSource = messageSource;
         this.environment = environment;
-        this.locationService = locationService;
-        this.roleService = roleService;
-        this.genreService = genreService;
     }
 
     @Override
@@ -66,7 +55,6 @@ public class AuditionServiceImpl implements AuditionService {
 
     @Override
     public void editAuditionById(Audition.AuditionBuilder builder, long id) {
-        checkPermissions(id);
         auditionDao.editAuditionById(builder, id);
     }
 
@@ -97,31 +85,40 @@ public class AuditionServiceImpl implements AuditionService {
 
     @Override
     public void deleteAuditionById(long id) {
-        checkPermissions(id);
         auditionDao.deleteAuditionById(id);
     }
 
     @Override
-    public void sendApplicationEmail(long bandId, User user, String message) {
-        Audition aud = getAuditionById(bandId).orElseThrow(AuditionNotFoundException::new);
-        User band = userService.getUserById(aud.getBandId()).orElseThrow(UserNotFoundException::new);
-        String bandEmail = band.getEmail();
-        mailingService.sendApplicationEmail(user, bandEmail, message);
-    }
-    
-    @Override
     public List<Audition> filter(AuditionFilter filter, int page) {
         return auditionDao.filter(filter, page);
     }
-    
-    @Override   
+
+    @Override
     public int getFilterTotalPages(AuditionFilter filter) {
-         return auditionDao.getTotalPages(filter);
+        return auditionDao.getTotalPages(filter);
     }
- 
-    private void checkPermissions(long id) {
-        if(getAuditionById(id).orElseThrow(AuditionNotFoundException::new).getBandId() !=
-                userService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(UserNotFoundException::new).getId())
-            throw new AuditionNotOwnedException();
+
+    @Override
+    public void sendApplicationEmail(long id, User user, String message) {
+        try {
+            Audition aud = getAuditionById(id).orElseThrow(AuditionNotFoundException::new);
+            User band = userService.getUserById(aud.getBandId()).orElseThrow(UserNotFoundException::new);
+            Locale locale = LocaleContextHolder.getLocale();
+
+            final String url = new URL(environment.getRequiredProperty("app.protocol"), environment.getRequiredProperty("app.base.url"), environment.getRequiredProperty("app.group.directory") + "/user/" + user.getId()).toString();
+            Map<String, Object> mailData = new HashMap<>();
+            mailData.put("content", message);
+            mailData.put("goToBandifyURL", url);
+            String bandEmail = band.getEmail();
+
+            mailingService.sendEmail(user, bandEmail,
+                    messageSource.getMessage("audition-application.subject",null,locale),
+                    "audition-application", mailData, locale);
+
+        } catch (MessagingException e) {
+            LOGGER.warn("Audition application email threw messaging exception");
+        } catch (MalformedURLException e) {
+            LOGGER.warn("Audition application email threw url exception");
+        }
     }
 }

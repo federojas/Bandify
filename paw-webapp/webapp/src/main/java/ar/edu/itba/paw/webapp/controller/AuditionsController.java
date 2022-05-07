@@ -6,10 +6,10 @@ import ar.edu.itba.paw.persistence.Genre;
 import ar.edu.itba.paw.persistence.Location;
 import ar.edu.itba.paw.persistence.Role;
 import ar.edu.itba.paw.persistence.User;
+import ar.edu.itba.paw.persistence.*;
 import ar.edu.itba.paw.model.exceptions.AuditionNotFoundException;
 import ar.edu.itba.paw.model.exceptions.LocationNotFoundException;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
-import ar.edu.itba.paw.persistence.Audition;
 import ar.edu.itba.paw.service.*;
 import ar.edu.itba.paw.webapp.form.ApplicationForm;
 import ar.edu.itba.paw.webapp.form.AuditionForm;
@@ -36,18 +36,21 @@ public class AuditionsController {
     private final GenreService genreService;
     private final LocationService locationService;
     private final UserService userService;
+    private final ApplicationService applicationService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AuditionsController.class);
 
     @Autowired
     public AuditionsController(final AuditionService auditionService,
                                final GenreService genreService, final LocationService locationService,
-                               final RoleService roleService, final UserService userService) {
+                               final RoleService roleService, final UserService userService,
+                               final ApplicationService applicationService) {
         this.auditionService = auditionService;
         this.roleService = roleService;
         this.genreService = genreService;
         this.locationService = locationService;
         this.userService = userService;
+        this.applicationService = applicationService;
     }
 
     @RequestMapping(value = "/", method = {RequestMethod.GET})
@@ -169,6 +172,14 @@ public class AuditionsController {
             throw new AuditionNotFoundException();
         }
 
+        List<Application> pendingApps = applicationService.getAuditionApplicationsByState(id, ApplicationState.PENDING);
+        List<Application> acceptedApps = applicationService.getAuditionApplicationsByState(id, ApplicationState.ACCEPTED);
+        List<Application> rejectedApps = applicationService.getAuditionApplicationsByState(id, ApplicationState.REJECTED);
+
+        mav.addObject("pendingApps", pendingApps);
+        mav.addObject("acceptedApps", acceptedApps);
+        mav.addObject("rejectedApps", rejectedApps);
+
         return mav;
     }
 
@@ -184,12 +195,12 @@ public class AuditionsController {
         Optional<User> optionalUser = userService.findByEmail(auth.getName());
         User user = optionalUser.orElseThrow(UserNotFoundException::new);
 
-        // TODO: FOTO NO FUNCIONA EN AUDITION-APPLICATION.HTML (ESTA HARCODEADA SUBIDA EN OTRO SERVIDOR)
-        auditionService.sendApplicationEmail(id, user,
-                applicationForm.getMessage());
-
-        return success();
+        // TODO: FOTO NO FUNCIONA EN AUDITION-APPLICATION.HTML
+        if(applicationService.apply(id, user, applicationForm.getMessage()))
+            return success();
+        return new ModelAndView("views/applicationFailed");
     }
+
 
     @RequestMapping(value = "/newAudition", method = {RequestMethod.GET})
     public ModelAndView newAudition(@ModelAttribute("auditionForm") final AuditionForm auditionForm) {
@@ -240,7 +251,20 @@ public class AuditionsController {
         // TODO : es necesario este if? sino con el else de abajo seria suficiente creo
         if(id < 0 || id > auditionService.getMaxAuditionId())
             throw new AuditionNotFoundException();
-        auditionService.deleteAuditionById(id);
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> optionalUser = userService.findByEmail(auth.getName());
+        User user = optionalUser.orElseThrow(UserNotFoundException::new);
+
+        Optional<Audition> audition = auditionService.getAuditionById(id);
+
+        if(!audition.isPresent()) {
+            throw new AuditionNotFoundException();
+        } else if(user.getId() != audition.get().getBandId()) {
+            throw new AuditionNotOwnedException();
+        } else {
+            auditionService.deleteAuditionById(id);
+        }
 
         return new ModelAndView("redirect:/profile/auditions");
     }
@@ -314,6 +338,13 @@ public class AuditionsController {
         Optional<User> optionalUser = userService.findByEmail(auth.getName());
         User user = optionalUser.orElseThrow(UserNotFoundException::new);
 
+        Optional<Audition> audition = auditionService.getAuditionById(id);
+
+        if(!audition.isPresent())
+            throw new AuditionNotFoundException();
+        else if(user.getId() != audition.get().getBandId())
+            throw new AuditionNotOwnedException();
+
         if(errors.hasErrors()) {
             return newAudition(auditionEditForm);
         }
@@ -345,6 +376,7 @@ public class AuditionsController {
 
         List<Audition> auditionList = auditionService.getBandAuditions(user.getId(), page);
 
+
         mav.addObject("userName", user.getName());
         mav.addObject("userId", user.getId());
         mav.addObject("auditionList", auditionList);
@@ -353,4 +385,19 @@ public class AuditionsController {
         return mav;
     }
 
+    @RequestMapping(value = "/auditions/{auditionId}", method = {RequestMethod.POST})
+    public ModelAndView acceptAudition(@PathVariable long auditionId,
+                                       @RequestParam(value = "accept") boolean accept,
+                                       @RequestParam(value = "userId") long userId) {
+        if(auditionId < 0 || auditionId > auditionService.getMaxAuditionId())
+            throw new AuditionNotFoundException();
+
+        if (accept) {
+            applicationService.accept(auditionId, userId);
+        } else {
+            applicationService.reject(auditionId, userId);
+        }
+
+        return new ModelAndView("redirect:/auditions/" + auditionId);
+    }
 }

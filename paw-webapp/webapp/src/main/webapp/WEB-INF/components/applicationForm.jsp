@@ -17,7 +17,7 @@
 
 </head>
 
-<body onload="loadApplication()">
+<body>
 <div class="applicationForm">
     <c:url value="/apply" var="applyUrl">
         <c:param name="id" value="${param.auditionFormId}"/>
