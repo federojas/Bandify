@@ -24,10 +24,6 @@ prefix="spring" uri="http://www.springframework.org/tags"%>
         <h2 id="posts">
           <spring:message code="welcome.auditionsSection" />
         </h2>
-
-        <c:set var="locationList" value="${locationList}" scope="request"/>
-        <c:set var="genreList" value="${locationList}" scope="request"/>
-        <c:set var="roleList" value="${locationList}" scope="request"/>
         <jsp:include page="../components/searchBar.jsp">
           <jsp:param name="name" value="Bandify" />
         </jsp:include>

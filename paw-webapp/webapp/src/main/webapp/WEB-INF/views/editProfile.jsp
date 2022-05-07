@@ -2,6 +2,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <html>
 <head>
     <c:import url="../config/generalHead.jsp"/>
@@ -9,6 +10,7 @@
 
     <title><spring:message code="edituser.title"/></title>
     <link rel="stylesheet" href="<c:url value="/resources/css/forms.css" />"/>
+    <link rel="stylesheet" href="<c:url value="/resources/css/profile.css" />"/>
     <script src="<c:url value="/resources/js/editProfile.js"/>"></script>
 </head>
 <body>
@@ -37,19 +39,20 @@
                     code="register.form.invalidName"/></p>
 
         </div>
-
-        <div id="surname-div">
-            <form:label class="form-label" path="surname">
-                <spring:message code="register.form.surname"/>
-            </form:label>
-            <spring:message code="register.form.surnameplaceholder" var="surnameplaceholder"/>
-            <form:input type="text" id="artistSurname" maxlength="50" placeholder="${surnameplaceholder}"
-                        class="form-input"
-                        path="surname"/>
-            <form:errors path="surname" element="p" cssClass="error"> </form:errors>
-            <p class="error" id="wrongArtistSurname" style="display: none"><spring:message
-                    code="register.form.invalidSurname"/></p>
-        </div>
+        <sec:authorize access="hasRole('ARTIST')">
+            <div id="surname-div">
+                <form:label class="form-label" path="surname">
+                    <spring:message code="register.form.surname"/>
+                </form:label>
+                <spring:message code="register.form.surnameplaceholder" var="surnameplaceholder"/>
+                <form:input type="text" id="artistSurname" maxlength="50" placeholder="${surnameplaceholder}"
+                            class="form-input"
+                            path="surname"/>
+                <form:errors path="surname" element="p" cssClass="error"> </form:errors>
+                <p class="error" id="wrongArtistSurname" style="display: none"><spring:message
+                        code="register.form.invalidSurname"/></p>
+            </div>
+        </sec:authorize>
 
         <div>
             <form:label class="form-label" path="profileImage" >
@@ -58,8 +61,8 @@
             <br/>
             <div class = "editProfilePicture">
                 <spring:message code="profile.img.alt" var="img"/>
-                <img src="<c:url value="/user/${user.id}/profile-image"/>" class="editProfileImg" alt="${img}"/>
-                <form:input id="selectImage" type="file" path="profileImage" accept="image/png, image/jpeg" />
+                <img id="imagePreview" src="<c:url value="/user/${user.id}/profile-image"/>" class="profileImage" alt="${img}"/>
+                <form:input id="selectImage" type="file" path="profileImage" accept="image/png, image/jpeg" onchange="previewImage()" />
                 <form:errors path="profileImage" element="p" cssClass="error"/>
             </div>
         </div>
@@ -70,7 +73,7 @@
             </form:label>
             <spring:message code="edituser.form.descriptionplaceholder" var="descriptionplaceholder"/>
             <form:textarea type="text" id="artistDescription" maxlength="500" placeholder="${descriptionplaceholder}"
-                           class="form-input"
+                           class="form-input-application"
                            path="description"/>
             <form:errors path="description" element="p" cssClass="error"> </form:errors>
             <p class="error" id="wrongArtistDescription" style="display: none"><spring:message
@@ -89,14 +92,10 @@
             >
                 <form:option value="" disabled="true" selected="true"><spring:message code="audition.form.musicGenres.maxSelect"/></form:option>
                 <c:forEach var="userGenre" items="${userGenres}" varStatus="loop">
-                    <form:option value="${userGenre.name}" selected="true">
-                        ${userGenre.name}
-                    </form:option>
+                    <form:option value="${userGenre.name}" selected="true">${userGenre.name}</form:option>
                 </c:forEach>
                 <c:forEach var="genre" items="${genreList}" varStatus="loop">
-                        <form:option value="${genre.name}">
-                            ${genre.name}
-                        </form:option>
+                        <form:option value="${genre.name}">${genre.name}</form:option>
                 </c:forEach>
 
 
@@ -114,12 +113,10 @@
                 <form:option value="" disabled="true" selected="true"><spring:message code="audition.form.lookingFor.maxSelect"/></form:option>
 
                 <c:forEach var="userRole" items="${userRoles}" varStatus="loop">
-                    <form:option value="${userRole.name}" selected="true">
-                        ${userRole.name}
-                    </form:option>
+                    <form:option value="${userRole.name}" selected="true">${userRole.name}</form:option>
                 </c:forEach>
                 <c:forEach var="role" items="${roleList}" varStatus="loop">
-                    <form:option value="${role.name}"> ${role.name} </form:option>
+                    <form:option value="${role.name}">${role.name}</form:option>
                 </c:forEach>
 
             </form:select>
