@@ -15,7 +15,9 @@ public interface ApplicationDao {
 
     void setApplicationState(long auditionId, long applicantId, ApplicationState state);
 
-    List<Application> getMyApplications(long applicantId);
+    List<Application> getMyApplications(long applicantId, int page);
 
     boolean exists(long auditionId, long id);
+
+    int getTotalUserApplicationPages(long userId);
 }

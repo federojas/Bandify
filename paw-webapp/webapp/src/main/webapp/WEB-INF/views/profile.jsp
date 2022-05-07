@@ -83,7 +83,19 @@
                                 </ul>
                         </div>
                     </sec:authorize>
-
+                    <sec:authorize access="hasRole('ARTIST')">
+                        <div class = "auditions-div">
+                            <ul>
+                                <li class="pt-2">
+                                    <a href="<c:url value="/profile/applications"/>">
+                                        <button class="auditions-btn hover: shadow-sm">
+                                            <spring:message code="profile.myApplications"/>
+                                        </button>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </sec:authorize>
                 </div>
             </div>
             <!-- Right Side -->
@@ -124,24 +136,6 @@
                         </c:forEach>
                     </div>
                 </div>
-                <%--  MyApplications --%>
-                <sec:authorize access="hasRole('ARTIST')">
-                    <div class="user-data">
-
-                        <div class="myApplicationsHeader">
-                            <spring:message code="profile.myApplications"/>
-                        </div>
-                        <c:forEach var="artistApplication" items="${artistApplications}">
-                            <jsp:include page="../components/artistApplicationItem.jsp">
-                                <jsp:param name="artistApplicationState" value="${artistApplication.state}"/>
-                                <jsp:param name="auditionTitle" value="${artistApplication.auditionTitle}"/>
-                                <jsp:param name="auditionId" value="${artistApplication.auditionId}"/>
-                            </jsp:include>
-                        </c:forEach>
-
-
-                    </div>
-                </sec:authorize>
             </div>
         </div>
     </div>

@@ -2295,16 +2295,23 @@ th {
       border-right: 1px solid #d0d0d0; } }
 
 .collection {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 70px;
   margin: 0.5rem 0 1rem 0;
   border: 1px solid #e0e0e0;
   border-radius: 2px;
   overflow: hidden;
   position: relative; }
   .collection .collection-item {
+    display: flex;
+    justify-content: center;
     background-color: #fff;
     line-height: 1.5rem;
     padding: 10px 20px;
     margin: 0;
+    height: 70px;
     border-bottom: 1px solid #e0e0e0; }
     .collection .collection-item.avatar {
       min-height: 84px;

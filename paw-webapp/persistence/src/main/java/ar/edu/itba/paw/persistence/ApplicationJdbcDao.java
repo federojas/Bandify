@@ -7,14 +7,13 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Repository
 public class ApplicationJdbcDao implements ApplicationDao {
+
+    private final int PAGE_SIZE = 10;
 
     @Autowired
     public ApplicationJdbcDao(final DataSource ds) {
@@ -24,6 +23,8 @@ public class ApplicationJdbcDao implements ApplicationDao {
 
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcInsert;
+
+    private final static RowMapper<Integer> TOTAL_APPLICATION_ROW_MAPPER = (rs, i) -> rs.getInt("count");
 
     private final static RowMapper<Application.ApplicationBuilder> APPLICATION_ROW_MAPPER =
             (rs, i) -> new Application.ApplicationBuilder(
@@ -97,17 +98,23 @@ public class ApplicationJdbcDao implements ApplicationDao {
     // TODO: revisar
 
     @Override
-    public List<Application> getMyApplications(long applicantId) {
+    public List<Application> getMyApplications(long applicantId, int page) {
         String query = "SELECT auditionId,applicantId,state,name,surname,title FROM applications" +
                 " JOIN users ON applications.applicantId = users.id" +
                 " JOIN auditions ON applications.auditionId = auditions.id" +
-                " WHERE applicantId = ?";
-        List<Application.ApplicationBuilder> list = jdbcTemplate.query(query,new Object[]{applicantId},APPLICATION_ROW_MAPPER);
+                " WHERE applicantId = ? LIMIT ? OFFSET ?";
+        List<Application.ApplicationBuilder> list = jdbcTemplate.query(query,new Object[]{applicantId, PAGE_SIZE, (page -1) * PAGE_SIZE},APPLICATION_ROW_MAPPER);
         return list.stream().map(Application.ApplicationBuilder::build).collect(Collectors.toList());
     }
 
     @Override
     public boolean exists(long auditionId, long id) {
         return jdbcTemplate.query("SELECT EXISTS (SELECT * FROM applications WHERE auditionId=? AND applicantId=?)", new Object[]{auditionId,id}, EXISTS_ROW_MAPPER).stream().findFirst().orElse(false);
+    }
+
+    @Override
+    public int getTotalUserApplicationPages(long userId) {
+        Optional<Integer> result = jdbcTemplate.query("SELECT COUNT(*) FROM applications WHERE applicantId = ?", new Object[] {userId} ,TOTAL_APPLICATION_ROW_MAPPER).stream().findFirst();
+        return result.map(integer -> (int) Math.ceil(integer.doubleValue() / PAGE_SIZE)).orElse(0);
     }
 }

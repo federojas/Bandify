@@ -87,8 +87,13 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public List<Application> getMyApplications(long applicantId) {
-        return applicationDao.getMyApplications(applicantId);
+    public List<Application> getMyApplications(long applicantId, int page) {
+        return applicationDao.getMyApplications(applicantId, page);
+    }
+
+    @Override
+    public int getTotalUserApplicationPages(long userId) {
+        return applicationDao.getTotalUserApplicationPages(userId);
     }
 
     private void setApplicationState(long auditionId, long applicantId, ApplicationState state) {

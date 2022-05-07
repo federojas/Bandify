@@ -104,17 +104,34 @@ public class UserController {
         User user = optionalUser.orElseThrow(UserNotFoundException::new);
         mav.addObject("user", user);
 
-        if (!user.isBand()) {
-            List<Application> applications = applicationService.getMyApplications(user.getId());
-            mav.addObject("artistApplications", applications);
-        }
-
         Set<Genre> preferredGenres = genreService.getUserGenres(user.getId());
         mav.addObject("preferredGenres", preferredGenres);
         System.out.println(preferredGenres);
         Set<Role> roles = roleService.getUserRoles(user.getId());
         mav.addObject("roles", roles);
 
+        return mav;
+    }
+
+    @RequestMapping(value = "/profile/applications", method = {RequestMethod.GET})
+    public ModelAndView applications(@RequestParam(value = "page", defaultValue = "1") int page) {
+
+        ModelAndView mav = new ModelAndView("views/profileApplications");
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> optionalUser = userService.findByEmail(auth.getName());
+        User user = optionalUser.orElseThrow(UserNotFoundException::new);
+
+        int lastPage = applicationService.getTotalUserApplicationPages(user.getId());
+        if(lastPage == 0)
+            lastPage = 1;
+        if(page < 0 || page > lastPage)
+            return new ModelAndView("errors/404");
+
+        List<Application> applications = applicationService.getMyApplications(user.getId(), page);
+        mav.addObject("artistApplications", applications);
+        mav.addObject("currentPage", page);
+        mav.addObject("lastPage", lastPage);
         return mav;
     }
 
