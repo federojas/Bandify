@@ -4,7 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <html>
 <head>
-    <title>SearchBar</title>
+    <title><spring:message code="title.searchBar"/> </title>
 
     <c:import url="../config/generalHead.jsp" />
     <c:import url="../config/materializeHead.jsp"/>

@@ -5,6 +5,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <html>
 <head>
+    <title><spring:message code="title.applicationItem"/> </title>
     <style>
         .application-box {
             display: flex;

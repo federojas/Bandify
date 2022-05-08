@@ -8,6 +8,7 @@
       $('.tabs').tabs();
     });
   </script>
+  <title><spring:message code="title.applicantsByState"/></title>
 </head>
 <body>
 <div class="applicants">

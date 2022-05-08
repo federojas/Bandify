@@ -4,6 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <html>
 <head>
+    <title><spring:message code="title.postCard"/></title>
     <link rel="stylesheet" href="<c:url value="/resources/css/postCard.css" />"/>
 </head>
 <body>
