@@ -18,3 +18,4 @@
         height: 500px;
     }
 </style>
+<title><spring:message code="title.materializeHead"/> </title>

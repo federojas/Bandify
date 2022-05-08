@@ -15,3 +15,4 @@
         font-family: "Questrial", sans-serif;
     }
 </style>
+<title><spring:message code="title.generalHead"/> </title>

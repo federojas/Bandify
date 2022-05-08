@@ -50,9 +50,6 @@
                                         class="account-type-label-band"><spring:message code="register.band_word"/> </span>
                         </c:if>
 
-                        <h1 class="email mb-8">
-                            <c:out value="${user.email}"/>
-                        </h1>
                     </div>
                 </div>
             </div>
@@ -63,11 +60,10 @@
                     <div class="about-section-heading">
                         <spring:message code="profile.user.alt" var="userimg"/>
                         <img src="<c:url value="/resources/icons/user.svg"/>" class="user-icon" alt="${userimg}"/>
-                        &nbsp;&nbsp;&nbsp;&nbsp;<span><spring:message code="profile.about"/></span>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span><spring:message code="viewProfile.about"/></span>
                     </div>
                     <div>
                         <c:if test="${user.description==null}" >
-                            <p><spring:message code="profile.emptyBiography"/> </p>
                         </c:if>
                         <c:if test="${!(user.description==null)}" >
                             <c:out value="${user.description}"/>
