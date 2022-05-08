@@ -165,10 +165,8 @@ public class UserController {
         userEditForm.setSurname(user.getSurname());
         userEditForm.setDescription(user.getDescription());
         List<String> a = userRoles.stream().map(Role::getName).collect(Collectors.toList());
-        System.out.println(a);
         userEditForm.setLookingFor(a);
         List<String> b = userGenres.stream().map(Genre::getName).collect(Collectors.toList());
-        System.out.println(b);
         userEditForm.setMusicGenres(b);
 
         mav.addObject("userRoles", userRoles);
