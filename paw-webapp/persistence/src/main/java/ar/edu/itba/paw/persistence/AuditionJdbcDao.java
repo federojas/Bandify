@@ -27,9 +27,9 @@ public class AuditionJdbcDao implements AuditionDao {
     private final GenreDao genreDao;
     private final RoleDao roleDao;
 
-    private final static RowMapper<Genre> GENRE_ROW_MAPPER = (rs, i) -> new Genre(rs.getLong("id"), rs.getString("genre"));
-    private final static RowMapper<Role> ROLE_ROW_MAPPER = (rs, i) -> new Role(rs.getLong("id"), rs.getString("role"));
-    private final static RowMapper<Location> LOCATION_ROW_MAPPER = (rs, i) -> new Location(rs.getLong("id"), rs.getString("location"));
+    private final static RowMapper<Genre> GENRE_ROW_MAPPER = (rs, i) -> new Genre(rs.getLong("genres.id"), rs.getString("genre"));
+    private final static RowMapper<Role> ROLE_ROW_MAPPER = (rs, i) -> new Role(rs.getLong("roles.id"), rs.getString("role"));
+    private final static RowMapper<Location> LOCATION_ROW_MAPPER = (rs, i) -> new Location(rs.getLong("locations.id"), rs.getString("location"));
     private final static RowMapper<Audition.AuditionBuilder> AUDITION_ROW_MAPPER = (rs, i) -> {
         return new Audition.AuditionBuilder(
                 rs.getString("title"),
@@ -55,10 +55,10 @@ public class AuditionJdbcDao implements AuditionDao {
         }
         return auditionsById.values().stream().collect(Collectors.toList());
     };
-    private final static RowMapper<Integer> TOTAL_AUDITION_ROW_MAPPER = (rs, i) -> rs.getInt("count");
+    private final static RowMapper<Integer> TOTAL_AUDITION_ROW_MAPPER = (rs, i) -> rs.getInt("auditionTotal");
 
-    private final String GET_FULL_AUD_QUERY = "SELECT auditions.id,bandid,title,description,creationdate,location,genre,role" +
-            " FROM auditions JOIN auditiongenres ON id = auditiongenres.auditionid JOIN auditionroles ON id = auditionroles.auditionid" +
+    private final String GET_FULL_AUD_QUERY = "SELECT auditions.id,bandid,title,description,creationdate,location,genre,role,roles.id, genres.id, locations.id" +
+            " FROM auditions JOIN auditiongenres ON auditions.id = auditiongenres.auditionid JOIN auditionroles ON auditions.id = auditionroles.auditionid" +
             " JOIN locations ON auditions.locationid = locations.id JOIN genres ON genres.id = auditiongenres.genreid" +
             " JOIN roles ON roles.id = auditionroles.roleid";
 
@@ -105,30 +105,19 @@ public class AuditionJdbcDao implements AuditionDao {
         StringBuilder sb = new StringBuilder(GET_FULL_AUD_QUERY).append(" WHERE auditions.id IN (SELECT id FROM auditions ORDER BY creationdate DESC LIMIT ? OFFSET ?) ORDER BY creationdate DESC");
         final String query = sb.toString();
         List<Audition.AuditionBuilder> auditionsBuilders = jdbcTemplate.query(query,new Object[] { PAGE_SIZE, (page -1) * PAGE_SIZE}, AUDITION_MAPPER);
-        // TODO: pasar a funcional
-        List<Audition> list = new LinkedList<>();
-        for(Audition.AuditionBuilder auditionBuilder : auditionsBuilders) {
-            list.add(auditionBuilder.build());
-        }
-        return list;
+        return auditionsBuilders.stream().map(Audition.AuditionBuilder::build).collect(Collectors.toList());
     }
 
     @Override
     public List<Audition> getBandAuditions(long userId, int page) {
-        StringBuilder sb = new StringBuilder(GET_FULL_AUD_QUERY).append(" WHERE auditions.id IN (SELECT id FROM auditions WHERE bandId = ? ORDER BY creationdate DESC LIMIT ? OFFSET ?) ORDER BY creationdate DESC");
-        final String query = sb.toString();
+        final String query = GET_FULL_AUD_QUERY + " WHERE auditions.id IN (SELECT id FROM auditions WHERE bandId = ? ORDER BY creationdate DESC LIMIT ? OFFSET ?) ORDER BY creationdate DESC";
         List<Audition.AuditionBuilder> auditionsBuilders = jdbcTemplate.query(query,new Object[] { userId, PAGE_SIZE,(page -1) * PAGE_SIZE }, AUDITION_MAPPER);
-        // TODO: pasar a funcional
-        List<Audition> list = new LinkedList<>();
-        for(Audition.AuditionBuilder auditionBuilder : auditionsBuilders) {
-            list.add(auditionBuilder.build());
-        }
-        return list;
+        return auditionsBuilders.stream().map(Audition.AuditionBuilder::build).collect(Collectors.toList());
     }
 
     @Override
     public int getTotalPages() {
-        Optional<Integer> result = jdbcTemplate.query("SELECT COUNT(*) FROM auditions", TOTAL_AUDITION_ROW_MAPPER).stream().findFirst();
+        Optional<Integer> result = jdbcTemplate.query("SELECT COUNT(*) AS auditionTotal FROM auditions", TOTAL_AUDITION_ROW_MAPPER).stream().findFirst();
         //TODO Math.ceil casteado a int puede castear un double muy grande y generar una excepcion
         //TODO tamaño int es la maxima page
         return result.map(integer -> (int) Math.ceil(integer.doubleValue() / PAGE_SIZE)).orElse(0);
@@ -136,7 +125,7 @@ public class AuditionJdbcDao implements AuditionDao {
 
     @Override
     public int getTotalBandAuditionPages(long userId) {
-        Optional<Integer> result = jdbcTemplate.query("SELECT COUNT(*) FROM auditions WHERE bandId = ?", new Object[] {userId} ,TOTAL_AUDITION_ROW_MAPPER).stream().findFirst();
+        Optional<Integer> result = jdbcTemplate.query("SELECT COUNT(*) AS auditionTotal FROM auditions WHERE bandId = ?", new Object[] {userId} ,TOTAL_AUDITION_ROW_MAPPER).stream().findFirst();
         return result.map(integer -> (int) Math.ceil(integer.doubleValue() / PAGE_SIZE)).orElse(0);
     }
 
@@ -159,7 +148,7 @@ public class AuditionJdbcDao implements AuditionDao {
 
     @Override
     public long getMaxAuditionId() {
-        return jdbcTemplate.query("SELECT max(id) FROM auditions", (rs,i) -> rs.getLong("max") ).stream().findFirst().orElse(0L);
+        return jdbcTemplate.query("SELECT MAX(id) AS maxId FROM auditions", (rs,i) -> rs.getLong("maxId") ).stream().findFirst().orElse(0L);
     }
 
     @Override
@@ -199,7 +188,7 @@ public class AuditionJdbcDao implements AuditionDao {
     @Override
     public int getTotalPages(AuditionFilter filter) {
         MapSqlParameterSource in = parameterSource(filter);
-        String sqlQuery = "SELECT COUNT(DISTINCT auditions.id) " +
+        String sqlQuery = "SELECT COUNT(DISTINCT auditions.id) AS auditionTotal " +
                 "FROM auditions JOIN auditiongenres ON id = auditiongenres.auditionid JOIN auditionroles ON id = auditionroles.auditionid" +
                 " JOIN locations ON auditions.locationid = locations.id JOIN genres ON genres.id = auditiongenres.genreid" +
                 " JOIN roles ON roles.id = auditionroles.roleid " +

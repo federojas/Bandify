@@ -18,6 +18,19 @@ public class Audition {
     private Set<Role> lookingFor;
     private String timeElapsed;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Audition audition = (Audition) o;
+        return getId() == audition.getId() && getBandId() == audition.getBandId() && getTitle().equals(audition.getTitle()) && getDescription().equals(audition.getDescription()) && getCreationDate().equals(audition.getCreationDate()) && getLocation().equals(audition.getLocation()) && getMusicGenres().equals(audition.getMusicGenres()) && getLookingFor().equals(audition.getLookingFor());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getBandId(), getTitle(), getDescription(), getCreationDate(), getLocation(), getMusicGenres(), getLookingFor());
+    }
+
     public static class AuditionBuilder {
         private String title, description;
         private LocalDateTime creationDate;
@@ -224,18 +237,5 @@ public class Audition {
 
     public Set<Role> getLookingFor() {
         return lookingFor;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Audition audition = (Audition) o;
-        return getId() == audition.getId() && getBandId() == audition.getBandId() && Objects.equals(getTitle(), audition.getTitle()) && Objects.equals(getDescription(), audition.getDescription()) && Objects.equals(getCreationDate(), audition.getCreationDate()) && Objects.equals(getLocation(), audition.getLocation()) && Objects.equals(getMusicGenres(), audition.getMusicGenres()) && Objects.equals(getLookingFor(), audition.getLookingFor());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getBandId(), getTitle(), getDescription(), getCreationDate(), getLocation(), getMusicGenres(), getLookingFor());
     }
 }

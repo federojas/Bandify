@@ -24,7 +24,7 @@ public class ApplicationJdbcDao implements ApplicationDao {
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcInsert;
 
-    private final static RowMapper<Integer> TOTAL_APPLICATION_ROW_MAPPER = (rs, i) -> rs.getInt("count");
+    private final static RowMapper<Integer> TOTAL_APPLICATION_ROW_MAPPER = (rs, i) -> rs.getInt("applicationTotal");
 
     private final static RowMapper<Application.ApplicationBuilder> APPLICATION_ROW_MAPPER =
             (rs, i) -> new Application.ApplicationBuilder(
@@ -114,7 +114,7 @@ public class ApplicationJdbcDao implements ApplicationDao {
 
     @Override
     public int getTotalUserApplicationPages(long userId) {
-        Optional<Integer> result = jdbcTemplate.query("SELECT COUNT(*) FROM applications WHERE applicantId = ?", new Object[] {userId} ,TOTAL_APPLICATION_ROW_MAPPER).stream().findFirst();
+        Optional<Integer> result = jdbcTemplate.query("SELECT COUNT(*) AS applicationTotal FROM applications WHERE applicantId = ?", new Object[] {userId} ,TOTAL_APPLICATION_ROW_MAPPER).stream().findFirst();
         return result.map(integer -> (int) Math.ceil(integer.doubleValue() / PAGE_SIZE)).orElse(0);
     }
 }

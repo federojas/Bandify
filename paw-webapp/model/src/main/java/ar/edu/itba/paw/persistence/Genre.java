@@ -24,7 +24,7 @@ public class Genre {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Genre genre = (Genre) o;
-        return id == genre.id && Objects.equals(name, genre.name);
+        return getId() == genre.getId() && Objects.equals(getName(), genre.getName());
     }
 
     @Override
