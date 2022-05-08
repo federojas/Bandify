@@ -1,16 +1,13 @@
 package ar.edu.itba.paw.service;
 
 import ar.edu.itba.paw.model.exceptions.LocationNotFoundException;
-import ar.edu.itba.paw.model.exceptions.RoleNotFoundException;
 import ar.edu.itba.paw.persistence.Location;
 import ar.edu.itba.paw.persistence.LocationDao;
-import ar.edu.itba.paw.persistence.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service

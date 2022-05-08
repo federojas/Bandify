@@ -98,10 +98,6 @@ li.info-item:not(:last-child) {
     align-items: center;
 }
 
-.audition-delete-btn:hover{
-    background-color: #ff3b3b;
-}
-
 .audition-delete-btn {
     background-color: #b91c1c;
     color: white;
@@ -185,3 +181,4 @@ li.info-item:not(:last-child) {
     text-align: center;
     font-weight: 600;
 }
+

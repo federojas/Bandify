@@ -157,20 +157,16 @@ public class UserController {
         Set<Role> userRoles = roleService.getUserRoles(user.getId());
         Set<Genre> userGenres = genreService.getUserGenres(user.getId());
 
-//        genreList.removeAll(userGenres);
-//        roleList.removeAll(userRoles);
-
         mav.addObject("user", user);
         userEditForm.setName(user.getName());
         userEditForm.setSurname(user.getSurname());
         userEditForm.setDescription(user.getDescription());
-        List<String> a = userRoles.stream().map(Role::getName).collect(Collectors.toList());
-        userEditForm.setLookingFor(a);
-        List<String> b = userGenres.stream().map(Genre::getName).collect(Collectors.toList());
-        userEditForm.setMusicGenres(b);
 
-        mav.addObject("userRoles", userRoles);
-        mav.addObject("userGenres", userGenres);
+        List<String> selectedRoles = userRoles.stream().map(Role::getName).collect(Collectors.toList());
+        userEditForm.setLookingFor(selectedRoles);
+        List<String> selectedGenres = userGenres.stream().map(Genre::getName).collect(Collectors.toList());
+        userEditForm.setMusicGenres(selectedGenres);
+
         mav.addObject("roleList", roleList);
         mav.addObject("genreList", genreList);
 

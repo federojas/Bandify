@@ -35,7 +35,7 @@
                     method="post"
                     acceptCharset="utf-8"
             >
-                <div>
+                <div class="title-div">
                     <form:label class="form-label" path="title">
                         <spring:message code="welcome.form.title"/>
                     </form:label>
@@ -63,7 +63,7 @@
                     <p id="longDescription" class="error" style="display: none"><spring:message code="Size.auditionForm.description" arguments="${300}"/> </p>
                     <form:errors path="description" element="p" cssClass="error"> </form:errors>
                 </div>
-                <div>
+                <div class="select-div">
                     <form:label class="form-label" path="location">
                         <spring:message code="welcome.form.location"/>
                     </form:label>
@@ -84,7 +84,7 @@
                     <form:errors path="location" element="p" cssClass="error">
                     </form:errors>
                 </div>
-                <div >
+                <div class="select-div">
                     <form:label for="musicGenres" path="musicGenres"> <spring:message code="welcome.form.musicGenres"/> </form:label>
                     <form:select
                             class="multiple-select"
@@ -99,7 +99,7 @@
                     <form:errors path="musicGenres" element="p" cssClass="error">
                     </form:errors>
                 </div>
-                <div>
+                <div class="select-div">
                     <form:label for="lookingFor" path="lookingFor"> <spring:message code="welcome.form.lookingFor"/> </form:label>
                     <form:select
                             class="multiple-select "
@@ -119,7 +119,7 @@
                             type="submit"
                             value="submit"
                             onclick="return auditionFormCheck()"
-                            class="purple-button"
+                            class="post-button"
                     >
                         <spring:message code="welcome.postButton"/>
                     </button>

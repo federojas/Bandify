@@ -297,16 +297,10 @@ public class AuditionsController {
         auditionForm.setDescription(audition.get().getDescription());
         auditionForm.setLocation(audition.get().getLocation().getName());
 
-        List<String> selectedRoles = new ArrayList<>();
-        for (Role role : audition.get().getLookingFor()) {
-            selectedRoles.add(role.getName());
-        }
+        List<String> selectedRoles = audition.get().getLookingFor().stream().map(Role::getName).collect(Collectors.toList());
         auditionForm.setLookingFor(selectedRoles);
 
-        List<String> selectedGenres = new ArrayList<>();
-        for (Genre genre : audition.get().getMusicGenres()) {
-            selectedGenres.add(genre.getName());
-        }
+        List<String> selectedGenres = audition.get().getMusicGenres().stream().map(Genre::getName).collect(Collectors.toList());
         auditionForm.setMusicGenres(selectedGenres);
 
         return mav;
