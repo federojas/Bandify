@@ -3,9 +3,10 @@
 
 nav {
   background-color: #1c041c !important;
-  padding: 0.75rem 1rem !important;
+  padding-bottom: 10px !important;
   display: flex !important;
   align-items: center !important;
+  height: 80px !important;
 }
 .container {
   width: 100%;
@@ -36,33 +37,41 @@ nav {
   }
 }
 body {
-  font-family: 'Questrial', sans-serif;
+  font-family: 'Questrial', sans-serif !important;
 }
 .nav-div {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-  margin: 0 auto;
-
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  margin: 0 60px !important;
+  height: 80px !important;
+  padding: 0 !important;
 }
 .bandify-title {
-  align-self: center;
-  font-size: 2rem;
-  line-height: 2.25rem;
-  font-weight: 600;
-  padding: 0.5rem;
-  white-space: nowrap;
-  --tw-text-opacity: 1;
-  color: rgb(255 255 255 / var(--tw-text-opacity));
+  align-self: center !important;
+  line-height: 2rem !important;
+  margin-left: 10px;
+  font-weight: 600 !important;
+  white-space: nowrap !important;
+  --tw-text-opacity: 1 !important;
+  color: rgb(255 255 255 / var(--tw-text-opacity)) !important;
+  font-size: 1.75rem !important;
 }
 
 .bandify-logo {
-  width: 2.5rem;
+  margin: 0 !important;
+}
+
+.logo-section{
+  display: flex;
+  align-items: center;
+  height: 40px !important;
+  width: 40px !important;
 }
 
 .logout{
-  margin: 0;
+  margin: 0 !important;
 }
 
 
@@ -87,11 +96,13 @@ body {
 }
 
 .purple-login-button {
-  padding: 0.5rem 1.25rem;
+  display: flex;
+  align-items: center;
+  padding: 25px;
   color: #ffffff;
-  font-weight: 600;
   border-radius: 9999px;
-  background-color: #6c0c84 !important;
+  background-color: #6c0c84;
   font-size: 1.5rem;
   line-height: 2rem;
+  height: 40px !important;
 }

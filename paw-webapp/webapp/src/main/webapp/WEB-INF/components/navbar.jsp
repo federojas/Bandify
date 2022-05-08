@@ -12,7 +12,7 @@
 <body>
 <nav>
     <div class="container nav-div">
-        <a href="<c:url value="/"/>" class="flex items-center">
+        <a href="<c:url value="/"/>" class="logo-section">
             <spring:message code="img.alt.logo" var="bandify" />
             <img
                     src=
