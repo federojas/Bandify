@@ -53,7 +53,7 @@ public class UserController {
     public ModelAndView registerView(@ModelAttribute("userBandForm") final UserBandForm userBandForm,
                                      @ModelAttribute("userArtistForm") final UserArtistForm userArtistForm,
                                      boolean isBand) {
-        ModelAndView mav = new ModelAndView("views/register");
+        ModelAndView mav = new ModelAndView("register");
         mav.addObject("isBand", isBand);
         mav.addObject("userEmailAlreadyExists", false);
         return mav;
@@ -99,7 +99,7 @@ public class UserController {
 
     @RequestMapping(value = "/profile", method = {RequestMethod.GET})
     public ModelAndView profile() {
-        ModelAndView mav = new ModelAndView("views/profile");
+        ModelAndView mav = new ModelAndView("profile");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> optionalUser = userService.findByEmail(auth.getName());
         User user = optionalUser.orElseThrow(UserNotFoundException::new);
@@ -117,7 +117,7 @@ public class UserController {
     @RequestMapping(value = "/profile/applications", method = {RequestMethod.GET})
     public ModelAndView applications(@RequestParam(value = "page", defaultValue = "1") int page) {
 
-        ModelAndView mav = new ModelAndView("views/profileApplications");
+        ModelAndView mav = new ModelAndView("profileApplications");
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> optionalUser = userService.findByEmail(auth.getName());
@@ -147,7 +147,7 @@ public class UserController {
     //TODO: MODULARIZAR CODIGO REPETIDO EN AUTH USER
     @RequestMapping(value = "/profile/edit", method = {RequestMethod.GET})
     public ModelAndView editProfile(@ModelAttribute("userEditForm") final UserEditForm userEditForm) {
-        ModelAndView mav = new ModelAndView("views/editProfile");
+        ModelAndView mav = new ModelAndView("editProfile");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> optionalUser = userService.findByEmail(auth.getName());
         User user = optionalUser.orElseThrow(UserNotFoundException::new);
@@ -195,14 +195,14 @@ public class UserController {
     @RequestMapping(value = "/verify")
     public ModelAndView verify(@RequestParam(required = true) final String token) {
         userService.verifyUser(token);
-        return new ModelAndView("views/verified");
+        return new ModelAndView("verified");
     }
 
     @RequestMapping(value = "/resetPassword", method = {RequestMethod.GET})
     public ModelAndView resetPassword(@ModelAttribute("resetPasswordForm")
                                       final ResetPasswordForm resetPasswordForm) {
 
-        ModelAndView mav = new ModelAndView("/views/resetPassword");
+        ModelAndView mav = new ModelAndView("resetPassword");
         mav.addObject("emailNotFound", false);
         return mav;
     }
@@ -215,7 +215,7 @@ public class UserController {
            return resetPassword(resetPasswordForm);
         }
         userService.sendResetEmail(resetPasswordForm.getEmail());
-        ModelAndView mav = new ModelAndView("/views/resetPassword");
+        ModelAndView mav = new ModelAndView("resetPassword");
         mav.addObject("resetPasswordForm",resetPasswordForm);
         mav.addObject("emailNotFound", false);
         return resetEmailSent(resetPasswordForm.getEmail());
@@ -225,7 +225,7 @@ public class UserController {
     public ModelAndView newPassword(@RequestParam(required = true) final String token,
                                     @ModelAttribute("newPasswordForm") final NewPasswordForm newPasswordForm) {
         if(verificationTokenService.isValid(token)) {
-            ModelAndView mav = new ModelAndView("/views/newPassword");
+            ModelAndView mav = new ModelAndView("newPassword");
             mav.addObject("token",token);
             return mav;
         }
@@ -249,7 +249,7 @@ public class UserController {
 
     @RequestMapping(value = "/resetEmailSent", method = {RequestMethod.GET})
     public ModelAndView resetEmailSent(String email) {
-        ModelAndView emailSent = new ModelAndView("/views/resetEmailSent");
+        ModelAndView emailSent = new ModelAndView("resetEmailSent");
         emailSent.addObject("email", email);
         return emailSent;
     }
@@ -262,7 +262,7 @@ public class UserController {
 
     @RequestMapping(value = "/emailSent", method = {RequestMethod.GET})
     public ModelAndView emailSent(String email) {
-        ModelAndView emailSent = new ModelAndView("/views/emailSent");
+        ModelAndView emailSent = new ModelAndView("emailSent");
         emailSent.addObject("email", email);
         return emailSent;
     }
@@ -275,7 +275,7 @@ public class UserController {
 
     @RequestMapping(value = "/login", method = {RequestMethod.GET})
     public ModelAndView login() {
-        return new ModelAndView("views/login");
+        return new ModelAndView("login");
     }
 
 }

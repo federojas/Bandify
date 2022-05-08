@@ -55,7 +55,7 @@ public class ErrorAdviceController {
     @ExceptionHandler(DuplicateUserException.class)
     public ModelAndView UserDuplicate(DuplicateUserException ex) {
         LOGGER.error("Duplicate email exception for user creation");
-        ModelAndView mav = new ModelAndView("/views/register");
+        ModelAndView mav = new ModelAndView("register");
         UserBandForm bandForm = new UserBandForm();
         UserArtistForm artistForm = new UserArtistForm();
         boolean isBand = ex.isBand();
@@ -77,7 +77,7 @@ public class ErrorAdviceController {
     @ExceptionHandler(EmailNotFoundException.class)
     public ModelAndView EmailNotFound() {
         LOGGER.error("Email not found");
-        ModelAndView mav = new ModelAndView("views/resetPassword");
+        ModelAndView mav = new ModelAndView("resetPassword");
         mav.addObject("emailNotFound", true);
         mav.addObject("resetPasswordForm", new ResetPasswordForm());
         return mav;

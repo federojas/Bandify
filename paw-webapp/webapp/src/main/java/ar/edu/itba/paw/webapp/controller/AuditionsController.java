@@ -63,7 +63,7 @@ public class AuditionsController {
 
     @RequestMapping(value = "/auditions", method = {RequestMethod.GET})
     public ModelAndView auditions( @RequestParam(value = "page", defaultValue = "1") int page) {
-        final ModelAndView mav = new ModelAndView("views/auditions");
+        final ModelAndView mav = new ModelAndView("auditions");
         // TODO: Error controller
         int lastPage = auditionService.getTotalPages();
         if(lastPage == 0)
@@ -96,7 +96,7 @@ public class AuditionsController {
                                 @RequestParam(value = "role", required = false) String[] roles,
                                 @RequestParam(value = "location", required = false) String[] locations,
                                 @RequestParam(value = "order", defaultValue = "desc") String order) {
-        final ModelAndView mav = new ModelAndView("views/search");
+        final ModelAndView mav = new ModelAndView("search");
 
         AuditionFilter filter = new AuditionFilter.AuditionFilterBuilder().
                 withGenres(genres == null ? null : Arrays.asList(genres))
@@ -143,7 +143,7 @@ public class AuditionsController {
         // TODO : es necesario este if? sino con el else de abajo seria suficiente creo
         if(id < 0 || id > auditionService.getMaxAuditionId())
             throw new AuditionNotFoundException();
-        final ModelAndView mav = new ModelAndView("views/audition");
+        final ModelAndView mav = new ModelAndView("audition");
         Optional<Audition> audition = auditionService.getAuditionById(id);
 
         if (audition.isPresent()) {
@@ -197,13 +197,13 @@ public class AuditionsController {
 
         if(applicationService.apply(id, user, applicationForm.getMessage()))
             return success();
-        return new ModelAndView("views/applicationFailed");
+        return new ModelAndView("applicationFailed");
     }
 
 
     @RequestMapping(value = "/newAudition", method = {RequestMethod.GET})
     public ModelAndView newAudition(@ModelAttribute("auditionForm") final AuditionForm auditionForm) {
-        final ModelAndView mav = new ModelAndView("views/auditionForm");
+        final ModelAndView mav = new ModelAndView("auditionForm");
 
         Set<Role> roleList = roleService.getAll();
         Set<Genre> genreList = genreService.getAll();
@@ -241,7 +241,7 @@ public class AuditionsController {
 
     @RequestMapping(value = "/success", method = {RequestMethod.GET})
     public ModelAndView success() {
-        return new ModelAndView("views/successMsg");
+        return new ModelAndView("successMsg");
     }
 
     @RequestMapping(value = "/profile/deleteAudition/{id}", method = {RequestMethod.POST})
@@ -282,7 +282,7 @@ public class AuditionsController {
         else if(user.getId() != audition.get().getBandId())
             throw new AuditionNotOwnedException();
 
-        ModelAndView mav = new ModelAndView("views/editAudition");
+        ModelAndView mav = new ModelAndView("editAudition");
 
         Set<Role> roleList = roleService.getAll();
         Set<Genre> genreList = genreService.getAll();
@@ -335,7 +335,7 @@ public class AuditionsController {
 
     @RequestMapping(value = "/profile/auditions", method = {RequestMethod.GET})
     public ModelAndView profileAuditions(@RequestParam(value = "page", defaultValue = "1") int page) {
-        ModelAndView mav = new ModelAndView("views/profileAuditions");
+        ModelAndView mav = new ModelAndView("profileAuditions");
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> optionalUser = userService.findByEmail(auth.getName());

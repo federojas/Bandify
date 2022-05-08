@@ -60,7 +60,7 @@ public class UserInteractionController {
                 return new ModelAndView("redirect:/profile");
         }
 
-        ModelAndView mav = new ModelAndView("views/viewProfile");
+        ModelAndView mav = new ModelAndView("viewProfile");
         mav.addObject("user", userToVisit);
 
         Set<Genre> preferredGenres = genreService.getUserGenres(userToVisit.getId());
