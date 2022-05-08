@@ -7,6 +7,7 @@
 <head>
     <link rel="stylesheet" href="<c:url value="/resources/css/navbar.css" />" />
     <link rel="stylesheet" href="<c:url value="/resources/css/profile.css" />"/>
+    <title><spring:message code="title.navBar"/> </title>
 </head>
 <body>
 <nav>

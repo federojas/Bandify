@@ -5,6 +5,7 @@
 <head>
     <c:import url="../config/materializeHead.jsp"/>
     <link rel="stylesheet" href="<c:url value="/resources/css/artistApplication.css" />"/>
+    <title><spring:message code="title.artistApplicationItem"/> </title>
 </head>
 <body>
 <%-- ArtistApplicationItem --%>
