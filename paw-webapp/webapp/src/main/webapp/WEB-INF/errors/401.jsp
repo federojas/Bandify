@@ -3,7 +3,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>401</title>
+    <title><spring:message code="title.401"/></title>
 </head>
 <body>
 <spring:message code="img.alt.401" var="img401"/>
