@@ -128,7 +128,6 @@
 
     <div class="end-button-div">
         <spring:message code="button.cancel" var="cancel"/>
-        <input type="button" name="cancel" value="${cancel}" class="cancel-button" onclick="goBack()"/>
         <button
                 type="submit"
                 form="editUserForm"
@@ -137,6 +136,7 @@
         >
             <spring:message code="edituser.saveChangesBtn"/>
         </button>
+        <input type="button" name="cancel" value="${cancel}" class="cancel-button" onclick="goBack()"/>
     </div>
 </div>
 </body>

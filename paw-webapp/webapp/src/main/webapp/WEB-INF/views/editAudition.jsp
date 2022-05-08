@@ -117,7 +117,6 @@
             </div>
             <div class="end-button-div">
                 <spring:message code="button.cancel" var="cancel"/>
-                <input type="button" name="cancel" value="${cancel}" class="cancel-button" onclick="goBack()"/>
                 <button
                         type="submit"
                         value="submit"
@@ -126,6 +125,7 @@
                 >
                     <spring:message code="edit.postButton"/>
                 </button>
+                <input type="button" name="cancel" value="${cancel}" class="cancel-button" onclick="goBack()"/>
             </div>
         </form:form>
     </div>
