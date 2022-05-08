@@ -36,7 +36,7 @@ public class GenreDaoTest {
     private static final Genre genre2 = new Genre(2, "genre2");
     private static final Genre genre3 = new Genre(3, "genre3");
 
-    private static final int USER_ID = 1;
+    private static final long USER_ID = 1;
 
     private static final List<Genre> ALL_GENRES = Arrays.asList(genre, genre2, genre3);
     private static final List<Genre> AUDITION_GENRES = Arrays.asList(genre, genre2);
@@ -137,7 +137,17 @@ public class GenreDaoTest {
 
     @Test
     public void testUpdateUserGenres() {
-        us
+        genreDao.updateUserGenres(new HashSet<>(GENRES),USER_ID);
+        assertEquals(GENRES.size(), JdbcTestUtils.countRowsInTableWhere(jdbcTemplate, "usergenres", "userid = " + USER_ID));
+        assertEquals(0, JdbcTestUtils.countRowsInTableWhere(jdbcTemplate, "usergenres", "userid = " + USER_ID + " AND genreid = " + genre.getId()));
+        assertEquals(GENRES.size(), JdbcTestUtils.countRowsInTableWhere(jdbcTemplate, "usergenres", "userid = " + USER_ID + " AND (genreid = " + genre2.getId() + " OR genreid = " + genre3.getId() + ")"));
     }
 
+    @Test
+    public void testUpdateSameUserGenres() {
+        genreDao.updateUserGenres(new HashSet<>(USER_GENRES),USER_ID);
+        assertEquals(USER_GENRES.size(), JdbcTestUtils.countRowsInTableWhere(jdbcTemplate, "usergenres", "userid = " + USER_ID));
+        assertEquals(0, JdbcTestUtils.countRowsInTableWhere(jdbcTemplate, "usergenres", "userid = " + USER_ID + " AND genreid = " + genre3.getId()));
+        assertEquals(USER_GENRES.size(), JdbcTestUtils.countRowsInTableWhere(jdbcTemplate, "usergenres", "userid = " + USER_ID + " AND (genreid = " + genre.getId() + " OR genreid = " + genre2.getId() + ")"));
+    }
 }
