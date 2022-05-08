@@ -15,6 +15,6 @@
 </script>
 <style>
     .parallax-container {
-        height: 400px;
+        height: 500px;
     }
 </style>
