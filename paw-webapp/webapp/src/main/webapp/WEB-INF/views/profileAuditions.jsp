@@ -4,6 +4,7 @@
         prefix="spring" uri="http://www.springframework.org/tags"%>
 <html>
 <head>
+    <title><spring:message code="title.profileauditions"/></title>
     <c:import url="../config/generalHead.jsp" />
     <link rel="stylesheet" href="<c:url value="/resources/css/welcome.css" />" />
     <link rel="stylesheet" href="<c:url value="/resources/css/auditions.css" />" />

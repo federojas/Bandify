@@ -4,6 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <html>
 <head>
+    <title><spring:message code="title.resetpassword"/></title>
     <c:import url="../config/generalHead.jsp"/>
     <script type="text/javascript" src="<c:url value="/resources/js/resetPassword.js" />"></script>
     <link rel="stylesheet" href="<c:url value="/resources/css/forms.css" />"/>

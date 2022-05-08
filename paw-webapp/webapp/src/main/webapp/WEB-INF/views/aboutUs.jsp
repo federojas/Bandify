@@ -6,7 +6,7 @@
 <head>
     <c:import url="../config/generalHead.jsp"/>
 
-    <title>About us</title>
+    <title><spring:message code="title.aboutus"/></title>
     <link rel="stylesheet" href="<c:url value="/resources/css/aboutUs.css" />" />
 
 

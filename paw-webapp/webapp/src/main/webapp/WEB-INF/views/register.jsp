@@ -5,6 +5,7 @@
 <html>
 
 <head>
+    <title><spring:message code="title.register"/></title>
     <c:import url="../config/generalHead.jsp"/>
     <link rel="stylesheet" href="<c:url value="/resources/css/forms.css" />"/>
     <link rel="stylesheet" href="<c:url value="/resources/css/register.css" />"/>

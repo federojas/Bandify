@@ -5,6 +5,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <html>
 <head>
+    <title><spring:message code="title.editprofile"/></title>
     <c:import url="../config/generalHead.jsp"/>
     <c:import url="../config/materializeHead.jsp"/>
 

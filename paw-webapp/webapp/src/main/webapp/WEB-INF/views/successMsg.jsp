@@ -5,6 +5,7 @@
 
 <html>
 <head>
+    <title><spring:message code="title.successmsg"/></title>
     <c:import url="../config/generalHead.jsp" />
     <link rel="stylesheet" href="<c:url value="/resources/css/welcome.css" />"/>
     <link rel="stylesheet" href="<c:url value="/resources/css/success.css" />"/>

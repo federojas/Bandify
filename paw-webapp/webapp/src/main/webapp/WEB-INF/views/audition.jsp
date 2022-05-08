@@ -5,6 +5,7 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <html>
   <head>
+    <title><spring:message code="title.audition"/></title>
     <c:import url="../config/generalHead.jsp" />
     <link rel="stylesheet" href="<c:url value="/resources/css/welcome.css" />" />
     <link rel="stylesheet" href="<c:url value="/resources/css/postCard.css" />" />
