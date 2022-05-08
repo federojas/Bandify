@@ -3,6 +3,7 @@ TRUNCATE TABLE genres RESTART IDENTITY AND COMMIT NO CHECK;
 TRUNCATE TABLE auditiongenres RESTART IDENTITY AND COMMIT NO CHECK;
 TRUNCATE TABLE locations RESTART IDENTITY AND COMMIT NO CHECK;
 TRUNCATE TABLE users RESTART IDENTITY AND COMMIT NO CHECK;
+TRUNCATE TABLE usergenres RESTART IDENTITY AND COMMIT NO CHECK;
 
 INSERT INTO locations(id, location)
 VALUES (1, 'location');
@@ -26,4 +27,10 @@ INSERT INTO auditiongenres(auditionid, genreid)
 VALUES (1, 1);
 
 INSERT INTO auditiongenres(auditionid, genreid)
+VALUES (1, 2);
+
+INSERT INTO usergenres(userid, genreid)
+VALUES (1, 1);
+
+INSERT INTO usergenres(userid, genreid)
 VALUES (1, 2);

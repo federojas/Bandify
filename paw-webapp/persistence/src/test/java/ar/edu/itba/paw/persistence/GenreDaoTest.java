@@ -36,8 +36,11 @@ public class GenreDaoTest {
     private static final Genre genre2 = new Genre(2, "genre2");
     private static final Genre genre3 = new Genre(3, "genre3");
 
+    private static final int USER_ID = 1;
+
     private static final List<Genre> ALL_GENRES = Arrays.asList(genre, genre2, genre3);
     private static final List<Genre> AUDITION_GENRES = Arrays.asList(genre, genre2);
+    private static final List<Genre> USER_GENRES = Arrays.asList(genre, genre2);
     private static final List<Genre> GENRES = Arrays.asList(genre2, genre3);
     private static final List<String> GENRES_NAMES = Arrays.asList(genre2.getName(), genre3.getName());
 
@@ -119,6 +122,22 @@ public class GenreDaoTest {
         assertTrue(genreSet.isEmpty());
     }
 
-    //TODO getUserGenres updateUserGenres
+    @Test
+    public void testGetUserGenres() {
+        final Set<Genre> genreSet = genreDao.getUserGenres(USER_ID);
+        assertTrue(USER_GENRES.containsAll(genreSet));
+        assertEquals(USER_GENRES.size(), genreSet.size());
+    }
+
+    @Test
+    public void testGetInvalidUserGenres() {
+        final Set<Genre> genreSet = genreDao.getUserGenres(INVALID_ID);
+        assertTrue(genreSet.isEmpty());
+    }
+
+    @Test
+    public void testUpdateUserGenres() {
+        us
+    }
 
 }
