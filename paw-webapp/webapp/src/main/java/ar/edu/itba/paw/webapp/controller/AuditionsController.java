@@ -1,14 +1,15 @@
 package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.model.exceptions.AuditionNotOwnedException;
+import ar.edu.itba.paw.AuditionFilter;
 import ar.edu.itba.paw.persistence.Genre;
 import ar.edu.itba.paw.persistence.Location;
 import ar.edu.itba.paw.persistence.Role;
 import ar.edu.itba.paw.persistence.User;
+import ar.edu.itba.paw.persistence.*;
 import ar.edu.itba.paw.model.exceptions.AuditionNotFoundException;
 import ar.edu.itba.paw.model.exceptions.LocationNotFoundException;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
-import ar.edu.itba.paw.persistence.Audition;
 import ar.edu.itba.paw.service.*;
 import ar.edu.itba.paw.webapp.form.ApplicationForm;
 import ar.edu.itba.paw.webapp.form.AuditionForm;
@@ -25,6 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 public class AuditionsController {
@@ -34,18 +36,21 @@ public class AuditionsController {
     private final GenreService genreService;
     private final LocationService locationService;
     private final UserService userService;
+    private final ApplicationService applicationService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AuditionsController.class);
 
     @Autowired
     public AuditionsController(final AuditionService auditionService,
                                final GenreService genreService, final LocationService locationService,
-                               final RoleService roleService, final UserService userService) {
+                               final RoleService roleService, final UserService userService,
+                               final ApplicationService applicationService) {
         this.auditionService = auditionService;
         this.roleService = roleService;
         this.genreService = genreService;
         this.locationService = locationService;
         this.userService = userService;
+        this.applicationService = applicationService;
     }
 
     @RequestMapping(value = "/", method = {RequestMethod.GET})
@@ -60,7 +65,7 @@ public class AuditionsController {
     public ModelAndView auditions( @RequestParam(value = "page", defaultValue = "1") int page) {
         final ModelAndView mav = new ModelAndView("views/auditions");
         // TODO: Error controller
-        int lastPage = auditionService.getTotalPages(null);
+        int lastPage = auditionService.getTotalPages();
         if(lastPage == 0)
             lastPage = 1;
         if(page < 0 || page > lastPage)
@@ -70,6 +75,12 @@ public class AuditionsController {
 
         Map<Long, String> userMap = getUserMap(auditionList);
 
+        Set<Role> roleList = roleService.getAll();
+        Set<Genre> genreList = genreService.getAll();
+        List<Location> locationList = locationService.getAll();
+        mav.addObject("roleList", roleList.stream().map(Role::getName).collect(Collectors.toList()));
+        mav.addObject("genreList", genreList.stream().map(Genre::getName).collect(Collectors.toList()));
+        mav.addObject("locationList", locationList.stream().map(Location::getName).collect(Collectors.toList()));
         mav.addObject("auditionList", auditionList);
         mav.addObject("userMap", userMap);
         mav.addObject("currentPage", page);
@@ -80,20 +91,33 @@ public class AuditionsController {
 
     @RequestMapping(value = "/search", method = {RequestMethod.GET})
     public ModelAndView search( @RequestParam(value = "page", defaultValue = "1") int page,
-                                @RequestParam(value = "query", defaultValue = "") String query ) {
+                                @RequestParam(value = "query", defaultValue = "") String query,
+                                @RequestParam(value = "genre", required = false) String[] genres,
+                                @RequestParam(value = "role", required = false) String[] roles,
+                                @RequestParam(value = "location", required = false) String[] locations,
+                                @RequestParam(value = "order", defaultValue = "desc") String order) {
         final ModelAndView mav = new ModelAndView("views/search");
-        int lastPage = auditionService.getTotalPages(query);
+
+        AuditionFilter filter = new AuditionFilter.AuditionFilterBuilder().
+                withGenres(genres == null ? null : Arrays.asList(genres))
+                .withRoles(roles == null ? null : Arrays.asList(roles))
+                .withLocations(locations == null ? null : Arrays.asList(locations))
+                .withTitle(query).withOrder(order).build();
+        int lastPage = auditionService.getFilterTotalPages(filter);
         if(lastPage == 0)
             lastPage = 1;
         if(page < 0 || page > lastPage)
             return new ModelAndView("errors/404");
-        if(query.equals(""))
-            return auditions(1);
 
-        List<Audition> auditionList = auditionService.search(page, query);
+        Set<Role> roleList = roleService.getAll();
+        Set<Genre> genreList = genreService.getAll();
+        List<Location> locationList = locationService.getAll();
+        mav.addObject("roleList", roleList.stream().map(Role::getName).collect(Collectors.toList()));
+        mav.addObject("genreList", genreList.stream().map(Genre::getName).collect(Collectors.toList()));
+        mav.addObject("locationList", locationList.stream().map(Location::getName).collect(Collectors.toList()));
 
+        List<Audition> auditionList = auditionService.filter(filter,page);
         Map<Long, String> userMap = getUserMap(auditionList);
-
         mav.addObject("auditionList", auditionList);
         mav.addObject("userMap", userMap);
         mav.addObject("currentPage", page);
@@ -148,6 +172,14 @@ public class AuditionsController {
             throw new AuditionNotFoundException();
         }
 
+        List<Application> pendingApps = applicationService.getAuditionApplicationsByState(id, ApplicationState.PENDING);
+        List<Application> acceptedApps = applicationService.getAuditionApplicationsByState(id, ApplicationState.ACCEPTED);
+        List<Application> rejectedApps = applicationService.getAuditionApplicationsByState(id, ApplicationState.REJECTED);
+
+        mav.addObject("pendingApps", pendingApps);
+        mav.addObject("acceptedApps", acceptedApps);
+        mav.addObject("rejectedApps", rejectedApps);
+
         return mav;
     }
 
@@ -163,12 +195,11 @@ public class AuditionsController {
         Optional<User> optionalUser = userService.findByEmail(auth.getName());
         User user = optionalUser.orElseThrow(UserNotFoundException::new);
 
-        // TODO: FOTO NO FUNCIONA EN AUDITION-APPLICATION.HTML (ESTA HARCODEADA SUBIDA EN OTRO SERVIDOR)
-        auditionService.sendApplicationEmail(id, user,
-                applicationForm.getMessage());
-
-        return success();
+        if(applicationService.apply(id, user, applicationForm.getMessage()))
+            return success();
+        return new ModelAndView("views/applicationFailed");
     }
+
 
     @RequestMapping(value = "/newAudition", method = {RequestMethod.GET})
     public ModelAndView newAudition(@ModelAttribute("auditionForm") final AuditionForm auditionForm) {
@@ -205,7 +236,7 @@ public class AuditionsController {
                 musicGenres(genreService.validateAndReturnGenres(auditionForm.getMusicGenres()))
         );
 
-        return auditions(1);
+        return new ModelAndView("redirect:/auditions");
     }
 
     @RequestMapping(value = "/success", method = {RequestMethod.GET})
@@ -219,20 +250,7 @@ public class AuditionsController {
         // TODO : es necesario este if? sino con el else de abajo seria suficiente creo
         if(id < 0 || id > auditionService.getMaxAuditionId())
             throw new AuditionNotFoundException();
-
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Optional<User> optionalUser = userService.findByEmail(auth.getName());
-        User user = optionalUser.orElseThrow(UserNotFoundException::new);
-
-        Optional<Audition> audition = auditionService.getAuditionById(id);
-
-        if(!audition.isPresent()) {
-            throw new AuditionNotFoundException();
-        } else if(user.getId() != audition.get().getBandId()) {
-            throw new AuditionNotOwnedException();
-        } else {
-            auditionService.deleteAuditionById(id);
-        }
+        auditionService.deleteAuditionById(id);
 
         return new ModelAndView("redirect:/profile/auditions");
     }
@@ -279,16 +297,10 @@ public class AuditionsController {
         auditionForm.setDescription(audition.get().getDescription());
         auditionForm.setLocation(audition.get().getLocation().getName());
 
-        List<String> selectedRoles = new ArrayList<>();
-        for (Role role : audition.get().getLookingFor()) {
-            selectedRoles.add(role.getName());
-        }
+        List<String> selectedRoles = audition.get().getLookingFor().stream().map(Role::getName).collect(Collectors.toList());
         auditionForm.setLookingFor(selectedRoles);
 
-        List<String> selectedGenres = new ArrayList<>();
-        for (Genre genre : audition.get().getMusicGenres()) {
-            selectedGenres.add(genre.getName());
-        }
+        List<String> selectedGenres = audition.get().getMusicGenres().stream().map(Genre::getName).collect(Collectors.toList());
         auditionForm.setMusicGenres(selectedGenres);
 
         return mav;
@@ -296,7 +308,7 @@ public class AuditionsController {
 
     //TODO CODIGO REPETIDO
     @RequestMapping(value="/profile/editAudition/{id}", method = {RequestMethod.POST})
-    public ModelAndView postEditAudition(@Valid @ModelAttribute("auditionEditForm") final AuditionForm auditionEditForm,
+    public ModelAndView postEditAudition(@Valid @ModelAttribute("auditionForm") final AuditionForm auditionForm,
                                          final BindingResult errors, @PathVariable long id) {
 
         if(id < 0 || id > auditionService.getMaxAuditionId())
@@ -306,21 +318,14 @@ public class AuditionsController {
         Optional<User> optionalUser = userService.findByEmail(auth.getName());
         User user = optionalUser.orElseThrow(UserNotFoundException::new);
 
-        Optional<Audition> audition = auditionService.getAuditionById(id);
-
-        if(!audition.isPresent())
-            throw new AuditionNotFoundException();
-        else if(user.getId() != audition.get().getBandId())
-            throw new AuditionNotOwnedException();
-
         if(errors.hasErrors()) {
-            return newAudition(auditionEditForm);
+            return editAudition(auditionForm,id);
         }
 
-        auditionService.editAuditionById(auditionEditForm.toBuilder(user.getId()).
-                location(locationService.getLocationByName(auditionEditForm.getLocation()).orElseThrow(LocationNotFoundException::new)).
-                lookingFor(roleService.validateAndReturnRoles(auditionEditForm.getLookingFor())).
-                musicGenres(genreService.validateAndReturnGenres(auditionEditForm.getMusicGenres()))
+        auditionService.editAuditionById(auditionForm.toBuilder(user.getId()).
+                location(locationService.getLocationByName(auditionForm.getLocation()).orElseThrow(LocationNotFoundException::new)).
+                lookingFor(roleService.validateAndReturnRoles(auditionForm.getLookingFor())).
+                musicGenres(genreService.validateAndReturnGenres(auditionForm.getMusicGenres()))
         , id);
 
         String redirect = "redirect:/auditions/" + id;
@@ -344,6 +349,7 @@ public class AuditionsController {
 
         List<Audition> auditionList = auditionService.getBandAuditions(user.getId(), page);
 
+
         mav.addObject("userName", user.getName());
         mav.addObject("userId", user.getId());
         mav.addObject("auditionList", auditionList);
@@ -352,4 +358,19 @@ public class AuditionsController {
         return mav;
     }
 
+    @RequestMapping(value = "/auditions/{auditionId}", method = {RequestMethod.POST})
+    public ModelAndView acceptAudition(@PathVariable long auditionId,
+                                       @RequestParam(value = "accept") boolean accept,
+                                       @RequestParam(value = "userId") long userId) {
+        if(auditionId < 0 || auditionId > auditionService.getMaxAuditionId())
+            throw new AuditionNotFoundException();
+
+        if (accept) {
+            applicationService.accept(auditionId, userId);
+        } else {
+            applicationService.reject(auditionId, userId);
+        }
+
+        return new ModelAndView("redirect:/auditions/" + auditionId);
+    }
 }

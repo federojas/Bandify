@@ -62,7 +62,7 @@ public class GenreJdbcDao implements GenreDao {
 
     @Override
     public Set<Genre> getUserGenres(long userId) {
-        return jdbcTemplate.query("SELECT genres.id,genres.genre FROM genres JOIN userGenres ON genres.id = userGenres.genreId JOIN users ON userGenres.userId = users.id",GENRE_ROW_MAPPER).stream().collect(Collectors.toSet());
+        return jdbcTemplate.query("SELECT genres.id,genres.genre FROM genres JOIN userGenres ON genres.id = userGenres.genreId JOIN users ON userGenres.userId = users.id WHERE users.id = ? ", new Object[]{userId} , GENRE_ROW_MAPPER).stream().collect(Collectors.toSet());
     }
 
     @Override

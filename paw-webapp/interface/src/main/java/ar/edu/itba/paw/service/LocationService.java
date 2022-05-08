@@ -13,4 +13,6 @@ public interface LocationService {
     Optional<Location> getLocationById(long location);
 
     Optional<Location> getLocationByName(String name);
+
+    void validateLocations(List<String> locationsNames);
 }

@@ -14,10 +14,10 @@
     <link rel="stylesheet" href="<c:url value="/resources/css/alerts.css" />"/>
     <script type="text/javascript" src="<c:url value="/resources/js/alerts.js" />"></script>
     <script src="<c:url value="/resources/js/application.js" />"></script>
-
+    <title><spring:message code="title.applicationForm"/></title>
 </head>
 
-<body onload="loadApplication()">
+<body>
 <div class="applicationForm">
     <c:url value="/apply" var="applyUrl">
         <c:param name="id" value="${param.auditionFormId}"/>

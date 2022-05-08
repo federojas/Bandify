@@ -16,6 +16,20 @@ body {
     padding: 1rem;
     margin: 1rem;
 }
+
+#latest-title {
+    font-size: xxx-large;
+    font-weight: bold;
+    color: black;
+}
+
+.user-data{
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    padding: 0.75rem 1.25rem;
+    margin: 1rem;
+    width: 600px;
+}
 .posts {
     display: flex;
     flex-direction: row;

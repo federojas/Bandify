@@ -4,6 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <html>
 <head>
+    <title><spring:message code="title.postCard"/></title>
     <link rel="stylesheet" href="<c:url value="/resources/css/postCard.css" />"/>
 </head>
 <body>
@@ -12,8 +13,8 @@
     <a href="/user/${param.userId}">
         <div class="postcard-profile">
             <div class="image overflow-hidden">
-                <img class="postcard-profile-image"
                 <spring:message code="profile.img.alt" var="img"/>
+                <img class="postcard-profile-image"
                      src="<c:url value="/user/${param.userId}/profile-image"/>"
                      alt="${img}">
             </div>

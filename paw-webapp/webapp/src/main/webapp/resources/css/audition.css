@@ -76,12 +76,14 @@ li.info-item:not(:last-child) {
     font-weight: 500;
     padding: 1rem;
     text-decoration: underline;
+    color: black;
 }
 
 .back-auditions-div {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+    margin-bottom: 20px;
 }
 
 .buttonry{
@@ -94,10 +96,6 @@ li.info-item:not(:last-child) {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-}
-
-.audition-delete-btn:hover{
-    background-color: #ff3b3b;
 }
 
 .audition-delete-btn {
@@ -171,3 +169,16 @@ li.info-item:not(:last-child) {
     font-weight: 700;
     line-height: 2rem;
 }
+
+.applicants {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1.5rem;
+}
+
+.applicants-header {
+    font-size: xx-large;
+    text-align: center;
+    font-weight: 600;
+}
+

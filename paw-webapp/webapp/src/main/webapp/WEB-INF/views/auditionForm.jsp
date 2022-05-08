@@ -4,6 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <html>
 <head>
+    <title><spring:message code="title.auditionform"/></title>
     <c:import url="../config/generalHead.jsp"/>
     <c:import url="../config/materializeHead.jsp"/>
     <link rel="stylesheet" href="<c:url value="/resources/css/welcome.css" />" />
@@ -34,7 +35,7 @@
                     method="post"
                     acceptCharset="utf-8"
             >
-                <div>
+                <div class="title-div">
                     <form:label class="form-label" path="title">
                         <spring:message code="welcome.form.title"/>
                     </form:label>
@@ -52,7 +53,7 @@
                     <spring:message code="audition.form.description.placeholder" var="descriptionplaceholder" />
                     <form:textarea
                             maxlength="300" placeholder="${descriptionplaceholder}"
-                            class="form-input"
+                            class="form-input-application"
                             type="text"
                             id="description"
                             path="description"
@@ -62,7 +63,7 @@
                     <p id="longDescription" class="error" style="display: none"><spring:message code="Size.auditionForm.description" arguments="${300}"/> </p>
                     <form:errors path="description" element="p" cssClass="error"> </form:errors>
                 </div>
-                <div>
+                <div class="select-div">
                     <form:label class="form-label" path="location">
                         <spring:message code="welcome.form.location"/>
                     </form:label>
@@ -71,21 +72,19 @@
                             multiple="false"
                             id="location"
                     >
-                        <form:option value="" selected="true" disabled="disabled" hidden="true"><spring:message code="welcome.form.location.default"/></form:option>
+                        <form:option value="" selected="true" disabled="true"><spring:message code="welcome.form.location.default"/></form:option>
                         <c:forEach
                                 var="location"
                                 items="${locationList}"
                                 varStatus="loop"
                         >
-                            <form:option value="${location.name}">
-                                ${location.name}
-                            </form:option>
+                            <form:option value="${location.name}">${location.name}</form:option>
                         </c:forEach>
                     </form:select>
                     <form:errors path="location" element="p" cssClass="error">
                     </form:errors>
                 </div>
-                <div >
+                <div class="select-div">
                     <form:label for="musicGenres" path="musicGenres"> <spring:message code="welcome.form.musicGenres"/> </form:label>
                     <form:select
                             class="multiple-select"
@@ -100,7 +99,7 @@
                     <form:errors path="musicGenres" element="p" cssClass="error">
                     </form:errors>
                 </div>
-                <div>
+                <div class="select-div">
                     <form:label for="lookingFor" path="lookingFor"> <spring:message code="welcome.form.lookingFor"/> </form:label>
                     <form:select
                             class="multiple-select "
@@ -120,7 +119,7 @@
                             type="submit"
                             value="submit"
                             onclick="return auditionFormCheck()"
-                            class="purple-button"
+                            class="post-button"
                     >
                         <spring:message code="welcome.postButton"/>
                     </button>

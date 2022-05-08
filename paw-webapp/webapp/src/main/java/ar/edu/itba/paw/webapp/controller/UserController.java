@@ -1,7 +1,5 @@
 package ar.edu.itba.paw.webapp.controller;
 
-import ar.edu.itba.paw.model.exceptions.AuditionNotFoundException;
-import ar.edu.itba.paw.model.exceptions.AuditionNotOwnedException;
 import ar.edu.itba.paw.persistence.*;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.service.*;
@@ -13,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.ResourceUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -21,8 +18,9 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.*;
-import java.security.acl.NotOwnerException;
 import java.util.*;
+import java.util.stream.Collectors;
+
 
 @Controller
 public class UserController {
@@ -33,18 +31,21 @@ public class UserController {
     private final RoleService roleService;
     private final GenreService genreService;
     private final ImageService imageService;
+    private final ApplicationService applicationService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     public UserController(UserService userService, VerificationTokenService verificationTokenService,
-                          AuditionService auditionService, RoleService roleService, GenreService genreService, ImageService imageService) {
+                          AuditionService auditionService, RoleService roleService, GenreService genreService,
+                          ImageService imageService, ApplicationService applicationService) {
         this.userService = userService;
         this.verificationTokenService = verificationTokenService;
         this.auditionService = auditionService;
         this.roleService = roleService;
         this.genreService = genreService;
         this.imageService = imageService;
+        this.applicationService = applicationService;
     }
 
     @RequestMapping(value = {"/register","/registerBand", "/registerArtist"},
@@ -103,6 +104,35 @@ public class UserController {
         Optional<User> optionalUser = userService.findByEmail(auth.getName());
         User user = optionalUser.orElseThrow(UserNotFoundException::new);
         mav.addObject("user", user);
+
+        Set<Genre> preferredGenres = genreService.getUserGenres(user.getId());
+        mav.addObject("preferredGenres", preferredGenres);
+
+        Set<Role> roles = roleService.getUserRoles(user.getId());
+        mav.addObject("roles", roles);
+
+        return mav;
+    }
+
+    @RequestMapping(value = "/profile/applications", method = {RequestMethod.GET})
+    public ModelAndView applications(@RequestParam(value = "page", defaultValue = "1") int page) {
+
+        ModelAndView mav = new ModelAndView("views/profileApplications");
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> optionalUser = userService.findByEmail(auth.getName());
+        User user = optionalUser.orElseThrow(UserNotFoundException::new);
+
+        int lastPage = applicationService.getTotalUserApplicationPages(user.getId());
+        if(lastPage == 0)
+            lastPage = 1;
+        if(page < 0 || page > lastPage)
+            return new ModelAndView("errors/404");
+
+        List<Application> applications = applicationService.getMyApplications(user.getId(), page);
+        mav.addObject("artistApplications", applications);
+        mav.addObject("currentPage", page);
+        mav.addObject("lastPage", lastPage);
         return mav;
     }
 
@@ -127,15 +157,16 @@ public class UserController {
         Set<Role> userRoles = roleService.getUserRoles(user.getId());
         Set<Genre> userGenres = genreService.getUserGenres(user.getId());
 
-        genreList.removeAll(userGenres);
-        roleList.removeAll(userRoles);
-
         mav.addObject("user", user);
         userEditForm.setName(user.getName());
         userEditForm.setSurname(user.getSurname());
         userEditForm.setDescription(user.getDescription());
-        mav.addObject("userRoles", userRoles);
-        mav.addObject("userGenres", userGenres);
+
+        List<String> selectedRoles = userRoles.stream().map(Role::getName).collect(Collectors.toList());
+        userEditForm.setLookingFor(selectedRoles);
+        List<String> selectedGenres = userGenres.stream().map(Genre::getName).collect(Collectors.toList());
+        userEditForm.setMusicGenres(selectedGenres);
+
         mav.addObject("roleList", roleList);
         mav.addObject("genreList", genreList);
 

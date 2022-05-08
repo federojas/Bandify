@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.service;
 
+import ar.edu.itba.paw.persistence.Audition;
 import ar.edu.itba.paw.persistence.User;
 import ar.edu.itba.paw.persistence.VerificationToken;
 import org.slf4j.Logger;
@@ -40,6 +41,22 @@ public class MailingServiceImpl implements MailingService {
         this.templateEngine = templateEngine;
         this.environment = environment;
         this.messageSource = messageSource;
+    }
+
+    @Async
+    @Override
+    public void sendApplicationAcceptedEmail(User band, Audition audition, String receiverEmail) {
+        try {
+            final String url = new URL("http", environment.getRequiredProperty("app.base.url"), "/paw-2022a-03/user/" + band.getId()).toString();
+            Map<String, Object> mailData = new HashMap<>();
+            Locale locale = LocaleContextHolder.getLocale();
+            String subject = messageSource.getMessage("accepted-application.title",null,locale);
+            mailData.put("goToBandifyURL", url);
+            mailData.put("auditionTitle", audition.getTitle());
+            sendEmail(band, receiverEmail, subject, "accepted-application", mailData,  locale);
+        } catch (MalformedURLException e) {
+            LOGGER.warn("Audition accepted application email threw url exception");
+        }
     }
 
     @Async
@@ -86,7 +103,6 @@ public class MailingServiceImpl implements MailingService {
         } catch (MalformedURLException e) {
             LOGGER.warn("Reset password email threw url exception");
         }
-
     }
 
     private void sendEmail(User sender, String receiverAddress, String subject, String template, Map<String, Object> mailData, Locale locale) {
@@ -96,10 +112,10 @@ public class MailingServiceImpl implements MailingService {
         for (String data : mailData.keySet()) {
             ctx.setVariable(data, mailData.get(data));
         }
-        sendThymeLeafEmail(sender, receiverAddress, subject, template, ctx);
+        sendThymeLeafEmail(receiverAddress, subject, template, ctx);
     }
 
-    private void sendThymeLeafEmail(User sender, String receiverAddress, String subject, String template, Context ctx) {
+    private void sendThymeLeafEmail(String receiverAddress, String subject, String template, Context ctx) {
         final String htmlContent = this.templateEngine.process(template, ctx);
         sendMessage(htmlContent, receiverAddress, subject);
     }

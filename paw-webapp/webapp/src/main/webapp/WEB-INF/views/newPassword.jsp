@@ -4,6 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <html>
 <head>
+    <title><spring:message code="title.newpassword"/></title>
     <c:import url="../config/generalHead.jsp"/>
     <link rel="stylesheet" href="<c:url value="/resources/css/forms.css" />"/>
     <script type="text/javascript" src="<c:url value="/resources/js/alerts.js"/>"></script>

@@ -5,11 +5,19 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <html>
   <head>
+    <title><spring:message code="title.audition"/></title>
     <c:import url="../config/generalHead.jsp" />
+    <c:import url="../config/materializeHead.jsp" />
     <link rel="stylesheet" href="<c:url value="/resources/css/welcome.css" />" />
     <link rel="stylesheet" href="<c:url value="/resources/css/postCard.css" />" />
     <link rel="stylesheet" href="<c:url value="/resources/css/audition.css" />" />
     <link rel="stylesheet" href="<c:url value="/resources/css/forms.css" />" />
+    <link rel="stylesheet" href="<c:url value="/resources/css/modals.css" />" />
+    <script>
+      $(document).ready(function(){
+        $('.modal').modal();
+      });
+    </script>
   </head>
   <body class="flex flex-col">
     <%--Navbar--%>
@@ -115,7 +123,7 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
                 </button>
               </a>
               <form class="audition-delete-btn" action="/profile/deleteAudition/${audition.id}" method="post">
-                  <button class="audition-btn" type="submit">
+                 <button class="audition-btn" type="submit">
                   <spring:message code="audition.alt.delete" var="delete"/>
                     <spring:message code="audition.delete" />
                     <img src="<c:url value="/resources/icons/trash.svg"/>" class="audition-icon" alt="${delete}"/>
@@ -124,15 +132,25 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
             </div>
           </c:if>
         </div>
-        <div class="back-auditions-div">
-          <a class="back-anchor" href="<c:url value="/auditions" />">
-            <spring:message code="success.link"/>
-          </a>
-        </div>
 
       </div>
+      <sec:authorize access="hasRole('BAND')">
+        <c:if test="${isOwner}">
+          <div class="applicants">
 
+          </div>
+          <h1 class="applicants-header"><spring:message code="audition.applicantsHeader"/></h1>
 
+          <jsp:include page="../components/applicantsByState.jsp">
+            <jsp:param name="auditionId" value="${audition.id}" />
+          </jsp:include>
+        </c:if>
+      </sec:authorize>
+    </div>
+    <div class="back-auditions-div">
+      <a class="back-anchor" href="<c:url value="/auditions" />">
+        <spring:message code="success.link"/>
+      </a>
     </div>
   </body>
 </html>

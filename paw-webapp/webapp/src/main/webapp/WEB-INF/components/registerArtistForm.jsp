@@ -10,7 +10,7 @@
     />
     <link rel="stylesheet" href="<c:url value="/resources/css/forms.css" />">
     <script src="<c:url value="/resources/js/register.js" />"></script>
-
+    <title><spring:message code="title.registerArtistForm" /></title>
 </head>
 <body>
 <div class="register-content">

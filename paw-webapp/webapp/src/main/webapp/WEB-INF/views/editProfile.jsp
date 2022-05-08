@@ -5,12 +5,18 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <html>
 <head>
+    <title><spring:message code="title.editprofile"/></title>
     <c:import url="../config/generalHead.jsp"/>
     <c:import url="../config/materializeHead.jsp"/>
 
     <title><spring:message code="edituser.title"/></title>
     <link rel="stylesheet" href="<c:url value="/resources/css/forms.css" />"/>
+    <link rel="stylesheet" href="<c:url value="/resources/css/profile.css" />"/>
     <script src="<c:url value="/resources/js/editProfile.js"/>"></script>
+    <script src="<c:url value="/resources/js/matMultipleSelect.js"/>"></script>
+    <script src="<c:url value="/resources/js/editCancelButton.js"/>"></script>
+
+
 </head>
 <body>
 <!-- Navbar -->
@@ -60,8 +66,8 @@
             <br/>
             <div class = "editProfilePicture">
                 <spring:message code="profile.img.alt" var="img"/>
-                <img src="<c:url value="/user/${user.id}/profile-image"/>" class="editProfileImg" alt="${img}"/>
-                <form:input id="selectImage" type="file" path="profileImage" accept="image/png, image/jpeg" />
+                <img id="imagePreview" src="<c:url value="/user/${user.id}/profile-image"/>" class="profileImage" alt="${img}"/>
+                <form:input id="selectImage" type="file" path="profileImage" accept="image/png, image/jpeg" onchange="previewImage()" />
                 <form:errors path="profileImage" element="p" cssClass="error"/>
             </div>
         </div>
@@ -72,7 +78,7 @@
             </form:label>
             <spring:message code="edituser.form.descriptionplaceholder" var="descriptionplaceholder"/>
             <form:textarea type="text" id="artistDescription" maxlength="500" placeholder="${descriptionplaceholder}"
-                           class="form-input"
+                           class="form-input-application"
                            path="description"/>
             <form:errors path="description" element="p" cssClass="error"> </form:errors>
             <p class="error" id="wrongArtistDescription" style="display: none"><spring:message
@@ -80,7 +86,7 @@
         </div>
 
 
-        <div>
+        <div class="select-div">
             <form:label class="form-label" path="musicGenres">
                 <spring:message code="welcome.form.musicGenres"/>
             </form:label>
@@ -90,15 +96,9 @@
                     multiple="true"
             >
                 <form:option value="" disabled="true" selected="true"><spring:message code="audition.form.musicGenres.maxSelect"/></form:option>
-                <c:forEach var="userGenre" items="${userGenres}" varStatus="loop">
-                    <form:option value="${userGenre.name}" selected="true">
-                        ${userGenre.name}
-                    </form:option>
-                </c:forEach>
+
                 <c:forEach var="genre" items="${genreList}" varStatus="loop">
-                        <form:option value="${genre.name}">
-                            ${genre.name}
-                        </form:option>
+                        <form:option value="${genre.name}"><c:out value="${genre.name}"/></form:option>
                 </c:forEach>
 
 
@@ -106,7 +106,7 @@
             <form:errors path="musicGenres" element="p" cssClass="error">
             </form:errors>
         </div>
-        <div>
+        <div class="select-div">
             <form:label class="form-label" for="lookingFor" path="lookingFor"> <spring:message code="welcome.form.lookingFor"/> </form:label>
             <form:select
                     class="multiple-select"
@@ -115,13 +115,8 @@
             >
                 <form:option value="" disabled="true" selected="true"><spring:message code="audition.form.lookingFor.maxSelect"/></form:option>
 
-                <c:forEach var="userRole" items="${userRoles}" varStatus="loop">
-                    <form:option value="${userRole.name}" selected="true">
-                        ${userRole.name}
-                    </form:option>
-                </c:forEach>
                 <c:forEach var="role" items="${roleList}" varStatus="loop">
-                    <form:option value="${role.name}"> ${role.name} </form:option>
+                    <form:option value="${role.name}"><c:out value="${role.name}"/></form:option>
                 </c:forEach>
 
             </form:select>
@@ -132,6 +127,7 @@
 
 
     <div class="end-button-div">
+        <spring:message code="button.cancel" var="cancel"/>
         <button
                 type="submit"
                 form="editUserForm"
@@ -140,6 +136,7 @@
         >
             <spring:message code="edituser.saveChangesBtn"/>
         </button>
+        <input type="button" name="cancel" value="${cancel}" class="cancel-button" onclick="goBack()"/>
     </div>
 </div>
 </body>

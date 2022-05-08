@@ -4,30 +4,44 @@ contentType="text/html;charset=UTF-8" language="java" %> <%@ taglib
 prefix="spring" uri="http://www.springframework.org/tags"%>
 <html>
   <head>
+    <title><spring:message code="title.auditions"/></title>
     <c:import url="../config/generalHead.jsp" />
+    <c:import url="../config/materializeHead.jsp" />
     <link rel="stylesheet" href="<c:url value="/resources/css/welcome.css" />" />
     <link rel="stylesheet" href="<c:url value="/resources/css/auditions.css" />" />
-    <script src="<c:url value="/resources/js/sideNav.js" />"></script>
-
+    <script src="<c:url value="/resources/js/pagination.js" />"></script>
+    <script>
+      $(document).ready(function(){
+        $('.parallax').parallax();
+      });
+    </script>
   </head>
   <body>
+
     <!-- Navbar -->
     <jsp:include page="../components/navbar.jsp">
       <jsp:param name="navItem" value="${2}" />
       <jsp:param name="name" value="Bandify" />
     </jsp:include>
+
     <div>
+      <div class="parallax-container">
+        <div class="parallax"><img src="<c:url value="/resources/images/parallax3.png" />"/></div>
+        <div class="ml-10 mt-10 flex flex-col justify-between">
+          <h2 id="posts">
+            <spring:message code="welcome.auditionsSection" />
+          </h2>
+          <jsp:include page="../components/searchBar.jsp">
+            <jsp:param name="name" value="Bandify" />
+          </jsp:include>
+        </div>
+      </div>
     <!-- Auditions content -->
       <div class="auditions-content">
-      <%--Publicaciones de audiciones--%>
-        <h2 id="posts">
-          <spring:message code="welcome.auditionsSection" />
+
+        <h2 id="latest-title">
+          <spring:message code="auditions.latest"/>
         </h2>
-
-        <jsp:include page="../components/searchBar.jsp">
-          <jsp:param name="name" value="Bandify" />
-        </jsp:include>
-
       <div class="posts">
         <c:if test="${auditionList.size() == 0}">
           <b><p  style="width: 100%; text-align: center">
@@ -68,7 +82,7 @@ prefix="spring" uri="http://www.springframework.org/tags"%>
       <div class="pagination">
         <c:if test="${currentPage > 1}">
          <spring:message code="pagination.previous.page.alt" var="previous"/>
-          <a href="<c:url value="/auditions?page=${currentPage-1}"/>">
+          <a onclick="getPaginationURL(${currentPage-1});">
             <img src="<c:url value="/resources/images/page-next.png"/>"
                  alt="${previous}" class="pagination-next rotate">
           </a>
@@ -76,7 +90,7 @@ prefix="spring" uri="http://www.springframework.org/tags"%>
         <b><spring:message code="page.current" arguments="${currentPage},${lastPage}" /></b>
         <c:if test="${currentPage < lastPage}">
           <spring:message code="pagination.next.page.alt" var="next"/>
-          <a href="<c:url value="/auditions?page=${currentPage+1}"/>">
+          <a onclick="getPaginationURL(${currentPage+1});">
             <img src="<c:url value="/resources/images/page-next.png"/>"
                  alt="${next}" class="pagination-next">
           </a>

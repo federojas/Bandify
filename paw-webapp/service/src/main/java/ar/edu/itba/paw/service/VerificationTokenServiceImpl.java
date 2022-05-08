@@ -22,20 +22,11 @@ import java.util.*;
 public class VerificationTokenServiceImpl implements VerificationTokenService {
 
     private final VerificationTokenDao verificationTokenDao;
-    private final MailingService mailingService;
-    private final MessageSource messageSource;
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
-    private final Environment environment;
 
     @Autowired
-    public VerificationTokenServiceImpl(final VerificationTokenDao verificationTokenDao,
-                                        final MailingService mailingService,
-                                        final MessageSource messageSource,
-                                        final Environment environment) {
+    public VerificationTokenServiceImpl(final VerificationTokenDao verificationTokenDao) {
         this.verificationTokenDao = verificationTokenDao;
-        this.mailingService = mailingService;
-        this.messageSource = messageSource;
-        this.environment = environment;
     }
 
     @Override

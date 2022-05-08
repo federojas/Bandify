@@ -7,11 +7,12 @@
 <head>
     <link rel="stylesheet" href="<c:url value="/resources/css/navbar.css" />" />
     <link rel="stylesheet" href="<c:url value="/resources/css/profile.css" />"/>
+    <title><spring:message code="title.navBar"/> </title>
 </head>
 <body>
 <nav>
-    <div class="container nav-div">
-        <a href="<c:url value="/"/>" class="flex items-center">
+    <div class="nav-container nav-div">
+        <a href="<c:url value="/"/>" class="logo-section">
             <spring:message code="img.alt.logo" var="bandify" />
             <img
                     src=

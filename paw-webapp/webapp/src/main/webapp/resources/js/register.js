@@ -73,7 +73,7 @@ function registerbandCheck(){
 
     }
 
-    if(email.length<=0 || email.length >300){
+    if(email.length<=0 || email.length >250){
         wrongMail.style.display='block'
         validForm=false;
     }
@@ -130,7 +130,7 @@ function registerArtistCheck(){
         wrongArtistMail.style.display='block'
 
     }
-    if(email.length<=0|| email.length >300){
+    if(email.length<=0|| email.length >250){
         validForm=false;
         wrongArtistMail.style.display='block'
     }

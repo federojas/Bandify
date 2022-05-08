@@ -62,7 +62,7 @@ public class RoleJdbcDao implements RoleDao {
 
     @Override
     public Set<Role> getUserRoles(long userId) {
-        return jdbcTemplate.query("SELECT roles.id,roles.role FROM roles JOIN userRoles ON roles.id = userRoles.roleId JOIN users ON userRoles.userId = users.id",ROLE_ROW_MAPPER).stream().collect(Collectors.toSet());
+        return jdbcTemplate.query("SELECT roles.id,roles.role FROM roles JOIN userRoles ON roles.id = userRoles.roleId JOIN users ON userRoles.userId = users.id WHERE users.id = ?", new Object[]{userId}, ROLE_ROW_MAPPER).stream().collect(Collectors.toSet());
     }
 
     @Override
