@@ -40,6 +40,32 @@
       padding:0;
       Margin:0
     }
+    .h1-3{
+      Margin:0;
+      line-height:55px;
+      mso-line-height-rule:exactly;
+      font-family:arial,
+      'helvetica neue',
+      helvetica,
+      sans-serif;
+      font-size:46px;
+      font-style:normal;
+      font-weight:bold;
+      color:#333333
+    }
+    .h3-1{
+      Margin:0;
+      line-height:24px;
+      mso-line-height-rule:exactly;
+      font-family:arial,
+      'helvetica neue',
+      helvetica,
+      sans-serif;
+      font-size:20px;
+      font-style:normal;
+      font-weight:bold;
+      color:#333333
+    }
     @media only screen and (max-width:600px)
     {p, ul li, ol li, a { line-height:150%!important } h1, h2, h3, h1 a, h2 a, h3 a { line-height:120% }
       h1 { font-size:36px!important; text-align:left }
@@ -92,7 +118,7 @@
     }
     .td-1{
       Margin:0;
-      padding: 30px 20px 20px;
+      padding: 30px 20px 20px 60px;
     }
     .table-4{
       mso-table-lspace:0;
@@ -147,12 +173,6 @@
       Margin:0;
       padding: 0 20px 30px;
     }
-    .table-9{
-      mso-table-lspace:0pt;
-      mso-table-rspace:0pt;
-      border-collapse:collapse;
-      border-spacing:0px
-    }
     .span-1{
       border-style:solid;
       border-color:#2CB543;
@@ -186,6 +206,29 @@
       width:auto;
       text-align:center;
     }
+    .table-8{
+      mso-table-lspace:0pt;
+      mso-table-rspace:0pt;
+      border-collapse:separate;
+      border-spacing:0px;
+      border-left:2px dotted #cccccc;
+      border-right:2px dotted #cccccc;
+      border-top:2px dotted #cccccc;
+      border-bottom:2px dotted #cccccc;
+      border-radius:5px
+    }
+    .td-4{
+      Margin:0;
+      padding: 10px 0;
+    }
+    .a-2{
+      -webkit-text-size-adjust:none;
+      -ms-text-size-adjust:none;
+      mso-line-height-rule:exactly;
+      text-decoration:none;
+      color:#5C68E2;
+      font-size:46px
+    }
   </style>
 </head>
 <body class="body-content">
@@ -203,7 +246,7 @@
               <table bgcolor="#ffffff" class="es-content-body third-table"
                      align="center" cellpadding="0" cellspacing="0">
                 <tr>
-                  <td class="es-m-p20t td-1" align="left">
+                  <td class="es-m-p20t td-1" align="center">
                     <table cellpadding="0" cellspacing="0" class="table-4"
                            width="100%">
                       <tr>
@@ -216,22 +259,52 @@
                               </td>
                             </tr>
                             <tr>
-                              <td align="center" class="es-m-p0r es-m-p0l" style="padding: 5px 40px;">
-                                <p class="p-1"><b th:text="#{accepted-application.hello}"></b>
+                              <td align="center" style="padding-bottom:10px;font-size:0">
+                                <img src="https://wcipih.stripocdn.email/content/guids/CABINET_010ea1d812fff5ca3a7d9f47a4efa75f/images/whatsapp_image_20220410_at_62743_pm.jpeg"
+                                     class="adapt-img img-1"  alt="Bandify logo"  width="250"></td>
+                            </tr>
+                            <tr>
+                              <td align="center" class="es-m-p0r es-m-p0l" style="padding: 5px 20px;">
+                                <p class="p-1">
+                                  <b th:text="#{accepted-application.hello}"></b>
+                                  <strong><b th:text="${auditionTitle}"></b></strong>
+                                  <b th:text="#{accepted-application.from}"></b>
+                                  <strong><b th:text="${senderName}"></b></strong>
+                                  <b th:text="#{accepted-application.wasAccepted}"></b>
                                 </p>
-                                <b>NOMBRE APLICACION HARDCODEADO</b>
-                                <p class="p-1"><b th:text="#{accepted-application.from}"></b>
-                                  <b>NOMBRE BANDA HARDCODEADO</b>
-                                <p class="p-1"><b th:text="#{accepted-application.wasAccepted}"></b>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td align="center" class="es-m-p0r es-m-p0l" style="padding: 5px 20px;">
+                                <h3 class="h3-1" >
+                                  <strong th:text="#{audition-application.contact}"></strong>
+                                </h3>
                               </td>
                             </tr>
                           </table></td>
                       </tr>
-                    </table></td>
-                </tr>
-                <tr>
-                  <td class="td-5" align="left" >
-                    <table class="table-9" cellpadding="0" cellspacing="0" width="100%">
+                      <tr>
+                  <tr>
+                      <tr>
+                        <td align="center" valign="top" style="width:560px">
+                          <table class="table-8" cellpadding="0" cellspacing="0" width="100%"  role="presentation">
+                            <tr>
+                              <td align="center" class="es-m-txt-c td-4">
+                                <h1 class="h1-3">
+                                  <strong>
+                                    <a class="a-2" target="_blank">
+                                      <p th:text="${email}"></p>
+                                    </a>
+                                  </strong>
+                                </h1>
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                  <td class="td-5" align="center" >
                       <tr>
                         <td align="center" valign="top" style="width:560px">
                           <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0;
@@ -239,33 +312,26 @@
                                  role="presentation">
                             <tr>
                               <td align="center" style="Margin:0;
-                                                            padding: 20px 0 10px;">
-                                <p class="p-1"><b th:text="#{accepted-application.motivation}"></b>
-
+                                                            padding: 10px 0 20px 40px;">
                                   <span class="es-button-border span-1">
-                                                                    <a  th:href="${goToBandifyURL}" class="es-button a-3"
-                                                                        style="color:#FFFFFF;" target="_blank"
-                                                                        th:text="#{audition-application.goToBandify}">
-                                                                    </a>
-                                                                </span>
+                                      <a  th:href="${goToBandifyURL}" class="es-button a-3"
+                                          style="color:#FFFFFF;" target="_blank"
+                                          th:text="#{audition-application.goToBandify}">
+                                      </a>
+                                  </span>
                               </td>
                             </tr>
                             <tr>
-                              <td align="center" class="es-m-p0r es-m-p0l" style="padding: 5px 40px;">
-                                <p class="p-2"><b th:text="#{email.ignore}"></b>
-                                </p>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td align="center" class="es-m-p0r es-m-p0l">
-                                <p class="p-2"><b th:text="#{email.expire}"></b>
+                              <td align="center" class="es-m-p0r es-m-p0l" style="padding-left: 40px">
+                                <p class="p-2">
+                                  <b th:text="#{accepted-application.motivation}"></b>
                                 </p>
                               </td>
                             </tr>
                           </table>
                         </td>
                       </tr>
-                    </table>
+                    </table></td>
                   </td>
                 </tr>
               </table>

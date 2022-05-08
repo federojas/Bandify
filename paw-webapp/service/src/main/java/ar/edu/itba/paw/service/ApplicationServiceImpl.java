@@ -1,21 +1,18 @@
 package ar.edu.itba.paw.service;
 
 import ar.edu.itba.paw.model.exceptions.AuditionNotFoundException;
-import ar.edu.itba.paw.model.exceptions.NoPermissionsException;
+import ar.edu.itba.paw.model.exceptions.AuditionNotOwnedException;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.persistence.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.core.env.Environment;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import javax.mail.MessagingException;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.security.acl.NotOwnerException;
 import java.util.*;
 
 @Service
@@ -97,13 +94,19 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     private void setApplicationState(long auditionId, long applicantId, ApplicationState state) {
-        checkPermissions(auditionId);
+
+        Audition audition = auditionService.getAuditionById(auditionId).orElseThrow(AuditionNotFoundException::new);
+        User band = userService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(UserNotFoundException::new);
+        User applicant = userService.getUserById(applicantId).orElseThrow(UserNotFoundException::new);
+
+        if(audition.getBandId() != band.getId())
+            throw new AuditionNotOwnedException();
+
+        if(state.equals(ApplicationState.ACCEPTED)) {
+            mailingService.sendApplicationAcceptedEmail(band, audition, applicant.getEmail());
+        }
+
         applicationDao.setApplicationState(auditionId, applicantId, state);
     }
 
-    private void checkPermissions(long auditionId) {
-        if(auditionService.getAuditionById(auditionId).orElseThrow(AuditionNotFoundException::new).getBandId() !=
-                userService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(UserNotFoundException::new).getId())
-            throw new NoPermissionsException();
-    }
 }
