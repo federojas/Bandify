@@ -11,7 +11,7 @@
 </head>
 <body>
 <nav>
-    <div class="container nav-div">
+    <div class="nav-container nav-div">
         <a href="<c:url value="/"/>" class="logo-section">
             <spring:message code="img.alt.logo" var="bandify" />
             <img

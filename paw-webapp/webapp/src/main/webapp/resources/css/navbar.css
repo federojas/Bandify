@@ -8,31 +8,34 @@ nav {
   align-items: center !important;
   height: 80px !important;
 }
-.container {
+.nav-container {
   width: 100%;
 }
+.nav-container a{
+  font-size: 23px!important;
+}
 @media (min-width: 640px) {
-  .container {
+  .nav-container {
     max-width: 640px;
   }
 }
 @media (min-width: 768px) {
-  .container {
+  .nav-container{
     max-width: 768px;
   }
 }
 @media (min-width: 1024px) {
-  .container {
+  .nav-container {
     max-width: 1024px;
   }
 }
 @media (min-width: 1280px) {
-  .container {
+  .nav-container {
     max-width: 1280px;
   }
 }
 @media (min-width: 1536px) {
-  .container {
+  .nav-container {
     max-width: 1536px;
   }
 }
@@ -95,7 +98,9 @@ body {
 #mobile-menu > ul > li {
   margin: 0 0.5rem;
 }
-
+nav a{
+  font-size: 23px!important;
+}
 .purple-login-button {
   display: flex;
   align-items: center;
