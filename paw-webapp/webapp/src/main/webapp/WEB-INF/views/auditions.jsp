@@ -6,9 +6,15 @@ prefix="spring" uri="http://www.springframework.org/tags"%>
   <head>
     <title><spring:message code="title.auditions"/></title>
     <c:import url="../config/generalHead.jsp" />
+    <c:import url="../config/materializeHead.jsp" />
     <link rel="stylesheet" href="<c:url value="/resources/css/welcome.css" />" />
     <link rel="stylesheet" href="<c:url value="/resources/css/auditions.css" />" />
     <script src="<c:url value="/resources/js/pagination.js" />"></script>
+    <script>
+      $(document).ready(function(){
+        $('.parallax').parallax();
+      });
+    </script>
   </head>
   <body>
 
@@ -19,16 +25,23 @@ prefix="spring" uri="http://www.springframework.org/tags"%>
     </jsp:include>
 
     <div>
+      <div class="parallax-container">
+        <div class="parallax"><img src="<c:url value="/resources/images/parallax3.png" />"/></div>
+        <div class="ml-10 mt-10 flex flex-col justify-between">
+          <h2 id="posts">
+            <spring:message code="welcome.auditionsSection" />
+          </h2>
+          <jsp:include page="../components/searchBar.jsp">
+            <jsp:param name="name" value="Bandify" />
+          </jsp:include>
+        </div>
+      </div>
     <!-- Auditions content -->
       <div class="auditions-content">
-      <%--Publicaciones de audiciones--%>
-        <h2 id="posts">
-          <spring:message code="welcome.auditionsSection" />
-        </h2>
-        <jsp:include page="../components/searchBar.jsp">
-          <jsp:param name="name" value="Bandify" />
-        </jsp:include>
 
+        <h2 id="latest-title">
+          <spring:message code="auditions.latest"/>
+        </h2>
       <div class="posts">
         <c:if test="${auditionList.size() == 0}">
           <b><p  style="width: 100%; text-align: center">

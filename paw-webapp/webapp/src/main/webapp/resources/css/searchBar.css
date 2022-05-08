@@ -9,6 +9,15 @@
     padding: 10px;
 }
 
+#posts {
+    font-size: xxx-large;
+    font-weight: bold;
+    color: white;
+    text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
+    margin-bottom: 25px;
+    margin-left: 20px;
+}
+
 .search > input[type=text] {
     flex: 1;
     color: black;
@@ -53,6 +62,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    width: fit-content ;
     background-color: #ced7de;
     border-radius: 40px;
     padding-top: 25px;
