@@ -17,7 +17,7 @@ body {
     margin: 1rem;
 }
 
-#latest-title {
+.black-title {
     font-size: xxx-large;
     font-weight: bold;
     color: black;
