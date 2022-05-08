@@ -72,7 +72,7 @@
                         multiple="false"
                         id="location"
                 >
-                    <form:option value="" selected="true" disabled="disabled" hidden="true"><spring:message code="welcome.form.location.default"/></form:option>
+                    <form:option value="" selected="true" disabled="true"><spring:message code="welcome.form.location.default"/></form:option>
                     <c:forEach
                             var="location"
                             items="${locationList}"
@@ -117,7 +117,6 @@
             </div>
             <div class="end-button-div">
                 <spring:message code="button.cancel" var="cancel"/>
-                <input type="button" name="cancel" value="${cancel}" class="cancel-button" onclick="goBack()"/>
                 <button
                         type="submit"
                         value="submit"
@@ -126,6 +125,7 @@
                 >
                     <spring:message code="edit.postButton"/>
                 </button>
+                <input type="button" name="cancel" value="${cancel}" class="cancel-button" onclick="goBack()"/>
             </div>
         </form:form>
     </div>

@@ -308,7 +308,7 @@ public class AuditionsController {
 
     //TODO CODIGO REPETIDO
     @RequestMapping(value="/profile/editAudition/{id}", method = {RequestMethod.POST})
-    public ModelAndView postEditAudition(@Valid @ModelAttribute("auditionEditForm") final AuditionForm auditionEditForm,
+    public ModelAndView postEditAudition(@Valid @ModelAttribute("auditionForm") final AuditionForm auditionForm,
                                          final BindingResult errors, @PathVariable long id) {
 
         if(id < 0 || id > auditionService.getMaxAuditionId())
@@ -319,13 +319,13 @@ public class AuditionsController {
         User user = optionalUser.orElseThrow(UserNotFoundException::new);
 
         if(errors.hasErrors()) {
-            return newAudition(auditionEditForm);
+            return editAudition(auditionForm,id);
         }
 
-        auditionService.editAuditionById(auditionEditForm.toBuilder(user.getId()).
-                location(locationService.getLocationByName(auditionEditForm.getLocation()).orElseThrow(LocationNotFoundException::new)).
-                lookingFor(roleService.validateAndReturnRoles(auditionEditForm.getLookingFor())).
-                musicGenres(genreService.validateAndReturnGenres(auditionEditForm.getMusicGenres()))
+        auditionService.editAuditionById(auditionForm.toBuilder(user.getId()).
+                location(locationService.getLocationByName(auditionForm.getLocation()).orElseThrow(LocationNotFoundException::new)).
+                lookingFor(roleService.validateAndReturnRoles(auditionForm.getLookingFor())).
+                musicGenres(genreService.validateAndReturnGenres(auditionForm.getMusicGenres()))
         , id);
 
         String redirect = "redirect:/auditions/" + id;
