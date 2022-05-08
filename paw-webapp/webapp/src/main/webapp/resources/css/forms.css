@@ -91,7 +91,7 @@ body {
 
 .end-button-div {
     display: flex;
-    flex-direction: row-reverse;
+    justify-content: space-around;
     margin-top: 2rem;
 }
 
@@ -105,6 +105,18 @@ body {
 
 .purple-button:hover {
     background-color: #0369a1 !important;
+}
+
+.cancel-button {
+    padding: 0.5rem 1.25rem;
+    color: #ffffff;
+    font-weight: 500;
+    border-radius: 9999px;
+    background-color: #4AAABC !important;
+}
+
+.cancel-button:hover {
+    background-color: rgba(74, 170, 188, 0.65) !important;
 }
 
 #sumbitButton:disabled {

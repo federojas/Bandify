@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="<c:url value="/resources/css/profile.css" />"/>
     <script src="<c:url value="/resources/js/editProfile.js"/>"></script>
     <script src="<c:url value="/resources/js/matMultipleSelect.js"/>"></script>
+    <script src="<c:url value="/resources/js/editCancelButton.js"/>"></script>
 
 
 </head>
@@ -126,6 +127,8 @@
 
 
     <div class="end-button-div">
+        <spring:message code="button.cancel" var="cancel"/>
+        <input type="button" name="cancel" value="${cancel}" class="cancel-button" onclick="goBack()"/>
         <button
                 type="submit"
                 form="editUserForm"
