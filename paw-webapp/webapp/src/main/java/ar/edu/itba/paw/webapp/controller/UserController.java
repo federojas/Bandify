@@ -107,7 +107,7 @@ public class UserController {
 
         Set<Genre> preferredGenres = genreService.getUserGenres(user.getId());
         mav.addObject("preferredGenres", preferredGenres);
-        System.out.println(preferredGenres);
+
         Set<Role> roles = roleService.getUserRoles(user.getId());
         mav.addObject("roles", roles);
 

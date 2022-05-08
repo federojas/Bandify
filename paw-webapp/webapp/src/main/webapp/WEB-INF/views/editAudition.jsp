@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="<c:url value="/resources/css/alerts.css" />"/>
     <script type="text/javascript" src="<c:url value="/resources/js/alerts.js" />"></script>
     <script src="<c:url value="/resources/js/auditionForm.js" />"></script>
+    <script src="<c:url value="/resources/js/matMultipleSelect.js"/>"></script>
+
 </head>
 <body>
 <!-- Navbar -->
