@@ -78,7 +78,7 @@
                             items="${locationList}"
                             varStatus="loop"
                     >
-                        <form:option value="${location.name}">${location.name}</form:option>
+                        <form:option value="${location.name}"><c:out value="${location.name}"/></form:option>
                     </c:forEach>
                 </form:select>
                 <form:errors path="location" element="p" cssClass="error">
@@ -94,7 +94,7 @@
                     <form:option value="" disabled="true" selected="true"> <spring:message code="audition.form.musicGenres.maxSelect"/></form:option>
 
                     <c:forEach var="genre" items="${genreList}" varStatus="loop">
-                        <form:option value="${genre.name}">${genre.name}</form:option>
+                        <form:option value="${genre.name}"><c:out value="${genre.name}"/></form:option>
                     </c:forEach>
                 </form:select>
                 <form:errors path="musicGenres" element="p" cssClass="error">
@@ -109,7 +109,7 @@
                     <form:option value="" disabled="true" selected="true"> <spring:message code="audition.form.lookingFor.maxSelect"/></form:option>
 
                     <c:forEach var="role" items="${roleList}" varStatus="loop">
-                        <form:option value="${role.name}"> ${role.name} </form:option>
+                        <form:option value="${role.name}"><c:out value="${role.name}"/></form:option>
                     </c:forEach>
                 </form:select>
                 <form:errors path="lookingFor" element="p" cssClass="error">

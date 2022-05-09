@@ -30,7 +30,7 @@ public class ApplicationJdbcDao implements ApplicationDao {
             rs.getLong("auditionId"),
             rs.getLong("applicantId"),
             ApplicationState.valueOf(rs.getString("state")),
-            rs.getTimestamp("creationDate").toLocalDateTime()
+            rs.getTimestamp("appdate").toLocalDateTime()
             ).applicantName(rs.getString("name"))
              .applicantSurname(rs.getString("surname"))
              .auditionTitle(rs.getString("title"));
@@ -85,7 +85,7 @@ public class ApplicationJdbcDao implements ApplicationDao {
         applicationData.put("auditionId", applicationBuilder.getAuditionId());
         applicationData.put("applicantId", applicationBuilder.getApplicantId());
         applicationData.put("state", applicationBuilder.getState().getState().toUpperCase(Locale.ROOT));
-        applicationData.put("creationDate",  applicationBuilder.getCreationDate());
+        applicationData.put("creationdate",  applicationBuilder.getCreationDate());
         jdbcInsert.execute(applicationData);
         return applicationBuilder.build();
     }
@@ -100,10 +100,10 @@ public class ApplicationJdbcDao implements ApplicationDao {
 
     @Override
     public List<Application> getMyApplications(long applicantId, int page) {
-        String query = "SELECT auditionId,applicantId,state,name,surname,title FROM applications" +
+        String query = "SELECT auditionId,applicantId,state,name,surname,title,applications.creationdate AS appdate FROM applications" +
                 " JOIN users ON applications.applicantId = users.id" +
                 " JOIN auditions ON applications.auditionId = auditions.id" +
-                " WHERE applicantId = ? ORDER BY creationdate DESC LIMIT ? OFFSET ?";
+                " WHERE applicantId = ? ORDER BY appdate DESC LIMIT ? OFFSET ?";
         List<Application.ApplicationBuilder> list = jdbcTemplate.query(query,new Object[]{applicantId, PAGE_SIZE, (page -1) * PAGE_SIZE},APPLICATION_ROW_MAPPER);
         return list.stream().map(Application.ApplicationBuilder::build).collect(Collectors.toList());
     }
@@ -127,10 +127,10 @@ public class ApplicationJdbcDao implements ApplicationDao {
 
     @Override
     public List<Application> getMyApplicationsFiltered(long applicantId, int page, ApplicationState state) {
-        String query = "SELECT auditionId,applicantId,state,name,surname,title FROM applications" +
+        String query = "SELECT auditionId,applicantId,state,name,surname,title,applications.creationdate AS appdate FROM applications" +
                 " JOIN users ON applications.applicantId = users.id" +
                 " JOIN auditions ON applications.auditionId = auditions.id" +
-                " WHERE applicantId = ? AND state = ? ORDER BY creationdate DESC LIMIT ? OFFSET ?";
+                " WHERE applicantId = ? AND state = ? ORDER BY appdate DESC LIMIT ? OFFSET ?";
         List<Application.ApplicationBuilder> list = jdbcTemplate.query(query,new Object[]{applicantId, state.getState(), PAGE_SIZE, (page -1) * PAGE_SIZE},APPLICATION_ROW_MAPPER);
         return list.stream().map(Application.ApplicationBuilder::build).collect(Collectors.toList());
     }
