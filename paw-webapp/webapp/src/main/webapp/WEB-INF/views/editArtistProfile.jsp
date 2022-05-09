@@ -24,9 +24,8 @@
     <jsp:param name="navItem" value="${6}"/>
     <jsp:param name="name" value="Bandify"/>
 </jsp:include>
-
 <h1 class="editProfile-title"><spring:message code="edituser.title" /></h1>
-<div class="editProfile-box">
+<div class="editProfile-box"id="form">
     <c:url value="/profile/editArtist" var="editProfileUrl"/>
 
     <%--@elvariable id="artistEditForm" type="ar.edu.itba.paw.webapp.form.ArtistEditForm"--%>
@@ -129,6 +128,7 @@
                 form="artistEditForm"
                 value="submit"
                 class="purple-button"
+                onclick="debug()"
         >
             <spring:message code="edituser.saveChangesBtn"/>
         </button>

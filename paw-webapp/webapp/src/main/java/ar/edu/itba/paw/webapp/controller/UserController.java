@@ -152,13 +152,13 @@ public class UserController {
 
     @RequestMapping(value = "/profile/editArtist", method = {RequestMethod.GET})
     public ModelAndView editProfile(@ModelAttribute("artistEditForm") final ArtistEditForm artistEditForm) {
-        ModelAndView mav = new ModelAndView("/editArtistProfile");
+        ModelAndView mav = new ModelAndView("editArtistProfile");
         return initializeEditProfile(mav,artistEditForm);
     }
 
     @RequestMapping(value = "/profile/editBand", method = {RequestMethod.GET})
     public ModelAndView editProfile(@ModelAttribute("bandEditForm") final BandEditForm bandEditForm) {
-        ModelAndView mav = new ModelAndView("/editBandProfile");
+        ModelAndView mav = new ModelAndView("editBandProfile");
         return initializeEditProfile(mav,bandEditForm);
     }
 

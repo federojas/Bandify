@@ -2,7 +2,6 @@ $(document).ready(function () {
     $('select').material_select();
 
     $(".select-wrapper").each(function () {
-        console.log("aca")
         var wrapper = this;
         $(this).find("ul>li").each(function () {
             var li = this;
@@ -29,8 +28,6 @@ $(document).ready(function () {
                         $(this).attr("selected", selected);
                     }
                 })
-
-
             });
 
         });
@@ -38,4 +35,5 @@ $(document).ready(function () {
 
     });
 
+    $(".editProfile-title").click();
 });
