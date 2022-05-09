@@ -186,7 +186,8 @@ public class UserController {
         if (errors.hasErrors()) {
             return editProfile(artistEditForm);
         }
-
+        System.out.println("MIRA ACA");
+        System.out.println(artistEditForm.getLookingFor());
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> optionalUser = userService.findByEmail(auth.getName());
         User user = optionalUser.orElseThrow(UserNotFoundException::new);
@@ -195,7 +196,7 @@ public class UserController {
                artistEditForm.getMusicGenres(), artistEditForm.getLookingFor(),
                artistEditForm.getProfileImage().getBytes());
 
-        return profile();
+        return new ModelAndView("redirect:/profile");
     }
 
     @RequestMapping(value = "/profile/editBand", method = {RequestMethod.POST})
@@ -214,7 +215,7 @@ public class UserController {
                 bandEditForm.getMusicGenres(), bandEditForm.getLookingFor(),
                 bandEditForm.getProfileImage().getBytes());
 
-        return profile();
+        return new ModelAndView("redirect:/profile");
     }
 
     @RequestMapping(value = "/verify")

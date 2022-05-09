@@ -60,7 +60,7 @@
                     <sec:authorize access="hasRole('ARTIST')">
                     <div class="edit-div">
 
-                        <a href="<c:url value="/profile/editArtist#form" />">
+                        <a href="<c:url value="/profile/editArtist" />">
                             <button class="edit-btn hover: shadow-sm">
                                 <spring:message code="profile.edit.alt" var="edit"/>
 
@@ -77,7 +77,7 @@
                     <sec:authorize access="hasRole('BAND')">
                         <div class="edit-div">
 
-                            <a href="<c:url value="/profile/editBand#form" />">
+                            <a href="<c:url value="/profile/editBand" />">
                                 <button class="edit-btn hover: shadow-sm">
                                     <spring:message code="profile.edit.alt" var="edit"/>
 

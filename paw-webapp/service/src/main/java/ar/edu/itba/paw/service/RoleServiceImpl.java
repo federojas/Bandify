@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -49,8 +50,10 @@ public class RoleServiceImpl implements RoleService {
     @Transactional
     @Override
     public void updateUserRoles(List<String> rolesNames, long userId) {
-        if(rolesNames == null || rolesNames.isEmpty())
+        if(rolesNames == null) {
+            roleDao.updateUserRoles(null, userId);
             return;
+        }
         Set<Role> newRoles = validateAndReturnRoles(rolesNames);
         roleDao.updateUserRoles(newRoles, userId);
     }

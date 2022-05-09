@@ -82,3 +82,9 @@ body {
     margin-left: 1rem;
     margin-right: 1rem;
 }
+
+.no-applications {
+    text-align: center;
+    margin: 1rem 0;
+    font-size: large;
+}
