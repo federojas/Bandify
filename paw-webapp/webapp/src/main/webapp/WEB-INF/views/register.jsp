@@ -44,11 +44,6 @@
                     </c:otherwise>
                 </c:choose>
             </div>
-            <c:if test="${userEmailAlreadyExists}">
-                <div style="color: red;">
-                    <spring:message code="register.duplicated_email"/>
-                </div>
-            </c:if>
         </div>
 
         <c:if test="${!isBand}">

@@ -1,10 +1,11 @@
 package ar.edu.itba.paw.webapp.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
-
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
@@ -39,12 +40,14 @@ public class ErrorController {
         }
     }
 
+    private int getErrorCode(HttpServletRequest httpRequest) {
+        return (Integer) httpRequest.getAttribute("javax.servlet.error.status_code");
+    }
+
+    @ResponseStatus(HttpStatus.FORBIDDEN)
     @RequestMapping(value ="403")
     public ModelAndView accessDenied() {
         return new ModelAndView("errors/403");
     }
 
-    private int getErrorCode(HttpServletRequest httpRequest) {
-        return (Integer) httpRequest.getAttribute("javax.servlet.error.status_code");
-    }
 }

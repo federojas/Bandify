@@ -1,17 +1,14 @@
 package ar.edu.itba.paw.service;
+
 import ar.edu.itba.paw.persistence.TokenType;
 import ar.edu.itba.paw.persistence.User;
 import ar.edu.itba.paw.persistence.VerificationToken;
 import ar.edu.itba.paw.model.exceptions.DuplicateUserException;
-import ar.edu.itba.paw.model.exceptions.EmailNotFoundException;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.persistence.UserDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,10 +17,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.mail.MessagingException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.*;
 
 @Service

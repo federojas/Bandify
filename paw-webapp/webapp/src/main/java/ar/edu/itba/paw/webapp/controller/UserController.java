@@ -50,14 +50,12 @@ public class UserController {
         this.applicationService = applicationService;
     }
 
-    @RequestMapping(value = {"/register","/registerBand", "/registerArtist"},
-            method = {RequestMethod.GET})
+    @RequestMapping(value = {"/register","/registerBand", "/registerArtist"}, method = {RequestMethod.GET})
     public ModelAndView registerView(@ModelAttribute("userBandForm") final UserBandForm userBandForm,
                                      @ModelAttribute("userArtistForm") final UserArtistForm userArtistForm,
                                      boolean isBand) {
         ModelAndView mav = new ModelAndView("register");
         mav.addObject("isBand", isBand);
-        mav.addObject("userEmailAlreadyExists", false);
         return mav;
     }
 
@@ -226,7 +224,6 @@ public class UserController {
                                       final ResetPasswordForm resetPasswordForm) {
 
         ModelAndView mav = new ModelAndView("resetPassword");
-        mav.addObject("emailNotFound", false);
         return mav;
     }
 
@@ -240,7 +237,6 @@ public class UserController {
         userService.sendResetEmail(resetPasswordForm.getEmail());
         ModelAndView mav = new ModelAndView("resetPassword");
         mav.addObject("resetPasswordForm",resetPasswordForm);
-        mav.addObject("emailNotFound", false);
         return resetEmailSent(resetPasswordForm.getEmail());
     }
 
