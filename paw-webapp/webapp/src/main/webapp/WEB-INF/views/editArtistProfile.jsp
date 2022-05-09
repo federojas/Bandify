@@ -27,11 +27,11 @@
 
 <h1 class="editProfile-title"><spring:message code="edituser.title" /></h1>
 <div class="editProfile-box">
-    <c:url value="/profile/edit" var="editProfileUrl"/>
+    <c:url value="/profile/editArtist" var="editProfileUrl"/>
 
-    <%--@elvariable id="editUserForm" type="ar.edu.itba.paw.webapp.form.UserEditForm"--%>
-    <form:form method="post" acceptCharset="utf-8" modelAttribute="userEditForm"
-               action="${editProfileUrl}" id="editUserForm" enctype="multipart/form-data">
+    <%--@elvariable id="artistEditForm" type="ar.edu.itba.paw.webapp.form.ArtistEditForm"--%>
+    <form:form method="post" acceptCharset="utf-8" modelAttribute="artistEditForm"
+               action="${editProfileUrl}" id="artistEditForm" enctype="multipart/form-data">
         <div>
             <form:label class="form-label" path="name">
                 <spring:message code="register.form.name"/>
@@ -44,7 +44,6 @@
                     code="register.form.invalidName"/></p>
 
         </div>
-        <sec:authorize access="hasRole('ARTIST')">
             <div id="surname-div">
                 <form:label class="form-label" path="surname">
                     <spring:message code="register.form.surname"/>
@@ -54,11 +53,8 @@
                             class="form-input"
                             path="surname"/>
                 <form:errors path="surname" element="p" cssClass="error"> </form:errors>
-                <p class="error" id="wrongArtistSurname" style="display: none"><spring:message
-                        code="register.form.invalidSurname"/></p>
+                <p class="error" id="wrongArtistSurname" style="display: none"><spring:message code="register.form.invalidSurname"/></p>
             </div>
-        </sec:authorize>
-
         <div>
             <form:label class="form-label" path="profileImage" >
                 <spring:message code="editProfile.form.image"/>
@@ -98,7 +94,7 @@
                 <form:option value="" disabled="true" selected="true"><spring:message code="audition.form.musicGenres.maxSelect"/></form:option>
 
                 <c:forEach var="genre" items="${genreList}" varStatus="loop">
-                        <form:option value="${genre.name}"><c:out value="${genre.name}"/></form:option>
+                    <form:option value="${genre.name}"><c:out value="${genre.name}"/></form:option>
                 </c:forEach>
 
 
@@ -130,7 +126,7 @@
         <spring:message code="button.cancel" var="cancel"/>
         <button
                 type="submit"
-                form="editUserForm"
+                form="artistEditForm"
                 value="submit"
                 class="purple-button"
         >

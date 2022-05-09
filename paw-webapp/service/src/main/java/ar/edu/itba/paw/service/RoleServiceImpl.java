@@ -46,6 +46,8 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public void updateUserRoles(List<String> rolesNames, long userId) {
+        if(rolesNames == null || rolesNames.isEmpty())
+            return;
         Set<Role> newRoles = validateAndReturnRoles(rolesNames);
         roleDao.updateUserRoles(newRoles, userId);
     }

@@ -8,9 +8,11 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -144,52 +146,73 @@ public class UserController {
         IOUtils.copy(stream, response.getOutputStream());
     }
 
-    //TODO: MODULARIZAR CODIGO REPETIDO EN AUTH USER
-    @RequestMapping(value = "/profile/edit", method = {RequestMethod.GET})
-    public ModelAndView editProfile(@ModelAttribute("userEditForm") final UserEditForm userEditForm) {
-        ModelAndView mav = new ModelAndView("views/editProfile");
+    @PreAuthorize("hasRole('ARTIST')")
+    @RequestMapping(value = "/profile/editArtist", method = {RequestMethod.GET})
+    public ModelAndView editProfile(@ModelAttribute("artistEditForm") final ArtistEditForm artistEditForm) {
+        ModelAndView mav = new ModelAndView("/views/editArtistProfile");
+        return initializeEditProfile(mav,artistEditForm);
+    }
+
+    @PreAuthorize("hasRole('BAND')")
+    @RequestMapping(value = "/profile/editBand", method = {RequestMethod.GET})
+    public ModelAndView editProfile(@ModelAttribute("bandEditForm") final BandEditForm bandEditForm) {
+        ModelAndView mav = new ModelAndView("/views/editBandProfile");
+        return initializeEditProfile(mav,bandEditForm);
+    }
+
+    private ModelAndView initializeEditProfile(ModelAndView mav, UserEditForm editForm ) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> optionalUser = userService.findByEmail(auth.getName());
         User user = optionalUser.orElseThrow(UserNotFoundException::new);
-
         Set<Role> roleList = roleService.getAll();
         Set<Genre> genreList = genreService.getAll();
         Set<Role> userRoles = roleService.getUserRoles(user.getId());
         Set<Genre> userGenres = genreService.getUserGenres(user.getId());
-
-        mav.addObject("user", user);
-        userEditForm.setName(user.getName());
-        userEditForm.setSurname(user.getSurname());
-        userEditForm.setDescription(user.getDescription());
-
         List<String> selectedRoles = userRoles.stream().map(Role::getName).collect(Collectors.toList());
-        userEditForm.setLookingFor(selectedRoles);
         List<String> selectedGenres = userGenres.stream().map(Genre::getName).collect(Collectors.toList());
-        userEditForm.setMusicGenres(selectedGenres);
-
+        editForm.initialize(user,selectedGenres,selectedRoles);
+        mav.addObject("user", user);
         mav.addObject("roleList", roleList);
         mav.addObject("genreList", genreList);
-
         return mav;
     }
 
-    @RequestMapping(value = "/profile/edit", method = {RequestMethod.POST})
-    public ModelAndView postEditProfile(@Valid @ModelAttribute("userEditForm") final UserEditForm userEditForm,
+    @RequestMapping(value = "/profile/editArtist", method = {RequestMethod.POST})
+    public ModelAndView postEditProfile(@Valid @ModelAttribute("artistEditForm")
+                                        final ArtistEditForm artistEditForm,
                                         final BindingResult errors) {
         if (errors.hasErrors()) {
-            return editProfile(userEditForm);
+            return editProfile(artistEditForm);
         }
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> optionalUser = userService.findByEmail(auth.getName());
         User user = optionalUser.orElseThrow(UserNotFoundException::new);
 
-        userService.editUser(user.getId(), userEditForm.getName(), userEditForm.getSurname(), userEditForm.getDescription(),
-                userEditForm.getMusicGenres(), userEditForm.getLookingFor(),
-                userEditForm.getProfileImage().getBytes());
+       userService.editUser(user.getId(), artistEditForm.getName(), artistEditForm.getSurname(), artistEditForm.getDescription(),
+               artistEditForm.getMusicGenres(), artistEditForm.getLookingFor(),
+               artistEditForm.getProfileImage().getBytes());
 
         return profile();
+    }
 
+    @RequestMapping(value = "/profile/editBand", method = {RequestMethod.POST})
+    public ModelAndView postEditProfile(@Valid @ModelAttribute("bandEditForm")
+                                        final BandEditForm bandEditForm,
+                                        final BindingResult errors) {
+        if (errors.hasErrors()) {
+            return editProfile(bandEditForm);
+        }
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> optionalUser = userService.findByEmail(auth.getName());
+        User user = optionalUser.orElseThrow(UserNotFoundException::new);
+
+        userService.editUser(user.getId(), bandEditForm.getName(),null, bandEditForm.getDescription(),
+                bandEditForm.getMusicGenres(), bandEditForm.getLookingFor(),
+                bandEditForm.getProfileImage().getBytes());
+
+        return profile();
     }
 
     @RequestMapping(value = "/verify")

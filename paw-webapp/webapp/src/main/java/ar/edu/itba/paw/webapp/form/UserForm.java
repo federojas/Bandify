@@ -6,7 +6,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class UserForm {
+public abstract class UserForm {
 
     @Email
     @NotBlank

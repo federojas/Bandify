@@ -50,6 +50,8 @@ public class GenreServiceImpl implements GenreService{
 
     @Override
     public void updateUserGenres(List<String> genresNames, long userId) {
+        if(genresNames == null || genresNames.isEmpty())
+            return;
         Set<Genre> newGenres = validateAndReturnGenres(genresNames);
         genreDao.updateUserGenres(newGenres, userId);
     }

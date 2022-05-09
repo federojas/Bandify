@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.webapp.form;
 
+import ar.edu.itba.paw.persistence.User;
 import ar.edu.itba.paw.webapp.form.constraints.annotations.ImageType;
 import ar.edu.itba.paw.webapp.form.constraints.annotations.MaxFileSize;
 import org.hibernate.validator.constraints.NotBlank;
@@ -10,30 +11,26 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import javax.validation.constraints.Size;
 import java.util.List;
 
-public class UserEditForm {
+public abstract class UserEditForm {
 
     @NotBlank
     @Size(max = 50)
     private String name;
 
-    @Size(max = 50)
-    private String surname;
-
-    @NotBlank
     @Size(max = 500)
     private String description;
 
-    @NotEmpty
-    @Size(max = 5)
+    @Size(max = 30)
     private List<String> musicGenres;
 
-    @NotEmpty
-    @Size(max = 5)
+    @Size(max = 30)
     private List<String> lookingFor;
 
     @MaxFileSize(8) //mb
     @ImageType(types = {"image/png", "image/jpeg"})
     private CommonsMultipartFile profileImage;
+
+    private boolean isBand;
 
     public CommonsMultipartFile getProfileImage() {
         return profileImage;
@@ -49,14 +46,6 @@ public class UserEditForm {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
     }
 
     public String getDescription() {
@@ -81,5 +70,21 @@ public class UserEditForm {
 
     public void setLookingFor(List<String> lookingFor) {
         this.lookingFor = lookingFor;
+    }
+
+    public boolean isBand() {
+        return isBand;
+    }
+
+    public void setBand(boolean band) {
+        isBand = band;
+    }
+
+    public void initialize(User user, List<String> musicGenres, List<String> bandRoles) {
+        this.setMusicGenres(musicGenres);
+        this.setLookingFor(bandRoles);
+        this.setDescription(user.getDescription());
+        this.setName(user.getName());
+        this.setBand(user.isBand());
     }
 }
