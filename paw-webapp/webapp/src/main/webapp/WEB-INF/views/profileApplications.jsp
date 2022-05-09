@@ -29,15 +29,16 @@
     <div class="user-data">
         <form action="<c:url value="/profile/applications" />" method="get" class="filter-applications-form">
             <div class="filter-applications">
-                <label>
-<%--                    <spring:message code="applications.see"/>--%>
-                    <select name="state">
-                        <option value=""><spring:message code="applications.all"/></option>
-                        <option value="Pending"><spring:message code="applications.pending"/></option>
-                        <option value="Accepted"><spring:message code="applications.accepted"/></option>
-                        <option value="Rejected"><spring:message code="applications.rejected"/></option>
-                    </select>
-                </label>
+
+                    <div>
+                        <label for="postulation"><spring:message code="applications.see"/></label>
+                        <select id="postulation" name="state">
+                            <option value=""><spring:message code="applications.all"/></option>
+                            <option value="Pending"><spring:message code="applications.pending"/></option>
+                            <option value="Accepted"><spring:message code="applications.accepted"/></option>
+                            <option value="Rejected"><spring:message code="applications.rejected"/></option>
+                        </select>
+                    </div>
                 <button type="submit" class="filter-applications-button"><spring:message code="applications.see"/></button>
             </div>
         </form>
