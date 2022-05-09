@@ -62,7 +62,7 @@
             <form:label class="form-label" path="description">
                 <spring:message code="edituser.form.description"/>
             </form:label>
-            <spring:message code="edituser.form.descriptionplaceholder" var="descriptionplaceholder"/>
+            <spring:message code="edituser.form.bandDescriptionplaceholder" var="descriptionplaceholder"/>
             <form:textarea type="text" id="artistDescription" maxlength="500" placeholder="${descriptionplaceholder}"
                            class="form-input-application"
                            path="description"/>
@@ -74,7 +74,7 @@
 
         <div class="select-div">
             <form:label class="form-label" path="musicGenres">
-                <spring:message code="welcome.form.musicGenres"/>
+                <spring:message code="profile.bandGenres"/>
             </form:label>
             <form:select
                     class="multiple-select"
@@ -93,7 +93,7 @@
             </form:errors>
         </div>
         <div class="select-div">
-            <form:label class="form-label" for="lookingFor" path="lookingFor"> <spring:message code="welcome.form.lookingFor"/> </form:label>
+            <form:label class="form-label" for="lookingFor" path="lookingFor"> <spring:message code="profile.bandRoles"/> </form:label>
             <form:select
                     class="multiple-select"
                     path="lookingFor"

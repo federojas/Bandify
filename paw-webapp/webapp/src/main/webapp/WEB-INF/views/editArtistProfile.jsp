@@ -84,7 +84,7 @@
 
         <div class="select-div">
             <form:label class="form-label" path="musicGenres">
-                <spring:message code="welcome.form.musicGenres"/>
+                <spring:message code="profile.userGenres"/>
             </form:label>
             <form:select
                     class="multiple-select"
@@ -103,7 +103,7 @@
             </form:errors>
         </div>
         <div class="select-div">
-            <form:label class="form-label" for="lookingFor" path="lookingFor"> <spring:message code="welcome.form.lookingFor"/> </form:label>
+            <form:label class="form-label" for="lookingFor" path="lookingFor"> <spring:message code="profile.userRoles"/> </form:label>
             <form:select
                     class="multiple-select"
                     path="lookingFor"
