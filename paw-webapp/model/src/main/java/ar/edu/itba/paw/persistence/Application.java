@@ -1,5 +1,8 @@
 package ar.edu.itba.paw.persistence;
 
+import java.time.LocalDateTime;
+import java.util.Objects;
+
 public class Application {
     private final long auditionId;
     private final long applicantId;
@@ -7,6 +10,20 @@ public class Application {
     private final String applicantSurname;
     private final ApplicationState state;
     private final String auditionTitle;
+    private LocalDateTime creationDate;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Application that = (Application) o;
+        return getAuditionId() == that.getAuditionId() && getApplicantId() == that.getApplicantId() && Objects.equals(getApplicantName(), that.getApplicantName()) && Objects.equals(getApplicantSurname(), that.getApplicantSurname()) && getState() == that.getState() && Objects.equals(getAuditionTitle(), that.getAuditionTitle()) && Objects.equals(getCreationDate(), that.getCreationDate());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getAuditionId(), getApplicantId(), getApplicantName(), getApplicantSurname(), getState(), getAuditionTitle(), getCreationDate());
+    }
 
     private Application(ApplicationBuilder builder) {
         this.auditionId = builder.auditionId;
@@ -15,6 +32,8 @@ public class Application {
         this.applicantSurname = builder.applicantSurname;
         this.state = builder.state;
         this.auditionTitle = builder.auditionTitle;
+        this.creationDate = builder.creationDate;
+
     }
 
     public long getAuditionId() {
@@ -41,6 +60,10 @@ public class Application {
         return auditionTitle;
     }
 
+    public LocalDateTime getCreationDate() {
+        return creationDate;
+    }
+
     public static class ApplicationBuilder {
         private final long auditionId;
         private final long applicantId;
@@ -48,11 +71,13 @@ public class Application {
         private String applicantSurname;
         private final ApplicationState state;
         private String auditionTitle;
+        private LocalDateTime creationDate;
 
-        public ApplicationBuilder(long auditionId, long applicantId, ApplicationState state) {
+        public ApplicationBuilder(long auditionId, long applicantId, ApplicationState state, LocalDateTime creationDate) {
             this.auditionId = auditionId;
             this.applicantId = applicantId;
             this.state = state;
+            this.creationDate = creationDate;
         }
 
         public ApplicationBuilder applicantName(String applicantName) {
@@ -68,6 +93,10 @@ public class Application {
         public ApplicationBuilder auditionTitle(String auditionTitle) {
             this.auditionTitle = auditionTitle;
             return this;
+        }
+
+        public LocalDateTime getCreationDate() {
+            return creationDate;
         }
 
         public long getAuditionId() {

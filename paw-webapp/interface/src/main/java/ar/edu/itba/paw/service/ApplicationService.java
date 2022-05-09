@@ -8,12 +8,6 @@ import java.util.List;
 
 public interface ApplicationService {
 
-    List<Application> getAllApplications(long bandId);
-
-    List<Application> getApplicationsByState(long bandId, ApplicationState state);
-
-    List<Application> getAuditionApplications(long auditionId);
-
     List<Application> getAuditionApplicationsByState(long auditionId, ApplicationState state);
 
     boolean apply(long auditionId, User user, String message);
@@ -25,5 +19,9 @@ public interface ApplicationService {
     List<Application> getMyApplications(long applicantId, int page);
 
     int getTotalUserApplicationPages(long userId);
+
+    int getTotalUserApplicationPagesFiltered(long userId, ApplicationState state);
+
+    List<Application> getMyApplicationsFiltered(long applicantId, int page, ApplicationState state);
 
 }

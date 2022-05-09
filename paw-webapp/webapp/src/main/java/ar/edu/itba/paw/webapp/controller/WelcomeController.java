@@ -8,11 +8,11 @@ public class WelcomeController {
 
     @RequestMapping(value = "/welcome", method = {RequestMethod.GET})
     public static ModelAndView welcome() {
-        return new ModelAndView("views/welcome");
+        return new ModelAndView("welcome");
     }
     @RequestMapping(value = "/aboutUs", method = {RequestMethod.GET})
     public static ModelAndView aboutUs() {
-        return new ModelAndView("views/aboutUs");
+        return new ModelAndView("aboutUs");
     }
 
 }

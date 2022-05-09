@@ -39,7 +39,7 @@ prefix="spring" uri="http://www.springframework.org/tags"%>
     <!-- Auditions content -->
       <div class="auditions-content">
 
-        <h2 id="latest-title">
+        <h2 class="black-title">
           <spring:message code="auditions.latest"/>
         </h2>
       <div class="posts">
@@ -62,7 +62,7 @@ prefix="spring" uri="http://www.springframework.org/tags"%>
             scope="request"
           />
           <jsp:include page="../components/postCard.jsp">
-            <jsp:param name="userName" value="${userMap[audition.id]}"/>
+            <jsp:param name="userName" value="${audition.bandName}"/>
             <jsp:param name="userId" value="${audition.bandId}"/>
             <jsp:param name="id" value="${audition.id}" />
             <jsp:param name="postCard" value="${1}" />

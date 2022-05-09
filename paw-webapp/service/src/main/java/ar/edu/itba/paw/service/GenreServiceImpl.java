@@ -1,13 +1,14 @@
 package ar.edu.itba.paw.service;
 
-import ar.edu.itba.paw.model.exceptions.RoleNotFoundException;
 import ar.edu.itba.paw.persistence.Genre;
 import ar.edu.itba.paw.model.exceptions.GenreNotFoundException;
 import ar.edu.itba.paw.persistence.GenreDao;
-import ar.edu.itba.paw.persistence.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -48,8 +49,13 @@ public class GenreServiceImpl implements GenreService{
         return genreDao.getUserGenres(userId);
     }
 
+    @Transactional
     @Override
     public void updateUserGenres(List<String> genresNames, long userId) {
+        if(genresNames == null) {
+            genreDao.updateUserGenres(null, userId);
+            return;
+        }
         Set<Genre> newGenres = validateAndReturnGenres(genresNames);
         genreDao.updateUserGenres(newGenres, userId);
     }

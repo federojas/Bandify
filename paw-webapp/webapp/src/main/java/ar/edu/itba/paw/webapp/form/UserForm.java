@@ -1,15 +1,19 @@
 package ar.edu.itba.paw.webapp.form;
 
+import ar.edu.itba.paw.webapp.form.constraints.annotations.FieldsMatch;
+import ar.edu.itba.paw.webapp.form.constraints.annotations.NotDuplicatedEmail;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class UserForm {
+@FieldsMatch(field = "password", secondField = "passwordConfirmation")
+public abstract class UserForm {
 
     @Email
     @NotBlank
+    @NotDuplicatedEmail
     private String email;
 
     @Size(min = 8, max = 25)
@@ -39,7 +43,6 @@ public class UserForm {
 
     public void setPassword(String password) {
         this.password = password;
-        checkConfirmPassword();
     }
 
     public String getName() {
@@ -64,12 +67,6 @@ public class UserForm {
 
     public void setPasswordConfirmation(String passwordConfirmation) {
         this.passwordConfirmation = passwordConfirmation;
-        checkConfirmPassword();
     }
 
-    private void checkConfirmPassword() {
-        if(!this.password.equals(passwordConfirmation)){
-            this.passwordConfirmation = null;
-        }
-    }
 }

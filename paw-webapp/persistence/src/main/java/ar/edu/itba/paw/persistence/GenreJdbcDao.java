@@ -67,13 +67,15 @@ public class GenreJdbcDao implements GenreDao {
 
     @Override
     public void updateUserGenres(Set<Genre> newGenres, long userId) {
-        jdbcTemplate.update("DELETE FROM userGenres WHERE userId = ?", new Object[] {userId});
-        final Map<String, Object> userGenreData = new HashMap<>();
-        userGenreData.put("userId", userId);
-        userGenreData.put("genreId", 0);
-        for(Genre genre : newGenres) {
-            userGenreData.replace("genreId", genre.getId());
-            jdbcUserGenreInsert.execute(userGenreData);
+        jdbcTemplate.update("DELETE FROM userGenres WHERE userId = ?", new Object[]{userId});
+        if(newGenres != null) {
+            final Map<String, Object> userGenreData = new HashMap<>();
+            userGenreData.put("userId", userId);
+            userGenreData.put("genreId", 0);
+            for (Genre genre : newGenres) {
+                userGenreData.replace("genreId", genre.getId());
+                jdbcUserGenreInsert.execute(userGenreData);
+            }
         }
     }
 }

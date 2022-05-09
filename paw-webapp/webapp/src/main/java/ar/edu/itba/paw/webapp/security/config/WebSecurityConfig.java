@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -15,7 +14,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
 import java.util.concurrent.TimeUnit;
 
 
@@ -31,15 +29,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-    /*
-    @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
-
-     */
 
     @Autowired
     private Environment environment;
@@ -57,8 +46,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().authorizeRequests()
                     .antMatchers( "/welcome","/register","/registerBand","/registerArtist","/verify",
                                  "/resetPassword","/aboutUs","/newPassword","/login").anonymous()
-                    .antMatchers("/apply", "/profile/applications").hasRole("ARTIST")
-                    .antMatchers("/newAudition", "/profile/auditions", "/profile/editAudition/{\\d+}", "/profile/deleteAudition/{\\d+}").hasRole("BAND")
+                    .antMatchers("/apply", "/profile/applications","/editArtist").hasRole("ARTIST")
+                    .antMatchers("/newAudition", "/profile/auditions", "/profile/editAudition/{\\d+}", "/profile/deleteAudition/{\\d+}","/editBand").hasRole("BAND")
                     .antMatchers("/profile/**","/auditions/{\\d+}").authenticated()
                     .antMatchers("/auditions","/search", "/", "/user/{\\d+}","/user/{\\d+}/profile-image").permitAll()
                 .and().formLogin()

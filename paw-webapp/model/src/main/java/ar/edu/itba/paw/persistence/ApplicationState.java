@@ -1,9 +1,9 @@
 package ar.edu.itba.paw.persistence;
 
 public enum ApplicationState {
-    ACCEPTED("Accepted"),
-    REJECTED("Rejected"),
-    PENDING("Pending");
+    ACCEPTED("ACCEPTED"),
+    REJECTED("REJECTED"),
+    PENDING("PENDING");
 
     private String state;
 
@@ -14,4 +14,6 @@ public enum ApplicationState {
     public String getState() {
         return state;
     }
+
+
 }

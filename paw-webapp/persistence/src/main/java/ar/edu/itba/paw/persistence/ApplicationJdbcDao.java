@@ -5,8 +5,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-
 import javax.sql.DataSource;
+import java.sql.Timestamp;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -30,51 +30,21 @@ public class ApplicationJdbcDao implements ApplicationDao {
             (rs, i) -> new Application.ApplicationBuilder(
             rs.getLong("auditionId"),
             rs.getLong("applicantId"),
-            ApplicationState.valueOf(rs.getString("state"))
+            ApplicationState.valueOf(rs.getString("state")),
+            rs.getTimestamp("appdate").toLocalDateTime()
             ).applicantName(rs.getString("name"))
              .applicantSurname(rs.getString("surname"))
              .auditionTitle(rs.getString("title"));
 
-    private final static RowMapper<Boolean> EXISTS_ROW_MAPPER = ((resultSet, i) -> resultSet.getBoolean("exists"));
-
-    private final String GET_APPLICATION_QUERY = "SELECT auditionId,applicantId,state,name,surname,title FROM applications" +
-            " JOIN users ON applications.applicantId = users.id" +
-            " JOIN auditions ON applications.auditionId = auditions.id" +
-            " WHERE auditionId IN (SELECT id FROM auditions WHERE bandId = ?)";
-
-    @Override
-    public List<Application> getApplicationsByState(long bandId, ApplicationState state) {
-        StringBuilder sb = new StringBuilder(GET_APPLICATION_QUERY).append(" AND state = ?");
-        final String sqlQuery = sb.toString();
-        List<Application.ApplicationBuilder> list = jdbcTemplate.query(sqlQuery
-                , new Object[]{bandId, state.getState().toUpperCase(Locale.ROOT)}, APPLICATION_ROW_MAPPER);
-        return list.stream().map(Application.ApplicationBuilder::build).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<Application> getAllApplications(long bandId) {
-        List<Application.ApplicationBuilder> list = jdbcTemplate.query(GET_APPLICATION_QUERY
-                , new Object[]{bandId}, APPLICATION_ROW_MAPPER);
-        return list.stream().map(Application.ApplicationBuilder::build).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<Application> getAuditionApplications(long auditionId) {
-        List<Application.ApplicationBuilder> list = jdbcTemplate.query("SELECT auditionId,applicantId,state,name,surname,title FROM applications" +
-                        " JOIN users ON applications.applicantId = users.id" +
-                        " JOIN auditions ON applications.auditionId = auditions.id" +
-                        " WHERE auditionId = ?"
-                , new Object[]{auditionId}, APPLICATION_ROW_MAPPER);
-        return list.stream().map(Application.ApplicationBuilder::build).collect(Collectors.toList());
-    }
+    private final static RowMapper<Boolean> EXISTS_ROW_MAPPER = ((resultSet, i) -> resultSet.getBoolean("appExists"));
 
 
     @Override
     public List<Application> getAuditionApplicationsByState(long auditionId, ApplicationState state) {
-        List<Application.ApplicationBuilder> list = jdbcTemplate.query("SELECT auditionId,applicantId,state,name,surname,title FROM applications" +
+        List<Application.ApplicationBuilder> list = jdbcTemplate.query("SELECT auditionId,applicantId,state,name,surname,title, applications.creationdate AS appdate FROM applications" +
                         " JOIN users ON applications.applicantId = users.id" +
                         " JOIN auditions ON applications.auditionId = auditions.id" +
-                        " WHERE auditionId = ? AND state = ?"
+                        " WHERE auditionId = ? AND state = ? ORDER BY appdate DESC"
                 , new Object[]{auditionId, state.getState().toUpperCase(Locale.ROOT)}, APPLICATION_ROW_MAPPER);
         return list.stream().map(Application.ApplicationBuilder::build).collect(Collectors.toList());
     }
@@ -85,6 +55,7 @@ public class ApplicationJdbcDao implements ApplicationDao {
         applicationData.put("auditionId", applicationBuilder.getAuditionId());
         applicationData.put("applicantId", applicationBuilder.getApplicantId());
         applicationData.put("state", applicationBuilder.getState().getState().toUpperCase(Locale.ROOT));
+        applicationData.put("creationdate",  Timestamp.valueOf(applicationBuilder.getCreationDate()));
         jdbcInsert.execute(applicationData);
         return applicationBuilder.build();
     }
@@ -99,22 +70,38 @@ public class ApplicationJdbcDao implements ApplicationDao {
 
     @Override
     public List<Application> getMyApplications(long applicantId, int page) {
-        String query = "SELECT auditionId,applicantId,state,name,surname,title FROM applications" +
+        String query = "SELECT auditionId,applicantId,state,name,surname,title,applications.creationdate AS appdate FROM applications" +
                 " JOIN users ON applications.applicantId = users.id" +
                 " JOIN auditions ON applications.auditionId = auditions.id" +
-                " WHERE applicantId = ? ORDER BY auditionId DESC LIMIT ? OFFSET ?";
+                " WHERE applicantId = ? ORDER BY appdate DESC LIMIT ? OFFSET ?";
         List<Application.ApplicationBuilder> list = jdbcTemplate.query(query,new Object[]{applicantId, PAGE_SIZE, (page -1) * PAGE_SIZE},APPLICATION_ROW_MAPPER);
         return list.stream().map(Application.ApplicationBuilder::build).collect(Collectors.toList());
     }
 
     @Override
     public boolean exists(long auditionId, long id) {
-        return jdbcTemplate.query("SELECT EXISTS (SELECT * FROM applications WHERE auditionId=? AND applicantId=?)", new Object[]{auditionId,id}, EXISTS_ROW_MAPPER).stream().findFirst().orElse(false);
+        return jdbcTemplate.query("SELECT EXISTS (SELECT * FROM applications WHERE auditionId=? AND applicantId=?) AS appExists", new Object[]{auditionId,id}, EXISTS_ROW_MAPPER).stream().findFirst().orElse(false);
     }
 
     @Override
     public int getTotalUserApplicationPages(long userId) {
         Optional<Integer> result = jdbcTemplate.query("SELECT COUNT(*) AS applicationTotal FROM applications WHERE applicantId = ?", new Object[] {userId} ,TOTAL_APPLICATION_ROW_MAPPER).stream().findFirst();
         return result.map(integer -> (int) Math.ceil(integer.doubleValue() / PAGE_SIZE)).orElse(0);
+    }
+
+    @Override
+    public int getTotalUserApplicationPagesFiltered(long userId, ApplicationState state) {
+        Optional<Integer> result = jdbcTemplate.query("SELECT COUNT(*) AS applicationTotal FROM applications WHERE applicantId = ? AND state = ?", new Object[] {userId, state.getState()} ,TOTAL_APPLICATION_ROW_MAPPER).stream().findFirst();
+        return result.map(integer -> (int) Math.ceil(integer.doubleValue() / PAGE_SIZE)).orElse(0);
+    }
+
+    @Override
+    public List<Application> getMyApplicationsFiltered(long applicantId, int page, ApplicationState state) {
+        String query = "SELECT auditionId,applicantId,state,name,surname,title,applications.creationdate AS appdate FROM applications" +
+                " JOIN users ON applications.applicantId = users.id" +
+                " JOIN auditions ON applications.auditionId = auditions.id" +
+                " WHERE applicantId = ? AND state = ? ORDER BY appdate DESC LIMIT ? OFFSET ?";
+        List<Application.ApplicationBuilder> list = jdbcTemplate.query(query,new Object[]{applicantId, state.getState(), PAGE_SIZE, (page -1) * PAGE_SIZE},APPLICATION_ROW_MAPPER);
+        return list.stream().map(Application.ApplicationBuilder::build).collect(Collectors.toList());
     }
 }

@@ -1,6 +1,5 @@
 package ar.edu.itba.paw.persistence;
 
-import ar.edu.itba.paw.AuditionFilter;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,6 +15,13 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.sql.DataSource;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+
+
+import ar.edu.itba.paw.AuditionFilter;
 import java.util.*;
 
 
@@ -151,13 +157,6 @@ public class AuditionDaoTest {
         Optional<Audition> audition = auditionDao.getAuditionById(INVALID_ID);
         assertNotNull(audition);
         assertFalse(audition.isPresent());
-    }
-
-    @Test
-    public void testCreate(){
-        Audition audition = auditionDao.create(new Audition.AuditionBuilder(TITLE, DESCRIPTION, USER_ID, CREATION_DATE).location(location).lookingFor(new HashSet<>(ALL_ROLES)).musicGenres(new HashSet<>(ALL_GENRES)).id(12));
-        assertNotNull(audition);
-        assertEquals(new_audition, audition);
     }
 
     @Test

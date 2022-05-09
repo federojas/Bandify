@@ -73,7 +73,16 @@
 
                 <%--  Prefered genres                  --%>
                 <div class="user-data">
-                    <div class="about-section-heading"><span><spring:message code="profile.preferedGenres"/></span></div>
+                    <div class="about-section-heading">
+                        <span>
+                            <c:if test="${user.band}">
+                                <p><spring:message code="profile.bandGenres"/> </p>
+                            </c:if>
+                            <c:if test="${!user.band}">
+                                <p><spring:message code="profile.userGenres"/> </p>
+                            </c:if>
+                        </span>
+                    </div>
                     <div class="genres-div">
                         <c:forEach var="genre" items="${preferredGenres}">
                             <span class="genre-span"><c:out value="${genre.name}" /></span>
@@ -83,7 +92,16 @@
 
                 <%--  Roles                 --%>
                 <div class="user-data">
-                    <div class="about-section-heading"><span><spring:message code="profile.roles"/></span></div>
+                    <div class="about-section-heading">
+                        <span>
+                            <c:if test="${user.band}">
+                                <p><spring:message code="profile.bandRoles"/> </p>
+                            </c:if>
+                            <c:if test="${!user.band}">
+                                <p><spring:message code="profile.userRoles"/> </p>
+                            </c:if>
+                        </span>
+                    </div>
                     <div class="roles-div">
                         <c:forEach var="role" items="${roles}">
                             <span class="roles-span"><c:out value="${role.name}" /></span>

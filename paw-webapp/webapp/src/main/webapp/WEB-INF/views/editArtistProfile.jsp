@@ -14,9 +14,6 @@
     <link rel="stylesheet" href="<c:url value="/resources/css/profile.css" />"/>
     <script src="<c:url value="/resources/js/editProfile.js"/>"></script>
     <script src="<c:url value="/resources/js/matMultipleSelect.js"/>"></script>
-    <script src="<c:url value="/resources/js/editCancelButton.js"/>"></script>
-
-
 </head>
 <body>
 <!-- Navbar -->
@@ -24,14 +21,13 @@
     <jsp:param name="navItem" value="${6}"/>
     <jsp:param name="name" value="Bandify"/>
 </jsp:include>
+<h1 class="editProfile-title" id="title"><spring:message code="edituser.title" /></h1>
+<div class="editProfile-box"id="form">
+    <c:url value="/profile/editArtist" var="editProfileUrl"/>
 
-<h1 class="editProfile-title"><spring:message code="edituser.title" /></h1>
-<div class="editProfile-box">
-    <c:url value="/profile/edit" var="editProfileUrl"/>
-
-    <%--@elvariable id="editUserForm" type="ar.edu.itba.paw.webapp.form.UserEditForm"--%>
-    <form:form method="post" acceptCharset="utf-8" modelAttribute="userEditForm"
-               action="${editProfileUrl}" id="editUserForm" enctype="multipart/form-data">
+    <%--@elvariable id="artistEditForm" type="ar.edu.itba.paw.webapp.form.ArtistEditForm"--%>
+    <form:form method="post" acceptCharset="utf-8" modelAttribute="artistEditForm"
+               action="${editProfileUrl}" id="artistEditForm" enctype="multipart/form-data">
         <div>
             <form:label class="form-label" path="name">
                 <spring:message code="register.form.name"/>
@@ -44,7 +40,6 @@
                     code="register.form.invalidName"/></p>
 
         </div>
-        <sec:authorize access="hasRole('ARTIST')">
             <div id="surname-div">
                 <form:label class="form-label" path="surname">
                     <spring:message code="register.form.surname"/>
@@ -54,11 +49,8 @@
                             class="form-input"
                             path="surname"/>
                 <form:errors path="surname" element="p" cssClass="error"> </form:errors>
-                <p class="error" id="wrongArtistSurname" style="display: none"><spring:message
-                        code="register.form.invalidSurname"/></p>
+                <p class="error" id="wrongArtistSurname" style="display: none"><spring:message code="register.form.invalidSurname"/></p>
             </div>
-        </sec:authorize>
-
         <div>
             <form:label class="form-label" path="profileImage" >
                 <spring:message code="editProfile.form.image"/>
@@ -88,7 +80,7 @@
 
         <div class="select-div">
             <form:label class="form-label" path="musicGenres">
-                <spring:message code="welcome.form.musicGenres"/>
+                <spring:message code="profile.userGenres"/>
             </form:label>
             <form:select
                     class="multiple-select"
@@ -98,7 +90,7 @@
                 <form:option value="" disabled="true" selected="true"><spring:message code="audition.form.musicGenres.maxSelect"/></form:option>
 
                 <c:forEach var="genre" items="${genreList}" varStatus="loop">
-                        <form:option value="${genre.name}"><c:out value="${genre.name}"/></form:option>
+                    <form:option value="${genre.name}"><c:out value="${genre.name}"/></form:option>
                 </c:forEach>
 
 
@@ -107,7 +99,7 @@
             </form:errors>
         </div>
         <div class="select-div">
-            <form:label class="form-label" for="lookingFor" path="lookingFor"> <spring:message code="welcome.form.lookingFor"/> </form:label>
+            <form:label class="form-label" for="lookingFor" path="lookingFor"> <spring:message code="profile.userRoles"/> </form:label>
             <form:select
                     class="multiple-select"
                     path="lookingFor"
@@ -130,13 +122,15 @@
         <spring:message code="button.cancel" var="cancel"/>
         <button
                 type="submit"
-                form="editUserForm"
+                form="artistEditForm"
                 value="submit"
-                class="purple-button"
+                class="save-button"
         >
             <spring:message code="edituser.saveChangesBtn"/>
         </button>
-        <input type="button" name="cancel" value="${cancel}" class="cancel-button" onclick="goBack()"/>
+        <a href="<c:url value="/profile"/>" class="cancel-button">
+            <spring:message code="button.cancel" />
+        </a>
     </div>
 </div>
 </body>

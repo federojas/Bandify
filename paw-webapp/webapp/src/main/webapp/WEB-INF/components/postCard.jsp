@@ -15,7 +15,7 @@
             <div class="image overflow-hidden">
                 <spring:message code="profile.img.alt" var="img"/>
                 <img class="postcard-profile-image"
-                     src="<c:url value="/user/${param.userId}/profile-image"/>"
+                     src="<c:url value='/user/${param.userId}/profile-image'/>"
                      alt="${img}">
             </div>
             <h1 class="postcard-band-name"><c:out value=" ${param.userName}" /></h1>

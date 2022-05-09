@@ -57,8 +57,10 @@
                         </h1>
                     </div>
                     <%--                        Edit button--%>
+                    <sec:authorize access="hasRole('ARTIST')">
                     <div class="edit-div">
-                        <a href="<c:url value="/profile/edit" />">
+
+                        <a href="<c:url value="/profile/editArtist" />">
                             <button class="edit-btn hover: shadow-sm">
                                 <spring:message code="profile.edit.alt" var="edit"/>
 
@@ -69,7 +71,25 @@
                                 <spring:message code="profile.editProfile"/>
                             </button>
                         </a>
+
                     </div>
+                    </sec:authorize>
+                    <sec:authorize access="hasRole('BAND')">
+                        <div class="edit-div">
+
+                            <a href="<c:url value="/profile/editBand" />">
+                                <button class="edit-btn hover: shadow-sm">
+                                    <spring:message code="profile.edit.alt" var="edit"/>
+
+                                    <img src="<c:url value="/resources/icons/edit-white-icon.svg"/>"
+                                         alt="${edit}"
+                                         class="icon-img"
+                                    />
+                                    <spring:message code="profile.editProfile"/>
+                                </button>
+                            </a>
+                        </div>
+                    </sec:authorize>
                     <%--                        MyAuditions (Band)--%>
                     <sec:authorize access="hasRole('BAND')">
                         <div class = "auditions-div">
@@ -110,9 +130,22 @@
                     </div>
                     <div>
                         <c:if test="${user.description==null}" >
-                            <p><spring:message code="profile.emptyBiography"/> </p>
+                            <c:if test="${user.band}">
+                                <p><spring:message code="profile.bandEmptyBiography"/> </p>
+                            </c:if>
+                            <c:if test="${!user.band}">
+                                <p><spring:message code="profile.userEmptyBiography"/> </p>
+                            </c:if>
                         </c:if>
                         <c:if test="${!(user.description==null)}" >
+                            <c:if test="${(user.description.length() == 0)}">
+                                <c:if test="${user.band}">
+                                    <p><spring:message code="profile.bandEmptyBiography"/> </p>
+                                </c:if>
+                                <c:if test="${!user.band}">
+                                    <p><spring:message code="profile.userEmptyBiography"/> </p>
+                                </c:if>
+                            </c:if>
                             <c:out value="${user.description}"/>
                         </c:if>
                     </div>
@@ -120,7 +153,16 @@
 
                 <%--  Prefered genres                  --%>
                 <div class="user-data">
-                    <div class="about-section-heading"><span><spring:message code="profile.preferedGenres"/></span></div>
+                    <div class="about-section-heading">
+                        <span>
+                            <c:if test="${user.band}">
+                                <p><spring:message code="profile.bandGenres"/> </p>
+                            </c:if>
+                            <c:if test="${!user.band}">
+                                <p><spring:message code="profile.userGenres"/> </p>
+                            </c:if>
+                        </span>
+                    </div>
                     <div class="genres-div">
                         <c:forEach var="genre" items="${preferredGenres}">
                             <span class="genre-span"><c:out value="${genre.name}" /></span>
@@ -130,7 +172,16 @@
 
                 <%--  Roles                 --%>
                 <div class="user-data">
-                    <div class="about-section-heading"><span><spring:message code="profile.roles"/></span></div>
+                    <div class="about-section-heading">
+                        <span>
+                            <c:if test="${user.band}">
+                                <p><spring:message code="profile.bandRoles"/> </p>
+                            </c:if>
+                            <c:if test="${!user.band}">
+                                <p><spring:message code="profile.userRoles"/> </p>
+                            </c:if>
+                        </span>
+                    </div>
                     <div class="roles-div">
                         <c:forEach var="role" items="${roles}">
                             <span class="roles-span"><c:out value="${role.name}" /></span>

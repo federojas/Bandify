@@ -17,7 +17,7 @@ body {
     margin: 1rem;
 }
 
-#latest-title {
+.black-title {
     font-size: xxx-large;
     font-weight: bold;
     color: black;
@@ -56,4 +56,35 @@ body {
 
 .rotate{
     transform: rotate(180deg);
+}
+
+.filter-applications {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.filter-applications-button {
+    padding: 0.5rem 1.25rem;
+    color: #ffffff;
+    font-weight: 500;
+    border-radius: 20px;
+    background-color: #6c0c84 !important;
+}
+
+.filter-applications-button:hover {
+    background-color: #0369a1 !important;
+}
+
+.filter-applications-form {
+    margin-top: 2rem;
+    margin-bottom: 3rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+.no-applications {
+    text-align: center;
+    margin: 1rem 0;
+    font-size: large;
 }

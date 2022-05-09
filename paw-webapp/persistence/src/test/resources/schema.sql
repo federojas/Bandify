@@ -17,7 +17,6 @@ CREATE TABLE IF NOT EXISTS roles
     role VARCHAR(100) UNIQUE NOT NULL
 );
 
-
 CREATE TABLE IF NOT EXISTS users
 (
     id SERIAL PRIMARY KEY,
@@ -28,7 +27,6 @@ CREATE TABLE IF NOT EXISTS users
     isBand BOOLEAN,
     isEnabled BOOLEAN,
     description TEXT,
-   -- profileImage BIGINT,
     UNIQUE(email)
 );
 
@@ -51,7 +49,7 @@ CREATE TABLE IF NOT EXISTS auditionGenres
     FOREIGN KEY(auditionId) references auditions(id) ON DELETE CASCADE,
     FOREIGN KEY(genreId) references genres(id) ON DELETE CASCADE,
     UNIQUE(auditionId, genreId)
-    );
+);
 
 CREATE TABLE IF NOT EXISTS auditionRoles
 (
@@ -60,7 +58,7 @@ CREATE TABLE IF NOT EXISTS auditionRoles
     FOREIGN KEY(auditionId) REFERENCES auditions(id) ON DELETE CASCADE,
     FOREIGN KEY(roleId) references roles(id) ON DELETE CASCADE,
     UNIQUE(auditionId, roleId)
-    );
+);
 
 CREATE TABLE IF NOT EXISTS verificationTokens (
     tokenId SERIAL PRIMARY KEY,
@@ -92,4 +90,15 @@ CREATE TABLE IF NOT EXISTS profileImages
    userId INTEGER PRIMARY KEY,
    image    BYTEA,
    FOREIGN KEY (userId) REFERENCES users ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS applications
+(
+    auditionId INTEGER NOT NULL,
+    applicantId INTEGER NOT NULL,
+    creationDate TIMESTAMP NOT NULL,
+    state TEXT NOT NULL,
+    PRIMARY KEY(auditionId,applicantId),
+    FOREIGN KEY (auditionId) REFERENCES auditions(id) ON DELETE CASCADE,
+    FOREIGN KEY (applicantId) REFERENCES users(id) ON DELETE CASCADE
 );

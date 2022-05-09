@@ -8,13 +8,13 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.*;
@@ -48,14 +48,12 @@ public class UserController {
         this.applicationService = applicationService;
     }
 
-    @RequestMapping(value = {"/register","/registerBand", "/registerArtist"},
-            method = {RequestMethod.GET})
+    @RequestMapping(value = {"/register","/registerBand", "/registerArtist"}, method = {RequestMethod.GET})
     public ModelAndView registerView(@ModelAttribute("userBandForm") final UserBandForm userBandForm,
                                      @ModelAttribute("userArtistForm") final UserArtistForm userArtistForm,
                                      boolean isBand) {
-        ModelAndView mav = new ModelAndView("views/register");
+        ModelAndView mav = new ModelAndView("register");
         mav.addObject("isBand", isBand);
-        mav.addObject("userEmailAlreadyExists", false);
         return mav;
     }
 
@@ -99,7 +97,7 @@ public class UserController {
 
     @RequestMapping(value = "/profile", method = {RequestMethod.GET})
     public ModelAndView profile() {
-        ModelAndView mav = new ModelAndView("views/profile");
+        ModelAndView mav = new ModelAndView("profile");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> optionalUser = userService.findByEmail(auth.getName());
         User user = optionalUser.orElseThrow(UserNotFoundException::new);
@@ -115,95 +113,122 @@ public class UserController {
     }
 
     @RequestMapping(value = "/profile/applications", method = {RequestMethod.GET})
-    public ModelAndView applications(@RequestParam(value = "page", defaultValue = "1") int page) {
+    public ModelAndView applications(@RequestParam(value = "page", defaultValue = "1") int page,
+                                     @RequestParam(value = "state", defaultValue = "") String state) {
 
-        ModelAndView mav = new ModelAndView("views/profileApplications");
+        ModelAndView mav = new ModelAndView("profileApplications");
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> optionalUser = userService.findByEmail(auth.getName());
         User user = optionalUser.orElseThrow(UserNotFoundException::new);
 
-        int lastPage = applicationService.getTotalUserApplicationPages(user.getId());
+        int lastPage;
+        List<Application> applications;
+        if (state.equals("")) {
+            lastPage = applicationService.getTotalUserApplicationPages(user.getId());
+            applications = applicationService.getMyApplications(user.getId(), page);
+        } else {
+            lastPage = applicationService.getTotalUserApplicationPagesFiltered(user.getId(), ApplicationState.valueOf(state.toUpperCase()));
+            applications = applicationService.getMyApplicationsFiltered(user.getId(), page, ApplicationState.valueOf(state.toUpperCase()));
+        }
+
         if(lastPage == 0)
             lastPage = 1;
         if(page < 0 || page > lastPage)
             return new ModelAndView("errors/404");
 
-        List<Application> applications = applicationService.getMyApplications(user.getId(), page);
         mav.addObject("artistApplications", applications);
         mav.addObject("currentPage", page);
         mav.addObject("lastPage", lastPage);
         return mav;
     }
 
-    @RequestMapping( value = "/user/{userId}/profile-image", method = {RequestMethod.GET})
-    public void profilePicture(@PathVariable(value = "userId") long userId,
-                               HttpServletResponse response) throws IOException {
-        byte[] image = imageService.getProfilePicture(userId, userService.getUserById(userId).orElseThrow(UserNotFoundException::new).isBand());
-        InputStream stream = new ByteArrayInputStream(image);
-        IOUtils.copy(stream, response.getOutputStream());
+    @RequestMapping( value = "/user/{userId}/profile-image", method = {RequestMethod.GET},
+            produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
+    @ResponseBody
+    public byte[] profilePicture(@PathVariable(value = "userId") long userId) throws IOException {
+        return imageService.getProfilePicture(userId, userService.getUserById(userId).orElseThrow(UserNotFoundException::new).isBand());
     }
 
-    //TODO: MODULARIZAR CODIGO REPETIDO EN AUTH USER
-    @RequestMapping(value = "/profile/edit", method = {RequestMethod.GET})
-    public ModelAndView editProfile(@ModelAttribute("userEditForm") final UserEditForm userEditForm) {
-        ModelAndView mav = new ModelAndView("views/editProfile");
+    @RequestMapping(value = "/profile/editArtist", method = {RequestMethod.GET})
+    public ModelAndView editProfile(@ModelAttribute("artistEditForm") final ArtistEditForm artistEditForm) {
+        ModelAndView mav = new ModelAndView("editArtistProfile");
+        return initializeEditProfile(mav,artistEditForm);
+    }
+
+    @RequestMapping(value = "/profile/editBand", method = {RequestMethod.GET})
+    public ModelAndView editProfile(@ModelAttribute("bandEditForm") final BandEditForm bandEditForm) {
+        ModelAndView mav = new ModelAndView("editBandProfile");
+        return initializeEditProfile(mav,bandEditForm);
+    }
+
+    private ModelAndView initializeEditProfile(ModelAndView mav, UserEditForm editForm ) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> optionalUser = userService.findByEmail(auth.getName());
         User user = optionalUser.orElseThrow(UserNotFoundException::new);
-
         Set<Role> roleList = roleService.getAll();
         Set<Genre> genreList = genreService.getAll();
         Set<Role> userRoles = roleService.getUserRoles(user.getId());
         Set<Genre> userGenres = genreService.getUserGenres(user.getId());
-
-        mav.addObject("user", user);
-        userEditForm.setName(user.getName());
-        userEditForm.setSurname(user.getSurname());
-        userEditForm.setDescription(user.getDescription());
-
         List<String> selectedRoles = userRoles.stream().map(Role::getName).collect(Collectors.toList());
-        userEditForm.setLookingFor(selectedRoles);
         List<String> selectedGenres = userGenres.stream().map(Genre::getName).collect(Collectors.toList());
-        userEditForm.setMusicGenres(selectedGenres);
-
+        editForm.initialize(user,selectedGenres,selectedRoles);
+        mav.addObject("user", user);
         mav.addObject("roleList", roleList);
         mav.addObject("genreList", genreList);
-
         return mav;
     }
 
-    @RequestMapping(value = "/profile/edit", method = {RequestMethod.POST})
-    public ModelAndView postEditProfile(@Valid @ModelAttribute("userEditForm") final UserEditForm userEditForm,
+    @RequestMapping(value = "/profile/editArtist", method = {RequestMethod.POST})
+    public ModelAndView postEditProfile(@Valid @ModelAttribute("artistEditForm")
+                                        final ArtistEditForm artistEditForm,
                                         final BindingResult errors) {
         if (errors.hasErrors()) {
-            return editProfile(userEditForm);
+            return editProfile(artistEditForm);
+        }
+        System.out.println("MIRA ACA");
+        System.out.println(artistEditForm.getLookingFor());
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> optionalUser = userService.findByEmail(auth.getName());
+        User user = optionalUser.orElseThrow(UserNotFoundException::new);
+
+       userService.editUser(user.getId(), artistEditForm.getName(), artistEditForm.getSurname(), artistEditForm.getDescription(),
+               artistEditForm.getMusicGenres(), artistEditForm.getLookingFor(),
+               artistEditForm.getProfileImage().getBytes());
+
+        return new ModelAndView("redirect:/profile");
+    }
+
+    @RequestMapping(value = "/profile/editBand", method = {RequestMethod.POST})
+    public ModelAndView postEditProfile(@Valid @ModelAttribute("bandEditForm")
+                                        final BandEditForm bandEditForm,
+                                        final BindingResult errors) {
+        if (errors.hasErrors()) {
+            return editProfile(bandEditForm);
         }
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> optionalUser = userService.findByEmail(auth.getName());
         User user = optionalUser.orElseThrow(UserNotFoundException::new);
 
-        userService.editUser(user.getId(), userEditForm.getName(), userEditForm.getSurname(), userEditForm.getDescription(),
-                userEditForm.getMusicGenres(), userEditForm.getLookingFor(),
-                userEditForm.getProfileImage().getBytes());
+        userService.editUser(user.getId(), bandEditForm.getName(),null, bandEditForm.getDescription(),
+                bandEditForm.getMusicGenres(), bandEditForm.getLookingFor(),
+                bandEditForm.getProfileImage().getBytes());
 
-        return profile();
-
+        return new ModelAndView("redirect:/profile");
     }
 
     @RequestMapping(value = "/verify")
     public ModelAndView verify(@RequestParam(required = true) final String token) {
         userService.verifyUser(token);
-        return new ModelAndView("views/verified");
+        return new ModelAndView("verified");
     }
 
     @RequestMapping(value = "/resetPassword", method = {RequestMethod.GET})
     public ModelAndView resetPassword(@ModelAttribute("resetPasswordForm")
                                       final ResetPasswordForm resetPasswordForm) {
 
-        ModelAndView mav = new ModelAndView("/views/resetPassword");
-        mav.addObject("emailNotFound", false);
+        ModelAndView mav = new ModelAndView("resetPassword");
         return mav;
     }
 
@@ -215,9 +240,8 @@ public class UserController {
            return resetPassword(resetPasswordForm);
         }
         userService.sendResetEmail(resetPasswordForm.getEmail());
-        ModelAndView mav = new ModelAndView("/views/resetPassword");
+        ModelAndView mav = new ModelAndView("resetPassword");
         mav.addObject("resetPasswordForm",resetPasswordForm);
-        mav.addObject("emailNotFound", false);
         return resetEmailSent(resetPasswordForm.getEmail());
     }
 
@@ -225,7 +249,7 @@ public class UserController {
     public ModelAndView newPassword(@RequestParam(required = true) final String token,
                                     @ModelAttribute("newPasswordForm") final NewPasswordForm newPasswordForm) {
         if(verificationTokenService.isValid(token)) {
-            ModelAndView mav = new ModelAndView("/views/newPassword");
+            ModelAndView mav = new ModelAndView("newPassword");
             mav.addObject("token",token);
             return mav;
         }
@@ -249,7 +273,7 @@ public class UserController {
 
     @RequestMapping(value = "/resetEmailSent", method = {RequestMethod.GET})
     public ModelAndView resetEmailSent(String email) {
-        ModelAndView emailSent = new ModelAndView("/views/resetEmailSent");
+        ModelAndView emailSent = new ModelAndView("resetEmailSent");
         emailSent.addObject("email", email);
         return emailSent;
     }
@@ -262,7 +286,7 @@ public class UserController {
 
     @RequestMapping(value = "/emailSent", method = {RequestMethod.GET})
     public ModelAndView emailSent(String email) {
-        ModelAndView emailSent = new ModelAndView("/views/emailSent");
+        ModelAndView emailSent = new ModelAndView("emailSent");
         emailSent.addObject("email", email);
         return emailSent;
     }
@@ -275,7 +299,7 @@ public class UserController {
 
     @RequestMapping(value = "/login", method = {RequestMethod.GET})
     public ModelAndView login() {
-        return new ModelAndView("views/login");
+        return new ModelAndView("login");
     }
 
 }

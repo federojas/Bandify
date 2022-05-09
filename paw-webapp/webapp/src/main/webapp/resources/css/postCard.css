@@ -184,4 +184,5 @@ ul > li {
   font-size: 1rem;
   font-weight: 700;
   line-height: 2rem;
+  word-break: break-word;
 }

@@ -23,7 +23,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
 import javax.validation.Valid;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -63,8 +62,7 @@ public class AuditionsController {
 
     @RequestMapping(value = "/auditions", method = {RequestMethod.GET})
     public ModelAndView auditions( @RequestParam(value = "page", defaultValue = "1") int page) {
-        final ModelAndView mav = new ModelAndView("views/auditions");
-        // TODO: Error controller
+        final ModelAndView mav = new ModelAndView("auditions");
         int lastPage = auditionService.getTotalPages();
         if(lastPage == 0)
             lastPage = 1;
@@ -72,20 +70,11 @@ public class AuditionsController {
             return new ModelAndView("errors/404");
 
         List<Audition> auditionList = auditionService.getAll(page);
-
-        Map<Long, String> userMap = getUserMap(auditionList);
-
-        Set<Role> roleList = roleService.getAll();
-        Set<Genre> genreList = genreService.getAll();
-        List<Location> locationList = locationService.getAll();
-        mav.addObject("roleList", roleList.stream().map(Role::getName).collect(Collectors.toList()));
-        mav.addObject("genreList", genreList.stream().map(Genre::getName).collect(Collectors.toList()));
-        mav.addObject("locationList", locationList.stream().map(Location::getName).collect(Collectors.toList()));
         mav.addObject("auditionList", auditionList);
-        mav.addObject("userMap", userMap);
         mav.addObject("currentPage", page);
         mav.addObject("lastPage", lastPage);
 
+        initializeFilterOptions(mav);
         return mav;
     }
 
@@ -96,7 +85,7 @@ public class AuditionsController {
                                 @RequestParam(value = "role", required = false) String[] roles,
                                 @RequestParam(value = "location", required = false) String[] locations,
                                 @RequestParam(value = "order", defaultValue = "desc") String order) {
-        final ModelAndView mav = new ModelAndView("views/search");
+        final ModelAndView mav = new ModelAndView("search");
 
         AuditionFilter filter = new AuditionFilter.AuditionFilterBuilder().
                 withGenres(genres == null ? null : Arrays.asList(genres))
@@ -108,78 +97,46 @@ public class AuditionsController {
             lastPage = 1;
         if(page < 0 || page > lastPage)
             return new ModelAndView("errors/404");
-
-        Set<Role> roleList = roleService.getAll();
-        Set<Genre> genreList = genreService.getAll();
-        List<Location> locationList = locationService.getAll();
-        mav.addObject("roleList", roleList.stream().map(Role::getName).collect(Collectors.toList()));
-        mav.addObject("genreList", genreList.stream().map(Genre::getName).collect(Collectors.toList()));
-        mav.addObject("locationList", locationList.stream().map(Location::getName).collect(Collectors.toList()));
-
+        initializeFilterOptions(mav);
         List<Audition> auditionList = auditionService.filter(filter,page);
-        Map<Long, String> userMap = getUserMap(auditionList);
         mav.addObject("auditionList", auditionList);
-        mav.addObject("userMap", userMap);
         mav.addObject("currentPage", page);
         mav.addObject("query", query);
         mav.addObject("lastPage", lastPage);
         return mav;
     }
 
-    private Map<Long, String> getUserMap(List<Audition> auditionList) {
-        Map<Long, String> userMap = new HashMap<>();
-
-        for(Audition audition : auditionList) {
-            userMap.put(audition.getId(), userService.getUserById(audition.getBandId()).orElseThrow(UserNotFoundException::new).getName());
-        }
-
-        return userMap;
+    private void initializeFilterOptions(ModelAndView mav) {
+        Set<Role> roleList = roleService.getAll();
+        Set<Genre> genreList = genreService.getAll();
+        List<Location> locationList = locationService.getAll();
+        mav.addObject("roleList", roleList.stream().map(Role::getName).collect(Collectors.toList()));
+        mav.addObject("genreList", genreList.stream().map(Genre::getName).collect(Collectors.toList()));
+        mav.addObject("locationList", locationList.stream().map(Location::getName).collect(Collectors.toList()));
     }
 
-    //TODO CODIGO REPETIDO
     @RequestMapping(value = "/auditions/{id}", method = {RequestMethod.GET})
     public ModelAndView audition(@ModelAttribute("applicationForm") final ApplicationForm applicationForm,
                                  @PathVariable long id) {
-        // TODO : es necesario este if? sino con el else de abajo seria suficiente creo
         if(id < 0 || id > auditionService.getMaxAuditionId())
             throw new AuditionNotFoundException();
-        final ModelAndView mav = new ModelAndView("views/audition");
-        Optional<Audition> audition = auditionService.getAuditionById(id);
-
-        if (audition.isPresent()) {
-
-            long auditionOwnerId = audition.get().getBandId();
-            Optional<User> optionalUser = userService.getUserById(auditionOwnerId);
-            User owner = optionalUser.orElseThrow(UserNotFoundException::new);
-
-            if(SecurityContextHolder.getContext().getAuthentication() != null &&
-                    SecurityContextHolder.getContext().getAuthentication().isAuthenticated() &&
-                    !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) {
-
-                Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-                optionalUser = userService.findByEmail(auth.getName());
-                User currentUser = optionalUser.orElseThrow(UserNotFoundException::new);
-                mav.addObject("isOwner", currentUser.getId() == auditionOwnerId);
-
-            } else {
-                mav.addObject("isOwner", false);
-            }
-
-            mav.addObject("audition", audition.get());
-            mav.addObject("user", owner);
-
+        final ModelAndView mav = new ModelAndView("audition");
+        Audition audition = auditionService.getAuditionById(id).orElseThrow(AuditionNotFoundException::new);
+        User user = userService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(UserNotFoundException::new);
+        User band = userService.getUserById(audition.getBandId()).orElseThrow(UserNotFoundException::new);
+        if(audition.getBandId() == user.getId()) {
+            mav.addObject("isOwner",true);
+            List<Application> pendingApps = applicationService.getAuditionApplicationsByState(id, ApplicationState.PENDING);
+            List<Application> acceptedApps = applicationService.getAuditionApplicationsByState(id, ApplicationState.ACCEPTED);
+            List<Application> rejectedApps = applicationService.getAuditionApplicationsByState(id, ApplicationState.REJECTED);
+            mav.addObject("pendingApps", pendingApps);
+            mav.addObject("acceptedApps", acceptedApps);
+            mav.addObject("rejectedApps", rejectedApps);
         } else {
-            throw new AuditionNotFoundException();
+            mav.addObject("isOwner", false);
         }
-
-        List<Application> pendingApps = applicationService.getAuditionApplicationsByState(id, ApplicationState.PENDING);
-        List<Application> acceptedApps = applicationService.getAuditionApplicationsByState(id, ApplicationState.ACCEPTED);
-        List<Application> rejectedApps = applicationService.getAuditionApplicationsByState(id, ApplicationState.REJECTED);
-
-        mav.addObject("pendingApps", pendingApps);
-        mav.addObject("acceptedApps", acceptedApps);
-        mav.addObject("rejectedApps", rejectedApps);
-
+        mav.addObject("audition", audition);
+        mav.addObject("user",band);
         return mav;
     }
 
@@ -197,13 +154,13 @@ public class AuditionsController {
 
         if(applicationService.apply(id, user, applicationForm.getMessage()))
             return success();
-        return new ModelAndView("views/applicationFailed");
+        return new ModelAndView("applicationFailed");
     }
 
 
     @RequestMapping(value = "/newAudition", method = {RequestMethod.GET})
     public ModelAndView newAudition(@ModelAttribute("auditionForm") final AuditionForm auditionForm) {
-        final ModelAndView mav = new ModelAndView("views/auditionForm");
+        final ModelAndView mav = new ModelAndView("auditionForm");
 
         Set<Role> roleList = roleService.getAll();
         Set<Genre> genreList = genreService.getAll();
@@ -241,13 +198,11 @@ public class AuditionsController {
 
     @RequestMapping(value = "/success", method = {RequestMethod.GET})
     public ModelAndView success() {
-        return new ModelAndView("views/successMsg");
+        return new ModelAndView("successMsg");
     }
 
     @RequestMapping(value = "/profile/deleteAudition/{id}", method = {RequestMethod.POST})
     public ModelAndView deleteAudition(@PathVariable long id) {
-
-        // TODO : es necesario este if? sino con el else de abajo seria suficiente creo
         if(id < 0 || id > auditionService.getMaxAuditionId())
             throw new AuditionNotFoundException();
         auditionService.deleteAuditionById(id);
@@ -282,7 +237,7 @@ public class AuditionsController {
         else if(user.getId() != audition.get().getBandId())
             throw new AuditionNotOwnedException();
 
-        ModelAndView mav = new ModelAndView("views/editAudition");
+        ModelAndView mav = new ModelAndView("editAudition");
 
         Set<Role> roleList = roleService.getAll();
         Set<Genre> genreList = genreService.getAll();
@@ -335,7 +290,7 @@ public class AuditionsController {
 
     @RequestMapping(value = "/profile/auditions", method = {RequestMethod.GET})
     public ModelAndView profileAuditions(@RequestParam(value = "page", defaultValue = "1") int page) {
-        ModelAndView mav = new ModelAndView("views/profileAuditions");
+        ModelAndView mav = new ModelAndView("profileAuditions");
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> optionalUser = userService.findByEmail(auth.getName());

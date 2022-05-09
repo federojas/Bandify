@@ -10,10 +10,13 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.Resource;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.init.DataSourceInitializer;
 import org.springframework.jdbc.datasource.init.DatabasePopulator;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
@@ -34,6 +37,7 @@ import java.util.Properties;
 
 @ComponentScan({"ar.edu.itba.paw.webapp.controller", "ar.edu.itba.paw.service", "ar.edu.itba.paw.persistence" })
 @EnableWebMvc
+@EnableTransactionManagement
 @Configuration
 @EnableAsync
 @PropertySource(value= {"classpath:application.properties"})
@@ -71,7 +75,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         final InternalResourceViewResolver resolver = new InternalResourceViewResolver();
 
         resolver.setViewClass(JstlView.class);
-        resolver.setPrefix("/WEB-INF/");
+        resolver.setPrefix("/WEB-INF/views/");
         resolver.setSuffix(".jsp");
 
         return resolver;
@@ -159,6 +163,11 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+    }
+
+    @Bean
+    public PlatformTransactionManager transactionManager(final DataSource ds) {
+        return new DataSourceTransactionManager(ds);
     }
 
 }
