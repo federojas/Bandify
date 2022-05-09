@@ -8,15 +8,12 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.*;
@@ -144,14 +141,12 @@ public class UserController {
         IOUtils.copy(stream, response.getOutputStream());
     }
 
-    @PreAuthorize("hasRole('ARTIST')")
     @RequestMapping(value = "/profile/editArtist", method = {RequestMethod.GET})
     public ModelAndView editProfile(@ModelAttribute("artistEditForm") final ArtistEditForm artistEditForm) {
         ModelAndView mav = new ModelAndView("/editArtistProfile");
         return initializeEditProfile(mav,artistEditForm);
     }
 
-    @PreAuthorize("hasRole('BAND')")
     @RequestMapping(value = "/profile/editBand", method = {RequestMethod.GET})
     public ModelAndView editProfile(@ModelAttribute("bandEditForm") final BandEditForm bandEditForm) {
         ModelAndView mav = new ModelAndView("/editBandProfile");
