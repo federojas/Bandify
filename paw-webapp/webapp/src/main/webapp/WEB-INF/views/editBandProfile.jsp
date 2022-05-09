@@ -15,8 +15,10 @@
     <script src="<c:url value="/resources/js/editProfile.js"/>"></script>
     <script src="<c:url value="/resources/js/matMultipleSelect.js"/>"></script>
     <script src="<c:url value="/resources/js/editCancelButton.js"/>"></script>
+    <link rel="stylesheet" href="<c:url value="/resources/css/alerts.css" />"/>
+    <script type="text/javascript" src="<c:url value="/resources/js/alerts.js"/>"></script>
 </head>
-<body>
+<body onload="editBandFormCheck()">
 <!-- Navbar -->
 <jsp:include page="../components/navbar.jsp">
     <jsp:param name="navItem" value="${6}"/>
@@ -34,7 +36,7 @@
                 <spring:message code="register.form.name"/>
             </form:label>
             <spring:message code="register.form.nameplaceholder" var="nameplaceholder"/>
-            <form:input type="text" id="artistName" maxlength="50" placeholder="${nameplaceholder}" class="form-input"
+            <form:input type="text" id="bandName" maxlength="50" placeholder="${nameplaceholder}" class="form-input"
                         path="name"/>
             <form:errors path="name" element="p" cssClass="error"> </form:errors>
             <p class="error" id="wrongArtistName" style="display: none"><spring:message
@@ -60,7 +62,7 @@
                 <spring:message code="edituser.form.description"/>
             </form:label>
             <spring:message code="edituser.form.bandDescriptionplaceholder" var="descriptionplaceholder"/>
-            <form:textarea type="text" id="artistDescription" maxlength="500" placeholder="${descriptionplaceholder}"
+            <form:textarea type="text" id="bandDescription" maxlength="500" placeholder="${descriptionplaceholder}"
                            class="form-input-application"
                            path="description"/>
             <form:errors path="description" element="p" cssClass="error"> </form:errors>
@@ -123,6 +125,8 @@
             <spring:message code="button.cancel" />
         </a>
     </div>
+    <div id="snackbar"><spring:message code="snackbar.message"/></div>
+
 </div>
 </body>
 </html>

@@ -5,12 +5,8 @@ function editArtistFormCheck() {
     let artistDescription = document.getElementById("artistDescription");
     form.addEventListener('submit', function (e) {
 
-        let wrongArtistName=document.getElementById("wrongArtistName");
-        let wrongArtistDescription=document.getElementById("wrongArtistDescription");
-        let wrongArtistSurname=document.getElementById("wrongArtistSurname");
-        wrongArtistName.style.display='none'
-        wrongArtistSurname.style.display='none'
-        wrongArtistDescription.style.display='none'
+
+        hideErrorMessages(true);
 
         if(artistName.value.length<=0||artistName.value.length>50 ){
             e.preventDefault();
@@ -24,7 +20,37 @@ function editArtistFormCheck() {
             snackbarMessage()
 
         }
-        if(artistDescription.value.length<=0||artistDescription.value.length>500 ){
+        if(artistDescription.value.length>500 ){
+            e.preventDefault();
+            wrongArtistDescription.style.display='block'
+            snackbarMessage()
+
+        }
+    });
+}
+function hideErrorMessages(isArtist){
+    let wrongArtistName=document.getElementById("wrongArtistName");
+    let wrongArtistDescription=document.getElementById("wrongArtistDescription");
+    if(isArtist){
+        let wrongArtistSurname=document.getElementById("wrongArtistSurname");
+        wrongArtistSurname.style.display='none';
+    }
+    wrongArtistName.style.display='none';
+    wrongArtistDescription.style.display='none';
+}
+function editBandFormCheck() {
+    let form = document.getElementById("bandEditForm");
+    let bandName = document.getElementById("bandName");
+    let bandDescription = document.getElementById("bandDescription");
+    form.addEventListener('submit', function (e) {
+        hideErrorMessages(false);
+        if(bandName.value.length<=0||bandName.value.length>50 ){
+            e.preventDefault();
+            wrongArtistName.style.display='block'
+            snackbarMessage()
+
+        }
+        if(bandDescription.value.length>500 ){
             e.preventDefault();
             wrongArtistDescription.style.display='block'
             snackbarMessage()
