@@ -34,25 +34,46 @@ public class ApplicationDaoTest {
 
     private JdbcTemplate jdbcTemplate;
 
+    private static final long BAND_ID_1 = 1;
+    private static final long BAND_ID_2 = 2;
     private static final long APPLICANT_ID = 2;
     private static final long APPLICANT_ID_2 = 3;
+    private static final long APPLICANT_ID_3 = 4;
     private static final long INVALID_ID = 20;
+    private static final long PAGE_SIZE = 10;
 
 
     private static final String NAME = "name";
     private static final String SURNAME = "surname";
     private static final String TITLE = "title";
     private static final LocalDateTime CREATION_DATE = LocalDateTime.of(2022 ,7, 5, 14, 23, 30);
+    private static final LocalDateTime CREATION_DATE_OLDER = LocalDateTime.of(2022 ,6, 5, 14, 23, 30);
+
 
     private static final Application PENDING_APP_AUD1 = new Application.ApplicationBuilder(1, APPLICANT_ID, ApplicationState.PENDING,CREATION_DATE).applicantName(NAME).applicantSurname(SURNAME).auditionTitle(TITLE).build();
     private static final Application PENDING_APP_2_AUD1 = new Application.ApplicationBuilder(1, APPLICANT_ID_2, ApplicationState.PENDING,CREATION_DATE).applicantName(NAME).applicantSurname(SURNAME).auditionTitle(TITLE).build();
     private static final Application PENDING_APP_2_AUD2 = new Application.ApplicationBuilder(2, APPLICANT_ID_2, ApplicationState.PENDING,CREATION_DATE).applicantName(NAME).applicantSurname(SURNAME).auditionTitle(TITLE).build();
     private static final Application ACCEPTED_APP_AUD2 = new Application.ApplicationBuilder(2, APPLICANT_ID, ApplicationState.ACCEPTED,CREATION_DATE).applicantName(NAME).applicantSurname(SURNAME).auditionTitle(TITLE).build();
     private static final Application REJECTED_APP_AUD3 = new Application.ApplicationBuilder(3, APPLICANT_ID, ApplicationState.REJECTED,CREATION_DATE).applicantName(NAME).applicantSurname(SURNAME).auditionTitle(TITLE).build();
+    private static final Application PENDING_APP_4_AUD1 = new Application.ApplicationBuilder(1, APPLICANT_ID_3, ApplicationState.PENDING,CREATION_DATE).applicantName(NAME).applicantSurname(SURNAME).auditionTitle(TITLE).build();
+    private static final Application PENDING_APP_4_AUD2 = new Application.ApplicationBuilder(2, APPLICANT_ID_3, ApplicationState.PENDING,CREATION_DATE).applicantName(NAME).applicantSurname(SURNAME).auditionTitle(TITLE).build();
+    private static final Application PENDING_APP_4_AUD3 = new Application.ApplicationBuilder(3, APPLICANT_ID_3, ApplicationState.PENDING,CREATION_DATE).applicantName(NAME).applicantSurname(SURNAME).auditionTitle(TITLE).build();
+    private static final Application PENDING_APP_4_AUD4 = new Application.ApplicationBuilder(4, APPLICANT_ID_3, ApplicationState.PENDING,CREATION_DATE).applicantName(NAME).applicantSurname(SURNAME).auditionTitle(TITLE).build();
+    private static final Application PENDING_APP_4_AUD5 = new Application.ApplicationBuilder(5, APPLICANT_ID_3, ApplicationState.PENDING,CREATION_DATE).applicantName(NAME).applicantSurname(SURNAME).auditionTitle(TITLE).build();
+    private static final Application PENDING_APP_4_AUD6 = new Application.ApplicationBuilder(6, APPLICANT_ID_3, ApplicationState.PENDING,CREATION_DATE).applicantName(NAME).applicantSurname(SURNAME).auditionTitle(TITLE).build();
+    private static final Application PENDING_APP_4_AUD7 = new Application.ApplicationBuilder(7, APPLICANT_ID_3, ApplicationState.PENDING,CREATION_DATE).applicantName(NAME).applicantSurname(SURNAME).auditionTitle(TITLE).build();
+    private static final Application PENDING_APP_4_AUD8 = new Application.ApplicationBuilder(8, APPLICANT_ID_3, ApplicationState.PENDING,CREATION_DATE).applicantName(NAME).applicantSurname(SURNAME).auditionTitle(TITLE).build();
+    private static final Application PENDING_APP_4_AUD9 = new Application.ApplicationBuilder(9, APPLICANT_ID_3, ApplicationState.PENDING,CREATION_DATE).applicantName(NAME).applicantSurname(SURNAME).auditionTitle(TITLE).build();
+    private static final Application PENDING_APP_4_AUD10 = new Application.ApplicationBuilder(10, APPLICANT_ID_3, ApplicationState.PENDING,CREATION_DATE).applicantName(NAME).applicantSurname(SURNAME).auditionTitle(TITLE).build();
+    private static final Application PENDING_APP_4_AUD11 = new Application.ApplicationBuilder(11, APPLICANT_ID_3, ApplicationState.PENDING,CREATION_DATE_OLDER).applicantName(NAME).applicantSurname(SURNAME).auditionTitle(TITLE).build();
+    private static final Application PENDING_APP_4_AUD12 = new Application.ApplicationBuilder(12, APPLICANT_ID_3, ApplicationState.PENDING,CREATION_DATE_OLDER).applicantName(NAME).applicantSurname(SURNAME).auditionTitle(TITLE).build();
+    private static final Application PENDING_APP_4_AUD13 = new Application.ApplicationBuilder(13, APPLICANT_ID_3, ApplicationState.REJECTED,CREATION_DATE_OLDER).applicantName(NAME).applicantSurname(SURNAME).auditionTitle(TITLE).build();
 
-    private static final List<Application> PENDING_APPS_AUD1 = Arrays.asList(PENDING_APP_AUD1, PENDING_APP_2_AUD1);
+    private static final List<Application> PENDING_APPS_AUD2 = Arrays.asList(PENDING_APP_2_AUD2, PENDING_APP_4_AUD2);
     private static final List<Application> APPLICANT_APPS = Arrays.asList(PENDING_APP_AUD1, ACCEPTED_APP_AUD2, REJECTED_APP_AUD3);
     private static final List<Application> PENDING_APPS_APPLICANT_2 = Arrays.asList(PENDING_APP_2_AUD2, PENDING_APP_2_AUD1);
+    private static final List<Application> PENDING_APPS_APPLICANT_4_PAGE_1 = Arrays.asList(PENDING_APP_4_AUD1, PENDING_APP_4_AUD2, PENDING_APP_4_AUD3, PENDING_APP_4_AUD4, PENDING_APP_4_AUD5, PENDING_APP_4_AUD6, PENDING_APP_4_AUD7, PENDING_APP_4_AUD8, PENDING_APP_4_AUD9, PENDING_APP_4_AUD10);
+    private static final List<Application> PENDING_APPS_APPLICANT_4_PAGE_2 = Arrays.asList(PENDING_APP_4_AUD11, PENDING_APP_4_AUD12, PENDING_APP_4_AUD13);
 
 
     @Before
@@ -62,11 +83,11 @@ public class ApplicationDaoTest {
 
     @Test
     public void testGetAuditionApplicationsByStatePending() {
-        List<Application> applications = applicationDao.getAuditionApplicationsByState(1, ApplicationState.PENDING);
+        List<Application> applications = applicationDao.getAuditionApplicationsByState(2, ApplicationState.PENDING);
         assertNotNull(applications);
-        assertTrue(PENDING_APPS_AUD1.containsAll(applications));
+        assertTrue(PENDING_APPS_AUD2.containsAll(applications));
         assertTrue(!Collections.singletonList(PENDING_APP_2_AUD2).containsAll(applications));
-        assertEquals(PENDING_APPS_AUD1.size(), applications.size());
+        assertEquals(PENDING_APPS_AUD2.size(), applications.size());
     }
 
     @Test
@@ -107,11 +128,20 @@ public class ApplicationDaoTest {
     }
 
     @Test
-    public void testGetMyApplications() {
-        List<Application> applications = applicationDao.getMyApplications(APPLICANT_ID, 1);
+    public void testGetMyApplicationsNotFullPage() {
+        List<Application> applications = applicationDao.getMyApplications(APPLICANT_ID_3, 2);
         assertNotNull(applications);
-        assertTrue(APPLICANT_APPS.containsAll(applications));
-        assertEquals(APPLICANT_APPS.size(), applications.size());
+        assertTrue(PENDING_APPS_APPLICANT_4_PAGE_2.containsAll(applications));
+        assertEquals(PENDING_APPS_APPLICANT_4_PAGE_2.size(), applications.size());
+    }
+
+    @Test
+    public void testGetMyApplicationsFullPage() {
+        List<Application> applications = applicationDao.getMyApplications(APPLICANT_ID_3, 1);
+        assertNotNull(applications);
+        assertTrue(PENDING_APPS_APPLICANT_4_PAGE_1.containsAll(applications));
+        assertEquals(PAGE_SIZE, applications.size());
+        assertEquals(PENDING_APPS_APPLICANT_4_PAGE_1.size(), applications.size());
     }
 
     @Test
@@ -128,8 +158,8 @@ public class ApplicationDaoTest {
 
     @Test
     public void testGetTotalUserApplicationPages() {
-        int pages = applicationDao.getTotalUserApplicationPages(APPLICANT_ID);
-        assertEquals(1, pages);
+        int pages = applicationDao.getTotalUserApplicationPages(APPLICANT_ID_3);
+        assertEquals(2, pages);
     }
 
     @Test
@@ -140,13 +170,13 @@ public class ApplicationDaoTest {
 
     @Test
     public void testGetTotalUserApplicationFilterPages() {
-        int pages = applicationDao.getTotalUserApplicationPagesFiltered(APPLICANT_ID, ApplicationState.ACCEPTED);
+        int pages = applicationDao.getTotalUserApplicationPagesFiltered(APPLICANT_ID_3, ApplicationState.REJECTED);
         assertEquals(1, pages);
     }
 
     @Test
     public void testGetTotalUserApplicationFilterPagesNone() {
-        int pages = applicationDao.getTotalUserApplicationPagesFiltered(APPLICANT_ID_2, ApplicationState.ACCEPTED);
+        int pages = applicationDao.getTotalUserApplicationPagesFiltered(APPLICANT_ID_3, ApplicationState.ACCEPTED);
         assertEquals(0, pages);
     }
 
