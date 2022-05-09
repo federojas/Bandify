@@ -8,6 +8,7 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -142,12 +143,11 @@ public class UserController {
         return mav;
     }
 
-    @RequestMapping( value = "/user/{userId}/profile-image", method = {RequestMethod.GET})
-    public void profilePicture(@PathVariable(value = "userId") long userId,
-                               HttpServletResponse response) throws IOException {
-        byte[] image = imageService.getProfilePicture(userId, userService.getUserById(userId).orElseThrow(UserNotFoundException::new).isBand());
-        InputStream stream = new ByteArrayInputStream(image);
-        IOUtils.copy(stream, response.getOutputStream());
+    @RequestMapping( value = "/user/{userId}/profile-image", method = {RequestMethod.GET},
+            produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
+    @ResponseBody
+    public byte[] profilePicture(@PathVariable(value = "userId") long userId) throws IOException {
+        return imageService.getProfilePicture(userId, userService.getUserById(userId).orElseThrow(UserNotFoundException::new).isBand());
     }
 
     @RequestMapping(value = "/profile/editArtist", method = {RequestMethod.GET})

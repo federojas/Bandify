@@ -27,6 +27,7 @@ public class ErrorAdviceController {
         return new ModelAndView("errors/400");
     }
 
+
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(GenreNotFoundException.class)
     public ModelAndView genreNotFound() {
