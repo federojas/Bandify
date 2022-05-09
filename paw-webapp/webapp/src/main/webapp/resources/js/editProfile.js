@@ -1,15 +1,28 @@
-window.onload = function() {
-    document.getElementById('editUserForm').onsubmit = function() {
-        let list = document.getElementById(this.getAttribute('data-list')); // only needed if more than one form or list
-        let listItem = document.createElement("li");
-        let inputItem = this.experience;
-        listItem.innerText = inputItem.value;
-        list.appendChild(listItem);
-        inputItem.select();
-        inputItem.focus();
-        return false; // stop submission
-    }
-    document.getElementById("experience").focus();
+function editArtistFormCheck() {
+    let form = document.getElementById("artistEditForm");
+    let artistName = document.getElementById("artistName");
+    let artistSurname = document.getElementById("artistSurname");
+    let artistDescription = document.getElementById("artistDescription");
+    form.addEventListener('submit', function (e) {
+        if(artistName.value.length<0||artistName.value.length>50 ){
+            e.preventDefault();
+            // snackbarMessage()
+            alert("hola");
+
+        }
+        if(artistSurname.value.length<0||artistSurname.value.length>50 ){
+            e.preventDefault();
+            // snackbarMessage()
+            alert("hola");
+
+        }
+        if(artistDescription.value.length<0||artistDescription.value.length>500 ){
+            e.preventDefault();
+            // snackbarMessage()
+            alert("hola");
+
+        }
+    });
 }
 
 function previewImage() {
@@ -19,3 +32,4 @@ function previewImage() {
             URL.revokeObjectURL(output.src)
         }
 }
+
