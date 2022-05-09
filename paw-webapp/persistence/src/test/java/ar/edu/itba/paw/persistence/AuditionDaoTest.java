@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.persistence;
 
+import ar.edu.itba.paw.AuditionFilter;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -48,7 +49,9 @@ public class AuditionDaoTest {
     private static final String NEW_DESCRIPTION = "new description";
 
     private static final Location location =  new Location(1, "location");
-    private static final Location editLocation =  new Location(2, "locationUnique");
+    private static final Location location2 =  new Location(2, "location2");
+    private static final Location location3 =  new Location(3, "location3");
+    private static final Location editLocation =  new Location(4, "locationUnique");
     private static final Genre genre =  new Genre(1, "genre");
     private static final Role role =  new Role(1, "role");
     private static final Genre genre2 =  new Genre(2, "genre2");
@@ -62,11 +65,11 @@ public class AuditionDaoTest {
     private static final Audition aud1 = new Audition.AuditionBuilder(TITLE, DESCRIPTION, USER_ID, CREATION_DATE).location(location).lookingFor(new HashSet<>(ALL_ROLES)).musicGenres(new HashSet<>(ALL_GENRES)).id(1).build();
     private static final Audition aud2 = new Audition.AuditionBuilder(TITLE, DESCRIPTION, USER_ID, CREATION_DATE).location(location).lookingFor(role).musicGenres(genre).id(2).build();
     private static final Audition aud3 = new Audition.AuditionBuilder(TITLE, DESCRIPTION, USER_ID, CREATION_DATE).location(location).lookingFor(role).musicGenres(genre).id(3).build();
-    private static final Audition aud4 = new Audition.AuditionBuilder(TITLE, DESCRIPTION, USER_ID, CREATION_DATE).location(location).lookingFor(role).musicGenres(genre).id(4).build();
-    private static final Audition aud5 = new Audition.AuditionBuilder(TITLE, DESCRIPTION, USER_ID, CREATION_DATE).location(location).lookingFor(role).musicGenres(genre).id(5).build();
-    private static final Audition aud6 = new Audition.AuditionBuilder(TITLE, DESCRIPTION, USER_ID, CREATION_DATE).location(location).lookingFor(role).musicGenres(genre).id(6).build();
-    private static final Audition aud7 = new Audition.AuditionBuilder(TITLE, DESCRIPTION, USER_ID, CREATION_DATE).location(location).lookingFor(role).musicGenres(genre).id(7).build();
-    private static final Audition aud8 = new Audition.AuditionBuilder(TITLE, DESCRIPTION, USER_ID, CREATION_DATE).location(location).lookingFor(role).musicGenres(genre).id(8).build();
+    private static final Audition aud4 = new Audition.AuditionBuilder(TITLE, DESCRIPTION, USER_ID, CREATION_DATE).location(location2).lookingFor(role).musicGenres(genre).id(4).build();
+    private static final Audition aud5 = new Audition.AuditionBuilder(TITLE, DESCRIPTION, USER_ID, CREATION_DATE).location(location2).lookingFor(role).musicGenres(genre).id(5).build();
+    private static final Audition aud6 = new Audition.AuditionBuilder(TITLE, DESCRIPTION, USER_ID, CREATION_DATE).location(location2).lookingFor(role2).musicGenres(genre).id(6).build();
+    private static final Audition aud7 = new Audition.AuditionBuilder(TITLE, DESCRIPTION, USER_ID, CREATION_DATE).location(location3).lookingFor(role).musicGenres(genre).id(7).build();
+    private static final Audition aud8 = new Audition.AuditionBuilder(TITLE, DESCRIPTION, USER_ID, CREATION_DATE).location(location3).lookingFor(role).musicGenres(genre).id(8).build();
     private static final Audition aud9 = new Audition.AuditionBuilder(TITLE, DESCRIPTION, USER_ID, CREATION_DATE).location(location).lookingFor(role).musicGenres(genre).id(9).build();
     private static final Audition aud10 = new Audition.AuditionBuilder(TITLE, DESCRIPTION, USER_ID, CREATION_DATE).location(location).lookingFor(role).musicGenres(genre).id(10).build();
     private static final Audition aud11 = new Audition.AuditionBuilder(TITLE, DESCRIPTION, USER_ID, CREATION_DATE).location(location).lookingFor(new HashSet<>(ALL_ROLES)).musicGenres(new HashSet<>(ALL_GENRES)).id(11).build();
@@ -78,9 +81,19 @@ public class AuditionDaoTest {
 
     private static final List<Audition> PAGE_1_AUDITIONS = Arrays.asList(otherUserAuditionPage1, aud1, aud2, aud3, aud4, aud5, aud6, aud7, aud8);
     private static final List<Audition> PAGE_2_AUDITIONS = Arrays.asList(aud9, aud10, aud11, otherUserAuditionPage2);
+    private static final List<Audition> PAGE_1_LOCATION_AUDITIONS = Arrays.asList(otherUserAuditionPage1, aud1, aud2, aud3, aud4, aud5, aud6, aud9, aud10);
+    private static final List<Audition> PAGE_2_LOCATION_AUDITIONS = Arrays.asList(aud11, otherUserAuditionPage2);
+
 
     private static final List<Audition> PAGE_1_BAND_AUDITIONS = Arrays.asList(aud1, aud2, aud3, aud4, aud5, aud6, aud7, aud8, aud9);
     private static final List<Audition> PAGE_2_BAND_AUDITIONS = Arrays.asList(aud10, aud11);
+
+    private static final AuditionFilter locationFilter = new AuditionFilter.AuditionFilterBuilder().withLocations(Arrays.asList(location.getName(), location2.getName())).build();
+    private static final AuditionFilter genreFilter = new AuditionFilter.AuditionFilterBuilder().withGenres(Arrays.asList(genre.getName(), genre2.getName())).build();
+    private static final AuditionFilter roleFilter = new AuditionFilter.AuditionFilterBuilder().withRoles(Collections.singletonList(role.getName())).build();
+    private static final AuditionFilter allFilter = new AuditionFilter.AuditionFilterBuilder().withLocations(Collections.singletonList(location2.getName())).withGenres(Collections.singletonList(genre.getName())).withRoles(Collections.singletonList(role2.getName())).build();
+    private static final AuditionFilter impossibleFilter = new AuditionFilter.AuditionFilterBuilder().withLocations(Collections.singletonList(editLocation.getName())).withGenres(Collections.singletonList(editGenre.getName())).withRoles(Collections.singletonList(editRole.getName())).build();
+
 
     @Before
     public void setUp() {
@@ -208,6 +221,58 @@ public class AuditionDaoTest {
         long id = auditionDao.getMaxAuditionId();
         assertEquals(13, id);
     }
+
+    @Test
+    public void testGetTotalPagesByLocationFilter() {
+        int pages = auditionDao.getTotalPages(locationFilter);
+        assertEquals(2, pages);
+    }
+
+    @Test
+    public void testGetTotalPagesByRoleFilter() {
+        int pages = auditionDao.getTotalPages(roleFilter);
+        assertEquals(2, pages);
+    }
+
+    @Test
+    public void testGetTotalPagesByGenreFilter() {
+        int pages = auditionDao.getTotalPages(genreFilter);
+        assertEquals(2, pages);
+    }
+
+    @Test
+    public void testGetTotalPagesByAllFilter() {
+        int pages = auditionDao.getTotalPages(allFilter);
+        assertEquals(1, pages);
+    }
+
+    @Test
+    public void testGetTotalPagesByImpossibleFilter() {
+        int pages = auditionDao.getTotalPages(impossibleFilter);
+        assertEquals(0, pages);
+    }
+
+    @Test
+    public void testGetAuditionsByLocationFilterFullPage() {
+        List<Audition> auditions = auditionDao.filter(locationFilter,1);
+        assertTrue(PAGE_1_LOCATION_AUDITIONS.containsAll(auditions));
+        assertEquals(PAGE_SIZE, auditions.size());
+    }
+
+    @Test
+    public void testGetAuditionsByLocationFilterNotFullPage() {
+        List<Audition> auditions = auditionDao.filter(locationFilter,2);
+        assertTrue(PAGE_2_LOCATION_AUDITIONS.containsAll(auditions));
+        assertEquals(2, auditions.size());
+    }
+
+    @Test
+    public void testGetAuditionsByImpossibleFilter() {
+        List<Audition> auditions = auditionDao.filter(impossibleFilter, 1);
+        assertTrue(auditions.isEmpty());
+    }
+
+
 
     //TODO funciones filter
 

@@ -25,6 +25,10 @@ public class AuditionFilter {
         private String title;
         private String order;
 
+        public AuditionFilterBuilder() {
+            this.order = "DESC";
+        }
+
         public AuditionFilterBuilder withGenres(List<String> genresNames) {
             this.genresNames = genresNames;
             return this;

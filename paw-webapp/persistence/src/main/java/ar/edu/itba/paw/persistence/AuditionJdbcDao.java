@@ -167,12 +167,8 @@ public class AuditionJdbcDao implements AuditionDao {
                             "(COALESCE(:locations,null) IS NULL OR location IN (:locations)) AND " +
                             "(COALESCE(:title,null) IS NULL OR LOWER(title) LIKE :title ) ORDER BY creationdate " + filter.getOrder() + " LIMIT " + PAGE_SIZE + " OFFSET " + (page -1) * PAGE_SIZE + " ) AS a " +
                         ")" +
-                "ORDER BY creationdate " + filter.getOrder(),in,AUDITION_MAPPER);
-        List<Audition> list = new LinkedList<>();
-        for(Audition.AuditionBuilder auditionBuilder : auditionsBuilders) {
-            list.add(auditionBuilder.build());
-        }
-        return list;
+                "ORDER BY auditions.creationdate " + filter.getOrder(),in,AUDITION_MAPPER);
+        return auditionsBuilders.stream().map(Audition.AuditionBuilder::build).collect(Collectors.toList());
     }
 
     private MapSqlParameterSource parameterSource(AuditionFilter filter) {
