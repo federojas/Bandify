@@ -44,7 +44,7 @@
             <jsp:include page="../components/postCard.jsp">
                 <jsp:param name="id" value="${audition.id}" />
                 <jsp:param name="postCard" value="${1}" />
-                <jsp:param name="auditionDate" value="${audition.timeElapsed}" />
+                <jsp:param name="auditionDate" value="${audition.creationDate}" />
                 <jsp:param name="auditionTitle" value="${audition.title}" />
                 <jsp:param name="userName" value="${userName}"/>
                 <jsp:param name="userId" value="${userId}"/>
