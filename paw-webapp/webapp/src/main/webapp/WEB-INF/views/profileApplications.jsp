@@ -31,7 +31,7 @@
             <div class="filter-applications">
 
                     <div>
-                        <label for="postulation"><spring:message code="applications.see"/></label>
+                        <label for="postulation"><spring:message code="applications.seeBy"/></label>
                         <select id="postulation" name="state">
                             <option value=""><spring:message code="applications.all"/></option>
                             <option value="Pending"><spring:message code="applications.pending"/></option>
