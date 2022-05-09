@@ -14,8 +14,6 @@
     <script type="text/javascript" src="<c:url value="/resources/js/alerts.js" />"></script>
     <script src="<c:url value="/resources/js/auditionForm.js" />"></script>
     <script src="<c:url value="/resources/js/matMultipleSelect.js"/>"></script>
-    <script src="<c:url value="/resources/js/editCancelButton.js"/>"></script>
-
 </head>
 <body>
 <!-- Navbar -->
@@ -121,11 +119,13 @@
                         type="submit"
                         value="submit"
                         onclick="return auditionFormCheck()"
-                        class="purple-button"
+                        class="save-button"
                 >
                     <spring:message code="edit.postButton"/>
                 </button>
-                <input type="button" name="cancel" value="${cancel}" class="cancel-button" onclick="goBack()"/>
+                <a href="<c:url value="/auditions/${auditionId}"/>" class="cancel-button">
+                    <spring:message code="button.cancel" />
+                </a>
             </div>
         </form:form>
     </div>
