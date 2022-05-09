@@ -30,7 +30,7 @@
         <form action="<c:url value="/profile/applications" />" method="get" class="filter-applications-form">
             <div class="filter-applications">
                 <label>
-                    <spring:message code="applications.see"/>
+<%--                    <spring:message code="applications.see"/>--%>
                     <select name="state">
                         <option value=""><spring:message code="applications.all"/></option>
                         <option value="Pending"><spring:message code="applications.pending"/></option>
@@ -41,13 +41,20 @@
                 <button type="submit" class="filter-applications-button"><spring:message code="applications.see"/></button>
             </div>
         </form>
-        <c:forEach var="artistApplication" items="${artistApplications}">
-            <jsp:include page="../components/artistApplicationItem.jsp">
-                <jsp:param name="artistApplicationState" value="${artistApplication.state}"/>
-                <jsp:param name="auditionTitle" value="${artistApplication.auditionTitle}"/>
-                <jsp:param name="auditionId" value="${artistApplication.auditionId}"/>
-            </jsp:include>
-        </c:forEach>
+        <c:if test="${artistApplications.size() > 0}">
+            <c:forEach var="artistApplication" items="${artistApplications}">
+                <jsp:include page="../components/artistApplicationItem.jsp">
+                    <jsp:param name="artistApplicationState" value="${artistApplication.state}"/>
+                    <jsp:param name="auditionTitle" value="${artistApplication.auditionTitle}"/>
+                    <jsp:param name="auditionId" value="${artistApplication.auditionId}"/>
+                </jsp:include>
+            </c:forEach>
+        </c:if>
+        <c:if test="${artistApplications.size() == 0}">
+            <p class="no-applications">
+                <spring:message code="profile.noApplications"/>
+            </p>
+        </c:if>
     </div>
     <div class="pagination">
         <c:if test="${currentPage > 1}">
