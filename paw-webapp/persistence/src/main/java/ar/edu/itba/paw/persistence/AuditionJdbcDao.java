@@ -27,9 +27,9 @@ public class AuditionJdbcDao implements AuditionDao {
     private final GenreDao genreDao;
     private final RoleDao roleDao;
 
-    private final static RowMapper<Genre> GENRE_ROW_MAPPER = (rs, i) -> new Genre(rs.getLong("genres.id"), rs.getString("genre"));
-    private final static RowMapper<Role> ROLE_ROW_MAPPER = (rs, i) -> new Role(rs.getLong("roles.id"), rs.getString("role"));
-    private final static RowMapper<Location> LOCATION_ROW_MAPPER = (rs, i) -> new Location(rs.getLong("locations.id"), rs.getString("location"));
+    private final static RowMapper<Genre> GENRE_ROW_MAPPER = (rs, i) -> new Genre(rs.getLong("genreId"), rs.getString("genre"));
+    private final static RowMapper<Role> ROLE_ROW_MAPPER = (rs, i) -> new Role(rs.getLong("roleId"), rs.getString("role"));
+    private final static RowMapper<Location> LOCATION_ROW_MAPPER = (rs, i) -> new Location(rs.getLong("locationId"), rs.getString("location"));
     private final static RowMapper<Audition.AuditionBuilder> AUDITION_ROW_MAPPER = (rs, i) -> {
         return new Audition.AuditionBuilder(
                 rs.getString("title"),
@@ -57,7 +57,7 @@ public class AuditionJdbcDao implements AuditionDao {
     };
     private final static RowMapper<Integer> TOTAL_AUDITION_ROW_MAPPER = (rs, i) -> rs.getInt("auditionTotal");
 
-    private final String GET_FULL_AUD_QUERY = "SELECT auditions.id,bandid,title,description,creationdate,location,genre,role,roles.id, genres.id, locations.id" +
+    private final String GET_FULL_AUD_QUERY = "SELECT auditions.id,bandid,title,description,creationdate,location,genre,role,roles.id as roleId, genres.id as genreId, locations.id as locationId" +
             " FROM auditions JOIN auditiongenres ON auditions.id = auditiongenres.auditionid JOIN auditionroles ON auditions.id = auditionroles.auditionid" +
             " JOIN locations ON auditions.locationid = locations.id JOIN genres ON genres.id = auditiongenres.genreid" +
             " JOIN roles ON roles.id = auditionroles.roleid";
