@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="<c:url value="/resources/css/profile.css" />"/>
     <script src="<c:url value="/resources/js/editProfile.js"/>"></script>
     <script src="<c:url value="/resources/js/matMultipleSelect.js"/>"></script>
-
+    <script src="<c:url value="/resources/js/editCancelButton.js"/>"></script>
 </head>
 <body>
 <!-- Navbar -->
@@ -22,9 +22,8 @@
     <jsp:param name="navItem" value="${6}"/>
     <jsp:param name="name" value="Bandify"/>
 </jsp:include>
-
 <h1 class="editProfile-title"><spring:message code="edituser.title" /></h1>
-<div class="editProfile-box">
+<div class="editProfile-box" id="form">
     <c:url value="/profile/editBand" var="editProfileUrl"/>
 
     <%--@elvariable id="bandEditForm" type="ar.edu.itba.paw.webapp.form.BandEditForm"--%>
