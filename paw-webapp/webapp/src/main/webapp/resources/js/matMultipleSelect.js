@@ -1,3 +1,8 @@
+document.addEventListener("DOMContentLoaded", ready);
+function ready() {
+    window.scrollTo(0, 0);
+}
+
 $(document).ready(function () {
     $('select').material_select();
 
