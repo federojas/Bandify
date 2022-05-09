@@ -25,7 +25,6 @@ public class LocationJdbcDao implements LocationDao {
 
     @Override
     public Optional<Location> getLocationByAuditionId(long auditionId) {
-        // TODO: VERIFICAR GET 0
         List<Location> l = jdbcTemplate.query("SELECT locations.id, locations.location FROM LOCATIONS JOIN AUDITIONS ON locations.id = auditions.locationId AND auditions.id = ?", new Object[]{auditionId}, LOCATION_ROW_MAPPER);
         return l.stream().findFirst();
     }

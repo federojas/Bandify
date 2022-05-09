@@ -22,7 +22,7 @@
 
     <!-- Auditions content -->
     <div class="auditions-content">
-        <h2 id="posts">
+        <h2 class="black-title">
             <spring:message code="search.title" />
         </h2>
 
