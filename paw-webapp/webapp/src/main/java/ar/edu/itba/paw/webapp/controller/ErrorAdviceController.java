@@ -23,6 +23,13 @@ public class ErrorAdviceController {
         return new ModelAndView("errors/404");
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ModelAndView illegalArgumentException() {
+        LOGGER.warn("An illegal argument was found");
+        return new ModelAndView("errors/404");
+    }
+
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(GenreNotFoundException.class)
     public ModelAndView genreNotFound() {
