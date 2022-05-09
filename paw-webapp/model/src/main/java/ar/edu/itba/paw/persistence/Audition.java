@@ -17,6 +17,7 @@ public class Audition {
     private Set<Genre> musicGenres;
     private Set<Role> lookingFor;
     private String timeElapsed;
+    private String bandName;
 
     @Override
     public boolean equals(Object o) {
@@ -40,6 +41,7 @@ public class Audition {
         private long bandId;
         private long id;
         private String timeElapsed;
+        private String bandName;
 
         public AuditionBuilder(String title, String description,long bandId, LocalDateTime creationDate) {
             this.creationDate = creationDate;
@@ -81,6 +83,11 @@ public class Audition {
             return this;
         }
 
+        public AuditionBuilder bandName(String bandName) {
+            this.bandName = bandName;
+            return this;
+        }
+
         protected Audition build() {
             return new Audition(this);
         }
@@ -116,6 +123,11 @@ public class Audition {
         public long getId() {
             return id;
         }
+
+        public String getBandName() {
+            return bandName;
+        }
+
     }
 
     private Audition(AuditionBuilder builder) {
@@ -127,42 +139,31 @@ public class Audition {
         creationDate = builder.creationDate;
         musicGenres = builder.musicGenres;
         lookingFor = builder.lookingFor;
+        bandName = builder.bandName;
     }
 
     public long getId() {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
     public long getBandId() {
         return bandId;
-    }
-
-    public void setBandId(long bandId) {
-        this.bandId = bandId;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public LocalDateTime getCreationDate() {
         return creationDate;
+    }
+
+    public String getBandName() {
+        return bandName;
     }
 
     public String getTimeElapsed() {

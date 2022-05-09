@@ -30,14 +30,13 @@ public class AuditionJdbcDao implements AuditionDao {
     private final static RowMapper<Genre> GENRE_ROW_MAPPER = (rs, i) -> new Genre(rs.getLong("genreId"), rs.getString("genre"));
     private final static RowMapper<Role> ROLE_ROW_MAPPER = (rs, i) -> new Role(rs.getLong("roleId"), rs.getString("role"));
     private final static RowMapper<Location> LOCATION_ROW_MAPPER = (rs, i) -> new Location(rs.getLong("locationId"), rs.getString("location"));
-    private final static RowMapper<Audition.AuditionBuilder> AUDITION_ROW_MAPPER = (rs, i) -> {
-        return new Audition.AuditionBuilder(
-                rs.getString("title"),
-                rs.getString("description"),
-                rs.getLong("bandId"),
-                rs.getTimestamp("creationDate").toLocalDateTime()
-        ).id(rs.getLong("id"));
-    };
+    private final static RowMapper<Audition.AuditionBuilder> AUDITION_ROW_MAPPER = (rs, i) -> new Audition.AuditionBuilder(
+            rs.getString("title"),
+            rs.getString("description"),
+            rs.getLong("bandId"),
+            rs.getTimestamp("creationDate").toLocalDateTime()
+    ).id(rs.getLong("id")).bandName(rs.getString("name"));
+
     private final static ResultSetExtractor<List<Audition.AuditionBuilder>> AUDITION_MAPPER = rs -> {
         Map<Long, Audition.AuditionBuilder> auditionsById = new LinkedHashMap<>();
         int i = 0;
@@ -57,10 +56,15 @@ public class AuditionJdbcDao implements AuditionDao {
     };
     private final static RowMapper<Integer> TOTAL_AUDITION_ROW_MAPPER = (rs, i) -> rs.getInt("auditionTotal");
 
-    private final String GET_FULL_AUD_QUERY = "SELECT auditions.id,bandid,title,description,creationdate,location,genre,role,roles.id as roleId, genres.id as genreId, locations.id as locationId" +
-            " FROM auditions JOIN auditiongenres ON auditions.id = auditiongenres.auditionid JOIN auditionroles ON auditions.id = auditionroles.auditionid" +
-            " JOIN locations ON auditions.locationid = locations.id JOIN genres ON genres.id = auditiongenres.genreid" +
-            " JOIN roles ON roles.id = auditionroles.roleid";
+    private final String GET_FULL_AUD_QUERY = "SELECT auditions.id,bandid,title," +
+            "auditions.description as description,creationdate,location,genre,role,roles.id as roleId," +
+            " genres.id as genreId, locations.id as locationId, name" +
+            " FROM auditions JOIN auditiongenres ON auditions.id = auditiongenres.auditionid" +
+            " JOIN auditionroles ON auditions.id = auditionroles.auditionid" +
+            " JOIN locations ON auditions.locationid = locations.id" +
+            " JOIN genres ON genres.id = auditiongenres.genreid" +
+            " JOIN roles ON roles.id = auditionroles.roleid" +
+            " JOIN users ON bandid=users.id";
 
     @Autowired
     public AuditionJdbcDao(final DataSource ds, GenreDao genreDao, RoleDao roleDao) {

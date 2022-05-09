@@ -23,7 +23,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
 import javax.validation.Valid;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -73,8 +72,6 @@ public class AuditionsController {
 
         List<Audition> auditionList = auditionService.getAll(page);
 
-        Map<Long, String> userMap = getUserMap(auditionList);
-
         Set<Role> roleList = roleService.getAll();
         Set<Genre> genreList = genreService.getAll();
         List<Location> locationList = locationService.getAll();
@@ -82,7 +79,6 @@ public class AuditionsController {
         mav.addObject("genreList", genreList.stream().map(Genre::getName).collect(Collectors.toList()));
         mav.addObject("locationList", locationList.stream().map(Location::getName).collect(Collectors.toList()));
         mav.addObject("auditionList", auditionList);
-        mav.addObject("userMap", userMap);
         mav.addObject("currentPage", page);
         mav.addObject("lastPage", lastPage);
 
@@ -117,26 +113,13 @@ public class AuditionsController {
         mav.addObject("locationList", locationList.stream().map(Location::getName).collect(Collectors.toList()));
 
         List<Audition> auditionList = auditionService.filter(filter,page);
-        Map<Long, String> userMap = getUserMap(auditionList);
         mav.addObject("auditionList", auditionList);
-        mav.addObject("userMap", userMap);
         mav.addObject("currentPage", page);
         mav.addObject("query", query);
         mav.addObject("lastPage", lastPage);
         return mav;
     }
 
-    private Map<Long, String> getUserMap(List<Audition> auditionList) {
-        Map<Long, String> userMap = new HashMap<>();
-
-        for(Audition audition : auditionList) {
-            userMap.put(audition.getId(), userService.getUserById(audition.getBandId()).orElseThrow(UserNotFoundException::new).getName());
-        }
-
-        return userMap;
-    }
-
-    //TODO CODIGO REPETIDO
     @RequestMapping(value = "/auditions/{id}", method = {RequestMethod.GET})
     public ModelAndView audition(@ModelAttribute("applicationForm") final ApplicationForm applicationForm,
                                  @PathVariable long id) {

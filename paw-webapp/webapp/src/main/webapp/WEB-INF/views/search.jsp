@@ -50,7 +50,7 @@
                         scope="request"
                 />
                 <jsp:include page="../components/postCard.jsp">
-                    <jsp:param name="userName" value="${userMap[audition.id]}"/>
+                    <jsp:param name="userName" value="${audition.bandName}"/>
                     <jsp:param name="userId" value="${audition.bandId}"/>
                     <jsp:param name="id" value="${audition.id}" />
                     <jsp:param name="postCard" value="${1}" />
