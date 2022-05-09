@@ -71,7 +71,7 @@ INSERT INTO auditions(id, bandid, title, description, creationdate, locationid)
 VALUES (9, 1, 'title', 'description', '2022-07-05 14:23:30', 1);
 
 INSERT INTO auditions(id, bandid, title, description, creationdate, locationid)
-VALUES (10, 1, 'title', 'description', '2022-07-05 14:23:30', 1);
+VALUES (10, 1, 'query title', 'description', '2022-07-05 14:23:30', 1);
 
 INSERT INTO auditions(id, bandid, title, description, creationdate, locationid)
 VALUES (11, 1, 'title', 'description', '2022-07-05 14:23:30', 1);
@@ -136,7 +136,7 @@ INSERT INTO auditionroles(auditionid, roleid)
 VALUES (6,2);
 
 INSERT INTO auditiongenres(auditionid, genreid)
-VALUES (6,1);
+VALUES (6,2);
 
 INSERT INTO auditionroles(auditionid, roleid)
 VALUES (7,1);
