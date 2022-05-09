@@ -24,7 +24,7 @@ public class Role {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Role role = (Role) o;
-        return id == role.id && Objects.equals(name, role.name);
+        return getId() == role.getId() && Objects.equals(getName(), role.getName());
     }
 
     @Override

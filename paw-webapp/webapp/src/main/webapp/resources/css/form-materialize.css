@@ -2950,7 +2950,7 @@ button.btn-floating {
     background-color: #f6b2b5;
     will-change: left, right; }
 
-@media only screen and (max-width: 992px) {
+@media only screen and (max-width: 1500px) {
   .tabs {
     display: flex; }
     .tabs .tab {
