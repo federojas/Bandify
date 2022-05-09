@@ -14,9 +14,6 @@
     <link rel="stylesheet" href="<c:url value="/resources/css/profile.css" />"/>
     <script src="<c:url value="/resources/js/editProfile.js"/>"></script>
     <script src="<c:url value="/resources/js/matMultipleSelect.js"/>"></script>
-    <script src="<c:url value="/resources/js/editCancelButton.js"/>"></script>
-
-
 </head>
 <body>
 <!-- Navbar -->
@@ -127,12 +124,13 @@
                 type="submit"
                 form="artistEditForm"
                 value="submit"
-                class="purple-button"
-                onclick="debug()"
+                class="save-button"
         >
             <spring:message code="edituser.saveChangesBtn"/>
         </button>
-        <input type="button" name="cancel" value="${cancel}" class="cancel-button" onclick="goBack()"/>
+        <a href="<c:url value="/profile"/>" class="cancel-button">
+            <spring:message code="button.cancel" />
+        </a>
     </div>
 </div>
 </body>

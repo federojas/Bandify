@@ -115,11 +115,13 @@
                 type="submit"
                 form="bandEditForm"
                 value="submit"
-                class="purple-button"
+                class="save-button"
         >
             <spring:message code="edituser.saveChangesBtn"/>
         </button>
-        <input type="button" name="cancel" value="${cancel}" class="cancel-button" onclick="goBack()"/>
+        <a href="<c:url value="/profile"/>" class="cancel-button">
+            <spring:message code="button.cancel" />
+        </a>
     </div>
 </div>
 </body>
