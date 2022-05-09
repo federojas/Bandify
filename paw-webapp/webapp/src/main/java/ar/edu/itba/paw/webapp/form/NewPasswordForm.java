@@ -1,15 +1,16 @@
 package ar.edu.itba.paw.webapp.form;
-import org.hibernate.validator.constraints.NotBlank;
+
+import ar.edu.itba.paw.webapp.form.constraints.annotations.FieldsMatch;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+@FieldsMatch(field = "newPassword", secondField = "newPasswordConfirmation")
 public class NewPasswordForm {
 
     @Size(min = 8, max = 25)
     private String newPassword;
 
-    @NotNull
     @Size(min = 8, max = 25)
     private String newPasswordConfirmation;
 
@@ -19,7 +20,6 @@ public class NewPasswordForm {
 
     public void setNewPassword(String newPassword) {
         this.newPassword = newPassword;
-        checkConfirmPassword();
     }
 
     public String getNewPasswordConfirmation() {
@@ -28,12 +28,5 @@ public class NewPasswordForm {
 
     public void setNewPasswordConfirmation(String newPasswordConfirmation) {
         this.newPasswordConfirmation = newPasswordConfirmation;
-        checkConfirmPassword();
-    }
-
-    private void checkConfirmPassword() {
-        if(!this.newPassword.equals(newPasswordConfirmation)){
-            this.newPasswordConfirmation = null;
-        }
     }
 }
