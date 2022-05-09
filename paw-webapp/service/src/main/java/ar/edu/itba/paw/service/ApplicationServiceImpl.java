@@ -7,12 +7,9 @@ import ar.edu.itba.paw.persistence.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.core.env.Environment;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-
-import java.security.acl.NotOwnerException;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 
 @Service
@@ -21,23 +18,17 @@ public class ApplicationServiceImpl implements ApplicationService {
     private final MailingService mailingService;
     private final UserService userService;
     private final AuditionService auditionService;
-    private final Environment environment;
-    private final MessageSource messageSource;
     private static final Logger LOGGER = LoggerFactory.getLogger(AuditionServiceImpl.class);
 
     @Autowired
     public ApplicationServiceImpl(final ApplicationDao applicationDao,
                                   final MailingService mailingService,
                                   final UserService userService,
-                                  final AuditionService auditionService,
-                                  final Environment environment,
-                                  final MessageSource messageSource) {
+                                  final AuditionService auditionService) {
         this.applicationDao = applicationDao;
         this.mailingService = mailingService;
         this.userService = userService;
         this.auditionService = auditionService;
-        this.environment = environment;
-        this.messageSource = messageSource;
     }
 
 
@@ -61,6 +52,7 @@ public class ApplicationServiceImpl implements ApplicationService {
         return applicationDao.getAuditionApplicationsByState(auditionId,state);
     }
 
+    @Transactional
     @Override
     public boolean apply(long auditionId, User user, String message) {
         if(applicationDao.exists(auditionId,user.getId()))
@@ -73,11 +65,13 @@ public class ApplicationServiceImpl implements ApplicationService {
         return true;
     }
 
+    @Transactional
     @Override
     public void accept(long auditionId, long applicantId) {
         setApplicationState(auditionId,applicantId,ApplicationState.ACCEPTED);
     }
 
+    @Transactional
     @Override
     public void reject(long auditionId, long applicantId) {
         setApplicationState(auditionId,applicantId,ApplicationState.REJECTED);

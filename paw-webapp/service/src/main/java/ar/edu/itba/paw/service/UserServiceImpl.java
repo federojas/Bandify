@@ -19,6 +19,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.mail.MessagingException;
 import java.net.MalformedURLException;
@@ -58,6 +59,7 @@ public class UserServiceImpl implements UserService {
         return userDao.getUserById(id);
     }
 
+    @Transactional
     @Override
     public User create(User.UserBuilder userBuilder) {
         userBuilder.password(passwordEncoder.encode(userBuilder.getPassword()));
@@ -81,7 +83,7 @@ public class UserServiceImpl implements UserService {
         mailingService.sendVerificationEmail(user, token);
     }
 
-
+    @Transactional
     @Override
     public void editUser(long userId, String name, String surname, String description, List<String> genresNames, List<String> rolesNames, byte[] image) {
 
@@ -128,6 +130,7 @@ public class UserServiceImpl implements UserService {
         mailingService.sendResetPasswordEmail(user, token);
     }
 
+    @Transactional
     @Override
     public void changePassword(String token, String newPassword) {
         Long userId = verificationTokenService.validateToken(token, TokenType.RESET);

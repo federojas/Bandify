@@ -1,11 +1,12 @@
 package ar.edu.itba.paw.service;
-import ar.edu.itba.paw.model.exceptions.LocationNotFoundException;
-import ar.edu.itba.paw.persistence.Location;
+
 import ar.edu.itba.paw.persistence.Role;
 import ar.edu.itba.paw.model.exceptions.RoleNotFoundException;
 import ar.edu.itba.paw.persistence.RoleDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -19,6 +20,7 @@ public class RoleServiceImpl implements RoleService {
     public RoleServiceImpl(RoleDao roleDao) {
         this.roleDao = roleDao;
     }
+
     @Override
     public Set<Role> getAll() {
         return roleDao.getAll();
@@ -44,6 +46,7 @@ public class RoleServiceImpl implements RoleService {
         return roleDao.getUserRoles(userId);
     }
 
+    @Transactional
     @Override
     public void updateUserRoles(List<String> rolesNames, long userId) {
         if(rolesNames == null || rolesNames.isEmpty())
