@@ -18,8 +18,6 @@
         <jsp:param name="name" value="Bandify" />
     </jsp:include>
 
-
-
     <!-- Auditions content -->
     <div class="auditions-content">
         <h2 class="black-title">

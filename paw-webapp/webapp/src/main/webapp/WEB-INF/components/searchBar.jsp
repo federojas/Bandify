@@ -17,16 +17,25 @@
         $(document).ready(function () {
             $(".select-wrapper").each(function () {
                 var wrapper = this;
-                console.log(i);
-
+                let j = 0;
                 $(this).find("ul>li").each(function () {
                     var li = this;
                     var option_text = $(this).text();
-                    console.log(option_text);
-                    if (params[i].includes(option_text)) {
-                        $(li).click();
+                    if (i > 0) {
+                        if (params[i].includes(option_text)) {
+                            $(li).click();
+                        }
+                    } else {
+                        if (j === 0 && params[i][0] === "DESC") {
+                            $(li).click();
+                        }
+                        if (j === 1 && params[i][0] == "ASC") {
+                            $(li).click();
+                        }
+                        j+=1;
                     }
                 });
+
 
                 i+=1;
             });
@@ -34,7 +43,24 @@
             $(".search").click();
         });
 
+        function search() {
+            let list = [];
+            let i = 0;
+            $(".select-wrapper").each(function () {
+                var wrapper = this;
+                if (i > 0) {
+                    $(this).find("ul>li").each(function () {
+                        var li = this;
+                        if ($(li).hasClass("active")) {
+                            list.push($(li).text());
+                        }
 
+                    });
+                }
+                i+=1;
+            });
+            $('select').val(list).trigger('update');
+        }
 
     </script>
 </head>
@@ -46,7 +72,7 @@
         <div class="searchBarAndOrderBy">
             <div class="search">
                 <input type="text" maxlength="80" size="43" placeholder="${searchPlaceholder}" name="query">
-                <button type="submit" aria-hidden="true"></button>
+                <button type="submit" aria-hidden="true" onclick="search()"></button>
             </div>
             <div id="orderBy-filter" class="orderBy">
                 <select name="order">
