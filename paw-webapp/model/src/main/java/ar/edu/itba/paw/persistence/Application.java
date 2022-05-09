@@ -1,5 +1,7 @@
 package ar.edu.itba.paw.persistence;
 
+import java.time.LocalDateTime;
+
 public class Application {
     private final long auditionId;
     private final long applicantId;
@@ -7,6 +9,8 @@ public class Application {
     private final String applicantSurname;
     private final ApplicationState state;
     private final String auditionTitle;
+    private LocalDateTime creationDate;
+
 
     private Application(ApplicationBuilder builder) {
         this.auditionId = builder.auditionId;
@@ -15,6 +19,8 @@ public class Application {
         this.applicantSurname = builder.applicantSurname;
         this.state = builder.state;
         this.auditionTitle = builder.auditionTitle;
+        this.creationDate = builder.creationDate;
+
     }
 
     public long getAuditionId() {
@@ -41,6 +47,10 @@ public class Application {
         return auditionTitle;
     }
 
+    public LocalDateTime getCreationDate() {
+        return creationDate;
+    }
+
     public static class ApplicationBuilder {
         private final long auditionId;
         private final long applicantId;
@@ -48,11 +58,13 @@ public class Application {
         private String applicantSurname;
         private final ApplicationState state;
         private String auditionTitle;
+        private LocalDateTime creationDate;
 
-        public ApplicationBuilder(long auditionId, long applicantId, ApplicationState state) {
+        public ApplicationBuilder(long auditionId, long applicantId, ApplicationState state, LocalDateTime creationDate) {
             this.auditionId = auditionId;
             this.applicantId = applicantId;
             this.state = state;
+            this.creationDate = creationDate;
         }
 
         public ApplicationBuilder applicantName(String applicantName) {
@@ -68,6 +80,10 @@ public class Application {
         public ApplicationBuilder auditionTitle(String auditionTitle) {
             this.auditionTitle = auditionTitle;
             return this;
+        }
+
+        public LocalDateTime getCreationDate() {
+            return creationDate;
         }
 
         public long getAuditionId() {

@@ -96,6 +96,7 @@ CREATE TABLE IF NOT EXISTS applications
 (
     auditionId INTEGER NOT NULL,
     applicantId INTEGER NOT NULL,
+    creationDate TIMESTAMP NOT NULL,
     state TEXT NOT NULL,
     PRIMARY KEY(auditionId,applicantId),
     FOREIGN KEY (auditionId) REFERENCES auditions(id) ON DELETE CASCADE,

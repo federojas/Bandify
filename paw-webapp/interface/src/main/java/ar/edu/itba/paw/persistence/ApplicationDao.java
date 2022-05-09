@@ -20,4 +20,9 @@ public interface ApplicationDao {
     boolean exists(long auditionId, long id);
 
     int getTotalUserApplicationPages(long userId);
+
+    int getTotalUserApplicationPagesFiltered(long userId, ApplicationState state);
+
+    List<Application> getMyApplicationsFiltered(long applicantId, int page, ApplicationState state);
+
 }

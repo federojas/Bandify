@@ -26,4 +26,8 @@ public interface ApplicationService {
 
     int getTotalUserApplicationPages(long userId);
 
+    int getTotalUserApplicationPagesFiltered(long userId, ApplicationState state);
+
+    List<Application> getMyApplicationsFiltered(long applicantId, int page, ApplicationState state);
+
 }
