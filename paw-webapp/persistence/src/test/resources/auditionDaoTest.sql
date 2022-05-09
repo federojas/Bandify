@@ -35,7 +35,13 @@ INSERT INTO locations(id, location)
 VALUES (1, 'location');
 
 INSERT INTO locations(id, location)
-VALUES (2, 'locationUnique');
+VALUES (2, 'location2');
+
+INSERT INTO locations(id, location)
+VALUES (3, 'location3');
+
+INSERT INTO locations(id, location)
+VALUES (4, 'locationUnique');
 
 INSERT INTO auditions(id, bandid, title, description, creationdate, locationid)
 VALUES (1, 1, 'title', 'description', '2022-07-05 14:23:30', 1);
@@ -47,19 +53,19 @@ INSERT INTO auditions(id, bandid, title, description, creationdate, locationid)
 VALUES (3, 1, 'title', 'description', '2022-07-05 14:23:30', 1);
 
 INSERT INTO auditions(id, bandid, title, description, creationdate, locationid)
-VALUES (4, 1, 'title', 'description', '2022-07-05 14:23:30', 1);
+VALUES (4, 1, 'title', 'description', '2022-07-05 14:23:30', 2);
 
 INSERT INTO auditions(id, bandid, title, description, creationdate, locationid)
-VALUES (5, 1, 'title', 'description', '2022-07-05 14:23:30', 1);
+VALUES (5, 1, 'title', 'description', '2022-07-05 14:23:30', 2);
 
 INSERT INTO auditions(id, bandid, title, description, creationdate, locationid)
-VALUES (6, 1, 'title', 'description', '2022-07-05 14:23:30', 1);
+VALUES (6, 1, 'title', 'description', '2022-07-05 14:23:30', 2);
 
 INSERT INTO auditions(id, bandid, title, description, creationdate, locationid)
-VALUES (7, 1, 'title', 'description', '2022-07-05 14:23:30', 1);
+VALUES (7, 1, 'title', 'description', '2022-07-05 14:23:30', 3);
 
 INSERT INTO auditions(id, bandid, title, description, creationdate, locationid)
-VALUES (8, 1, 'title', 'description', '2022-07-05 14:23:30', 1);
+VALUES (8, 1, 'title', 'description', '2022-07-05 14:23:30', 3);
 
 INSERT INTO auditions(id, bandid, title, description, creationdate, locationid)
 VALUES (9, 1, 'title', 'description', '2022-07-05 14:23:30', 1);
@@ -127,7 +133,7 @@ INSERT INTO auditiongenres(auditionid, genreid)
 VALUES (5,1);
 
 INSERT INTO auditionroles(auditionid, roleid)
-VALUES (6,1);
+VALUES (6,2);
 
 INSERT INTO auditiongenres(auditionid, genreid)
 VALUES (6,1);
