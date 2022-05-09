@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.persistence;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class Application {
     private final long auditionId;
@@ -11,6 +12,18 @@ public class Application {
     private final String auditionTitle;
     private LocalDateTime creationDate;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Application that = (Application) o;
+        return getAuditionId() == that.getAuditionId() && getApplicantId() == that.getApplicantId() && Objects.equals(getApplicantName(), that.getApplicantName()) && Objects.equals(getApplicantSurname(), that.getApplicantSurname()) && getState() == that.getState() && Objects.equals(getAuditionTitle(), that.getAuditionTitle()) && Objects.equals(getCreationDate(), that.getCreationDate());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getAuditionId(), getApplicantId(), getApplicantName(), getApplicantSurname(), getState(), getAuditionTitle(), getCreationDate());
+    }
 
     private Application(ApplicationBuilder builder) {
         this.auditionId = builder.auditionId;

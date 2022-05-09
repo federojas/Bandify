@@ -33,22 +33,6 @@ public class ApplicationServiceImpl implements ApplicationService {
         this.auditionService = auditionService;
     }
 
-
-    @Override
-    public List<Application> getAllApplications(long bandId) {
-        return applicationDao.getAllApplications(bandId);
-    }
-
-    @Override
-    public List<Application> getApplicationsByState(long bandId, ApplicationState state) {
-        return applicationDao.getApplicationsByState(bandId, state);
-    }
-
-    @Override
-    public List<Application> getAuditionApplications(long auditionId) {
-        return applicationDao.getAuditionApplications(auditionId);
-    }
-
     @Override
     public List<Application> getAuditionApplicationsByState(long auditionId, ApplicationState state) {
         return applicationDao.getAuditionApplicationsByState(auditionId,state);

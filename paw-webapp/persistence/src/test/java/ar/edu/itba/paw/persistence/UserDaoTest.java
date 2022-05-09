@@ -121,6 +121,4 @@ public class UserDaoTest {
         assertEquals(1, JdbcTestUtils.countRowsInTableWhere(jdbcTemplate, "users", "isenabled = true"));
     }
 
-    //TODO EDIT USER FUNCIONES NUEVAS
-
 }

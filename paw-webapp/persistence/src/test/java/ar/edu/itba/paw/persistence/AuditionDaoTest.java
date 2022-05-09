@@ -160,13 +160,6 @@ public class AuditionDaoTest {
     }
 
     @Test
-    public void testCreate(){
-        Audition audition = auditionDao.create(new Audition.AuditionBuilder(TITLE, DESCRIPTION, USER_ID, CREATION_DATE).location(location).lookingFor(new HashSet<>(ALL_ROLES)).musicGenres(new HashSet<>(ALL_GENRES)).id(12));
-        assertNotNull(audition);
-        assertEquals(new_audition, audition);
-    }
-
-    @Test
     public void testGetFullPageBandAuditions() {
         List<Audition> auditions = auditionDao.getBandAuditions(USER_ID, 1);
         assertTrue(PAGE_1_BAND_AUDITIONS.containsAll(auditions));
