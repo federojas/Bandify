@@ -13,6 +13,23 @@
     <link rel="stylesheet" href="<c:url value="/resources/css/welcome.css" />"/>
     <link rel="stylesheet" href="<c:url value="/resources/css/auditions.css" />"/>
     <script src="<c:url value="/resources/js/pagination.js" />"></script>
+    <script>
+        const queryString = window.location.search;
+        const parameters = new URLSearchParams(queryString);
+        console.log(parameters.get('state'))
+        $(document).ready(function () {
+            $(".select-wrapper").each(function () {
+                var wrapper = this;
+                $(this).find("ul>li").each(function () {
+                    var li = this;
+                    var option_text = $(this).text();
+                    if (option_text == parameters.get('state')) {
+                        $(li).click();
+                    }
+                });
+            });
+        });
+    </script>
 </head>
 <body>
 <!-- Navbar -->
