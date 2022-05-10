@@ -1,23 +1,34 @@
 /* Clases para postCard */
-.postCard-div-0 {
+.postcard-container {
   --tw-bg-opacity: 1;
-  padding: 1.25rem;
-  margin-left: 0.5rem;
-  margin-right: 0.5rem;
-  margin-bottom: 1.25rem;
+  padding: 1.5rem;
   background-color: #ffffff;
   justify-content: center;
   max-width: 28rem;
   border-radius: 0.5rem;
   border-width: 1px;
-  transition: 1s;
+  transition: 0.5s;
   width: 400px;
-  height: 500px;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
 }
-.postCard-div-0:hover {
+
+.postcard-container:hover {
   transform: translateY(-10px);
 }
+
+.end-div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-top: auto;
+}
+
 .postCard-div-1 {
   margin-bottom: 1rem;
   overflow: hidden !important;
@@ -31,13 +42,7 @@ button[disabled]{
 .postCard-div-2 {
   margin-bottom: 1rem;
 }
-.postCard-div-3 {
-  display: flex;
-  flex-direction: row-reverse;
-  position: absolute;
-  bottom: 7%;
-  right: 5%;
-}
+
 .postCard-div-5 {
   position: relative;
   margin-top: 1.5rem;
@@ -92,9 +97,7 @@ button[disabled]{
   white-space: normal;
 }
 
-.content-div {
-  margin-left: 20px;
-}
+
 
 .postCard-button-0 {
   padding: 0.5rem 1.25rem;
@@ -227,4 +230,11 @@ ul > li {
   font-size: 1.25rem;
   line-height: 1.25rem;
   margin: 0.25rem;
+}
+
+.location-div {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
 }
