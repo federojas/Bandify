@@ -252,3 +252,27 @@ VALUES (13, 4, '2022-06-05 14:23:30', 'REJECTED');
 
 INSERT INTO applications(auditionid, applicantid, creationdate, state)
 VALUES (13, 2, '2022-06-05 14:23:30', 'REJECTED');
+
+INSERT INTO applications(auditionid, applicantid, creationdate, state)
+VALUES (2, 5, '2022-07-05 14:23:30', 'PENDING');
+
+INSERT INTO applications(auditionid, applicantid, creationdate, state)
+VALUES (2, 6, '2022-07-05 14:23:30', 'PENDING');
+
+INSERT INTO applications(auditionid, applicantid, creationdate, state)
+VALUES (2, 7, '2022-07-05 14:23:30', 'PENDING');
+
+INSERT INTO applications(auditionid, applicantid, creationdate, state)
+VALUES (2, 8, '2022-07-05 14:23:30', 'PENDING');
+
+INSERT INTO applications(auditionid, applicantid, creationdate, state)
+VALUES (2, 9, '2022-07-05 14:23:30', 'PENDING');
+
+INSERT INTO applications(auditionid, applicantid, creationdate, state)
+VALUES (2, 10, '2022-07-05 14:23:30', 'PENDING');
+
+INSERT INTO applications(auditionid, applicantid, creationdate, state)
+VALUES (2, 11, '2022-07-05 14:23:30', 'PENDING');
+
+INSERT INTO applications(auditionid, applicantid, creationdate, state)
+VALUES (2, 12, '2022-07-05 14:23:30', 'PENDING');
