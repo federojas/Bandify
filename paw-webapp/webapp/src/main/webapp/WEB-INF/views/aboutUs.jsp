@@ -25,7 +25,7 @@
 </div>
     <br>
     <hr>
-<h2 style="text-align:center; margin-bottom: 2rem" class="card-be-header about-us"><spring:message code="aboutUs.inBandify"/></h2>
+<h2 class="about-us-h2-center-text card-be-header about-us"><spring:message code="aboutUs.inBandify"/></h2>
     <div class="items">
         <div class="card">
            <h1 class="card-be-header"><spring:message code="aboutUs.beArtist"/> </h1>
