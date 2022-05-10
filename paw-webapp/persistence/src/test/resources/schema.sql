@@ -1,4 +1,3 @@
--- TODO: CHEQUEAR LOS TIPOS DE DATOS, INT, BIGINT, VARCHAR, TIMESTAMP,ETC
 CREATE TABLE IF NOT EXISTS locations
 (
     id SERIAL PRIMARY KEY,
@@ -8,13 +7,13 @@ CREATE TABLE IF NOT EXISTS locations
 CREATE TABLE IF NOT EXISTS genres
 (
     id SERIAL PRIMARY KEY,
-    genre VARCHAR(100) UNIQUE NOT NULL
+    genre VARCHAR(50) UNIQUE NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS roles
 (
     id SERIAL PRIMARY KEY,
-    role VARCHAR(100) UNIQUE NOT NULL
+    role VARCHAR(50) UNIQUE NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS users
@@ -22,30 +21,30 @@ CREATE TABLE IF NOT EXISTS users
     id SERIAL PRIMARY KEY,
     email VARCHAR(254) NOT NULL,
     password TEXT NOT NULL,
-    name TEXT NOT NULL,
-    surname TEXT,
+    name VARCHAR(50) NOT NULL,
+    surname VARCHAR(50),
     isBand BOOLEAN,
     isEnabled BOOLEAN,
-    description TEXT,
+    description VARCHAR(500),
     UNIQUE(email)
 );
 
 CREATE TABLE IF NOT EXISTS auditions
 (
     id SERIAL PRIMARY KEY,
-    bandId INT NOT NULL,
+    bandId BIGINT NOT NULL,
     title VARCHAR(50) NOT NULL,
     description VARCHAR(300) NOT NULL,
     creationDate TIMESTAMP NOT NULL,
-    locationId integer NOT NULL,
+    locationId BIGINT NOT NULL,
     FOREIGN KEY (locationId) REFERENCES locations,
     FOREIGN KEY (bandId) REFERENCES users(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS auditionGenres
 (
-    auditionId INTEGER NOT NULL,
-    genreId INTEGER NOT NULL,
+    auditionId BIGINT NOT NULL,
+    genreId BIGINT NOT NULL,
     FOREIGN KEY(auditionId) references auditions(id) ON DELETE CASCADE,
     FOREIGN KEY(genreId) references genres(id) ON DELETE CASCADE,
     UNIQUE(auditionId, genreId)
@@ -53,8 +52,8 @@ CREATE TABLE IF NOT EXISTS auditionGenres
 
 CREATE TABLE IF NOT EXISTS auditionRoles
 (
-    auditionId INTEGER NOT NULL,
-    roleId INTEGER NOT NULL,
+    auditionId BIGINT NOT NULL,
+    roleId BIGINT NOT NULL,
     FOREIGN KEY(auditionId) REFERENCES auditions(id) ON DELETE CASCADE,
     FOREIGN KEY(roleId) references roles(id) ON DELETE CASCADE,
     UNIQUE(auditionId, roleId)
@@ -62,7 +61,7 @@ CREATE TABLE IF NOT EXISTS auditionRoles
 
 CREATE TABLE IF NOT EXISTS verificationTokens (
     tokenId SERIAL PRIMARY KEY,
-    userId INTEGER NOT NULL,
+    userId BIGINT NOT NULL,
     token TEXT NOT NULL,
     expiryDate TIMESTAMP NOT NULL,
     type TEXT NOT NULL,
@@ -70,16 +69,16 @@ CREATE TABLE IF NOT EXISTS verificationTokens (
 );
 
 CREATE TABLE IF NOT EXISTS userGenres (
-    userId INTEGER NOT NULL,
-    genreId INTEGER NOT NULL,
+    userId BIGINT NOT NULL,
+    genreId BIGINT NOT NULL,
     FOREIGN KEY(userId) references users(id) ON DELETE CASCADE,
     FOREIGN KEY(genreId) references genres(id) ON DELETE CASCADE,
     UNIQUE(userId, genreId)
 );
 
 CREATE TABLE IF NOT EXISTS userRoles (
-    userId INTEGER NOT NULL,
-    roleId INTEGER NOT NULL,
+    userId BIGINT NOT NULL,
+    roleId BIGINT NOT NULL,
     FOREIGN KEY(userId) references users(id) ON DELETE CASCADE,
     FOREIGN KEY(roleId) references roles(id) ON DELETE CASCADE,
     UNIQUE(userId, roleId)
@@ -87,15 +86,15 @@ CREATE TABLE IF NOT EXISTS userRoles (
 
 CREATE TABLE IF NOT EXISTS profileImages
 (
-   userId INTEGER PRIMARY KEY,
-   image    BYTEA,
+   userId BIGINT PRIMARY KEY,
+   image BYTEA NOT NULL,
    FOREIGN KEY (userId) REFERENCES users ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS applications
 (
-    auditionId INTEGER NOT NULL,
-    applicantId INTEGER NOT NULL,
+    auditionId BIGINT NOT NULL,
+    applicantId BIGINT NOT NULL,
     creationDate TIMESTAMP NOT NULL,
     state TEXT NOT NULL,
     PRIMARY KEY(auditionId,applicantId),

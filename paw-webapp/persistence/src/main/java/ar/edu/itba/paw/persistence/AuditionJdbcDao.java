@@ -122,8 +122,6 @@ public class AuditionJdbcDao implements AuditionDao {
     @Override
     public int getTotalPages() {
         Optional<Integer> result = jdbcTemplate.query("SELECT COUNT(*) AS auditionTotal FROM auditions", TOTAL_AUDITION_ROW_MAPPER).stream().findFirst();
-        //TODO Math.ceil casteado a int puede castear un double muy grande y generar una excepcion
-        //TODO tamaño int es la maxima page
         return result.map(integer -> (int) Math.ceil(integer.doubleValue() / PAGE_SIZE)).orElse(0);
     }
 
@@ -168,11 +166,6 @@ public class AuditionJdbcDao implements AuditionDao {
             audGenreData.replace("genreId", genre.getId());
             jdbcGenreInsert.execute(audGenreData);
         }
-    }
-
-    @Override
-    public long getMaxAuditionId() {
-        return jdbcTemplate.query("SELECT MAX(id) AS maxId FROM auditions", (rs,i) -> rs.getLong("maxId") ).stream().findFirst().orElse(0L);
     }
 
     @Override

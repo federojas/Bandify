@@ -4,12 +4,12 @@
 <html>
 <head>
     <title><spring:message code="title.403"/></title>
-    <link rel="stylesheet" href="<c:url value="/resources/css/404.css" />" />
+    <link rel="stylesheet" href="<c:url value="/resources/css/errorPage.css" />" />
 </head>
 <body>
 <div class="container">
     <spring:message code="img.alt.403" var="img403"/>
-    <img src="<c:url value="/resources/images/403.png" />" alt="${img403}" style="margin-bottom: 2rem" />
+    <img src="<c:url value="/resources/images/403.png" />" alt="${img403}" class="image"/>
     <p class="wrong-para"><spring:message code="403.errorMessage"/></p>
 </div>
 </body>

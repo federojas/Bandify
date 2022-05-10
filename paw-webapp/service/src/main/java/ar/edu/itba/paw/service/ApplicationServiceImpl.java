@@ -2,6 +2,7 @@ package ar.edu.itba.paw.service;
 
 import ar.edu.itba.paw.model.exceptions.AuditionNotFoundException;
 import ar.edu.itba.paw.model.exceptions.AuditionNotOwnedException;
+import ar.edu.itba.paw.model.exceptions.PageNotFoundException;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.persistence.*;
 import org.slf4j.Logger;
@@ -35,6 +36,9 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public List<Application> getAuditionApplicationsByState(long auditionId, ApplicationState state, int page) {
+        int lastPage = getTotalAuditionApplicationByStatePages(auditionId, state);
+        lastPage = lastPage == 0 ? 1 : lastPage;
+        checkPage(page, lastPage);
         if(state == ApplicationState.ALL)
             state = ApplicationState.PENDING;
         return applicationDao.getAuditionApplicationsByState(auditionId,state, page);
@@ -56,17 +60,22 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Transactional
     @Override
     public void accept(long auditionId, long applicantId) {
+        checkIds(auditionId, applicantId);
         setApplicationState(auditionId,applicantId,ApplicationState.ACCEPTED);
     }
 
     @Transactional
     @Override
     public void reject(long auditionId, long applicantId) {
+        checkIds(auditionId, applicantId);
         setApplicationState(auditionId,applicantId,ApplicationState.REJECTED);
     }
 
     @Override
     public List<Application> getMyApplications(long applicantId, int page) {
+        int lastPage = getTotalUserApplicationPages(applicantId);
+        lastPage = lastPage == 0 ? 1 : lastPage;
+        checkPage(page, lastPage);
         return applicationDao.getMyApplications(applicantId, page);
     }
 
@@ -84,6 +93,9 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public List<Application> getMyApplicationsFiltered(long applicantId, int page, ApplicationState state) {
+        int lastPage = getTotalUserApplicationPagesFiltered(applicantId, state);
+        lastPage = lastPage == 0 ? 1 : lastPage;
+        checkPage(page, lastPage);
         if(state == ApplicationState.ALL)
             return getMyApplications(applicantId,page);
         return applicationDao.getMyApplicationsFiltered(applicantId,page,state);
@@ -106,6 +118,18 @@ public class ApplicationServiceImpl implements ApplicationService {
             mailingService.sendApplicationAcceptedEmail(band, audition, applicant.getEmail());
         }
         applicationDao.setApplicationState(auditionId, applicantId, state);
+    }
+
+    private void checkPage(int page, int lastPage) {
+        if(page <= 0)
+            throw new IllegalArgumentException();
+        if(page > lastPage)
+            throw new PageNotFoundException();
+    }
+
+    private void checkIds(long auditionId, long applicantId) {
+            if(auditionId <= 0 || applicantId <= 0)
+                throw new IllegalArgumentException();
     }
 
 }

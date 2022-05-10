@@ -222,12 +222,6 @@ public class AuditionDaoTest {
     }
 
     @Test
-    public void testGetMaxAuditionId() {
-        long id = auditionDao.getMaxAuditionId();
-        assertEquals(13, id);
-    }
-
-    @Test
     public void testGetTotalPagesByLocationFilter() {
         int pages = auditionDao.getTotalPages(locationFilter);
         assertEquals(2, pages);
@@ -311,8 +305,6 @@ public class AuditionDaoTest {
         assertTrue(PAGE_1_LOCATION_AUDITIONS_ASCENDING.containsAll(auditions));
         assertEquals(PAGE_SIZE, auditions.size());
     }
-
-    //TODO funciones filter
 
 }
 
