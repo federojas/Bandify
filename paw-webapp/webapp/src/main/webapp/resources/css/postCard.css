@@ -12,7 +12,7 @@
   border-width: 1px;
   transition: 1s;
   width: 400px;
-  height: 500px;
+  height: 440px;
   position: relative;
 }
 .postCard-div-0:hover {
@@ -187,14 +187,7 @@ ul > li {
   color: black;
   font-size: 1rem;
   font-weight: 700;
-  line-height: 2rem;
   word-break: break-word;
-}
-
-.date-row {
-  display: flex;
-  flex-direction: row;
-  justify-content: right;
 }
 
 .genres-div {
@@ -227,4 +220,18 @@ ul > li {
   font-size: 1.25rem;
   line-height: 1.25rem;
   margin: 0.25rem;
+}
+
+.date-and-location {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.location {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
 }
