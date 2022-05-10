@@ -3,7 +3,6 @@ package ar.edu.itba.paw.persistence;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.omg.PortableInterceptor.USER_EXCEPTION;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Rollback;
@@ -78,7 +77,6 @@ public class ApplicationDaoTest {
 
 
     private static final List<Application> PENDING_APPS_AUD2 = Arrays.asList(PENDING_APP_2_AUD2, PENDING_APP_4_AUD2, PENDING_APP_5_AUD2, PENDING_APP_6_AUD2, PENDING_APP_7_AUD2, PENDING_APP_8_AUD2, PENDING_APP_9_AUD2, PENDING_APP_10_AUD2, PENDING_APP_11_AUD2, PENDING_APP_12_AUD2 );
-    private static final List<Application> APPLICANT_APPS = Arrays.asList(PENDING_APP_AUD1, ACCEPTED_APP_AUD2, REJECTED_APP_AUD3);
     private static final List<Application> PENDING_APPS_APPLICANT_2 = Arrays.asList(PENDING_APP_2_AUD2, PENDING_APP_2_AUD1);
     private static final List<Application> PENDING_APPS_APPLICANT_4_PAGE_1 = Arrays.asList(PENDING_APP_4_AUD1, PENDING_APP_4_AUD2, PENDING_APP_4_AUD3, PENDING_APP_4_AUD4, PENDING_APP_4_AUD5, PENDING_APP_4_AUD6, PENDING_APP_4_AUD7, PENDING_APP_4_AUD8, PENDING_APP_4_AUD9, PENDING_APP_4_AUD10);
     private static final List<Application> PENDING_APPS_APPLICANT_4_PAGE_2 = Arrays.asList(PENDING_APP_4_AUD11, PENDING_APP_4_AUD12, PENDING_APP_4_AUD13);
@@ -201,4 +199,21 @@ public class ApplicationDaoTest {
         assertTrue(applications.isEmpty());
     }
 
+    @Test
+    public void testGetTotalAuditionApplicationsByStatePages() {
+        int pages = applicationDao.getTotalAuditionApplicationsByStatePages(1, ApplicationState.PENDING);
+        assertEquals(2, pages);
+    }
+
+    @Test
+    public void testGetTotalAuditionApplicationsByStatePagesZero() {
+        int pages = applicationDao.getTotalAuditionApplicationsByStatePages(5, ApplicationState.REJECTED);
+        assertEquals(0, pages);
+    }
+
+    @Test
+    public void testGetTotalAuditionApplicationsByStatePagesInvalid() {
+        int pages = applicationDao.getTotalAuditionApplicationsByStatePages(INVALID_ID, ApplicationState.REJECTED);
+        assertEquals(0, pages);
+    }
 }

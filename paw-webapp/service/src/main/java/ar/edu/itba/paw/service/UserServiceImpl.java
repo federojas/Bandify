@@ -93,14 +93,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void verifyUser(String token) {
-        Long userId = verificationTokenService.validateToken(token, TokenType.VERIFY);
-
-        if(userId != null) {
-            userDao.verifyUser(userId);
-            autoLogin(userId);
-        } else {
-            throw new UserNotFoundException();
-        }
+        long userId = verificationTokenService.getTokenOwner(token, TokenType.VERIFY);
+        userDao.verifyUser(userId);
+        autoLogin(userId);
     }
 
     private void autoLogin(long userId) {
@@ -126,9 +121,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public void changePassword(String token, String newPassword) {
-        Long userId = verificationTokenService.validateToken(token, TokenType.RESET);
-        if(userId == null)
-            throw new UserNotFoundException();
+        long userId = verificationTokenService.getTokenOwner(token, TokenType.RESET);
         userDao.changePassword(userId, passwordEncoder.encode(newPassword));
         autoLogin(userId);
     }

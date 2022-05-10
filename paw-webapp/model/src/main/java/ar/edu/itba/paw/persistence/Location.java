@@ -3,8 +3,8 @@ package ar.edu.itba.paw.persistence;
 import java.util.Objects;
 
 public class Location {
-    private long id;
-    private String name;
+    private final long id;
+    private final String name;
 
     protected Location(long id, String name) {
         this.id = id;

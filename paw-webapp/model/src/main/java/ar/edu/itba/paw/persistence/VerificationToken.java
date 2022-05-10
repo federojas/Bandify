@@ -7,10 +7,10 @@ public class VerificationToken {
 
     private static final int EXPIRATION_DAYS = 1;
 
-    private long id;
-    private String token;
-    private long userId;
-    private LocalDateTime expiryDate;
+    private final long id;
+    private final String token;
+    private final long userId;
+    private final LocalDateTime expiryDate;
 
     protected VerificationToken(long id, String token, long userId, LocalDateTime expiryDate) {
         this.id = id;
@@ -24,7 +24,7 @@ public class VerificationToken {
     }
 
     public boolean isValid() {
-        return LocalDateTime.now().isAfter(expiryDate);
+        return LocalDateTime.now().isBefore(expiryDate);
     }
 
     public long getId() {

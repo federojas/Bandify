@@ -4,7 +4,7 @@ public enum TokenType {
     VERIFY("verify"),
     RESET("reset");
 
-    private String type;
+    private final String type;
 
     TokenType(String type){
         this.type = type;

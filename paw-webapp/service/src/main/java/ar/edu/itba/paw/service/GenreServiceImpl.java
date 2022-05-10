@@ -27,11 +27,6 @@ public class GenreServiceImpl implements GenreService{
     }
 
     @Override
-    public Set<Genre> getGenresByAuditionId(long auditionId) {
-        return genreDao.getGenresByAuditionId(auditionId);
-    }
-
-    @Override
     public Set<Genre> validateAndReturnGenres(List<String> genresNames) {
 
         List<String> genres = genreDao.getAll().stream().map(Genre::getName).collect(Collectors.toList());

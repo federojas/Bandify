@@ -4,7 +4,6 @@ import ar.edu.itba.paw.persistence.*;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.service.*;
 import ar.edu.itba.paw.webapp.form.*;
-import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.*;
 import java.util.*;
@@ -27,7 +25,6 @@ public class UserController {
 
     private final UserService userService;
     private final VerificationTokenService verificationTokenService;
-    private final AuditionService auditionService;
     private final RoleService roleService;
     private final GenreService genreService;
     private final ImageService imageService;
@@ -36,12 +33,11 @@ public class UserController {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
-    public UserController(UserService userService, VerificationTokenService verificationTokenService,
-                          AuditionService auditionService, RoleService roleService, GenreService genreService,
-                          ImageService imageService, ApplicationService applicationService) {
+    public UserController(final UserService userService, final VerificationTokenService verificationTokenService,
+                          final RoleService roleService, final GenreService genreService,
+                          final ImageService imageService, final ApplicationService applicationService) {
         this.userService = userService;
         this.verificationTokenService = verificationTokenService;
-        this.auditionService = auditionService;
         this.roleService = roleService;
         this.genreService = genreService;
         this.imageService = imageService;
@@ -57,7 +53,6 @@ public class UserController {
         return mav;
     }
 
-    //TODO: MODULARIZAR CODIGO REPETIDO EN REGISTERS
     @RequestMapping(value = "/registerBand", method = {RequestMethod.POST})
     public ModelAndView registerBand(@Valid @ModelAttribute("userBandForm") final UserBandForm userBandForm,
                                      final BindingResult errors) {
@@ -75,7 +70,6 @@ public class UserController {
         return emailSent(userBandForm.getEmail());
     }
 
-    //TODO: MODULARIZAR CODIGO REPETIDO EN REGISTERS
     @RequestMapping(value = "/registerArtist", method = {RequestMethod.POST})
     public ModelAndView registerArtist(@Valid @ModelAttribute("userArtistForm") final UserArtistForm userArtistForm,
                                        final BindingResult errors) {
@@ -207,7 +201,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/verify")
-    public ModelAndView verify(@RequestParam(required = true) final String token) {
+    public ModelAndView verify(@RequestParam final String token) {
         userService.verifyUser(token);
         return new ModelAndView("verified");
     }
@@ -216,8 +210,7 @@ public class UserController {
     public ModelAndView resetPassword(@ModelAttribute("resetPasswordForm")
                                       final ResetPasswordForm resetPasswordForm) {
 
-        ModelAndView mav = new ModelAndView("resetPassword");
-        return mav;
+        return new ModelAndView("resetPassword");
     }
 
     @RequestMapping(value = "/resetPassword", method = {RequestMethod.POST})
@@ -234,19 +227,17 @@ public class UserController {
     }
 
     @RequestMapping(value = "/newPassword", method = {RequestMethod.GET})
-    public ModelAndView newPassword(@RequestParam(required = true) final String token,
+    public ModelAndView newPassword(@RequestParam final String token,
                                     @ModelAttribute("newPasswordForm") final NewPasswordForm newPasswordForm) {
-        if(verificationTokenService.isValid(token)) {
-            ModelAndView mav = new ModelAndView("newPassword");
-            mav.addObject("token",token);
-            return mav;
-        }
 
-        return new ModelAndView("redirect:/errors/404");
+        verificationTokenService.isValid(token);
+        ModelAndView mav = new ModelAndView("newPassword");
+        mav.addObject("token",token);
+        return mav;
     }
 
     @RequestMapping(value = "/newPassword", method = {RequestMethod.POST})
-    public ModelAndView newPassword(@RequestParam(required = true) final String token,
+    public ModelAndView newPassword(@RequestParam final String token,
                                     @Valid @ModelAttribute("newPasswordForm") final NewPasswordForm newPasswordForm,
                                     final BindingResult errors) {
 

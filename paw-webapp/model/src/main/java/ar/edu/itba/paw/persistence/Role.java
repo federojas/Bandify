@@ -3,8 +3,8 @@ package ar.edu.itba.paw.persistence;
 import java.util.Objects;
 
 public class Role {
-    private long id;
-    private String name;
+    private final long id;
+    private final String name;
 
     protected Role(long id, String name) {
         this.id = id;

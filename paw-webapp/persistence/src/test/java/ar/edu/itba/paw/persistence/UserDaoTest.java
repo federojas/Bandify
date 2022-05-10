@@ -1,6 +1,5 @@
 package ar.edu.itba.paw.persistence;
 
-import ar.edu.itba.paw.model.exceptions.DuplicateUserException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,8 +36,6 @@ public class UserDaoTest {
     private static final String PASSWORD = "12345678";
     private static final String NAME = "name";
     private static final String SURNAME = "surname";
-    private static final String EMAIL = "artist@mail.com";
-    private static final String EMAIL_2 = "artist2@mail.com";
     private static final String DESCRIPTION = "description";
 
     private static final String NEW_PASSWORD = "87654321";

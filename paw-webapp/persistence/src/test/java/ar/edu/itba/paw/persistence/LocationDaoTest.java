@@ -54,36 +54,6 @@ public class LocationDaoTest {
     }
 
     @Test
-    public void testGetLocationByAuditionId() {
-        final Optional<Location> optionalLocation = locationDao.getLocationByAuditionId(AUDITION_ID);
-        assertNotNull(optionalLocation);
-        assertTrue(optionalLocation.isPresent());
-        assertEquals(location, optionalLocation.get());
-    }
-
-    @Test
-    public void testGetLocationByInvalidAuditionId() {
-        final Optional<Location> optionalLocation = locationDao.getLocationByAuditionId(INVALID_ID);
-        assertNotNull(optionalLocation);
-        assertFalse(optionalLocation.isPresent());
-    }
-
-    @Test
-    public void testGetLocationById() {
-        final Optional<Location> optionalLocation = locationDao.getLocationById(location.getId());
-        assertNotNull(optionalLocation);
-        assertTrue(optionalLocation.isPresent());
-        assertEquals(location, optionalLocation.get());
-    }
-
-    @Test
-    public void testGetLocationByInvalidId() {
-        final Optional<Location> optionalLocation = locationDao.getLocationById(INVALID_ID);
-        assertNotNull(optionalLocation);
-        assertFalse(optionalLocation.isPresent());
-    }
-
-    @Test
     public void testGetLocationByName() {
         final Optional<Location> optionalLocation = locationDao.getLocationByName(location.getName());
         assertNotNull(optionalLocation);

@@ -41,7 +41,7 @@ public class VerificationTokenDaoTest {
     private static final String TOKEN = "token";
     private static final String INVALID_TOKEN = "INVALIDO";
 
-    private static final LocalDateTime EXPIRY_DATE = LocalDateTime.now().plusDays(1);;
+    private static final LocalDateTime EXPIRY_DATE = LocalDateTime.now().plusDays(1);
 
     private static final LocalDateTime USER_VERIFY_TOKEN_EXPIRY_DATE = LocalDateTime.of(2022 ,7, 5, 14, 23, 30);
     private static final String USER_VERIFY_TOKEN = "token-verify";

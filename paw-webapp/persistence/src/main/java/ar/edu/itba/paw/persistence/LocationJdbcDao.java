@@ -1,4 +1,5 @@
 package ar.edu.itba.paw.persistence;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -21,17 +22,6 @@ public class LocationJdbcDao implements LocationDao {
     @Override
     public List<Location> getAll() {
         return jdbcTemplate.query("SELECT * FROM locations", LOCATION_ROW_MAPPER);
-    }
-
-    @Override
-    public Optional<Location> getLocationByAuditionId(long auditionId) {
-        List<Location> l = jdbcTemplate.query("SELECT locations.id, locations.location FROM LOCATIONS JOIN AUDITIONS ON locations.id = auditions.locationId AND auditions.id = ?", new Object[]{auditionId}, LOCATION_ROW_MAPPER);
-        return l.stream().findFirst();
-    }
-
-    @Override
-    public Optional<Location> getLocationById(long location) {
-        return jdbcTemplate.query("SELECT * FROM LOCATIONS WHERE id = ?", new Object[]{location},LOCATION_ROW_MAPPER).stream().findFirst();
     }
 
     @Override

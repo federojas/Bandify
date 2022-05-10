@@ -1,7 +1,6 @@
 package ar.edu.itba.paw.service;
 
 import ar.edu.itba.paw.persistence.TokenType;
-import ar.edu.itba.paw.persistence.User;
 import ar.edu.itba.paw.persistence.VerificationToken;
 
 import java.util.Optional;
@@ -14,8 +13,8 @@ public interface VerificationTokenService {
 
     VerificationToken generate(long userId, TokenType type);
 
-    Long validateToken(String token, TokenType type);
+    long getTokenOwner(String token, TokenType type);
 
-    boolean isValid(String token);
+    void isValid(String token);
 
 }
