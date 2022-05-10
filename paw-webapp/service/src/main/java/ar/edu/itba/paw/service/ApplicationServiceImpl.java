@@ -36,7 +36,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Override
     public List<Application> getAuditionApplicationsByState(long auditionId, ApplicationState state, int page) {
         if(state == ApplicationState.ALL)
-            return applicationDao.getAuditionApplications(auditionId, page);
+            state = ApplicationState.PENDING;
         return applicationDao.getAuditionApplicationsByState(auditionId,state, page);
     }
 
@@ -92,7 +92,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Override
     public int getTotalAuditionApplicationByStatePages(long id, ApplicationState state) {
         if(state == ApplicationState.ALL)
-            return applicationDao.getTotalAuditionApplicationsPages(id);
+            state = ApplicationState.PENDING;
         return applicationDao.getTotalAuditionApplicationsByStatePages(id,state);
     }
 

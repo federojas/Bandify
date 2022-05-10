@@ -16,7 +16,6 @@
             border-radius: 5px;
             justify-content: space-around;
             background-color: white;
-            /*width: 0%;*/
             align-self: center;
         }
 
@@ -45,6 +44,14 @@
             flex-direction: row;
             justify-content: center;
             align-items: center;
+        }
+
+        .postcard-profile-image{
+            height: 50px;
+            width: 50px;
+            object-fit: cover;
+            border-radius: 10000px;
+            border:2px solid black;
         }
     </style>
 </head>

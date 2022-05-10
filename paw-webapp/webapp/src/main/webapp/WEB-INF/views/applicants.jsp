@@ -39,59 +39,58 @@
 </jsp:include>
 
 <!-- Auditions content -->
-<div class="auditions-content">
-    <h2 id="posts">
-        <spring:message code="profile.myApplications"/>
-    </h2>
-    <div class="user-data">
-        <form action="<c:url value="/auditions/${id}/applicants" />" method="get" class="filter-applications-form">
-            <div class="filter-applications">
-                <div>
-                    <label for="postulation"><spring:message code="applications.seeBy"/></label>
-                    <select id="postulation" name="state">
-                        <option value=""><spring:message code="applications.all"/></option>
-                        <option value="Pending"><spring:message code="applications.pending"/></option>
-                        <option value="Accepted"><spring:message code="applications.accepted"/></option>
-                        <option value="Rejected"><spring:message code="applications.rejected"/></option>
-                    </select>
+    <div class="auditions-content">
+        <h2 id="posts">
+            <spring:message code="profile.myApplications"/>
+        </h2>
+        <div class="user-data">
+            <form action="<c:url value="/auditions/${id}/applicants" />" method="get" class="filter-applications-form">
+                <div class="filter-applications">
+                    <div>
+                        <label for="postulation"><spring:message code="applications.seeBy"/></label>
+                        <select id="postulation" name="state">
+                            <option value="Pending"><spring:message code="applications.pending"/></option>
+                            <option value="Accepted"><spring:message code="applications.accepted"/></option>
+                            <option value="Rejected"><spring:message code="applications.rejected"/></option>
+                        </select>
+                    </div>
+                    <button type="submit" class="filter-applications-button"><spring:message code="applications.see"/></button>
                 </div>
-                <button type="submit" class="filter-applications-button"><spring:message code="applications.see"/></button>
-            </div>
-        </form>
-        <c:if test="${applications.size() > 0}">
-            <c:forEach var="app" items="${applications}">
-                <jsp:include page="../components/applicationItem.jsp">
-                    <jsp:param name="applicantName" value="${app.applicantName}" />
-                    <jsp:param name="applicantSurname" value="${app.applicantSurname}" />
-                    <jsp:param name="auditionId" value="${param.auditionId}" />
-                    <jsp:param name="userId" value="${app.applicantId}" />
-                    <jsp:param name="actionable" value="true" />
-                </jsp:include>
-            </c:forEach>
-        </c:if>
-        <c:if test="${applications.size() == 0}">
-            <p class="no-applications">
-                <spring:message code="profile.noApplications"/>
-            </p>
-        </c:if>
+            </form>
+            <c:if test="${applications.size() > 0}">
+                <c:forEach var="app" items="${applications}">
+                    <jsp:include page="../components/applicationItem.jsp">
+                        <jsp:param name="applicantName" value="${app.applicantName}" />
+                        <jsp:param name="applicantSurname" value="${app.applicantSurname}" />
+                        <jsp:param name="auditionId" value="${app.auditionId}" />
+                        <jsp:param name="userId" value="${app.applicantId}" />
+                        <jsp:param name="actionable" value="${app.state.state=='PENDING'}" />
+                    </jsp:include>
+                </c:forEach>
+            </c:if>
+            <c:if test="${applications.size() == 0}">
+                <p class="no-applications">
+                    <spring:message code="profile.noApplications"/>
+                </p>
+            </c:if>
+        </div>
+        <div class="pagination">
+            <c:if test="${currentPage > 1}">
+                <spring:message code="pagination.previous.page.alt" var="previous"/>
+                <a onclick="getPaginationURL(${currentPage-1})">
+                    <img src="<c:url value="/resources/images/page-next.png"/>"
+                         alt="${previous}" class="pagination-next rotate">
+                </a>
+            </c:if>
+            <b><spring:message code="page.current" arguments="${currentPage},${lastPage}"/></b>
+            <c:if test="${currentPage < lastPage}">
+                <spring:message code="pagination.next.page.alt" var="next"/>
+                <a onclick="getPaginationURL(${currentPage+1})">
+                    <img src="<c:url value="/resources/images/page-next.png"/>"
+                         alt="${next}" class="pagination-next">
+                </a>
+            </c:if>
+        </div>
     </div>
-    <div class="pagination">
-        <c:if test="${currentPage > 1}">
-            <spring:message code="pagination.previous.page.alt" var="previous"/>
-            <a onclick="getPaginationURL(${currentPage-1})">
-                <img src="<c:url value="/resources/images/page-next.png"/>"
-                     alt="${previous}" class="pagination-next rotate">
-            </a>
-        </c:if>
-        <b><spring:message code="page.current" arguments="${currentPage},${lastPage}"/></b>
-        <c:if test="${currentPage < lastPage}">
-            <spring:message code="pagination.next.page.alt" var="next"/>
-            <a onclick="getPaginationURL(${currentPage+1})">
-                <img src="<c:url value="/resources/images/page-next.png"/>"
-                     alt="${next}" class="pagination-next">
-            </a>
-        </c:if>
-    </div>
-</div>
 </body>
 </html>
