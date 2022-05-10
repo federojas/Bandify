@@ -41,7 +41,7 @@
                     minutes: "unos %d minutos",
                     hour: "una hora",
                     hours: "%d horas",
-                    day: "un día",
+                    day: "un d\u00eda",
                     days: "%d d\u00edas",
                     month: "un mes",
                     months: "%d meses",
