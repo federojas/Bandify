@@ -26,11 +26,12 @@ public class ImageJdbcDao implements ImageDao {
     }
 
     @Override
-    public void updateProfilePicture(long userId, byte[] image) {
+    public byte[] updateProfilePicture(long userId, byte[] image) {
         if(hasProfilePicture(userId))
             jdbcTemplate.update("UPDATE profileimages SET image = ? WHERE userid = ?", image, userId);
         else
             crateProfilePicture(userId, image);
+        return image;
     }
 
     private boolean hasProfilePicture(long userId) {
