@@ -10,11 +10,13 @@ prefix="spring" uri="http://www.springframework.org/tags"%>
     <link rel="stylesheet" href="<c:url value="/resources/css/welcome.css" />" />
     <link rel="stylesheet" href="<c:url value="/resources/css/auditions.css" />" />
     <script src="<c:url value="/resources/js/pagination.js" />"></script>
+
     <script>
       $(document).ready(function(){
         $('.parallax').parallax();
       });
     </script>
+
   </head>
   <body>
 
@@ -23,7 +25,6 @@ prefix="spring" uri="http://www.springframework.org/tags"%>
       <jsp:param name="navItem" value="${2}" />
       <jsp:param name="name" value="Bandify" />
     </jsp:include>
-
     <div>
       <div class="parallax-container">
         <div class="parallax"><img src="<c:url value="/resources/images/parallax3.png" />"/></div>
