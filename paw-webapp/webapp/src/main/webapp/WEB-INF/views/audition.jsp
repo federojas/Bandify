@@ -28,11 +28,11 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
 
     <div class="audition-content">
       <div class="left-panel">
-        <a class="back-anchor" href="<c:url value="/auditions" />">
+        <button onclick="history.back()">
           <div class="back-div">
             <img src="<c:url value="/resources/icons/back.svg" />" class="back-icon"/>
           </div>
-        </a>
+        </button>
       </div>
 
       <div class="card-extern">
