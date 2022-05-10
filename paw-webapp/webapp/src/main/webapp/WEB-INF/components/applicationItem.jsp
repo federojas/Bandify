@@ -11,7 +11,7 @@
 <body>
 <div class="application-box">
 
-    <a href="${userProfile}">
+    <a href="<c:url value="/user/${param.userId}"/>">
         <div class="image-and-name">
             <spring:message code="profile.img.alt" var="img"/>
             <img class="postcard-profile-image"
