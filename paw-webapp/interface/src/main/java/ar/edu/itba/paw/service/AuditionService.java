@@ -15,8 +15,6 @@ public interface AuditionService {
 
     List<Audition> getAll(int page);
 
-    long getMaxAuditionId();
-
     int getTotalPages();
 
     List<Audition> getBandAuditions(long userId, int page);

@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -95,12 +96,37 @@ public class UserController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> optionalUser = userService.findByEmail(auth.getName());
         User user = optionalUser.orElseThrow(UserNotFoundException::new);
-        mav.addObject("user", user);
+        return setAndReturnProfileViewData(user, mav);
+    }
 
-        Set<Genre> preferredGenres = genreService.getUserGenres(user.getId());
+    @RequestMapping(value = "/user/{id}", method = {RequestMethod.GET})
+    public ModelAndView profile(@PathVariable long id) {
+
+        Optional<User> optionalUser = userService.getUserById(id);
+        User userToVisit = optionalUser.orElseThrow(UserNotFoundException::new);
+
+        if(SecurityContextHolder.getContext().getAuthentication() != null &&
+                SecurityContextHolder.getContext().getAuthentication().isAuthenticated() &&
+                !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            optionalUser = userService.findByEmail(auth.getName());
+            User user = optionalUser.orElseThrow(UserNotFoundException::new);
+
+            if(user.getId() == userToVisit.getId())
+                return new ModelAndView("redirect:/profile");
+        }
+
+        ModelAndView mav = new ModelAndView("viewProfile");
+        return setAndReturnProfileViewData(userToVisit, mav);
+    }
+
+    private ModelAndView setAndReturnProfileViewData(User userToVisit, ModelAndView mav) {
+        mav.addObject("user", userToVisit);
+
+        Set<Genre> preferredGenres = genreService.getUserGenres(userToVisit.getId());
         mav.addObject("preferredGenres", preferredGenres);
 
-        Set<Role> roles = roleService.getUserRoles(user.getId());
+        Set<Role> roles = roleService.getUserRoles(userToVisit.getId());
         mav.addObject("roles", roles);
 
         return mav;
@@ -114,13 +140,9 @@ public class UserController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> optionalUser = userService.findByEmail(auth.getName());
         User user = optionalUser.orElseThrow(UserNotFoundException::new);
-        int lastPage = applicationService.getTotalUserApplicationPagesFiltered(user.getId(), ApplicationState.valueOf(state.toUpperCase()));
         List<Application> applications = applicationService.getMyApplicationsFiltered(user.getId(), page, ApplicationState.valueOf(state.toUpperCase()));
-        if(lastPage == 0)
-            lastPage = 1;
-        if(page < 0 || page > lastPage)
-            return new ModelAndView("errors/404");
-
+        int lastPage = applicationService.getTotalUserApplicationPagesFiltered(user.getId(), ApplicationState.valueOf(state.toUpperCase()));
+        lastPage = lastPage == 0 ? 1 : lastPage;
         mav.addObject("artistApplications", applications);
         mav.addObject("currentPage", page);
         mav.addObject("lastPage", lastPage);

@@ -16,11 +16,11 @@
         let i = 0;
         $(document).ready(function () {
             $(".select-wrapper").each(function () {
-                var wrapper = this;
+                let wrapper = this;
                 let j = 0;
                 $(this).find("ul>li").each(function () {
-                    var li = this;
-                    var option_text = $(this).text();
+                    let li = this;
+                    let option_text = $(this).text();
                     if (i > 0) {
                         if (params[i].includes(option_text)) {
                             $(li).click();
@@ -47,10 +47,10 @@
             let list = [];
             let i = 0;
             $(".select-wrapper").each(function () {
-                var wrapper = this;
+                let wrapper = this;
                 if (i > 0) {
                     $(this).find("ul>li").each(function () {
-                        var li = this;
+                        let li = this;
                         if ($(li).hasClass("active")) {
                             list.push($(li).text());
                         }

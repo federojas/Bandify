@@ -3,7 +3,9 @@
     justify-content: center;
     padding: 24px;
 }
-
+.color-register-button{
+    background-color: rgba(108, 12, 132, 0.69);
+}
 .register-content {
     display: flex;
     justify-content: center;

@@ -4,12 +4,12 @@
 <html>
 <head>
     <title><spring:message code="title.400"/></title>
-    <link rel="stylesheet" href="<c:url value="/resources/css/404.css" />" />
+    <link rel="stylesheet" href="<c:url value="/resources/css/errorPage.css" />" />
 </head>
 <body>
 <div class="container">
     <spring:message code="img.alt.400" var="img400"/>
-    <img src="<c:url value="/resources/images/400.png" />" alt="${img400}" style="margin-bottom: 2rem" />
+    <img src="<c:url value="/resources/images/400.png" />" alt="${img400}" class="image"/>
     <p class="wrong-para"><spring:message code="400.errorMessage"/></p>
 </div>
 </body>

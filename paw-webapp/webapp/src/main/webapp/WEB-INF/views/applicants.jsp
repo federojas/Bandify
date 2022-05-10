@@ -17,7 +17,6 @@
     <script>
         const queryString = window.location.search;
         const parameters = new URLSearchParams(queryString);
-        console.log(parameters.get('state'))
         $(document).ready(function () {
             $(".select-wrapper").each(function () {
                 let wrapper = this;
@@ -53,7 +52,7 @@
                 <spring:message code="applicants.title"/>
             </h2>
             <h3 class="subtitle">
-                <spring:message code="applicants.subtitle"/> <b>"<c:out value="${auditionTitle}"/>"</b>
+                <b><spring:message code="applicants.subtitle" arguments="${auditionTitle}"/></b>
             </h3>
             <div class="user-data">
                 <form action="<c:url value="/auditions/${id}/applicants" />" method="get" class="filter-applications-form">

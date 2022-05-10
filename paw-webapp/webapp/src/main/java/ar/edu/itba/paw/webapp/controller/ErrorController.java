@@ -28,6 +28,9 @@ public class ErrorController {
             case 404: {
                 return new ModelAndView("errors/404");
             }
+            case 405: {
+                return new ModelAndView("errors/405");
+            }
             case 500: {
                 return new ModelAndView("errors/500");
             }

@@ -27,7 +27,7 @@ public class GenreServiceImpl implements GenreService{
     }
 
     @Override
-    public Set<Genre> validateAndReturnGenres(List<String> genresNames) {
+    public Set<Genre> getGenresByNames(List<String> genresNames) {
 
         List<String> genres = genreDao.getAll().stream().map(Genre::getName).collect(Collectors.toList());
 
@@ -49,7 +49,7 @@ public class GenreServiceImpl implements GenreService{
             genreDao.updateUserGenres(null, userId);
             return;
         }
-        Set<Genre> newGenres = validateAndReturnGenres(genresNames);
+        Set<Genre> newGenres = getGenresByNames(genresNames);
         genreDao.updateUserGenres(newGenres, userId);
     }
 

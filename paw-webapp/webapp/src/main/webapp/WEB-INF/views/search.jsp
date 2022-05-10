@@ -31,7 +31,7 @@
         <%--Publicaciones de audiciones--%>
             <div class="posts">
                 <c:if test="${auditionList.size() == 0}">
-                    <b><p  style="width: 100%; text-align: center">
+                    <b><p class="no-results" >
                         <spring:message code="search.noresults"/>
                     </p>
                     </b>
