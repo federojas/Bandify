@@ -90,7 +90,6 @@ function registerbandCheck(){
     if(bandName<=0||bandName>50){
         wrongName.style.display='block'
         validForm=false;
-
     }
     if(typeof password!='string'||typeof email != 'string'||typeof name != 'string'){
 
