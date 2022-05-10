@@ -132,20 +132,7 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
             </div>
           </c:if>
         </div>
-
       </div>
-      <sec:authorize access="hasRole('BAND')">
-        <c:if test="${isOwner}">
-          <div class="applicants">
-
-          </div>
-          <h1 class="applicants-header"><spring:message code="audition.applicantsHeader"/></h1>
-
-          <jsp:include page="../components/applicantsByState.jsp">
-            <jsp:param name="auditionId" value="${audition.id}" />
-          </jsp:include>
-        </c:if>
-      </sec:authorize>
     </div>
     <div class="back-auditions-div">
       <a class="back-anchor" href="<c:url value="/auditions" />">

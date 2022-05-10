@@ -124,17 +124,7 @@ public class AuditionsController {
         Audition audition = auditionService.getAuditionById(id).orElseThrow(AuditionNotFoundException::new);
         User user = userService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(UserNotFoundException::new);
         User band = userService.getUserById(audition.getBandId()).orElseThrow(UserNotFoundException::new);
-        if(audition.getBandId() == user.getId()) {
-            mav.addObject("isOwner",true);
-          //  List<Application> pendingApps = applicationService.getAuditionApplicationsByState(id, ApplicationState.PENDING);
-          //  List<Application> acceptedApps = applicationService.getAuditionApplicationsByState(id, ApplicationState.ACCEPTED);
-          //  List<Application> rejectedApps = applicationService.getAuditionApplicationsByState(id, ApplicationState.REJECTED);
-         //   mav.addObject("pendingApps", pendingApps);
-         //   mav.addObject("acceptedApps", acceptedApps);
-          //  mav.addObject("rejectedApps", rejectedApps);
-        } else {
-            mav.addObject("isOwner", false);
-        }
+        mav.addObject("isOwner", audition.getBandId() == user.getId());
         mav.addObject("audition", audition);
         mav.addObject("user",band);
         return mav;
