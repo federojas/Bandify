@@ -12,7 +12,7 @@
   border-width: 1px;
   transition: 1s;
   width: 400px;
-  height: 400px;
+  height: 440px;
   position: relative;
 }
 .postCard-div-0:hover {
@@ -166,11 +166,14 @@ ul > li {
   display: flex;
   flex-direction: row;
   justify-content: left;
-  margin-bottom: 10px;
   align-items: center;
+  height: 50px;
+  margin-bottom: 10px;
 }
 
 .postcard-profile-image{
+  min-height: 50px;
+  min-width: 50px;
   height: 50px;
   width: 50px;
   object-fit: cover;
@@ -180,9 +183,55 @@ ul > li {
 
 .postcard-band-name {
   margin-left: 10px;
+  max-width: 80%;
   color: black;
   font-size: 1rem;
   font-weight: 700;
-  line-height: 2rem;
   word-break: break-word;
+}
+
+.genres-div {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.genre-span {
+  padding: 0.25rem 0.5rem;
+  background-color: #3B7D9D;
+  border-radius: 0.25rem;
+  color: #fff;
+  font-size: 1.25rem;
+  line-height: 1.25rem;
+  margin: 0.25rem;
+}
+
+.roles-div {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.roles-span {
+  padding: 0.25rem 0.5rem;
+  background-color: #4AAABC;
+  border-radius: 0.25rem;
+  color: #fff;
+  font-size: 1.25rem;
+  line-height: 1.25rem;
+  margin: 0.25rem;
+}
+
+.date-and-location {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.location {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
 }

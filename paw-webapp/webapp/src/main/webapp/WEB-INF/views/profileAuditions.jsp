@@ -8,6 +8,7 @@
     <c:import url="../config/generalHead.jsp" />
     <link rel="stylesheet" href="<c:url value="/resources/css/welcome.css" />" />
     <link rel="stylesheet" href="<c:url value="/resources/css/auditions.css" />" />
+
 </head>
 <body>
 <!-- Navbar -->
@@ -41,13 +42,17 @@
                     value="${audition.musicGenres}"
                     scope="request"
             />
+
             <jsp:include page="../components/postCard.jsp">
+                <jsp:param name="userName" value="${audition.bandName}"/>
+                <jsp:param name="userId" value="${audition.bandId}"/>
                 <jsp:param name="id" value="${audition.id}" />
                 <jsp:param name="postCard" value="${1}" />
-                <jsp:param name="auditionDate" value="${audition.timeElapsed}" />
+                <jsp:param name="auditionDate" value="${audition.creationDate}" />
+                <jsp:param name="month" value="${audition.creationDate.month.toString()}" />
+                <jsp:param name="dayOfMonth" value="${audition.creationDate.dayOfMonth}"/>
+                <jsp:param name="year" value="${audition.creationDate.year}" />
                 <jsp:param name="auditionTitle" value="${audition.title}" />
-                <jsp:param name="userName" value="${userName}"/>
-                <jsp:param name="userId" value="${userId}"/>
                 <jsp:param
                         name="auditionLocation"
                         value="${audition.location.name}"

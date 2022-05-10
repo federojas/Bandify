@@ -27,12 +27,43 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
     </jsp:include>
 
     <div class="audition-content">
+      <div class="left-panel">
+        <a class="back-anchor" href="<c:url value="/auditions" />">
+          <div class="back-div">
+            <img src="<c:url value="/resources/icons/back.svg" />" class="back-icon"/>
+            <spring:message code="success.link"/>
+          </div>
+        </a>
+        <c:if test="${isOwner}">
+          <div class="buttonry">
+            <a class="audition-applicants-btn hover: shadow-sm" href="/auditions/${audition.id}/applicants">
+              <button class="audition-btn" type="submit">
+                <spring:message code="audition.applicants" />
+              </button>
+            </a>
+            <a class="audition-edit-btn hover: shadow-sm" href="/profile/editAudition/${audition.id}">
+              <button class="audition-btn" type="submit">
+                <spring:message code="audition.alt.edit" var="edit"/>
+                <spring:message code="audition.edit" />
+                <img src="<c:url value="/resources/icons/edit-white-icon.svg"/>" class="audition-icon" alt="${edit}"/>
+              </button>
+            </a>
+            <form class="audition-delete-btn" action="/profile/deleteAudition/${audition.id}" method="post">
+              <button class="audition-btn" type="submit">
+                <spring:message code="audition.alt.delete" var="delete"/>
+                <spring:message code="audition.delete" />
+                <img src="<c:url value="/resources/icons/trash.svg"/>" class="audition-icon" alt="${delete}"/>
+              </button>
+            </form>
+          </div>
+        </c:if>
+      </div>
 
       <div class="card-extern">
 
         <!--content-->
         <div class="card-content">
-          <a href="/user/${user.id}">
+          <a href="<c:url value="/user/${user.id}"/>">
             <div class="audition-profile">
                 <div class="image overflow-hidden">
                     <img class="audition-profile-image"
@@ -93,7 +124,7 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
                             items="${audition.lookingFor}"
                             varStatus="loop"
                     >
-                      <div class="tag">${item.name}</div>
+                      <span class="roles-span"><c:out value="${item.name}" /></span>
                     </c:forEach>
                   </div>
                 </li>
@@ -106,51 +137,19 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
                             items="${audition.musicGenres}"
                             varStatus="loop"
                     >
-                      <div class="tag">${item.name}</div>
+                      <span class="genre-span"><c:out value="${item.name}" /></span>
                     </c:forEach>
                   </div>
                 </li>
               </ul>
             </div>
           </div>
-          <c:if test="${isOwner}">
-            <div class="buttonry">
-              <a class="audition-edit-btn hover: shadow-sm" href="/profile/editAudition/${audition.id}">
-                <button class="audition-btn" type="submit">
-                  <spring:message code="audition.alt.edit" var="edit"/>
-                    <spring:message code="audition.edit" />
-                    <img src="<c:url value="/resources/icons/edit-white-icon.svg"/>" class="audition-icon" alt="${edit}"/>
-                </button>
-              </a>
-              <form class="audition-delete-btn" action="/profile/deleteAudition/${audition.id}" method="post">
-                 <button class="audition-btn" type="submit">
-                  <spring:message code="audition.alt.delete" var="delete"/>
-                    <spring:message code="audition.delete" />
-                    <img src="<c:url value="/resources/icons/trash.svg"/>" class="audition-icon" alt="${delete}"/>
-                </button>
-              </form>
-            </div>
-          </c:if>
+
         </div>
-
       </div>
-      <sec:authorize access="hasRole('BAND')">
-        <c:if test="${isOwner}">
-          <div class="applicants">
-
-          </div>
-          <h1 class="applicants-header"><spring:message code="audition.applicantsHeader"/></h1>
-
-          <jsp:include page="../components/applicantsByState.jsp">
-            <jsp:param name="auditionId" value="${audition.id}" />
-          </jsp:include>
-        </c:if>
-      </sec:authorize>
     </div>
     <div class="back-auditions-div">
-      <a class="back-anchor" href="<c:url value="/auditions" />">
-        <spring:message code="success.link"/>
-      </a>
+
     </div>
   </body>
 </html>

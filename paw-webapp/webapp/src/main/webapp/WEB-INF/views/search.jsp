@@ -18,8 +18,6 @@
         <jsp:param name="name" value="Bandify" />
     </jsp:include>
 
-
-
     <!-- Auditions content -->
     <div class="auditions-content">
         <h2 class="black-title">
@@ -54,8 +52,11 @@
                     <jsp:param name="userId" value="${audition.bandId}"/>
                     <jsp:param name="id" value="${audition.id}" />
                     <jsp:param name="postCard" value="${1}" />
-                    <jsp:param name="auditionDate" value="${audition.timeElapsed}" />
+                    <jsp:param name="auditionDate" value="${audition.creationDate}" />
                     <jsp:param name="auditionTitle" value="${audition.title}" />
+                    <jsp:param name="month" value="${audition.creationDate.month.toString()}" />
+                    <jsp:param name="dayOfMonth" value="${audition.creationDate.dayOfMonth}"/>
+                    <jsp:param name="year" value="${audition.creationDate.year}" />
                     <jsp:param
                             name="auditionLocation"
                             value="${audition.location.name}"

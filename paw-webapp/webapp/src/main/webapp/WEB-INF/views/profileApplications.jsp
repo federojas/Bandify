@@ -13,6 +13,23 @@
     <link rel="stylesheet" href="<c:url value="/resources/css/welcome.css" />"/>
     <link rel="stylesheet" href="<c:url value="/resources/css/auditions.css" />"/>
     <script src="<c:url value="/resources/js/pagination.js" />"></script>
+    <script>
+        const queryString = window.location.search;
+        const parameters = new URLSearchParams(queryString);
+        console.log(parameters.get('state'))
+        $(document).ready(function () {
+            $(".select-wrapper").each(function () {
+                var wrapper = this;
+                $(this).find("ul>li").each(function () {
+                    var li = this;
+                    var option_text = $(this).text();
+                    if (option_text == parameters.get('state')) {
+                        $(li).click();
+                    }
+                });
+            });
+        });
+    </script>
 </head>
 <body>
 <!-- Navbar -->
@@ -29,15 +46,16 @@
     <div class="user-data">
         <form action="<c:url value="/profile/applications" />" method="get" class="filter-applications-form">
             <div class="filter-applications">
-                <label>
-<%--                    <spring:message code="applications.see"/>--%>
-                    <select name="state">
-                        <option value=""><spring:message code="applications.all"/></option>
-                        <option value="Pending"><spring:message code="applications.pending"/></option>
-                        <option value="Accepted"><spring:message code="applications.accepted"/></option>
-                        <option value="Rejected"><spring:message code="applications.rejected"/></option>
-                    </select>
-                </label>
+
+                    <div>
+                        <label for="postulation"><spring:message code="applications.seeBy"/></label>
+                        <select id="postulation" name="state">
+                            <option value=""><spring:message code="applications.all"/></option>
+                            <option value="Pending"><spring:message code="applications.pending"/></option>
+                            <option value="Accepted"><spring:message code="applications.accepted"/></option>
+                            <option value="Rejected"><spring:message code="applications.rejected"/></option>
+                        </select>
+                    </div>
                 <button type="submit" class="filter-applications-button"><spring:message code="applications.see"/></button>
             </div>
         </form>

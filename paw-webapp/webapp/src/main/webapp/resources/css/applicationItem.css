@@ -1,0 +1,52 @@
+.application-box {
+    display: flex;
+    flex-direction: row;
+    margin: 1rem;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    justify-content: space-between;
+    background-color: white;
+    align-items: center;
+}
+
+.application-icon {
+    width: 32px;
+    margin: 0 0.25rem;
+}
+
+.no-applicants {
+    text-align: center;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.application-icons {
+    display: flex;
+    flex-direction: row;
+    justify-items: center;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.user-name {
+    font-size: 1.2rem;
+    font-weight: bold;
+    align-self: center;
+    margin-left: 1rem;
+}
+
+.image-and-name {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+}
+
+.postcard-profile-image{
+    height: 50px;
+    width: 50px;
+    object-fit: cover;
+    border-radius: 10000px;
+    border:2px solid black;
+}

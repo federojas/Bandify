@@ -34,8 +34,6 @@ public class ApplicationDaoTest {
 
     private JdbcTemplate jdbcTemplate;
 
-    private static final long BAND_ID_1 = 1;
-    private static final long BAND_ID_2 = 2;
     private static final long APPLICANT_ID = 2;
     private static final long APPLICANT_ID_2 = 3;
     private static final long APPLICANT_ID_3 = 4;
@@ -69,7 +67,17 @@ public class ApplicationDaoTest {
     private static final Application PENDING_APP_4_AUD12 = new Application.ApplicationBuilder(12, APPLICANT_ID_3, ApplicationState.PENDING,CREATION_DATE_OLDER).applicantName(NAME).applicantSurname(SURNAME).auditionTitle(TITLE).build();
     private static final Application PENDING_APP_4_AUD13 = new Application.ApplicationBuilder(13, APPLICANT_ID_3, ApplicationState.REJECTED,CREATION_DATE_OLDER).applicantName(NAME).applicantSurname(SURNAME).auditionTitle(TITLE).build();
 
-    private static final List<Application> PENDING_APPS_AUD2 = Arrays.asList(PENDING_APP_2_AUD2, PENDING_APP_4_AUD2);
+    private static final Application PENDING_APP_5_AUD2 = new Application.ApplicationBuilder(2, 5, ApplicationState.PENDING,CREATION_DATE).applicantName(NAME).applicantSurname(SURNAME).auditionTitle(TITLE).build();
+    private static final Application PENDING_APP_6_AUD2 = new Application.ApplicationBuilder(2, 6, ApplicationState.PENDING,CREATION_DATE).applicantName(NAME).applicantSurname(SURNAME).auditionTitle(TITLE).build();
+    private static final Application PENDING_APP_7_AUD2 = new Application.ApplicationBuilder(2, 7, ApplicationState.PENDING,CREATION_DATE).applicantName(NAME).applicantSurname(SURNAME).auditionTitle(TITLE).build();
+    private static final Application PENDING_APP_8_AUD2 = new Application.ApplicationBuilder(2, 8, ApplicationState.PENDING,CREATION_DATE).applicantName(NAME).applicantSurname(SURNAME).auditionTitle(TITLE).build();
+    private static final Application PENDING_APP_9_AUD2 = new Application.ApplicationBuilder(2, 9, ApplicationState.PENDING,CREATION_DATE).applicantName(NAME).applicantSurname(SURNAME).auditionTitle(TITLE).build();
+    private static final Application PENDING_APP_10_AUD2 = new Application.ApplicationBuilder(2, 10, ApplicationState.PENDING,CREATION_DATE).applicantName(NAME).applicantSurname(SURNAME).auditionTitle(TITLE).build();
+    private static final Application PENDING_APP_11_AUD2 = new Application.ApplicationBuilder(2, 11, ApplicationState.PENDING,CREATION_DATE).applicantName(NAME).applicantSurname(SURNAME).auditionTitle(TITLE).build();
+    private static final Application PENDING_APP_12_AUD2 = new Application.ApplicationBuilder(2, 12, ApplicationState.PENDING,CREATION_DATE).applicantName(NAME).applicantSurname(SURNAME).auditionTitle(TITLE).build();
+
+
+    private static final List<Application> PENDING_APPS_AUD2 = Arrays.asList(PENDING_APP_2_AUD2, PENDING_APP_4_AUD2, PENDING_APP_5_AUD2, PENDING_APP_6_AUD2, PENDING_APP_7_AUD2, PENDING_APP_8_AUD2, PENDING_APP_9_AUD2, PENDING_APP_10_AUD2, PENDING_APP_11_AUD2, PENDING_APP_12_AUD2 );
     private static final List<Application> APPLICANT_APPS = Arrays.asList(PENDING_APP_AUD1, ACCEPTED_APP_AUD2, REJECTED_APP_AUD3);
     private static final List<Application> PENDING_APPS_APPLICANT_2 = Arrays.asList(PENDING_APP_2_AUD2, PENDING_APP_2_AUD1);
     private static final List<Application> PENDING_APPS_APPLICANT_4_PAGE_1 = Arrays.asList(PENDING_APP_4_AUD1, PENDING_APP_4_AUD2, PENDING_APP_4_AUD3, PENDING_APP_4_AUD4, PENDING_APP_4_AUD5, PENDING_APP_4_AUD6, PENDING_APP_4_AUD7, PENDING_APP_4_AUD8, PENDING_APP_4_AUD9, PENDING_APP_4_AUD10);
@@ -82,25 +90,25 @@ public class ApplicationDaoTest {
     }
 
     @Test
-    public void testGetAuditionApplicationsByStatePending() {
-        List<Application> applications = applicationDao.getAuditionApplicationsByState(2, ApplicationState.PENDING);
+    public void testGetAuditionApplicationsByStatePendingFullPage() {
+        List<Application> applications = applicationDao.getAuditionApplicationsByState(2, ApplicationState.PENDING, 1);
         assertNotNull(applications);
         assertTrue(PENDING_APPS_AUD2.containsAll(applications));
-        assertTrue(!Collections.singletonList(PENDING_APP_2_AUD2).containsAll(applications));
+        assertFalse(Collections.singletonList(PENDING_APP_2_AUD2).containsAll(applications));
         assertEquals(PENDING_APPS_AUD2.size(), applications.size());
     }
 
     @Test
-    public void testGetAuditionApplicationsByStateAccepted() {
-        List<Application> applications = applicationDao.getAuditionApplicationsByState(2, ApplicationState.ACCEPTED);
+    public void testGetAuditionApplicationsByStateAcceptedNotFullPage() {
+        List<Application> applications = applicationDao.getAuditionApplicationsByState(2, ApplicationState.ACCEPTED,1);
         assertNotNull(applications);
         assertTrue(Collections.singletonList(ACCEPTED_APP_AUD2).containsAll(applications));
         assertEquals(1, applications.size());
     }
 
     @Test
-    public void testGetAuditionApplicationsByStateRejected() {
-        List<Application> applications = applicationDao.getAuditionApplicationsByState(3, ApplicationState.REJECTED);
+    public void testGetAuditionApplicationsByStateRejectedNotFullPage() {
+        List<Application> applications = applicationDao.getAuditionApplicationsByState(3, ApplicationState.REJECTED,1);
         assertNotNull(applications);
         assertTrue(Collections.singletonList(REJECTED_APP_AUD3).containsAll(applications));
         assertEquals(1, applications.size());

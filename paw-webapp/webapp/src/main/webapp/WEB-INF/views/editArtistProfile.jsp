@@ -13,9 +13,11 @@
     <link rel="stylesheet" href="<c:url value="/resources/css/forms.css" />"/>
     <link rel="stylesheet" href="<c:url value="/resources/css/profile.css" />"/>
     <script src="<c:url value="/resources/js/editProfile.js"/>"></script>
+    <link rel="stylesheet" href="<c:url value="/resources/css/alerts.css" />"/>
+    <script type="text/javascript" src="<c:url value="/resources/js/alerts.js"/>"></script>
     <script src="<c:url value="/resources/js/matMultipleSelect.js"/>"></script>
 </head>
-<body>
+<body onload="editArtistFormCheck()">
 <!-- Navbar -->
 <jsp:include page="../components/navbar.jsp">
     <jsp:param name="navItem" value="${6}"/>
@@ -132,6 +134,8 @@
             <spring:message code="button.cancel" />
         </a>
     </div>
+    <div id="snackbar"><spring:message code="snackbar.message"/></div>
+
 </div>
 </body>
 </html>

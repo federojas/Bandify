@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ApplicationService {
 
-    List<Application> getAuditionApplicationsByState(long auditionId, ApplicationState state);
+    List<Application> getAuditionApplicationsByState(long auditionId, ApplicationState state, int page);
 
     boolean apply(long auditionId, User user, String message);
 
@@ -24,4 +24,5 @@ public interface ApplicationService {
 
     List<Application> getMyApplicationsFiltered(long applicantId, int page, ApplicationState state);
 
+    int getTotalAuditionApplicationByStatePages(long id, ApplicationState state);
 }

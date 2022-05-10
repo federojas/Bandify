@@ -114,24 +114,14 @@ public class UserController {
 
     @RequestMapping(value = "/profile/applications", method = {RequestMethod.GET})
     public ModelAndView applications(@RequestParam(value = "page", defaultValue = "1") int page,
-                                     @RequestParam(value = "state", defaultValue = "") String state) {
+                                     @RequestParam(value = "state", defaultValue = "all") String state) {
 
         ModelAndView mav = new ModelAndView("profileApplications");
-
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> optionalUser = userService.findByEmail(auth.getName());
         User user = optionalUser.orElseThrow(UserNotFoundException::new);
-
-        int lastPage;
-        List<Application> applications;
-        if (state.equals("")) {
-            lastPage = applicationService.getTotalUserApplicationPages(user.getId());
-            applications = applicationService.getMyApplications(user.getId(), page);
-        } else {
-            lastPage = applicationService.getTotalUserApplicationPagesFiltered(user.getId(), ApplicationState.valueOf(state.toUpperCase()));
-            applications = applicationService.getMyApplicationsFiltered(user.getId(), page, ApplicationState.valueOf(state.toUpperCase()));
-        }
-
+        int lastPage = applicationService.getTotalUserApplicationPagesFiltered(user.getId(), ApplicationState.valueOf(state.toUpperCase()));
+        List<Application> applications = applicationService.getMyApplicationsFiltered(user.getId(), page, ApplicationState.valueOf(state.toUpperCase()));
         if(lastPage == 0)
             lastPage = 1;
         if(page < 0 || page > lastPage)
@@ -186,8 +176,6 @@ public class UserController {
         if (errors.hasErrors()) {
             return editProfile(artistEditForm);
         }
-        System.out.println("MIRA ACA");
-        System.out.println(artistEditForm.getLookingFor());
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> optionalUser = userService.findByEmail(auth.getName());
         User user = optionalUser.orElseThrow(UserNotFoundException::new);
