@@ -88,7 +88,7 @@ CREATE TABLE IF NOT EXISTS userRoles (
 CREATE TABLE IF NOT EXISTS profileImages
 (
    userId INTEGER PRIMARY KEY,
-   image    BYTEA,
+   image BYTEA NOT NULL,
    FOREIGN KEY (userId) REFERENCES users ON DELETE CASCADE
 );
 

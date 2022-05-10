@@ -12,15 +12,14 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.jdbc.JdbcTestUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
@@ -30,7 +29,7 @@ import static org.junit.Assert.*;
 @Sql("classpath:profileImageDaoTest.sql")
 @Rollback
 @Transactional
-public class ProfileImageDaoTest {
+public class ImageDaoTest {
 
     @Autowired
     private ImageJdbcDao imageDao;
@@ -40,11 +39,14 @@ public class ProfileImageDaoTest {
     private JdbcTemplate jdbcTemplate;
     private SimpleJdbcInsert simpleJdbcInsert;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ProfileImageDaoTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ImageDaoTest.class);
 
 
-    private static final User user = new User.UserBuilder("artist@mail.com","12345678", "name", false, false).surname("surname").description("description").id(1).build();
+    private static final long USER_ID_1 = 1;
+
     private static final File IMAGE = new File("src/test/resources/test.png");
+    private static final File IMAGE_2 = new File("src/test/resources/test2.jpg");
+
     @Before
     public void setUp() {
         jdbcTemplate = new JdbcTemplate(ds);
@@ -56,11 +58,11 @@ public class ProfileImageDaoTest {
         try {
             final byte[] image = Files.readAllBytes(IMAGE.toPath());
             final Map<String, Object> imageInfo = new HashMap<>();
-            imageInfo.put("userid", user.getId());
+            imageInfo.put("userid", USER_ID_1);
             imageInfo.put("image", image);
             simpleJdbcInsert.execute(imageInfo);
 
-            final Optional<byte[]> resultImage = imageDao.getProfilePicture(user.getId());
+            final Optional<byte[]> resultImage = imageDao.getProfilePicture(USER_ID_1);
             assertNotNull(resultImage);
             assertTrue(resultImage.isPresent());
             assertArrayEquals(image, resultImage.get());
@@ -69,5 +71,37 @@ public class ProfileImageDaoTest {
         }
     }
 
-    //TODO resto de metodos
+    @Test
+    public void updateProfilePictureCreate()  {
+        try {
+            final byte[] image = Files.readAllBytes(IMAGE.toPath());
+            final byte[] insertedImage = imageDao.updateProfilePicture(USER_ID_1, image);
+
+            assertEquals(1, JdbcTestUtils.countRowsInTableWhere(jdbcTemplate, "profileimages", "userid = " + USER_ID_1));
+            assertEquals(image, insertedImage);
+        } catch (IOException e) {
+            LOGGER.warn("Create profile picture test threw io exception");
+        }
+    }
+
+    @Test
+    public void updateProfilePictureUpdate()  {
+        try {
+            final byte[] image = Files.readAllBytes(IMAGE.toPath());
+            final Map<String, Object> imageInfo = new HashMap<>();
+            imageInfo.put("userid", USER_ID_1);
+            imageInfo.put("image", image);
+            simpleJdbcInsert.execute(imageInfo);
+
+            final byte[] newImage = Files.readAllBytes(IMAGE_2.toPath());
+            final byte[] insertedImage = imageDao.updateProfilePicture(USER_ID_1, newImage);
+
+            assertEquals(1, JdbcTestUtils.countRowsInTableWhere(jdbcTemplate, "profileimages", "userid = " + USER_ID_1));
+            assertEquals(newImage, insertedImage);
+        } catch (IOException e) {
+            LOGGER.warn("Update profile picture test threw io exception");
+        }
+    }
+
+
 }
