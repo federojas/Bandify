@@ -139,11 +139,13 @@ public class AuditionsController {
 
         int lastPage = applicationService.getTotalAuditionApplicationByStatePages(id,ApplicationState.valueOf(state.toUpperCase()));
         List<Application> applications = applicationService.getAuditionApplicationsByState(id, ApplicationState.valueOf(state.toUpperCase()), page);
+        Audition aud = auditionService.getAuditionById(id).orElseThrow(AuditionNotFoundException::new);
         if(lastPage == 0)
             lastPage = 1;
         if(page < 0 || page > lastPage)
             return new ModelAndView("errors/404");
         mav.addObject("id",id);
+        mav.addObject("auditionTitle", aud.getTitle());
         mav.addObject("applications", applications);
         mav.addObject("currentPage", page);
         mav.addObject("lastPage", lastPage);
