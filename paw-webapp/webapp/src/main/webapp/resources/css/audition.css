@@ -151,6 +151,8 @@ li.info-item:not(:last-child) {
 }
 
 .audition-profile-image{
+    min-height: 70px;
+    min-width: 70px;
     height: 70px;
     width: 70px;
     object-fit: cover;
@@ -168,6 +170,8 @@ li.info-item:not(:last-child) {
     font-size: 1.4rem;
     font-weight: 700;
     line-height: 2rem;
+    word-break: break-all;
+    max-width: 80%;
 }
 
 .applicants {
