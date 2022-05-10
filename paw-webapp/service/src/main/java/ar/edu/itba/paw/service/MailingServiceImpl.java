@@ -46,7 +46,7 @@ public class MailingServiceImpl implements MailingService {
     @Override
     public void sendApplicationAcceptedEmail(User band, Audition audition, String receiverEmail) {
         try {
-            final String url = new URL("http", environment.getRequiredProperty("app.base.url"), "/paw-2022a-03/user/" + band.getId()).toString();
+            final String url = new URL(environment.getRequiredProperty("app.protocol"), environment.getRequiredProperty("app.base.url"), environment.getRequiredProperty("app.group.directory") + "user/" + band.getId()).toString();
             Map<String, Object> mailData = new HashMap<>();
             Locale locale = LocaleContextHolder.getLocale();
             String subject = messageSource.getMessage("accepted-application.title",null,locale);
@@ -62,7 +62,7 @@ public class MailingServiceImpl implements MailingService {
     @Override
     public void sendApplicationEmail(User applicant, String receiverEmail, String message) {
         try {
-            final String url = new URL("http", environment.getRequiredProperty("app.base.url"), "/paw-2022a-03/user/" + applicant.getId()).toString();
+            final String url = new URL(environment.getRequiredProperty("app.protocol"), environment.getRequiredProperty("app.base.url"), environment.getRequiredProperty("app.group.directory") + "user/" + applicant.getId()).toString();
             Map<String, Object> mailData = new HashMap<>();
             Locale locale = LocaleContextHolder.getLocale();
             String subject = messageSource.getMessage("audition-application.subject",null,locale);
@@ -79,7 +79,7 @@ public class MailingServiceImpl implements MailingService {
     public void sendVerificationEmail(User user, VerificationToken token) {
         try {
             Locale locale = LocaleContextHolder.getLocale();
-            final String url = new URL("http", environment.getRequiredProperty("app.base.url"), "/paw-2022a-03/verify?token=" + token.getToken()).toString();
+            final String url = new URL(environment.getRequiredProperty("app.protocol"), environment.getRequiredProperty("app.base.url"), environment.getRequiredProperty("app.group.directory") + "verify?token=" + token.getToken()).toString();
             String subject = messageSource.getMessage("verify-account.subject",null,locale);
             final Map<String, Object> mailData = new HashMap<>();
             mailData.put("confirmationURL", url);
@@ -94,7 +94,7 @@ public class MailingServiceImpl implements MailingService {
     public void sendResetPasswordEmail(User user, VerificationToken token) {
         try {
             Locale locale = LocaleContextHolder.getLocale();
-            final String url = new URL("http", environment.getRequiredProperty("app.base.url"), "/paw-2022a-03/newPassword?token=" + token.getToken()).toString();
+            final String url = new URL(environment.getRequiredProperty("app.protocol"), environment.getRequiredProperty("app.base.url"), environment.getRequiredProperty("app.group.directory") + "newPassword?token=" + token.getToken()).toString();
             final Map<String, Object> mailData = new HashMap<>();
             mailData.put("resetPasswordURL", url);
             String subject = messageSource.getMessage("reset-password.subject",null,locale);

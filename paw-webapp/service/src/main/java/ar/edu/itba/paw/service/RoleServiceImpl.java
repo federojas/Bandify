@@ -27,7 +27,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Set<Role> validateAndReturnRoles(List<String> rolesNames) {
+    public Set<Role> getRolesByNames(List<String> rolesNames) {
         List<String> roles = roleDao.getAll().stream().map(Role::getName).collect(Collectors.toList());
 
         if(!roles.containsAll(rolesNames))
@@ -48,7 +48,7 @@ public class RoleServiceImpl implements RoleService {
             roleDao.updateUserRoles(null, userId);
             return;
         }
-        Set<Role> newRoles = validateAndReturnRoles(rolesNames);
+        Set<Role> newRoles = getRolesByNames(rolesNames);
         roleDao.updateUserRoles(newRoles, userId);
     }
 

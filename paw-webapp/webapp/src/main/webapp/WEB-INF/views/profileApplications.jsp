@@ -16,7 +16,6 @@
     <script>
         const queryString = window.location.search;
         const parameters = new URLSearchParams(queryString);
-        console.log(parameters.get('state'))
         $(document).ready(function () {
             $(".select-wrapper").each(function () {
                 var wrapper = this;

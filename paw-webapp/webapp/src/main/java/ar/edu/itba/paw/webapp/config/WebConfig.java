@@ -108,9 +108,9 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Bean
     public Session mailSession() {
 
-        String host = "smtp.gmail.com";
-        String mailProtocol = "smtp";
-        String dport = "465";
+        String host = environment.getRequiredProperty("app.mail.host");
+        String mailProtocol = environment.getRequiredProperty("app.mail.protocol");
+        String dport = environment.getRequiredProperty("app.mail.dport");
 
         Properties properties = System.getProperties();
 

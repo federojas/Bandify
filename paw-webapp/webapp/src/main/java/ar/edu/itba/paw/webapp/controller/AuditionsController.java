@@ -16,7 +16,6 @@ import ar.edu.itba.paw.webapp.form.AuditionForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -189,8 +188,8 @@ public class AuditionsController {
 
         auditionService.create(auditionForm.toBuilder(user.getId()).
                 location(locationService.getLocationByName(auditionForm.getLocation()).orElseThrow(LocationNotFoundException::new)).
-                lookingFor(roleService.validateAndReturnRoles(auditionForm.getLookingFor())).
-                musicGenres(genreService.validateAndReturnGenres(auditionForm.getMusicGenres()))
+                lookingFor(roleService.getRolesByNames(auditionForm.getLookingFor())).
+                musicGenres(genreService.getGenresByNames(auditionForm.getMusicGenres()))
         );
 
         return new ModelAndView("redirect:/auditions");
@@ -258,8 +257,8 @@ public class AuditionsController {
 
         auditionService.editAuditionById(auditionForm.toBuilder(user.getId()).
                 location(locationService.getLocationByName(auditionForm.getLocation()).orElseThrow(LocationNotFoundException::new)).
-                lookingFor(roleService.validateAndReturnRoles(auditionForm.getLookingFor())).
-                musicGenres(genreService.validateAndReturnGenres(auditionForm.getMusicGenres())), id);
+                lookingFor(roleService.getRolesByNames(auditionForm.getLookingFor())).
+                musicGenres(genreService.getGenresByNames(auditionForm.getMusicGenres())), id);
 
         String redirect = "redirect:/auditions/" + id;
 
