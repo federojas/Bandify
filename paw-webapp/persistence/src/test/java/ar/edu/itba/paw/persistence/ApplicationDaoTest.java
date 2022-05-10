@@ -59,10 +59,10 @@ public class ApplicationDaoTest {
     public void setUp() {
         jdbcTemplate = new JdbcTemplate(ds);
     }
-
+// TODO: FIJARSE LOS PRIMEROS 3 METODOS LE AGREGUE PAGE 1
     @Test
     public void testGetAuditionApplicationsByStatePending() {
-        List<Application> applications = applicationDao.getAuditionApplicationsByState(1, ApplicationState.PENDING);
+        List<Application> applications = applicationDao.getAuditionApplicationsByState(1, ApplicationState.PENDING,1);
         assertNotNull(applications);
         assertTrue(PENDING_APPS_AUD1.containsAll(applications));
         assertTrue(!Collections.singletonList(PENDING_APP_2_AUD2).containsAll(applications));
@@ -71,7 +71,7 @@ public class ApplicationDaoTest {
 
     @Test
     public void testGetAuditionApplicationsByStateAccepted() {
-        List<Application> applications = applicationDao.getAuditionApplicationsByState(2, ApplicationState.ACCEPTED);
+        List<Application> applications = applicationDao.getAuditionApplicationsByState(2, ApplicationState.ACCEPTED,1);
         assertNotNull(applications);
         assertTrue(Collections.singletonList(ACCEPTED_APP_AUD2).containsAll(applications));
         assertEquals(1, applications.size());
@@ -79,7 +79,7 @@ public class ApplicationDaoTest {
 
     @Test
     public void testGetAuditionApplicationsByStateRejected() {
-        List<Application> applications = applicationDao.getAuditionApplicationsByState(3, ApplicationState.REJECTED);
+        List<Application> applications = applicationDao.getAuditionApplicationsByState(3, ApplicationState.REJECTED,1);
         assertNotNull(applications);
         assertTrue(Collections.singletonList(REJECTED_APP_AUD3).containsAll(applications));
         assertEquals(1, applications.size());

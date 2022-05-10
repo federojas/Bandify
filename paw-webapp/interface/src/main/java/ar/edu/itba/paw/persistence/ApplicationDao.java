@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface ApplicationDao {
 
-    List<Application> getAuditionApplicationsByState(long auditionId, ApplicationState state);
+    List<Application> getAuditionApplicationsByState(long auditionId, ApplicationState state, int page);
 
     Application createApplication(Application.ApplicationBuilder applicationBuilder);
 
@@ -20,4 +20,9 @@ public interface ApplicationDao {
 
     List<Application> getMyApplicationsFiltered(long applicantId, int page, ApplicationState state);
 
+    int getTotalAuditionApplicationsByStatePages(long id, ApplicationState state);
+
+    List<Application> getAuditionApplications(long id, int page);
+
+    int getTotalAuditionApplicationsPages(long id);
 }

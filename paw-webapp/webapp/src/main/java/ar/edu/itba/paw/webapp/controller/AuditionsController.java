@@ -126,17 +126,37 @@ public class AuditionsController {
         User band = userService.getUserById(audition.getBandId()).orElseThrow(UserNotFoundException::new);
         if(audition.getBandId() == user.getId()) {
             mav.addObject("isOwner",true);
-            List<Application> pendingApps = applicationService.getAuditionApplicationsByState(id, ApplicationState.PENDING);
-            List<Application> acceptedApps = applicationService.getAuditionApplicationsByState(id, ApplicationState.ACCEPTED);
-            List<Application> rejectedApps = applicationService.getAuditionApplicationsByState(id, ApplicationState.REJECTED);
-            mav.addObject("pendingApps", pendingApps);
-            mav.addObject("acceptedApps", acceptedApps);
-            mav.addObject("rejectedApps", rejectedApps);
+          //  List<Application> pendingApps = applicationService.getAuditionApplicationsByState(id, ApplicationState.PENDING);
+          //  List<Application> acceptedApps = applicationService.getAuditionApplicationsByState(id, ApplicationState.ACCEPTED);
+          //  List<Application> rejectedApps = applicationService.getAuditionApplicationsByState(id, ApplicationState.REJECTED);
+         //   mav.addObject("pendingApps", pendingApps);
+         //   mav.addObject("acceptedApps", acceptedApps);
+          //  mav.addObject("rejectedApps", rejectedApps);
         } else {
             mav.addObject("isOwner", false);
         }
         mav.addObject("audition", audition);
         mav.addObject("user",band);
+        return mav;
+    }
+
+    // TODO: MEJORAR EL CHEQUEO DE PAGE < 0 QUE ESTA MAL
+    @RequestMapping(value = "/auditions/{id}/applicants", method = {RequestMethod.GET})
+    public ModelAndView applicants(@PathVariable long id,
+                                   @RequestParam(value = "page", defaultValue = "1") int page,
+                                   @RequestParam(value = "state", defaultValue = "all") String state) {
+        ModelAndView mav = new ModelAndView("applicants");
+
+        int lastPage = applicationService.getTotalAuditionApplicationByStatePages(id,ApplicationState.valueOf(state.toUpperCase()));
+        List<Application> applications = applicationService.getAuditionApplicationsByState(id, ApplicationState.valueOf(state.toUpperCase()), page);
+        if(lastPage == 0)
+            lastPage = 1;
+        if(page < 0 || page > lastPage)
+            return new ModelAndView("errors/404");
+        mav.addObject("id",id);
+        mav.addObject("applications", applications);
+        mav.addObject("currentPage", page);
+        mav.addObject("lastPage", lastPage);
         return mav;
     }
 
@@ -280,8 +300,7 @@ public class AuditionsController {
         auditionService.editAuditionById(auditionForm.toBuilder(user.getId()).
                 location(locationService.getLocationByName(auditionForm.getLocation()).orElseThrow(LocationNotFoundException::new)).
                 lookingFor(roleService.validateAndReturnRoles(auditionForm.getLookingFor())).
-                musicGenres(genreService.validateAndReturnGenres(auditionForm.getMusicGenres()))
-        , id);
+                musicGenres(genreService.validateAndReturnGenres(auditionForm.getMusicGenres())), id);
 
         String redirect = "redirect:/auditions/" + id;
 

@@ -34,8 +34,10 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public List<Application> getAuditionApplicationsByState(long auditionId, ApplicationState state) {
-        return applicationDao.getAuditionApplicationsByState(auditionId,state);
+    public List<Application> getAuditionApplicationsByState(long auditionId, ApplicationState state, int page) {
+        if(state == ApplicationState.ALL)
+            return applicationDao.getAuditionApplications(auditionId, page);
+        return applicationDao.getAuditionApplicationsByState(auditionId,state, page);
     }
 
     @Transactional
@@ -75,27 +77,34 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public int getTotalUserApplicationPagesFiltered(long userId, ApplicationState state) {
+        if(state == ApplicationState.ALL)
+            return getTotalUserApplicationPages(userId);
         return applicationDao.getTotalUserApplicationPagesFiltered(userId, state);
     }
 
     @Override
     public List<Application> getMyApplicationsFiltered(long applicantId, int page, ApplicationState state) {
+        if(state == ApplicationState.ALL)
+            return getMyApplications(applicantId,page);
         return applicationDao.getMyApplicationsFiltered(applicantId,page,state);
     }
 
-    private void setApplicationState(long auditionId, long applicantId, ApplicationState state) {
+    @Override
+    public int getTotalAuditionApplicationByStatePages(long id, ApplicationState state) {
+        if(state == ApplicationState.ALL)
+            return applicationDao.getTotalAuditionApplicationsPages(id);
+        return applicationDao.getTotalAuditionApplicationsByStatePages(id,state);
+    }
 
+    private void setApplicationState(long auditionId, long applicantId, ApplicationState state) {
         Audition audition = auditionService.getAuditionById(auditionId).orElseThrow(AuditionNotFoundException::new);
         User band = userService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(UserNotFoundException::new);
         User applicant = userService.getUserById(applicantId).orElseThrow(UserNotFoundException::new);
-
         if(audition.getBandId() != band.getId())
             throw new AuditionNotOwnedException();
-
         if(state.equals(ApplicationState.ACCEPTED)) {
             mailingService.sendApplicationAcceptedEmail(band, audition, applicant.getEmail());
         }
-
         applicationDao.setApplicationState(auditionId, applicantId, state);
     }
 

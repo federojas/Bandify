@@ -40,12 +40,13 @@ public class ApplicationJdbcDao implements ApplicationDao {
 
 
     @Override
-    public List<Application> getAuditionApplicationsByState(long auditionId, ApplicationState state) {
+    public List<Application> getAuditionApplicationsByState(long auditionId, ApplicationState state, int page) {
         List<Application.ApplicationBuilder> list = jdbcTemplate.query("SELECT auditionId,applicantId,state,name,surname,title, applications.creationdate AS appdate FROM applications" +
                         " JOIN users ON applications.applicantId = users.id" +
                         " JOIN auditions ON applications.auditionId = auditions.id" +
-                        " WHERE auditionId = ? AND state = ? ORDER BY appdate DESC"
-                , new Object[]{auditionId, state.getState().toUpperCase(Locale.ROOT)}, APPLICATION_ROW_MAPPER);
+                        " WHERE auditionId = ? AND state = ? ORDER BY appdate DESC" +
+                        " LIMIT ? OFFSET ?"
+                , new Object[]{auditionId, state.getState().toUpperCase(Locale.ROOT), PAGE_SIZE, (page -1) * PAGE_SIZE}, APPLICATION_ROW_MAPPER);
         return list.stream().map(Application.ApplicationBuilder::build).collect(Collectors.toList());
     }
 
@@ -103,5 +104,28 @@ public class ApplicationJdbcDao implements ApplicationDao {
                 " WHERE applicantId = ? AND state = ? ORDER BY appdate DESC LIMIT ? OFFSET ?";
         List<Application.ApplicationBuilder> list = jdbcTemplate.query(query,new Object[]{applicantId, state.getState(), PAGE_SIZE, (page -1) * PAGE_SIZE},APPLICATION_ROW_MAPPER);
         return list.stream().map(Application.ApplicationBuilder::build).collect(Collectors.toList());
+    }
+
+    @Override
+    public int getTotalAuditionApplicationsByStatePages(long id, ApplicationState state) {
+        Optional<Integer> result = jdbcTemplate.query("SELECT COUNT(*) AS applicationTotal FROM applications WHERE auditionId = ? AND state = ?", new Object[] {id, state.getState()} ,TOTAL_APPLICATION_ROW_MAPPER).stream().findFirst();
+        return result.map(integer -> (int) Math.ceil(integer.doubleValue() / PAGE_SIZE)).orElse(0);
+    }
+
+    @Override
+    public List<Application> getAuditionApplications(long id, int page) {
+        List<Application.ApplicationBuilder> list = jdbcTemplate.query("SELECT auditionId,applicantId,state,name,surname,title, applications.creationdate AS appdate FROM applications" +
+                        " JOIN users ON applications.applicantId = users.id" +
+                        " JOIN auditions ON applications.auditionId = auditions.id" +
+                        " WHERE auditionId = ? ORDER BY appdate DESC" +
+                        " LIMIT ? OFFSET ?"
+                , new Object[]{id, PAGE_SIZE, (page -1) * PAGE_SIZE}, APPLICATION_ROW_MAPPER);
+        return list.stream().map(Application.ApplicationBuilder::build).collect(Collectors.toList());
+    }
+
+    @Override
+    public int getTotalAuditionApplicationsPages(long id) {
+        Optional<Integer> result = jdbcTemplate.query("SELECT COUNT(*) AS applicationTotal FROM applications WHERE auditionId = ?", new Object[] {id} ,TOTAL_APPLICATION_ROW_MAPPER).stream().findFirst();
+        return result.map(integer -> (int) Math.ceil(integer.doubleValue() / PAGE_SIZE)).orElse(0);
     }
 }
