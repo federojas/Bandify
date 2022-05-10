@@ -5,11 +5,15 @@
 <html>
 <head>
     <title><spring:message code="title.loginForm"/></title>
+    <link rel="stylesheet" href="<c:url value="/resources/css/forms.css" />" />
+    <link rel="stylesheet" href="<c:url value="/resources/css/welcome.css" />" />
+    <link rel="stylesheet" href="<c:url value="/resources/css/login.css" />" />
+
 </head>
 <body>
 <%--        Log in --%>
 <div class="login-box">
-    <div id="login" style="display: block;">
+    <div class="general-div" id="login">
         <form action="<c:url value="/login"/> " method="post">
             <div class="form-group">
                 <label for="email" class="form-label">
@@ -35,8 +39,7 @@
                 <input type="checkbox" id="rememberme" class="remember-me" value="false"/>
                 <spring:message code="welcome.rememberme"/>
             </div>
-            <a href="<c:url value="/resetPassword"/>"><u style="cursor: pointer; font-size: 1rem; font-weight: 500; margin-top: 4px;"><spring:message
-                    code="welcome.resetButton"/></u></a>
+            <a href="<c:url value="/resetPassword"/>"><u class="login-reset-button"><spring:message code="welcome.resetButton"/></u></a>
 
             <div class="errorDiv">
                 <p class="error">
@@ -53,8 +56,7 @@
         <div class="notMemberYet">
             <p><spring:message code="welcome.notMemberYet"/></p>
             &nbsp;&nbsp;
-            <b><a href="<c:url value="/register"/>"><u style="cursor: pointer;"><spring:message
-                    code="welcome.registerButton"/></u></a>
+            <b><a href="<c:url value="/register"/>"><u class="login-register-button"><spring:message code="welcome.registerButton"/></u></a>
             </b>
         </div>
     </div>

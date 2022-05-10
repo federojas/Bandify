@@ -23,7 +23,10 @@
     align-items: center;
     gap: 0.5rem;
 }
-
+.applicants-by-state{
+    width: 60%;
+    align-self: center;
+}
 .applicants-title {
     font-size: xxx-large;
     font-weight: bold;
