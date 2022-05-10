@@ -67,6 +67,9 @@ prefix="spring" uri="http://www.springframework.org/tags"%>
             <jsp:param name="id" value="${audition.id}" />
             <jsp:param name="postCard" value="${1}" />
             <jsp:param name="auditionDate" value="${audition.creationDate}" />
+            <jsp:param name="month" value="${audition.creationDate.month.toString()}" />
+            <jsp:param name="dayOfMonth" value="${audition.creationDate.dayOfMonth}"/>
+            <jsp:param name="year" value="${audition.creationDate.year}" />
             <jsp:param name="auditionTitle" value="${audition.title}" />
             <jsp:param
               name="auditionLocation"

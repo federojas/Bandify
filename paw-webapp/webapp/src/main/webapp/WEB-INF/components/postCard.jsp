@@ -6,7 +6,12 @@
 <head>
     <title><spring:message code="title.postCard"/></title>
     <link rel="stylesheet" href="<c:url value="/resources/css/postCard.css" />"/>
-</head>
+    <script src="<c:url value="/resources/js/jquery.timeago.js"/>" type="text/javascript"></script></head>
+    <script>
+        $(document).ready(function(){
+            $("time.timeago").timeago();
+        });
+    </script>
 <body>
 <%--    Card --%>
 <div class="postCard-div-0 shadow-lg">
@@ -33,6 +38,9 @@
                     <c:out value="${param.auditionTitle}"/>
                 </b>
             </h2>
+            <p class="postCard-p-0">
+            <time class="timeago" datetime="${param.auditionDate}"></time>
+            </p>
         </div>
 
         <ul>
