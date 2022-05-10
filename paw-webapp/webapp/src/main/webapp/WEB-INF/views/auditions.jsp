@@ -38,9 +38,9 @@ prefix="spring" uri="http://www.springframework.org/tags"%>
             </jsp:include>
           </div>
           <div class="mt-10 mr-10 languages">
-            <a href="?lang=es" style="color: white; font-size: large;">ES</a>
+            <a class="languages-buttons" href="?lang=es">ES</a>
             &nbsp;
-            <a href="?lang=en" style="color: white; font-size: large;">EN</a>
+            <a class="languages-buttons" href="?lang=en">EN</a>
           </div>
         </div>
       </div>
@@ -52,7 +52,7 @@ prefix="spring" uri="http://www.springframework.org/tags"%>
         </h2>
       <div class="posts">
         <c:if test="${auditionList.size() == 0}">
-          <b><p  style="width: 100%; text-align: center">
+          <b><p class="languages-buttons">
             <spring:message code="auditions.noAuditions"/>
           </p>
           </b>
