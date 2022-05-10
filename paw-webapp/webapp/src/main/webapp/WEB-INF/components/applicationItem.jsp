@@ -6,70 +6,24 @@
 <html>
 <head>
     <title><spring:message code="title.applicationItem"/> </title>
-    <style>
-        .application-box {
-            display: flex;
-            flex-direction: row;
-            margin: 1rem;
-            padding: 1rem;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            justify-content: space-around;
-            background-color: white;
-            align-self: center;
-        }
-
-        .application-icon {
-            width: 32px;
-            margin: 0 0.25rem;
-        }
-
-        .application-icons {
-            display: flex;
-            flex-direction: row;
-            justify-items: center;
-            align-items: center;
-
-        }
-
-        .user-name {
-            font-size: 1.2rem;
-            font-weight: bold;
-            align-self: center;
-            margin-left: 1rem;
-        }
-
-        .image-and-name {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .postcard-profile-image{
-            height: 50px;
-            width: 50px;
-            object-fit: cover;
-            border-radius: 10000px;
-            border:2px solid black;
-        }
-    </style>
+    <link rel="stylesheet" href="<c:url value="/resources/css/applicationItem.css" />" />
 </head>
 <body>
 <div class="application-box">
-    <div class="image-and-name">
-        <spring:message code="profile.img.alt" var="img"/>
-        <img class="postcard-profile-image"
-             src="<c:url value="/user/${param.userId}/profile-image"/>"
-             alt="${img}">
 
-        <c:url value="/user/${param.userId}" var="userProfile"/>
-        <a href="${userProfile}">
+    <a href="${userProfile}">
+        <div class="image-and-name">
+            <spring:message code="profile.img.alt" var="img"/>
+            <img class="postcard-profile-image"
+                 src="<c:url value="/user/${param.userId}/profile-image"/>"
+                 alt="${img}">
+
             <span class="user-name">
-                <c:out value="${param.applicantName}"/> <c:out value="${param.applicantSurname}"/>
+                    <c:out value="${param.applicantName}"/> <c:out value="${param.applicantSurname}"/>
             </span>
-        </a>
-    </div>
+        </div>
+    </a>
+
     <div>
         <spring:message code="application.accept" var="accept"/>
         <spring:message code="application.reject" var="reject"/>
