@@ -27,13 +27,20 @@ prefix="spring" uri="http://www.springframework.org/tags"%>
     <div>
       <div class="parallax-container">
         <div class="parallax"><img src="<c:url value="/resources/images/parallax3.png" />"/></div>
-        <div class="ml-10 mt-10 flex flex-col justify-between">
-          <h2 id="posts">
-            <spring:message code="welcome.auditionsSection" />
-          </h2>
-          <jsp:include page="../components/searchBar.jsp">
-            <jsp:param name="name" value="Bandify" />
-          </jsp:include>
+        <div class="flex flex-row justify-between">
+          <div class="ml-10 mt-10 flex flex-col justify-between">
+            <h2 id="posts">
+              <spring:message code="welcome.auditionsSection" />
+            </h2>
+            <jsp:include page="../components/searchBar.jsp">
+              <jsp:param name="name" value="Bandify" />
+            </jsp:include>
+          </div>
+          <div class="mt-10 mr-10 languages">
+            <a href="?lang=es" style="color: white; font-size: large;">ES</a>
+            &nbsp;
+            <a href="?lang=en" style="color: white; font-size: large;">EN</a>
+          </div>
         </div>
       </div>
     <!-- Auditions content -->

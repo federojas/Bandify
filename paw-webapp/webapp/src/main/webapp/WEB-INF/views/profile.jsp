@@ -20,6 +20,7 @@
     <jsp:param name="name" value="Bandify"/>
 </jsp:include>
 <div class="bg-gray-100">
+
     <div class="main-box">
         <div class="md:flex no-wrap justify-center md:-mx-2 ">
             <!-- Left Side -->
