@@ -84,9 +84,14 @@
                         </span>
                     </div>
                     <div class="genres-div">
-                        <c:forEach var="genre" items="${preferredGenres}">
-                            <span class="genre-span"><c:out value="${genre.name}" /></span>
-                        </c:forEach>
+                        <c:if test="${preferredGenres.size() > 0}">
+                            <c:forEach var="genre" items="${preferredGenres}">
+                                <span class="genre-span"><c:out value="${genre.name}" /></span>
+                            </c:forEach>
+                        </c:if>
+                        <c:if test="${preferredGenres.size() == 0}">
+                            <span><spring:message code="viewprofile.nogenres"/></span>
+                        </c:if>
                     </div>
                 </div>
 
@@ -103,9 +108,15 @@
                         </span>
                     </div>
                     <div class="roles-div">
-                        <c:forEach var="role" items="${roles}">
-                            <span class="roles-span"><c:out value="${role.name}" /></span>
-                        </c:forEach>
+                        <c:if test="${roles.size() > 0}">
+                            <c:forEach var="role" items="${roles}">
+                                <span class="roles-span"><c:out value="${role.name}" /></span>
+                            </c:forEach>
+                        </c:if>
+
+                        <c:if test="${roles.size() == 0}">
+                            <span><spring:message code="viewprofile.noroles"/></span>
+                        </c:if>
                     </div>
                 </div>
             </div>
