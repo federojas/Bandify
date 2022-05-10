@@ -17,7 +17,7 @@
 <div class="postCard-div-0 shadow-lg">
     <div class="date-row">
         <p class="postCard-p-0">
-            <c:out value="${param.auditionDate}"/>
+            <b><time class="timeago" datetime="${param.auditionDate}"></time></b>
         </p>
     </div>
     <a href="/user/${param.userId}" >
@@ -38,9 +38,6 @@
                     <c:out value="${param.auditionTitle}"/>
                 </b>
             </h2>
-            <p class="postCard-p-0">
-            <time class="timeago" datetime="${param.auditionDate}"></time>
-            </p>
         </div>
 
         <ul>
