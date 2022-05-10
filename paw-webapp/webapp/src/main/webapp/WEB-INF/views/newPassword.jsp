@@ -35,8 +35,7 @@
             <form:input type="password" id="password" maxlength="25" placeholder="${placeholder}"
                         class="form-input recovery-input" path="newPassword" onkeyup="checkPasswordsReset()"/>
             <form:errors cssClass="error" path="newPassword" element="p"> </form:errors>
-            <p class="error" id="invalidPassword" style="display: none"><spring:message
-                    code="newPasswordForm.newPassword"/></p>
+            <p class="error" id="invalidPassword" style="display: none"><spring:message code="newPasswordForm.newPassword"/></p>
         </div>
         <div>
             <form:label path="newPasswordConfirmation" class="form-label">

@@ -16,7 +16,7 @@
 <body>
 <%--    Card --%>
 <div class="postCard-div-0 shadow-lg">
-    <a href="/user/${param.userId}" >
+    <a href="<c:url value="/user/${param.userId}"/>" >
         <div class="postcard-profile">
             <div class="image overflow-hidden">
                 <spring:message code="profile.img.alt" var="img"/>

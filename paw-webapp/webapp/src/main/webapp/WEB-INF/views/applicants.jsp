@@ -20,10 +20,10 @@
         console.log(parameters.get('state'))
         $(document).ready(function () {
             $(".select-wrapper").each(function () {
-                var wrapper = this;
+                let wrapper = this;
                 $(this).find("ul>li").each(function () {
-                    var li = this;
-                    var option_text = $(this).text();
+                    let li = this;
+                    let option_text = $(this).text();
                     if (option_text == parameters.get('state')) {
                         $(li).click();
                     }

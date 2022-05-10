@@ -10,7 +10,7 @@
       href="<c:url value="/resources/images/favi.ico"/>"/>
 <link
         rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Questrial"
+        href="<c:url value="https://fonts.googleapis.com/css?family=Questrial"/>"
 />
 <style>
     body {

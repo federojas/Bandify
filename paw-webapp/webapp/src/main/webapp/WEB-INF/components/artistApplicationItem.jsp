@@ -11,7 +11,7 @@
 <%-- ArtistApplicationItem --%>
 <div class="collection">
     <c:url value="/auditions/${param.auditionId}" var="auditionUrl"/>
-    <a href="${auditionUrl}" class="collection-item">
+    <a href="<c:url value="${auditionUrl}"/> " class="collection-item">
 
         <%-- Status --%>
         <c:choose>

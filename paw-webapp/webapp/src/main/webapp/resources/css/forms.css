@@ -16,7 +16,10 @@ body {
 .error {
     color: #b91c1c;
 }
-
+.login-loginform {
+    align-self: center;
+    margin-top: 4rem;
+}
 .success{
     color: green;
 }
