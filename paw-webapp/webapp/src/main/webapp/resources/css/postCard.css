@@ -12,7 +12,7 @@
   border-width: 1px;
   transition: 1s;
   width: 400px;
-  height: 400px;
+  height: 500px;
   position: relative;
 }
 .postCard-div-0:hover {
@@ -166,8 +166,9 @@ ul > li {
   display: flex;
   flex-direction: row;
   justify-content: left;
-  margin-bottom: 10px;
   align-items: center;
+  height: 50px;
+  margin-bottom: 10px;
 }
 
 .postcard-profile-image{
@@ -188,4 +189,10 @@ ul > li {
   font-weight: 700;
   line-height: 2rem;
   word-break: break-word;
+}
+
+.date-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
 }

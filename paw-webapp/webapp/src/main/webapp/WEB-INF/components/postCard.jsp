@@ -10,7 +10,12 @@
 <body>
 <%--    Card --%>
 <div class="postCard-div-0 shadow-lg">
-    <a href="/user/${param.userId}">
+    <div class="date-row">
+        <p class="postCard-p-0">
+            <c:out value="${param.auditionDate}"/>
+        </p>
+    </div>
+    <a href="/user/${param.userId}" >
         <div class="postcard-profile">
             <div class="image overflow-hidden">
                 <spring:message code="profile.img.alt" var="img"/>
@@ -28,9 +33,6 @@
                     <c:out value="${param.auditionTitle}"/>
                 </b>
             </h2>
-            <p class="postCard-p-0">
-                <c:out value="${param.auditionDate}"/>
-            </p>
         </div>
 
         <ul>
@@ -46,10 +48,23 @@
                 </svg>
                 <c:out value="${param.auditionLocation}"/>
             </li>
-            <li class="flex flex-row mb-10 flex-wrap">
+            <li class="flex flex-row flex-wrap">
                 <c:forEach
                         var="item"
                         items="${requestScope.lookingFor}"
+                        varStatus="loop"
+                >
+                    <div class="bg-gray-200 p-2 rounded-md justify-center tag m-2">
+                        <c:out value="${item.name}"/>
+                    </div>
+
+                </c:forEach>
+            </li>
+
+            <li class="flex flex-row mb-10 flex-wrap">
+                <c:forEach
+                        var="item"
+                        items="${requestScope.musicGenres}"
                         varStatus="loop"
                 >
                     <div class="bg-gray-200 p-2 rounded-md justify-center tag m-2">
