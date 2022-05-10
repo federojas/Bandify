@@ -6,27 +6,7 @@
 <html>
 <head>
     <title><spring:message code="title.noApplicants"/></title>
-    <style>
-        .application-box {
-            display: flex;
-            flex-direction: row;
-            margin: 1rem;
-            padding: 1rem;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            justify-content: space-around;
-            background-color: white;
-            /*width: 0%;*/
-            align-self: center;
-        }
-
-
-        .no-applicants {
-            text-align: center;
-            font-size: 1rem;
-            font-weight: bold;
-        }
-    </style>
+    <link rel="stylesheet" href="<c:url value="/resources/css/applicationItem.css" />" />
 </head>
 <body>
 <div class="application-box">

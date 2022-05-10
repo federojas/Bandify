@@ -32,7 +32,7 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
 
         <!--content-->
         <div class="card-content">
-          <a href="/user/${user.id}">
+          <a href="<c:url value="/user/${user.id}"/>">
             <div class="audition-profile">
                 <div class="image overflow-hidden">
                     <img class="audition-profile-image"
