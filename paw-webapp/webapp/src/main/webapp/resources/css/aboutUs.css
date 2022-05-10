@@ -68,8 +68,11 @@ ul {
     list-style-type: circle;
 }
 li{
-
     list-style-type: none;
+}
+.about-us-h2-center-text{
+    text-align:center;
+    margin-bottom: 2rem;
 }
 .purple-hover-button {
     padding: 0.5rem 1.25rem;
