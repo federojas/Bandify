@@ -6,12 +6,14 @@
 <head>
     <title><spring:message code="title.postCard"/></title>
     <link rel="stylesheet" href="<c:url value="/resources/css/postCard.css" />"/>
-    <script src="<c:url value="/resources/js/jquery.timeago.js"/>" type="text/javascript"></script></head>
+    <script src="<c:url value="/resources/js/jquery.timeago.js"/>" type="text/javascript"></script>
     <script>
         $(document).ready(function(){
             $("time.timeago").timeago();
         });
     </script>
+</head>
+
 <body>
 <%--    Card --%>
 <div class="postCard-div-0 shadow-lg">
@@ -53,31 +55,23 @@
                 </svg>
                 <c:out value="${param.auditionLocation}"/>
             </li>
-            <li class="flex flex-row flex-wrap">
-                <c:forEach
-                        var="item"
-                        items="${requestScope.lookingFor}"
-                        varStatus="loop"
-                >
-                    <div class="bg-gray-200 p-2 rounded-md justify-center tag m-2">
-                        <c:out value="${item.name}"/>
-                    </div>
 
+
+            <div class="genres-div my-5">
+                <c:forEach var="genre"
+                           items="${requestScope.lookingFor}"
+                           varStatus="loop">
+                    <span class="genre-span"><c:out value="${genre.name}" /></span>
                 </c:forEach>
-            </li>
+            </div>
 
-            <li class="flex flex-row mb-10 flex-wrap">
-                <c:forEach
-                        var="item"
-                        items="${requestScope.musicGenres}"
-                        varStatus="loop"
-                >
-                    <div class="bg-gray-200 p-2 rounded-md justify-center tag m-2">
-                        <c:out value="${item.name}"/>
-                    </div>
-
+            <div class="roles-div my-5">
+                <c:forEach var="role"
+                           items="${requestScope.musicGenres}"
+                           varStatus="loop">
+                    <span class="roles-span"><c:out value="${role.name}" /></span>
                 </c:forEach>
-            </li>
+            </div>
         </ul>
 
         <div class="postCard-div-3">
@@ -92,5 +86,6 @@
         </div>
     </div>
 </div>
+</a>
 </body>
 </html>

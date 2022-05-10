@@ -196,3 +196,35 @@ ul > li {
   flex-direction: row;
   justify-content: right;
 }
+
+.genres-div {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.genre-span {
+  padding: 0.25rem 0.5rem;
+  background-color: #3B7D9D;
+  border-radius: 0.25rem;
+  color: #fff;
+  font-size: 1.25rem;
+  line-height: 1.25rem;
+  margin: 0.25rem;
+}
+
+.roles-div {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.roles-span {
+  padding: 0.25rem 0.5rem;
+  background-color: #4AAABC;
+  border-radius: 0.25rem;
+  color: #fff;
+  font-size: 1.25rem;
+  line-height: 1.25rem;
+  margin: 0.25rem;
+}
