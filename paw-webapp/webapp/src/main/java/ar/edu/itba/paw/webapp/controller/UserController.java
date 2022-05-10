@@ -4,7 +4,6 @@ import ar.edu.itba.paw.persistence.*;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.service.*;
 import ar.edu.itba.paw.webapp.form.*;
-import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.*;
 import java.util.*;
@@ -236,13 +234,11 @@ public class UserController {
     @RequestMapping(value = "/newPassword", method = {RequestMethod.GET})
     public ModelAndView newPassword(@RequestParam(required = true) final String token,
                                     @ModelAttribute("newPasswordForm") final NewPasswordForm newPasswordForm) {
-        if(verificationTokenService.isValid(token)) {
-            ModelAndView mav = new ModelAndView("newPassword");
-            mav.addObject("token",token);
-            return mav;
-        }
 
-        return new ModelAndView("redirect:/errors/404");
+        verificationTokenService.isValid(token);
+        ModelAndView mav = new ModelAndView("newPassword");
+        mav.addObject("token",token);
+        return mav;
     }
 
     @RequestMapping(value = "/newPassword", method = {RequestMethod.POST})

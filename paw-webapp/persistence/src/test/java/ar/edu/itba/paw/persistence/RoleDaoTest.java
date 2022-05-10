@@ -41,13 +41,11 @@ public class RoleDaoTest {
     private static final long USER_ID = 1;
 
     private static final long INVALID_ID = 20;
-    private static final long AUDITION_ID = 1;
     private static final String INVALID_NAME = "INVALIDO";
     private static final List<String> ROLE_NAMES = Arrays.asList(role.getName(), role2.getName());
     private static final List<Role> ROLES = Arrays.asList(role, role2);
     private static final List<Role> USER_ROLES = Arrays.asList(role, role2);
     private static final List<Role> UPDATED_USER_ROLES = Arrays.asList(role2, role3);
-    private static final List<Role> AUDITION_ROLES = Arrays.asList(role, role2, role3);
     private static final List<Role> ALL_ROLES = Arrays.asList(role, role2, role3, role4, role5);
 
     @Before
@@ -102,19 +100,6 @@ public class RoleDaoTest {
     @Test
     public void testGetRolesByInvalidNames() {
         final Set<Role> roleSet = roleDao.getRolesByNames(Collections.singletonList(INVALID_NAME));
-        assertTrue(roleSet.isEmpty());
-    }
-
-    @Test
-    public void testGetRolesByAuditionId() {
-        final Set<Role> roleSet = roleDao.getRolesByAuditionId(AUDITION_ID);
-        assertTrue(AUDITION_ROLES.containsAll(roleSet));
-        assertEquals(JdbcTestUtils.countRowsInTableWhere(jdbcTemplate, "auditionroles", "auditionid = " + AUDITION_ID), roleSet.size());
-    }
-
-    @Test
-    public void testGetRolesByInvalidAuditionId() {
-        final Set<Role> roleSet = roleDao.getRolesByAuditionId(INVALID_ID);
         assertTrue(roleSet.isEmpty());
     }
 

@@ -3,9 +3,9 @@ package ar.edu.itba.paw.persistence;
 import java.util.Objects;
 
 public class User {
-    private long id;
-    private String email, password, name, surname, description;
-    private boolean isBand, isEnabled;
+    private final long id;
+    private final String email, password, name, surname, description;
+    private final boolean isBand, isEnabled;
 
     private User(UserBuilder builder) {
         this.name = builder.name;
@@ -65,8 +65,9 @@ public class User {
 
     public static class UserBuilder {
         private long id;
-        private String email, password, name, surname, description;
-        private boolean isBand, isEnabled;
+        private final String email, name;
+        private String surname, description, password;
+        private final boolean isBand, isEnabled;
 
         public UserBuilder(String email, String password, String name, boolean isBand, boolean isEnabled) {
             this.email = email;

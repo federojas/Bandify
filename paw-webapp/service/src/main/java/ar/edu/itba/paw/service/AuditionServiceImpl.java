@@ -3,7 +3,6 @@ package ar.edu.itba.paw.service;
 import ar.edu.itba.paw.model.exceptions.AuditionNotFoundException;
 import ar.edu.itba.paw.model.exceptions.AuditionNotOwnedException;
 import ar.edu.itba.paw.AuditionFilter;
-import ar.edu.itba.paw.persistence.User;
 import ar.edu.itba.paw.persistence.*;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import org.slf4j.Logger;
@@ -18,16 +17,13 @@ import java.util.*;
 public class AuditionServiceImpl implements AuditionService {
 
     private final AuditionDao auditionDao;
-    private final MailingService mailingService;
     private final UserService userService;
     private static final Logger LOGGER = LoggerFactory.getLogger(AuditionServiceImpl.class);
 
     @Autowired
     public AuditionServiceImpl(final AuditionDao auditionDao,
-                               final MailingService mailingService,
                                final UserService userService) {
         this.auditionDao = auditionDao;
-        this.mailingService = mailingService;
         this.userService = userService;
     }
 
@@ -79,14 +75,6 @@ public class AuditionServiceImpl implements AuditionService {
     public void deleteAuditionById(long id) {
         checkPermissions(id);
         auditionDao.deleteAuditionById(id);
-    }
-
-    @Override
-    public void sendApplicationEmail(long bandId, User user, String message) {
-        Audition aud = getAuditionById(bandId).orElseThrow(AuditionNotFoundException::new);
-        User band = userService.getUserById(aud.getBandId()).orElseThrow(UserNotFoundException::new);
-        String bandEmail = band.getEmail();
-        mailingService.sendApplicationEmail(user, bandEmail, message);
     }
     
     @Override

@@ -6,7 +6,7 @@ public enum ApplicationState {
     PENDING("PENDING"),
     ALL("ALL");
 
-    private String state;
+    private final String  state;
 
     ApplicationState(String state){
         this.state = state;

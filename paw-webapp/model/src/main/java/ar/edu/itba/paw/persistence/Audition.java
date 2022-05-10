@@ -1,22 +1,18 @@
 package ar.edu.itba.paw.persistence;
 
 import java.time.LocalDateTime;
-import java.time.Month;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import static java.time.Year.isLeap;
-import static org.joda.time.DateTimeConstants.*;
-
 public class Audition {
-    private long id, bandId;
-    private String title, description;
-    private LocalDateTime creationDate;
-    private Location location;
-    private Set<Genre> musicGenres;
-    private Set<Role> lookingFor;
-    private String bandName;
+    private final long id, bandId;
+    private final String title, description;
+    private final LocalDateTime creationDate;
+    private final Location location;
+    private final Set<Genre> musicGenres;
+    private final Set<Role> lookingFor;
+    private final String bandName;
 
     @Override
     public boolean equals(Object o) {
@@ -32,12 +28,12 @@ public class Audition {
     }
 
     public static class AuditionBuilder {
-        private String title, description;
-        private LocalDateTime creationDate;
+        private final String title, description;
+        private final LocalDateTime creationDate;
         private Location location;
         private Set<Genre> musicGenres;
         private Set<Role> lookingFor;
-        private long bandId;
+        private final long bandId;
         private long id;
         private String bandName;
 

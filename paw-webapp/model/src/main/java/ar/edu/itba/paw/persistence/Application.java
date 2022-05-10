@@ -10,7 +10,7 @@ public class Application {
     private final String applicantSurname;
     private final ApplicationState state;
     private final String auditionTitle;
-    private LocalDateTime creationDate;
+    private final LocalDateTime creationDate;
 
     @Override
     public boolean equals(Object o) {
@@ -71,7 +71,7 @@ public class Application {
         private String applicantSurname;
         private final ApplicationState state;
         private String auditionTitle;
-        private LocalDateTime creationDate;
+        private final LocalDateTime creationDate;
 
         public ApplicationBuilder(long auditionId, long applicantId, ApplicationState state, LocalDateTime creationDate) {
             this.auditionId = auditionId;

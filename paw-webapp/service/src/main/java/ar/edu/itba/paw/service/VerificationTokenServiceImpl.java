@@ -1,22 +1,15 @@
 package ar.edu.itba.paw.service;
 
+import ar.edu.itba.paw.model.exceptions.InvalidTokenException;
 import ar.edu.itba.paw.persistence.TokenType;
-import ar.edu.itba.paw.persistence.User;
 import ar.edu.itba.paw.persistence.VerificationToken;
 import ar.edu.itba.paw.persistence.VerificationTokenDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.mail.MessagingException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -43,24 +36,32 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
 
     @Transactional
     @Override
-    public Long validateToken(String token, TokenType type) {
+    public long getTokenOwner(String token, TokenType type) {
         Optional<VerificationToken> t = getToken(token);
 
         if(!t.isPresent()) {
-            return null;
+            throw new InvalidTokenException();
         }
 
         deleteTokenByUserId(t.get().getUserId(), type);
-        if(LocalDateTime.now().isAfter(t.get().getExpiryDate())) {
-            return null;
+        if(!t.get().isValid()) {
+            throw new InvalidTokenException();
         }
+
         return t.get().getUserId();
     }
 
     @Override
-    public boolean isValid(String token) {
+    public void isValid(String token) {
         Optional<VerificationToken> t = getToken(token);
-        return t.isPresent();
+        if(!t.isPresent()) {
+            throw new InvalidTokenException();
+        }
+
+        if(!t.get().isValid()) {
+            deleteTokenByUserId(t.get().getUserId(), TokenType.RESET);
+            throw new InvalidTokenException();
+        }
     }
 
     @Transactional

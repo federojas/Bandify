@@ -82,8 +82,6 @@ public class AuditionDaoTest {
     private static final Audition aud10 = new Audition.AuditionBuilder(QUERY_TITLE, DESCRIPTION, USER_ID, CREATION_DATE).location(location).lookingFor(role).musicGenres(genre).id(10).build();
     private static final Audition aud11 = new Audition.AuditionBuilder(TITLE, DESCRIPTION, USER_ID, CREATION_DATE).location(location).lookingFor(new HashSet<>(ALL_ROLES)).musicGenres(new HashSet<>(ALL_GENRES)).id(11).build();
 
-    private static final Audition new_audition = new Audition.AuditionBuilder(TITLE, DESCRIPTION, USER_ID, CREATION_DATE).location(location).lookingFor(new HashSet<>(ALL_ROLES)).musicGenres(new HashSet<>(ALL_GENRES)).id(14).build();
-
     private static final Audition otherUserAuditionPage1 = new Audition.AuditionBuilder(TITLE, DESCRIPTION, OTHER_USER_ID, CREATION_DATE_PAGE1).location(location).lookingFor(role).musicGenres(genre).id(12).build();
     private static final Audition otherUserAuditionPage2 = new Audition.AuditionBuilder(TITLE, DESCRIPTION, OTHER_USER_ID, CREATION_DATE_PAGE2).location(location).lookingFor(role).musicGenres(genre).id(13).build();
 

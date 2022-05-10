@@ -1,7 +1,5 @@
 package ar.edu.itba.paw.service;
 
-import ar.edu.itba.paw.persistence.Application;
-import ar.edu.itba.paw.persistence.ApplicationState;
 import ar.edu.itba.paw.AuditionFilter;
 import ar.edu.itba.paw.persistence.User;
 import ar.edu.itba.paw.persistence.Audition;
@@ -22,8 +20,6 @@ public interface AuditionService {
     int getTotalPages();
 
     List<Audition> getBandAuditions(long userId, int page);
-
-    void sendApplicationEmail(long bandId, User user, String message);
 
     int getTotalBandAuditionPages(long userId);
 

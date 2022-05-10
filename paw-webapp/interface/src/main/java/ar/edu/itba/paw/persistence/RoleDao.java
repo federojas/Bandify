@@ -7,8 +7,6 @@ import java.util.Set;
 public interface RoleDao {
     Set<Role> getAll();
 
-    Set<Role> getRolesByAuditionId(long auditionId);
-
     Optional<Role> getRoleById(Long id);
 
     Optional<Role> getRoleByName(String name);

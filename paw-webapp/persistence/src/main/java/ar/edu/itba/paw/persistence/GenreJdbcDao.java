@@ -1,4 +1,5 @@
 package ar.edu.itba.paw.persistence;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -24,11 +25,6 @@ public class GenreJdbcDao implements GenreDao {
     @Override
     public Set<Genre> getAll() {
         return jdbcTemplate.query("SELECT * FROM genres", GENRE_ROW_MAPPER).stream().collect(Collectors.toSet());
-    }
-
-    @Override
-    public Set<Genre> getGenresByAuditionId(long auditionId) {
-        return jdbcTemplate.query("SELECT genres.id, genres.genre FROM AUDITIONGENRES JOIN GENRES ON auditiongenres.genreid = genres.id WHERE auditionId = ?", new Object[]{auditionId}, GENRE_ROW_MAPPER).stream().collect(Collectors.toSet());
     }
 
     @Override

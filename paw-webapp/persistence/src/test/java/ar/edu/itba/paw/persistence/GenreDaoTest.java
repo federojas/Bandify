@@ -39,13 +39,11 @@ public class GenreDaoTest {
     private static final long USER_ID = 1;
 
     private static final List<Genre> ALL_GENRES = Arrays.asList(genre, genre2, genre3);
-    private static final List<Genre> AUDITION_GENRES = Arrays.asList(genre, genre2);
     private static final List<Genre> USER_GENRES = Arrays.asList(genre, genre2);
     private static final List<Genre> GENRES = Arrays.asList(genre2, genre3);
     private static final List<String> GENRES_NAMES = Arrays.asList(genre2.getName(), genre3.getName());
 
     private static final long INVALID_ID = 20;
-    private static final long AUDITION_ID = 1;
     private static final String INVALID_NAME = "INVALIDO";
 
     @Before
@@ -88,19 +86,6 @@ public class GenreDaoTest {
         final Set<Genre> genres = genreDao.getAll();
         assertTrue(ALL_GENRES.containsAll(genres));
         assertEquals(JdbcTestUtils.countRowsInTable(jdbcTemplate, "genres"), genres.size());
-    }
-
-    @Test
-    public void testGetGenresByAuditionId() {
-        final Set<Genre> genreSet = genreDao.getGenresByAuditionId(AUDITION_ID);
-        assertTrue(AUDITION_GENRES.containsAll(genreSet));
-        assertEquals(JdbcTestUtils.countRowsInTableWhere(jdbcTemplate, "auditiongenres", "auditionid = " + AUDITION_ID), genreSet.size());
-    }
-
-    @Test
-    public void testGetGenresByInvalidAuditionId() {
-        final Set<Genre> genreSet = genreDao.getGenresByAuditionId(INVALID_ID);
-        assertTrue(genreSet.isEmpty());
     }
 
     @Test

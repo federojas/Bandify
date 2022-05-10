@@ -27,6 +27,13 @@ public class ErrorAdviceController {
         return new ModelAndView("errors/400");
     }
 
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(InvalidTokenException.class)
+    public ModelAndView invalidToken() {
+        LOGGER.warn("Specified token was expired or non existent");
+        return new ModelAndView("errors/404");
+    }
+
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(GenreNotFoundException.class)

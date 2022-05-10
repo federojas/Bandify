@@ -1,4 +1,5 @@
 package ar.edu.itba.paw.persistence;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -24,11 +25,6 @@ public class RoleJdbcDao implements RoleDao {
     @Override
     public Set<Role> getAll() {
         return jdbcTemplate.query("SELECT * FROM roles", ROLE_ROW_MAPPER).stream().collect(Collectors.toSet());
-    }
-
-    @Override
-    public Set<Role> getRolesByAuditionId(long auditionId) {
-        return jdbcTemplate.query("SELECT roles.id, roles.role FROM AUDITIONROLES JOIN ROLES ON auditionroles.roleid = roles.id WHERE auditionId = ?", new Object[]{auditionId}, ROLE_ROW_MAPPER).stream().collect(Collectors.toSet());
     }
 
     @Override
