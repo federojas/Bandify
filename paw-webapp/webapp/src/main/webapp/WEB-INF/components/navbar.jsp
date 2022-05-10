@@ -12,6 +12,7 @@
 <body>
 <nav>
     <div class="nav-container nav-div">
+        <span id="langspan" style="display: none;"><spring:message code="app.lang"/></span>
         <a href="<c:url value="/"/>" class="logo-section">
             <spring:message code="img.alt.logo" var="bandify" />
             <img

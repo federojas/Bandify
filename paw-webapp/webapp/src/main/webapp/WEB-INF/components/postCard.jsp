@@ -6,7 +6,6 @@
 <head>
     <title><spring:message code="title.postCard"/></title>
     <link rel="stylesheet" href="<c:url value="/resources/css/postCard.css" />"/>
-    <script src="<c:url value="/resources/js/jquery.timeago.js"/>" type="text/javascript"></script>
     <script>
         $(document).ready(function(){
             $("time.timeago").timeago();

@@ -7,7 +7,7 @@
         prefix="spring" uri="http://www.springframework.org/tags" %>
 <html>
 <head>
-    <title><spring:message code="title.profileapplications"/></title>
+    <title><spring:message code="title.applicants"/></title>
     <c:import url="../config/generalHead.jsp"/>
     <c:import url="../config/materializeHead.jsp"/>
     <link rel="stylesheet" href="<c:url value="/resources/css/welcome.css" />"/>
