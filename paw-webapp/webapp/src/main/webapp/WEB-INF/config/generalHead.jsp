@@ -17,6 +17,7 @@
         font-family: "Questrial", sans-serif;
     }
 </style>
+<script src="<c:url value="/resources/js/jquery.timeago.js"/>" type="text/javascript"></script>
 <script>
     $(document).ready(function(){
         if ($('#langspan').text() == 'ES') {
@@ -41,7 +42,7 @@
                     hour: "una hora",
                     hours: "%d horas",
                     day: "un día",
-                    days: "%d días",
+                    days: "%d d\u00edas",
                     month: "un mes",
                     months: "%d meses",
                     year: "un año",
