@@ -31,32 +31,8 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
         <a class="back-anchor" href="<c:url value="/auditions" />">
           <div class="back-div">
             <img src="<c:url value="/resources/icons/back.svg" />" class="back-icon"/>
-            <spring:message code="success.link"/>
           </div>
         </a>
-        <c:if test="${isOwner}">
-          <div class="buttonry">
-            <a class="audition-applicants-btn hover: shadow-sm" href="/auditions/${audition.id}/applicants">
-              <button class="audition-btn" type="submit">
-                <spring:message code="audition.applicants" />
-              </button>
-            </a>
-            <a class="audition-edit-btn hover: shadow-sm" href="/profile/editAudition/${audition.id}">
-              <button class="audition-btn" type="submit">
-                <spring:message code="audition.alt.edit" var="edit"/>
-                <spring:message code="audition.edit" />
-                <img src="<c:url value="/resources/icons/edit-white-icon.svg"/>" class="audition-icon" alt="${edit}"/>
-              </button>
-            </a>
-            <form class="audition-delete-btn" action="/profile/deleteAudition/${audition.id}" method="post">
-              <button class="audition-btn" type="submit">
-                <spring:message code="audition.alt.delete" var="delete"/>
-                <spring:message code="audition.delete" />
-                <img src="<c:url value="/resources/icons/trash.svg"/>" class="audition-icon" alt="${delete}"/>
-              </button>
-            </form>
-          </div>
-        </c:if>
       </div>
 
       <div class="card-extern">
@@ -146,6 +122,35 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
           </div>
 
         </div>
+      </div>
+
+      <div class="right-panel">
+        <c:if test="${isOwner}">
+          <div class="buttonry">
+            <a class="audition-applicants-btn hover: shadow-sm" href="/auditions/${audition.id}/applicants">
+
+              <button class="audition-btn" type="submit">
+                <spring:message code="audition.applicants" />
+                <spring:message code="audition.applicants" var="altApplicants"/>
+                <img src="<c:url value="/resources/icons/user.svg"/>" class="audition-icon invert" alt="${altApplicants}" />
+              </button>
+            </a>
+            <a class="audition-edit-btn hover: shadow-sm" href="/profile/editAudition/${audition.id}">
+              <button class="audition-btn" type="submit">
+                <spring:message code="audition.alt.edit" var="edit"/>
+                <spring:message code="audition.edit" />
+                <img src="<c:url value="/resources/icons/edit-white-icon.svg"/>" class="audition-icon" alt="${edit}"/>
+              </button>
+            </a>
+            <form class="audition-delete-btn" action="/profile/deleteAudition/${audition.id}" method="post">
+              <button class="audition-btn" type="submit">
+                <spring:message code="audition.alt.delete" var="delete"/>
+                <spring:message code="audition.delete" />
+                <img src="<c:url value="/resources/icons/trash.svg"/>" class="audition-icon" alt="${delete}"/>
+              </button>
+            </form>
+          </div>
+        </c:if>
       </div>
     </div>
     <div class="back-auditions-div">
