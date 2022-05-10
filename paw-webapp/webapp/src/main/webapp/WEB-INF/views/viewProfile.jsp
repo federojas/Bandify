@@ -64,9 +64,10 @@
                     </div>
                     <div>
                         <c:if test="${user.description==null}" >
+                            <p><spring:message code="viewprofile.nobio" /></p>
                         </c:if>
                         <c:if test="${!(user.description==null)}" >
-                            <c:out value="${user.description}"/>
+                            <p><c:out value="${user.description}"/></p>
                         </c:if>
                     </div>
                 </div>
