@@ -112,20 +112,4 @@ public class ApplicationJdbcDao implements ApplicationDao {
         return result.map(integer -> (int) Math.ceil(integer.doubleValue() / PAGE_SIZE)).orElse(0);
     }
 
-    @Override
-    public List<Application> getAuditionApplications(long id, int page) {
-        List<Application.ApplicationBuilder> list = jdbcTemplate.query("SELECT auditionId,applicantId,state,name,surname,title, applications.creationdate AS appdate FROM applications" +
-                        " JOIN users ON applications.applicantId = users.id" +
-                        " JOIN auditions ON applications.auditionId = auditions.id" +
-                        " WHERE auditionId = ? ORDER BY appdate DESC" +
-                        " LIMIT ? OFFSET ?"
-                , new Object[]{id, PAGE_SIZE, (page -1) * PAGE_SIZE}, APPLICATION_ROW_MAPPER);
-        return list.stream().map(Application.ApplicationBuilder::build).collect(Collectors.toList());
-    }
-
-    @Override
-    public int getTotalAuditionApplicationsPages(long id) {
-        Optional<Integer> result = jdbcTemplate.query("SELECT COUNT(*) AS applicationTotal FROM applications WHERE auditionId = ?", new Object[] {id} ,TOTAL_APPLICATION_ROW_MAPPER).stream().findFirst();
-        return result.map(integer -> (int) Math.ceil(integer.doubleValue() / PAGE_SIZE)).orElse(0);
-    }
 }

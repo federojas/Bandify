@@ -134,7 +134,7 @@ public class AuditionsController {
     @RequestMapping(value = "/auditions/{id}/applicants", method = {RequestMethod.GET})
     public ModelAndView applicants(@PathVariable long id,
                                    @RequestParam(value = "page", defaultValue = "1") int page,
-                                   @RequestParam(value = "state", defaultValue = "all") String state) {
+                                   @RequestParam(value = "state", defaultValue = "pending") String state) {
         ModelAndView mav = new ModelAndView("applicants");
 
         int lastPage = applicationService.getTotalAuditionApplicationByStatePages(id,ApplicationState.valueOf(state.toUpperCase()));
@@ -323,9 +323,9 @@ public class AuditionsController {
     }
 
     @RequestMapping(value = "/auditions/{auditionId}", method = {RequestMethod.POST})
-    public ModelAndView acceptAudition(@PathVariable long auditionId,
-                                       @RequestParam(value = "accept") boolean accept,
-                                       @RequestParam(value = "userId") long userId) {
+    public ModelAndView acceptApplication(@PathVariable long auditionId,
+                                          @RequestParam(value = "accept") boolean accept,
+                                          @RequestParam(value = "userId") long userId) {
         if(auditionId < 0 || auditionId > auditionService.getMaxAuditionId())
             throw new AuditionNotFoundException();
 
@@ -335,6 +335,6 @@ public class AuditionsController {
             applicationService.reject(auditionId, userId);
         }
 
-        return new ModelAndView("redirect:/auditions/" + auditionId);
+        return new ModelAndView("redirect:/auditions/" + auditionId + "/applicants");
     }
 }

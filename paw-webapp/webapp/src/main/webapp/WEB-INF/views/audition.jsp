@@ -115,6 +115,11 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
           </div>
           <c:if test="${isOwner}">
             <div class="buttonry">
+              <a class="audition-applicants-btn hover: shadow-sm" href="/auditions/${audition.id}/applicants">
+                <button class="audition-btn" type="submit">
+                  <spring:message code="audition.applicants" />
+                </button>
+              </a>
               <a class="audition-edit-btn hover: shadow-sm" href="/profile/editAudition/${audition.id}">
                 <button class="audition-btn" type="submit">
                   <spring:message code="audition.alt.edit" var="edit"/>
