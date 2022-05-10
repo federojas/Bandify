@@ -6,9 +6,8 @@ import java.util.Set;
 
 public interface GenreDao {
     Set<Genre> getAll();
-    Set<Genre> getGenresByAuditionId(long auditionId);
 
-    void createAuditionGenre(Set<Genre> genres, long auditionId);
+    Set<Genre> getGenresByAuditionId(long auditionId);
 
     Optional<Genre> getGenreById(Long id);
 

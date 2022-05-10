@@ -24,8 +24,8 @@ public class AuditionJdbcDao implements AuditionDao {
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcAuditionInsert;
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
-    private final GenreDao genreDao;
-    private final RoleDao roleDao;
+    private final SimpleJdbcInsert jdbcRoleInsert;
+    private final SimpleJdbcInsert jdbcGenreInsert;
 
     private final static RowMapper<Genre> GENRE_ROW_MAPPER = (rs, i) -> new Genre(rs.getLong("genreId"), rs.getString("genre"));
     private final static RowMapper<Role> ROLE_ROW_MAPPER = (rs, i) -> new Role(rs.getLong("roleId"), rs.getString("role"));
@@ -67,10 +67,10 @@ public class AuditionJdbcDao implements AuditionDao {
             " JOIN users ON bandid=users.id";
 
     @Autowired
-    public AuditionJdbcDao(final DataSource ds, GenreDao genreDao, RoleDao roleDao) {
+    public AuditionJdbcDao(final DataSource ds) {
         this.jdbcTemplate = new JdbcTemplate(ds);
-        this.genreDao = genreDao;
-        this.roleDao = roleDao;
+        this.jdbcRoleInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("auditionRoles");
+        this.jdbcGenreInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("auditionGenres");
         this.jdbcAuditionInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("auditions").usingGeneratedKeyColumns("id");
         this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(ds);
     }
@@ -98,8 +98,8 @@ public class AuditionJdbcDao implements AuditionDao {
         auditionData.put("creationDate", Timestamp.valueOf(builder.getCreationDate()));
         final Number id = jdbcAuditionInsert.executeAndReturnKey(auditionData);
 
-        roleDao.createAuditionRole(builder.getLookingFor(),id.longValue());
-        genreDao.createAuditionGenre(builder.getMusicGenres(), id.longValue());
+        createAuditionRole(builder.getLookingFor(),id.longValue());
+        createAuditionGenre(builder.getMusicGenres(), id.longValue());
 
         return builder.id(id.longValue()).build();
     }
@@ -146,8 +146,28 @@ public class AuditionJdbcDao implements AuditionDao {
         jdbcTemplate.update("DELETE FROM auditiongenres WHERE auditionid = ?", id);
         jdbcTemplate.update("DELETE FROM auditionroles WHERE auditionid = ?", id);
 
-        roleDao.createAuditionRole(builder.getLookingFor(), id);
-        genreDao.createAuditionGenre(builder.getMusicGenres(), id);
+        createAuditionRole(builder.getLookingFor(), id);
+        createAuditionGenre(builder.getMusicGenres(), id);
+    }
+
+    private void createAuditionRole(Set<Role> roles, long auditionId) {
+        final Map<String, Object> audRoleData = new HashMap<>();
+        audRoleData.put("auditionId", auditionId);
+        audRoleData.put("roleId", 0);
+        for(Role role : roles) {
+            audRoleData.replace("roleId", role.getId());
+            jdbcRoleInsert.execute(audRoleData);
+        }
+    }
+
+    private void createAuditionGenre(Set<Genre> genres, long auditionId) {
+        final Map<String, Object> audGenreData = new HashMap<>();
+        audGenreData.put("auditionId", auditionId);
+        audGenreData.put("genreId", 0);
+        for(Genre genre : genres) {
+            audGenreData.replace("genreId", genre.getId());
+            jdbcGenreInsert.execute(audGenreData);
+        }
     }
 
     @Override

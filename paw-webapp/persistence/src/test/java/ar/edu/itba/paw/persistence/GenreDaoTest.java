@@ -104,12 +104,6 @@ public class GenreDaoTest {
     }
 
     @Test
-    public void testCreateAuditionGenre() {
-        genreDao.createAuditionGenre(new HashSet<>(Collections.singletonList(genre3)), AUDITION_ID);
-        assertEquals(JdbcTestUtils.countRowsInTableWhere(jdbcTemplate, "auditiongenres", "auditionid = " + AUDITION_ID), 3);
-    }
-
-    @Test
     public void testGetGenresByNames() {
         final Set<Genre> genreSet = genreDao.getGenresByNames(GENRES_NAMES);
         assertTrue(GENRES.containsAll(genreSet));

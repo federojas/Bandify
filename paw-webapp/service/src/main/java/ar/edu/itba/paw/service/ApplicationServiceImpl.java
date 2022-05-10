@@ -90,10 +90,10 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public int getTotalAuditionApplicationByStatePages(long id, ApplicationState state) {
+    public int getTotalAuditionApplicationByStatePages(long auditionId, ApplicationState state) {
         if(state == ApplicationState.ALL)
             state = ApplicationState.PENDING;
-        return applicationDao.getTotalAuditionApplicationsByStatePages(id,state);
+        return applicationDao.getTotalAuditionApplicationsByStatePages(auditionId,state);
     }
 
     private void setApplicationState(long auditionId, long applicantId, ApplicationState state) {

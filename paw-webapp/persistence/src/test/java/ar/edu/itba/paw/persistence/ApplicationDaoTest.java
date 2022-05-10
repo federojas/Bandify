@@ -201,4 +201,21 @@ public class ApplicationDaoTest {
         assertTrue(applications.isEmpty());
     }
 
+    @Test
+    public void testGetTotalAuditionApplicationsByStatePages() {
+        int pages = applicationDao.getTotalAuditionApplicationsByStatePages(1, ApplicationState.PENDING);
+        assertEquals(2, pages);
+    }
+
+    @Test
+    public void testGetTotalAuditionApplicationsByStatePagesZero() {
+        int pages = applicationDao.getTotalAuditionApplicationsByStatePages(5, ApplicationState.REJECTED);
+        assertEquals(0, pages);
+    }
+
+    @Test
+    public void testGetTotalAuditionApplicationsByStatePagesInvalid() {
+        int pages = applicationDao.getTotalAuditionApplicationsByStatePages(INVALID_ID, ApplicationState.REJECTED);
+        assertEquals(0, pages);
+    }
 }

@@ -12,14 +12,12 @@ import java.util.stream.Collectors;
 public class RoleJdbcDao implements RoleDao {
 
     private final JdbcTemplate jdbcTemplate;
-    private final SimpleJdbcInsert jdbcRoleInsert;
     private final SimpleJdbcInsert jdbcUserRoleInsert;
     private final static RowMapper<Role> ROLE_ROW_MAPPER = (rs, i) -> new Role(rs.getLong("id"), rs.getString("role"));
 
     @Autowired
     public RoleJdbcDao(final DataSource ds) {
         jdbcTemplate = new JdbcTemplate(ds);
-        jdbcRoleInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("auditionRoles");
         jdbcUserRoleInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("userRoles");
     }
 
@@ -31,17 +29,6 @@ public class RoleJdbcDao implements RoleDao {
     @Override
     public Set<Role> getRolesByAuditionId(long auditionId) {
         return jdbcTemplate.query("SELECT roles.id, roles.role FROM AUDITIONROLES JOIN ROLES ON auditionroles.roleid = roles.id WHERE auditionId = ?", new Object[]{auditionId}, ROLE_ROW_MAPPER).stream().collect(Collectors.toSet());
-    }
-
-    @Override
-    public void createAuditionRole(Set<Role> roles, long auditionId) {
-        final Map<String, Object> audRoleData = new HashMap<>();
-        audRoleData.put("auditionId", auditionId);
-        audRoleData.put("roleId", 0);
-        for(Role role : roles) {
-            audRoleData.replace("roleId", role.getId());
-            jdbcRoleInsert.execute(audRoleData);
-        }
     }
 
     @Override

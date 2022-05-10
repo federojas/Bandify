@@ -33,8 +33,10 @@ import static org.junit.Assert.*;
 @Rollback
 @Transactional
 public class AuditionDaoTest {
+
     @Autowired
     private AuditionJdbcDao auditionDao;
+
     @Autowired
     private DataSource ds;
 
@@ -121,6 +123,8 @@ public class AuditionDaoTest {
         assertEquals(location, audition.getLocation());
         assertTrue(ALL_ROLES.containsAll(audition.getLookingFor()));
         assertTrue(ALL_GENRES.containsAll(audition.getMusicGenres()));
+        assertEquals(2,JdbcTestUtils.countRowsInTableWhere(jdbcTemplate, "auditiongenres", "auditionid = " +  audition.getId()));
+        assertEquals(2, JdbcTestUtils.countRowsInTableWhere(jdbcTemplate, "auditionroles", "auditionid = " +  audition.getId()));
         assertEquals(1, JdbcTestUtils.countRowsInTableWhere(jdbcTemplate, "auditions", "id = " + audition.getId()));
     }
 

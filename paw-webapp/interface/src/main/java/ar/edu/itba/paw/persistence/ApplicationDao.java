@@ -20,6 +20,6 @@ public interface ApplicationDao {
 
     List<Application> getMyApplicationsFiltered(long applicantId, int page, ApplicationState state);
 
-    int getTotalAuditionApplicationsByStatePages(long id, ApplicationState state);
+    int getTotalAuditionApplicationsByStatePages(long auditionId, ApplicationState state);
     
 }

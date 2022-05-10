@@ -107,8 +107,8 @@ public class ApplicationJdbcDao implements ApplicationDao {
     }
 
     @Override
-    public int getTotalAuditionApplicationsByStatePages(long id, ApplicationState state) {
-        Optional<Integer> result = jdbcTemplate.query("SELECT COUNT(*) AS applicationTotal FROM applications WHERE auditionId = ? AND state = ?", new Object[] {id, state.getState()} ,TOTAL_APPLICATION_ROW_MAPPER).stream().findFirst();
+    public int getTotalAuditionApplicationsByStatePages(long auditionId, ApplicationState state) {
+        Optional<Integer> result = jdbcTemplate.query("SELECT COUNT(*) AS applicationTotal FROM applications WHERE auditionId = ? AND state = ?", new Object[] {auditionId, state.getState()} ,TOTAL_APPLICATION_ROW_MAPPER).stream().findFirst();
         return result.map(integer -> (int) Math.ceil(integer.doubleValue() / PAGE_SIZE)).orElse(0);
     }
 

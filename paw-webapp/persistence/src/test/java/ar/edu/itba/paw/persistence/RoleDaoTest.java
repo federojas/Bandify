@@ -119,12 +119,6 @@ public class RoleDaoTest {
     }
 
     @Test
-    public void testCreateAuditionRole() {
-        roleDao.createAuditionRole(new HashSet<>(Arrays.asList(role4, role5)), AUDITION_ID);
-        assertEquals(JdbcTestUtils.countRowsInTableWhere(jdbcTemplate, "auditionroles", "auditionid = " + AUDITION_ID), 5);
-    }
-
-    @Test
     public void testGetUserRoles() {
         final Set<Role> roleSet = roleDao.getUserRoles(USER_ID);
         assertTrue(USER_ROLES.containsAll(roleSet));
