@@ -26,7 +26,7 @@
                 </div>
                 <div>
                         <c:if test="${param.isDelete}">
-                            <form  action="<c:url value="${param.action}"/>" method="post">
+                            <form  action="${param.action}" method="post">
                                     <button type="submit" class="audition-delete-confirm-btn">
                                         <spring:message code="audition.alt.delete" var="delete"/>
                                         <spring:message code="confirmationModal.confirm"/>

@@ -128,7 +128,7 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
         <div class="right-panel">
           <c:if test="${isOwner}">
             <div class="buttonry">
-              <a class="audition-applicants-btn hover: shadow-sm" href="/auditions/${audition.id}/applicants">
+              <a class="audition-applicants-btn hover: shadow-sm" href="<c:url value="/auditions/${audition.id}/applicants"/>">
 
               <button class="audition-btn" type="submit">
                 <spring:message code="audition.applicants" />
@@ -136,7 +136,7 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
                 <img src="<c:url value="/resources/icons/user.svg"/>" class="audition-icon invert" alt="${altApplicants}" />
               </button>
             </a>
-            <a class="audition-edit-btn hover: shadow-sm" href="/profile/editAudition/${audition.id}">
+            <a class="audition-edit-btn hover: shadow-sm" href="<c:url value="/profile/editAudition/${audition.id}"/>">
               <button class="audition-btn" type="submit">
                 <spring:message code="audition.alt.edit" var="edit"/>
                 <spring:message code="audition.edit" />

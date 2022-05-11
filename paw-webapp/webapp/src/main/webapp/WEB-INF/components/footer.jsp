@@ -22,8 +22,8 @@
         <div class="flex flex-row justify-between px-10">
             © 2022 Copyright: Bandify
             <div >
-                <a class="languages-buttons right" href="?lang=es">ES</a>
-                <a class="languages-buttons right" href="?lang=en">EN</a>
+                <a class="languages-buttons right" href="<c:url value="?lang=es"/>">ES</a>
+                <a class="languages-buttons right" href="<c:url value="?lang=en"/>">EN</a>
             </div>
         </div>
     </div>

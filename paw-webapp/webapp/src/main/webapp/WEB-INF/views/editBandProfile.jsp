@@ -83,7 +83,7 @@
                         path="musicGenres"
                         multiple="true"
                 >
-                    <form:option value="" disabled="true" selected="true"><spring:message code="audition.form.musicGenres.maxSelect"/></form:option>
+                    <form:option value="" disabled="true" selected="true"><spring:message code="edituser.musicGenres.maxSelect"/></form:option>
 
                     <c:forEach var="genre" items="${genreList}" varStatus="loop">
                         <form:option value="${genre.name}"><c:out value="${genre.name}"/></form:option>
@@ -101,7 +101,7 @@
                         path="lookingFor"
                         multiple="true"
                 >
-                    <form:option value="" disabled="true" selected="true"><spring:message code="audition.form.lookingFor.maxSelect"/></form:option>
+                    <form:option value="" disabled="true" selected="true"><spring:message code="edituser.lookingFor.maxSelect"/></form:option>
 
                     <c:forEach var="role" items="${roleList}" varStatus="loop">
                         <form:option value="${role.name}"><c:out value="${role.name}"/></form:option>
