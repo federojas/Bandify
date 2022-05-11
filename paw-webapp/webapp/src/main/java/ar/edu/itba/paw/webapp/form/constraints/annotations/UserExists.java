@@ -1,6 +1,5 @@
 package ar.edu.itba.paw.webapp.form.constraints.annotations;
 
-import ar.edu.itba.paw.webapp.form.constraints.validators.DuplicatedEmailValidator;
 import ar.edu.itba.paw.webapp.form.constraints.validators.UserExistsValidator;
 
 import javax.validation.Constraint;
