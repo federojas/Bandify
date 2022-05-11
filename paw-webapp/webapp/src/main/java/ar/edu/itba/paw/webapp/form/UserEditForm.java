@@ -19,10 +19,10 @@ public abstract class UserEditForm {
     @Size(max = 500)
     private String description;
 
-    @Size(max = 30)
+    @Size(max = 15)
     private List<String> musicGenres;
 
-    @Size(max = 30)
+    @Size(max = 15)
     private List<String> lookingFor;
 
     @MaxFileSize(8)
