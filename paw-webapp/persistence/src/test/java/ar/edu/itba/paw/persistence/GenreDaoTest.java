@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.persistence;
 
+import ar.edu.itba.paw.Genre;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

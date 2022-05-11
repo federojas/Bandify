@@ -1,5 +1,9 @@
 package ar.edu.itba.paw.service;
 
+import ar.edu.itba.paw.Application;
+import ar.edu.itba.paw.ApplicationState;
+import ar.edu.itba.paw.Audition;
+import ar.edu.itba.paw.User;
 import ar.edu.itba.paw.model.exceptions.AuditionNotFoundException;
 import ar.edu.itba.paw.model.exceptions.AuditionNotOwnedException;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;

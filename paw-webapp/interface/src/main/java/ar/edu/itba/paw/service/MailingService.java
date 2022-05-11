@@ -1,8 +1,8 @@
 package ar.edu.itba.paw.service;
 
-import ar.edu.itba.paw.persistence.Audition;
-import ar.edu.itba.paw.persistence.User;
-import ar.edu.itba.paw.persistence.VerificationToken;
+import ar.edu.itba.paw.Audition;
+import ar.edu.itba.paw.User;
+import ar.edu.itba.paw.VerificationToken;
 
 public interface MailingService {
 

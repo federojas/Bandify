@@ -1,6 +1,6 @@
 package ar.edu.itba.paw.service;
 
-import ar.edu.itba.paw.persistence.Location;
+import ar.edu.itba.paw.Location;
 
 import java.util.List;
 import java.util.Optional;

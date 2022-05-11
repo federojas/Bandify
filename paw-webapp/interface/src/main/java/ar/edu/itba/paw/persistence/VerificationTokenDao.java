@@ -1,5 +1,8 @@
 package ar.edu.itba.paw.persistence;
 
+import ar.edu.itba.paw.TokenType;
+import ar.edu.itba.paw.VerificationToken;
+
 import java.time.LocalDateTime;
 import java.util.Optional;
 

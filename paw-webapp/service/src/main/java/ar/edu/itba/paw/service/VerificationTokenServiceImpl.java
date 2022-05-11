@@ -1,8 +1,8 @@
 package ar.edu.itba.paw.service;
 
 import ar.edu.itba.paw.model.exceptions.InvalidTokenException;
-import ar.edu.itba.paw.persistence.TokenType;
-import ar.edu.itba.paw.persistence.VerificationToken;
+import ar.edu.itba.paw.TokenType;
+import ar.edu.itba.paw.VerificationToken;
 import ar.edu.itba.paw.persistence.VerificationTokenDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

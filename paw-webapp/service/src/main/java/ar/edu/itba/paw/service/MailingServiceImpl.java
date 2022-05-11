@@ -1,8 +1,8 @@
 package ar.edu.itba.paw.service;
 
-import ar.edu.itba.paw.persistence.Audition;
-import ar.edu.itba.paw.persistence.User;
-import ar.edu.itba.paw.persistence.VerificationToken;
+import ar.edu.itba.paw.Audition;
+import ar.edu.itba.paw.User;
+import ar.edu.itba.paw.VerificationToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

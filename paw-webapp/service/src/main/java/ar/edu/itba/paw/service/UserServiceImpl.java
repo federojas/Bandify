@@ -1,8 +1,8 @@
 package ar.edu.itba.paw.service;
 
-import ar.edu.itba.paw.persistence.TokenType;
-import ar.edu.itba.paw.persistence.User;
-import ar.edu.itba.paw.persistence.VerificationToken;
+import ar.edu.itba.paw.TokenType;
+import ar.edu.itba.paw.User;
+import ar.edu.itba.paw.VerificationToken;
 import ar.edu.itba.paw.model.exceptions.DuplicateUserException;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.persistence.UserDao;

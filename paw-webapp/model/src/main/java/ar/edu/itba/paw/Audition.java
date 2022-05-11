@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.persistence;
+package ar.edu.itba.paw;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -81,7 +81,7 @@ public class Audition {
             return this;
         }
 
-        protected Audition build() {
+        public Audition build() {
             return new Audition(this);
         }
 

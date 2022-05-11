@@ -1,5 +1,8 @@
 package ar.edu.itba.paw.persistence;
 
+import ar.edu.itba.paw.Application;
+import ar.edu.itba.paw.ApplicationState;
+
 import java.util.List;
 
 public interface ApplicationDao {

@@ -1,7 +1,7 @@
 package ar.edu.itba.paw.service;
 
-import ar.edu.itba.paw.persistence.TokenType;
-import ar.edu.itba.paw.persistence.VerificationToken;
+import ar.edu.itba.paw.TokenType;
+import ar.edu.itba.paw.VerificationToken;
 
 import java.util.Optional;
 
