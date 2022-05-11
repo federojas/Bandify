@@ -16,7 +16,16 @@ prefix="spring" uri="http://www.springframework.org/tags"%>
         $('.parallax').parallax();
       });
     </script>
-
+    <style>
+      .relative-container {
+        position: relative;
+      }
+      .abs-container {
+        position: absolute;
+        top: 2%;
+        left: 2%;
+      }
+    </style>
   </head>
   <body>
 
@@ -26,9 +35,11 @@ prefix="spring" uri="http://www.springframework.org/tags"%>
       <jsp:param name="name" value="Bandify" />
     </jsp:include>
     <main>
-      <div>
+      <div class="relative-container">
         <div class="parallax-container">
           <div class="parallax"><img src="<c:url value="/resources/images/parallax3.png" />"/></div>
+        </div>
+        <div class="abs-container">
           <div class="flex flex-row justify-between">
             <div class="ml-10 mt-10 flex flex-col justify-between">
               <h2 id="posts">
