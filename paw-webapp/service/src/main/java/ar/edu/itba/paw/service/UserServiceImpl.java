@@ -80,7 +80,6 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public void editUser(long userId, String name, String surname, String description, List<String> genresNames, List<String> rolesNames, byte[] image) {
-
         userDao.editUser(userId, name, surname, description);
         genreService.updateUserGenres(genresNames,userId);
         roleService.updateUserRoles(rolesNames,userId);

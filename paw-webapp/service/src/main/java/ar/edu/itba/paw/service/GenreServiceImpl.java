@@ -25,6 +25,9 @@ public class GenreServiceImpl implements GenreService{
     @Override
     public Set<Genre> getGenresByNames(List<String> genresNames) {
 
+        if(genresNames == null)
+            throw new IllegalArgumentException();
+
         List<String> genres = genreDao.getAll().stream().map(Genre::getName).collect(Collectors.toList());
 
         if(!genres.containsAll(genresNames))
