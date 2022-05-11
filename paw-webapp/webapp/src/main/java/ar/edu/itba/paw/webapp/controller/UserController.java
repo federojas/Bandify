@@ -9,10 +9,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.WebAttributes;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.*;
 import java.util.*;
@@ -289,8 +294,13 @@ public class UserController {
     }
 
     @RequestMapping(value = "/login", method = {RequestMethod.GET})
-    public ModelAndView login() {
-        return new ModelAndView("login");
+    public ModelAndView login(final HttpServletRequest request,
+                              @RequestParam(value = "error", defaultValue = "false") boolean error) {
+        ModelAndView mav = new ModelAndView("login");
+        if(request.getAttribute("error").equals(Boolean.TRUE))
+            mav.addObject("errorKey", request.getSession().getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION));
+        mav.addObject("error", error);
+        return mav;
     }
 
 }

@@ -24,7 +24,10 @@
 
 <main class="flex justify-center">
     <div class="login-loginform">
-        <jsp:include page="../components/loginForm.jsp" />
+        <jsp:include page="../components/loginForm.jsp">
+            <jsp:param name="error" value="${error}"/>
+            <jsp:param name="key" value="${errorKey}"/>
+        </jsp:include>
     </div>
 </main>
 <jsp:include page="../components/footer.jsp">
