@@ -125,6 +125,10 @@
                     </c:forEach>
                 </select>
             </div>
+            <div style="margin-top: 1rem; max-height: 35px;max-width: 35px">
+                <spring:message code="search.alt.filter" var="filter"/>
+                <button type="submit" onclick="search()"><img src="<c:url value="/resources/icons/filter.svg" />" alt="${filter}" class="application-icon"/></button>
+            </div>
         </div>
     </form>
 </div>
