@@ -11,7 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @ControllerAdvice
 public class ErrorAdviceController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ErrorController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ErrorAdviceController.class);
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(AuditionNotFoundException.class)
@@ -44,22 +44,29 @@ public class ErrorAdviceController {
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(LocationNotFoundException.class)
-    public ModelAndView LocationNotFound() {
+    public ModelAndView locationNotFound() {
         LOGGER.warn("Location could not be found");
         return new ModelAndView("errors/404");
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(RoleNotFoundException.class)
-    public ModelAndView RoleNotFound() {
+    public ModelAndView roleNotFound() {
         LOGGER.warn("Role could not be found");
         return new ModelAndView("errors/404");
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(UserNotFoundException.class)
-    public ModelAndView UserNotFound() {
+    public ModelAndView userNotFound() {
         LOGGER.warn("User could not be found");
+        return new ModelAndView("errors/404");
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(PageNotFoundException.class)
+    public ModelAndView pageNotFound() {
+        LOGGER.warn("Requested page was not found");
         return new ModelAndView("errors/404");
     }
 

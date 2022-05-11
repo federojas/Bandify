@@ -8,7 +8,7 @@ import java.util.Set;
 public interface GenreService {
     Set<Genre> getAll();
 
-    Set<Genre> validateAndReturnGenres(List<String> rolesNames);
+    Set<Genre> getGenresByNames(List<String> rolesNames);
 
     Set<Genre> getUserGenres(long userId);
 

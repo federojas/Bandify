@@ -8,16 +8,18 @@
       $('.tabs').tabs();
     });
   </script>
+  <link rel="stylesheet" href="<c:url value="/resources/css/applicants.css" />" />
+
   <title><spring:message code="title.applicantsByState"/></title>
 </head>
 <body>
 <div class="applicants">
 
 
-  <div class="row" style="width: 60%; align-self: center;">
+  <div class="row applicants-by-state">
     <div class="col s12">
       <ul class="tabs">
-        <li class="tab col s3"><a class="active"href="#pendingTab"><spring:message code="applicants.tabs.pending" /></a></li>
+        <li class="tab col s3"><a class="active" href="#pendingTab"><spring:message code="applicants.tabs.pending" /></a></li>
         <li class="tab col s3"><a href="#approvedTab"><spring:message code="applicants.tabs.approved" /></a></li>
         <li class="tab col s3 "><a href="#rejectedTab"><spring:message code="applicants.tabs.rejected" /></a></li>
       </ul>

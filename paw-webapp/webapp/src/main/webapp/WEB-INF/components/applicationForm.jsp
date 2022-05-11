@@ -8,7 +8,7 @@
 <head>
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css?family=Questrial"
+      href="<c:url value="https://fonts.googleapis.com/css?family=Questrial"/>"
     />
     <link rel="stylesheet" href="<c:url value="/resources/css/forms.css" />">
     <link rel="stylesheet" href="<c:url value="/resources/css/alerts.css" />"/>

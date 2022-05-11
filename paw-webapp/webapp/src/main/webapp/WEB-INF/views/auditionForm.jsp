@@ -4,7 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <html>
 <head>
-    <title><spring:message code="title.auditionform"/></title>
+    <title id="title"><spring:message code="title.auditionform"/></title>
     <c:import url="../config/generalHead.jsp"/>
     <c:import url="../config/materializeHead.jsp"/>
     <link rel="stylesheet" href="<c:url value="/resources/css/welcome.css" />" />
@@ -12,17 +12,16 @@
     <link rel="stylesheet" href="<c:url value="/resources/css/alerts.css" />"/>
     <script type="text/javascript" src="<c:url value="/resources/js/alerts.js" />"></script>
     <script src="<c:url value="/resources/js/auditionForm.js" />"></script>
-
+    <script src="<c:url value="/resources/js/matMultipleSelect.js"/>"></script>
 </head>
-<body>
+<body onload="auditionFormCheck()">
     <!-- Navbar -->
     <jsp:include page="../components/navbar.jsp">
         <jsp:param name="navItem" value="${3}" />
         <jsp:param name="name" value="Bandify" />
     </jsp:include>
-
     <!-- Formulario -->
-    <div class="card-content" id="form-post">
+    <div class="card-content-small" id="form-post">
         <h1><spring:message code="welcome.formSectionh1"/></h1>
         <br/>
         <h1><spring:message code="welcome.formSectionh2"/></h1>
@@ -34,6 +33,7 @@
                     action="${postPath}"
                     method="post"
                     acceptCharset="utf-8"
+                    id="auditionForm"
             >
                 <div class="title-div">
                     <form:label class="form-label" path="title">
@@ -118,7 +118,6 @@
                     <button
                             type="submit"
                             value="submit"
-                            onclick="return auditionFormCheck()"
                             class="post-button"
                     >
                         <spring:message code="welcome.postButton"/>

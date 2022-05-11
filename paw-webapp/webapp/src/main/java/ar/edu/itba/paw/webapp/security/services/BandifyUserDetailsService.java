@@ -2,6 +2,7 @@ package ar.edu.itba.paw.webapp.security.services;
 
 import ar.edu.itba.paw.User;
 import ar.edu.itba.paw.service.UserService;
+import ar.edu.itba.paw.webapp.security.BandifyUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -9,7 +10,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -32,7 +32,7 @@ public class BandifyUserDetailsService implements UserDetailsService {
             authorities.add(new SimpleGrantedAuthority("ROLE_BAND"));
         else
             authorities.add(new SimpleGrantedAuthority("ROLE_ARTIST"));
-        return new org.springframework.security.core.userdetails.User(email, user.getPassword(), authorities);
+        return new BandifyUser(email, user.getPassword(), authorities, user.isEnabled());
     }
 
 }

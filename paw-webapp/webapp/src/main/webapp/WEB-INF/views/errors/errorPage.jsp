@@ -4,7 +4,7 @@
 <html>
 <head>
     <title><spring:message code="title.errorPage"/> </title>
-    <link rel="stylesheet" href="<c:url value="/resources/css/404.css" />" />
+    <link rel="stylesheet" href="<c:url value="/resources/css/errorPage.css" />" />
 </head>
 <body>
 <div class="container">

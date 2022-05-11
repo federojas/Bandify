@@ -14,9 +14,11 @@
     font-weight: bold;
     color: white;
     text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
-    margin-bottom: 25px;
     margin-left: 20px;
+    margin-bottom: 10px;
 }
+
+
 
 .search > input[type=text] {
     flex: 1;

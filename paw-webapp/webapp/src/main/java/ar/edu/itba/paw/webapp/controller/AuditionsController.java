@@ -58,13 +58,9 @@ public class AuditionsController {
     @RequestMapping(value = "/auditions", method = {RequestMethod.GET})
     public ModelAndView auditions( @RequestParam(value = "page", defaultValue = "1") int page) {
         final ModelAndView mav = new ModelAndView("auditions");
-        int lastPage = auditionService.getTotalPages();
-        if(lastPage == 0)
-            lastPage = 1;
-        if(page < 0 || page > lastPage)
-            return new ModelAndView("errors/404");
-
         List<Audition> auditionList = auditionService.getAll(page);
+        int lastPage = auditionService.getTotalPages();
+        lastPage = lastPage == 0 ? 1 : lastPage;
         mav.addObject("auditionList", auditionList);
         mav.addObject("currentPage", page);
         mav.addObject("lastPage", lastPage);
@@ -87,13 +83,10 @@ public class AuditionsController {
                 .withRoles(roles == null ? null : Arrays.asList(roles))
                 .withLocations(locations == null ? null : Arrays.asList(locations))
                 .withTitle(query).withOrder(order).build();
-        int lastPage = auditionService.getFilterTotalPages(filter);
-        if(lastPage == 0)
-            lastPage = 1;
-        if(page < 0 || page > lastPage)
-            return new ModelAndView("errors/404");
         initializeFilterOptions(mav);
         List<Audition> auditionList = auditionService.filter(filter,page);
+        int lastPage = auditionService.getFilterTotalPages(filter);
+        lastPage = lastPage == 0 ? 1 : lastPage;
         mav.addObject("auditionList", auditionList);
         mav.addObject("currentPage", page);
         mav.addObject("query", query);
@@ -113,8 +106,7 @@ public class AuditionsController {
     @RequestMapping(value = "/auditions/{id}", method = {RequestMethod.GET})
     public ModelAndView audition(@ModelAttribute("applicationForm") final ApplicationForm applicationForm,
                                  @PathVariable long id) {
-        if(id < 0 || id > auditionService.getMaxAuditionId())
-            throw new AuditionNotFoundException();
+
         final ModelAndView mav = new ModelAndView("audition");
         Audition audition = auditionService.getAuditionById(id).orElseThrow(AuditionNotFoundException::new);
         User user = userService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(UserNotFoundException::new);
@@ -125,20 +117,17 @@ public class AuditionsController {
         return mav;
     }
 
-    // TODO: MEJORAR EL CHEQUEO DE PAGE < 0 QUE ESTA MAL
     @RequestMapping(value = "/auditions/{id}/applicants", method = {RequestMethod.GET})
     public ModelAndView applicants(@PathVariable long id,
                                    @RequestParam(value = "page", defaultValue = "1") int page,
                                    @RequestParam(value = "state", defaultValue = "pending") String state) {
         ModelAndView mav = new ModelAndView("applicants");
-
-        int lastPage = applicationService.getTotalAuditionApplicationByStatePages(id,ApplicationState.valueOf(state.toUpperCase()));
         List<Application> applications = applicationService.getAuditionApplicationsByState(id, ApplicationState.valueOf(state.toUpperCase()), page);
-        if(lastPage == 0)
-            lastPage = 1;
-        if(page < 0 || page > lastPage)
-            return new ModelAndView("errors/404");
+        Audition aud = auditionService.getAuditionById(id).orElseThrow(AuditionNotFoundException::new);
+        int lastPage = applicationService.getTotalAuditionApplicationByStatePages(id,ApplicationState.valueOf(state.toUpperCase()));
+        lastPage = lastPage == 0 ? 1 : lastPage;
         mav.addObject("id",id);
+        mav.addObject("auditionTitle", aud.getTitle());
         mav.addObject("applications", applications);
         mav.addObject("currentPage", page);
         mav.addObject("lastPage", lastPage);
@@ -148,7 +137,7 @@ public class AuditionsController {
     @RequestMapping(value = "/apply", method = {RequestMethod.POST})
     public ModelAndView apply(@Valid @ModelAttribute("applicationForm") final ApplicationForm applicationForm,
                               final BindingResult errors,
-                              @RequestParam(required = true) final long id ){
+                              @RequestParam final long id ){
         if (errors.hasErrors()) {
             return audition(applicationForm,id);
         }
@@ -194,8 +183,8 @@ public class AuditionsController {
 
         auditionService.create(auditionForm.toBuilder(user.getId()).
                 location(locationService.getLocationByName(auditionForm.getLocation()).orElseThrow(LocationNotFoundException::new)).
-                lookingFor(roleService.validateAndReturnRoles(auditionForm.getLookingFor())).
-                musicGenres(genreService.validateAndReturnGenres(auditionForm.getMusicGenres()))
+                lookingFor(roleService.getRolesByNames(auditionForm.getLookingFor())).
+                musicGenres(genreService.getGenresByNames(auditionForm.getMusicGenres()))
         );
 
         return new ModelAndView("redirect:/auditions");
@@ -208,38 +197,20 @@ public class AuditionsController {
 
     @RequestMapping(value = "/profile/deleteAudition/{id}", method = {RequestMethod.POST})
     public ModelAndView deleteAudition(@PathVariable long id) {
-        if(id < 0 || id > auditionService.getMaxAuditionId())
-            throw new AuditionNotFoundException();
         auditionService.deleteAuditionById(id);
-
         return new ModelAndView("redirect:/profile/auditions");
     }
 
-
-    //TODO ESTA BIEN ESTO?
-    @RequestMapping(value = "/profile/deleteAudition/{id}", method = {RequestMethod.GET})
-    public ModelAndView getDeleteAudition(@PathVariable long id) {
-        return new ModelAndView("redirect:/profile");
-    }
-
-
-    //TODO CODIGO REPETIDO MODULARIZAR
     @RequestMapping(value = "/profile/editAudition/{id}", method = {RequestMethod.GET})
     public ModelAndView editAudition(@ModelAttribute("auditionForm") final AuditionForm auditionForm, @PathVariable long id) {
-
-        // TODO : es necesario este if? sino con el else de abajo seria suficiente creo
-        if(id < 0 || id > auditionService.getMaxAuditionId())
-            throw new AuditionNotFoundException();
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> optionalUser = userService.findByEmail(auth.getName());
         User user = optionalUser.orElseThrow(UserNotFoundException::new);
 
-        Optional<Audition> audition = auditionService.getAuditionById(id);
+        Audition audition = auditionService.getAuditionById(id).orElseThrow(AuditionNotFoundException::new);
 
-        if(!audition.isPresent())
-            throw new AuditionNotFoundException();
-        else if(user.getId() != audition.get().getBandId())
+        if(user.getId() != audition.getBandId())
             throw new AuditionNotOwnedException();
 
         ModelAndView mav = new ModelAndView("editAudition");
@@ -253,26 +224,23 @@ public class AuditionsController {
         mav.addObject("locationList", locationList);
         mav.addObject("auditionId", id);
 
-        auditionForm.setTitle(audition.get().getTitle());
-        auditionForm.setDescription(audition.get().getDescription());
-        auditionForm.setLocation(audition.get().getLocation().getName());
+        auditionForm.setTitle(audition.getTitle());
+        auditionForm.setDescription(audition.getDescription());
+        auditionForm.setLocation(audition.getLocation().getName());
 
-        List<String> selectedRoles = audition.get().getLookingFor().stream().map(Role::getName).collect(Collectors.toList());
+        List<String> selectedRoles = audition.getLookingFor().stream().map(Role::getName).collect(Collectors.toList());
         auditionForm.setLookingFor(selectedRoles);
 
-        List<String> selectedGenres = audition.get().getMusicGenres().stream().map(Genre::getName).collect(Collectors.toList());
+        List<String> selectedGenres = audition.getMusicGenres().stream().map(Genre::getName).collect(Collectors.toList());
         auditionForm.setMusicGenres(selectedGenres);
 
         return mav;
     }
 
-    //TODO CODIGO REPETIDO
+
     @RequestMapping(value="/profile/editAudition/{id}", method = {RequestMethod.POST})
     public ModelAndView postEditAudition(@Valid @ModelAttribute("auditionForm") final AuditionForm auditionForm,
                                          final BindingResult errors, @PathVariable long id) {
-
-        if(id < 0 || id > auditionService.getMaxAuditionId())
-            throw new AuditionNotFoundException();
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> optionalUser = userService.findByEmail(auth.getName());
@@ -284,8 +252,8 @@ public class AuditionsController {
 
         auditionService.editAuditionById(auditionForm.toBuilder(user.getId()).
                 location(locationService.getLocationByName(auditionForm.getLocation()).orElseThrow(LocationNotFoundException::new)).
-                lookingFor(roleService.validateAndReturnRoles(auditionForm.getLookingFor())).
-                musicGenres(genreService.validateAndReturnGenres(auditionForm.getMusicGenres())), id);
+                lookingFor(roleService.getRolesByNames(auditionForm.getLookingFor())).
+                musicGenres(genreService.getGenresByNames(auditionForm.getMusicGenres())), id);
 
         String redirect = "redirect:/auditions/" + id;
 
@@ -299,16 +267,9 @@ public class AuditionsController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> optionalUser = userService.findByEmail(auth.getName());
         User user = optionalUser.orElseThrow(UserNotFoundException::new);
-
-        int lastPage = auditionService.getTotalBandAuditionPages(user.getId());
-        if(lastPage == 0)
-            lastPage = 1;
-        if(page < 0 || page > lastPage)
-            return new ModelAndView("errors/404");
-
         List<Audition> auditionList = auditionService.getBandAuditions(user.getId(), page);
-
-
+        int lastPage = auditionService.getTotalBandAuditionPages(user.getId());
+        lastPage = lastPage == 0 ? 1 : lastPage;
         mav.addObject("userName", user.getName());
         mav.addObject("userId", user.getId());
         mav.addObject("auditionList", auditionList);
@@ -318,12 +279,9 @@ public class AuditionsController {
     }
 
     @RequestMapping(value = "/auditions/{auditionId}", method = {RequestMethod.POST})
-    public ModelAndView acceptApplication(@PathVariable long auditionId,
-                                          @RequestParam(value = "accept") boolean accept,
-                                          @RequestParam(value = "userId") long userId) {
-        if(auditionId < 0 || auditionId > auditionService.getMaxAuditionId())
-            throw new AuditionNotFoundException();
-
+    public ModelAndView evaluateApplication(@PathVariable long auditionId,
+                                            @RequestParam(value = "accept") boolean accept,
+                                            @RequestParam(value = "userId") long userId) {
         if (accept) {
             applicationService.accept(auditionId, userId);
         } else {

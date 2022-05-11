@@ -69,8 +69,6 @@ public class ApplicationJdbcDao implements ApplicationDao {
                 new Object[]{state.getState().toUpperCase(Locale.ROOT), applicantId, auditionId});
     }
 
-    // TODO: revisar
-
     @Override
     public List<Application> getMyApplications(long applicantId, int page) {
         String query = "SELECT auditionId,applicantId,state,name,surname,title,applications.creationdate AS appdate FROM applications" +

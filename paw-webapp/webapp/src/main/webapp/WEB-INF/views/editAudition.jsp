@@ -15,7 +15,7 @@
     <script src="<c:url value="/resources/js/auditionForm.js" />"></script>
     <script src="<c:url value="/resources/js/matMultipleSelect.js"/>"></script>
 </head>
-<body>
+<body onload="auditionFormCheck()">
 <!-- Navbar -->
 <jsp:include page="../components/navbar.jsp">
     <jsp:param name="navItem" value="${6}" />
@@ -23,7 +23,7 @@
 </jsp:include>
 
 <!-- Formulario -->
-<div class="card-content" id="form-post">
+<div class="card-content-small" id="form-post">
     <h1><spring:message code="edit.formSectionh1"/></h1>
     <c:url value="/profile/editAudition/${auditionId}" var="postPath" />
     <!-- Form box -->
@@ -33,6 +33,7 @@
                 action="${postPath}"
                 method="post"
                 acceptCharset="utf-8"
+                id="auditionForm"
         >
             <div class="title-div">
                 <form:label class="form-label" path="title">
@@ -41,7 +42,7 @@
                 <spring:message code="audition.form.title.placeholder" var="titleplaceholder" />
                 <form:input type="text" id="title"  maxlength="50" placeholder="${titleplaceholder}" class="form-input" path="title" />
                 <p id="emptyTitle" class="error" style="display: none"><spring:message code="NotBlank.auditionForm.title"/> </p>
-                <p id="longTitle" class="error" style="display: none"><spring:message code="Size.auditionForm.title"/> </p>
+                <p id="longTitle" class="error" style="display: none"><spring:message code="Size.AuditionForm.title"/> </p>
                 <form:errors path="title" element="p" cssClass="error"> </form:errors>
             </div>
 
@@ -58,7 +59,7 @@
                         path="description"
                 />
                 <p id="emptyDescription" class="error" style="display: none"><spring:message code="NotBlank.auditionForm.description" arguments="0"/> </p>
-                <p id="longDescription" class="error" style="display: none"><spring:message code="Size.auditionForm.description" arguments="${300}"/> </p>
+                <p id="longDescription" class="error" style="display: none"><spring:message code="Size.AuditionForm.description" arguments="${300}"/> </p>
                 <form:errors path="description" element="p" cssClass="error"> </form:errors>
             </div>
             <div class="select-div">
@@ -116,9 +117,8 @@
             <div class="end-button-div">
                 <spring:message code="button.cancel" var="cancel"/>
                 <button
-                        type="submit"
-                        value="submit"
-                        onclick="return auditionFormCheck()"
+                        type="button"
+                        onclick="openConfirmation()"
                         class="save-button"
                 >
                     <spring:message code="edit.postButton"/>
@@ -127,6 +127,16 @@
                     <spring:message code="button.cancel" />
                 </a>
             </div>
+            <spring:message code="saveConfirmationModal.title" var="modalTitle"/>
+            <spring:message code="saveConfirmationModal.deleteAudition" var="modalHeading"/>
+            <spring:message code="saveConfirmationModal.confirmationQuestion" var="confirmationQuestion"/>
+            <jsp:include page="../components/confirmationModal.jsp">
+                <jsp:param name="modalTitle" value="${modalTitle}" />
+                <jsp:param name="isDelete" value="${false}" />
+                <jsp:param name="modalHeading" value="${modalHeading}" />
+                <jsp:param name="confirmationQuestion" value="${confirmationQuestion}" />
+                <jsp:param name="action" value="${postPath}" />
+            </jsp:include>
         </form:form>
     </div>
 </div>

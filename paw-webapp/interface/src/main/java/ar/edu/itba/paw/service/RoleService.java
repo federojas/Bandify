@@ -8,7 +8,7 @@ import java.util.Set;
 public interface RoleService {
     Set<Role> getAll();
 
-    Set<Role> validateAndReturnRoles(List<String> rolesNames);
+    Set<Role> getRolesByNames(List<String> rolesNames);
 
     Set<Role> getUserRoles(long userId);
 

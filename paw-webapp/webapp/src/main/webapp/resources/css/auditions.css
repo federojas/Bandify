@@ -22,7 +22,17 @@ body {
     font-weight: bold;
     color: black;
 }
-
+.languages-buttons{
+    color: white; font-size: large;
+}
+.no-auditions{
+    width: 100%;
+    text-align: center;
+}
+.no-results{
+    width: 100%;
+    text-align: center;
+}
 .user-data{
     background-color: white;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
@@ -88,4 +98,30 @@ body {
     text-align: center;
     margin: 1rem 0;
     font-size: large;
+}
+
+.languages {
+    color: white;
+}
+
+.back-div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.back-icon {
+    width: 48px;
+}
+
+.applicants-container {
+    position: relative;
+    padding: 2rem 0;
+}
+
+.left-panel-abs {
+    position: absolute;
+    top: 15%;
+    left: 5%
 }

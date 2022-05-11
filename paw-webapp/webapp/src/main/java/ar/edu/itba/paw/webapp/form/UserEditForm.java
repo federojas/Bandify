@@ -25,7 +25,7 @@ public abstract class UserEditForm {
     @Size(max = 30)
     private List<String> lookingFor;
 
-    @MaxFileSize(8) //mb
+    @MaxFileSize(8)
     @ImageType(types = {"image/png", "image/jpeg"})
     private CommonsMultipartFile profileImage;
 

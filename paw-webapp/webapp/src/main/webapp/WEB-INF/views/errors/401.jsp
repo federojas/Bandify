@@ -4,10 +4,11 @@
 <html>
 <head>
     <title><spring:message code="title.401"/></title>
+    <link rel="stylesheet" href="<c:url value="/resources/css/errorPage.css" />" />
 </head>
 <body>
 <spring:message code="img.alt.401" var="img401"/>
-<img src="<c:url value="/resources/images/401.png" />" alt="${img401}" style="margin-bottom: 2rem" />
+<img src="<c:url value="/resources/images/401.png" />" alt="${img401}" class="image"/>
 <p class="wrong-para"><spring:message code="401.errorMessage"/></p>
 </body>
 </html>

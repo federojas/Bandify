@@ -16,7 +16,7 @@ import java.util.*;
 public class VerificationTokenServiceImpl implements VerificationTokenService {
 
     private final VerificationTokenDao verificationTokenDao;
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(VerificationTokenServiceImpl.class);
 
     @Autowired
     public VerificationTokenServiceImpl(final VerificationTokenDao verificationTokenDao) {
@@ -51,6 +51,7 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
         return t.get().getUserId();
     }
 
+    @Transactional
     @Override
     public void isValid(String token) {
         Optional<VerificationToken> t = getToken(token);

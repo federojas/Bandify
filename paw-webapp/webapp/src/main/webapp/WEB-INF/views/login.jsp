@@ -12,12 +12,6 @@
     <link rel="stylesheet" href="<c:url value="/resources/css/welcome.css" />"/>
     <link rel="stylesheet" href="<c:url value="/resources/css/forms.css" />"/>
     <script src="<c:url value="/resources/js/login.js" />"></script>
-    <style>
-        .login-loginform {
-            align-self: center;
-            margin-top: 4rem;
-        }
-    </style>
 </head>
 <body>
 <!-- Navbar -->

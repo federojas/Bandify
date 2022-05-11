@@ -16,7 +16,10 @@ body {
 .error {
     color: #b91c1c;
 }
-
+.login-loginform {
+    align-self: center;
+    margin-top: 4rem;
+}
 .success{
     color: green;
 }
@@ -29,6 +32,21 @@ body {
     margin: 1.5rem auto;
 }
 .card-content > h1 {
+    font-size: 2rem;
+    line-height: 1.75rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+.card-content-small {
+    background-color: #ffffff;
+    box-shadow: 0 10px 15px -3px #1c041c1a, 0 4px 6px -2px #1c041c0d;
+    padding: 2.5rem;
+    border-radius: 1rem;
+    width: 50%;
+    margin: 1.5rem auto;
+}
+.card-content-small > h1 {
     font-size: 2rem;
     line-height: 1.75rem;
     font-weight: 700;

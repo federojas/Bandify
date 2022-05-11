@@ -65,6 +65,7 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
+    @Transactional
     @Override
     public void resendUserVerification(String email) {
         User user = findByEmail(email).orElseThrow(UserNotFoundException::new);
@@ -91,6 +92,7 @@ public class UserServiceImpl implements UserService {
         return userDao.findByEmail(email);
     }
 
+    @Transactional
     @Override
     public void verifyUser(String token) {
         long userId = verificationTokenService.getTokenOwner(token, TokenType.VERIFY);
@@ -109,6 +111,7 @@ public class UserServiceImpl implements UserService {
         SecurityContextHolder.getContext().setAuthentication(auth);
     }
 
+    @Transactional
     @Override
     public void sendResetEmail(String email) {
         User user = userDao.findByEmail(email).orElseThrow(UserNotFoundException::new);

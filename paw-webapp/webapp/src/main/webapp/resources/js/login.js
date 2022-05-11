@@ -22,7 +22,7 @@ function loginFormCheck(){
         validForm=false;
 
     }
-    if(password.length<=0 || password.length>=50){
+    if(password.length<=0 || password.length>=25){
         invalidPassword.style.display='block'
 
         validForm=false;

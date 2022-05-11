@@ -25,8 +25,8 @@
             <div class="forms-buttons">
                 <c:choose>
                     <c:when test="${isBand}">
-                        <button id="artist-button" onclick="toggleForm(false)"
-                                style="background-color: rgba(108, 12, 132, 0.69);">
+                        <button id="artist-button"  class="color-register-button" onclick="toggleForm(false)"
+                              >
                             <spring:message code="register.artist_word"/>
                         </button>
                         <button id="band-button" onclick="toggleForm(true)">
@@ -37,8 +37,8 @@
                         <button id="artist-button" onclick="toggleForm(false)">
                             <spring:message code="register.artist_word"/>
                         </button>
-                        <button id="band-button" onclick="toggleForm(true)"
-                                style="background-color: rgba(108, 12, 132, 0.69);">
+                        <button id="band-button" class="color-register-button" onclick="toggleForm(true)"
+                             >
                             <spring:message code="register.band_word"/>
                         </button>
                     </c:otherwise>

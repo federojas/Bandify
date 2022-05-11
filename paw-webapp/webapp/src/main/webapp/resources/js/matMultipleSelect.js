@@ -40,5 +40,5 @@ $(document).ready(function () {
 
     });
 
-    $(".editProfile-title").click();
+    $("#title").click();
 });

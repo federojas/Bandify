@@ -9,7 +9,6 @@
     <title><spring:message code="title.profile"/></title>
     <c:import url="../config/generalHead.jsp"/>
     <c:import url="../config/materializeHead.jsp"/>
-    <title><spring:message code="navbar.profile" /></title>
     <link rel="stylesheet" href="<c:url value="/resources/css/profile.css" />"/>
 </head>
 <body>
@@ -20,6 +19,7 @@
     <jsp:param name="name" value="Bandify"/>
 </jsp:include>
 <div class="bg-gray-100">
+
     <div class="main-box">
         <div class="md:flex no-wrap justify-center md:-mx-2 ">
             <!-- Left Side -->
@@ -164,9 +164,20 @@
                         </span>
                     </div>
                     <div class="genres-div">
-                        <c:forEach var="genre" items="${preferredGenres}">
-                            <span class="genre-span"><c:out value="${genre.name}" /></span>
-                        </c:forEach>
+                        <c:if test="${preferredGenres.size() == 0}">
+                            <c:if test="${user.band}">
+                                <p><spring:message code="profile.band.noGenres"/> </p>
+                            </c:if>
+                            <c:if test="${!user.band}">
+                                <p><spring:message code="profile.artist.noGenres"/> </p>
+                            </c:if>
+
+                        </c:if>
+                        <c:if test="${preferredGenres.size() > 0}">
+                            <c:forEach var="genre" items="${preferredGenres}">
+                                <span class="genre-span"><c:out value="${genre.name}" /></span>
+                            </c:forEach>
+                        </c:if>
                     </div>
                 </div>
 
@@ -183,9 +194,20 @@
                         </span>
                     </div>
                     <div class="roles-div">
-                        <c:forEach var="role" items="${roles}">
-                            <span class="roles-span"><c:out value="${role.name}" /></span>
-                        </c:forEach>
+                        <c:if test="${roles.size() == 0}">
+                            <c:if test="${user.band}">
+                                <p><spring:message code="profile.band.noRoles"/> </p>
+                            </c:if>
+                            <c:if test="${!user.band}">
+                                <p><spring:message code="profile.artist.noRoles"/> </p>
+                            </c:if>
+
+                        </c:if>
+                        <c:if test="${roles.size() > 0}">
+                            <c:forEach var="role" items="${roles}">
+                                <span class="roles-span"><c:out value="${role.name}" /></span>
+                            </c:forEach>
+                        </c:if>
                     </div>
                 </div>
             </div>
