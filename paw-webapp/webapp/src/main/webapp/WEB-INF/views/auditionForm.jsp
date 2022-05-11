@@ -14,7 +14,7 @@
     <script src="<c:url value="/resources/js/auditionForm.js" />"></script>
     <script src="<c:url value="/resources/js/matMultipleSelect.js"/>"></script>
 </head>
-<body>
+<body onload="auditionFormCheck()">
     <!-- Navbar -->
     <jsp:include page="../components/navbar.jsp">
         <jsp:param name="navItem" value="${3}" />
@@ -33,6 +33,7 @@
                     action="${postPath}"
                     method="post"
                     acceptCharset="utf-8"
+                    id="auditionForm"
             >
                 <div class="title-div">
                     <form:label class="form-label" path="title">
@@ -117,7 +118,6 @@
                     <button
                             type="submit"
                             value="submit"
-                            onclick="return auditionFormCheck()"
                             class="post-button"
                     >
                         <spring:message code="welcome.postButton"/>

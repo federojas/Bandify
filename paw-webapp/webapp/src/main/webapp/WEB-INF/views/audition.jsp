@@ -142,8 +142,23 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
                 <img src="<c:url value="/resources/icons/edit-white-icon.svg"/>" class="audition-icon" alt="${edit}"/>
               </button>
             </a>
-            <jsp:include page="../components/deleteConfirmationModal.jsp">
-              <jsp:param name="auditionForm" value="${1}" />
+            <div  class="audition-delete-btn">
+              <button class="audition-btn" onclick="openConfirmation()" type="submit">
+                <spring:message code="audition.alt.delete" var="delete"/>
+                <spring:message code="audition.delete" />
+                <img src="<c:url value="/resources/icons/trash.svg"/>" class="audition-icon" alt="${delete}"/>
+              </button>
+            </div>
+            <spring:message code="deleteConfirmationModal.title" var="modalTitle"/>
+            <spring:message code="deleteConfirmationModal.deleteAudition" var="modalHeading"/>
+            <spring:message code="deleteConfirmationModal.confirmationQuestion" var="confirmationQuestion"/>
+            <c:url value="/profile/deleteAudition/${audition.id}" var="postPath"/>
+            <jsp:include page="../components/confirmationModal.jsp">
+              <jsp:param name="modalTitle" value="${modalTitle}" />
+              <jsp:param name="isDelete" value="${true}" />
+              <jsp:param name="modalHeading" value="${modalHeading}" />
+              <jsp:param name="confirmationQuestion" value="${confirmationQuestion}" />
+              <jsp:param name="action" value="${postPath}" />
             </jsp:include>
           </div>
         </c:if>

@@ -15,7 +15,7 @@
     <script src="<c:url value="/resources/js/auditionForm.js" />"></script>
     <script src="<c:url value="/resources/js/matMultipleSelect.js"/>"></script>
 </head>
-<body>
+<body onload="auditionFormCheck()">
 <!-- Navbar -->
 <jsp:include page="../components/navbar.jsp">
     <jsp:param name="navItem" value="${6}" />
@@ -33,6 +33,7 @@
                 action="${postPath}"
                 method="post"
                 acceptCharset="utf-8"
+                id="auditionForm"
         >
             <div class="title-div">
                 <form:label class="form-label" path="title">
@@ -116,9 +117,8 @@
             <div class="end-button-div">
                 <spring:message code="button.cancel" var="cancel"/>
                 <button
-                        type="submit"
-                        value="submit"
-                        onclick="return auditionFormCheck()"
+                        type="button"
+                        onclick="openConfirmation()"
                         class="save-button"
                 >
                     <spring:message code="edit.postButton"/>
@@ -127,6 +127,16 @@
                     <spring:message code="button.cancel" />
                 </a>
             </div>
+            <spring:message code="saveConfirmationModal.title" var="modalTitle"/>
+            <spring:message code="saveConfirmationModal.deleteAudition" var="modalHeading"/>
+            <spring:message code="saveConfirmationModal.confirmationQuestion" var="confirmationQuestion"/>
+            <jsp:include page="../components/confirmationModal.jsp">
+                <jsp:param name="modalTitle" value="${modalTitle}" />
+                <jsp:param name="isDelete" value="${false}" />
+                <jsp:param name="modalHeading" value="${modalHeading}" />
+                <jsp:param name="confirmationQuestion" value="${confirmationQuestion}" />
+                <jsp:param name="action" value="${postPath}" />
+            </jsp:include>
         </form:form>
     </div>
 </div>
