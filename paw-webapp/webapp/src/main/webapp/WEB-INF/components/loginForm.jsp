@@ -45,8 +45,9 @@
 
             <div class="errorDiv">
                 <p class="error">
-                    <c:if test="${param.error}"><c:out
-                            value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/></c:if>
+                    <c:if test="${param.error}">
+                        <spring:message code="${param.key}"/>
+                    </c:if>
                 </p>
             </div>
             <div class="loginButton">
