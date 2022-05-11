@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -14,16 +15,24 @@
         footer.page-footer .footer-copyright {
             color: rgba(255, 255, 255, 0.8);
         }
+        a {
+            color: #039be5;
+        }
     </style>
 </head>
 <body>
 <footer class="page-footer">
     <div class="footer-copyright">
         <div class="flex flex-row justify-between px-10">
-            © 2022 Copyright: Bandify
+            <spring:message code="footer.copyright" />
+            <div>
+                <spring:message code="footer.mail" var="email" />
+                <spring:message code="footer.contactus" arguments="${email}" />
+
+            </div>
             <div >
-                <a class="languages-buttons right" href="<c:url value="?lang=es"/>">ES</a>
-                <a class="languages-buttons right" href="<c:url value="?lang=en"/>">EN</a>
+                <a class="languages-buttons right" href="<c:url value="?lang=es"/>"><spring:message code="footer.es"/></a>
+                <a class="languages-buttons right" href="<c:url value="?lang=en"/>"><spring:message code="footer.en"/></a>
             </div>
         </div>
     </div>
