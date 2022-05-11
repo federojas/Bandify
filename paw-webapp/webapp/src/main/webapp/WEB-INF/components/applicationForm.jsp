@@ -31,11 +31,11 @@
                 <form:label class="form-label" path="message">
                     <spring:message code="application.form.message"/>
                 </form:label>
-                <spring:message code="application.form.message.placeholder" var="messageplaceholder" />
+                <spring:message code="application.form.message.placeholder" arguments="300" var="messageplaceholder" />
                 <form:textarea type="text" id="message" maxlength="300" placeholder="${messageplaceholder}" class="form-input-application"
                                path="message"/>
                 <p id="emptyMessage" class="error" style="display: none"><spring:message code="NotBlank.applicationForm.message"/> </p>
-                <p id="bigMessage" class="error" style="display: none"><spring:message code="application.form.error.bigMessage" arguments="300"/> </p>
+                <p id="bigMessage" class="error" style="display: none"><spring:message code="Size.applicationForm.message" arguments="300"/> </p>
                 <form:errors path="message" element="p" cssClass="error">
                 </form:errors>
             </div>

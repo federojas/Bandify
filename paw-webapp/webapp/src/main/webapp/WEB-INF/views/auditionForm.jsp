@@ -40,10 +40,10 @@
                     <form:label class="form-label" path="title">
                         <spring:message code="welcome.form.title"/>
                     </form:label>
-                    <spring:message code="audition.form.title.placeholder" var="titleplaceholder" />
+                    <spring:message code="audition.form.title.placeholder" arguments="50" var="titleplaceholder" />
                     <form:input type="text" id="titleForm"  maxlength="50" placeholder="${titleplaceholder}" class="form-input" path="title" />
                     <p id="emptyTitle" class="error" style="display: none"><spring:message code="NotBlank.auditionForm.title"/> </p>
-                    <p id="longTitle" class="error" style="display: none"><spring:message code="Size.AuditionForm.title"/> </p>
+                    <p id="longTitle" class="error" style="display: none"><spring:message code="Size.auditionForm.title" arguments="50"/> </p>
                     <form:errors path="title" element="p" cssClass="error"> </form:errors>
                 </div>
 
@@ -51,7 +51,7 @@
                     <form:label class="form-label" path="description">
                         <spring:message code="welcome.form.description"/>
                     </form:label>
-                    <spring:message code="audition.form.description.placeholder" var="descriptionplaceholder" />
+                    <spring:message code="audition.form.description.placeholder" arguments="300" var="descriptionplaceholder" />
                     <form:textarea
                             maxlength="300" placeholder="${descriptionplaceholder}"
                             class="form-input-application"
@@ -92,7 +92,7 @@
                             path="musicGenres"
                             multiple="true"
                     >
-                        <form:option value="" disabled="true" selected="true"><spring:message code="audition.form.musicGenres.maxSelect"/> </form:option>
+                        <form:option value="" disabled="true" selected="true"><spring:message code="audition.form.musicGenres.maxSelect" arguments="5"/> </form:option>
                         <c:forEach var="genre" items="${genreList}" varStatus="loop">
                             <form:option value="${genre.name}"><c:out value="${genre.name}"/></form:option>
                         </c:forEach>
@@ -107,7 +107,7 @@
                             path="lookingFor"
                             multiple="true"
                     >
-                        <form:option value="" disabled="true" selected="true"><spring:message code="audition.form.lookingFor.maxSelect"/>  </form:option>
+                        <form:option value="" disabled="true" selected="true"><spring:message code="audition.form.lookingFor.maxSelect" arguments="5"/>  </form:option>
                         <c:forEach var="role" items="${roleList}" varStatus="loop">
                             <form:option value="${role.name}"><c:out value="${role.name}"/></form:option>
                         </c:forEach>
