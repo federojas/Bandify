@@ -7,7 +7,7 @@
 <script type = "text/javascript"
         src = "<c:url value="https://code.jquery.com/jquery-2.1.1.min.js"/>"></script>
 <link rel="icon" type="image/x-icon"
-      href="<c:url value="/resources/images/favi.ico"/>"/>
+      href="<c:url value="/resources/images/favi2.ico"/>"/>
 <link
         rel="stylesheet"
         href="<c:url value="https://fonts.googleapis.com/css?family=Questrial"/>"
