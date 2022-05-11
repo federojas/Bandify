@@ -272,6 +272,10 @@ body {
     justify-content: space-around;
     align-items: center;
 }
+.edit-image-text-container{
+    display: flex;
+    flex-direction: column
+}
 
 .editProfileImg {
     height: 200px;

@@ -60,9 +60,11 @@
                 <br/>
                 <div class = "editProfilePicture">
                     <spring:message code="profile.img.alt" var="img"/>
-                    <img id="imagePreview" src="<c:url value="/user/${user.id}/profile-image"/>" class="profileImage" alt="${img}"/>
-                    <form:input id="selectImage" type="file" path="profileImage" accept="image/png, image/jpeg" onchange="previewImage()" />
-                    <form:errors path="profileImage" element="p" cssClass="error"/>
+                         <img id="imagePreview" src="<c:url value="/user/${user.id}/profile-image"/>" class="profileImage" alt="${img}"/>
+                    <div class="edit-image-text-container">
+                         <form:input id="selectImage" type="file" path="profileImage" accept="image/png, image/jpeg" onchange="previewImage()" />
+                         <form:errors path="profileImage" element="p" cssClass="error"/>
+                    </div>
                 </div>
             </div>
 
