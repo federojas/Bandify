@@ -43,28 +43,33 @@ http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
   </servlet-mapping>
 
   <error-page>
-    <error-code>404</error-code>
-    <location>/error</location>
+    <error-code>400</error-code>
+    <location>/400</location>
   </error-page>
 
   <error-page>
-    <error-code>400</error-code>
-    <location>/error</location>
+    <error-code>401</error-code>
+    <location>/401</location>
   </error-page>
 
   <error-page>
     <error-code>403</error-code>
-    <location>/error</location>
+    <location>/403</location>
+  </error-page>
+
+  <error-page>
+    <error-code>404</error-code>
+    <location>/404</location>
   </error-page>
 
   <error-page>
     <error-code>405</error-code>
-    <location>/error</location>
+    <location>/405</location>
   </error-page>
 
   <error-page>
     <error-code>500</error-code>
-    <location>/error</location>
+    <location>/500</location>
   </error-page>
 
   <filter-mapping>

@@ -65,7 +65,7 @@
                             &nbsp;&nbsp;&nbsp;&nbsp;<span><spring:message code="viewProfile.about"/></span>
                         </div>
                         <div>
-                            <c:if test="${user.description==null}" >
+                            <c:if test="${user.description==null || (user.description.length() == 0)}" >
                                 <p><spring:message code="viewprofile.nobio" /></p>
                             </c:if>
                             <c:if test="${!(user.description==null)}" >
