@@ -12,6 +12,7 @@ import ar.edu.itba.paw.persistence.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,7 +56,9 @@ public class ApplicationServiceImpl implements ApplicationService {
         Audition aud = auditionService.getAuditionById(auditionId).orElseThrow(AuditionNotFoundException::new);
         User band = userService.getUserById(aud.getBandId()).orElseThrow(UserNotFoundException::new);
         String bandEmail = band.getEmail();
-        mailingService.sendApplicationEmail(user, bandEmail, message);
+        Locale locale = LocaleContextHolder.getLocale();
+        LocaleContextHolder.setLocale(locale, true);
+        mailingService.sendApplicationEmail(user, bandEmail, message, locale);
         return true;
     }
 
@@ -117,7 +120,9 @@ public class ApplicationServiceImpl implements ApplicationService {
         if(audition.getBandId() != band.getId())
             throw new AuditionNotOwnedException();
         if(state.equals(ApplicationState.ACCEPTED)) {
-            mailingService.sendApplicationAcceptedEmail(band, audition, applicant.getEmail());
+            Locale locale = LocaleContextHolder.getLocale();
+            LocaleContextHolder.setLocale(locale, true);
+            mailingService.sendApplicationAcceptedEmail(band, audition, applicant.getEmail(), locale);
         }
         applicationDao.setApplicationState(auditionId, applicantId, state);
     }

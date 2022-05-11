@@ -44,11 +44,10 @@ public class MailingServiceImpl implements MailingService {
 
     @Async
     @Override
-    public void sendApplicationAcceptedEmail(User band, Audition audition, String receiverEmail) {
+    public void sendApplicationAcceptedEmail(User band, Audition audition, String receiverEmail, Locale locale) {
         try {
             final String url = new URL(environment.getRequiredProperty("app.protocol"), environment.getRequiredProperty("app.base.url"), environment.getRequiredProperty("app.group.directory") + "user/" + band.getId()).toString();
             Map<String, Object> mailData = new HashMap<>();
-            Locale locale = LocaleContextHolder.getLocale();
             String subject = messageSource.getMessage("accepted-application.title",null,locale);
             mailData.put("goToBandifyURL", url);
             mailData.put("auditionTitle", audition.getTitle());
@@ -60,11 +59,10 @@ public class MailingServiceImpl implements MailingService {
 
     @Async
     @Override
-    public void sendApplicationEmail(User applicant, String receiverEmail, String message) {
+    public void sendApplicationEmail(User applicant, String receiverEmail, String message, Locale locale) {
         try {
             final String url = new URL(environment.getRequiredProperty("app.protocol"), environment.getRequiredProperty("app.base.url"), environment.getRequiredProperty("app.group.directory") + "user/" + applicant.getId()).toString();
             Map<String, Object> mailData = new HashMap<>();
-            Locale locale = LocaleContextHolder.getLocale();
             String subject = messageSource.getMessage("audition-application.subject",null,locale);
             mailData.put("content", message);
             mailData.put("goToBandifyURL", url);
@@ -76,9 +74,8 @@ public class MailingServiceImpl implements MailingService {
 
     @Async
     @Override
-    public void sendVerificationEmail(User user, VerificationToken token) {
+    public void sendVerificationEmail(User user, VerificationToken token, Locale locale) {
         try {
-            Locale locale = LocaleContextHolder.getLocale();
             final String url = new URL(environment.getRequiredProperty("app.protocol"), environment.getRequiredProperty("app.base.url"), environment.getRequiredProperty("app.group.directory") + "verify?token=" + token.getToken()).toString();
             String subject = messageSource.getMessage("verify-account.subject",null,locale);
             final Map<String, Object> mailData = new HashMap<>();
@@ -91,9 +88,8 @@ public class MailingServiceImpl implements MailingService {
 
     @Async
     @Override
-    public void sendResetPasswordEmail(User user, VerificationToken token) {
+    public void sendResetPasswordEmail(User user, VerificationToken token, Locale locale) {
         try {
-            Locale locale = LocaleContextHolder.getLocale();
             final String url = new URL(environment.getRequiredProperty("app.protocol"), environment.getRequiredProperty("app.base.url"), environment.getRequiredProperty("app.group.directory") + "newPassword?token=" + token.getToken()).toString();
             final Map<String, Object> mailData = new HashMap<>();
             mailData.put("resetPasswordURL", url);

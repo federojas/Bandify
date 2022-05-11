@@ -9,6 +9,7 @@ import ar.edu.itba.paw.persistence.UserDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -54,7 +55,9 @@ public class UserServiceImpl implements UserService {
         }
         User user = userDao.create(userBuilder);
         final VerificationToken token = verificationTokenService.generate(user.getId(), TokenType.VERIFY);
-        mailingService.sendVerificationEmail(user, token);
+        Locale locale = LocaleContextHolder.getLocale();
+        LocaleContextHolder.setLocale(locale, true);
+        mailingService.sendVerificationEmail(user, token, locale);
         return user;
     }
 
@@ -67,7 +70,9 @@ public class UserServiceImpl implements UserService {
 
         VerificationToken token = verificationTokenService.generate(user.getId(), TokenType.VERIFY);
 
-        mailingService.sendVerificationEmail(user, token);
+        Locale locale = LocaleContextHolder.getLocale();
+        LocaleContextHolder.setLocale(locale, true);
+        mailingService.sendVerificationEmail(user, token, locale);
     }
 
     @Transactional
@@ -110,7 +115,9 @@ public class UserServiceImpl implements UserService {
 
         verificationTokenService.deleteTokenByUserId(user.getId(), TokenType.RESET);
         VerificationToken token = verificationTokenService.generate(user.getId(), TokenType.RESET);
-        mailingService.sendResetPasswordEmail(user, token);
+        Locale locale = LocaleContextHolder.getLocale();
+        LocaleContextHolder.setLocale(locale, true);
+        mailingService.sendResetPasswordEmail(user, token, locale);
     }
 
     @Transactional
