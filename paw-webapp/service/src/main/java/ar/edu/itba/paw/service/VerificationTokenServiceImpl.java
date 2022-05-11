@@ -15,13 +15,10 @@ import java.util.*;
 @Service
 public class VerificationTokenServiceImpl implements VerificationTokenService {
 
-    private final VerificationTokenDao verificationTokenDao;
-    private static final Logger LOGGER = LoggerFactory.getLogger(VerificationTokenServiceImpl.class);
-
     @Autowired
-    public VerificationTokenServiceImpl(final VerificationTokenDao verificationTokenDao) {
-        this.verificationTokenDao = verificationTokenDao;
-    }
+    private VerificationTokenDao verificationTokenDao;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(VerificationTokenServiceImpl.class);
 
     @Override
     public Optional<VerificationToken> getToken(String token) {
