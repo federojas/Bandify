@@ -20,31 +20,32 @@
 </jsp:include>
 
 <main>
-<div class="register-content flex flex-col">
-    <div class="card-content">
-        <div class="header">
-            <spring:message code="register.header"/>
-            <div class="forms-buttons">
-                <c:choose>
-                    <c:when test="${isBand}">
-                        <button id="artist-button" onclick="toggleForm(false)"
-                                style="background-color: rgba(108, 12, 132, 0.69);">
-                            <spring:message code="register.artist_word"/>
-                        </button>
-                        <button id="band-button" onclick="toggleForm(true)">
-                            <spring:message code="register.band_word"/>
-                        </button>
-                    </c:when>
-                    <c:otherwise>
-                        <button id="artist-button" onclick="toggleForm(false)">
-                            <spring:message code="register.artist_word"/>
-                        </button>
-                        <button id="band-button" onclick="toggleForm(true)"
-                                style="background-color: rgba(108, 12, 132, 0.69);">
-                            <spring:message code="register.band_word"/>
-                        </button>
-                    </c:otherwise>
-                </c:choose>
+    <div class="register-content flex flex-col">
+        <div class="card-content">
+            <div class="header">
+                <spring:message code="register.header"/>
+                <div class="forms-buttons">
+                    <c:choose>
+                        <c:when test="${isBand}">
+                            <button id="artist-button" onclick="toggleForm(false)"
+                                    style="background-color: rgba(108, 12, 132, 0.69);">
+                                <spring:message code="register.artist_word"/>
+                            </button>
+                            <button id="band-button" onclick="toggleForm(true)">
+                                <spring:message code="register.band_word"/>
+                            </button>
+                        </c:when>
+                        <c:otherwise>
+                            <button id="artist-button" onclick="toggleForm(false)">
+                                <spring:message code="register.artist_word"/>
+                            </button>
+                            <button id="band-button" onclick="toggleForm(true)"
+                                    style="background-color: rgba(108, 12, 132, 0.69);">
+                                <spring:message code="register.band_word"/>
+                            </button>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
             </div>
 
             <c:if test="${!isBand}">
@@ -73,8 +74,9 @@
             </c:if>
         </div>
     </div>
-    <div id="snackbar"><spring:message code="snackbar.message"/></div>
-</div>
+    <div id="snackbar">
+        <spring:message code="snackbar.message"/>
+    </div>
 </main>
 <jsp:include page="../components/footer.jsp">
     <jsp:param name="name" value="Bandify"/>
