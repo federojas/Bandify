@@ -2,6 +2,8 @@ package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.Application;
 import ar.edu.itba.paw.ApplicationState;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -16,6 +18,7 @@ import java.util.stream.Collectors;
 public class ApplicationJdbcDao implements ApplicationDao {
 
     private final int PAGE_SIZE = 10;
+    private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationJdbcDao.class);
 
     @Autowired
     public ApplicationJdbcDao(final DataSource ds) {
@@ -48,7 +51,7 @@ public class ApplicationJdbcDao implements ApplicationDao {
                         " JOIN auditions ON applications.auditionId = auditions.id" +
                         " WHERE auditionId = ? AND state = ? ORDER BY appdate DESC" +
                         " LIMIT ? OFFSET ?"
-                , new Object[]{auditionId, state.getState().toUpperCase(Locale.ROOT), PAGE_SIZE, (page -1) * PAGE_SIZE}, APPLICATION_ROW_MAPPER);
+                , new Object[]{auditionId, state.getState().toUpperCase(), PAGE_SIZE, (page -1) * PAGE_SIZE}, APPLICATION_ROW_MAPPER);
         return list.stream().map(Application.ApplicationBuilder::build).collect(Collectors.toList());
     }
 
@@ -57,16 +60,18 @@ public class ApplicationJdbcDao implements ApplicationDao {
         final Map<String, Object> applicationData = new HashMap<>();
         applicationData.put("auditionId", applicationBuilder.getAuditionId());
         applicationData.put("applicantId", applicationBuilder.getApplicantId());
-        applicationData.put("state", applicationBuilder.getState().getState().toUpperCase(Locale.ROOT));
+        applicationData.put("state", applicationBuilder.getState().getState().toUpperCase());
         applicationData.put("creationdate",  Timestamp.valueOf(applicationBuilder.getCreationDate()));
         jdbcInsert.execute(applicationData);
+        LOGGER.info("Application created for user {} with state {}", applicationBuilder.getApplicantId(), applicationBuilder.getState().getState());
         return applicationBuilder.build();
     }
 
     @Override
     public void setApplicationState(long auditionId, long applicantId, ApplicationState state) {
         jdbcTemplate.update("UPDATE applications SET state = ? WHERE applicantId = ? AND auditionId = ?",
-                new Object[]{state.getState().toUpperCase(Locale.ROOT), applicantId, auditionId});
+                new Object[]{state.getState().toUpperCase(), applicantId, auditionId});
+        LOGGER.info("Application with user {} and audition {} now has state {}", applicantId, auditionId, state.getState());
     }
 
     @Override
@@ -102,6 +107,7 @@ public class ApplicationJdbcDao implements ApplicationDao {
                 " JOIN users ON applications.applicantId = users.id" +
                 " JOIN auditions ON applications.auditionId = auditions.id" +
                 " WHERE applicantId = ? AND state = ? ORDER BY appdate DESC LIMIT ? OFFSET ?";
+        LOGGER.debug("Executing query: {}", query);
         List<Application.ApplicationBuilder> list = jdbcTemplate.query(query,new Object[]{applicantId, state.getState(), PAGE_SIZE, (page -1) * PAGE_SIZE},APPLICATION_ROW_MAPPER);
         return list.stream().map(Application.ApplicationBuilder::build).collect(Collectors.toList());
     }

@@ -46,7 +46,7 @@
             <div class="errorDiv">
                 <p class="error">
                     <c:if test="${param.error}">
-                        <spring:message code="${param.key}"/>
+                        <spring:message code="login.auth.failed"/>
                     </c:if>
                 </p>
             </div>

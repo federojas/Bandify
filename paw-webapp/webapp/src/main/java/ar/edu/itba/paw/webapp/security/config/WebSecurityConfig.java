@@ -1,7 +1,6 @@
 package ar.edu.itba.paw.webapp.security.config;
 
 
-import ar.edu.itba.paw.webapp.security.services.CustomAuthenticationFailureHandler;
 import ar.edu.itba.paw.webapp.security.services.BandifyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -15,8 +14,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-
 import java.util.concurrent.TimeUnit;
 
 
@@ -31,11 +28,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public AuthenticationFailureHandler authenticationFailureHandler() {
-        return new CustomAuthenticationFailureHandler();
     }
 
     @Autowired
@@ -64,7 +56,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .passwordParameter("password")
                     .defaultSuccessUrl("/", false)
                     .loginPage("/login")
-                    .failureHandler(authenticationFailureHandler())
+                    .failureUrl("/login?error=true")
                 .and().rememberMe()
                     .rememberMeParameter("rememberMe")
                     .userDetailsService(userDetailsService)
