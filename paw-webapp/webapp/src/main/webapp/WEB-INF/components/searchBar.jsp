@@ -13,6 +13,8 @@
         const queryString = window.location.search;
         let parameters = new URLSearchParams(queryString);
         let params = [parameters.getAll('order'), parameters.getAll('location'), parameters.getAll('genre'), parameters.getAll('role')]
+        let input = parameters.get('query');
+        console.log(input)
         let i = 0;
         $(document).ready(function () {
             let i = 0;
@@ -20,7 +22,6 @@
                 let wrapper = this;
 
                 if (i > 0) {
-                    console.log("pasando por i > 0 ", i);
                     $(this).find("ul>li").each(function () {
                         let li = this;
                         let option_text = $(this).text();
@@ -34,7 +35,6 @@
                     });
                 }
                 if (i === 0) {
-                    console.log("pasando por i === 0 ", i);
                     let lis = $(this).find("ul>li");
                     if (params[i][0] === "DESC") {
                         $(lis[0]).click();
@@ -46,6 +46,10 @@
 
                 i++;
             });
+
+            if (input !== null && input !== '') {
+                $('#inputfield').val(input);
+            }
 
             $(".search").click();
         });
@@ -75,6 +79,7 @@
                 i+=1;
             });
 
+
             $('select').val(list).trigger('update');
         }
 
@@ -87,7 +92,7 @@
     <form action="${searchUrl}" method="get" class="searchForm">
         <div class="searchBarAndOrderBy">
             <div class="search">
-                <input type="text" maxlength="80" size="43" placeholder="${searchPlaceholder}" name="query">
+                <input id="inputfield" type="text" maxlength="80" size="43" placeholder="${searchPlaceholder}" name="query">
                 <button type="submit" aria-hidden="true" onclick="search()"></button>
             </div>
             <div id="orderBy-filter" class="orderBy">
