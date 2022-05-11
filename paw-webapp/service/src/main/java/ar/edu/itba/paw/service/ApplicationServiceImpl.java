@@ -16,7 +16,6 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -50,14 +49,17 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Transactional
     @Override
     public boolean apply(long auditionId, User user, String message) {
-        if(applicationDao.exists(auditionId,user.getId()))
+        if(applicationDao.exists(auditionId,user.getId())) {
+            LOGGER.info("User {} already applied to audition {}",user.getId(),auditionId);
             return false;
+        }
         applicationDao.createApplication(new Application.ApplicationBuilder(auditionId,user.getId(),ApplicationState.PENDING, LocalDateTime.now()));
         Audition aud = auditionService.getAuditionById(auditionId).orElseThrow(AuditionNotFoundException::new);
         User band = userService.getUserById(aud.getBandId()).orElseThrow(UserNotFoundException::new);
         String bandEmail = band.getEmail();
         Locale locale = LocaleContextHolder.getLocale();
         LocaleContextHolder.setLocale(locale, true);
+        LOGGER.debug("User {} applied to audition {}",user.getId(),auditionId);
         mailingService.sendApplicationEmail(user, bandEmail, message, locale);
         return true;
     }
@@ -65,6 +67,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Transactional
     @Override
     public void accept(long auditionId, long applicantId) {
+        LOGGER.debug("User {} has been accepted for audition {}",applicantId,auditionId);
         checkIds(auditionId, applicantId);
         setApplicationState(auditionId,applicantId,ApplicationState.ACCEPTED);
     }
@@ -72,6 +75,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Transactional
     @Override
     public void reject(long auditionId, long applicantId) {
+        LOGGER.debug("User {} has been rejected for audition {}",applicantId,auditionId);
         checkIds(auditionId, applicantId);
         setApplicationState(auditionId,applicantId,ApplicationState.REJECTED);
     }

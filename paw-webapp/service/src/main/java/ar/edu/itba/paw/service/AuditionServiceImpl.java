@@ -75,6 +75,7 @@ public class AuditionServiceImpl implements AuditionService {
     public void deleteAuditionById(long id) {
         checkAuditionId(id);
         checkPermissions(id);
+        LOGGER.debug("Audition {} will be deleted",id);
         auditionDao.deleteAuditionById(id);
     }
     
@@ -94,8 +95,10 @@ public class AuditionServiceImpl implements AuditionService {
  
     private void checkPermissions(long id) {
         if(getAuditionById(id).orElseThrow(AuditionNotFoundException::new).getBandId() !=
-                authFacadeService.getCurrentUser().getId())
+                authFacadeService.getCurrentUser().getId()) {
+            LOGGER.warn("The authenticated user is not the audition owner");
             throw new AuditionNotOwnedException();
+        }
     }
 
     private void checkPage(int page, int lastPage) {

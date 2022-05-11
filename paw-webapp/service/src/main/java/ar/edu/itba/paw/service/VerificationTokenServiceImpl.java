@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.*;
 
 @Service
@@ -37,11 +36,13 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
         Optional<VerificationToken> t = getToken(token);
 
         if(!t.isPresent()) {
+            LOGGER.warn("Given token is invalid");
             throw new InvalidTokenException();
         }
 
         deleteTokenByUserId(t.get().getUserId(), type);
         if(!t.get().isValid()) {
+            LOGGER.warn("Given token is expired");
             throw new InvalidTokenException();
         }
 
@@ -53,10 +54,12 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
     public void isValid(String token) {
         Optional<VerificationToken> t = getToken(token);
         if(!t.isPresent()) {
+            LOGGER.warn("Given token is invalid");
             throw new InvalidTokenException();
         }
 
         if(!t.get().isValid()) {
+            LOGGER.warn("Given token is expired");
             deleteTokenByUserId(t.get().getUserId(), TokenType.RESET);
             throw new InvalidTokenException();
         }

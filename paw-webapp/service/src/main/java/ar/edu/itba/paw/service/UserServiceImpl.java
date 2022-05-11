@@ -39,7 +39,6 @@ public class UserServiceImpl implements UserService {
     private MailingService mailingService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
-    //  TODO: uso de LOGGER
 
     @Override
     public Optional<User> getUserById(long id) {
@@ -106,6 +105,7 @@ public class UserServiceImpl implements UserService {
             authorities.add(new SimpleGrantedAuthority("ROLE_ARTIST"));
         Authentication auth = new UsernamePasswordAuthenticationToken(user.getEmail(),user.getPassword(),authorities);
         SecurityContextHolder.getContext().setAuthentication(auth);
+        LOGGER.debug("Autologin for user {}",userId);
     }
 
     @Transactional
