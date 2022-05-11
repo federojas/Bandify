@@ -21,22 +21,20 @@ import java.util.*;
 
 @Service
 public class ApplicationServiceImpl implements ApplicationService {
-    private final ApplicationDao applicationDao;
-    private final MailingService mailingService;
-    private final UserService userService;
-    private final AuditionService auditionService;
-    private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationServiceImpl.class);
 
     @Autowired
-    public ApplicationServiceImpl(final ApplicationDao applicationDao,
-                                  final MailingService mailingService,
-                                  final UserService userService,
-                                  final AuditionService auditionService) {
-        this.applicationDao = applicationDao;
-        this.mailingService = mailingService;
-        this.userService = userService;
-        this.auditionService = auditionService;
-    }
+    private ApplicationDao applicationDao;
+
+    @Autowired
+    private MailingService mailingService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private AuditionService auditionService;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationServiceImpl.class);
 
     @Override
     public List<Application> getAuditionApplicationsByState(long auditionId, ApplicationState state, int page) {
