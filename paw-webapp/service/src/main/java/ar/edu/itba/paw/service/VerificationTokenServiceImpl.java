@@ -16,7 +16,7 @@ import java.util.*;
 public class VerificationTokenServiceImpl implements VerificationTokenService {
 
     private final VerificationTokenDao verificationTokenDao;
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(VerificationTokenServiceImpl.class);
 
     @Autowired
     public VerificationTokenServiceImpl(final VerificationTokenDao verificationTokenDao) {

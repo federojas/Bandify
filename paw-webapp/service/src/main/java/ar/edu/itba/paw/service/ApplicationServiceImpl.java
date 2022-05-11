@@ -21,7 +21,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     private final MailingService mailingService;
     private final UserService userService;
     private final AuditionService auditionService;
-    private static final Logger LOGGER = LoggerFactory.getLogger(AuditionServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationServiceImpl.class);
 
     @Autowired
     public ApplicationServiceImpl(final ApplicationDao applicationDao,

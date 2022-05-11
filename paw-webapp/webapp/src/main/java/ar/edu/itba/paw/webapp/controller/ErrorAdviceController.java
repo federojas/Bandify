@@ -11,7 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @ControllerAdvice
 public class ErrorAdviceController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ErrorController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ErrorAdviceController.class);
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(AuditionNotFoundException.class)
