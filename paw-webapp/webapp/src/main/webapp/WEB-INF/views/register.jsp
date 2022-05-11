@@ -74,7 +74,7 @@
         </div>
     </div>
     <div id="snackbar"><spring:message code="snackbar.message"/></div>
-
+</div>
 </main>
 <jsp:include page="../components/footer.jsp">
     <jsp:param name="name" value="Bandify"/>
