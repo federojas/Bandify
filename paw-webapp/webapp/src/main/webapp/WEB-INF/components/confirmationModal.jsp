@@ -22,9 +22,6 @@
 
             <div class="button-container">
                 <div>
-                    <button type="button" onclick=" closeConfirmationModal()" class="audition-cancel-confirm-btn"><spring:message code="confirmationModal.cancel"/> </button>
-                </div>
-                <div>
                         <c:if test="${param.isDelete}">
                             <form  action="${param.action}" method="post">
                                     <button type="submit" class="audition-delete-confirm-btn">
@@ -39,6 +36,9 @@
                                 <spring:message code="confirmationModal.confirm"/>
                             </button>
                         </c:if>
+                </div>
+                <div>
+                    <button type="button" onclick=" closeConfirmationModal()" class="audition-cancel-confirm-btn"><spring:message code="confirmationModal.cancel"/> </button>
                 </div>
             </div>
         </div>
