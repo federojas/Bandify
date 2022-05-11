@@ -134,14 +134,15 @@ public class UserController {
 
     @RequestMapping(value = "/profile/applications", method = {RequestMethod.GET})
     public ModelAndView applications(@RequestParam(value = "page", defaultValue = "1") int page,
-                                     @RequestParam(value = "state", defaultValue = "all") String state) {
+                                     @RequestParam(value = "state", defaultValue = "0") int state) {
 
         ModelAndView mav = new ModelAndView("profileApplications");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> optionalUser = userService.findByEmail(auth.getName());
         User user = optionalUser.orElseThrow(UserNotFoundException::new);
-        List<Application> applications = applicationService.getMyApplicationsFiltered(user.getId(), page, ApplicationState.valueOf(state.toUpperCase()));
-        int lastPage = applicationService.getTotalUserApplicationPagesFiltered(user.getId(), ApplicationState.valueOf(state.toUpperCase()));
+        List<Application> applications = applicationService.getMyApplicationsFiltered(user.getId(), page,
+                ApplicationState.values()[state]);
+        int lastPage = applicationService.getTotalUserApplicationPagesFiltered(user.getId(), ApplicationState.values()[state]);
         lastPage = lastPage == 0 ? 1 : lastPage;
         mav.addObject("artistApplications", applications);
         mav.addObject("currentPage", page);

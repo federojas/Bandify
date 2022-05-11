@@ -24,7 +24,7 @@
                 $(this).find("ul>li").each(function () {
                     let li = this;
                     let option_text = $(this).text();
-                    if (i == parameters.get('state')) {
+                    if (i == parameters.get('state')-1) {
                         $(li).click();
                     }
                     i++;
@@ -63,9 +63,9 @@
                         <div>
                             <label for="postulation"><spring:message code="applications.seeBy"/></label>
                             <select id="postulation" name="state">
-                                <option value="0"><spring:message code="applications.pending"/></option>
-                                <option value="1"><spring:message code="applications.accepted"/></option>
-                                <option value="2"><spring:message code="applications.rejected"/></option>
+                                <option value="1"><spring:message code="applications.pending"/></option>
+                                <option value="2"><spring:message code="applications.accepted"/></option>
+                                <option value="3"><spring:message code="applications.rejected"/></option>
                             </select>
                         </div>
                         <button type="submit" class="filter-applications-button"><spring:message code="applications.see"/></button>
