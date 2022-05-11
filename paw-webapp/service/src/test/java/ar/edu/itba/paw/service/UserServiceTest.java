@@ -29,6 +29,9 @@ public class UserServiceTest {
     @Mock
     private MailingService mailingService;
 
+    @Mock
+    private PasswordEncoder passwordEncoder;
+
     @InjectMocks
     private UserService userService = new UserServiceImpl();
 
@@ -68,8 +71,6 @@ public class UserServiceTest {
 
     @Test(expected = UserNotFoundException.class)
     public void testChangePasswordInvalidEmail() {
-        when(verificationTokenService.getTokenOwner(Mockito.eq(TOKEN_VALUE), Mockito.eq(TokenType.RESET))).thenReturn(Long.valueOf(1));
-        when(userDao.getUserById(Mockito.eq(Long.valueOf(1)))).thenThrow(new UserNotFoundException());
         userService.verifyUser(TOKEN_VALUE);
         Assert.fail("Should have thrown UserNotFoundException");
     }
