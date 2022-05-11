@@ -28,7 +28,7 @@ prefix="spring" uri="http://www.springframework.org/tags"%>
     <main>
       <div>
         <div class="parallax-container">
-          <div class="parallax"><img src="<c:url value="/resources/images/parallax1.png" />"/></div>
+          <div class="parallax"><img src="<c:url value="/resources/images/parallax3.png" />"/></div>
           <div class="flex flex-row justify-between">
             <div class="ml-10 mt-10 flex flex-col justify-between">
               <h2 id="posts">
