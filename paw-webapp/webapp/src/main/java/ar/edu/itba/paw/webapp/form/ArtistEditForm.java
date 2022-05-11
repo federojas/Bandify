@@ -1,6 +1,6 @@
 package ar.edu.itba.paw.webapp.form;
 
-import ar.edu.itba.paw.persistence.User;
+import ar.edu.itba.paw.User;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.Size;

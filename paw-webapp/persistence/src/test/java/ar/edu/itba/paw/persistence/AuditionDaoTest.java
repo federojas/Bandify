@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.persistence;
 
+import ar.edu.itba.paw.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,7 +22,6 @@ import java.util.List;
 import java.util.Optional;
 
 
-import ar.edu.itba.paw.AuditionFilter;
 import java.util.*;
 
 

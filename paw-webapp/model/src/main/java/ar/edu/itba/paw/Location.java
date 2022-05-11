@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.persistence;
+package ar.edu.itba.paw;
 
 import java.util.Objects;
 
@@ -6,7 +6,7 @@ public class Location {
     private final long id;
     private final String name;
 
-    protected Location(long id, String name) {
+    public Location(long id, String name) {
         this.id = id;
         this.name = name;
     }

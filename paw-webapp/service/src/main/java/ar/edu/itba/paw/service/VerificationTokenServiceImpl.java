@@ -1,8 +1,8 @@
 package ar.edu.itba.paw.service;
 
 import ar.edu.itba.paw.model.exceptions.InvalidTokenException;
-import ar.edu.itba.paw.persistence.TokenType;
-import ar.edu.itba.paw.persistence.VerificationToken;
+import ar.edu.itba.paw.TokenType;
+import ar.edu.itba.paw.VerificationToken;
 import ar.edu.itba.paw.persistence.VerificationTokenDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,13 +15,10 @@ import java.util.*;
 @Service
 public class VerificationTokenServiceImpl implements VerificationTokenService {
 
-    private final VerificationTokenDao verificationTokenDao;
-    private static final Logger LOGGER = LoggerFactory.getLogger(VerificationTokenServiceImpl.class);
-
     @Autowired
-    public VerificationTokenServiceImpl(final VerificationTokenDao verificationTokenDao) {
-        this.verificationTokenDao = verificationTokenDao;
-    }
+    private VerificationTokenDao verificationTokenDao;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(VerificationTokenServiceImpl.class);
 
     @Override
     public Optional<VerificationToken> getToken(String token) {

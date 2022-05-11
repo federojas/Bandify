@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.persistence;
+package ar.edu.itba.paw;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -119,7 +119,7 @@ public class Application {
             return state;
         }
 
-        protected Application build() {
+        public Application build() {
             return new Application(this);
         }
     }

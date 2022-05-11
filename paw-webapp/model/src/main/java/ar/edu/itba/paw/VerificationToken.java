@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.persistence;
+package ar.edu.itba.paw;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -12,7 +12,7 @@ public class VerificationToken {
     private final long userId;
     private final LocalDateTime expiryDate;
 
-    protected VerificationToken(long id, String token, long userId, LocalDateTime expiryDate) {
+    public VerificationToken(long id, String token, long userId, LocalDateTime expiryDate) {
         this.id = id;
         this.token = token;
         this.userId = userId;

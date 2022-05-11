@@ -1,8 +1,8 @@
 package ar.edu.itba.paw.service;
 
-import ar.edu.itba.paw.persistence.TokenType;
-import ar.edu.itba.paw.persistence.User;
-import ar.edu.itba.paw.persistence.VerificationToken;
+import ar.edu.itba.paw.TokenType;
+import ar.edu.itba.paw.User;
+import ar.edu.itba.paw.VerificationToken;
 import ar.edu.itba.paw.model.exceptions.DuplicateUserException;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.persistence.UserDao;
@@ -22,30 +22,23 @@ import java.util.*;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final UserDao userDao;
-    private final PasswordEncoder passwordEncoder;
-    private final VerificationTokenService verificationTokenService;
-    private final RoleService roleService;
-    private final GenreService genreService;
-    private final ImageService imageService;
-    private final MailingService mailingService;
+    @Autowired
+    private UserDao userDao;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private VerificationTokenService verificationTokenService;
+    @Autowired
+    private RoleService roleService;
+    @Autowired
+    private GenreService genreService;
+    @Autowired
+    private ImageService imageService;
+    @Autowired
+    private MailingService mailingService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
     //  TODO: uso de LOGGER
-
-    @Autowired
-    public UserServiceImpl(final UserDao userDao, final PasswordEncoder passwordEncoder,
-                           final VerificationTokenService verificationTokenService,
-                           final RoleService roleService, final GenreService genreService,
-                           final ImageService imageService, final MailingService mailingService) {
-        this.userDao = userDao;
-        this.passwordEncoder = passwordEncoder;
-        this.verificationTokenService = verificationTokenService;
-        this.roleService = roleService;
-        this.genreService = genreService;
-        this.imageService = imageService;
-        this.mailingService = mailingService;
-    }
 
     @Override
     public Optional<User> getUserById(long id) {
@@ -57,7 +50,7 @@ public class UserServiceImpl implements UserService {
     public User create(User.UserBuilder userBuilder) {
         userBuilder.password(passwordEncoder.encode(userBuilder.getPassword()));
         if(userDao.findByEmail(userBuilder.getEmail()).isPresent()) {
-            throw new DuplicateUserException(userBuilder.getName(), userBuilder.getSurname(), userBuilder.isBand());
+            throw new DuplicateUserException();
         }
         User user = userDao.create(userBuilder);
         final VerificationToken token = verificationTokenService.generate(user.getId(), TokenType.VERIFY);
@@ -80,7 +73,6 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public void editUser(long userId, String name, String surname, String description, List<String> genresNames, List<String> rolesNames, byte[] image) {
-
         userDao.editUser(userId, name, surname, description);
         genreService.updateUserGenres(genresNames,userId);
         roleService.updateUserRoles(rolesNames,userId);

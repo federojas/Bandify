@@ -1,6 +1,6 @@
 package ar.edu.itba.paw.service;
 
-import ar.edu.itba.paw.persistence.Genre;
+import ar.edu.itba.paw.Genre;
 import ar.edu.itba.paw.model.exceptions.GenreNotFoundException;
 import ar.edu.itba.paw.persistence.GenreDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +14,8 @@ import java.util.stream.Collectors;
 @Service
 public class GenreServiceImpl implements GenreService{
 
-    private final GenreDao genreDao;
-
     @Autowired
-    public GenreServiceImpl(GenreDao genreDao) {
-        this.genreDao = genreDao;
-    }
+    private GenreDao genreDao;
 
     @Override
     public Set<Genre> getAll() {
@@ -28,6 +24,9 @@ public class GenreServiceImpl implements GenreService{
 
     @Override
     public Set<Genre> getGenresByNames(List<String> genresNames) {
+
+        if(genresNames == null)
+            throw new IllegalArgumentException();
 
         List<String> genres = genreDao.getAll().stream().map(Genre::getName).collect(Collectors.toList());
 

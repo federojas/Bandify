@@ -1,8 +1,7 @@
 package ar.edu.itba.paw.service;
 
 import ar.edu.itba.paw.AuditionFilter;
-import ar.edu.itba.paw.persistence.User;
-import ar.edu.itba.paw.persistence.Audition;
+import ar.edu.itba.paw.Audition;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,6 +1,6 @@
 package ar.edu.itba.paw.webapp.form;
 
-import ar.edu.itba.paw.persistence.Audition;
+import ar.edu.itba.paw.Audition;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 
