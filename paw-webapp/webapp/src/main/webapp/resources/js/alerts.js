@@ -6,8 +6,6 @@ function snackbarMessage() {
 function confirmationModalLoad(){
     // Get the modal
     let confirmationModal = document.getElementById('confirmationModal');
-    //TODO: SACAR ESTA WEA DESPUES DE TESTEAR
-    openConfirmation()
 
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function(event) {
