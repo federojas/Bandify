@@ -15,6 +15,9 @@
         footer.page-footer .footer-copyright {
             color: rgba(255, 255, 255, 0.8);
         }
+        a {
+            color: #039be5;
+        }
     </style>
 </head>
 <body>
