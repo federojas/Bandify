@@ -117,26 +117,37 @@
                 <form:errors path="lookingFor" element="p" cssClass="error">
                 </form:errors>
             </div>
-        </form:form>
 
-
-        <div class="end-button-div">
-            <spring:message code="button.cancel" var="cancel"/>
-            <button
-                    type="submit"
-                    form="artistEditForm"
-                    value="submit"
-                    class="save-button"
-            >
-                <spring:message code="edituser.saveChangesBtn"/>
-            </button>
-            <a href="<c:url value="/profile"/>" class="cancel-button">
-                <spring:message code="button.cancel" />
-            </a>
-        </div>
+            <div class="end-button-div">
+                <spring:message code="button.cancel" var="cancel"/>
+                <button
+                        onclick="openConfirmation()"
+                        type="button"
+                        form="artistEditForm"
+                        value="submit"
+                        class="save-button"
+                >
+                    <spring:message code="edituser.saveChangesBtn"/>
+                </button>
+                <a href="<c:url value="/profile"/>" class="cancel-button">
+                    <spring:message code="button.cancel" />
+                </a>
+            </div>
+        <spring:message code="editConfirmationModal.title" var="modalTitle"/>
+        <spring:message code="editConfirmationModal.deleteAudition" var="modalHeading"/>
+        <spring:message code="editConfirmationModal.confirmationQuestion" var="confirmationQuestion"/>
+        <jsp:include page="../components/confirmationModal.jsp">
+            <jsp:param name="modalTitle" value="${modalTitle}" />
+            <jsp:param name="isDelete" value="${false}" />
+            <jsp:param name="modalHeading" value="${modalHeading}" />
+            <jsp:param name="confirmationQuestion" value="${confirmationQuestion}" />
+            <jsp:param name="action" value="${editProfileUrl}" />
+        </jsp:include>
+    </form:form>
         <div id="snackbar"><spring:message code="snackbar.message"/></div>
 
-    </div>
+
+
 </main>
 <jsp:include page="../components/footer.jsp">
     <jsp:param name="name" value="Bandify"/>
