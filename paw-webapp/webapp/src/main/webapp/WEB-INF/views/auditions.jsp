@@ -52,7 +52,7 @@ prefix="spring" uri="http://www.springframework.org/tags"%>
         </h2>
       <div class="posts">
         <c:if test="${auditionList.size() == 0}">
-          <b><p class="languages-buttons">
+          <b><p >
             <spring:message code="auditions.noAuditions"/>
           </p>
           </b>
