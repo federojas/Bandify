@@ -2,6 +2,8 @@
 package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
@@ -10,7 +12,6 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-
 import javax.sql.DataSource;
 import java.sql.Timestamp;
 import java.util.*;
@@ -26,7 +27,7 @@ public class AuditionJdbcDao implements AuditionDao {
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
     private final SimpleJdbcInsert jdbcRoleInsert;
     private final SimpleJdbcInsert jdbcGenreInsert;
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuditionJdbcDao.class);
     private final static RowMapper<Genre> GENRE_ROW_MAPPER = (rs, i) -> new Genre(rs.getLong("genreId"), rs.getString("genre"));
     private final static RowMapper<Role> ROLE_ROW_MAPPER = (rs, i) -> new Role(rs.getLong("roleId"), rs.getString("role"));
     private final static RowMapper<Location> LOCATION_ROW_MAPPER = (rs, i) -> new Location(rs.getLong("locationId"), rs.getString("location"));
@@ -97,7 +98,7 @@ public class AuditionJdbcDao implements AuditionDao {
         auditionData.put("locationId", builder.getLocation().getId());
         auditionData.put("creationDate", Timestamp.valueOf(builder.getCreationDate()));
         final Number id = jdbcAuditionInsert.executeAndReturnKey(auditionData);
-
+        LOGGER.info("Audition created with title {}",builder.getTitle());
         createAuditionRole(builder.getLookingFor(),id.longValue());
         createAuditionGenre(builder.getMusicGenres(), id.longValue());
 
@@ -143,7 +144,7 @@ public class AuditionJdbcDao implements AuditionDao {
 
         jdbcTemplate.update("DELETE FROM auditiongenres WHERE auditionid = ?", id);
         jdbcTemplate.update("DELETE FROM auditionroles WHERE auditionid = ?", id);
-
+        LOGGER.info("Audition {} updated", id);
         createAuditionRole(builder.getLookingFor(), id);
         createAuditionGenre(builder.getMusicGenres(), id);
     }
@@ -155,6 +156,7 @@ public class AuditionJdbcDao implements AuditionDao {
         for(Role role : roles) {
             audRoleData.replace("roleId", role.getId());
             jdbcRoleInsert.execute(audRoleData);
+            LOGGER.info("Role {} added to audition {}", role.getName(),auditionId);
         }
     }
 
@@ -165,6 +167,7 @@ public class AuditionJdbcDao implements AuditionDao {
         for(Genre genre : genres) {
             audGenreData.replace("genreId", genre.getId());
             jdbcGenreInsert.execute(audGenreData);
+            LOGGER.info("Genre {} added to audition {}", genre.getName(),auditionId);
         }
     }
 

@@ -2,6 +2,8 @@ package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.TokenType;
 import ar.edu.itba.paw.VerificationToken;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -20,6 +22,7 @@ public class VerificationJdbcTokenDao implements VerificationTokenDao {
 
     private JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert simpleJdbcInsert;
+    private static final Logger LOGGER = LoggerFactory.getLogger(VerificationJdbcTokenDao.class);
 
     private final static RowMapper<VerificationToken> VERIFICATION_TOKEN_ROW_MAPPER = (rs, rowNum) -> new VerificationToken(rs.getLong("tokenId"),
             rs.getString("token"),
@@ -49,12 +52,14 @@ public class VerificationJdbcTokenDao implements VerificationTokenDao {
         tokenData.put("type",type.getType());
 
         final Number tokenId = simpleJdbcInsert.executeAndReturnKey(tokenData);
+        LOGGER.info("New {} token addded for user {}",type.getType(),userId);
         return  new VerificationToken(tokenId.longValue(), token, userId, expiryDate);
     }
 
     @Override
     public void deleteTokenByUserId(long userId, TokenType type) {
         final String query = "DELETE FROM verificationTokens WHERE userId = ? AND type = ?";
+        LOGGER.info("{} token deleted for user {}",type.getType(),userId);
         jdbcTemplate.update(query, userId, type.getType());
     }
 }

@@ -1,6 +1,8 @@
 package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -18,6 +20,7 @@ public class UserJdbcDao implements UserDao {
 
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcInsert;
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserJdbcDao.class);
 
     private final static RowMapper<User.UserBuilder> ROW_MAPPER = (rs, rowNum) -> new User.UserBuilder(rs.getString("email"),
             rs.getString("password"),
@@ -56,7 +59,7 @@ public class UserJdbcDao implements UserDao {
         userData.put("isEnabled", userBuilder.isEnabled());
 
         final Number id = jdbcInsert.executeAndReturnKey(userData);
-
+        LOGGER.info("Created new user with name {}", userBuilder.getName());
         return userBuilder.id(id.longValue()).build();
     }
 

@@ -1,6 +1,8 @@
 package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.Genre;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -15,6 +17,7 @@ public class GenreJdbcDao implements GenreDao {
 
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcUserGenreInsert;
+    private static final Logger LOGGER = LoggerFactory.getLogger(GenreJdbcDao.class);
     private final static RowMapper<Genre> GENRE_ROW_MAPPER = (rs, i) -> new Genre(rs.getLong("id"), rs.getString("genre"));
 
     @Autowired
@@ -59,6 +62,7 @@ public class GenreJdbcDao implements GenreDao {
             for (Genre genre : newGenres) {
                 userGenreData.replace("genreId", genre.getId());
                 jdbcUserGenreInsert.execute(userGenreData);
+                LOGGER.info("Genre {} added to user {}", genre.getName(),userId);
             }
         }
     }

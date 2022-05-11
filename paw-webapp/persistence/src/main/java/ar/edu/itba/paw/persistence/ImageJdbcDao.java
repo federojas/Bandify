@@ -1,5 +1,7 @@
 package ar.edu.itba.paw.persistence;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -7,6 +9,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -16,6 +19,7 @@ public class ImageJdbcDao implements ImageDao {
 
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcInsert;
+    private static final Logger LOGGER = LoggerFactory.getLogger(ImageJdbcDao.class);
 
     private final static RowMapper<byte[]> IMAGE_ROW_MAPPER = (rs, i) -> rs.getBytes("image");
 
@@ -31,6 +35,7 @@ public class ImageJdbcDao implements ImageDao {
             jdbcTemplate.update("UPDATE profileimages SET image = ? WHERE userid = ?", image, userId);
         else
             crateProfilePicture(userId, image);
+        LOGGER.info("New profile picture for user {}", userId);
         return image;
     }
 
