@@ -28,9 +28,6 @@
 
             <div class="button-container">
                 <div>
-                    <button type="button" onclick=" closeConfirmationModal()" class="audition-cancel-confirm-btn"><spring:message code="deleteConfirmationModal.cancel"/> </button>
-                </div>
-                <div>
                 <form  action="/profile/deleteAudition/${audition.id}" method="post">
                     <button type="submit" class="audition-delete-confirm-btn">
                         <spring:message code="audition.alt.delete" var="delete"/>
@@ -39,7 +36,9 @@
                     </button>
                 </form>
                 </div>
-
+                <div>
+                    <button type="button" onclick=" closeConfirmationModal()" class="audition-cancel-confirm-btn"><spring:message code="deleteConfirmationModal.cancel"/> </button>
+                </div>
             </div>
         </div>
     </div>

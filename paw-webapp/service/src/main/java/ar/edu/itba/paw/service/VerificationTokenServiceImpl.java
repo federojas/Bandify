@@ -51,6 +51,7 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
         return t.get().getUserId();
     }
 
+    @Transactional
     @Override
     public void isValid(String token) {
         Optional<VerificationToken> t = getToken(token);
