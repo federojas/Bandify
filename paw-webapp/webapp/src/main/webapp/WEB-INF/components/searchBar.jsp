@@ -93,7 +93,6 @@
         <div class="searchBarAndOrderBy">
             <div class="search">
                 <input id="inputfield" type="text" maxlength="80" size="43" placeholder="${searchPlaceholder}" name="query">
-                <button type="submit" aria-hidden="true" onclick="search()"></button>
             </div>
             <div id="orderBy-filter" class="orderBy">
                 <select name="order">
