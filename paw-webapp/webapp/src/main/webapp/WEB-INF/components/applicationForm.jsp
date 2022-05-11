@@ -17,7 +17,7 @@
     <title><spring:message code="title.applicationForm"/></title>
 </head>
 
-<body>
+<body onload="loadApplication()">
 <div class="applicationForm">
     <c:url value="/apply" var="applyUrl">
         <c:param name="id" value="${param.auditionFormId}"/>
