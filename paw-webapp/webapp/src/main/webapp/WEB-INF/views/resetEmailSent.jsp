@@ -24,7 +24,7 @@
         <spring:message code="email_sent.email" var="email_alt"/>
         <img src="<c:url value="/resources/icons/mail.svg"/>" class="success-icon" alt="${email_alt}"/>
         <h1><spring:message code="email_sent.title"/></h1>
-        <p><spring:message code="email_sent.p0" arguments="${email}"/></p>
+        <p><spring:message code="email_sent.p0"/></p>
         <p><spring:message code="email_sent.reset"/></p>
         <p><spring:message code="email_sent.didntrecieve" /></p>
         <c:url value="/resetEmailSent" var="resendEmailUrl" />
