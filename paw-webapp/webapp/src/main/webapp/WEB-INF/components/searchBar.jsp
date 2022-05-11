@@ -15,29 +15,36 @@
         let params = [parameters.getAll('order'), parameters.getAll('location'), parameters.getAll('genre'), parameters.getAll('role')]
         let i = 0;
         $(document).ready(function () {
+            let i = 0;
             $(".select-wrapper").each(function () {
                 let wrapper = this;
-                let j = 0;
-                $(this).find("ul>li").each(function () {
-                    let li = this;
-                    let option_text = $(this).text();
-                    if (i > 0) {
-                        if (params[i].includes(option_text)) {
-                            $(li).click();
+
+                if (i > 0) {
+                    console.log("pasando por i > 0 ", i);
+                    $(this).find("ul>li").each(function () {
+                        let li = this;
+                        let option_text = $(this).text();
+                        if (i > 0) {
+                            if (params[i].includes(option_text)) {
+                                $(li).click();
+                            }
                         }
-                    } else {
-                        if (j === 0 && params[i][0] === "DESC") {
-                            $(li).click();
-                        }
-                        if (j === 1 && params[i][0] == "ASC") {
-                            $(li).click();
-                        }
-                        j+=1;
+
+
+                    });
+                }
+                if (i === 0) {
+                    console.log("pasando por i === 0 ", i);
+                    let lis = $(this).find("ul>li");
+                    if (params[i][0] === "DESC") {
+                        $(lis[0]).click();
                     }
-                });
+                    if (params[i][0] === "ASC") {
+                        $(lis[1]).click();
+                    }
+                }
 
-
-                i+=1;
+                i++;
             });
 
             $(".search").click();
@@ -57,8 +64,17 @@
 
                     });
                 }
+                if (i === 0) {
+                    let lis = $(this).find("ul>li")
+                    if (lis[1].classList.contains("active")) {
+                        list.push("ASC");
+                    } else {
+                        list.push("DESC");
+                    }
+                }
                 i+=1;
             });
+
             $('select').val(list).trigger('update');
         }
 
