@@ -18,17 +18,18 @@
         <jsp:param name="name" value="Bandify" />
     </jsp:include>
 
-    <!-- Auditions content -->
-    <div class="auditions-content">
-        <h2 class="black-title">
-            <spring:message code="search.title" />
-        </h2>
+    <main>
+        <!-- Auditions content -->
+        <div class="auditions-content">
+            <h2 class="black-title">
+                <spring:message code="search.title" />
+            </h2>
 
-        <jsp:include page="../components/searchBar.jsp">
-            <jsp:param name="name" value="Bandify" />
-        </jsp:include>
+            <jsp:include page="../components/searchBar.jsp">
+                <jsp:param name="name" value="Bandify" />
+            </jsp:include>
 
-        <%--Publicaciones de audiciones--%>
+            <%--Publicaciones de audiciones--%>
             <div class="posts">
                 <c:if test="${auditionList.size() == 0}">
                     <b><p class="no-results" >
@@ -36,33 +37,33 @@
                     </p>
                     </b>
                 </c:if>
-            <c:forEach var="audition" items="${auditionList}" varStatus="loop">
-                <c:set
-                        var="lookingFor"
-                        value="${audition.lookingFor}"
-                        scope="request"
-                />
-                <c:set
-                        var="musicGenres"
-                        value="${audition.musicGenres}"
-                        scope="request"
-                />
-                <jsp:include page="../components/postCard.jsp">
-                    <jsp:param name="userName" value="${audition.bandName}"/>
-                    <jsp:param name="userId" value="${audition.bandId}"/>
-                    <jsp:param name="id" value="${audition.id}" />
-                    <jsp:param name="postCard" value="${1}" />
-                    <jsp:param name="auditionDate" value="${audition.creationDate}" />
-                    <jsp:param name="auditionTitle" value="${audition.title}" />
-                    <jsp:param name="month" value="${audition.creationDate.month.toString()}" />
-                    <jsp:param name="dayOfMonth" value="${audition.creationDate.dayOfMonth}"/>
-                    <jsp:param name="year" value="${audition.creationDate.year}" />
-                    <jsp:param
-                            name="auditionLocation"
-                            value="${audition.location.name}"
+                <c:forEach var="audition" items="${auditionList}" varStatus="loop">
+                    <c:set
+                            var="lookingFor"
+                            value="${audition.lookingFor}"
+                            scope="request"
                     />
-                </jsp:include>
-            </c:forEach>
+                    <c:set
+                            var="musicGenres"
+                            value="${audition.musicGenres}"
+                            scope="request"
+                    />
+                    <jsp:include page="../components/postCard.jsp">
+                        <jsp:param name="userName" value="${audition.bandName}"/>
+                        <jsp:param name="userId" value="${audition.bandId}"/>
+                        <jsp:param name="id" value="${audition.id}" />
+                        <jsp:param name="postCard" value="${1}" />
+                        <jsp:param name="auditionDate" value="${audition.creationDate}" />
+                        <jsp:param name="auditionTitle" value="${audition.title}" />
+                        <jsp:param name="month" value="${audition.creationDate.month.toString()}" />
+                        <jsp:param name="dayOfMonth" value="${audition.creationDate.dayOfMonth}"/>
+                        <jsp:param name="year" value="${audition.creationDate.year}" />
+                        <jsp:param
+                                name="auditionLocation"
+                                value="${audition.location.name}"
+                        />
+                    </jsp:include>
+                </c:forEach>
             </div>
             <div class="pagination">
                 <c:if test="${currentPage > 1}">
@@ -82,6 +83,11 @@
                 </c:if>
             </div>
         </div>
-    </div>
+        </div>
+    </main>
+
+    <jsp:include page="../components/footer.jsp">
+        <jsp:param name="name" value="Bandify"/>
+    </jsp:include>
 </body>
 </html>

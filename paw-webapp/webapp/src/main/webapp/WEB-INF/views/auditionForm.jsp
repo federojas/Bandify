@@ -15,11 +15,12 @@
     <script src="<c:url value="/resources/js/matMultipleSelect.js"/>"></script>
 </head>
 <body onload="auditionFormCheck()">
-    <!-- Navbar -->
-    <jsp:include page="../components/navbar.jsp">
-        <jsp:param name="navItem" value="${3}" />
-        <jsp:param name="name" value="Bandify" />
-    </jsp:include>
+<!-- Navbar -->
+<jsp:include page="../components/navbar.jsp">
+    <jsp:param name="navItem" value="${3}" />
+    <jsp:param name="name" value="Bandify" />
+</jsp:include>
+<main>
     <!-- Formulario -->
     <div class="card-content-small" id="form-post">
         <h1><spring:message code="welcome.formSectionh1"/></h1>
@@ -128,5 +129,9 @@
     </div>
     <div id="snackbar"><spring:message code="snackbar.message"/></div>
 
+</main>
+<jsp:include page="../components/footer.jsp">
+    <jsp:param name="name" value="Bandify"/>
+</jsp:include>
 </body>
 </html>

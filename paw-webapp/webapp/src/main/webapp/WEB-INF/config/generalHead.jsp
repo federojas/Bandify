@@ -12,9 +12,17 @@
         rel="stylesheet"
         href="<c:url value="https://fonts.googleapis.com/css?family=Questrial"/>"
 />
+
 <style>
     body {
         font-family: "Questrial", sans-serif;
+        display: flex;
+        min-height: 100vh;
+        flex-direction: column;
+    }
+
+    main {
+        flex: 1 0 auto;
     }
 </style>
 <script src="<c:url value="/resources/js/jquery.timeago.js"/>" type="text/javascript"></script>

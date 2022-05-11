@@ -26,43 +26,44 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
       <jsp:param name="name" value="Bandify" />
     </jsp:include>
 
-    <div class="audition-content">
-      <div class="left-panel">
-        <button onclick="history.back()">
-          <div class="back-div">
-            <img src="<c:url value="/resources/icons/back.svg" />" class="back-icon"/>
-          </div>
-        </button>
-      </div>
+    <main>
+      <div class="audition-content">
+        <div class="left-panel">
+          <button onclick="history.back()">
+            <div class="back-div">
+              <img src="<c:url value="/resources/icons/back.svg" />" class="back-icon"/>
+            </div>
+          </button>
+        </div>
 
-      <div class="card-extern">
+        <div class="card-extern">
 
-        <!--content-->
-        <div class="card-content">
-          <a href="<c:url value="/user/${user.id}"/>">
-            <div class="audition-profile">
+          <!--content-->
+          <div class="card-content">
+            <a href="<c:url value="/user/${user.id}"/>">
+              <div class="audition-profile">
                 <div class="image overflow-hidden">
-                    <img class="audition-profile-image"
-                    <spring:message code="profile.img.alt" var="img"/>
-                         src="<c:url value="/user/${user.id}/profile-image"/>"
-                         alt="${img}">
+                  <img class="audition-profile-image"
+                  <spring:message code="profile.img.alt" var="img"/>
+                       src="<c:url value="/user/${user.id}/profile-image"/>"
+                       alt="${img}">
                 </div>
                 <h1 class="audition-band-name"><c:out value=" ${user.name}" /></h1>
-            </div>
-          </a>
+              </div>
+            </a>
 
-          <!--header-->
-          <div class="card-header">
-            <h3 class="title">
-              <c:out value="${audition.title}" />
-            </h3>
-          </div>
-          <!--body-->
-          <div class="card-body">
-            <div class="even-columns">
-              <!-- Left body part (info) -->
-              <div class="card-info">
-                <ul>
+            <!--header-->
+            <div class="card-header">
+              <h3 class="title">
+                <c:out value="${audition.title}" />
+              </h3>
+            </div>
+            <!--body-->
+            <div class="card-body">
+              <div class="even-columns">
+                <!-- Left body part (info) -->
+                <div class="card-info">
+                  <ul>
                     <li class="info-item">
                       <b> <spring:message code="audition.about"/> </b>
                       <br />
@@ -70,64 +71,64 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
                         &nbsp;&nbsp;<c:out value="${audition.description}" />
                       </p>
                     </li>
+                    <li class="info-item">
+                      <b> <spring:message code="audition.location"/> </b>
+                      <br />
+                      <div class="tag">
+                        <c:out value="${audition.location.name}" />
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+                <!-- Right body part (form) -->
+                <sec:authorize access="hasRole('ARTIST')">
+                  <div class="audition-application">
+                    <jsp:include page="../components/applicationForm.jsp">
+                      <jsp:param name="auditionForm" value="${1}" />
+                      <jsp:param name="auditionFormId" value="${audition.id}" />
+                    </jsp:include>
+                  </div>
+                </sec:authorize>
+              </div>
+              <div class="card-info">
+                <ul>
                   <li class="info-item">
-                    <b> <spring:message code="audition.location"/> </b>
+                    <b> <spring:message code="audition.desired"/> </b>
                     <br />
-                    <div class="tag">
-                      <c:out value="${audition.location.name}" />
+                    <div class="tag-list">
+                      <c:forEach
+                              var="item"
+                              items="${audition.lookingFor}"
+                              varStatus="loop"
+                      >
+                        <span class="roles-span"><c:out value="${item.name}" /></span>
+                      </c:forEach>
+                    </div>
+                  </li>
+                  <li class="info-item">
+                    <b> <spring:message code="audition.genres"/> </b>
+                    <br />
+                    <div class="tag-list">
+                      <c:forEach
+                              var="item"
+                              items="${audition.musicGenres}"
+                              varStatus="loop"
+                      >
+                        <span class="genre-span"><c:out value="${item.name}" /></span>
+                      </c:forEach>
                     </div>
                   </li>
                 </ul>
               </div>
-              <!-- Right body part (form) -->
-              <sec:authorize access="hasRole('ARTIST')">
-                <div class="audition-application">
-                  <jsp:include page="../components/applicationForm.jsp">
-                    <jsp:param name="auditionForm" value="${1}" />
-                    <jsp:param name="auditionFormId" value="${audition.id}" />
-                  </jsp:include>
-                </div>
-              </sec:authorize>
             </div>
-            <div class="card-info">
-              <ul>
-                <li class="info-item">
-                  <b> <spring:message code="audition.desired"/> </b>
-                  <br />
-                  <div class="tag-list">
-                    <c:forEach
-                            var="item"
-                            items="${audition.lookingFor}"
-                            varStatus="loop"
-                    >
-                      <span class="roles-span"><c:out value="${item.name}" /></span>
-                    </c:forEach>
-                  </div>
-                </li>
-                <li class="info-item">
-                  <b> <spring:message code="audition.genres"/> </b>
-                  <br />
-                  <div class="tag-list">
-                    <c:forEach
-                            var="item"
-                            items="${audition.musicGenres}"
-                            varStatus="loop"
-                    >
-                      <span class="genre-span"><c:out value="${item.name}" /></span>
-                    </c:forEach>
-                  </div>
-                </li>
-              </ul>
-            </div>
+
           </div>
-
         </div>
-      </div>
 
-      <div class="right-panel">
-        <c:if test="${isOwner}">
-          <div class="buttonry">
-            <a class="audition-applicants-btn hover: shadow-sm" href="/auditions/${audition.id}/applicants">
+        <div class="right-panel">
+          <c:if test="${isOwner}">
+            <div class="buttonry">
+              <a class="audition-applicants-btn hover: shadow-sm" href="/auditions/${audition.id}/applicants">
 
               <button class="audition-btn" type="submit">
                 <spring:message code="audition.applicants" />
@@ -163,9 +164,9 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
           </div>
         </c:if>
       </div>
-    </div>
-    <div class="back-auditions-div">
-
-    </div>
+    </main>
+    <jsp:include page="../components/footer.jsp">
+      <jsp:param name="name" value="Bandify"/>
+    </jsp:include>
   </body>
 </html>

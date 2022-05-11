@@ -38,7 +38,8 @@
     <jsp:param name="name" value="Bandify"/>
 </jsp:include>
 
-<!-- Auditions content -->
+<main>
+    <!-- Auditions content -->
     <div class="applicants-container">
         <div class="left-panel-abs">
             <button onclick="history.back()">
@@ -105,5 +106,9 @@
         </div>
 
     </div>
+</main>
+<jsp:include page="../components/footer.jsp">
+    <jsp:param name="name" value="Bandify"/>
+</jsp:include>
 </body>
 </html>

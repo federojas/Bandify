@@ -22,125 +22,129 @@
     <jsp:param name="name" value="Bandify" />
 </jsp:include>
 
-<!-- Formulario -->
-<div class="card-content-small" id="form-post">
-    <h1><spring:message code="edit.formSectionh1"/></h1>
-    <c:url value="/profile/editAudition/${auditionId}" var="postPath" />
-    <!-- Form box -->
-    <div class="inner-box-form" id="form-post-title">
-        <form:form
-                modelAttribute="auditionForm"
-                action="${postPath}"
-                method="post"
-                acceptCharset="utf-8"
-                id="auditionForm"
-        >
-            <div class="title-div">
-                <form:label class="form-label" path="title">
-                    <spring:message code="welcome.form.title"/>
-                </form:label>
-                <spring:message code="audition.form.title.placeholder" var="titleplaceholder" />
-                <form:input type="text" id="title"  maxlength="50" placeholder="${titleplaceholder}" class="form-input" path="title" />
-                <p id="emptyTitle" class="error" style="display: none"><spring:message code="NotBlank.auditionForm.title"/> </p>
-                <p id="longTitle" class="error" style="display: none"><spring:message code="Size.AuditionForm.title"/> </p>
-                <form:errors path="title" element="p" cssClass="error"> </form:errors>
-            </div>
+<main>
+    <!-- Formulario -->
+    <div class="card-content-small" id="form-post">
+        <h1><spring:message code="edit.formSectionh1"/></h1>
+        <c:url value="/profile/editAudition/${auditionId}" var="postPath" />
+        <!-- Form box -->
+        <div class="inner-box-form" id="form-post-title">
+            <form:form
+                    modelAttribute="auditionForm"
+                    action="${postPath}"
+                    method="post"
+                    acceptCharset="utf-8"
+                    id="auditionForm"
+            >
+                <div class="title-div">
+                    <form:label class="form-label" path="title">
+                        <spring:message code="welcome.form.title"/>
+                    </form:label>
+                    <spring:message code="audition.form.title.placeholder" var="titleplaceholder" />
+                    <form:input type="text" id="title"  maxlength="50" placeholder="${titleplaceholder}" class="form-input" path="title" />
+                    <p id="emptyTitle" class="error" style="display: none"><spring:message code="NotBlank.auditionForm.title"/> </p>
+                    <p id="longTitle" class="error" style="display: none"><spring:message code="Size.AuditionForm.title"/> </p>
+                    <form:errors path="title" element="p" cssClass="error"> </form:errors>
+                </div>
 
-            <div>
-                <form:label class="form-label" path="description">
-                    <spring:message code="welcome.form.description"/>
-                </form:label>
-                <spring:message code="audition.form.description.placeholder" var="descriptionplaceholder" />
-                <form:textarea
-                        maxlength="300" placeholder="${descriptionplaceholder}"
-                        class="form-input-application"
-                        type="text"
-                        id="description"
-                        path="description"
-                />
-                <p id="emptyDescription" class="error" style="display: none"><spring:message code="NotBlank.auditionForm.description" arguments="0"/> </p>
-                <p id="longDescription" class="error" style="display: none"><spring:message code="Size.AuditionForm.description" arguments="${300}"/> </p>
-                <form:errors path="description" element="p" cssClass="error"> </form:errors>
-            </div>
-            <div class="select-div">
-                <form:label class="form-label" path="location">
-                    <spring:message code="welcome.form.location"/>
-                </form:label>
-                <form:select
-                        path="location"
-                        multiple="false"
-                        id="location"
-                >
-                    <form:option value="" selected="true" disabled="true"><spring:message code="welcome.form.location.default"/></form:option>
-                    <c:forEach
-                            var="location"
-                            items="${locationList}"
-                            varStatus="loop"
+                <div>
+                    <form:label class="form-label" path="description">
+                        <spring:message code="welcome.form.description"/>
+                    </form:label>
+                    <spring:message code="audition.form.description.placeholder" var="descriptionplaceholder" />
+                    <form:textarea
+                            maxlength="300" placeholder="${descriptionplaceholder}"
+                            class="form-input-application"
+                            type="text"
+                            id="description"
+                            path="description"
+                    />
+                    <p id="emptyDescription" class="error" style="display: none"><spring:message code="NotBlank.auditionForm.description" arguments="0"/> </p>
+                    <p id="longDescription" class="error" style="display: none"><spring:message code="Size.AuditionForm.description" arguments="${300}"/> </p>
+                    <form:errors path="description" element="p" cssClass="error"> </form:errors>
+                </div>
+                <div class="select-div">
+                    <form:label class="form-label" path="location">
+                        <spring:message code="welcome.form.location"/>
+                    </form:label>
+                    <form:select
+                            path="location"
+                            multiple="false"
+                            id="location"
                     >
-                        <form:option value="${location.name}"><c:out value="${location.name}"/></form:option>
-                    </c:forEach>
-                </form:select>
-                <form:errors path="location" element="p" cssClass="error">
-                </form:errors>
-            </div>
-            <div class="select-div">
-                <form:label class="form-label" for="musicGenres" path="musicGenres"> <spring:message code="welcome.form.musicGenres"/> </form:label>
-                <form:select
-                        class="multiple-select"
-                        path="musicGenres"
-                        multiple="true"
-                >
-                    <form:option value="" disabled="true" selected="true"> <spring:message code="audition.form.musicGenres.maxSelect"/></form:option>
+                        <form:option value="" selected="true" disabled="true"><spring:message code="welcome.form.location.default"/></form:option>
+                        <c:forEach
+                                var="location"
+                                items="${locationList}"
+                                varStatus="loop"
+                        >
+                            <form:option value="${location.name}"><c:out value="${location.name}"/></form:option>
+                        </c:forEach>
+                    </form:select>
+                    <form:errors path="location" element="p" cssClass="error">
+                    </form:errors>
+                </div>
+                <div class="select-div">
+                    <form:label class="form-label" for="musicGenres" path="musicGenres"> <spring:message code="welcome.form.musicGenres"/> </form:label>
+                    <form:select
+                            class="multiple-select"
+                            path="musicGenres"
+                            multiple="true"
+                    >
+                        <form:option value="" disabled="true" selected="true"> <spring:message code="audition.form.musicGenres.maxSelect"/></form:option>
 
-                    <c:forEach var="genre" items="${genreList}" varStatus="loop">
-                        <form:option value="${genre.name}"><c:out value="${genre.name}"/></form:option>
-                    </c:forEach>
-                </form:select>
-                <form:errors path="musicGenres" element="p" cssClass="error">
-                </form:errors>
-            </div>
-            <div class="select-div">
-                <form:label class="form-label" for="lookingFor" path="lookingFor"> <spring:message code="welcome.form.lookingFor"/> </form:label>
-                <form:select
-                        path="lookingFor"
-                        multiple="true"
-                >
-                    <form:option value="" disabled="true" selected="true"> <spring:message code="audition.form.lookingFor.maxSelect"/></form:option>
+                        <c:forEach var="genre" items="${genreList}" varStatus="loop">
+                            <form:option value="${genre.name}"><c:out value="${genre.name}"/></form:option>
+                        </c:forEach>
+                    </form:select>
+                    <form:errors path="musicGenres" element="p" cssClass="error">
+                    </form:errors>
+                </div>
+                <div class="select-div">
+                    <form:label class="form-label" for="lookingFor" path="lookingFor"> <spring:message code="welcome.form.lookingFor"/> </form:label>
+                    <form:select
+                            path="lookingFor"
+                            multiple="true"
+                    >
+                        <form:option value="" disabled="true" selected="true"> <spring:message code="audition.form.lookingFor.maxSelect"/></form:option>
 
-                    <c:forEach var="role" items="${roleList}" varStatus="loop">
-                        <form:option value="${role.name}"><c:out value="${role.name}"/></form:option>
-                    </c:forEach>
-                </form:select>
-                <form:errors path="lookingFor" element="p" cssClass="error">
-                </form:errors>
-            </div>
-            <div class="end-button-div">
-                <spring:message code="button.cancel" var="cancel"/>
-                <button
-                        type="button"
-                        onclick="openConfirmation()"
-                        class="save-button"
-                >
-                    <spring:message code="edit.postButton"/>
-                </button>
-                <a href="<c:url value="/auditions/${auditionId}"/>" class="cancel-button">
-                    <spring:message code="button.cancel" />
-                </a>
-            </div>
-            <spring:message code="saveConfirmationModal.title" var="modalTitle"/>
-            <spring:message code="saveConfirmationModal.deleteAudition" var="modalHeading"/>
-            <spring:message code="saveConfirmationModal.confirmationQuestion" var="confirmationQuestion"/>
-            <jsp:include page="../components/confirmationModal.jsp">
-                <jsp:param name="modalTitle" value="${modalTitle}" />
-                <jsp:param name="isDelete" value="${false}" />
-                <jsp:param name="modalHeading" value="${modalHeading}" />
-                <jsp:param name="confirmationQuestion" value="${confirmationQuestion}" />
-                <jsp:param name="action" value="${postPath}" />
-            </jsp:include>
-        </form:form>
+                        <c:forEach var="role" items="${roleList}" varStatus="loop">
+                            <form:option value="${role.name}"><c:out value="${role.name}"/></form:option>
+                        </c:forEach>
+                    </form:select>
+                    <form:errors path="lookingFor" element="p" cssClass="error">
+                    </form:errors>
+                </div>
+                <div class="end-button-div">
+                    <spring:message code="button.cancel" var="cancel"/>
+                    <button
+                            type="button"
+                            onclick="openConfirmation()"
+                            class="save-button"
+                    >
+                        <spring:message code="edit.postButton"/>
+                    </button>
+                    <a href="<c:url value="/auditions/${auditionId}"/>" class="cancel-button">
+                        <spring:message code="button.cancel" />
+                    </a>
+                </div>
+                <spring:message code="saveConfirmationModal.title" var="modalTitle"/>
+                <spring:message code="saveConfirmationModal.deleteAudition" var="modalHeading"/>
+                <spring:message code="saveConfirmationModal.confirmationQuestion" var="confirmationQuestion"/>
+                <jsp:include page="../components/confirmationModal.jsp">
+                    <jsp:param name="modalTitle" value="${modalTitle}" />
+                    <jsp:param name="isDelete" value="${false}" />
+                    <jsp:param name="modalHeading" value="${modalHeading}" />
+                    <jsp:param name="confirmationQuestion" value="${confirmationQuestion}" />
+                    <jsp:param name="action" value="${postPath}" />
+                </jsp:include>
+            </form:form>
+        </div>
     </div>
-</div>
-<div id="snackbar"><spring:message code="snackbar.message"/></div>
-
+    <div id="snackbar"><spring:message code="snackbar.message"/></div>
+</main>
+<jsp:include page="../components/footer.jsp">
+    <jsp:param name="name" value="Bandify"/>
+</jsp:include>
 </body>
 </html>
