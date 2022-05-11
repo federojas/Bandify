@@ -1,0 +1,115 @@
+
+
+.button-confirmation button:hover {
+    opacity:1;
+}
+
+
+
+/* Add padding and center-align text to the container */
+.modal-container {
+    text-align: center;
+}
+.modal-container > h1{
+    font-size: 2rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+.modal-container > p{
+    font-size: 1.5rem;
+    padding-bottom: 1rem;
+}
+
+.button-container{
+    display: flex;
+    justify-content: space-evenly;
+}
+.audition-delete-confirm-btn {
+    background-color: #b91c1c;
+    color: white;
+    line-height: 1.25rem;
+    font-weight: 500;
+    font-size: large;
+    height: 50px;
+    border-radius: 9999px;
+    padding: 10px;
+    width: 140px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+
+.audition-delete-btn:hover{
+    background-color: #ff3b3b;
+}
+
+.audition-cancel-confirm-btn {
+    background-color: #6e6e6e;
+    color: white;
+    line-height: 1.25rem;
+    font-weight: 500;
+    font-size: large;
+    height: 50px;
+    border-radius: 9999px;
+    padding: 10px;
+    width: 140px;
+}
+
+
+.audition-cancel-btn > button:hover{
+
+}
+/* The Modal (background) */
+.confirmation-modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: transparent;
+    backdrop-filter: blur(5px);
+    padding-top: 10%;
+
+}
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+    border: 1px solid #888;
+    border-radius: 40px;
+    width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* Style the horizontal ruler */
+hr {
+    border: 1px solid #f1f1f1;
+    margin-bottom: 25px;
+}
+
+/* The Modal Close Button (x) */
+.close {
+    position: absolute;
+    right: 35px;
+    top: 15px;
+    font-size: 40px;
+    font-weight: bold;
+    color: #f1f1f1;
+}
+
+.close:hover,
+.close:focus {
+    cursor: pointer;
+}
+
+
+/* Change styles for cancel button and delete button on extra small screens */
+@media screen and (max-width: 300px) {
+    .cancelbtn, .deletebtn {
+        width: 100%;
+    }
+}

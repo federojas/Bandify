@@ -142,13 +142,9 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
                 <img src="<c:url value="/resources/icons/edit-white-icon.svg"/>" class="audition-icon" alt="${edit}"/>
               </button>
             </a>
-            <form class="audition-delete-btn" action="/profile/deleteAudition/${audition.id}" method="post">
-              <button class="audition-btn" type="submit">
-                <spring:message code="audition.alt.delete" var="delete"/>
-                <spring:message code="audition.delete" />
-                <img src="<c:url value="/resources/icons/trash.svg"/>" class="audition-icon" alt="${delete}"/>
-              </button>
-            </form>
+            <jsp:include page="../components/deleteConfirmationModal.jsp">
+              <jsp:param name="auditionForm" value="${1}" />
+            </jsp:include>
           </div>
         </c:if>
       </div>
