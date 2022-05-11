@@ -42,7 +42,6 @@ public class GenreServiceTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testValidateAndReturnGenresWithNullGenre() {
-        when(genreDao.getAll()).thenReturn(new HashSet<>(GENRE_LIST));
         genreService.getGenresByNames(null);
         Assert.fail("Should have thrown IllegalArgumentException");
     }

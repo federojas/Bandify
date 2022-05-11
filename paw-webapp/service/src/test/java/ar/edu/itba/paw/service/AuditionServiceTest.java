@@ -63,7 +63,6 @@ public class AuditionServiceTest {
 
     @Test(expected = AuditionNotFoundException.class)
     public void testEditAuditionNotExistsById() {
-        when(auditionDao.getAuditionById(Mockito.eq(5))).thenThrow(new AuditionNotFoundException());
         auditionService.editAuditionById(AUD_BUILDER, 5);
         Assert.fail("Should have thrown AuditionNotFoundException");
     }
