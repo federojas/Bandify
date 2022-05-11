@@ -27,7 +27,6 @@
                                     <button type="submit" class="audition-delete-confirm-btn">
                                         <spring:message code="audition.alt.delete" var="delete"/>
                                         <spring:message code="confirmationModal.confirm"/>
-                                            <img src="<c:url value="/resources/icons/trash.svg"/>" class="audition-icon" alt="${delete}"/>
                                     </button>
                             </form>
                         </c:if>

@@ -4,13 +4,11 @@ import ar.edu.itba.paw.*;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.service.*;
 import ar.edu.itba.paw.webapp.form.*;
+import ar.edu.itba.paw.service.AuthFacadeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -30,19 +28,22 @@ public class UserController {
     private final GenreService genreService;
     private final ImageService imageService;
     private final ApplicationService applicationService;
+    private final AuthFacadeService authFacadeService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     public UserController(final UserService userService, final VerificationTokenService verificationTokenService,
                           final RoleService roleService, final GenreService genreService,
-                          final ImageService imageService, final ApplicationService applicationService) {
+                          final ImageService imageService, final ApplicationService applicationService,
+                          final AuthFacadeService authFacadeService) {
         this.userService = userService;
         this.verificationTokenService = verificationTokenService;
         this.roleService = roleService;
         this.genreService = genreService;
         this.imageService = imageService;
         this.applicationService = applicationService;
+        this.authFacadeService = authFacadeService;
     }
 
     @RequestMapping(value = {"/register","/registerBand", "/registerArtist"}, method = {RequestMethod.GET})
@@ -93,9 +94,7 @@ public class UserController {
     @RequestMapping(value = "/profile", method = {RequestMethod.GET})
     public ModelAndView profile() {
         ModelAndView mav = new ModelAndView("profile");
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Optional<User> optionalUser = userService.findByEmail(auth.getName());
-        User user = optionalUser.orElseThrow(UserNotFoundException::new);
+        User user = authFacadeService.getCurrentUser();
         return setAndReturnProfileViewData(user, mav);
     }
 
@@ -105,12 +104,9 @@ public class UserController {
         Optional<User> optionalUser = userService.getUserById(id);
         User userToVisit = optionalUser.orElseThrow(UserNotFoundException::new);
 
-        if(SecurityContextHolder.getContext().getAuthentication() != null &&
-                SecurityContextHolder.getContext().getAuthentication().isAuthenticated() &&
-                !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) {
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            optionalUser = userService.findByEmail(auth.getName());
-            User user = optionalUser.orElseThrow(UserNotFoundException::new);
+        if(authFacadeService.isAuthenticated()) {
+
+            User user = authFacadeService.getCurrentUser();
 
             if(user.getId() == userToVisit.getId())
                 return new ModelAndView("redirect:/profile");
@@ -137,9 +133,7 @@ public class UserController {
                                      @RequestParam(value = "state", defaultValue = "0") int state) {
 
         ModelAndView mav = new ModelAndView("profileApplications");
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Optional<User> optionalUser = userService.findByEmail(auth.getName());
-        User user = optionalUser.orElseThrow(UserNotFoundException::new);
+        User user = authFacadeService.getCurrentUser();
         List<Application> applications = applicationService.getMyApplicationsFiltered(user.getId(), page,
                 ApplicationState.values()[state]);
         int lastPage = applicationService.getTotalUserApplicationPagesFiltered(user.getId(), ApplicationState.values()[state]);
@@ -170,9 +164,7 @@ public class UserController {
     }
 
     private ModelAndView initializeEditProfile(ModelAndView mav, UserEditForm editForm ) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Optional<User> optionalUser = userService.findByEmail(auth.getName());
-        User user = optionalUser.orElseThrow(UserNotFoundException::new);
+        User user = authFacadeService.getCurrentUser();
         Set<Role> roleList = roleService.getAll();
         Set<Genre> genreList = genreService.getAll();
         Set<Role> userRoles = roleService.getUserRoles(user.getId());
@@ -193,9 +185,8 @@ public class UserController {
         if (errors.hasErrors()) {
             return editProfile(artistEditForm);
         }
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Optional<User> optionalUser = userService.findByEmail(auth.getName());
-        User user = optionalUser.orElseThrow(UserNotFoundException::new);
+
+        User user = authFacadeService.getCurrentUser();
 
        userService.editUser(user.getId(), artistEditForm.getName(), artistEditForm.getSurname(), artistEditForm.getDescription(),
                artistEditForm.getMusicGenres(), artistEditForm.getLookingFor(),
@@ -212,9 +203,7 @@ public class UserController {
             return editProfile(bandEditForm);
         }
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Optional<User> optionalUser = userService.findByEmail(auth.getName());
-        User user = optionalUser.orElseThrow(UserNotFoundException::new);
+        User user = authFacadeService.getCurrentUser();
 
         userService.editUser(user.getId(), bandEditForm.getName(),null, bandEditForm.getDescription(),
                 bandEditForm.getMusicGenres(), bandEditForm.getLookingFor(),

@@ -6,11 +6,9 @@ import ar.edu.itba.paw.model.exceptions.AuditionNotOwnedException;
 import ar.edu.itba.paw.AuditionFilter;
 import ar.edu.itba.paw.model.exceptions.PageNotFoundException;
 import ar.edu.itba.paw.persistence.*;
-import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
@@ -21,7 +19,7 @@ public class AuditionServiceImpl implements AuditionService {
     @Autowired
     private AuditionDao auditionDao;
     @Autowired
-    private UserService userService;
+    private AuthFacadeService authFacadeService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AuditionServiceImpl.class);
 
@@ -96,7 +94,7 @@ public class AuditionServiceImpl implements AuditionService {
  
     private void checkPermissions(long id) {
         if(getAuditionById(id).orElseThrow(AuditionNotFoundException::new).getBandId() !=
-                userService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(UserNotFoundException::new).getId())
+                authFacadeService.getCurrentUser().getId())
             throw new AuditionNotOwnedException();
     }
 

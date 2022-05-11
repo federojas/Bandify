@@ -3,6 +3,7 @@ package ar.edu.itba.paw.service;
 import ar.edu.itba.paw.*;
 import ar.edu.itba.paw.model.exceptions.AuditionNotFoundException;
 import ar.edu.itba.paw.model.exceptions.AuditionNotOwnedException;
+import ar.edu.itba.paw.model.exceptions.PageNotFoundException;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.persistence.AuditionDao;
 import org.junit.Assert;
@@ -14,8 +15,6 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Optional;
 
 import static org.mockito.Mockito.*;
@@ -27,7 +26,7 @@ public class AuditionServiceTest {
     private AuditionDao auditionDao;
 
     @Mock
-    private UserService userService;
+    private AuthFacadeService authFacadeService;
 
     @InjectMocks
     private AuditionService auditionService = new AuditionServiceImpl();
@@ -60,6 +59,22 @@ public class AuditionServiceTest {
         Assert.fail("Should have thrown AuditionNotFoundException");
     }
 
+    @Test(expected = AuditionNotOwnedException.class)
+    public void testEditAuditionByIdNotOwned() {
+        when(auditionService.getAuditionById(Mockito.eq(AUD_ID))).thenReturn(Optional.of(AUD));
+        when(authFacadeService.getCurrentUser()).thenReturn(USER);
+        auditionService.editAuditionById(AUD_BUILDER, AUD_ID);
+        Assert.fail("Should have thrown AuditionNotOwnedException");
+    }
+
+    @Test(expected = UserNotFoundException.class)
+    public void testEditAuditionByIdUserNotFound() {
+        when(auditionService.getAuditionById(Mockito.eq(AUD_ID))).thenReturn(Optional.of(AUD));
+        when(authFacadeService.getCurrentUser()).thenThrow(new UserNotFoundException());
+        auditionService.editAuditionById(AUD_BUILDER, AUD_ID);
+        Assert.fail("Should have thrown UserNotFoundException");
+    }
+
 
     @Test(expected = AuditionNotFoundException.class)
     public void testEditAuditionNotExistsById() {
@@ -73,15 +88,37 @@ public class AuditionServiceTest {
         Assert.fail("Should have thrown IllegalArgumentException");
     }
 
+    @Test(expected = PageNotFoundException.class)
+    public void testGetAllInvalidPage() {
+        when(auditionService.getTotalPages()).thenReturn(5);
+        auditionService.getAll(500);
+        Assert.fail("Should have thrown PageNotFoundException");
+    }
+
+
     @Test(expected = IllegalArgumentException.class)
     public void testGetBandAuditionsIllegalPage() {
         auditionService.getBandAuditions(1,-1);
         Assert.fail("Should have thrown IllegalArgumentException");
     }
 
+    @Test(expected = PageNotFoundException.class)
+    public void testGetBandAuditionsInvalidPage() {
+        when(auditionService.getTotalBandAuditionPages(1)).thenReturn(5);
+        auditionService.getBandAuditions(1,500);
+        Assert.fail("Should have thrown PageNotFoundException");
+    }
+
     @Test(expected = IllegalArgumentException.class)
     public void testFilterIllegalPage() {
         auditionService.filter(FILTER,-1);
         Assert.fail("Should have thrown IllegalArgumentException");
+    }
+
+    @Test(expected = PageNotFoundException.class)
+    public void testFilterInvalidPage() {
+        when(auditionService.getFilterTotalPages(FILTER)).thenReturn(5);
+        auditionService.filter(FILTER,500);
+        Assert.fail("Should have thrown PageNotFoundException");
     }
 }

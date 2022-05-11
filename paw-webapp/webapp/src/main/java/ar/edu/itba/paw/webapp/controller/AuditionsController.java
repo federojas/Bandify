@@ -8,12 +8,10 @@ import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.service.*;
 import ar.edu.itba.paw.webapp.form.ApplicationForm;
 import ar.edu.itba.paw.webapp.form.AuditionForm;
+import ar.edu.itba.paw.service.AuthFacadeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +29,7 @@ public class AuditionsController {
     private final LocationService locationService;
     private final UserService userService;
     private final ApplicationService applicationService;
+    private final AuthFacadeService authFacadeService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AuditionsController.class);
 
@@ -38,18 +37,20 @@ public class AuditionsController {
     public AuditionsController(final AuditionService auditionService,
                                final GenreService genreService, final LocationService locationService,
                                final RoleService roleService, final UserService userService,
-                               final ApplicationService applicationService) {
+                               final ApplicationService applicationService,
+                               final AuthFacadeService authFacadeService) {
         this.auditionService = auditionService;
         this.roleService = roleService;
         this.genreService = genreService;
         this.locationService = locationService;
         this.userService = userService;
         this.applicationService = applicationService;
+        this.authFacadeService = authFacadeService;
     }
 
     @RequestMapping(value = "/", method = {RequestMethod.GET})
     public ModelAndView home() {
-        if (! (SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) {
+        if (authFacadeService.isAuthenticated()) {
             return new ModelAndView("redirect:/auditions");
         }
         return new ModelAndView("redirect:/welcome");
@@ -109,7 +110,7 @@ public class AuditionsController {
 
         final ModelAndView mav = new ModelAndView("audition");
         Audition audition = auditionService.getAuditionById(id).orElseThrow(AuditionNotFoundException::new);
-        User user = userService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(UserNotFoundException::new);
+        User user = authFacadeService.getCurrentUser();
         User band = userService.getUserById(audition.getBandId()).orElseThrow(UserNotFoundException::new);
         mav.addObject("isOwner", audition.getBandId() == user.getId());
         mav.addObject("audition", audition);
@@ -142,9 +143,7 @@ public class AuditionsController {
             return audition(applicationForm,id);
         }
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Optional<User> optionalUser = userService.findByEmail(auth.getName());
-        User user = optionalUser.orElseThrow(UserNotFoundException::new);
+        User user = authFacadeService.getCurrentUser();
 
         if(applicationService.apply(id, user, applicationForm.getMessage()))
             return success();
@@ -159,9 +158,8 @@ public class AuditionsController {
         Set<Role> roleList = roleService.getAll();
         Set<Genre> genreList = genreService.getAll();
         List<Location> locationList = locationService.getAll();
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Optional<User> optionalUser = userService.findByEmail(auth.getName());
-        User user = optionalUser.orElseThrow(UserNotFoundException::new);
+
+        User user = authFacadeService.getCurrentUser();
 
         mav.addObject("roleList", roleList);
         mav.addObject("genreList", genreList);
@@ -177,9 +175,8 @@ public class AuditionsController {
         if(errors.hasErrors()) {
             return newAudition(auditionForm);
         }
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Optional<User> optionalUser = userService.findByEmail(auth.getName());
-        User user = optionalUser.orElseThrow(UserNotFoundException::new);
+
+        User user = authFacadeService.getCurrentUser();
 
         auditionService.create(auditionForm.toBuilder(user.getId()).
                 location(locationService.getLocationByName(auditionForm.getLocation()).orElseThrow(LocationNotFoundException::new)).
@@ -204,9 +201,7 @@ public class AuditionsController {
     @RequestMapping(value = "/profile/editAudition/{id}", method = {RequestMethod.GET})
     public ModelAndView editAudition(@ModelAttribute("auditionForm") final AuditionForm auditionForm, @PathVariable long id) {
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Optional<User> optionalUser = userService.findByEmail(auth.getName());
-        User user = optionalUser.orElseThrow(UserNotFoundException::new);
+        User user = authFacadeService.getCurrentUser();
 
         Audition audition = auditionService.getAuditionById(id).orElseThrow(AuditionNotFoundException::new);
 
@@ -242,9 +237,7 @@ public class AuditionsController {
     public ModelAndView postEditAudition(@Valid @ModelAttribute("auditionForm") final AuditionForm auditionForm,
                                          final BindingResult errors, @PathVariable long id) {
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Optional<User> optionalUser = userService.findByEmail(auth.getName());
-        User user = optionalUser.orElseThrow(UserNotFoundException::new);
+        User user = authFacadeService.getCurrentUser();
 
         if(errors.hasErrors()) {
             return editAudition(auditionForm,id);
@@ -264,9 +257,7 @@ public class AuditionsController {
     public ModelAndView profileAuditions(@RequestParam(value = "page", defaultValue = "1") int page) {
         ModelAndView mav = new ModelAndView("profileAuditions");
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Optional<User> optionalUser = userService.findByEmail(auth.getName());
-        User user = optionalUser.orElseThrow(UserNotFoundException::new);
+        User user = authFacadeService.getCurrentUser();
         List<Audition> auditionList = auditionService.getBandAuditions(user.getId(), page);
         int lastPage = auditionService.getTotalBandAuditionPages(user.getId());
         lastPage = lastPage == 0 ? 1 : lastPage;
