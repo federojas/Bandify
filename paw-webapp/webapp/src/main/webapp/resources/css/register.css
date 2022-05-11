@@ -4,7 +4,7 @@
     padding: 24px;
 }
 .color-register-button{
-    background-color: rgba(108, 12, 132, 0.69);
+    background-color: rgba(108, 12, 132, 0.69) !important;
 }
 .register-content {
     display: flex;

@@ -23,7 +23,7 @@
 </jsp:include>
 
 <!-- Formulario -->
-<div class="card-content" id="form-post">
+<div class="card-content-small" id="form-post">
     <h1><spring:message code="edit.formSectionh1"/></h1>
     <c:url value="/profile/editAudition/${auditionId}" var="postPath" />
     <!-- Form box -->

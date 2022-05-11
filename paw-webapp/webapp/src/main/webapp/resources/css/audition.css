@@ -14,11 +14,6 @@ body {
     width: 50rem;
     max-width: 60rem /* 768px */;
 }
-.card-content {
-    background-color: #ffffff;
-    box-shadow: 0 10px 15px -3px #1c041c1a, 0 4px 6px -2px #1c041c0d;
-    padding: 1rem;
-}
 .card-header {
     padding: 0.25rem 1.25rem;
 }

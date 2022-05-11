@@ -20,9 +20,8 @@
         <jsp:param name="navItem" value="${3}" />
         <jsp:param name="name" value="Bandify" />
     </jsp:include>
-
     <!-- Formulario -->
-    <div class="card-content" id="form-post">
+    <div class="card-content-small" id="form-post">
         <h1><spring:message code="welcome.formSectionh1"/></h1>
         <br/>
         <h1><spring:message code="welcome.formSectionh2"/></h1>

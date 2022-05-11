@@ -25,7 +25,7 @@
             <div class="forms-buttons">
                 <c:choose>
                     <c:when test="${isBand}">
-                        <button id="artist-button" class="color-register-button" onclick="toggleForm(false)"
+                        <button id="artist-button"  class="color-register-button" onclick="toggleForm(false)"
                               >
                             <spring:message code="register.artist_word"/>
                         </button>
