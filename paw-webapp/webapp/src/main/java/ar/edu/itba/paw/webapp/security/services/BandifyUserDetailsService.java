@@ -1,6 +1,6 @@
 package ar.edu.itba.paw.webapp.security.services;
 
-import ar.edu.itba.paw.persistence.User;
+import ar.edu.itba.paw.User;
 import ar.edu.itba.paw.service.UserService;
 import ar.edu.itba.paw.webapp.security.BandifyUser;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,5 +1,7 @@
 package ar.edu.itba.paw.persistence;
 
+import ar.edu.itba.paw.Application;
+import ar.edu.itba.paw.ApplicationState;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

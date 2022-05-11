@@ -1,5 +1,7 @@
 package ar.edu.itba.paw.persistence;
 
+import ar.edu.itba.paw.Genre;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;

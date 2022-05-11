@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.service;
 
+import ar.edu.itba.paw.Audition;
 import ar.edu.itba.paw.model.exceptions.AuditionNotFoundException;
 import ar.edu.itba.paw.model.exceptions.AuditionNotOwnedException;
 import ar.edu.itba.paw.AuditionFilter;
@@ -17,16 +18,13 @@ import java.util.*;
 @Service
 public class AuditionServiceImpl implements AuditionService {
 
-    private final AuditionDao auditionDao;
-    private final UserService userService;
+    @Autowired
+    private AuditionDao auditionDao;
+    @Autowired
+    private UserService userService;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(AuditionServiceImpl.class);
 
-    @Autowired
-    public AuditionServiceImpl(final AuditionDao auditionDao,
-                               final UserService userService) {
-        this.auditionDao = auditionDao;
-        this.userService = userService;
-    }
 
     @Override
     public Optional<Audition> getAuditionById(long id) {
