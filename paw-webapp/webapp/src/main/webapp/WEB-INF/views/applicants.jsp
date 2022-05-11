@@ -44,11 +44,11 @@
     <!-- Auditions content -->
     <div class="applicants-container">
         <div class="left-panel-abs">
-            <button onclick="history.back()">
+            <a class="back-anchor" href="<c:url value="/auditions/${id}" />">
                 <div class="back-div">
                     <img src="<c:url value="/resources/icons/back.svg" />" class="back-icon"/>
                 </div>
-            </button>
+            </a>
         </div>
         <div class="applicants-content">
             <h2 class="applicants-title">
