@@ -14,12 +14,8 @@ import java.util.stream.Collectors;
 @Service
 public class RoleServiceImpl implements RoleService {
 
-    private final RoleDao roleDao;
-
     @Autowired
-    public RoleServiceImpl(RoleDao roleDao) {
-        this.roleDao = roleDao;
-    }
+    private RoleDao roleDao;
 
     @Override
     public Set<Role> getAll() {
@@ -28,6 +24,8 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Set<Role> getRolesByNames(List<String> rolesNames) {
+        if(rolesNames == null)
+            throw new IllegalArgumentException();
         List<String> roles = roleDao.getAll().stream().map(Role::getName).collect(Collectors.toList());
 
         if(!roles.containsAll(rolesNames))
