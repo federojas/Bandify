@@ -43,7 +43,7 @@
                     <spring:message code="audition.form.title.placeholder" arguments="50" var="titleplaceholder" />
                     <form:input type="text" id="titleForm"  maxlength="50" placeholder="${titleplaceholder}" class="form-input" path="title" />
                     <p id="emptyTitle" class="error" style="display: none"><spring:message code="NotBlank.auditionForm.title"/> </p>
-                    <p id="longTitle" class="error" style="display: none"><spring:message code="Size.auditionForm.title" arguments="50"/> </p>
+                    <p id="longTitle" class="error" style="display: none"><spring:message code="audition.form.title.maxSize" arguments="50"/> </p>
                     <form:errors path="title" element="p" cssClass="error"> </form:errors>
                 </div>
 
@@ -61,7 +61,7 @@
 
                     />
                     <p id="emptyDescription" class="error" style="display: none"><spring:message code="NotBlank.auditionForm.description" arguments="0"/> </p>
-                    <p id="longDescription" class="error" style="display: none"><spring:message code="Size.auditionForm.description" arguments="${300}"/> </p>
+                    <p id="longDescription" class="error" style="display: none"><spring:message code="audition.form.description.maxSize" arguments="300"/> </p>
                     <form:errors path="description" element="p" cssClass="error"> </form:errors>
                 </div>
                 <div class="select-div">
