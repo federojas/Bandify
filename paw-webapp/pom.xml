@@ -33,6 +33,8 @@
     <maven-war-plugin.version>2.6</maven-war-plugin.version>
     <commons-fileupload.version>1.3.1</commons-fileupload.version>
     <commons-io.version>2.4</commons-io.version>
+    <org.hibernate.version>5.1.0.Final</org.hibernate.version>
+    <org.hibernate.jpa.version>1.0.0.Final</org.hibernate.jpa.version>
   </properties>
 
   <dependencyManagement>
@@ -177,6 +179,26 @@
         <groupId>commons-io</groupId>
         <artifactId>commons-io</artifactId>
         <version>${commons-io.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-orm</artifactId>
+        <version>${org.springframework.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-core</artifactId>
+        <version>${org.hibernate.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-entitymanager</artifactId>
+        <version>${org.hibernate.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.hibernate.javax.persistence</groupId>
+        <artifactId>hibernate-jpa-2.1-api</artifactId>
+        <version>${org.hibernate.jpa.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
