@@ -1,14 +1,23 @@
 package ar.edu.itba.paw;
 
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
+@Table(name = "locations")
 public class Location {
-    private final long id;
-    private final String name;
 
-    public Location(long id, String name) {
-        this.id = id;
-        this.name = name;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "locations_locationid_seq")
+    @SequenceGenerator(sequenceName = "locations_locationid_seq", name = "locations_locationid_seq", allocationSize = 1)
+    @Column(name = "id")
+    private Long id;
+
+    @Column(name = "location", length = 100, nullable = false, unique = true)
+    private String name;
+
+    /* package */ Location() {
+
     }
 
     public long getId() {
