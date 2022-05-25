@@ -18,34 +18,9 @@ public class Role {
     /* package */ Role() {
         // Just for Hibernate, we love you!
     }
-    public Role(Builder builder) {
-        this.roleId = builder.roleId;
-        this.roleName = builder.roleName;
-    }
-
-
-    public static class Builder{
-        private String roleName;
-        private long roleId;
-
-        public Builder(){
-            //default
-        }
-
-        public Builder withRoleId(int roleId){
-            this.roleId=roleId;
-            return this;
-        }
-        public Builder withRoleName(String roleName){
-            this.roleName=roleName;
-            return this;
-        }
-        public Role build() {
-            if (this.roleName == null) {
-                throw new NullPointerException("The property \"roleName\" cannot be null. ");
-            }
-            return new Role(this);
-        }
+    public Role(long roleId, String roleName) {
+        this.roleId = roleId;
+        this.roleName = roleName;
     }
 
     public long getId() {

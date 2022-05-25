@@ -1,22 +1,33 @@
 package ar.edu.itba.paw;
 
+import javax.persistence.*;
 import java.util.Objects;
-
+@Entity
+@Table(name="genres")
 public class Genre {
-    private final long id;
-    private final String name;
 
-    public Genre(long id, String name) {
-        this.id = id;
-        this.name = name;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "roles_genreid_seq")
+    @SequenceGenerator(sequenceName = "genres_gereid_seq",name="genres_genreid_seq")
+    private long genreId;
+
+    @Column
+    private String genreName;
+
+    /* package */ Genre() {
+        // Just for Hibernate, we love you!
+    }
+    public Genre(String genreName,long genreId ) {
+        this.genreName=genreName;
+        this.genreId=genreId;
     }
 
     public long getId() {
-        return id;
+        return genreId;
     }
 
     public String getName() {
-        return name;
+        return genreName;
     }
 
     @Override
@@ -29,6 +40,6 @@ public class Genre {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name);
+        return Objects.hash(genreId, genreName);
     }
 }
