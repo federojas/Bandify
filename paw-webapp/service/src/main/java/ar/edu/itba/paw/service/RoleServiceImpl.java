@@ -5,7 +5,6 @@ import ar.edu.itba.paw.model.exceptions.RoleNotFoundException;
 import ar.edu.itba.paw.persistence.RoleDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -32,23 +31,5 @@ public class RoleServiceImpl implements RoleService {
 
         return roleDao.getRolesByNames(rolesNames);
     }
-
-    //TODO ACA HAY QUE HACER ALGO
-    @Override
-    public Set<Role> getUserRoles(long userId) {
-        return roleDao.getUserRoles(userId);
-    }
-
-    @Transactional
-    @Override
-    public void updateUserRoles(List<String> rolesNames, long userId) {
-        if(rolesNames == null) {
-            roleDao.updateUserRoles(null, userId);
-            return;
-        }
-        Set<Role> newRoles = getRolesByNames(rolesNames);
-        roleDao.updateUserRoles(newRoles, userId);
-    }
-
 
 }

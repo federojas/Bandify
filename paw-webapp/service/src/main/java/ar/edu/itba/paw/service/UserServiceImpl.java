@@ -1,11 +1,10 @@
 package ar.edu.itba.paw.service;
 
-import ar.edu.itba.paw.TokenType;
-import ar.edu.itba.paw.User;
-import ar.edu.itba.paw.VerificationToken;
+import ar.edu.itba.paw.*;
 import ar.edu.itba.paw.model.exceptions.DuplicateUserException;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.persistence.UserDao;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +17,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ResourceUtils;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
 @Service
@@ -78,9 +83,31 @@ public class UserServiceImpl implements UserService {
     @Override
     public void editUser(long userId, String name, String surname, String description, List<String> genresNames, List<String> rolesNames, byte[] image) {
         userDao.editUser(userId, name, surname, description);
-        genreService.updateUserGenres(genresNames,userId);
-        roleService.updateUserRoles(rolesNames,userId);
-        imageService.updateProfilePicture(userId,image);
+        genreService.updateUserGenres(genresNames, userId);
+        roleService.updateUserRoles(rolesNames, userId);
+        imageService.updateProfilePicture(userId, image);
+    }
+
+    @Override
+    public Set<Role> getUserRoles(User user) {
+        return user.getUserRoles();
+    }
+
+    @Override
+    public void updateUserRoles(List<String> rolesNames, User user) {
+        Set<Role> roles = roleService.getRolesByNames(rolesNames);
+        user.setUserRoles(roles);
+    }
+
+    @Override
+    public Set<Genre> getUserGenres(User user) {
+        return user.getUserGenres();
+    }
+
+    @Override
+    public void updateUserGenres(List<String> genreNames, User user) {
+        Set<Genre> genres = genreService.getGenresByNames(genreNames);
+        user.setUserGenres(genres);
     }
 
     @Override
@@ -126,6 +153,27 @@ public class UserServiceImpl implements UserService {
         long userId = verificationTokenService.getTokenOwner(token, TokenType.RESET);
         userDao.changePassword(userId, passwordEncoder.encode(newPassword));
         autoLogin(userId);
+    }
+
+    @Override
+    public byte[] getProfilePicture(User user) throws IOException {
+        byte[] image = user.getProfileImage();
+        if(image == null) {
+            File file;
+            if(user.isBand())
+                file = ResourceUtils.getFile("classpath:images/band.jpg");
+            else
+                file = ResourceUtils.getFile("classpath:images/artist.png");
+            InputStream fileStream = new FileInputStream(file);
+            return IOUtils.toByteArray(Objects.requireNonNull(fileStream));
+        }
+        return image;
+    }
+
+    @Override
+    public void updateProfilePicture(User user, byte[] image) {
+        if(image.length > 0)
+            user.setProfileImage(image);
     }
 
 }

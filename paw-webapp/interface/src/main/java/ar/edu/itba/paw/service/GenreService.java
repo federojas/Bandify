@@ -9,8 +9,4 @@ public interface GenreService {
     Set<Genre> getAll();
 
     Set<Genre> getGenresByNames(List<String> rolesNames);
-
-    Set<Genre> getUserGenres(long userId);
-
-    void updateUserGenres(List<String> genresNames, long userId);
 }

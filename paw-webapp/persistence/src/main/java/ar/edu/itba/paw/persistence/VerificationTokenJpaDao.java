@@ -4,6 +4,7 @@ import ar.edu.itba.paw.TokenType;
 import ar.edu.itba.paw.VerificationToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public class VerificationTokenJpaDao implements VerificationTokenDao {
 
     @PersistenceContext

@@ -40,13 +40,13 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
             throw new InvalidTokenException();
         }
 
-        deleteTokenByUserId(t.get().getUserId(), type);
+        deleteTokenByUserId(t.get().getUser().getId(), type);
         if(!t.get().isValid()) {
             LOGGER.warn("Given token is expired");
             throw new InvalidTokenException();
         }
 
-        return t.get().getUserId();
+        return t.get().getUser().getId();
     }
 
     @Transactional
@@ -60,7 +60,7 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
 
         if(!t.get().isValid()) {
             LOGGER.warn("Given token is expired");
-            deleteTokenByUserId(t.get().getUserId(), TokenType.RESET);
+            deleteTokenByUserId(t.get().getUser().getId(), TokenType.RESET);
             throw new InvalidTokenException();
         }
     }

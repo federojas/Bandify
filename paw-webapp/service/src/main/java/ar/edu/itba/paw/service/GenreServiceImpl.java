@@ -35,20 +35,4 @@ public class GenreServiceImpl implements GenreService{
         return genreDao.getGenresByNames(genresNames);
     }
 
-    @Override
-    public Set<Genre> getUserGenres(long userId) {
-        return genreDao.getUserGenres(userId);
-    }
-
-    @Transactional
-    @Override
-    public void updateUserGenres(List<String> genresNames, long userId) {
-        if(genresNames == null) {
-            genreDao.updateUserGenres(null, userId);
-            return;
-        }
-        Set<Genre> newGenres = getGenresByNames(genresNames);
-        genreDao.updateUserGenres(newGenres, userId);
-    }
-
 }

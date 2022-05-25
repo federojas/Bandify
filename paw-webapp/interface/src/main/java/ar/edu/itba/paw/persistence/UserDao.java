@@ -1,11 +1,7 @@
 package ar.edu.itba.paw.persistence;
 
-import ar.edu.itba.paw.Genre;
-import ar.edu.itba.paw.Role;
 import ar.edu.itba.paw.User;
-
 import java.util.Optional;
-import java.util.Set;
 
 public interface UserDao {
     Optional<User> getUserById(long id);
