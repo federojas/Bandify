@@ -14,7 +14,7 @@ import java.util.Set;
 
 @Repository
 public class GenreJpaDao implements GenreDao {
-    
+
     @PersistenceContext
     private EntityManager em;
 
