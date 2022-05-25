@@ -10,10 +10,6 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.Resource;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.jdbc.datasource.init.DataSourceInitializer;
-import org.springframework.jdbc.datasource.init.DatabasePopulator;
-import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -60,24 +56,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
     @Autowired
     private Environment environment;
-
-
-    @Value("classpath:schema.sql")
-    private Resource schemaSql;
-
-//    @Bean
-//    public DataSourceInitializer dataSourceInitializer(final DataSource ds) {
-//        final DataSourceInitializer dsi = new DataSourceInitializer();
-//        dsi.setDataSource(ds);
-//        dsi.setDatabasePopulator(databasePopulator());
-//        return dsi;
-//    }
-//
-//    private DatabasePopulator databasePopulator() {
-//        final ResourceDatabasePopulator dbp = new ResourceDatabasePopulator();
-//        dbp.addScript(schemaSql);
-//        return dbp;
-//    }
 
     @Bean
     public ViewResolver viewResolver() {
@@ -174,12 +152,11 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
     }
 
-
-
     @Bean
     public PlatformTransactionManager transactionManager(final EntityManagerFactory emf) {
         return new JpaTransactionManager(emf);
     }
+
     @Bean
     public LocaleResolver localeResolver() {
         return new SessionLocaleResolver();
@@ -207,9 +184,10 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         final Properties properties = new Properties();
         properties.setProperty("hibernate.hbm2ddl.auto", "update");
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQL92Dialect");
-        // Si ponen esto en prod, hay tabla!!!
-        properties.setProperty("hibernate.show_sql", "true");
-        properties.setProperty("format_sql", "true");
+        if(!isDeploying()) {
+            properties.setProperty("hibernate.show_sql", "true");
+            properties.setProperty("format_sql", "true");
+        }
         factoryBean.setJpaProperties(properties);
         return factoryBean;
     }
