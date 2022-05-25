@@ -33,6 +33,7 @@ public class RoleServiceImpl implements RoleService {
         return roleDao.getRolesByNames(rolesNames);
     }
 
+    //TODO ACA HAY QUE HACER ALGO
     @Override
     public Set<Role> getUserRoles(long userId) {
         return roleDao.getUserRoles(userId);
