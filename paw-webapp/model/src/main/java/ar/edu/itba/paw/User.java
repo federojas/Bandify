@@ -1,11 +1,58 @@
 package ar.edu.itba.paw;
 
+import javax.persistence.*;
 import java.util.Objects;
+import java.util.Set;
 
+@Entity
+@Table(name = "users")
+@SecondaryTable(name = "profileimages", pkJoinColumns = @PrimaryKeyJoinColumn(name = "userid"))
 public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_id_seq")
+    @SequenceGenerator(name = "users_id_seq", sequenceName = "users_id_seq", allocationSize = 1)
     private final long id;
-    private final String email, password, name, surname, description;
-    private final boolean isBand, isEnabled;
+
+    @Column(length = 254, unique = true, nullable = false)
+    private String email;
+
+    @Column(nullable = false)
+    private String password;
+
+    @Column(length = 50, nullable = false)
+    private String name;
+
+    @Column(length = 50)
+    private String surname;
+
+    @Column(length = 500)
+    private String description;
+
+    @Column
+    private boolean isBand;
+
+    @Column
+    private boolean isEnabled;
+
+    @Column(table = "profileimages")
+    @Basic(fetch = FetchType.LAZY)
+    private byte[] profileImage;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "userroles",
+            joinColumns = @JoinColumn(name = "userid"),
+            inverseJoinColumns = @JoinColumn(name = "roleid")
+    )
+    private Set<Role> userRoles;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "usergenres",
+            joinColumns = @JoinColumn(name = "userid"),
+            inverseJoinColumns = @JoinColumn(name = "genreid")
+    )
+    private Set<Genre> userGenres;
+
 
     private User(UserBuilder builder) {
         this.name = builder.name;
@@ -61,6 +108,50 @@ public class User {
 
     public String getDescription() {
         return description;
+    }
+
+    public byte[] getProfileImage() {
+        return profileImage;
+    }
+
+    public Set<Role> getUserRoles() {
+        return userRoles;
+    }
+
+    public Set<Genre> getUserGenres() {
+        return userGenres;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setEnabled(boolean enabled) {
+        isEnabled = enabled;
+    }
+
+    public void setProfileImage(byte[] profileImage) {
+        this.profileImage = profileImage;
+    }
+
+    public void setUserRoles(Set<Role> userRoles) {
+        this.userRoles = userRoles;
+    }
+
+    public void setUserGenres(Set<Genre> userGenres) {
+        this.userGenres = userGenres;
     }
 
     public static class UserBuilder {
