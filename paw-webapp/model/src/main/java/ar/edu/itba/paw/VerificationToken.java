@@ -27,9 +27,8 @@ public class VerificationToken {
     @Column(name = "expiryDate", nullable = false)
     private LocalDateTime expiryDate;
 
-    /* default */
     VerificationToken() {
-        // Just for Hibernate
+        //Hibernate
     }
 
     public VerificationToken(String token, User user, LocalDateTime expiryDate) {

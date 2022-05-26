@@ -12,7 +12,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_id_seq")
     @SequenceGenerator(name = "users_id_seq", sequenceName = "users_id_seq", allocationSize = 1)
-    private final long id;
+    private long id;
 
     @Column(length = 254, unique = true, nullable = false)
     private String email;
@@ -53,6 +53,9 @@ public class User {
     )
     private Set<Genre> userGenres;
 
+    User() {
+        //Hibernate
+    }
 
     private User(UserBuilder builder) {
         this.name = builder.name;

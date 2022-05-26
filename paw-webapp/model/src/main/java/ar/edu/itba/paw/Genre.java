@@ -14,8 +14,8 @@ public class Genre {
     @Column
     private String genreName;
 
-    /* package */ Genre() {
-        // Just for Hibernate, we love you!
+    Genre() {
+        //Hibernate
     }
     public Genre(String genreName,long genreId ) {
         this.genreName=genreName;

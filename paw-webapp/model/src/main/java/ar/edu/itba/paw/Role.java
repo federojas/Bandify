@@ -15,8 +15,8 @@ public class Role {
     @Column
     private String roleName;
 
-    /* package */ Role() {
-        // Just for Hibernate, we love you!
+    Role() {
+        //Hibernate
     }
     public Role(long roleId, String roleName) {
         this.roleId = roleId;

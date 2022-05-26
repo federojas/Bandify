@@ -16,8 +16,8 @@ public class Location {
     @Column(name = "location", length = 100, nullable = false, unique = true)
     private String name;
 
-    /* package */ Location() {
-
+    Location() {
+        //Hibernate
     }
 
     public long getId() {
