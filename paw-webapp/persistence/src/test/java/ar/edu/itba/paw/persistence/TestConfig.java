@@ -20,7 +20,7 @@ import javax.sql.DataSource;
 @EnableTransactionManagement
 @Configuration
 public class TestConfig {
-
+/*
     @Value("classpath:hsqldb.sql")
     private Resource hsqldb;
 
@@ -56,4 +56,6 @@ public class TestConfig {
         return new DataSourceTransactionManager(ds);
     }
 
+
+ */
 }

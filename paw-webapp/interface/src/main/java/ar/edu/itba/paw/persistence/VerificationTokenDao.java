@@ -13,5 +13,5 @@ public interface VerificationTokenDao {
 
     VerificationToken createToken(User user, String token, LocalDateTime expiryDate, TokenType type);
 
-    void deleteTokenByUserId(User user, TokenType type);
+    void deleteTokenByUserId(long userId, TokenType type);
 }

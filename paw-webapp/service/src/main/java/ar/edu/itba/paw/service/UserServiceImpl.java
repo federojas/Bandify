@@ -18,7 +18,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ResourceUtils;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -39,11 +38,11 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private GenreService genreService;
     @Autowired
-    private ImageService imageService;
-    @Autowired
     private MailingService mailingService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
+    private static final int MAX_USER_GENRES = 15;
+    private static final int MAX_USER_ROLES = 15;
 
     @Override
     public Optional<User> getUserById(long id) {
@@ -58,7 +57,7 @@ public class UserServiceImpl implements UserService {
             throw new DuplicateUserException();
         }
         User user = userDao.create(userBuilder);
-        final VerificationToken token = verificationTokenService.generate(user.getId(), TokenType.VERIFY);
+        final VerificationToken token = verificationTokenService.generate(user, TokenType.VERIFY);
         Locale locale = LocaleContextHolder.getLocale();
         LocaleContextHolder.setLocale(locale, true);
         mailingService.sendVerificationEmail(user, token, locale);
@@ -72,7 +71,7 @@ public class UserServiceImpl implements UserService {
 
         verificationTokenService.deleteTokenByUserId(user.getId(), TokenType.VERIFY);
 
-        VerificationToken token = verificationTokenService.generate(user.getId(), TokenType.VERIFY);
+        VerificationToken token = verificationTokenService.generate(user, TokenType.VERIFY);
 
         Locale locale = LocaleContextHolder.getLocale();
         LocaleContextHolder.setLocale(locale, true);
@@ -82,10 +81,11 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public void editUser(long userId, String name, String surname, String description, List<String> genresNames, List<String> rolesNames, byte[] image) {
-        userDao.editUser(userId, name, surname, description);
-        genreService.updateUserGenres(genresNames, userId);
-        roleService.updateUserRoles(rolesNames, userId);
-        imageService.updateProfilePicture(userId, image);
+        User user = getUserById(userId).orElseThrow(UserNotFoundException::new);
+        user.editInfo(name, surname, description);
+        updateUserGenres(genresNames, user);
+        updateUserRoles(rolesNames, user);
+        updateProfilePicture(user,image);
     }
 
     @Override
@@ -93,9 +93,12 @@ public class UserServiceImpl implements UserService {
         return user.getUserRoles();
     }
 
+    @Transactional
     @Override
     public void updateUserRoles(List<String> rolesNames, User user) {
         Set<Role> roles = roleService.getRolesByNames(rolesNames);
+        if(roles.size() > MAX_USER_ROLES)
+            throw new IllegalArgumentException();
         user.setUserRoles(roles);
     }
 
@@ -104,9 +107,12 @@ public class UserServiceImpl implements UserService {
         return user.getUserGenres();
     }
 
+    @Transactional
     @Override
     public void updateUserGenres(List<String> genreNames, User user) {
         Set<Genre> genres = genreService.getGenresByNames(genreNames);
+        if(genres.size() > MAX_USER_GENRES)
+            throw new IllegalArgumentException();
         user.setUserGenres(genres);
     }
 
@@ -141,7 +147,7 @@ public class UserServiceImpl implements UserService {
         User user = userDao.findByEmail(email).orElseThrow(UserNotFoundException::new);
 
         verificationTokenService.deleteTokenByUserId(user.getId(), TokenType.RESET);
-        VerificationToken token = verificationTokenService.generate(user.getId(), TokenType.RESET);
+        VerificationToken token = verificationTokenService.generate(user, TokenType.RESET);
         Locale locale = LocaleContextHolder.getLocale();
         LocaleContextHolder.setLocale(locale, true);
         mailingService.sendResetPasswordEmail(user, token, locale);
@@ -156,7 +162,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public byte[] getProfilePicture(User user) throws IOException {
+    public byte[] getProfilePicture(long userId) throws IOException {
+        User user = getUserById(userId).orElseThrow(UserNotFoundException::new);
         byte[] image = user.getProfileImage();
         if(image == null) {
             File file;
@@ -170,6 +177,7 @@ public class UserServiceImpl implements UserService {
         return image;
     }
 
+    @Transactional
     @Override
     public void updateProfilePicture(User user, byte[] image) {
         if(image.length > 0)
