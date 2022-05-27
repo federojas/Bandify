@@ -1,19 +1,7 @@
 package ar.edu.itba.paw.service;
 
-import ar.edu.itba.paw.User;
-import ar.edu.itba.paw.model.exceptions.GenreNotFoundException;
-import ar.edu.itba.paw.Genre;
-import ar.edu.itba.paw.persistence.GenreDao;
-import org.junit.Assert;
-import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-
-import java.util.*;
-
-import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class GenreServiceTest {

@@ -1,22 +1,7 @@
 package ar.edu.itba.paw.service;
 
-import ar.edu.itba.paw.Application;
-import ar.edu.itba.paw.ApplicationState;
-import ar.edu.itba.paw.Audition;
-import ar.edu.itba.paw.User;
-import ar.edu.itba.paw.model.exceptions.PageNotFoundException;
-import ar.edu.itba.paw.persistence.ApplicationDao;
-import org.junit.Assert;
-import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-
-import java.time.LocalDateTime;
-import java.util.*;
-
-import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ApplicationServiceTest {

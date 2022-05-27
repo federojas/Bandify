@@ -1,6 +1,6 @@
 package ar.edu.itba.paw.service;
 
-import ar.edu.itba.paw.*;
+import ar.edu.itba.paw.model.*;
 import ar.edu.itba.paw.model.exceptions.DuplicateUserException;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.persistence.UserDao;

@@ -1,6 +1,6 @@
 package ar.edu.itba.paw.persistence;
 
-import ar.edu.itba.paw.User;
+import ar.edu.itba.paw.model.User;
 import java.util.Optional;
 
 public interface UserDao {

@@ -1,6 +1,6 @@
 package ar.edu.itba.paw.webapp.controller;
 
-import ar.edu.itba.paw.*;
+import ar.edu.itba.paw.model.*;
 import ar.edu.itba.paw.model.exceptions.AuditionNotOwnedException;
 import ar.edu.itba.paw.model.exceptions.AuditionNotFoundException;
 import ar.edu.itba.paw.model.exceptions.LocationNotFoundException;
@@ -107,8 +107,8 @@ public class AuditionsController {
         final ModelAndView mav = new ModelAndView("audition");
         Audition audition = auditionService.getAuditionById(id).orElseThrow(AuditionNotFoundException::new);
         User user = authFacadeService.getCurrentUser();
-        User band = userService.getUserById(audition.getBandId()).orElseThrow(UserNotFoundException::new);
-        mav.addObject("isOwner", audition.getBandId() == user.getId());
+        User band = userService.getUserById(audition.getBand().getId()).orElseThrow(UserNotFoundException::new);
+        mav.addObject("isOwner", audition.getBand().getId() == user.getId());
         mav.addObject("audition", audition);
         mav.addObject("user",band);
         return mav;
@@ -174,7 +174,7 @@ public class AuditionsController {
 
         User user = authFacadeService.getCurrentUser();
 
-        auditionService.create(auditionForm.toBuilder(user.getId()).
+        auditionService.create(auditionForm.toBuilder(user).
                 location(locationService.getLocationByName(auditionForm.getLocation()).orElseThrow(LocationNotFoundException::new)).
                 lookingFor(roleService.getRolesByNames(auditionForm.getLookingFor())).
                 musicGenres(genreService.getGenresByNames(auditionForm.getMusicGenres()))
@@ -201,7 +201,7 @@ public class AuditionsController {
 
         Audition audition = auditionService.getAuditionById(id).orElseThrow(AuditionNotFoundException::new);
 
-        if(user.getId() != audition.getBandId())
+        if(user.getId() != audition.getBand().getId())
             throw new AuditionNotOwnedException();
 
         ModelAndView mav = new ModelAndView("editAudition");
@@ -239,7 +239,7 @@ public class AuditionsController {
             return editAudition(auditionForm,id);
         }
 
-        auditionService.editAuditionById(auditionForm.toBuilder(user.getId()).
+        auditionService.editAuditionById(auditionForm.toBuilder(user).
                 location(locationService.getLocationByName(auditionForm.getLocation()).orElseThrow(LocationNotFoundException::new)).
                 lookingFor(roleService.getRolesByNames(auditionForm.getLookingFor())).
                 musicGenres(genreService.getGenresByNames(auditionForm.getMusicGenres())), id);

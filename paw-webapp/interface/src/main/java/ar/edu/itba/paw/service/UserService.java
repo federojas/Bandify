@@ -1,8 +1,8 @@
 package ar.edu.itba.paw.service;
 
-import ar.edu.itba.paw.Genre;
-import ar.edu.itba.paw.Role;
-import ar.edu.itba.paw.User;
+import ar.edu.itba.paw.model.Genre;
+import ar.edu.itba.paw.model.Role;
+import ar.edu.itba.paw.model.User;
 
 import java.io.IOException;
 import java.util.List;

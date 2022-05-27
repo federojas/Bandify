@@ -1,4 +1,4 @@
-package ar.edu.itba.paw;
+package ar.edu.itba.paw.model;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -65,6 +65,10 @@ public class Audition {
         musicGenres = builder.getMusicGenres();
         lookingFor = builder.getLookingFor();
         location = builder.getLocation();
+    }
+
+    /* Default */ Audition() {
+        // Just for Hibernate
     }
 
     public static class AuditionBuilder {

@@ -1,21 +1,7 @@
 package ar.edu.itba.paw.service;
 
-import ar.edu.itba.paw.TokenType;
-import ar.edu.itba.paw.User;
-import ar.edu.itba.paw.model.exceptions.DuplicateUserException;
-import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
-import ar.edu.itba.paw.persistence.UserDao;
-import org.junit.Assert;
-import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
-
-import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceTest {

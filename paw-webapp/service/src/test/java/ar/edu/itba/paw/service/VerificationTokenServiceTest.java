@@ -1,24 +1,7 @@
 package ar.edu.itba.paw.service;
 
-import ar.edu.itba.paw.TokenType;
-import ar.edu.itba.paw.VerificationToken;
-import ar.edu.itba.paw.model.exceptions.GenreNotFoundException;
-import ar.edu.itba.paw.model.exceptions.InvalidTokenException;
-import ar.edu.itba.paw.persistence.VerificationTokenDao;
-import org.junit.Assert;
-import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
-
-import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Optional;
-
-import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class VerificationTokenServiceTest {

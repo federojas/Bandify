@@ -1,4 +1,4 @@
-package ar.edu.itba.paw;
+package ar.edu.itba.paw.model;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -9,7 +9,7 @@ public class Genre {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "genres_id_seq")
     @SequenceGenerator(sequenceName = "genres_id_seq",name="genres_id_seq")
-    private long genreId;
+    private long id;
 
     @Column(name = "genre", length = 50, nullable = false, unique = true)
     private String genreName;
@@ -17,13 +17,13 @@ public class Genre {
     Genre() {
         //Hibernate
     }
-    public Genre(String genreName,long genreId ) {
+    public Genre(String genreName,long id) {
         this.genreName=genreName;
-        this.genreId=genreId;
+        this.id = id;
     }
 
     public long getId() {
-        return genreId;
+        return id;
     }
 
     public String getName() {
@@ -40,6 +40,6 @@ public class Genre {
 
     @Override
     public int hashCode() {
-        return Objects.hash(genreId, genreName);
+        return Objects.hash(id, genreName);
     }
 }

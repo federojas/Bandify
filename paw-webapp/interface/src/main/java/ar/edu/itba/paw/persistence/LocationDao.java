@@ -1,6 +1,6 @@
 package ar.edu.itba.paw.persistence;
 
-import ar.edu.itba.paw.Location;
+import ar.edu.itba.paw.model.Location;
 
 import java.util.List;
 import java.util.Optional;

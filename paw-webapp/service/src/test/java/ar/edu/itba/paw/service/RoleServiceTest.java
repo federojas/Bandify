@@ -1,16 +1,7 @@
 package ar.edu.itba.paw.service;
 
-import ar.edu.itba.paw.Role;
-import ar.edu.itba.paw.model.exceptions.RoleNotFoundException;
-import ar.edu.itba.paw.persistence.RoleDao;
-import org.junit.Assert;
-import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import java.util.*;
-import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class RoleServiceTest {

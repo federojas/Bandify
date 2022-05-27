@@ -1,7 +1,7 @@
 package ar.edu.itba.paw.persistence;
 
-import ar.edu.itba.paw.Audition;
-import ar.edu.itba.paw.AuditionFilter;
+import ar.edu.itba.paw.model.Audition;
+import ar.edu.itba.paw.model.AuditionFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,10 +46,12 @@ public class AuditionJpaDao implements AuditionDao {
         return query.getResultList();
     }
 
+    // TODO: se puede hacer mejor?
+
     @Override
     public int getTotalPages() {
         LOGGER.info("Getting total audition page count");
-        return em.createNativeQuery("SELECT COUNT(*) FROM auditions").getFirstResult();
+        return (int) Math.ceil(((BigInteger) em.createNativeQuery("SELECT COUNT(*) FROM auditions").getSingleResult()).doubleValue() / PAGE_SIZE);
     }
 
     @Override
@@ -63,7 +66,8 @@ public class AuditionJpaDao implements AuditionDao {
     @Override
     public int getTotalBandAuditionPages(long userId) {
         LOGGER.info("Getting total audition page count from user with id {}", userId);
-        return em.createNativeQuery("SELECT COUNT(*) FROM auditions WHERE bandId = :userId").setParameter("userId", userId).getFirstResult();
+        return (int) Math.ceil(((BigInteger) em.createNativeQuery("SELECT COUNT(*) FROM auditions WHERE bandId = :userId")
+                .setParameter("userId", userId).getSingleResult()).doubleValue() / PAGE_SIZE);
     }
 
     @Override
@@ -74,6 +78,7 @@ public class AuditionJpaDao implements AuditionDao {
             em.remove(audition);
     }
 
+    // TODO: TERMINAR
     @Override
     public List<Audition> filter(AuditionFilter filter, int page) {
         LOGGER.info("Getting auditions filtered in page {}", page);
@@ -87,6 +92,9 @@ public class AuditionJpaDao implements AuditionDao {
         query.setFirstResult(PAGE_SIZE * (page - 1)).setMaxResults(PAGE_SIZE);
         return query.getResultList();
     }
+
+    // TODO: TERMINAR
+
     @Override
     public int getTotalPages(AuditionFilter filter) {
         LOGGER.info("Getting total filtered audition page");

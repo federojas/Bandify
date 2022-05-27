@@ -1,4 +1,4 @@
-package ar.edu.itba.paw;
+package ar.edu.itba.paw.model;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

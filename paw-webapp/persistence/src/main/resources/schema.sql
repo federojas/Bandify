@@ -93,11 +93,12 @@ CREATE TABLE IF NOT EXISTS profileImages
 
 CREATE TABLE IF NOT EXISTS applications
 (
+    id BIGINT PRIMARY KEY,
     auditionId BIGINT NOT NULL,
     applicantId BIGINT NOT NULL,
     creationDate TIMESTAMP NOT NULL,
     state TEXT NOT NULL,
-    PRIMARY KEY(auditionId,applicantId),
+    UNIQUE(auditionId,applicantId),
     FOREIGN KEY (auditionId) REFERENCES auditions(id) ON DELETE CASCADE,
     FOREIGN KEY (applicantId) REFERENCES users(id) ON DELETE CASCADE
 );

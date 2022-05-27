@@ -1,6 +1,6 @@
 package ar.edu.itba.paw.persistence;
 
-import ar.edu.itba.paw.Role;
+import ar.edu.itba.paw.model.Role;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;

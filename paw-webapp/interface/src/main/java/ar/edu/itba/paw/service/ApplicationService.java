@@ -1,8 +1,8 @@
 package ar.edu.itba.paw.service;
 
-import ar.edu.itba.paw.Application;
-import ar.edu.itba.paw.ApplicationState;
-import ar.edu.itba.paw.User;
+import ar.edu.itba.paw.model.Application;
+import ar.edu.itba.paw.model.ApplicationState;
+import ar.edu.itba.paw.model.User;
 
 import java.util.List;
 

@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
-import org.springframework.core.io.Resource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -32,7 +31,6 @@ import org.springframework.web.servlet.view.JstlView;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.templatemode.TemplateMode;
-
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.persistence.EntityManagerFactory;
@@ -177,7 +175,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         final LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
-        factoryBean.setPackagesToScan("ar.edu.itba.model");
+        factoryBean.setPackagesToScan("ar.edu.itba.paw.model");
         factoryBean.setDataSource(dataSource());
         final JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         factoryBean.setJpaVendorAdapter(vendorAdapter);

@@ -1,7 +1,7 @@
 package ar.edu.itba.paw.persistence;
 
-import ar.edu.itba.paw.Audition;
-import ar.edu.itba.paw.AuditionFilter;
+import ar.edu.itba.paw.model.Audition;
+import ar.edu.itba.paw.model.AuditionFilter;
 
 import java.util.List;
 import java.util.Optional;

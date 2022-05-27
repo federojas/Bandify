@@ -1,8 +1,8 @@
 package ar.edu.itba.paw.persistence;
 
-import ar.edu.itba.paw.TokenType;
-import ar.edu.itba.paw.User;
-import ar.edu.itba.paw.VerificationToken;
+import ar.edu.itba.paw.model.TokenType;
+import ar.edu.itba.paw.model.User;
+import ar.edu.itba.paw.model.VerificationToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;

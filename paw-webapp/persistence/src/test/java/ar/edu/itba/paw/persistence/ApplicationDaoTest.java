@@ -1,25 +1,11 @@
 package ar.edu.itba.paw.persistence;
 
-import ar.edu.itba.paw.Application;
-import ar.edu.itba.paw.ApplicationState;
-import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.jdbc.JdbcTestUtils;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.sql.DataSource;
-
-import java.time.LocalDateTime;
-import java.util.*;
-
-import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfig.class)

@@ -1,21 +1,20 @@
 package ar.edu.itba.paw.persistence;
 
-import ar.edu.itba.paw.Application;
-import ar.edu.itba.paw.ApplicationState;
+import ar.edu.itba.paw.model.Application;
+import ar.edu.itba.paw.model.ApplicationState;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ApplicationDao {
 
     List<Application> getAuditionApplicationsByState(long auditionId, ApplicationState state, int page);
 
+    Optional<Application> findApplication(long auditionId, long applicantId);
+
     Application createApplication(Application.ApplicationBuilder applicationBuilder);
 
-    void setApplicationState(long auditionId, long applicantId, ApplicationState state);
-
     List<Application> getMyApplications(long applicantId, int page);
-
-    boolean exists(long auditionId, long id);
 
     int getTotalUserApplicationPages(long userId);
 

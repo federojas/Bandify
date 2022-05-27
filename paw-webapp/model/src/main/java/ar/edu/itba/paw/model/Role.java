@@ -1,4 +1,4 @@
-package ar.edu.itba.paw;
+package ar.edu.itba.paw.model;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -10,7 +10,7 @@ public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "roles_id_seq")
     @SequenceGenerator(sequenceName = "roles_id_seq",name="roles_id_seq")
-    private long roleId;
+    private long id;
 
     @Column(name = "role", length = 50, nullable = false, unique = true)
     private String roleName;
@@ -19,13 +19,13 @@ public class Role {
         //Hibernate
     }
 
-    public Role(long roleId, String roleName) {
-        this.roleId = roleId;
+    public Role(long id, String roleName) {
+        this.id = id;
         this.roleName = roleName;
     }
 
     public long getId() {
-        return roleId;
+        return id;
     }
 
     public String getName() {
@@ -42,6 +42,6 @@ public class Role {
 
     @Override
     public int hashCode() {
-        return Objects.hash(roleId, roleName);
+        return Objects.hash(id, roleName);
     }
 }

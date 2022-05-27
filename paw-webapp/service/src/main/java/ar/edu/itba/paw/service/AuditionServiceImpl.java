@@ -1,9 +1,9 @@
 package ar.edu.itba.paw.service;
 
-import ar.edu.itba.paw.Audition;
+import ar.edu.itba.paw.model.Audition;
 import ar.edu.itba.paw.model.exceptions.AuditionNotFoundException;
 import ar.edu.itba.paw.model.exceptions.AuditionNotOwnedException;
-import ar.edu.itba.paw.AuditionFilter;
+import ar.edu.itba.paw.model.AuditionFilter;
 import ar.edu.itba.paw.model.exceptions.PageNotFoundException;
 import ar.edu.itba.paw.persistence.*;
 import org.slf4j.Logger;

@@ -1,4 +1,4 @@
-package ar.edu.itba.paw;
+package ar.edu.itba.paw.model;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -73,7 +73,7 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return getId() == user.getId() && isBand() == user.isBand() && isEnabled() == user.isEnabled() && Objects.equals(getEmail(), user.getEmail()) && Objects.equals(getPassword(), user.getPassword()) && Objects.equals(getName(), user.getName()) && Objects.equals(getSurname(), user.getSurname()) && Objects.equals(getDescription(), user.getDescription());
+        return Objects.equals(getId(), user.getId()) && isBand() == user.isBand() && isEnabled() == user.isEnabled() && Objects.equals(getEmail(), user.getEmail()) && Objects.equals(getPassword(), user.getPassword()) && Objects.equals(getName(), user.getName()) && Objects.equals(getSurname(), user.getSurname()) && Objects.equals(getDescription(), user.getDescription());
     }
 
     @Override

@@ -1,4 +1,4 @@
-package ar.edu.itba.paw;
+package ar.edu.itba.paw.model;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -8,9 +8,8 @@ import java.util.Objects;
 public class Location {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "locations_locationid_seq")
-    @SequenceGenerator(sequenceName = "locations_locationid_seq", name = "locations_locationid_seq", allocationSize = 1)
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "locations_id_seq")
+    @SequenceGenerator(sequenceName = "locations_id_seq", name = "locations_id_seq", allocationSize = 1)
     private Long id;
 
     @Column(name = "location", length = 100, nullable = false, unique = true)

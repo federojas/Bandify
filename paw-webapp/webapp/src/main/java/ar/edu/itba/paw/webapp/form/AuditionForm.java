@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.webapp.form;
 
-import ar.edu.itba.paw.Audition;
+import ar.edu.itba.paw.model.Audition;
+import ar.edu.itba.paw.model.User;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -29,8 +30,8 @@ public class AuditionForm {
     @Size(max = 5)
     private List<String> lookingFor;
 
-    public Audition.AuditionBuilder toBuilder(long bandId) {
-        return new Audition.AuditionBuilder(title, description, bandId, LocalDateTime.now());
+    public Audition.AuditionBuilder toBuilder(User band) {
+        return new Audition.AuditionBuilder(title, description, band, LocalDateTime.now());
     }
 
     public String getTitle() {

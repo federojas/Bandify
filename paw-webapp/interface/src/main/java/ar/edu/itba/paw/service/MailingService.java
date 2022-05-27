@@ -1,8 +1,8 @@
 package ar.edu.itba.paw.service;
 
-import ar.edu.itba.paw.Audition;
-import ar.edu.itba.paw.User;
-import ar.edu.itba.paw.VerificationToken;
+import ar.edu.itba.paw.model.Audition;
+import ar.edu.itba.paw.model.User;
+import ar.edu.itba.paw.model.VerificationToken;
 
 import java.util.Locale;
 

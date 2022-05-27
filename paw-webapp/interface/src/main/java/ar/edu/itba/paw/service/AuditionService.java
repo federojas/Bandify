@@ -1,7 +1,7 @@
 package ar.edu.itba.paw.service;
 
-import ar.edu.itba.paw.AuditionFilter;
-import ar.edu.itba.paw.Audition;
+import ar.edu.itba.paw.model.AuditionFilter;
+import ar.edu.itba.paw.model.Audition;
 
 import java.util.List;
 import java.util.Optional;

@@ -59,9 +59,10 @@ prefix="spring" uri="http://www.springframework.org/tags"%>
           </h2>
           <div class="posts">
             <c:if test="${auditionList.size() == 0}">
-              <b><p >
-                <spring:message code="auditions.noAuditions"/>
-              </p>
+              <b>
+                <p>
+                  <spring:message code="auditions.noAuditions"/>
+                </p>
               </b>
             </c:if>
 
@@ -77,8 +78,8 @@ prefix="spring" uri="http://www.springframework.org/tags"%>
                       scope="request"
               />
               <jsp:include page="../components/postCard.jsp">
-                <jsp:param name="userName" value="${audition.bandName}"/>
-                <jsp:param name="userId" value="${audition.bandId}"/>
+                <jsp:param name="userName" value="${audition.band.name}"/>
+                <jsp:param name="userId" value="${audition.band.id}"/>
                 <jsp:param name="id" value="${audition.id}" />
                 <jsp:param name="postCard" value="${1}" />
                 <jsp:param name="auditionDate" value="${audition.creationDate}" />

@@ -1,6 +1,6 @@
 package ar.edu.itba.paw.persistence;
 
-import ar.edu.itba.paw.User;
+import ar.edu.itba.paw.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -35,7 +35,7 @@ public class UserJpaDao implements UserDao {
     @Override
     public Optional<User> findByEmail(String email) {
         LOGGER.info("Getting user with email {}", email);
-        final TypedQuery<User> query = em.createQuery("FROM User as u where u.email = :email", User.class);
+        final TypedQuery<User> query = em.createQuery("SELECT u FROM User as u where u.email = :email", User.class);
         query.setParameter("email", email);
         return query.getResultList().stream().findFirst();
     }

@@ -1,6 +1,6 @@
 package ar.edu.itba.paw.service;
 
-import ar.edu.itba.paw.Location;
+import ar.edu.itba.paw.model.Location;
 import ar.edu.itba.paw.persistence.LocationDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
