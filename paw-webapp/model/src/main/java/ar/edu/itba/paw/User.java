@@ -6,13 +6,13 @@ import java.util.Set;
 
 @Entity
 @Table(name = "users")
-@SecondaryTable(name = "profileimages", pkJoinColumns = @PrimaryKeyJoinColumn(name = "userid"))
+@SecondaryTable(name = "profileimages", pkJoinColumns = @PrimaryKeyJoinColumn(name = "userId"))
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_id_seq")
     @SequenceGenerator(name = "users_id_seq", sequenceName = "users_id_seq", allocationSize = 1)
-    private long id;
+    private Long id;
 
     @Column(length = 254, unique = true, nullable = false)
     private String email;
@@ -53,11 +53,11 @@ public class User {
     )
     private Set<Genre> userGenres;
 
-    User() {
-        //Hibernate
+    /* Default */ User() {
+        // Just for Hibernate
     }
 
-    private User(UserBuilder builder) {
+    public User(UserBuilder builder) {
         this.name = builder.name;
         this.surname = builder.surname;
         this.email = builder.email;
@@ -79,10 +79,6 @@ public class User {
     @Override
     public int hashCode() {
         return Objects.hash(getId(), getEmail(), getPassword(), getName(), getSurname(), getDescription(), isBand(), isEnabled());
-    }
-
-    public long getId() {
-        return id;
     }
 
     public String getEmail() {
@@ -125,6 +121,10 @@ public class User {
         return userGenres;
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public void setPassword(String password) {
         this.password = password;
     }
@@ -158,10 +158,14 @@ public class User {
     }
 
     public static class UserBuilder {
-        private long id;
-        private final String email, name;
+        private Long id;
+        private String email, name;
         private String surname, description, password;
-        private final boolean isBand, isEnabled;
+        private boolean isBand, isEnabled;
+
+        /* Default */ UserBuilder() {
+            // Just for Hibernate
+        }
 
         public UserBuilder(String email, String password, String name, boolean isBand, boolean isEnabled) {
             this.email = email;
@@ -171,7 +175,7 @@ public class User {
             this.isEnabled = isEnabled;
         }
 
-        public UserBuilder id(long id) {
+        public UserBuilder id(Long id) {
             this.id = id;
             return this;
         }
@@ -206,10 +210,6 @@ public class User {
 
         }
 
-        public long getId() {
-            return id;
-        }
-
         public String getEmail() {
             return email;
         }
@@ -236,6 +236,10 @@ public class User {
 
         public String getDescription() {
             return description;
+        }
+
+        public Long getId() {
+            return id;
         }
     }
 }

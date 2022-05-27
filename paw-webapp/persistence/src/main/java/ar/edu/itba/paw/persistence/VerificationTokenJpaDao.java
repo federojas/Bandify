@@ -1,11 +1,11 @@
 package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.TokenType;
+import ar.edu.itba.paw.User;
 import ar.edu.itba.paw.VerificationToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -29,26 +29,22 @@ public class VerificationTokenJpaDao implements VerificationTokenDao {
         return list.isEmpty() ? Optional.empty() : list.stream().findFirst();
     }
 
-    // TODO: deberia recibir un user
-    //  TODO: el modelo no tiene type ni state
     @Override
-    public VerificationToken createToken(long userId, String token, LocalDateTime expiryDate, TokenType type) {
-        LOGGER.debug("Creating {} token for user {}", type, userId);
-        final VerificationToken verificationToken = new VerificationToken(token,userId,expiryDate);
+    public VerificationToken createToken(User user, String token, LocalDateTime expiryDate, TokenType type) {
+        LOGGER.debug("Creating {} token for user {}", type, user.getId());
+        final VerificationToken verificationToken = new VerificationToken(token,user,expiryDate, type);
         em.persist(verificationToken);
         return verificationToken;
     }
 
-    //  TODO: el modelo no tiene type ni state
     @Override
-    public void deleteTokenByUserId(long userId, TokenType type) {
-
-        final TypedQuery<VerificationToken> query = em.createQuery("FROM VerificationToken as v where v.userId = :userId AND v.type = :type", VerificationToken.class);
-        query.setParameter("userId", userId);
+    public void deleteTokenByUserId(User user, TokenType type) {
+        final TypedQuery<VerificationToken> query = em.createQuery("SELECT v FROM VerificationToken as v where v.user.id = :userId AND v.type = :type", VerificationToken.class);
+        query.setParameter("userId", user.getId());
         query.setParameter("type", type);
         final List<VerificationToken> list = query.getResultList();
         if(!list.isEmpty()) {
-            LOGGER.debug("Deleting {} token of user {}", type, userId);
+            LOGGER.debug("Deleting {} token of user {}", type, user.getId());
             em.remove(list.stream().findFirst());
         }
     }

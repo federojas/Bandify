@@ -5,13 +5,13 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
-@Table(name = "verificationTokens")
+@Table(name = "verificationtokens")
 public class VerificationToken {
 
     private static final int EXPIRATION_DAYS = 1;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "verification_tokens_vt_id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "verificationtokens_tokenid_seq")
     @SequenceGenerator(sequenceName = "verificationtokens_tokenid_seq", name = "verificationtokens_tokenid_seq", allocationSize = 1)
     @Column(name = "tokenId")
     private long id;
@@ -27,14 +27,18 @@ public class VerificationToken {
     @Column(name = "expiryDate", nullable = false)
     private LocalDateTime expiryDate;
 
+    @Enumerated(EnumType.STRING)
+    private TokenType type;
+
     VerificationToken() {
         //Hibernate
     }
 
-    public VerificationToken(String token, User user, LocalDateTime expiryDate) {
+    public VerificationToken(String token, User user, LocalDateTime expiryDate, TokenType type) {
         this.token = token;
         this.user = user;
         this.expiryDate = expiryDate;
+        this.type = type;
     }
 
     public static LocalDateTime getNewExpiryDate() {
@@ -75,6 +79,14 @@ public class VerificationToken {
 
     public void setExpiryDate(LocalDateTime expiryDate) {
         this.expiryDate = expiryDate;
+    }
+
+    public TokenType getType() {
+        return type;
+    }
+
+    public void setType(TokenType type) {
+        this.type = type;
     }
 
     @Override
