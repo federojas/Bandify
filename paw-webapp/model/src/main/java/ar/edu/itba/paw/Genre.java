@@ -7,11 +7,11 @@ import java.util.Objects;
 public class Genre {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "roles_genreid_seq")
-    @SequenceGenerator(sequenceName = "genres_gereid_seq",name="genres_genreid_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "genres_id_seq")
+    @SequenceGenerator(sequenceName = "genres_id_seq",name="genres_id_seq")
     private long genreId;
 
-    @Column
+    @Column(name = "genre", length = 50, nullable = false, unique = true)
     private String genreName;
 
     Genre() {

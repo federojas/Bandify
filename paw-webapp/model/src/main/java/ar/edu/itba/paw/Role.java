@@ -8,16 +8,17 @@ import java.util.Objects;
 public class Role {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "roles_roleid_seq")
-    @SequenceGenerator(sequenceName = "roles_roleid_seq",name="roles_roleid_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "roles_id_seq")
+    @SequenceGenerator(sequenceName = "roles_id_seq",name="roles_id_seq")
     private long roleId;
 
-    @Column
+    @Column(name = "role", length = 50, nullable = false, unique = true)
     private String roleName;
 
     Role() {
         //Hibernate
     }
+
     public Role(long roleId, String roleName) {
         this.roleId = roleId;
         this.roleName = roleName;
