@@ -14,6 +14,7 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class RoleServiceTest {
+    /*
     @Mock
     private RoleDao roleDao;
 
@@ -45,5 +46,7 @@ public class RoleServiceTest {
         Assert.assertEquals(0,roleSet.size());
     }
 
+
+     */
 
 }

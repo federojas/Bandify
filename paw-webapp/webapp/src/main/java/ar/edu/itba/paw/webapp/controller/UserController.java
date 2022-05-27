@@ -20,24 +20,24 @@ import java.util.stream.Collectors;
 @Controller
 public class UserController {
 
+    // TODO: ya no haria falta que le pida al servicio por los roles y generos favoritos al mostrar el perfil
+    // por ejemplo, es mas, ya no harian falta esos metodos en el servicio.
     private final UserService userService;
     private final VerificationTokenService verificationTokenService;
     private final RoleService roleService;
     private final GenreService genreService;
-    private final ImageService imageService;
     private final ApplicationService applicationService;
     private final AuthFacadeService authFacadeService;
 
     @Autowired
     public UserController(final UserService userService, final VerificationTokenService verificationTokenService,
                           final RoleService roleService, final GenreService genreService,
-                          final ImageService imageService, final ApplicationService applicationService,
+                          final ApplicationService applicationService,
                           final AuthFacadeService authFacadeService) {
         this.userService = userService;
         this.verificationTokenService = verificationTokenService;
         this.roleService = roleService;
         this.genreService = genreService;
-        this.imageService = imageService;
         this.applicationService = applicationService;
         this.authFacadeService = authFacadeService;
     }
@@ -104,7 +104,7 @@ public class UserController {
 
             User user = authFacadeService.getCurrentUser();
 
-            if(user.getId() == userToVisit.getId())
+            if(Objects.equals(user.getId(), userToVisit.getId()))
                 return new ModelAndView("redirect:/profile");
         }
 
@@ -115,10 +115,10 @@ public class UserController {
     private ModelAndView setAndReturnProfileViewData(User userToVisit, ModelAndView mav) {
         mav.addObject("user", userToVisit);
 
-        Set<Genre> preferredGenres = genreService.getUserGenres(userToVisit.getId());
+        Set<Genre> preferredGenres = userService.getUserGenres(userToVisit);
         mav.addObject("preferredGenres", preferredGenres);
 
-        Set<Role> roles = roleService.getUserRoles(userToVisit.getId());
+        Set<Role> roles = userService.getUserRoles(userToVisit);
         mav.addObject("roles", roles);
 
         return mav;
@@ -144,7 +144,7 @@ public class UserController {
             produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
     @ResponseBody
     public byte[] profilePicture(@PathVariable(value = "userId") long userId) throws IOException {
-        return imageService.getProfilePicture(userId, userService.getUserById(userId).orElseThrow(UserNotFoundException::new).isBand());
+        return userService.getProfilePicture(userId);
     }
 
     @RequestMapping(value = "/profile/editArtist", method = {RequestMethod.GET})
@@ -163,8 +163,8 @@ public class UserController {
         User user = authFacadeService.getCurrentUser();
         Set<Role> roleList = roleService.getAll();
         Set<Genre> genreList = genreService.getAll();
-        Set<Role> userRoles = roleService.getUserRoles(user.getId());
-        Set<Genre> userGenres = genreService.getUserGenres(user.getId());
+        Set<Role> userRoles = userService.getUserRoles(user);
+        Set<Genre> userGenres = userService.getUserGenres(user);
         List<String> selectedRoles = userRoles.stream().map(Role::getName).collect(Collectors.toList());
         List<String> selectedGenres = userGenres.stream().map(Genre::getName).collect(Collectors.toList());
         editForm.initialize(user,selectedGenres,selectedRoles);

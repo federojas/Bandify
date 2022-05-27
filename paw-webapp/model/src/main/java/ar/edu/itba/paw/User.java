@@ -157,6 +157,12 @@ public class User {
         this.userGenres = userGenres;
     }
 
+    public void editInfo(String name, String surname, String description) {
+        setName(name);
+        setSurname(surname);
+        setDescription(description);
+    }
+
     public static class UserBuilder {
         private Long id;
         private String email, name;

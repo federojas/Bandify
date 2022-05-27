@@ -36,5 +36,5 @@ public interface UserService {
 
     void updateProfilePicture(User user, byte[] image);
 
-    byte[] getProfilePicture(User user) throws IOException;
+    byte[] getProfilePicture(long userId) throws IOException;
 }

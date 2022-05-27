@@ -54,31 +54,4 @@ public class UserJpaDao implements UserDao {
         user.ifPresent(value -> value.setEnabled(true));
     }
 
-    @Override
-    public void editUser(long id, String name, String surname, String description) {
-        LOGGER.info("Editing user with id {}", id);
-        Optional<User> optionalUser = getUserById(id);
-        if(optionalUser.isPresent()) {
-            User user = optionalUser.get();
-            user.setDescription(description);
-            user.setDescription(name);
-            user.setDescription(surname);
-        }
-    }
-
-    @Override
-    public byte[] updateProfilePicture(long userId, byte[] image) {
-        LOGGER.info("Updating profile picture from user with id {}", userId);
-        Optional<User> user = getUserById(userId);
-        user.ifPresent(value -> value.setProfileImage(image));
-        return image;
-    }
-
-    @Override
-    public Optional<byte[]> getProfilePicture(long userId) {
-        LOGGER.info("Getting profile picture from user with id {}", userId);
-        Optional<User> user = getUserById(userId);
-        return user.map(User::getProfileImage);
-    }
-
 }

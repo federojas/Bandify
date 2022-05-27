@@ -22,6 +22,7 @@ import java.util.*;
 @Service
 public class ApplicationServiceImpl implements ApplicationService {
 
+
     @Autowired
     private ApplicationDao applicationDao;
 

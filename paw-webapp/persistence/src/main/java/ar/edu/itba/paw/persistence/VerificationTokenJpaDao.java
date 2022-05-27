@@ -38,13 +38,13 @@ public class VerificationTokenJpaDao implements VerificationTokenDao {
     }
 
     @Override
-    public void deleteTokenByUserId(User user, TokenType type) {
+    public void deleteTokenByUserId(long userId, TokenType type) {
         final TypedQuery<VerificationToken> query = em.createQuery("SELECT v FROM VerificationToken as v where v.user.id = :userId AND v.type = :type", VerificationToken.class);
-        query.setParameter("userId", user.getId());
+        query.setParameter("userId", userId);
         query.setParameter("type", type);
         final List<VerificationToken> list = query.getResultList();
         if(!list.isEmpty()) {
-            LOGGER.debug("Deleting {} token of user {}", type, user.getId());
+            LOGGER.debug("Deleting {} token of user {}", type, userId);
             em.remove(list.stream().findFirst());
         }
     }

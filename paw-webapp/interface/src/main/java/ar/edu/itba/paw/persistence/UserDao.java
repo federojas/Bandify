@@ -14,9 +14,4 @@ public interface UserDao {
 
     void verifyUser(long userId);
 
-    void editUser(long id, String name, String surname, String description);
-
-    byte[] updateProfilePicture(long userId, byte[] image);
-
-    Optional<byte[]> getProfilePicture(long userId);
 }

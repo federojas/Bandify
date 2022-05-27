@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.service;
 
+import ar.edu.itba.paw.User;
 import ar.edu.itba.paw.model.exceptions.InvalidTokenException;
 import ar.edu.itba.paw.TokenType;
 import ar.edu.itba.paw.VerificationToken;
@@ -67,9 +68,9 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
 
     @Transactional
     @Override
-    public VerificationToken generate(long userId, TokenType type) {
+    public VerificationToken generate(User user, TokenType type) {
         final String token = UUID.randomUUID().toString();
-        return verificationTokenDao.createToken(userId, token, VerificationToken.getNewExpiryDate(), type);
+        return verificationTokenDao.createToken(user, token, VerificationToken.getNewExpiryDate(), type);
     }
 
 }
