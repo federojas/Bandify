@@ -1,30 +1,62 @@
 package ar.edu.itba.paw;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+@Entity
+@Table(name = "auditions")
 public class Audition {
-    private final long id, bandId;
-    private final String title, description;
-    private final LocalDateTime creationDate;
-    private final Location location;
-    private final Set<Genre> musicGenres;
-    private final Set<Role> lookingFor;
-    private final String bandName;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "auditions_id_seq")
+    @SequenceGenerator(name = "auditions_id_seq", sequenceName = "auditions_id_seq", allocationSize = 1)
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "bandId")
+    private User band;
+
+    @Column(length = 50, nullable = false)
+    private String title;
+
+    @Column(length = 300, nullable = false)
+    private String description;
+
+    @Column(nullable = false)
+    private LocalDateTime creationDate;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "locationId")
+    private Location location;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "auditiongenres",
+            joinColumns = @JoinColumn(name = "auditionId"),
+            inverseJoinColumns = @JoinColumn(name = "genreId")
+    )
+    private Set<Genre> musicGenres;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "auditionroles",
+            joinColumns = @JoinColumn(name = "auditionId"),
+            inverseJoinColumns = @JoinColumn(name = "roleId")
+    )
+    private Set<Role> lookingFor;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Audition audition = (Audition) o;
-        return getId() == audition.getId() && getBandId() == audition.getBandId() && getTitle().equals(audition.getTitle()) && getDescription().equals(audition.getDescription()) && getCreationDate().equals(audition.getCreationDate()) && getLocation().equals(audition.getLocation()) && getMusicGenres().equals(audition.getMusicGenres()) && getLookingFor().equals(audition.getLookingFor());
+        return getId() == audition.getId() && getBand() == audition.getBand() && getTitle().equals(audition.getTitle()) && getDescription().equals(audition.getDescription()) && getCreationDate().equals(audition.getCreationDate()) && getLocation().equals(audition.getLocation()) && getMusicGenres().equals(audition.getMusicGenres()) && getLookingFor().equals(audition.getLookingFor());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getBandId(), getTitle(), getDescription(), getCreationDate(), getLocation(), getMusicGenres(), getLookingFor());
+        return Objects.hash(getId(), getBand(), getTitle(), getDescription(), getCreationDate(), getLocation(), getMusicGenres(), getLookingFor());
     }
 
     public static class AuditionBuilder {
@@ -33,15 +65,14 @@ public class Audition {
         private Location location;
         private Set<Genre> musicGenres;
         private Set<Role> lookingFor;
-        private final long bandId;
-        private long id;
-        private String bandName;
+        private final User band;
+        private Long id;
 
-        public AuditionBuilder(String title, String description,long bandId, LocalDateTime creationDate) {
+        public AuditionBuilder(String title, String description,User band, LocalDateTime creationDate) {
             this.creationDate = creationDate;
             this.title = title;
             this.description = description;
-            this.bandId = bandId;
+            this.band = band;
             this.lookingFor = new HashSet<>();
             this.musicGenres = new HashSet<>();
         }
@@ -76,11 +107,6 @@ public class Audition {
             return this;
         }
 
-        public AuditionBuilder bandName(String bandName) {
-            this.bandName = bandName;
-            return this;
-        }
-
         public Audition build() {
             return new Audition(this);
         }
@@ -97,8 +123,8 @@ public class Audition {
             return creationDate;
         }
 
-        public long getBandId() {
-            return bandId;
+        public User getBand() {
+            return band;
         }
 
         public Location getLocation() {
@@ -113,34 +139,29 @@ public class Audition {
             return lookingFor;
         }
 
-        public long getId() {
+        public Long getId() {
             return id;
-        }
-
-        public String getBandName() {
-            return bandName;
         }
 
     }
 
     private Audition(AuditionBuilder builder) {
         id = builder.id;
-        bandId = builder.bandId;
+        band = builder.band;
         title = builder.title;
         description = builder.description;
         location = builder.location;
         creationDate = builder.creationDate;
         musicGenres = builder.musicGenres;
         lookingFor = builder.lookingFor;
-        bandName = builder.bandName;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public long getBandId() {
-        return bandId;
+    public User getBand() {
+        return band;
     }
 
     public String getTitle() {
@@ -153,10 +174,6 @@ public class Audition {
 
     public LocalDateTime getCreationDate() {
         return creationDate;
-    }
-
-    public String getBandName() {
-        return bandName;
     }
 
     public Location getLocation() {
