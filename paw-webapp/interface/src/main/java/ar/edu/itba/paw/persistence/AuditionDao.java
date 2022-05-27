@@ -24,7 +24,5 @@ public interface AuditionDao {
 
     void deleteAuditionById(long id);
 
-    void editAuditionById(Audition.AuditionBuilder builder, long id);
-
     List<Audition> filter(AuditionFilter filter, int page);
 }

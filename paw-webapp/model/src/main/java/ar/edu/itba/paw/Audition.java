@@ -59,6 +59,14 @@ public class Audition {
         return Objects.hash(getId(), getBand(), getTitle(), getDescription(), getCreationDate(), getLocation(), getMusicGenres(), getLookingFor());
     }
 
+    public void edit(AuditionBuilder builder) {
+        title = builder.getTitle();
+        description = builder.getDescription();
+        musicGenres = builder.getMusicGenres();
+        lookingFor = builder.getLookingFor();
+        location = builder.getLocation();
+    }
+
     public static class AuditionBuilder {
         private final String title, description;
         private final LocalDateTime creationDate;

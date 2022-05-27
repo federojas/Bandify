@@ -41,7 +41,8 @@ public class AuditionServiceImpl implements AuditionService {
     public void editAuditionById(Audition.AuditionBuilder builder, long id) {
         checkAuditionId(id);
         checkPermissions(id);
-        auditionDao.editAuditionById(builder, id);
+        Optional<Audition> audition = getAuditionById(id);
+        audition.ifPresent(value -> value.edit(builder));
     }
 
     @Override
@@ -94,7 +95,7 @@ public class AuditionServiceImpl implements AuditionService {
     }
  
     private void checkPermissions(long id) {
-        if(getAuditionById(id).orElseThrow(AuditionNotFoundException::new).getBandId() !=
+        if(getAuditionById(id).orElseThrow(AuditionNotFoundException::new).getBand().getId() !=
                 authFacadeService.getCurrentUser().getId()) {
             LOGGER.warn("The authenticated user is not the audition owner");
             throw new AuditionNotOwnedException();
