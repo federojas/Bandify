@@ -50,7 +50,7 @@ public class ApplicationServiceImpl implements ApplicationService {
         }
         applicationDao.createApplication(new Application.ApplicationBuilder(auditionService.
                 getAuditionById(auditionId).orElseThrow(AuditionNotFoundException::new)
-                ,user,ApplicationState.PENDING, LocalDateTime.now()));
+                ,user,ApplicationState.PENDING, LocalDateTime.now(), message));
         Audition aud = auditionService.getAuditionById(auditionId).orElseThrow(AuditionNotFoundException::new);
         User band = userService.getUserById(aud.getBand().getId()).orElseThrow(UserNotFoundException::new);
         String bandEmail = band.getEmail();

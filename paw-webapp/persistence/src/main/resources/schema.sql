@@ -98,6 +98,7 @@ CREATE TABLE IF NOT EXISTS applications
     applicantId BIGINT NOT NULL,
     creationDate TIMESTAMP NOT NULL,
     state TEXT NOT NULL,
+    message VARCHAR(300) NOT NULL,
     UNIQUE(auditionId,applicantId),
     FOREIGN KEY (auditionId) REFERENCES auditions(id) ON DELETE CASCADE,
     FOREIGN KEY (applicantId) REFERENCES users(id) ON DELETE CASCADE

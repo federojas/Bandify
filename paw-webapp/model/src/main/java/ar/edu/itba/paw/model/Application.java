@@ -28,6 +28,9 @@ public class Application {
     @Column(nullable = false)
     private LocalDateTime creationDate;
 
+    @Column(length = 300, nullable = false)
+    private String message;
+
     /* Default */ Application() {
         // Just for Hibernate
     }
@@ -38,6 +41,15 @@ public class Application {
         this.state = builder.state;
         this.creationDate = builder.creationDate;
         this.id = builder.id;
+        this.message = builder.message;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public Long getId() {
@@ -70,16 +82,18 @@ public class Application {
         private User applicant;
         private ApplicationState state;
         private LocalDateTime creationDate;
+        private String message;
 
         /* Default */ ApplicationBuilder() {
             // Just for Hibernate
         }
 
-        public ApplicationBuilder(Audition audition, User applicant, ApplicationState state, LocalDateTime creationDate) {
+        public ApplicationBuilder(Audition audition, User applicant, ApplicationState state, LocalDateTime creationDate, String message) {
             this.audition = audition;
             this.applicant = applicant;
             this.state = state;
             this.creationDate = creationDate;
+            this.message = message;
         }
 
         ApplicationBuilder id(Long id) {
@@ -121,6 +135,22 @@ public class Application {
 
         public Application build() {
             return new Application(this);
+        }
+
+        public Long getId() {
+            return id;
+        }
+
+        public void setId(Long id) {
+            this.id = id;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
         }
     }
 }
