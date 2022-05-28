@@ -67,9 +67,9 @@ public class ApplicationJpaDao implements ApplicationDao {
     @Override
     public int getTotalAuditionApplicationsByStatePages(long auditionId, ApplicationState state) {
         return (int) Math.ceil(((BigInteger) em.createNativeQuery(
-                "SELECT COUNT(*) FROM applications WHERE auditionId = :auditionId AND state=:state")
+                "SELECT COUNT(*) FROM applications WHERE auditionId = :auditionId AND state=cast(:state AS text)")
                 .setParameter("auditionId", auditionId)
-                .setParameter("state", state).getSingleResult()).doubleValue() / PAGE_SIZE);
+                .setParameter("state", state.getState()).getSingleResult()).doubleValue() / PAGE_SIZE);
     }
 
     @Override
@@ -82,8 +82,8 @@ public class ApplicationJpaDao implements ApplicationDao {
     @Override
     public int getTotalUserApplicationPagesFiltered(long userId, ApplicationState state) {
         return (int) Math.ceil(((BigInteger) em.createNativeQuery(
-                "SELECT COUNT(*) FROM applications WHERE applicantid=:applicantId AND state=:state")
+                "SELECT COUNT(*) FROM applications WHERE applicantid=:applicantId AND state=cast(:state AS text)")
                 .setParameter("applicantId", userId)
-                .setParameter("state", state).getSingleResult()).doubleValue() / PAGE_SIZE);
+                .setParameter("state", state.getState()).getSingleResult()).doubleValue() / PAGE_SIZE);
     }
 }

@@ -74,10 +74,10 @@
                 <c:if test="${applications.size() > 0}">
                     <c:forEach var="app" items="${applications}">
                         <jsp:include page="../components/applicationItem.jsp">
-                            <jsp:param name="applicantName" value="${app.applicantName}" />
-                            <jsp:param name="applicantSurname" value="${app.applicantSurname}" />
-                            <jsp:param name="auditionId" value="${app.auditionId}" />
-                            <jsp:param name="userId" value="${app.applicantId}" />
+                            <jsp:param name="applicantName" value="${app.applicant.name}" />
+                            <jsp:param name="applicantSurname" value="${app.applicant.surname}" />
+                            <jsp:param name="auditionId" value="${app.audition.id}" />
+                            <jsp:param name="userId" value="${app.applicant.id}" />
                             <jsp:param name="actionable" value="${app.state.state=='PENDING'}" />
                         </jsp:include>
                     </c:forEach>

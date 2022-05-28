@@ -28,8 +28,8 @@
       <c:if test="${pendingApps.size() > 0}">
         <c:forEach var="app" items="${pendingApps}" varStatus="loop">
           <jsp:include page="applicationItem.jsp">
-            <jsp:param name="applicantName" value="${app.applicantName}" />
-            <jsp:param name="applicantSurname" value="${app.applicantSurname}" />
+            <jsp:param name="applicantName" value="${app.applicant.name}" />
+            <jsp:param name="applicantSurname" value="${app.applicant.surname}" />
             <jsp:param name="auditionId" value="${param.auditionId}" />
             <jsp:param name="userId" value="${app.applicantId}" />
             <jsp:param name="actionable" value="true" />
@@ -46,10 +46,10 @@
       <c:if test="${acceptedApps.size() > 0}">
         <c:forEach var="app" items="${acceptedApps}" varStatus="loop">
           <jsp:include page="applicationItem.jsp">
-            <jsp:param name="applicantName" value="${app.applicantName}" />
-            <jsp:param name="applicantSurname" value="${app.applicantSurname}" />
+            <jsp:param name="applicantName" value="${app.applicant.name}" />
+            <jsp:param name="applicantSurname" value="${app.applicant.surname}" />
             <jsp:param name="auditionId" value="${param.auditionId}" />
-            <jsp:param name="userId" value="${app.applicantId}" />
+            <jsp:param name="userId" value="${app.applicant.id}" />
             <jsp:param name="actionable" value="false" />
           </jsp:include>
         </c:forEach>
@@ -64,10 +64,10 @@
       <c:if test="${rejectedApps.size() > 0}">
         <c:forEach var="app" items="${rejectedApps}" varStatus="loop">
           <jsp:include page="applicationItem.jsp">
-            <jsp:param name="applicantName" value="${app.applicantName}" />
-            <jsp:param name="applicantSurname" value="${app.applicantSurname}" />
+            <jsp:param name="applicantName" value="${app.applicant.name}" />
+            <jsp:param name="applicantSurname" value="${app.applicant.surname}" />
             <jsp:param name="auditionId" value="${param.auditionId}" />
-            <jsp:param name="userId" value="${app.applicantId}" />
+            <jsp:param name="userId" value="${app.applicant.id}" />
             <jsp:param name="actionable" value="false" />
           </jsp:include>
         </c:forEach>
