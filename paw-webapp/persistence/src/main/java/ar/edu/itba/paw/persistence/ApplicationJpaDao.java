@@ -24,7 +24,6 @@ public class ApplicationJpaDao implements ApplicationDao {
         final TypedQuery<Application> query = em.createQuery("FROM Application as a where a.audition.id =:auditionId and a.state =:state",
                 Application.class);
         query.setParameter("auditionId", auditionId);
-        // TODO: va state o state.getState() ?
         query.setParameter("state", state);
         query.setFirstResult(PAGE_SIZE * (page - 1)).setMaxResults(PAGE_SIZE);
         return new ArrayList<>(query.getResultList());
@@ -60,14 +59,11 @@ public class ApplicationJpaDao implements ApplicationDao {
         final TypedQuery<Application> query = em.createQuery("FROM Application as a where a.applicant.id =:applicantId and a.state =:state",
                 Application.class);
         query.setParameter("applicantId", applicantId);
-        // TODO: va state o state.getState() ?
         query.setParameter("state", state);
         query.setFirstResult(PAGE_SIZE * (page - 1)).setMaxResults(PAGE_SIZE);
         return new ArrayList<>(query.getResultList());
     }
 
-
-    // TODO: va state o state.getState() ?
     @Override
     public int getTotalAuditionApplicationsByStatePages(long auditionId, ApplicationState state) {
         return (int) Math.ceil(((BigInteger) em.createNativeQuery(
@@ -86,7 +82,7 @@ public class ApplicationJpaDao implements ApplicationDao {
     @Override
     public int getTotalUserApplicationPagesFiltered(long userId, ApplicationState state) {
         return (int) Math.ceil(((BigInteger) em.createNativeQuery(
-                "SELECT COUNT(*) FROM applications WHERE applicantId = :applicantId AND state=:state")
+                "SELECT COUNT(*) FROM applications WHERE applicantid=:applicantId AND state=:state")
                 .setParameter("applicantId", userId)
                 .setParameter("state", state).getSingleResult()).doubleValue() / PAGE_SIZE);
     }

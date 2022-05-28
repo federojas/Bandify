@@ -93,7 +93,7 @@ CREATE TABLE IF NOT EXISTS profileImages
 
 CREATE TABLE IF NOT EXISTS applications
 (
-    id BIGINT PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     auditionId BIGINT NOT NULL,
     applicantId BIGINT NOT NULL,
     creationDate TIMESTAMP NOT NULL,

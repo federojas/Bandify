@@ -38,7 +38,7 @@ public class RoleJpaDao implements RoleDao {
     @Override
     public Optional<Role> getRoleByName(String name) {
         LOGGER.info("Getting role with name {}", name);
-        final TypedQuery<Role> query = em.createQuery("FROM Role as r where r.name = :name", Role.class);
+        final TypedQuery<Role> query = em.createQuery("FROM Role as r where r.roleName = :name", Role.class);
         query.setParameter("name", name);
         return query.getResultList().stream().findFirst();
     }
@@ -46,7 +46,7 @@ public class RoleJpaDao implements RoleDao {
     @Override
     public Set<Role> getRolesByNames(List<String> rolesNames) {
         LOGGER.info("Getting roles with names {}", rolesNames);
-        final TypedQuery<Role> query = em.createQuery("FROM Role as r where r.name in :names", Role.class);
+        final TypedQuery<Role> query = em.createQuery("FROM Role as r where r.roleName in :names", Role.class);
         query.setParameter("names", rolesNames);
         return new HashSet<>(query.getResultList());
     }

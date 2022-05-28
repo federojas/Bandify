@@ -75,8 +75,8 @@
                     <c:forEach var="artistApplication" items="${artistApplications}">
                         <jsp:include page="../components/artistApplicationItem.jsp">
                             <jsp:param name="artistApplicationState" value="${artistApplication.state}"/>
-                            <jsp:param name="auditionTitle" value="${artistApplication.auditionTitle}"/>
-                            <jsp:param name="auditionId" value="${artistApplication.auditionId}"/>
+                            <jsp:param name="auditionTitle" value="${artistApplication.audition.title}"/>
+                            <jsp:param name="auditionId" value="${artistApplication.audition.id}"/>
                         </jsp:include>
                     </c:forEach>
                 </c:if>
