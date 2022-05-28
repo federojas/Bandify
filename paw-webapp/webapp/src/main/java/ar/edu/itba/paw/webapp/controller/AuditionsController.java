@@ -264,6 +264,21 @@ public class AuditionsController {
         mav.addObject("lastPage", lastPage);
         return mav;
     }
+    @RequestMapping(value = "/bandAuditions/{bandId}", method = {RequestMethod.GET})
+    public ModelAndView profilePublicAuditions(@PathVariable long bandId, @RequestParam(value = "page", defaultValue = "1") int page) {
+        ModelAndView mav = new ModelAndView("profileAuditions");
+
+        User user = userService.getUserById(bandId).orElseThrow(UserNotFoundException::new);
+        List<Audition> auditionList = auditionService.getBandAuditions(bandId, page);
+        int lastPage = auditionService.getTotalBandAuditionPages(user.getId());
+        lastPage = lastPage == 0 ? 1 : lastPage;
+        mav.addObject("userName", user.getName());
+        mav.addObject("userId", user.getId());
+        mav.addObject("auditionList", auditionList);
+        mav.addObject("currentPage", page);
+        mav.addObject("lastPage", lastPage);
+        return mav;
+    }
 
     @RequestMapping(value = "/auditions/{auditionId}", method = {RequestMethod.POST})
     public ModelAndView evaluateApplication(@PathVariable long auditionId,

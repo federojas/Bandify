@@ -53,6 +53,17 @@
                             </c:if>
 
                         </div>
+                            <div class="auditions-div">
+                                <ul>
+                                    <li class="pt-2">
+                                        <a href="<c:url value="/bandAuditions/${user.id}"/>">
+                                            <button class="auditions-btn hover: shadow-sm">
+                                                <spring:message code="viewprofile.watchAuditions"/>  <c:out value=" ${user.name}" />
+                                            </button>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
                     </div>
                 </div>
                 <!-- Right Side -->
