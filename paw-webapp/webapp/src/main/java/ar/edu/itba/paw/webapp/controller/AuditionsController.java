@@ -254,6 +254,7 @@ public class AuditionsController {
         ModelAndView mav = new ModelAndView("profileAuditions");
 
         User user = authFacadeService.getCurrentUser();
+
         List<Audition> auditionList = auditionService.getBandAuditions(user.getId(), page);
         int lastPage = auditionService.getTotalBandAuditionPages(user.getId());
         lastPage = lastPage == 0 ? 1 : lastPage;
@@ -262,6 +263,8 @@ public class AuditionsController {
         mav.addObject("auditionList", auditionList);
         mav.addObject("currentPage", page);
         mav.addObject("lastPage", lastPage);
+        mav.addObject("isPropietary", true);
+
         return mav;
     }
     @RequestMapping(value = "/bandAuditions/{bandId}", method = {RequestMethod.GET})
@@ -277,7 +280,15 @@ public class AuditionsController {
         mav.addObject("auditionList", auditionList);
         mav.addObject("currentPage", page);
         mav.addObject("lastPage", lastPage);
-        return mav;
+        if(user.getId().equals(authFacadeService.getCurrentUser().getId())){
+            mav.addObject("isPropietary", true);
+
+        }else{
+            mav.addObject("isPropietary", false);
+
+        }
+
+            return mav;
     }
 
     @RequestMapping(value = "/auditions/{auditionId}", method = {RequestMethod.POST})

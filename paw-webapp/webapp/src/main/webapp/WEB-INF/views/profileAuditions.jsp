@@ -2,6 +2,8 @@
         prefix="form" uri="http://www.springframework.org/tags/form" %> <%@ page
         contentType="text/html;charset=UTF-8" language="java" %> <%@ taglib
         prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <html>
 <head>
     <title><spring:message code="title.profileauditions"/></title>
@@ -21,9 +23,16 @@
 <main>
     <!-- Auditions content -->
     <div class="auditions-content">
+        <c:if test="${isPropietary}">
         <h2 id="posts">
             <spring:message code="profile.auditions" />
         </h2>
+        </c:if>
+        <c:if test="${!isPropietary}">
+            <h2 id="posts">
+                <spring:message code="viewprofile.watchAuditions"/>  <c:out value=" ${userName}" />
+            </h2>
+        </c:if>
 
         <div class="posts">
             <c:if test="${auditionList.size() == 0}">
