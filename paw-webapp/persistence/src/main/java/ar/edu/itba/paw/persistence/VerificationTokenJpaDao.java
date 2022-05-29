@@ -43,9 +43,9 @@ public class VerificationTokenJpaDao implements VerificationTokenDao {
         query.setParameter("userId", userId);
         query.setParameter("type", type);
         final List<VerificationToken> list = query.getResultList();
-        if(!list.isEmpty()) {
+        if(list.stream().findFirst().isPresent()) {
             LOGGER.debug("Deleting {} token of user {}", type, userId);
-            em.remove(list.stream().findFirst());
+            em.remove(list.stream().findFirst().get());
         }
     }
 
