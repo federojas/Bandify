@@ -5,6 +5,8 @@ import ar.edu.itba.paw.model.exceptions.RoleNotFoundException;
 import ar.edu.itba.paw.persistence.RoleDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -23,7 +25,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public Set<Role> getRolesByNames(List<String> rolesNames) {
         if(rolesNames == null)
-            throw new IllegalArgumentException();
+            return new HashSet<>();
         List<String> roles = roleDao.getAll().stream().map(Role::getName).collect(Collectors.toList());
 
         if(!roles.containsAll(rolesNames))

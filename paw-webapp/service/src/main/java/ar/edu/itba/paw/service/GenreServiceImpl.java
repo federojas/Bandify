@@ -6,6 +6,7 @@ import ar.edu.itba.paw.persistence.GenreDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -25,7 +26,7 @@ public class GenreServiceImpl implements GenreService{
     public Set<Genre> getGenresByNames(List<String> genresNames) {
 
         if(genresNames == null)
-            throw new IllegalArgumentException();
+            return new HashSet<>();
 
         List<String> genres = genreDao.getAll().stream().map(Genre::getName).collect(Collectors.toList());
 
