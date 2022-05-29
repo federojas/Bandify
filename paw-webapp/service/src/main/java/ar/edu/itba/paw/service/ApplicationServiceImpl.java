@@ -142,4 +142,8 @@ public class ApplicationServiceImpl implements ApplicationService {
                 throw new IllegalArgumentException();
     }
 
+    @Override
+    public boolean alreadyApplied(long auditionId, long applicantId) {
+        return applicationDao.findApplication(auditionId,applicantId).isPresent();
+    }
 }

@@ -112,12 +112,14 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
                 </ul>
               </div>
               <sec:authorize access="hasRole('ARTIST')">
-                <div class="audition-application">
-                  <jsp:include page="../components/applicationForm.jsp">
-                    <jsp:param name="auditionForm" value="${1}" />
-                    <jsp:param name="auditionFormId" value="${audition.id}" />
-                  </jsp:include>
-                </div>
+                <c:if test="${!alreadyApplied}">
+                  <div class="audition-application">
+                    <jsp:include page="../components/applicationForm.jsp">
+                      <jsp:param name="auditionForm" value="${1}" />
+                      <jsp:param name="auditionFormId" value="${audition.id}" />
+                    </jsp:include>
+                  </div>
+                </c:if>
               </sec:authorize>
             </div>
           </div>
@@ -161,6 +163,7 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
             </jsp:include>
           </div>
         </c:if>
+      </div>
       </div>
     </main>
     <jsp:include page="../components/footer.jsp">

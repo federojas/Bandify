@@ -108,9 +108,11 @@ public class AuditionsController {
         Audition audition = auditionService.getAuditionById(id).orElseThrow(AuditionNotFoundException::new);
         User user = authFacadeService.getCurrentUser();
         User band = userService.getUserById(audition.getBand().getId()).orElseThrow(UserNotFoundException::new);
+        boolean alreadyApplied = applicationService.alreadyApplied(id, user.getId());
         mav.addObject("isOwner", audition.getBand().getId() == user.getId());
         mav.addObject("audition", audition);
         mav.addObject("user",band);
+        mav.addObject("alreadyApplied", alreadyApplied);
         return mav;
     }
 

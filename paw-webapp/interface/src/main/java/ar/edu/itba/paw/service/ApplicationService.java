@@ -25,4 +25,6 @@ public interface ApplicationService {
     List<Application> getMyApplicationsFiltered(long applicantId, int page, ApplicationState state);
 
     int getTotalAuditionApplicationByStatePages(long auditionId, ApplicationState state);
+
+    boolean alreadyApplied(long auditionId, long applicantId);
 }
