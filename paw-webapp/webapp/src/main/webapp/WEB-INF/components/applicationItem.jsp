@@ -25,11 +25,11 @@
     </div>
 
     <div class="collapsible-body applicant-body">
-        <span><c:out value="${param.message}"/></span>
+        <span style="overflow-wrap: break-word;"><c:out value="${param.message}"/></span>
         <div class="applicant-body-end">
             <div class="purple-button">
                 <c:url value="/user/${param.userId}" var="userUrl"/>
-                <a href="${userUrl}">
+                <a href="${userUrl}" style="color: white;">
                     <spring:message code="applicants.seeProfile"/>
                 </a>
             </div>

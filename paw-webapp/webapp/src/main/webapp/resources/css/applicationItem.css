@@ -23,6 +23,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: end;
+    margin-top: 1rem;
 }
 
 .application-icon {
