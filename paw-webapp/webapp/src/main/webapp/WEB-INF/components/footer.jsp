@@ -26,9 +26,9 @@
         <div class="flex flex-row justify-between px-10">
             <spring:message code="footer.copyright" />
             <div>
-                <spring:message code="footer.mail" var="email" />
-                <spring:message code="footer.contactus" arguments="${email}" />
-
+                <b><spring:message code="footer.contactus"/></b>
+                <spring:eval expression="@environment.getProperty('mail.username')" var="mail"/>
+                <a href="mailto: ${mail}">${mail}</a>
             </div>
             <div >
                 <a class="languages-buttons right" href="<c:url value="?lang=es"/>"><spring:message code="footer.es"/></a>

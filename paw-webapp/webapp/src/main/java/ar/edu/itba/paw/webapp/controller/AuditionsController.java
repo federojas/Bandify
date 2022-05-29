@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 @Controller
 public class AuditionsController {
-
+    // TODO: Sacar las URLs del tipo success
     private final AuditionService auditionService;
     private final RoleService roleService;
     private final GenreService genreService;
@@ -180,7 +180,7 @@ public class AuditionsController {
                 musicGenres(genreService.getGenresByNames(auditionForm.getMusicGenres()))
         );
 
-        return new ModelAndView("redirect:/auditions");
+        return new ModelAndView("auditionSuccess");
     }
 
     @RequestMapping(value = "/success", method = {RequestMethod.GET})
