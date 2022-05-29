@@ -56,18 +56,37 @@
             </li>
 
             <div class="genres-div my-5">
-                <c:forEach var="genre"
+                <c:forEach var="role"
                            items="${requestScope.lookingFor}"
                            varStatus="loop">
-                    <span class="genre-span"><c:out value="${genre.name}" /></span>
+                    <div>
+                        <c:url value="/search" var="searchLink">
+                            <c:param name="query" value=""/>
+                            <c:param name="order" value="DESC"/>
+                            <c:param name="role" value="${role.name}"/>
+                        </c:url>
+                        <a href="${searchLink}">
+                            <span class="roles-span"><c:out value="${role.name}" /></span>
+                        </a>
+                    </div>
+
                 </c:forEach>
             </div>
 
             <div class="roles-div my-5">
-                <c:forEach var="role"
+                <c:forEach var="genre"
                            items="${requestScope.musicGenres}"
                            varStatus="loop">
-                    <span class="roles-span"><c:out value="${role.name}" /></span>
+                    <div>
+                        <c:url value="/search" var="searchLink">
+                            <c:param name="query" value=""/>
+                            <c:param name="order" value="DESC"/>
+                            <c:param name="genre" value="${genre.name}"/>
+                        </c:url>
+                        <a href="${searchLink}">
+                            <span class="genre-span"><c:out value="${genre.name}" /></span>
+                        </a>
+                    </div>
                 </c:forEach>
             </div>
         </ul>
