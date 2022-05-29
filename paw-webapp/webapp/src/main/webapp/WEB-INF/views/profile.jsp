@@ -213,6 +213,50 @@
                             </c:if>
                         </div>
                     </div>
+                    <%--social networks    --%>
+                    <div class="user-data">
+                        <div class="about-section-heading">
+                    <span>
+
+                            <p><spring:message code="profile.socialMedia"/> </p>
+
+                    </span>
+                        </div>
+                        <div class="roles-div">
+                        <%--      TODO:SI NO TIENE REDES SOCIALES MARCADAS --%>
+                            <c:if test="${roles.size() == 0}">
+                                    <p><spring:message code="profile.noSocialMedia"/></p>
+                            </c:if>
+
+                        </div>
+                        <div class="social-media-container">
+                            <img class="social-media-icons"
+                            <spring:message code="profile.twitter.alt" var="twitter"/>
+                                 src="<c:url value="/resources/images/twitter.png"/>"
+                                 alt="${twitter}">
+                            <img class="social-media-icons"
+                            <spring:message code="profile.facebook.alt" var="facebook"/>
+                                 src="<c:url value="/resources/images/facebook.png"/>"
+                                 alt="${facebook}">
+                            <img class="social-media-icons"
+                            <spring:message code="profile.instagram.alt" var="instagram"/>
+                                 src="<c:url value="/resources/images/instagram.png"/>"
+                                 alt="${instagram}">
+                            <img class="social-media-icons"
+                            <spring:message code="profile.youtube.alt" var="youtube"/>
+                                 src="<c:url value="/resources/images/youtube.png"/>"
+                                 alt="${youtube}">
+                            <img class="social-media-icons"
+                            <spring:message code="profile.spotify.alt" var="spotify"/>
+                                 src="<c:url value="/resources/images/spotify.png"/>"
+                                 alt="${spotify}">
+                            <img class="social-media-icons"
+                            <spring:message code="profile.soundcloud.alt" var="soundcloud"/>
+                                 src="<c:url value="/resources/images/soundcloud.png"/>"
+                                 alt="${soundcloud}">
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </div>

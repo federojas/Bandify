@@ -224,7 +224,13 @@ auditions-title-div {
     margin: 0.25rem;
 
 }
-
+.social-media-icons{
+    max-width: 2rem;
+}
+.social-media-container{
+    display: flex;
+    justify-content: space-evenly
+}
 .edit-div {
     display: flex;
     justify-content: center;
