@@ -22,7 +22,7 @@ public class LocationJpaDao implements LocationDao {
     @Override
     public List<Location> getAll() {
         LOGGER.debug("Getting all locations");
-        final TypedQuery<Location> query = em.createQuery("FROM Location", Location.class);
+        final TypedQuery<Location> query = em.createQuery("FROM Location as l ORDER BY l.name ASC", Location.class);
         return query.getResultList();
     }
 

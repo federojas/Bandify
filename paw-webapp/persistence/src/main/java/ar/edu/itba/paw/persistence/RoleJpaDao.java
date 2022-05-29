@@ -25,7 +25,7 @@ public class RoleJpaDao implements RoleDao {
     @Override
     public Set<Role> getAll() {
         LOGGER.info("Getting all roles");
-        final TypedQuery<Role> query = em.createQuery("FROM Role as r", Role.class);
+        final TypedQuery<Role> query = em.createQuery("FROM Role as r order by r.roleName", Role.class);
         return new HashSet<>(query.getResultList());
     }
 

@@ -24,7 +24,7 @@ public class GenreJpaDao implements GenreDao {
     @Override
     public Set<Genre> getAll() {
         LOGGER.debug("Getting all genres");
-        final TypedQuery<Genre> query = em.createQuery("FROM Genre", Genre.class);
+        final TypedQuery<Genre> query = em.createQuery("FROM Genre as g order by g.genreName", Genre.class);
         final List<Genre> list = query.getResultList();
         return new HashSet<>(list);
     }
