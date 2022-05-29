@@ -1,9 +1,8 @@
 package ar.edu.itba.paw.service;
 
-import ar.edu.itba.paw.model.Audition;
+import ar.edu.itba.paw.model.*;
 import ar.edu.itba.paw.model.exceptions.AuditionNotFoundException;
 import ar.edu.itba.paw.model.exceptions.AuditionNotOwnedException;
-import ar.edu.itba.paw.model.AuditionFilter;
 import ar.edu.itba.paw.model.exceptions.PageNotFoundException;
 import ar.edu.itba.paw.persistence.*;
 import org.slf4j.Logger;
@@ -20,6 +19,12 @@ public class AuditionServiceImpl implements AuditionService {
     private AuditionDao auditionDao;
     @Autowired
     private AuthFacadeService authFacadeService;
+    @Autowired
+    private GenreService genreService;
+    @Autowired
+    private RoleService roleService;
+    @Autowired
+    private LocationService locationService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AuditionServiceImpl.class);
 
@@ -81,17 +86,22 @@ public class AuditionServiceImpl implements AuditionService {
     }
     
     @Override
-    public List<Audition> filter(AuditionFilter filter, int page) {
+    public List<Audition> filter(FilterOptions filter, int page) {
         int lastPage = getFilterTotalPages(filter);
         lastPage = lastPage == 0 ? 1 : lastPage;
         checkPage(page, lastPage);
-        return auditionDao.filter(filter, page);
+        Set<Genre> genres = genreService.getGenresByNames(filter.getGenresNames());
+        Set<Role> roles = roleService.getRolesByNames(filter.getRolesNames());
+        Set<Location> locations = new HashSet<>();
+        return auditionDao.filter(new AuditionFilter(genres,roles,locations,filter.getTitle()), page);
     }
     
     @Override   
-    public int getFilterTotalPages(AuditionFilter filter) {
-
-         return auditionDao.getTotalPages(filter);
+    public int getFilterTotalPages(FilterOptions filter) {
+        Set<Genre> genres = genreService.getGenresByNames(filter.getGenresNames());
+        Set<Role> roles = roleService.getRolesByNames(filter.getRolesNames());
+        Set<Location> locations = new HashSet<>();
+        return auditionDao.getTotalPages(new AuditionFilter(genres,roles,locations,filter.getTitle()));
     }
  
     private void checkPermissions(long id) {

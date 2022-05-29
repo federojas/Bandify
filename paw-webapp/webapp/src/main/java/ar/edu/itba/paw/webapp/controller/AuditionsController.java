@@ -75,7 +75,7 @@ public class AuditionsController {
                                 @RequestParam(value = "order", defaultValue = "desc") String order) {
         final ModelAndView mav = new ModelAndView("search");
 
-        AuditionFilter filter = new AuditionFilter.AuditionFilterBuilder().
+        FilterOptions filter = new FilterOptions.FilterOptionsBuilder().
                 withGenres(genres == null ? null : Arrays.asList(genres))
                 .withRoles(roles == null ? null : Arrays.asList(roles))
                 .withLocations(locations == null ? null : Arrays.asList(locations))

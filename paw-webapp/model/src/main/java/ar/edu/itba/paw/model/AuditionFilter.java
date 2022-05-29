@@ -1,86 +1,49 @@
 package ar.edu.itba.paw.model;
 
-import java.util.List;
+import java.util.Set;
 
 public class AuditionFilter {
+    private Set<Genre> genres;
+    private Set<Role> roles;
+    private Set<Location> locations;
+    private String title;
 
-    private final List<String> genresNames;
-    private final List<String> rolesNames;
-    private final List<String> locations;
-    private final String title;
-    private final String order;
-
-    private AuditionFilter(AuditionFilterBuilder builder) {
-        this.genresNames = builder.genresNames;
-        this.rolesNames = builder.rolesNames;
-        this.locations = builder.locations;
-        this.title = builder.title;
-        this.order = builder.order;
+    public AuditionFilter(Set<Genre> genres, Set<Role> roles, Set<Location> locations, String title) {
+        this.genres = genres;
+        this.roles = roles;
+        this.locations = locations;
+        this.title = title;
     }
 
-    public static class AuditionFilterBuilder {
-        private List<String> genresNames;
-        private List<String> rolesNames;
-        private List<String> locations;
-        private String title;
-        private String order;
-
-        public AuditionFilterBuilder() {
-            this.order = "DESC";
-        }
-
-        public AuditionFilterBuilder withGenres(List<String> genresNames) {
-            this.genresNames = genresNames;
-            return this;
-        }
-
-        public AuditionFilterBuilder withRoles(List<String> rolesNames) {
-            this.rolesNames = rolesNames;
-            return this;
-        }
-
-        public AuditionFilterBuilder withLocations(List<String> locations) {
-            this.locations = locations;
-            return this;
-        }
-
-        public AuditionFilterBuilder withTitle(String title) {
-            this.title = title;
-            return this;
-        }
-
-        public AuditionFilterBuilder withOrder(String order) {
-            if(order.equalsIgnoreCase("ASC"))
-                this.order = order;
-            else
-                this.order = "DESC";
-            return this;
-        }
-
-        public AuditionFilter build() {
-            return new AuditionFilter(this);
-        }
+    public Set<Genre> getGenres() {
+        return genres;
     }
 
-    public List<String> getGenresNames() {
-        return genresNames;
+    public void setGenres(Set<Genre> genres) {
+        this.genres = genres;
     }
 
-    public List<String> getRolesNames() {
-        return rolesNames;
+    public Set<Role> getRoles() {
+        return roles;
     }
 
-    public List<String> getLocations() {
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public Set<Location> getLocations() {
         return locations;
     }
 
-    public String getOrder() {
-        return order;
+    public void setLocations(Set<Location> locations) {
+        this.locations = locations;
     }
 
     public String getTitle() {
-        if(title == null)
-            return "";
         return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

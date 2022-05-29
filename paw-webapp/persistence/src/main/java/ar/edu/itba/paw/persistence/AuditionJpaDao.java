@@ -1,7 +1,6 @@
 package ar.edu.itba.paw.persistence;
 
-import ar.edu.itba.paw.model.Audition;
-import ar.edu.itba.paw.model.AuditionFilter;
+import ar.edu.itba.paw.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -9,9 +8,9 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.*;
 import java.math.BigInteger;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Repository
 public class AuditionJpaDao implements AuditionDao {
@@ -78,27 +77,48 @@ public class AuditionJpaDao implements AuditionDao {
             em.remove(audition);
     }
 
-    // TODO: TERMINAR
     @Override
-    public List<Audition> filter(AuditionFilter filter, int page) {
+    public List<Audition> filter(AuditionFilter auditionFilter, int page) {
         LOGGER.info("Getting auditions filtered in page {}", page);
-        String filteredTitle = filter.getTitle().equals("") ? null : "%" + filter.getTitle().replace("%", "\\%").replace("_", "\\_").toLowerCase() + "%";
 
-        String queryString = "FROM Audition as a WHERE a.location.name IN :locationFilter AND LOWER(a.title) LIKE :titleFilter ORDER BY a.creationDate " + filter.getOrder();
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Audition> cq = cb.createQuery(Audition.class);
+        Root<Audition> root = cq.from(Audition.class);
 
-        final TypedQuery<Audition> query = em.createQuery(queryString, Audition.class);
-        query.setParameter("locationFilter", filter.getLocations());
-        query.setParameter("titleFilter", filteredTitle);
-        query.setFirstResult(PAGE_SIZE * (page - 1)).setMaxResults(PAGE_SIZE);
-        return query.getResultList();
+        Expression<Set<Genre>> genres = root.get("musicGenres");
+        for(Genre genre : auditionFilter.getGenres()){
+            Predicate containsGenres = cb.isMember(genre,genres);
+            cq.where(containsGenres);
+        }
+
+        Expression<Set<Role>> roles = root.get("lookingFor");
+        for(Role role : auditionFilter.getRoles()){
+            Predicate containsRoles = cb.isMember(role,roles);
+            cq.where(containsRoles);
+        }
+
+        if(!auditionFilter.getLocations().isEmpty())
+            cq.select(root).where(root.get("location").in(auditionFilter.getLocations()));
+
+        if(!auditionFilter.getTitle().isEmpty())
+        {
+            String filteredTitle = auditionFilter.getTitle().equals("") ? null : "%" +
+                    auditionFilter.getTitle().replace("%", "\\%").
+                            replace("_", "\\_").toLowerCase() + "%";
+            Expression<String> title = root.get("title");
+            cq.where(cb.like(title,filteredTitle));
+        }
+        return em.createQuery(cq).setFirstResult(PAGE_SIZE * (page - 1)).
+                setMaxResults(PAGE_SIZE).getResultList();
     }
 
-    // TODO: TERMINAR
-
+    // TODO: FALTA ESTO
     @Override
-    public int getTotalPages(AuditionFilter filter) {
+    public int getTotalPages(AuditionFilter auditionFilter) {
         LOGGER.info("Getting total filtered audition page");
+
         return 0;
     }
+
 
 }

@@ -2,6 +2,7 @@ package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.model.Audition;
 import ar.edu.itba.paw.model.AuditionFilter;
+import ar.edu.itba.paw.model.FilterOptions;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,5 +25,5 @@ public interface AuditionDao {
 
     void deleteAuditionById(long id);
 
-    List<Audition> filter(AuditionFilter filter, int page);
+    List<Audition> filter(AuditionFilter auditionFilter, int page);
 }
