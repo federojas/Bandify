@@ -78,18 +78,36 @@
         <div class="pagination">
             <c:if test="${currentPage > 1}">
                 <spring:message code="pagination.previous.page.alt" var="previous"/>
-                <a href="<c:url value="/profile/auditions?page=${currentPage-1}"/>">
-                    <img src="<c:url value="/resources/images/page-next.png"/>"
-                         alt="${previous}" class="pagination-next rotate">
-                </a>
-            </c:if>
+                <c:if test="${isPropietary}">
+                    <a href="<c:url value="/profile/auditions?page=${currentPage-1}"/>">
+                        <img src="<c:url value="/resources/images/page-next.png"/>"
+                             alt="${previous}" class="pagination-next rotate">
+                    </a>
+                </c:if>
+
+                <c:if test="${!isPropietary}">
+                    <a href="<c:url value="/bandAuditions/${bandId}?page=${currentPage-1}"/>">
+                        <img src="<c:url value="/resources/images/page-next.png"/>"
+                             alt="${previous}" class="pagination-next rotate">
+                    </a>
+                </c:if>
+                </c:if>
             <b><spring:message code="page.current" arguments="${currentPage},${lastPage}" /></b>
             <c:if test="${currentPage < lastPage}">
                 <spring:message code="pagination.next.page.alt" var="next"/>
-                <a href="<c:url value="/profile/auditions?page=${currentPage+1}"/>">
-                    <img src="<c:url value="/resources/images/page-next.png"/>"
-                         alt="${next}" class="pagination-next">
-                </a>
+
+                <c:if test="${isPropietary}">
+                    <a href="<c:url value="/profile/auditions?page=${currentPage+1}"/>">
+                        <img src="<c:url value="/resources/images/page-next.png"/>"
+                             alt="${next}" class="pagination-next">
+                    </a>
+                </c:if>
+                <c:if test="${!isPropietary}">
+                    <a href="<c:url value="/bandAuditions/${bandId}?page=${currentPage+1}"/>">
+                        <img src="<c:url value="/resources/images/page-next.png"/>"
+                             alt="${next}" class="pagination-next">
+                    </a>
+                </c:if>
             </c:if>
         </div>
     </div>
