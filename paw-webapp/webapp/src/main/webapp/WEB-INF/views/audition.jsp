@@ -80,15 +80,6 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
                     </li>
                   </ul>
                 </div>
-                <!-- Right body part (form) -->
-                <sec:authorize access="hasRole('ARTIST')">
-                  <div class="audition-application">
-                    <jsp:include page="../components/applicationForm.jsp">
-                      <jsp:param name="auditionForm" value="${1}" />
-                      <jsp:param name="auditionFormId" value="${audition.id}" />
-                    </jsp:include>
-                  </div>
-                </sec:authorize>
               </div>
               <div class="card-info">
                 <ul>
@@ -120,8 +111,15 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
                   </li>
                 </ul>
               </div>
+              <sec:authorize access="hasRole('ARTIST')">
+                <div class="audition-application">
+                  <jsp:include page="../components/applicationForm.jsp">
+                    <jsp:param name="auditionForm" value="${1}" />
+                    <jsp:param name="auditionFormId" value="${audition.id}" />
+                  </jsp:include>
+                </div>
+              </sec:authorize>
             </div>
-
           </div>
         </div>
 
