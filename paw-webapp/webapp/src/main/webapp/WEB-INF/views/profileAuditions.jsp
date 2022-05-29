@@ -24,16 +24,15 @@
     <!-- Auditions content -->
     <div class="auditions-content">
         <c:if test="${isPropietary}">
-        <h2 id="posts">
-            <spring:message code="profile.auditions" />
-        </h2>
-        </c:if>
-        <c:if test="${!isPropietary}">
             <h2 id="posts">
-                <spring:message code="viewprofile.watchAuditions"/>  <c:out value=" ${userName}" />
+                <spring:message code="profile.auditions" />
             </h2>
         </c:if>
-
+        <c:if test="${!isPropietary}">
+            <h2 id="bandAuditions">
+                <spring:message code="profile.bandAuditions" arguments="${userName}"/>
+            </h2>
+        </c:if>
         <div class="posts">
             <c:if test="${auditionList.size() == 0}">
                 <b><p  class="no-auditions">

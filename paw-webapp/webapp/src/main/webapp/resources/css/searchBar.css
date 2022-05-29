@@ -16,8 +16,8 @@
     text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
     margin-left: 20px;
     margin-bottom: 10px;
+    word-break: break-word;
 }
-
 
 .search-button-container{
     display: flex;

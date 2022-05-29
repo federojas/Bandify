@@ -58,7 +58,7 @@
                                     <li class="pt-2">
                                         <a href="<c:url value="/bandAuditions/${user.id}"/>">
                                             <button class="auditions-btn hover: shadow-sm">
-                                                <spring:message code="viewprofile.watchAuditions"/>  <c:out value=" ${user.name}" />
+                                                <spring:message code="viewprofile.bandAuditions"/>
                                             </button>
                                         </a>
                                     </li>
