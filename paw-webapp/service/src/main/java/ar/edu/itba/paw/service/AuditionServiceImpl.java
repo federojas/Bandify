@@ -92,8 +92,8 @@ public class AuditionServiceImpl implements AuditionService {
         checkPage(page, lastPage);
         Set<Genre> genres = genreService.getGenresByNames(filter.getGenresNames());
         Set<Role> roles = roleService.getRolesByNames(filter.getRolesNames());
-        Set<Location> locations = new HashSet<>();
-        return auditionDao.filter(new AuditionFilter(genres,roles,locations,filter.getTitle()), page);
+        Set<Location> locations = locationService.getLocationsByNames(filter.getLocations());
+        return auditionDao.filter(new AuditionFilter(genres,roles,locations,filter.getTitle(), filter.getOrder()), page);
     }
     
     @Override   
@@ -101,7 +101,7 @@ public class AuditionServiceImpl implements AuditionService {
         Set<Genre> genres = genreService.getGenresByNames(filter.getGenresNames());
         Set<Role> roles = roleService.getRolesByNames(filter.getRolesNames());
         Set<Location> locations = new HashSet<>();
-        return auditionDao.getTotalPages(new AuditionFilter(genres,roles,locations,filter.getTitle()));
+        return auditionDao.getTotalPages(new AuditionFilter(genres,roles,locations,filter.getTitle(), filter.getOrder()));
     }
  
     private void checkPermissions(long id) {

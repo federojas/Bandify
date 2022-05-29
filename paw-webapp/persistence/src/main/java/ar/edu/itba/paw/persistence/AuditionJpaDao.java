@@ -85,29 +85,36 @@ public class AuditionJpaDao implements AuditionDao {
         CriteriaQuery<Audition> cq = cb.createQuery(Audition.class);
         Root<Audition> root = cq.from(Audition.class);
 
-        Expression<Set<Genre>> genres = root.get("musicGenres");
-        for(Genre genre : auditionFilter.getGenres()){
-            Predicate containsGenres = cb.isMember(genre,genres);
-            cq.where(containsGenres);
-        }
-
-        Expression<Set<Role>> roles = root.get("lookingFor");
-        for(Role role : auditionFilter.getRoles()){
-            Predicate containsRoles = cb.isMember(role,roles);
-            cq.where(containsRoles);
-        }
+        List<Predicate> predicates = new ArrayList<>();
 
         if(!auditionFilter.getLocations().isEmpty())
-            cq.select(root).where(root.get("location").in(auditionFilter.getLocations()));
+            predicates.add(root.get("location").in(auditionFilter.getLocations()));
 
-        if(!auditionFilter.getTitle().isEmpty())
-        {
-            String filteredTitle = auditionFilter.getTitle().equals("") ? null : "%" +
-                    auditionFilter.getTitle().replace("%", "\\%").
-                            replace("_", "\\_").toLowerCase() + "%";
-            Expression<String> title = root.get("title");
-            cq.where(cb.like(title,filteredTitle));
-        }
+        String title = auditionFilter.getTitle().equals("") ? null : "%" +
+                auditionFilter.getTitle().replace("%", "\\%").
+                        replace("_", "\\_").toLowerCase() + "%";
+
+        predicates.add(cb.like(cb.lower(root.get("title")), title));
+
+        cq.where(cb.and(predicates.toArray(new Predicate[]{})));
+
+        if(Objects.equals(auditionFilter.getOrder(), "DESC"))
+            cq.orderBy(cb.desc(root.get("creationDate")));
+        else
+            cq.orderBy(cb.asc(root.get("creationDate")));
+
+//        Expression<Set<Genre>> genres = root.get("musicGenres");
+//        for(Genre genre : auditionFilter.getGenres()) {
+//            cq.where(cb.and(cb.isMember(genre,genres)));
+//        }
+//
+//        Expression<Set<Role>> roles = root.get("lookingFor");
+//        for(Role role : auditionFilter.getRoles()) {
+//            cq.where(cb.and(cb.isMember(role,roles)));
+//        }
+//
+//
+
         return em.createQuery(cq).setFirstResult(PAGE_SIZE * (page - 1)).
                 setMaxResults(PAGE_SIZE).getResultList();
     }
@@ -115,7 +122,7 @@ public class AuditionJpaDao implements AuditionDao {
     // TODO: FALTA ESTO
     @Override
     public int getTotalPages(AuditionFilter auditionFilter) {
-        LOGGER.info("Getting total filtered audition page");
+        LOGGER.info("Getting total filtered audition pages");
 
         return 0;
     }

@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.model;
 
+import java.util.Objects;
 import java.util.Set;
 
 public class AuditionFilter {
@@ -7,12 +8,14 @@ public class AuditionFilter {
     private Set<Role> roles;
     private Set<Location> locations;
     private String title;
+    private String order;
 
-    public AuditionFilter(Set<Genre> genres, Set<Role> roles, Set<Location> locations, String title) {
+    public AuditionFilter(Set<Genre> genres, Set<Role> roles, Set<Location> locations, String title, String order) {
         this.genres = genres;
         this.roles = roles;
         this.locations = locations;
         this.title = title;
+        this.order = order;
     }
 
     public Set<Genre> getGenres() {
@@ -45,5 +48,13 @@ public class AuditionFilter {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getOrder() {
+        return order;
+    }
+
+    public void setOrder(String order) {
+        this.order = order;
     }
 }
