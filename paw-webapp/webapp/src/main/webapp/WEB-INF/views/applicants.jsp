@@ -72,15 +72,18 @@
                     </div>
                 </form>
                 <c:if test="${applications.size() > 0}">
-                    <c:forEach var="app" items="${applications}">
-                        <jsp:include page="../components/applicationItem.jsp">
-                            <jsp:param name="applicantName" value="${app.applicant.name}" />
-                            <jsp:param name="applicantSurname" value="${app.applicant.surname}" />
-                            <jsp:param name="auditionId" value="${app.audition.id}" />
-                            <jsp:param name="userId" value="${app.applicant.id}" />
-                            <jsp:param name="actionable" value="${app.state.state=='PENDING'}" />
-                        </jsp:include>
-                    </c:forEach>
+                    <ul class="collapsible applicants-ul">
+                        <c:forEach var="app" items="${applications}">
+                            <jsp:include page="../components/applicationItem.jsp">
+                                <jsp:param name="applicantName" value="${app.applicant.name}" />
+                                <jsp:param name="applicantSurname" value="${app.applicant.surname}" />
+                                <jsp:param name="auditionId" value="${app.audition.id}" />
+                                <jsp:param name="userId" value="${app.applicant.id}" />
+                                <jsp:param name="actionable" value="${app.state.state=='PENDING'}" />
+                                <jsp:param name="message" value="${app.message}"/>
+                            </jsp:include>
+                        </c:forEach>
+                    </ul>
                 </c:if>
                 <c:if test="${applications.size() == 0}">
                     <p class="no-applications">

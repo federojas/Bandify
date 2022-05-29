@@ -3014,7 +3014,7 @@ button.btn-floating {
   cursor: pointer;
   min-height: 3rem;
   line-height: 3rem;
-  padding: 0 1rem;
+  padding: 1rem;
   background-color: #fff;
   border-bottom: 1px solid #ddd; }
   .collapsible-header i {

@@ -9,9 +9,9 @@
     <link rel="stylesheet" href="<c:url value="/resources/css/applicationItem.css" />" />
 </head>
 <body>
-<div class="application-box">
+<li>
 
-    <a href="<c:url value="/user/${param.userId}"/>">
+    <div class="collapsible-header applicant-header">
         <div class="image-and-name">
             <spring:message code="profile.img.alt" var="img"/>
             <img class="postcard-profile-image"
@@ -22,32 +22,44 @@
                     <c:out value="${param.applicantName}"/> <c:out value="${param.applicantSurname}"/>
             </span>
         </div>
-    </a>
-
-    <div>
-        <spring:message code="application.accept" var="accept"/>
-        <spring:message code="application.reject" var="reject"/>
-        <c:if test="${param.actionable}">
-            <div class="application-icons">
-                <c:url value="/auditions/${param.auditionId}" var="acceptUrl">
-                    <c:param name="accept" value="true"/>
-                    <c:param name="userId" value="${param.userId}"/>
-                </c:url>
-                <c:url value="/auditions/${param.auditionId}" var="rejectUrl">
-                    <c:param name="accept" value="false"/>
-                    <c:param name="userId" value="${param.userId}"/>
-                </c:url>
-                <form action="${acceptUrl}" method="post">
-                    <button type="submit"><img src="<c:url value="/resources/icons/success.svg" />" alt="${accept}" class="application-icon"/></button>
-                </form>
-                <form action="${rejectUrl}" method="post">
-                    <button type="submit"><img src="<c:url value="/resources/icons/reject.svg" />" alt="${reject}" class="application-icon"/></button>
-                </form>
-            </div>
-        </c:if>
-
     </div>
-</div>
+
+    <div class="collapsible-body applicant-body">
+        <span><c:out value="${param.message}"/></span>
+        <div class="applicant-body-end">
+            <div class="purple-button">
+                <c:url value="/user/${param.userId}" var="userUrl"/>
+                <a href="${userUrl}">
+                    <spring:message code="applicants.seeProfile"/>
+                </a>
+            </div>
+            <div>
+                <spring:message code="application.accept" var="accept"/>
+                <spring:message code="application.reject" var="reject"/>
+                <c:if test="${param.actionable}">
+                    <div class="application-icons">
+                        <c:url value="/auditions/${param.auditionId}" var="acceptUrl">
+                            <c:param name="accept" value="true"/>
+                            <c:param name="userId" value="${param.userId}"/>
+                        </c:url>
+                        <c:url value="/auditions/${param.auditionId}" var="rejectUrl">
+                            <c:param name="accept" value="false"/>
+                            <c:param name="userId" value="${param.userId}"/>
+                        </c:url>
+                        <form action="${acceptUrl}" method="post">
+                            <button type="submit"><img src="<c:url value="/resources/icons/success.svg" />" alt="${accept}" class="application-icon"/></button>
+                        </form>
+                        <form action="${rejectUrl}" method="post">
+                            <button type="submit"><img src="<c:url value="/resources/icons/reject.svg" />" alt="${reject}" class="application-icon"/></button>
+                        </form>
+                    </div>
+                </c:if>
+
+            </div>
+        </div>
+    </div>
+
+</li>
 
 </body>
 </html>
