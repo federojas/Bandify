@@ -77,10 +77,7 @@ public class AuditionJpaDao implements AuditionDao {
             em.remove(audition);
     }
 
-    @Override
-    public List<Audition> filter(AuditionFilter auditionFilter, int page) {
-        LOGGER.info("Getting auditions filtered in page {}", page);
-
+    private CriteriaQuery<Audition> criteriaQuery(AuditionFilter auditionFilter) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Audition> cq = cb.createQuery(Audition.class);
         Root<Audition> root = cq.from(Audition.class);
@@ -92,7 +89,7 @@ public class AuditionJpaDao implements AuditionDao {
 
         if(!auditionFilter.getTitle().equals("")) {
             String title =  "%" + auditionFilter.getTitle().replace("%", "\\%").
-                            replace("_", "\\_").toLowerCase() + "%";
+                    replace("_", "\\_").toLowerCase() + "%";
             predicates.add(cb.like(cb.lower(root.get("title")), title));
         }
 
@@ -123,17 +120,21 @@ public class AuditionJpaDao implements AuditionDao {
         else
             cq.orderBy(cb.asc(root.get("creationDate")));
 
+        return cq;
+    }
+
+    @Override
+    public List<Audition> filter(AuditionFilter auditionFilter, int page) {
+        LOGGER.info("Getting auditions filtered in page {}", page);
+        CriteriaQuery<Audition> cq = criteriaQuery(auditionFilter);
         return em.createQuery(cq).setFirstResult(PAGE_SIZE * (page - 1)).
                 setMaxResults(PAGE_SIZE).getResultList();
     }
 
-    // TODO: FALTA ESTO
     @Override
     public int getTotalPages(AuditionFilter auditionFilter) {
-        LOGGER.info("Getting total filtered audition pages");
-
-        return 0;
+        CriteriaQuery<Audition> cq = criteriaQuery(auditionFilter);
+        return (int) Math.ceil( (double)  em.createQuery(cq).getResultList().size() / PAGE_SIZE);
     }
-
 
 }

@@ -84,7 +84,7 @@ public class AuditionServiceImpl implements AuditionService {
         LOGGER.debug("Audition {} will be deleted",id);
         auditionDao.deleteAuditionById(id);
     }
-    
+
     @Override
     public List<Audition> filter(FilterOptions filter, int page) {
         int lastPage = getFilterTotalPages(filter);
@@ -100,7 +100,7 @@ public class AuditionServiceImpl implements AuditionService {
     public int getFilterTotalPages(FilterOptions filter) {
         Set<Genre> genres = genreService.getGenresByNames(filter.getGenresNames());
         Set<Role> roles = roleService.getRolesByNames(filter.getRolesNames());
-        Set<Location> locations = new HashSet<>();
+        Set<Location> locations = locationService.getLocationsByNames(filter.getLocations());
         return auditionDao.getTotalPages(new AuditionFilter(genres,roles,locations,filter.getTitle(), filter.getOrder()));
     }
  
