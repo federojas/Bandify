@@ -81,8 +81,9 @@
                         code="edituser.form.invalidDescription"/></p>
             </div>
 
-
-            <jsp:include page="../components/socialMediaForm.jsp"/>
+            <div>
+                <jsp:include page="../components/socialMediaForm.jsp"/>
+            </div>
 
             <div class="select-div">
                 <form:label class="form-label" path="musicGenres">

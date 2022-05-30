@@ -31,7 +31,7 @@ public abstract class UserEditForm {
     @ImageType(types = {"image/png", "image/jpeg"})
     private CommonsMultipartFile profileImage;
 
-    @URL(protocol = "https", host = "www.twitter.com")
+    @URL(protocol = "https", host = "twitter.com")
     private String twitterUrl;
     @URL(protocol = "https", host = "www.instagram.com")
     private String instagramUrl;
@@ -39,9 +39,9 @@ public abstract class UserEditForm {
     private String facebookUrl;
     @URL(protocol = "https", host = "www.youtube.com")
     private String youtubeUrl;
-    @URL(protocol = "https", host = "www.spotify.com")
+    @URL(protocol = "https", host = "open.spotify.com")
     private String spotifyUrl;
-    @URL(protocol = "https", host = "www.soundcloud.com")
+    @URL(protocol = "https", host = "soundcloud.com")
     private String soundcloudUrl;
 
     private boolean isBand;
