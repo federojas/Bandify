@@ -90,11 +90,31 @@ public class AuditionJpaDao implements AuditionDao {
         if(!auditionFilter.getLocations().isEmpty())
             predicates.add(root.get("location").in(auditionFilter.getLocations()));
 
-        String title = auditionFilter.getTitle().equals("") ? null : "%" +
-                auditionFilter.getTitle().replace("%", "\\%").
-                        replace("_", "\\_").toLowerCase() + "%";
+        if(!auditionFilter.getTitle().equals("")) {
+            String title =  "%" + auditionFilter.getTitle().replace("%", "\\%").
+                            replace("_", "\\_").toLowerCase() + "%";
+            predicates.add(cb.like(cb.lower(root.get("title")), title));
+        }
 
-        predicates.add(cb.like(cb.lower(root.get("title")), title));
+        List<Predicate> genrePredicates = new ArrayList<>();
+        Expression<Set<Genre>> genres = root.get("musicGenres");
+        for(Genre genre : auditionFilter.getGenres()) {
+            genrePredicates.add(cb.isMember(genre,genres));
+        }
+        if(!genrePredicates.isEmpty()) {
+            Predicate genreOrPredicate = cb.or(genrePredicates.toArray(new Predicate[]{}));
+            predicates.add(genreOrPredicate);
+        }
+
+        List<Predicate> rolePredicates = new ArrayList<>();
+        Expression<Set<Role>> roles = root.get("lookingFor");
+        for(Role role : auditionFilter.getRoles()) {
+            rolePredicates.add(cb.isMember(role,roles));
+        }
+        if(!rolePredicates.isEmpty()) {
+            Predicate roleOrPredicate = cb.or(rolePredicates.toArray(new Predicate[]{}));
+            predicates.add(roleOrPredicate);
+        }
 
         cq.where(cb.and(predicates.toArray(new Predicate[]{})));
 
@@ -102,18 +122,6 @@ public class AuditionJpaDao implements AuditionDao {
             cq.orderBy(cb.desc(root.get("creationDate")));
         else
             cq.orderBy(cb.asc(root.get("creationDate")));
-
-//        Expression<Set<Genre>> genres = root.get("musicGenres");
-//        for(Genre genre : auditionFilter.getGenres()) {
-//            cq.where(cb.and(cb.isMember(genre,genres)));
-//        }
-//
-//        Expression<Set<Role>> roles = root.get("lookingFor");
-//        for(Role role : auditionFilter.getRoles()) {
-//            cq.where(cb.and(cb.isMember(role,roles)));
-//        }
-//
-//
 
         return em.createQuery(cq).setFirstResult(PAGE_SIZE * (page - 1)).
                 setMaxResults(PAGE_SIZE).getResultList();
