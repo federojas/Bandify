@@ -144,12 +144,12 @@
                             </span>
                         </div>
                         <div class="roles-div">
-                            <c:if test="${user.socialSocialMedia.size() == 0}">
+                            <c:if test="${socialMedia.size() == 0}">
                                 <p><spring:message code="viewprofile.nosocialmedia"/></p>
                             </c:if>
                         </div>
                         <div class="social-media-container">
-                            <c:forEach var="social" items="${user.socialSocialMedia}" varStatus="loop">
+                            <c:forEach var="social" items="${socialMedia}" varStatus="loop">
                                 <a href="<c:url value="${social.url}" />">
                                     <img class="social-media-icons"
                                         <spring:message code="profile.${social.type.type}.alt" var="${social.type.type}"/>

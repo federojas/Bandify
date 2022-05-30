@@ -108,6 +108,11 @@ public class UserServiceImpl implements UserService {
         return user.getUserGenres();
     }
 
+    @Override
+    public Set<SocialMedia> getUserSocialMedia(User user) {
+        return user.getSocialSocialMedia();
+    }
+
     @Transactional
     @Override
     public void updateUserGenres(List<String> genreNames, User user) {

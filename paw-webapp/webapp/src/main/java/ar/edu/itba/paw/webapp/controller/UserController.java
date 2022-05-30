@@ -121,6 +121,8 @@ public class UserController {
         Set<Role> roles = userService.getUserRoles(userToVisit);
         mav.addObject("roles", roles);
 
+        Set<SocialMedia> socialMedia = userService.getUserSocialMedia(userToVisit);
+        mav.addObject("socialMedia", socialMedia);
         return mav;
     }
 
@@ -165,9 +167,10 @@ public class UserController {
         Set<Genre> genreList = genreService.getAll();
         Set<Role> userRoles = userService.getUserRoles(user);
         Set<Genre> userGenres = userService.getUserGenres(user);
+        Set<SocialMedia> socialMedia = userService.getUserSocialMedia(user);
         List<String> selectedRoles = userRoles.stream().map(Role::getName).collect(Collectors.toList());
         List<String> selectedGenres = userGenres.stream().map(Genre::getName).collect(Collectors.toList());
-        editForm.initialize(user,selectedGenres,selectedRoles);
+        editForm.initialize(user,selectedGenres,selectedRoles, socialMedia);
         mav.addObject("user", user);
         mav.addObject("roleList", roleList);
         mav.addObject("genreList", genreList);

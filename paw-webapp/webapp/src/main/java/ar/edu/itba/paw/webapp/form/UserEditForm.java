@@ -31,18 +31,17 @@ public abstract class UserEditForm {
     @ImageType(types = {"image/png", "image/jpeg"})
     private CommonsMultipartFile profileImage;
 
-    // TODO: host?
-    @URL(protocol = "https")
+    @URL(protocol = "https", host = "www.twitter.com")
     private String twitterUrl;
-    @URL(protocol = "https")
+    @URL(protocol = "https", host = "www.instagram.com")
     private String instagramUrl;
-    @URL(protocol = "https")
+    @URL(protocol = "https", host = "www.facebook.com")
     private String facebookUrl;
-    @URL(protocol = "https")
+    @URL(protocol = "https", host = "www.youtube.com")
     private String youtubeUrl;
-    @URL(protocol = "https")
+    @URL(protocol = "https", host = "www.spotify.com")
     private String spotifyUrl;
-    @URL(protocol = "https")
+    @URL(protocol = "https", host = "www.soundcloud.com")
     private String soundcloudUrl;
 
     private boolean isBand;
@@ -143,28 +142,28 @@ public abstract class UserEditForm {
         this.soundcloudUrl = soundcloudUrl;
     }
 
-    public void initialize(User user, List<String> musicGenres, List<String> bandRoles) {
+    public void initialize(User user, List<String> musicGenres, List<String> bandRoles, Set<SocialMedia> socialMediaSet) {
         this.setMusicGenres(musicGenres);
         this.setLookingFor(bandRoles);
         this.setDescription(user.getDescription());
         this.setName(user.getName());
         this.setBand(user.isBand());
-        Optional<SocialMedia> twitter = user.getSocialSocialMedia().stream().filter(socialMedia -> socialMedia.getType().equals(UrlType.TWITTER)).findFirst();
+        Optional<SocialMedia> twitter = socialMediaSet.stream().filter(socialMedia -> socialMedia.getType().equals(UrlType.TWITTER)).findFirst();
         twitter.ifPresent(socialMedia -> this.setTwitterUrl(socialMedia.getUrl()));
 
-        Optional<SocialMedia> instagram = user.getSocialSocialMedia().stream().filter(socialMedia -> socialMedia.getType().equals(UrlType.INSTAGRAM)).findFirst();
+        Optional<SocialMedia> instagram = socialMediaSet.stream().filter(socialMedia -> socialMedia.getType().equals(UrlType.INSTAGRAM)).findFirst();
         instagram.ifPresent(socialMedia -> this.setInstagramUrl(socialMedia.getUrl()));
 
-        Optional<SocialMedia> facebook = user.getSocialSocialMedia().stream().filter(socialMedia -> socialMedia.getType().equals(UrlType.FACEBOOK)).findFirst();
+        Optional<SocialMedia> facebook = socialMediaSet.stream().filter(socialMedia -> socialMedia.getType().equals(UrlType.FACEBOOK)).findFirst();
         facebook.ifPresent(socialMedia -> this.setFacebookUrl(socialMedia.getUrl()));
 
-        Optional<SocialMedia> youtube = user.getSocialSocialMedia().stream().filter(socialMedia -> socialMedia.getType().equals(UrlType.YOUTUBE)).findFirst();
+        Optional<SocialMedia> youtube = socialMediaSet.stream().filter(socialMedia -> socialMedia.getType().equals(UrlType.YOUTUBE)).findFirst();
         youtube.ifPresent(socialMedia -> this.setYoutubeUrl(socialMedia.getUrl()));
 
-        Optional<SocialMedia> spotify = user.getSocialSocialMedia().stream().filter(socialMedia -> socialMedia.getType().equals(UrlType.SPOTIFY)).findFirst();
+        Optional<SocialMedia> spotify = socialMediaSet.stream().filter(socialMedia -> socialMedia.getType().equals(UrlType.SPOTIFY)).findFirst();
         spotify.ifPresent(socialMedia -> this.setSpotifyUrl(socialMedia.getUrl()));
 
-        Optional<SocialMedia> soundcloud = user.getSocialSocialMedia().stream().filter(socialMedia -> socialMedia.getType().equals(UrlType.SOUNDCLOUD)).findFirst();
+        Optional<SocialMedia> soundcloud = socialMediaSet.stream().filter(socialMedia -> socialMedia.getType().equals(UrlType.SOUNDCLOUD)).findFirst();
         soundcloud.ifPresent(socialMedia -> this.setSoundcloudUrl(socialMedia.getUrl()));
     }
 

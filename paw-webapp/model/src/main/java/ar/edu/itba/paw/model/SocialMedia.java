@@ -69,11 +69,11 @@ public class SocialMedia {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SocialMedia that = (SocialMedia) o;
-        return Objects.equals(user, that.user) && type == that.type;
+        return Objects.equals(user, that.user) && Objects.equals(url, that.url) && type == that.type;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(user, type);
+        return Objects.hash(user, url, type);
     }
 }

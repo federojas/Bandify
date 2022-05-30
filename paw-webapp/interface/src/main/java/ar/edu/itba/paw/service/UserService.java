@@ -30,6 +30,8 @@ public interface UserService {
 
     Set<Genre> getUserGenres(User user);
 
+    Set<SocialMedia> getUserSocialMedia(User user);
+
     void updateUserGenres(List<String> genreNames, User user);
 
     void updateProfilePicture(User user, byte[] image);
