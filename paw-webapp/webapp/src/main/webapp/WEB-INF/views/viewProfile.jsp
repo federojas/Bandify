@@ -53,17 +53,19 @@
                             </c:if>
 
                         </div>
-                            <div class="auditions-div">
-                                <ul>
-                                    <li class="pt-2">
-                                        <a href="<c:url value="/bandAuditions/${user.id}"/>">
-                                            <button class="auditions-btn hover: shadow-sm">
-                                                <spring:message code="viewprofile.bandAuditions"/>
-                                            </button>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
+                            <c:if test="${user.band}">
+                                <div class="auditions-div">
+                                    <ul>
+                                        <li class="pt-2">
+                                            <a href="<c:url value="/bandAuditions/${user.id}"/>">
+                                                <button class="auditions-btn hover: shadow-sm">
+                                                    <spring:message code="viewprofile.bandAuditions"/>
+                                                </button>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </c:if>
                     </div>
                 </div>
                 <!-- Right Side -->
