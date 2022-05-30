@@ -93,9 +93,11 @@ CREATE TABLE IF NOT EXISTS profileImages
 
 CREATE TABLE IF NOT EXISTS profileMediaUrls
 (
-    userId BIGINT PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
+    userId BIGINT NOT NULL,
     url VARCHAR(2083) NOT NULL,
     type TEXT NOT NULL,
+    UNIQUE(userId,type),
     FOREIGN KEY (userId) REFERENCES users ON DELETE CASCADE
 );
 

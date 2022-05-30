@@ -1,8 +1,6 @@
 package ar.edu.itba.paw.service;
 
-import ar.edu.itba.paw.model.Genre;
-import ar.edu.itba.paw.model.Role;
-import ar.edu.itba.paw.model.User;
+import ar.edu.itba.paw.model.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -37,4 +35,6 @@ public interface UserService {
     void updateProfilePicture(User user, byte[] image);
 
     byte[] getProfilePicture(long userId) throws IOException;
+
+    void updateSocialMedia(User user, List<MediaUrl> mediaUrls);
 }

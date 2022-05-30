@@ -23,6 +23,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -175,6 +176,13 @@ public class UserServiceImpl implements UserService {
             return IOUtils.toByteArray(Objects.requireNonNull(fileStream));
         }
         return image;
+    }
+
+    @Transactional
+    @Override
+    public void updateSocialMedia(User user, List<MediaUrl> mediaUrls) {
+        List<SocialMedia> socialMedia = mediaUrls.stream().map(mediaUrl -> new SocialMedia(user,mediaUrl.getUrl(),mediaUrl.getType())).collect(Collectors.toList());
+        user.setSocialMediaUrls(socialMedia);
     }
 
     @Transactional

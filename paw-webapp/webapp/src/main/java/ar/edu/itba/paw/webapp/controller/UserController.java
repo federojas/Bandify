@@ -187,6 +187,7 @@ public class UserController {
        userService.editUser(user.getId(), artistEditForm.getName(), artistEditForm.getSurname(), artistEditForm.getDescription(),
                artistEditForm.getMusicGenres(), artistEditForm.getLookingFor(),
                artistEditForm.getProfileImage().getBytes());
+       userService.updateSocialMedia(user,artistEditForm.getSocialMedia());
 
         return new ModelAndView("redirect:/profile");
     }
@@ -204,6 +205,7 @@ public class UserController {
         userService.editUser(user.getId(), bandEditForm.getName(),null, bandEditForm.getDescription(),
                 bandEditForm.getMusicGenres(), bandEditForm.getLookingFor(),
                 bandEditForm.getProfileImage().getBytes());
+        userService.updateSocialMedia(user,bandEditForm.getSocialMedia());
 
         return new ModelAndView("redirect:/profile");
     }

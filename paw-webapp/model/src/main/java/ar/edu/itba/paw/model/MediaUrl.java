@@ -1,24 +1,20 @@
 package ar.edu.itba.paw.model;
 
-import java.net.URL;
-
-
 public class MediaUrl {
-
-    private URL url;
+    private String Url;
     private UrlType type;
 
-    public MediaUrl(URL url, UrlType type) {
-        this.url = url;
+    public MediaUrl(String url, UrlType type) {
+        Url = url;
         this.type = type;
     }
 
-    public URL getUrl() {
-        return url;
+    public String getUrl() {
+        return Url;
     }
 
-    public void setUrl(URL url) {
-        this.url = url;
+    public void setUrl(String url) {
+        Url = url;
     }
 
     public UrlType getType() {

@@ -34,12 +34,12 @@
         </div>
         <div class="social-media-input">
 
-            <form:label class="form-label" path="name">
+            <form:label class="form-label" path="twitterUrl">
                 <spring:message code="editProfile.twitter"/>
             </form:label>
             <form:input type="text" id="artistSurname" maxlength="50" placeholder="${surnameplaceholder}"
                         class="form-input"
-                        path="name"/>
+                        path="twitterUrl"/>
         </div>
 
     </div>
@@ -54,12 +54,12 @@
         </div>
         <div class="social-media-input">
 
-            <form:label class="form-label" path="name">
+            <form:label class="form-label" path="facebookUrl">
                 <spring:message code="editProfile.facebook"/>
             </form:label>
             <form:input type="text" id="artistSurname" maxlength="50" placeholder="${surnameplaceholder}"
                         class="form-input"
-                        path="name"/>
+                        path="facebookUrl"/>
         </div>
 
     </div>
@@ -74,12 +74,12 @@
         </div>
         <div class="social-media-input">
 
-            <form:label class="form-label" path="name">
+            <form:label class="form-label" path="instagramUrl">
                 <spring:message code="editProfile.instagram"/>
             </form:label>
             <form:input type="text" id="artistSurname" maxlength="50" placeholder="${surnameplaceholder}"
                         class="form-input"
-                        path="name"/>
+                        path="instagramUrl"/>
         </div>
 
     </div>
@@ -94,12 +94,12 @@
         </div>
         <div class="social-media-input">
 
-            <form:label class="form-label" path="name">
+            <form:label class="form-label" path="youtubeUrl">
                 <spring:message code="editProfile.youtube"/>
             </form:label>
             <form:input type="text" id="artistSurname" maxlength="50" placeholder="${surnameplaceholder}"
                         class="form-input"
-                        path="name"/>
+                        path="youtubeUrl"/>
         </div>
 
     </div>
@@ -114,12 +114,12 @@
         </div>
         <div class="social-media-input">
 
-            <form:label class="form-label" path="name">
+            <form:label class="form-label" path="spotifyUrl">
                 <spring:message code="editProfile.spotify"/>
             </form:label>
             <form:input type="text" id="artistSurname" maxlength="50" placeholder="${surnameplaceholder}"
                         class="form-input"
-                        path="name"/>
+                        path="spotifyUrl"/>
         </div>
 
     </div>
@@ -134,12 +134,12 @@
         </div>
         <div class="social-media-input">
 
-            <form:label class="form-label" path="name">
+            <form:label class="form-label" path="soundcloudUrl">
                 <spring:message code="editProfile.soundcloud"/>
             </form:label>
             <form:input type="text" id="artistSurname" maxlength="50" placeholder="${surnameplaceholder}"
                         class="form-input"
-                        path="name"/>
+                        path="soundcloudUrl"/>
         </div>
 
     </div>

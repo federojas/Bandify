@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.model;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -52,6 +53,9 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "genreid")
     )
     private Set<Genre> userGenres;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
+    private List<SocialMedia> socialSocialMedia;
 
     /* Default */ User() {
         // Just for Hibernate
@@ -125,6 +129,10 @@ public class User {
         return id;
     }
 
+    public List<SocialMedia> getSocialMediaUrls() {
+        return socialSocialMedia;
+    }
+
     public void setPassword(String password) {
         this.password = password;
     }
@@ -155,6 +163,10 @@ public class User {
 
     public void setUserGenres(Set<Genre> userGenres) {
         this.userGenres = userGenres;
+    }
+
+    public void setSocialMediaUrls(List<SocialMedia> socialSocialMedia) {
+        this.socialSocialMedia = socialSocialMedia;
     }
 
     public void editInfo(String name, String surname, String description) {
