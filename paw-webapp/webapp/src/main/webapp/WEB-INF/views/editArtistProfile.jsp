@@ -82,6 +82,8 @@
             </div>
 
 
+            <jsp:include page="../components/socialMediaForm.jsp"/>
+
             <div class="select-div">
                 <form:label class="form-label" path="musicGenres">
                     <spring:message code="profile.userGenres"/>
