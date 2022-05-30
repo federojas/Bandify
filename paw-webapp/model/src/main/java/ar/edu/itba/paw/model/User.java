@@ -1,7 +1,6 @@
 package ar.edu.itba.paw.model;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -38,7 +37,7 @@ public class User {
 
     @Column(table = "profileimages")
     @Basic(fetch = FetchType.LAZY)
-    private byte[] profileImage;
+    private byte[] image;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "userroles",
@@ -114,7 +113,7 @@ public class User {
     }
 
     public byte[] getProfileImage() {
-        return profileImage;
+        return image;
     }
 
     public Set<Role> getUserRoles() {
@@ -154,7 +153,7 @@ public class User {
     }
 
     public void setProfileImage(byte[] profileImage) {
-        this.profileImage = profileImage;
+        this.image = profileImage;
     }
 
     public void setUserRoles(Set<Role> userRoles) {
