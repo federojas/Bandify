@@ -76,3 +76,15 @@
     border-radius: 10000px;
     border:2px solid black;
 }
+
+.message-span {
+    overflow-wrap: break-word;
+}
+
+.email-span {
+    padding-left: 5px;
+}
+
+.usr-url {
+    color: white;
+}

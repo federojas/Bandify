@@ -17,19 +17,23 @@
             <img class="postcard-profile-image"
                  src="<c:url value="/user/${param.userId}/profile-image"/>"
                  alt="${img}">
-
             <span class="user-name">
                     <c:out value="${param.applicantName}"/> <c:out value="${param.applicantSurname}"/>
             </span>
+            <div>
+                <span class="email-span"><c:out value="(${param.email})"/></span>
+            </div>
         </div>
     </div>
 
     <div class="collapsible-body applicant-body">
-        <span style="overflow-wrap: break-word;"><c:out value="${param.message}"/></span>
+        <div>
+            <span class="message-span"><c:out value="${param.message}"/></span>
+        </div>
         <div class="applicant-body-end">
             <div class="purple-button">
                 <c:url value="/user/${param.userId}" var="userUrl"/>
-                <a href="${userUrl}" style="color: white;">
+                <a href="${userUrl}" class="usr-url">
                     <spring:message code="applicants.seeProfile"/>
                 </a>
             </div>
