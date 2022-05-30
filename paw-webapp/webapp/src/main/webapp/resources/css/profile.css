@@ -226,13 +226,14 @@ auditions-title-div {
 }
 .social-media-icons{
     max-width: 2rem;
+    margin: 1rem;
 }
 .social-media-container{
     display: flex;
-    justify-content: space-evenly
+    justify-content: start;
 }
 .view-public-profile{
-    padding-bottom: 100px;
+    padding-bottom: 200px;
 }
 .edit-div {
     display: flex;
