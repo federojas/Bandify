@@ -231,6 +231,9 @@ auditions-title-div {
     display: flex;
     justify-content: space-evenly
 }
+.view-public-profile{
+    padding-bottom: 100px;
+}
 .edit-div {
     display: flex;
     justify-content: center;
