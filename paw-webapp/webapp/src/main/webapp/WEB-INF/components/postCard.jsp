@@ -59,7 +59,7 @@
                 <c:forEach var="role"
                            items="${requestScope.lookingFor}"
                            varStatus="loop">
-                    <div>
+                    <div class="loop-div">
                         <c:url value="/search" var="searchLink">
                             <c:param name="query" value=""/>
                             <c:param name="order" value="DESC"/>
@@ -77,7 +77,7 @@
                 <c:forEach var="genre"
                            items="${requestScope.musicGenres}"
                            varStatus="loop">
-                    <div>
+                    <div class="loop-div">
                         <c:url value="/search" var="searchLink">
                             <c:param name="query" value=""/>
                             <c:param name="order" value="DESC"/>
