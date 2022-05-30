@@ -180,9 +180,11 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public void updateSocialMedia(User user, List<MediaUrl> mediaUrls) {
-        List<SocialMedia> socialMedia = mediaUrls.stream().map(mediaUrl -> new SocialMedia(user,mediaUrl.getUrl(),mediaUrl.getType())).collect(Collectors.toList());
-        user.setSocialMediaUrls(socialMedia);
+    public void updateSocialMedia(User user, Set<MediaUrl> mediaUrls) {
+        System.out.println("mira aca");
+        System.out.println(mediaUrls.size());
+        Set<SocialMedia> socialMedia = mediaUrls.stream().map(mediaUrl -> new SocialMedia(user,mediaUrl.getUrl(),mediaUrl.getType())).collect(Collectors.toSet());
+        user.setSocialSocialMedia(socialMedia);
     }
 
     @Transactional

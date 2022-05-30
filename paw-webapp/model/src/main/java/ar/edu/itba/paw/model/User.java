@@ -55,7 +55,7 @@ public class User {
     private Set<Genre> userGenres;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
-    private List<SocialMedia> socialSocialMedia;
+    private Set<SocialMedia> socialSocialMedia;
 
     /* Default */ User() {
         // Just for Hibernate
@@ -129,7 +129,7 @@ public class User {
         return id;
     }
 
-    public List<SocialMedia> getSocialMediaUrls() {
+    public Set<SocialMedia> getSocialSocialMedia() {
         return socialSocialMedia;
     }
 
@@ -165,7 +165,7 @@ public class User {
         this.userGenres = userGenres;
     }
 
-    public void setSocialMediaUrls(List<SocialMedia> socialSocialMedia) {
+    public void setSocialSocialMedia(Set<SocialMedia> socialSocialMedia) {
         this.socialSocialMedia = socialSocialMedia;
     }
 

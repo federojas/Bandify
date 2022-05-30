@@ -40,6 +40,7 @@
             <form:input type="text" id="artistSurname" maxlength="50" placeholder="${surnameplaceholder}"
                         class="form-input"
                         path="twitterUrl"/>
+            <form:errors path="twitterUrl" element="p" cssClass="error"> </form:errors>
         </div>
 
     </div>
@@ -60,6 +61,7 @@
             <form:input type="text" id="artistSurname" maxlength="50" placeholder="${surnameplaceholder}"
                         class="form-input"
                         path="facebookUrl"/>
+            <form:errors path="facebookUrl" element="p" cssClass="error"> </form:errors>
         </div>
 
     </div>
@@ -80,6 +82,7 @@
             <form:input type="text" id="artistSurname" maxlength="50" placeholder="${surnameplaceholder}"
                         class="form-input"
                         path="instagramUrl"/>
+            <form:errors path="instagramUrl" element="p" cssClass="error"> </form:errors>
         </div>
 
     </div>
@@ -100,6 +103,7 @@
             <form:input type="text" id="artistSurname" maxlength="50" placeholder="${surnameplaceholder}"
                         class="form-input"
                         path="youtubeUrl"/>
+            <form:errors path="youtubeUrl" element="p" cssClass="error"> </form:errors>
         </div>
 
     </div>
@@ -120,6 +124,7 @@
             <form:input type="text" id="artistSurname" maxlength="50" placeholder="${surnameplaceholder}"
                         class="form-input"
                         path="spotifyUrl"/>
+            <form:errors path="spotifyUrl" element="p" cssClass="error"> </form:errors>
         </div>
 
     </div>
@@ -140,6 +145,7 @@
             <form:input type="text" id="artistSurname" maxlength="50" placeholder="${surnameplaceholder}"
                         class="form-input"
                         path="soundcloudUrl"/>
+            <form:errors path="soundcloudUrl" element="p" cssClass="error"> </form:errors>
         </div>
 
     </div>

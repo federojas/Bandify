@@ -1,6 +1,8 @@
 package ar.edu.itba.paw.model;
 
 import javax.persistence.*;
+import java.util.Objects;
+
 @Entity
 @Table(name = "profileMediaUrls")
 public class SocialMedia {
@@ -60,5 +62,18 @@ public class SocialMedia {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SocialMedia that = (SocialMedia) o;
+        return Objects.equals(user, that.user) && type == that.type;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(user, type);
     }
 }

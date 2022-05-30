@@ -10,9 +10,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public abstract class UserEditForm {
 
@@ -34,17 +32,17 @@ public abstract class UserEditForm {
     private CommonsMultipartFile profileImage;
 
     // TODO: host?
-    @URL(protocol = "http")
+    @URL(protocol = "https")
     private String twitterUrl;
-    @URL(protocol = "http")
+    @URL(protocol = "https")
     private String instagramUrl;
-    @URL(protocol = "http")
+    @URL(protocol = "https")
     private String facebookUrl;
-    @URL(protocol = "http")
+    @URL(protocol = "https")
     private String youtubeUrl;
-    @URL(protocol = "http")
+    @URL(protocol = "https")
     private String spotifyUrl;
-    @URL(protocol = "http")
+    @URL(protocol = "https")
     private String soundcloudUrl;
 
     private boolean isBand;
@@ -151,27 +149,27 @@ public abstract class UserEditForm {
         this.setDescription(user.getDescription());
         this.setName(user.getName());
         this.setBand(user.isBand());
-        Optional<SocialMedia> twitter = user.getSocialMediaUrls().stream().filter(socialMedia -> socialMedia.getType().equals(UrlType.TWITTER)).findFirst();
+        Optional<SocialMedia> twitter = user.getSocialSocialMedia().stream().filter(socialMedia -> socialMedia.getType().equals(UrlType.TWITTER)).findFirst();
         twitter.ifPresent(socialMedia -> this.setTwitterUrl(socialMedia.getUrl()));
 
-        Optional<SocialMedia> instagram = user.getSocialMediaUrls().stream().filter(socialMedia -> socialMedia.getType().equals(UrlType.INSTAGRAM)).findFirst();
+        Optional<SocialMedia> instagram = user.getSocialSocialMedia().stream().filter(socialMedia -> socialMedia.getType().equals(UrlType.INSTAGRAM)).findFirst();
         instagram.ifPresent(socialMedia -> this.setInstagramUrl(socialMedia.getUrl()));
 
-        Optional<SocialMedia> facebook = user.getSocialMediaUrls().stream().filter(socialMedia -> socialMedia.getType().equals(UrlType.FACEBOOK)).findFirst();
+        Optional<SocialMedia> facebook = user.getSocialSocialMedia().stream().filter(socialMedia -> socialMedia.getType().equals(UrlType.FACEBOOK)).findFirst();
         facebook.ifPresent(socialMedia -> this.setFacebookUrl(socialMedia.getUrl()));
 
-        Optional<SocialMedia> youtube = user.getSocialMediaUrls().stream().filter(socialMedia -> socialMedia.getType().equals(UrlType.YOUTUBE)).findFirst();
+        Optional<SocialMedia> youtube = user.getSocialSocialMedia().stream().filter(socialMedia -> socialMedia.getType().equals(UrlType.YOUTUBE)).findFirst();
         youtube.ifPresent(socialMedia -> this.setYoutubeUrl(socialMedia.getUrl()));
 
-        Optional<SocialMedia> spotify = user.getSocialMediaUrls().stream().filter(socialMedia -> socialMedia.getType().equals(UrlType.SPOTIFY)).findFirst();
+        Optional<SocialMedia> spotify = user.getSocialSocialMedia().stream().filter(socialMedia -> socialMedia.getType().equals(UrlType.SPOTIFY)).findFirst();
         spotify.ifPresent(socialMedia -> this.setSpotifyUrl(socialMedia.getUrl()));
 
-        Optional<SocialMedia> soundcloud = user.getSocialMediaUrls().stream().filter(socialMedia -> socialMedia.getType().equals(UrlType.SOUNDCLOUD)).findFirst();
+        Optional<SocialMedia> soundcloud = user.getSocialSocialMedia().stream().filter(socialMedia -> socialMedia.getType().equals(UrlType.SOUNDCLOUD)).findFirst();
         soundcloud.ifPresent(socialMedia -> this.setSoundcloudUrl(socialMedia.getUrl()));
     }
 
-    public List<MediaUrl> getSocialMedia() {
-        List<MediaUrl> mediaUrls = new ArrayList<>();
+    public Set<MediaUrl> getSocialMedia() {
+        Set<MediaUrl> mediaUrls = new HashSet<>();
         if(twitterUrl != null && !twitterUrl.equals(""))
             mediaUrls.add(new MediaUrl(twitterUrl, UrlType.TWITTER));
         if(instagramUrl != null && !instagramUrl.equals(""))
