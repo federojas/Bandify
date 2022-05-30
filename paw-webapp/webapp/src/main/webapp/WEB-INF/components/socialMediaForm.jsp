@@ -37,7 +37,7 @@
             <form:label class="form-label" path="twitterUrl">
                 <spring:message code="editProfile.twitter"/>
             </form:label>
-            <form:input type="text" id="artistSurname" maxlength="50" placeholder="${surnameplaceholder}"
+            <form:input type="text" id="artistSurname" maxlength="2083" placeholder="${surnameplaceholder}"
                         class="form-input"
                         path="twitterUrl"/>
             <form:errors path="twitterUrl" element="p" cssClass="error"> </form:errors>
@@ -58,7 +58,7 @@
             <form:label class="form-label" path="facebookUrl">
                 <spring:message code="editProfile.facebook"/>
             </form:label>
-            <form:input type="text" id="artistSurname" maxlength="50" placeholder="${surnameplaceholder}"
+            <form:input type="text" id="artistSurname" maxlength="2083" placeholder="${surnameplaceholder}"
                         class="form-input"
                         path="facebookUrl"/>
             <form:errors path="facebookUrl" element="p" cssClass="error"> </form:errors>
@@ -79,7 +79,7 @@
             <form:label class="form-label" path="instagramUrl">
                 <spring:message code="editProfile.instagram"/>
             </form:label>
-            <form:input type="text" id="artistSurname" maxlength="50" placeholder="${surnameplaceholder}"
+            <form:input type="text" id="artistSurname" maxlength="2083" placeholder="${surnameplaceholder}"
                         class="form-input"
                         path="instagramUrl"/>
             <form:errors path="instagramUrl" element="p" cssClass="error"> </form:errors>
@@ -100,7 +100,7 @@
             <form:label class="form-label" path="youtubeUrl">
                 <spring:message code="editProfile.youtube"/>
             </form:label>
-            <form:input type="text" id="artistSurname" maxlength="50" placeholder="${surnameplaceholder}"
+            <form:input type="text" id="artistSurname" maxlength="2083" placeholder="${surnameplaceholder}"
                         class="form-input"
                         path="youtubeUrl"/>
             <form:errors path="youtubeUrl" element="p" cssClass="error"> </form:errors>
@@ -121,7 +121,7 @@
             <form:label class="form-label" path="spotifyUrl">
                 <spring:message code="editProfile.spotify"/>
             </form:label>
-            <form:input type="text" id="artistSurname" maxlength="50" placeholder="${surnameplaceholder}"
+            <form:input type="text" id="artistSurname" maxlength="2083" placeholder="${surnameplaceholder}"
                         class="form-input"
                         path="spotifyUrl"/>
             <form:errors path="spotifyUrl" element="p" cssClass="error"> </form:errors>
@@ -142,7 +142,7 @@
             <form:label class="form-label" path="soundcloudUrl">
                 <spring:message code="editProfile.soundcloud"/>
             </form:label>
-            <form:input type="text" id="artistSurname" maxlength="50" placeholder="${surnameplaceholder}"
+            <form:input type="text" id="artistSurname" maxlength="2083" placeholder="${surnameplaceholder}"
                         class="form-input"
                         path="soundcloudUrl"/>
             <form:errors path="soundcloudUrl" element="p" cssClass="error"> </form:errors>
