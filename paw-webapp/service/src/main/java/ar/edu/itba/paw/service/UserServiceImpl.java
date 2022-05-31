@@ -151,7 +151,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public void sendResetEmail(String email) {
         User user = userDao.findByEmail(email).orElseThrow(UserNotFoundException::new);
-
         verificationTokenService.deleteTokenByUserId(user.getId(), TokenType.RESET);
         VerificationToken token = verificationTokenService.generate(user, TokenType.RESET);
         Locale locale = LocaleContextHolder.getLocale();
@@ -186,8 +185,6 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public void updateSocialMedia(User user, Set<MediaUrl> mediaUrls) {
-        System.out.println("mira aca");
-        System.out.println(mediaUrls.size());
         Set<SocialMedia> socialMedia = mediaUrls.stream().map(mediaUrl -> new SocialMedia(user,mediaUrl.getUrl(),mediaUrl.getType())).collect(Collectors.toSet());
         user.setSocialSocialMedia(socialMedia);
     }

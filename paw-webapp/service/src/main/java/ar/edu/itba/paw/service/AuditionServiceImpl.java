@@ -90,18 +90,12 @@ public class AuditionServiceImpl implements AuditionService {
         int lastPage = getFilterTotalPages(filter);
         lastPage = lastPage == 0 ? 1 : lastPage;
         checkPage(page, lastPage);
-        Set<Genre> genres = genreService.getGenresByNames(filter.getGenresNames());
-        Set<Role> roles = roleService.getRolesByNames(filter.getRolesNames());
-        Set<Location> locations = locationService.getLocationsByNames(filter.getLocations());
-        return auditionDao.filter(new AuditionFilter(genres,roles,locations,filter.getTitle(), filter.getOrder()), page);
+        return auditionDao.filter(filter, page);
     }
     
     @Override   
     public int getFilterTotalPages(FilterOptions filter) {
-        Set<Genre> genres = genreService.getGenresByNames(filter.getGenresNames());
-        Set<Role> roles = roleService.getRolesByNames(filter.getRolesNames());
-        Set<Location> locations = locationService.getLocationsByNames(filter.getLocations());
-        return auditionDao.getTotalPages(new AuditionFilter(genres,roles,locations,filter.getTitle(), filter.getOrder()));
+        return auditionDao.getTotalPages(filter);
     }
  
     private void checkPermissions(long id) {

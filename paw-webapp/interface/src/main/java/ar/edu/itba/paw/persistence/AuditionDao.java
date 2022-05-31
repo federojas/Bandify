@@ -17,7 +17,7 @@ public interface AuditionDao {
 
     int getTotalPages();
 
-    int getTotalPages(AuditionFilter filter);
+    int getTotalPages(FilterOptions filter);
 
     List<Audition> getBandAuditions(long userId, int page);
 
@@ -25,5 +25,5 @@ public interface AuditionDao {
 
     void deleteAuditionById(long id);
 
-    List<Audition> filter(AuditionFilter auditionFilter, int page);
+    List<Audition> filter(FilterOptions filterOptions, int page);
 }

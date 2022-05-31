@@ -1,5 +1,7 @@
 package ar.edu.itba.paw.model;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class FilterOptions {
@@ -63,15 +65,15 @@ public class FilterOptions {
     }
 
     public List<String> getGenresNames() {
-        return genresNames;
+        return genresNames == null ? Collections.emptyList() : genresNames;
     }
 
     public List<String> getRolesNames() {
-        return rolesNames;
+        return rolesNames == null ? Collections.emptyList() : rolesNames;
     }
 
     public List<String> getLocations() {
-        return locations;
+        return locations == null ? Collections.emptyList() : locations;
     }
 
     public String getOrder() {

@@ -7,10 +7,12 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.math.BigInteger;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Repository
 public class AuditionJpaDao implements AuditionDao {
@@ -124,17 +126,77 @@ public class AuditionJpaDao implements AuditionDao {
     }
 
     @Override
-    public List<Audition> filter(AuditionFilter auditionFilter, int page) {
+    public List<Audition> filter(FilterOptions filterOptions, int page) {
         LOGGER.info("Getting auditions filtered in page {}", page);
-        CriteriaQuery<Audition> cq = criteriaQuery(auditionFilter);
-        return em.createQuery(cq).setFirstResult(PAGE_SIZE * (page - 1)).
-                setMaxResults(PAGE_SIZE).getResultList();
+
+        Map<String,Object> args = new HashMap<>();
+        StringBuilder sqlQueryBuilder = new StringBuilder("SELECT DISTINCT a.aId FROM " +
+                "(SELECT DISTINCT auditions.id as aId, creationdate FROM auditions " +
+                "JOIN auditiongenres ON id = auditiongenres.auditionid " +
+                "JOIN auditionroles ON id = auditionroles.auditionid " +
+                "JOIN locations ON auditions.locationid = locations.id " +
+                "JOIN genres ON genres.id = auditiongenres.genreid " +
+                "JOIN roles ON roles.id = auditionroles.roleid ");
+        filterQuery(filterOptions, args, sqlQueryBuilder);
+        sqlQueryBuilder.append("ORDER BY creationdate ").append(filterOptions.getOrder()).append(" LIMIT ").append(PAGE_SIZE).append(" OFFSET ").append((page - 1) * PAGE_SIZE).append(") AS a");
+
+        Query query = em.createNativeQuery(sqlQueryBuilder.toString());
+
+        for(Map.Entry<String,Object> entry : args.entrySet()) {
+            query.setParameter(entry.getKey(),entry.getValue());
+        }
+
+        @SuppressWarnings("unchecked")
+        List<Long> ids = (List<Long>) query.getResultList().stream().map(o -> ((Integer) o).longValue()).collect(Collectors.toList());
+
+        TypedQuery<Audition> auditions = em.createQuery("from Audition as a where a.id in :ids ORDER BY a.creationDate " + filterOptions.getOrder(), Audition.class);
+        auditions.setParameter("ids",ids);
+        return auditions.getResultList();
     }
 
     @Override
-    public int getTotalPages(AuditionFilter auditionFilter) {
-        CriteriaQuery<Audition> cq = criteriaQuery(auditionFilter);
-        return (int) Math.ceil( (double)  em.createQuery(cq).getResultList().size() / PAGE_SIZE);
+    public int getTotalPages(FilterOptions filterOptions) {
+
+        Map<String,Object> args = new HashMap<>();
+        StringBuilder sqlQueryBuilder = new StringBuilder("SELECT COUNT(DISTINCT a.aId) FROM " +
+                "(SELECT DISTINCT auditions.id as aId, creationdate FROM auditions " +
+                "JOIN auditiongenres ON id = auditiongenres.auditionid " +
+                "JOIN auditionroles ON id = auditionroles.auditionid " +
+                "JOIN locations ON auditions.locationid = locations.id " +
+                "JOIN genres ON genres.id = auditiongenres.genreid " +
+                "JOIN roles ON roles.id = auditionroles.roleid ");
+        filterQuery(filterOptions, args, sqlQueryBuilder);
+
+        sqlQueryBuilder.append(") AS a");
+        Query query = em.createNativeQuery(sqlQueryBuilder.toString());
+
+        for(Map.Entry<String,Object> entry : args.entrySet()) {
+            query.setParameter(entry.getKey(),entry.getValue());
+        }
+
+        return (int) Math.ceil(((BigInteger) query.getSingleResult()).doubleValue() / PAGE_SIZE);
+
+    }
+
+    private void filterQuery(FilterOptions filterOptions, Map<String, Object> args, StringBuilder sqlQueryBuilder) {
+        sqlQueryBuilder.append("WHERE true ");
+        if(!filterOptions.getGenresNames().isEmpty()) {
+            sqlQueryBuilder.append("AND genre IN (:genresNames) ");
+            args.put("genresNames",filterOptions.getGenresNames());
+        }
+        if(!filterOptions.getRolesNames().isEmpty()) {
+            sqlQueryBuilder.append("AND role IN (:rolesNames) ");
+            args.put("rolesNames",filterOptions.getRolesNames());
+        }
+        if(!filterOptions.getLocations().isEmpty()) {
+            sqlQueryBuilder.append("AND location IN (:locations) ");
+            args.put("locations",filterOptions.getLocations());
+        }
+        if(!filterOptions.getTitle().equals("")) {
+            sqlQueryBuilder.append("AND lower(title) LIKE :title ");
+            args.put("title","%" + filterOptions.getTitle().replace("%", "\\%").
+                    replace("_", "\\_").toLowerCase() + "%");
+        }
     }
 
 }
