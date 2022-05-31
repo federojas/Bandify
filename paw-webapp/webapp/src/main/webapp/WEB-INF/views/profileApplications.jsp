@@ -46,7 +46,8 @@
         <div class="left-panel-abs">
             <a class="back-anchor" href="<c:url value="/profile" />">
                 <div class="back-div">
-                    <img src="<c:url value="/resources/icons/back.svg" />" class="back-icon"/>
+                    <spring:message code="audition.alt.back" var="backAlt"/>
+                    <img src="<c:url value="/resources/icons/back.svg" />" alt="${backAlt}" class="back-icon"/>
                 </div>
             </a>
         </div>

@@ -19,5 +19,4 @@ function closeConfirmationModal(){
 }
 function openConfirmation(){
     confirmationModal.style.display = "block";
-
 }
