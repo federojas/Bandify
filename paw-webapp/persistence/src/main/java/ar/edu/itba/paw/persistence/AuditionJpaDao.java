@@ -42,9 +42,18 @@ public class AuditionJpaDao implements AuditionDao {
     @Override
     public List<Audition> getAll(int page) {
         LOGGER.info("Getting auditions in page {}", page);
-        final TypedQuery<Audition> query = em.createQuery("FROM Audition as a ORDER BY a.creationDate DESC", Audition.class);
-        query.setFirstResult(PAGE_SIZE * (page - 1)).setMaxResults(PAGE_SIZE);
-        return query.getResultList();
+
+        Query query = em.createNativeQuery("SELECT DISTINCT a.id FROM (SELECT id, creationDate FROM auditions ORDER BY creationDate DESC LIMIT " + PAGE_SIZE + " OFFSET " + (page-1) * PAGE_SIZE + ") AS a");
+
+        @SuppressWarnings("unchecked")
+        List<Long> ids = (List<Long>) query.getResultList().stream().map(o -> ((Integer) o).longValue()).collect(Collectors.toList());
+
+        if(ids.isEmpty())
+            ids.add(-1L);
+
+        TypedQuery<Audition> auditions = em.createQuery("from Audition as a where a.id in :ids ORDER BY a.creationDate DESC", Audition.class);
+        auditions.setParameter("ids",ids);
+        return auditions.getResultList();
     }
 
     @Override
@@ -56,10 +65,19 @@ public class AuditionJpaDao implements AuditionDao {
     @Override
     public List<Audition> getBandAuditions(long userId, int page) {
         LOGGER.info("Getting auditions from user with id {} in page {}", userId, page);
-        final TypedQuery<Audition> query = em.createQuery("FROM Audition as a WHERE a.band.id = :userId ORDER BY a.creationDate DESC", Audition.class);
+
+        Query query = em.createNativeQuery("SELECT DISTINCT a.id FROM (SELECT id, creationDate FROM auditions WHERE bandId = :userId ORDER BY creationDate DESC LIMIT " + PAGE_SIZE + " OFFSET " + (page-1) * PAGE_SIZE + ") AS a");
         query.setParameter("userId", userId);
-        query.setFirstResult(PAGE_SIZE * (page - 1)).setMaxResults(PAGE_SIZE);
-        return query.getResultList();
+
+        @SuppressWarnings("unchecked")
+        List<Long> ids = (List<Long>) query.getResultList().stream().map(o -> ((Integer) o).longValue()).collect(Collectors.toList());
+
+        if(ids.isEmpty())
+            ids.add(-1L);
+
+        TypedQuery<Audition> auditions = em.createQuery("from Audition as a where a.id in :ids ORDER BY a.creationDate DESC", Audition.class);
+        auditions.setParameter("ids",ids);
+        return auditions.getResultList();
     }
 
     @Override
@@ -100,6 +118,9 @@ public class AuditionJpaDao implements AuditionDao {
 
         @SuppressWarnings("unchecked")
         List<Long> ids = (List<Long>) query.getResultList().stream().map(o -> ((Integer) o).longValue()).collect(Collectors.toList());
+
+        if(ids.isEmpty())
+            ids.add(-1L);
 
         TypedQuery<Audition> auditions = em.createQuery("from Audition as a where a.id in :ids ORDER BY a.creationDate " + filterOptions.getOrder(), Audition.class);
         auditions.setParameter("ids",ids);

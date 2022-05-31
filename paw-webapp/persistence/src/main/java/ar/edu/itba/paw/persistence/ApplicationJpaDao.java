@@ -2,14 +2,17 @@ package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.model.Application;
 import ar.edu.itba.paw.model.ApplicationState;
+import ar.edu.itba.paw.model.Audition;
 import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 public class ApplicationJpaDao implements ApplicationDao {
@@ -21,12 +24,22 @@ public class ApplicationJpaDao implements ApplicationDao {
 
     @Override
     public List<Application> getAuditionApplicationsByState(long auditionId, ApplicationState state, int page) {
-        final TypedQuery<Application> query = em.createQuery("FROM Application as a where a.audition.id =:auditionId and a.state =:state",
-                Application.class);
+        Query query = em.createNativeQuery("SELECT DISTINCT a.id FROM " +
+                "(SELECT id, creationDate FROM applications " +
+                "WHERE auditionId = :auditionId AND state = :state " +
+                " LIMIT " + PAGE_SIZE + " OFFSET " + (page-1) * PAGE_SIZE + " ) AS a");
         query.setParameter("auditionId", auditionId);
-        query.setParameter("state", state);
-        query.setFirstResult(PAGE_SIZE * (page - 1)).setMaxResults(PAGE_SIZE);
-        return new ArrayList<>(query.getResultList());
+        query.setParameter("state", state.getState());
+
+        @SuppressWarnings("unchecked")
+        List<Long> ids = (List<Long>) query.getResultList().stream().map(o -> ((Integer) o).longValue()).collect(Collectors.toList());
+
+        if(ids.isEmpty())
+            ids.add(-1L);
+
+        TypedQuery<Application> applications = em.createQuery("from Application as a where a.id in :ids ORDER BY a.creationDate DESC", Application.class);
+        applications.setParameter("ids",ids);
+        return applications.getResultList();
     }
 
     @Override
@@ -47,21 +60,40 @@ public class ApplicationJpaDao implements ApplicationDao {
 
     @Override
     public List<Application> getMyApplications(long applicantId, int page) {
-        final TypedQuery<Application> query = em.createQuery("FROM Application as a where a.applicant.id =:applicantId",
-                Application.class);
+
+        Query query = em.createNativeQuery("SELECT DISTINCT a.id FROM (SELECT id, creationDate FROM applications WHERE applicantId = :applicantId ORDER BY creationDate DESC LIMIT "+ PAGE_SIZE + " OFFSET " + (page-1) * PAGE_SIZE + " ) AS a");
         query.setParameter("applicantId", applicantId);
-        query.setFirstResult(PAGE_SIZE * (page - 1)).setMaxResults(PAGE_SIZE);
-        return new ArrayList<>(query.getResultList());
+
+        @SuppressWarnings("unchecked")
+        List<Long> ids = (List<Long>) query.getResultList().stream().map(o -> ((Integer) o).longValue()).collect(Collectors.toList());
+
+        if(ids.isEmpty())
+            ids.add(-1L);
+
+        TypedQuery<Application> applications = em.createQuery("from Application as a where a.id in :ids ORDER BY a.creationDate DESC", Application.class);
+        applications.setParameter("ids",ids);
+        return applications.getResultList();
     }
 
     @Override
     public List<Application> getMyApplicationsFiltered(long applicantId, int page, ApplicationState state) {
-        final TypedQuery<Application> query = em.createQuery("FROM Application as a where a.applicant.id =:applicantId and a.state =:state",
-                Application.class);
+
+        Query query = em.createNativeQuery(
+                "SELECT DISTINCT a.id FROM " +
+                        "(SELECT id, creationDate FROM applications" +
+                        " WHERE applicantId = :applicantId AND state = :state ORDER BY creationDate DESC LIMIT " + PAGE_SIZE + " OFFSET " + (page-1) * PAGE_SIZE + ") AS a");
         query.setParameter("applicantId", applicantId);
-        query.setParameter("state", state);
-        query.setFirstResult(PAGE_SIZE * (page - 1)).setMaxResults(PAGE_SIZE);
-        return new ArrayList<>(query.getResultList());
+        query.setParameter("state", state.getState());
+
+        @SuppressWarnings("unchecked")
+        List<Long> ids = (List<Long>) query.getResultList().stream().map(o -> ((Integer) o).longValue()).collect(Collectors.toList());
+
+        if(ids.isEmpty())
+            ids.add(-1L);
+
+        TypedQuery<Application> applications = em.createQuery("from Application as a where a.id in :ids ORDER BY a.creationDate DESC", Application.class);
+        applications.setParameter("ids",ids);
+        return applications.getResultList();
     }
 
     @Override
