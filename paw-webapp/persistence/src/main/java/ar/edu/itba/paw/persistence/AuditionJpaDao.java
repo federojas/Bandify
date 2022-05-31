@@ -9,7 +9,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.*;
 import java.math.BigInteger;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -45,11 +44,7 @@ public class AuditionJpaDao implements AuditionDao {
 
         Query query = em.createNativeQuery("SELECT DISTINCT a.id FROM (SELECT id, creationDate FROM auditions ORDER BY creationDate DESC LIMIT " + PAGE_SIZE + " OFFSET " + (page-1) * PAGE_SIZE + ") AS a");
 
-        @SuppressWarnings("unchecked")
-        List<Long> ids = (List<Long>) query.getResultList().stream().map(o -> ((Integer) o).longValue()).collect(Collectors.toList());
-
-        if(ids.isEmpty())
-            ids.add(-1L);
+        List<Long> ids = getAuditionIds(query);
 
         TypedQuery<Audition> auditions = em.createQuery("from Audition as a where a.id in :ids ORDER BY a.creationDate DESC", Audition.class);
         auditions.setParameter("ids",ids);
@@ -69,11 +64,7 @@ public class AuditionJpaDao implements AuditionDao {
         Query query = em.createNativeQuery("SELECT DISTINCT a.id FROM (SELECT id, creationDate FROM auditions WHERE bandId = :userId ORDER BY creationDate DESC LIMIT " + PAGE_SIZE + " OFFSET " + (page-1) * PAGE_SIZE + ") AS a");
         query.setParameter("userId", userId);
 
-        @SuppressWarnings("unchecked")
-        List<Long> ids = (List<Long>) query.getResultList().stream().map(o -> ((Integer) o).longValue()).collect(Collectors.toList());
-
-        if(ids.isEmpty())
-            ids.add(-1L);
+        List<Long> ids = getAuditionIds(query);
 
         TypedQuery<Audition> auditions = em.createQuery("from Audition as a where a.id in :ids ORDER BY a.creationDate DESC", Audition.class);
         auditions.setParameter("ids",ids);
@@ -116,11 +107,7 @@ public class AuditionJpaDao implements AuditionDao {
             query.setParameter(entry.getKey(),entry.getValue());
         }
 
-        @SuppressWarnings("unchecked")
-        List<Long> ids = (List<Long>) query.getResultList().stream().map(o -> ((Integer) o).longValue()).collect(Collectors.toList());
-
-        if(ids.isEmpty())
-            ids.add(-1L);
+        List<Long> ids = getAuditionIds(query);
 
         TypedQuery<Audition> auditions = em.createQuery("from Audition as a where a.id in :ids ORDER BY a.creationDate " + filterOptions.getOrder(), Audition.class);
         auditions.setParameter("ids",ids);
@@ -170,6 +157,16 @@ public class AuditionJpaDao implements AuditionDao {
             args.put("title","%" + filterOptions.getTitle().replace("%", "\\%").
                     replace("_", "\\_").toLowerCase() + "%");
         }
+    }
+
+    private List<Long> getAuditionIds(Query query) {
+        @SuppressWarnings("unchecked")
+        List<Long> ids = (List<Long>) query.getResultList().stream().map(o -> ((Integer) o).longValue()).collect(Collectors.toList());
+
+        if(ids.isEmpty())
+            ids.add(-1L);
+
+        return ids;
     }
 
 }

@@ -31,11 +31,7 @@ public class ApplicationJpaDao implements ApplicationDao {
         query.setParameter("auditionId", auditionId);
         query.setParameter("state", state.getState());
 
-        @SuppressWarnings("unchecked")
-        List<Long> ids = (List<Long>) query.getResultList().stream().map(o -> ((Integer) o).longValue()).collect(Collectors.toList());
-
-        if(ids.isEmpty())
-            ids.add(-1L);
+        List<Long> ids = getApplicationIds(query);
 
         TypedQuery<Application> applications = em.createQuery("from Application as a where a.id in :ids ORDER BY a.creationDate DESC", Application.class);
         applications.setParameter("ids",ids);
@@ -64,11 +60,7 @@ public class ApplicationJpaDao implements ApplicationDao {
         Query query = em.createNativeQuery("SELECT DISTINCT a.id FROM (SELECT id, creationDate FROM applications WHERE applicantId = :applicantId ORDER BY creationDate DESC LIMIT "+ PAGE_SIZE + " OFFSET " + (page-1) * PAGE_SIZE + " ) AS a");
         query.setParameter("applicantId", applicantId);
 
-        @SuppressWarnings("unchecked")
-        List<Long> ids = (List<Long>) query.getResultList().stream().map(o -> ((Integer) o).longValue()).collect(Collectors.toList());
-
-        if(ids.isEmpty())
-            ids.add(-1L);
+        List<Long> ids = getApplicationIds(query);
 
         TypedQuery<Application> applications = em.createQuery("from Application as a where a.id in :ids ORDER BY a.creationDate DESC", Application.class);
         applications.setParameter("ids",ids);
@@ -85,11 +77,7 @@ public class ApplicationJpaDao implements ApplicationDao {
         query.setParameter("applicantId", applicantId);
         query.setParameter("state", state.getState());
 
-        @SuppressWarnings("unchecked")
-        List<Long> ids = (List<Long>) query.getResultList().stream().map(o -> ((Integer) o).longValue()).collect(Collectors.toList());
-
-        if(ids.isEmpty())
-            ids.add(-1L);
+        List<Long> ids = getApplicationIds(query);
 
         TypedQuery<Application> applications = em.createQuery("from Application as a where a.id in :ids ORDER BY a.creationDate DESC", Application.class);
         applications.setParameter("ids",ids);
@@ -117,5 +105,15 @@ public class ApplicationJpaDao implements ApplicationDao {
                 "SELECT COUNT(*) FROM applications WHERE applicantid=:applicantId AND state=cast(:state AS text)")
                 .setParameter("applicantId", userId)
                 .setParameter("state", state.getState()).getSingleResult()).doubleValue() / PAGE_SIZE);
+    }
+
+    private List<Long> getApplicationIds(Query query) {
+        @SuppressWarnings("unchecked")
+        List<Long> ids = (List<Long>) query.getResultList().stream().map(o -> ((Integer) o).longValue()).collect(Collectors.toList());
+
+        if(ids.isEmpty())
+            ids.add(-1L);
+
+        return ids;
     }
 }
