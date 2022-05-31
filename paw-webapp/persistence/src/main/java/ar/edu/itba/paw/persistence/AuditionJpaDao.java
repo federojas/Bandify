@@ -47,8 +47,6 @@ public class AuditionJpaDao implements AuditionDao {
         return query.getResultList();
     }
 
-    // TODO: se puede hacer mejor?
-
     @Override
     public int getTotalPages() {
         LOGGER.info("Getting total audition page count");
@@ -77,52 +75,6 @@ public class AuditionJpaDao implements AuditionDao {
         Optional<Audition> audition = getAuditionById(id);
         if(audition.isPresent())
             em.remove(audition);
-    }
-
-    private CriteriaQuery<Audition> criteriaQuery(AuditionFilter auditionFilter) {
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<Audition> cq = cb.createQuery(Audition.class);
-        Root<Audition> root = cq.from(Audition.class);
-
-        List<Predicate> predicates = new ArrayList<>();
-
-        if(!auditionFilter.getLocations().isEmpty())
-            predicates.add(root.get("location").in(auditionFilter.getLocations()));
-
-        if(!auditionFilter.getTitle().equals("")) {
-            String title =  "%" + auditionFilter.getTitle().replace("%", "\\%").
-                    replace("_", "\\_").toLowerCase() + "%";
-            predicates.add(cb.like(cb.lower(root.get("title")), title));
-        }
-
-        List<Predicate> genrePredicates = new ArrayList<>();
-        Expression<Set<Genre>> genres = root.get("musicGenres");
-        for(Genre genre : auditionFilter.getGenres()) {
-            genrePredicates.add(cb.isMember(genre,genres));
-        }
-        if(!genrePredicates.isEmpty()) {
-            Predicate genreOrPredicate = cb.or(genrePredicates.toArray(new Predicate[]{}));
-            predicates.add(genreOrPredicate);
-        }
-
-        List<Predicate> rolePredicates = new ArrayList<>();
-        Expression<Set<Role>> roles = root.get("lookingFor");
-        for(Role role : auditionFilter.getRoles()) {
-            rolePredicates.add(cb.isMember(role,roles));
-        }
-        if(!rolePredicates.isEmpty()) {
-            Predicate roleOrPredicate = cb.or(rolePredicates.toArray(new Predicate[]{}));
-            predicates.add(roleOrPredicate);
-        }
-
-        cq.where(cb.and(predicates.toArray(new Predicate[]{})));
-
-        if(Objects.equals(auditionFilter.getOrder(), "DESC"))
-            cq.orderBy(cb.desc(root.get("creationDate")));
-        else
-            cq.orderBy(cb.asc(root.get("creationDate")));
-
-        return cq;
     }
 
     @Override
