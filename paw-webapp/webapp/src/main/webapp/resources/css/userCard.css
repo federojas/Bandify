@@ -1,6 +1,7 @@
 .artist-card {
-    padding: 1rem 2rem;
-    max-width: 24rem;
+    padding: 1rem 1rem;
+    width: 20rem;
+    height: 22rem;
     margin: 0 auto;
     background-color: white;
     border-radius: 0.75rem;
@@ -25,6 +26,7 @@
     margin: 0 auto;
     height: 6rem;
     border-radius: 9999px;
+    border:2px solid black;
 }
 
 .artist-content {
