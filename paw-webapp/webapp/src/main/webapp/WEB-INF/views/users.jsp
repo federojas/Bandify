@@ -21,12 +21,22 @@
 </jsp:include>
 
 <main>
-
     <div class="users-content">
         <h2 class="black-title">
             <spring:message code="search.title" />
         </h2>
+
+        <jsp:include page="../components/userSearchBar.jsp">
+            <jsp:param name="name" value="Bandify" />
+        </jsp:include>
+
         <div class="meet-artists">
+            <c:if test="${userList.size() == 0}">
+                <b><p class="no-results" >
+                    <spring:message code="search.noresults"/>
+                </p>
+                </b>
+            </c:if>
             <c:forEach
                 var="user"
                 items="${userList}"

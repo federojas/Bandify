@@ -28,18 +28,21 @@ public class UserController {
     private final GenreService genreService;
     private final ApplicationService applicationService;
     private final AuthFacadeService authFacadeService;
+    private final LocationService locationService;
+
 
     @Autowired
     public UserController(final UserService userService, final VerificationTokenService verificationTokenService,
                           final RoleService roleService, final GenreService genreService,
                           final ApplicationService applicationService,
-                          final AuthFacadeService authFacadeService) {
+                          final AuthFacadeService authFacadeService, LocationService locationService) {
         this.userService = userService;
         this.verificationTokenService = verificationTokenService;
         this.roleService = roleService;
         this.genreService = genreService;
         this.applicationService = applicationService;
         this.authFacadeService = authFacadeService;
+        this.locationService = locationService;
     }
 
     @RequestMapping(value = {"/register","/registerBand", "/registerArtist"}, method = {RequestMethod.GET})
@@ -299,14 +302,14 @@ public class UserController {
                               @RequestParam(value = "query", defaultValue = "") String query,
                               @RequestParam(value = "genre", required = false) String[] genres,
                               @RequestParam(value = "role", required = false) String[] roles,
-                              @RequestParam(value = "order", defaultValue = "desc") String order) {
+                              @RequestParam(value = "location", required = false) String[] locations) {
 
         ModelAndView mav = new ModelAndView("users");
 
         FilterOptions filter = new FilterOptions.FilterOptionsBuilder().
                 withGenres(genres == null ? null : Arrays.asList(genres))
                 .withRoles(roles == null ? null : Arrays.asList(roles))
-                .withTitle(query).withOrder(order).build();
+                .withLocations(locations == null ? null : Arrays.asList(locations)).build();
         initializeFilterOptions(mav);
 
         List<User> userList = userService.filter(filter,page);
@@ -322,8 +325,10 @@ public class UserController {
     private void initializeFilterOptions(ModelAndView mav) {
         Set<Role> roleList = roleService.getAll();
         Set<Genre> genreList = genreService.getAll();
+        List<Location> locationList = locationService.getAll();
         mav.addObject("roleList", roleList.stream().map(Role::getName).collect(Collectors.toList()));
         mav.addObject("genreList", genreList.stream().map(Genre::getName).collect(Collectors.toList()));
+        mav.addObject("locationList", locationList.stream().map(Location::getName).collect(Collectors.toList()));
     }
 
 }

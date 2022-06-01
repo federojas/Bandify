@@ -10,7 +10,7 @@
 <div class="artist-card shadow">
     <spring:message code="artists.img.alt" var="artistImgAlt"/>
     <img class="artist-img"
-         src="<c:url value='/user/${param.userId}/profile-image'/>" alt="${artistImgAlt}">
+         src="<c:url value='/user/${param.userId}/profile-image'/>" alt="${artistImgAlt}"/>
 
     <div class="artist-content">
         <div>
@@ -44,7 +44,6 @@
         </div>
         <div class="artist-btn-div">
             <c:url value="/user/${param.userId}" var="profileUrl" />
-
             <button class="artist-profile-btn">
                 <a href="${profileUrl}"><spring:message code="artists.moreInfo"/></a>
             </button>
