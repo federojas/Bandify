@@ -96,7 +96,7 @@ public class UserJpaDao implements UserDao {
 
         Map<String,Object> args = new HashMap<>();
         StringBuilder sqlQueryBuilder = new StringBuilder("SELECT COUNT(DISTINCT u.uId) FROM " +
-                "(SELECT DISTINCT users.id as uId FROM auditions " +
+                "(SELECT DISTINCT users.id as uId FROM users " +
                 "JOIN usergenres ON id = usergenres.userid " +
                 "JOIN userroles ON id = userroles.userid " +
                 "JOIN genres ON genres.id = usergenres.genreid " +
