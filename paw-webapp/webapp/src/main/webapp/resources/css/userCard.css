@@ -1,13 +1,13 @@
 .artist-card {
     padding: 1rem 1rem;
     width: 20rem;
-    height: 22rem;
-    margin: 0 auto;
+    height: 25rem;
     background-color: white;
     border-radius: 0.75rem;
     display: flex;
     flex-direction: column;
     transition: 1s;
+    margin: 0 auto 20px;
 }
 
 .artist-card:hover {
@@ -24,8 +24,10 @@
 .artist-img {
     display: block;
     margin: 0 auto;
-    height: 6rem;
-    border-radius: 9999px;
+    height: 7.5rem;
+    width: 7.5rem;
+    object-fit: cover;
+    border-radius: 10000px;
     border:2px solid black;
 }
 
@@ -40,7 +42,7 @@
     color: black;
     font-weight: 600;
     margin: 0.75rem;
-
+    word-break: break-word;
 }
 
 .artist-description {

@@ -71,10 +71,11 @@ public class UserJpaDao implements UserDao {
         Map<String,Object> args = new HashMap<>();
         StringBuilder sqlQueryBuilder = new StringBuilder("SELECT DISTINCT u.uId FROM " +
                 "(SELECT DISTINCT users.id as uId, name, surname FROM users " +
-                "JOIN usergenres ON id = usergenres.userid " +
-                "JOIN userroles ON id = userroles.userid " +
-                "JOIN genres ON genres.id = usergenres.genreid " +
-                "JOIN roles ON roles.id = userroles.roleid ");
+                "LEFT JOIN usergenres ON id = usergenres.userid " +
+                "LEFT JOIN userroles ON id = userroles.userid " +
+                "LEFT JOIN genres ON genres.id = usergenres.genreid " +
+                "LEFT JOIN roles ON roles.id = userroles.roleid " +
+                "WHERE isEnabled=true ");
         filterQuery(filterOptions, args, sqlQueryBuilder);
         sqlQueryBuilder.append("ORDER BY name, surname ").append(filterOptions.getOrder()).append(" LIMIT ").append(PAGE_SIZE).append(" OFFSET ").append((page - 1) * PAGE_SIZE).append(") AS u");
 
@@ -97,10 +98,11 @@ public class UserJpaDao implements UserDao {
         Map<String,Object> args = new HashMap<>();
         StringBuilder sqlQueryBuilder = new StringBuilder("SELECT COUNT(DISTINCT u.uId) FROM " +
                 "(SELECT DISTINCT users.id as uId FROM users " +
-                "JOIN usergenres ON id = usergenres.userid " +
-                "JOIN userroles ON id = userroles.userid " +
-                "JOIN genres ON genres.id = usergenres.genreid " +
-                "JOIN roles ON roles.id = userroles.roleid ");
+                "LEFT JOIN usergenres ON id = usergenres.userid " +
+                "LEFT JOIN userroles ON id = userroles.userid " +
+                "LEFT JOIN genres ON genres.id = usergenres.genreid " +
+                "LEFT JOIN roles ON roles.id = userroles.roleid " +
+                "WHERE isEnabled=true ");
         filterQuery(filterOptions, args, sqlQueryBuilder);
 
         sqlQueryBuilder.append(") AS u");
@@ -116,7 +118,6 @@ public class UserJpaDao implements UserDao {
 
 
     private void filterQuery(FilterOptions filterOptions, Map<String, Object> args, StringBuilder sqlQueryBuilder) {
-        sqlQueryBuilder.append("WHERE true ");
         if(!filterOptions.getGenresNames().isEmpty()) {
             sqlQueryBuilder.append("AND genre IN (:genresNames) ");
             args.put("genresNames",filterOptions.getGenresNames());

@@ -294,4 +294,36 @@ public class UserController {
         return new ModelAndView("login");
     }
 
+    @RequestMapping(value = "/users/search", method = {RequestMethod.GET})
+    public ModelAndView users(@RequestParam(value = "page", defaultValue = "1") int page,
+                              @RequestParam(value = "query", defaultValue = "") String query,
+                              @RequestParam(value = "genre", required = false) String[] genres,
+                              @RequestParam(value = "role", required = false) String[] roles,
+                              @RequestParam(value = "order", defaultValue = "desc") String order) {
+
+        ModelAndView mav = new ModelAndView("users");
+
+        FilterOptions filter = new FilterOptions.FilterOptionsBuilder().
+                withGenres(genres == null ? null : Arrays.asList(genres))
+                .withRoles(roles == null ? null : Arrays.asList(roles))
+                .withTitle(query).withOrder(order).build();
+        initializeFilterOptions(mav);
+
+        List<User> userList = userService.filter(filter,page);
+        int lastPage = userService.getFilterTotalPages(filter);
+        lastPage = lastPage == 0 ? 1 : lastPage;
+        mav.addObject("userList", userList);
+        mav.addObject("currentPage", page);
+        mav.addObject("query", query);
+        mav.addObject("lastPage", lastPage);
+        return mav;
+    }
+
+    private void initializeFilterOptions(ModelAndView mav) {
+        Set<Role> roleList = roleService.getAll();
+        Set<Genre> genreList = genreService.getAll();
+        mav.addObject("roleList", roleList.stream().map(Role::getName).collect(Collectors.toList()));
+        mav.addObject("genreList", genreList.stream().map(Genre::getName).collect(Collectors.toList()));
+    }
+
 }
