@@ -39,4 +39,8 @@ public interface UserService {
     byte[] getProfilePicture(long userId) throws IOException;
 
     void updateSocialMedia(User user, Set<MediaUrl> mediaUrls);
+
+    List<User> filter(FilterOptions filter, int page);
+
+    int getFilterTotalPages(FilterOptions filter);
 }

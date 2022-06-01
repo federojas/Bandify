@@ -60,7 +60,7 @@
                            items="${requestScope.lookingFor}"
                            varStatus="loop">
                     <div class="loop-div">
-                        <c:url value="/search" var="searchLink">
+                        <c:url value="/auditions/search" var="searchLink">
                             <c:param name="query" value=""/>
                             <c:param name="order" value="DESC"/>
                             <c:param name="role" value="${role.name}"/>
@@ -78,7 +78,7 @@
                            items="${requestScope.musicGenres}"
                            varStatus="loop">
                     <div class="loop-div">
-                        <c:url value="/search" var="searchLink">
+                        <c:url value="/auditions/search" var="searchLink">
                             <c:param name="query" value=""/>
                             <c:param name="order" value="DESC"/>
                             <c:param name="genre" value="${genre.name}"/>

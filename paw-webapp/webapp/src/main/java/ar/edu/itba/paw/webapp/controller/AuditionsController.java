@@ -66,7 +66,7 @@ public class AuditionsController {
         return mav;
     }
 
-    @RequestMapping(value = "/search", method = {RequestMethod.GET})
+    @RequestMapping(value = "/auditions/search", method = {RequestMethod.GET})
     public ModelAndView search( @RequestParam(value = "page", defaultValue = "1") int page,
                                 @RequestParam(value = "query", defaultValue = "") String query,
                                 @RequestParam(value = "genre", required = false) String[] genres,

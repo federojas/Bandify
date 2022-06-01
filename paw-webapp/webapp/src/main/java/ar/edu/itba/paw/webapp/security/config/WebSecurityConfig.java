@@ -49,8 +49,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/apply", "/profile/applications","/editArtist","/success").hasRole("ARTIST")
                     .antMatchers("/newAudition", "/profile/auditions", "/profile/editAudition/{\\d+}", "/profile/deleteAudition/{\\d+}","/editBand",
                                  "/auditions/{\\d+}/applicants").hasRole("BAND")
-                    .antMatchers("/profile/**","/auditions/{\\d+}","/bandAuditions/{\\d+}").authenticated()
-                    .antMatchers("/auditions","/search", "/", "/user/{\\d+}","/user/{\\d+}/profile-image").permitAll()
+                    .antMatchers("/profile/**","/auditions/{\\d+}","/bandAuditions/{\\d+}", "/users/search", "/users").authenticated()
+                    .antMatchers("/auditions","/auditions/search", "/", "/user/{\\d+}","/user/{\\d+}/profile-image").permitAll()
                 .and().formLogin()
                     .usernameParameter("email")
                     .passwordParameter("password")

@@ -2,6 +2,7 @@ package ar.edu.itba.paw.service;
 
 import ar.edu.itba.paw.model.*;
 import ar.edu.itba.paw.model.exceptions.DuplicateUserException;
+import ar.edu.itba.paw.model.exceptions.PageNotFoundException;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.persistence.UserDao;
 import org.apache.commons.io.IOUtils;
@@ -194,6 +195,26 @@ public class UserServiceImpl implements UserService {
     public void updateProfilePicture(User user, byte[] image) {
         if(image.length > 0)
             user.setProfileImage(image);
+    }
+
+    @Override
+    public List<User> filter(FilterOptions filter, int page) {
+        int lastPage = getFilterTotalPages(filter);
+        lastPage = lastPage == 0 ? 1 : lastPage;
+        checkPage(page, lastPage);
+        return userDao.filter(filter, page);
+    }
+
+    @Override
+    public int getFilterTotalPages(FilterOptions filter) {
+        return userDao.getTotalPages(filter);
+    }
+
+    private void checkPage(int page, int lastPage) {
+        if(page <= 0)
+            throw new IllegalArgumentException();
+        if(page > lastPage)
+            throw new PageNotFoundException();
     }
 
 }
