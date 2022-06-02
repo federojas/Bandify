@@ -24,26 +24,32 @@
             </p>
             <%--  TODO:   Location--%>
             <div class="roles-div">
-                <c:forEach var="role"
-                           items="${requestScope.userRoles}"
-                           varStatus="loop">
-                    <div class="loop-div">
-
-                        <span class="roles-span"><c:out value="${role.name}" /></span>
-
-                    </div>
-                </c:forEach>
+                <div class="loop-div">
+                    <c:forEach var="role"
+                               items="${requestScope.userRoles}"
+                               varStatus="loop">
+                        <c:if test="${loop.index < 2}">
+                            <span class="roles-span"><c:out value="${role.name}" /></span>
+                        </c:if>
+                    </c:forEach>
+                    <c:if test="${requestScope.userRoles.size() > 2}">
+                        <span class="roles-span">+<c:out value="${requestScope.userRoles.size() - 2}" /></span>
+                    </c:if>
+                </div>
             </div>
             <div class="genres-div">
-                <c:forEach var="genre"
-                           items="${requestScope.userGenres}"
-                           varStatus="loop">
-                    <div class="loop-div">
-
-                        <span class="genre-span"><c:out value="${genre.name}" /></span>
-
-                    </div>
-                </c:forEach>
+                <div class="loop-div">
+                    <c:forEach var="genre"
+                               items="${requestScope.userGenres}"
+                               varStatus="loop">
+                        <c:if test="${loop.index < 2}">
+                            <span class="genre-span"><c:out value="${genre.name}" /></span>
+                        </c:if>
+                    </c:forEach>
+                    <c:if test="${requestScope.userGenres.size() > 2}">
+                        <span class="genre-span">+<c:out value="${requestScope.userGenres.size() - 2}" /></span>
+                    </c:if>
+                </div>
             </div>
         </div>
     </div>
