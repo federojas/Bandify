@@ -8,7 +8,7 @@
     flex-direction: column;
     justify-content: space-around;
     transition: 1s;
-    margin: 0 auto 20px;
+    margin: 20px;
 }
 
 .artist-card:hover {
