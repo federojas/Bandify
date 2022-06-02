@@ -56,7 +56,7 @@
                     <jsp:param name="userId" value="${user.id}"/>
                     <jsp:param name="userName" value="${user.name}" />
                     <jsp:param name="userSurname" value="${user.surname}"/>
-                    <jsp:param name="userDescription" value="${user.description}" />
+                    <jsp:param name="isBand" value="${user.band}" />
                 </jsp:include>
             </c:forEach>
         </div>

@@ -22,6 +22,14 @@
                 <c:out value="${param.userName}" />
                 <c:out value="${param.userSurname}"/>
             </p>
+            <p class="artist-description">
+                <c:if test="${param.isBand}">
+                    <spring:message code="register.band_word"/>
+                </c:if>
+                <c:if test="${!param.isBand}">
+                    <spring:message code="register.artist_word"/>
+                </c:if>
+            </p>
             <%--  TODO:   Location--%>
             <div class="roles-div">
                 <div class="loop-div">
