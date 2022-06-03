@@ -1,5 +1,5 @@
 .users-discover {
-    background-image: url(../images/clarinet.jpg);
+    background-image: url(../images/guitar-drums.jpg);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -9,7 +9,7 @@
 
 .abs-container-users {
     position: absolute;
-    top: 50%;
+    top: 40%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
