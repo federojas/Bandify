@@ -322,6 +322,11 @@ public class UserController {
         return mav;
     }
 
+    @RequestMapping(value = "/users", method = {RequestMethod.GET})
+    public ModelAndView usersDiscover() {
+        return new ModelAndView("usersDiscover");
+    }
+
     private void initializeFilterOptions(ModelAndView mav) {
         Set<Role> roleList = roleService.getAll();
         Set<Genre> genreList = genreService.getAll();
