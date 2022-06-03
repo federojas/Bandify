@@ -19,12 +19,6 @@ public class AuditionServiceImpl implements AuditionService {
     private AuditionDao auditionDao;
     @Autowired
     private AuthFacadeService authFacadeService;
-    @Autowired
-    private GenreService genreService;
-    @Autowired
-    private RoleService roleService;
-    @Autowired
-    private LocationService locationService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AuditionServiceImpl.class);
 

@@ -26,7 +26,9 @@ CREATE TABLE IF NOT EXISTS users
     isBand BOOLEAN,
     isEnabled BOOLEAN,
     description VARCHAR(500),
-    UNIQUE(email)
+    locationId BIGINT,
+    UNIQUE(email),
+    FOREIGN KEY (locationId) REFERENCES locations
 );
 
 CREATE TABLE IF NOT EXISTS auditions

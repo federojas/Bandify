@@ -14,8 +14,8 @@ public class BandEditForm extends UserEditForm {
     }
 
     @Override
-    public void initialize(User user, List<String> musicGenres, List<String> bandRoles, Set<SocialMedia> socialMediaSet) {
-        super.initialize(user,musicGenres,bandRoles,socialMediaSet);
+    public void initialize(User user, List<String> musicGenres, List<String> bandRoles, Set<SocialMedia> socialMediaSet, String location) {
+        super.initialize(user,musicGenres,bandRoles,socialMediaSet, location);
     }
 
 }

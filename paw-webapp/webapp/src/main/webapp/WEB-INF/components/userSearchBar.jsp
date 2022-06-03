@@ -87,8 +87,8 @@
 </head>
 <body>
 <div class="search-general-div">
-    <c:url value="/users/search" var="searchUrl"/>
-    <spring:message code="search.user.placeholder" var="searchPlaceholder"/>
+    <c:url value="/auditions/search" var="searchUrl"/>
+    <spring:message code="search.placeholder" var="searchPlaceholder"/>
     <form action="${searchUrl}" method="get" class="searchForm">
         <div class="searchBarAndOrderBy">
             <div class="search">

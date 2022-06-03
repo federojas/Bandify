@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.model;
 
 import javax.persistence.*;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.Set;
 
@@ -28,6 +29,10 @@ public class User {
 
     @Column(length = 500)
     private String description;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "locationId")
+    private Location location;
 
     @Column
     private boolean isBand;
@@ -76,12 +81,14 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(getId(), user.getId()) && isBand() == user.isBand() && isEnabled() == user.isEnabled() && Objects.equals(getEmail(), user.getEmail()) && Objects.equals(getPassword(), user.getPassword()) && Objects.equals(getName(), user.getName()) && Objects.equals(getSurname(), user.getSurname()) && Objects.equals(getDescription(), user.getDescription());
+        return isBand() == user.isBand() && isEnabled() == user.isEnabled() && Objects.equals(getId(), user.getId()) && Objects.equals(getEmail(), user.getEmail()) && Objects.equals(getPassword(), user.getPassword()) && Objects.equals(getName(), user.getName()) && Objects.equals(getSurname(), user.getSurname()) && Objects.equals(getDescription(), user.getDescription()) && Objects.equals(location, user.location) && Arrays.equals(image, user.image) && Objects.equals(getUserRoles(), user.getUserRoles()) && Objects.equals(getUserGenres(), user.getUserGenres()) && Objects.equals(getSocialSocialMedia(), user.getSocialSocialMedia());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getEmail(), getPassword(), getName(), getSurname(), getDescription(), isBand(), isEnabled());
+        int result = Objects.hash(getId(), getEmail(), getPassword(), getName(), getSurname(), getDescription(), location, isBand(), isEnabled(), getUserRoles(), getUserGenres(), getSocialSocialMedia());
+        result = 31 * result + Arrays.hashCode(image);
+        return result;
     }
 
     public String getEmail() {
@@ -132,6 +139,10 @@ public class User {
         return socialSocialMedia;
     }
 
+    public Location getLocation() {
+        return location;
+    }
+
     public void setPassword(String password) {
         this.password = password;
     }
@@ -166,6 +177,10 @@ public class User {
 
     public void setSocialSocialMedia(Set<SocialMedia> socialSocialMedia) {
         this.socialSocialMedia = socialSocialMedia;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
     }
 
     public void editInfo(String name, String surname, String description) {

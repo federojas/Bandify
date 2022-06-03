@@ -116,3 +116,22 @@
     line-height: 1.25rem;
     margin: 0.25rem;
 }
+
+.location {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.location > p {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.locationImg {
+    height: 15px;
+    width: 15px;
+    margin-right: 10px;
+}

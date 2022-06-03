@@ -2,6 +2,7 @@ package ar.edu.itba.paw.service;
 
 import ar.edu.itba.paw.model.Location;
 import ar.edu.itba.paw.model.Role;
+import ar.edu.itba.paw.model.exceptions.LocationNotFoundException;
 import ar.edu.itba.paw.model.exceptions.RoleNotFoundException;
 import ar.edu.itba.paw.persistence.LocationDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +41,7 @@ public class LocationServiceImpl implements LocationService {
         List<String> locations = locationDao.getAll().stream().map(Location::getName).collect(Collectors.toList());
 
         if(!locations.containsAll(locationNames))
-            throw new RoleNotFoundException();
+            throw new LocationNotFoundException();
 
         return locationDao.getLocationsByNames(locationNames);
     }

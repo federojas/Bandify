@@ -7,6 +7,7 @@ import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.webapp.form.constraints.annotations.ImageType;
 import ar.edu.itba.paw.webapp.form.constraints.annotations.MaxFileSize;
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import javax.validation.constraints.Size;
@@ -26,6 +27,10 @@ public abstract class UserEditForm {
 
     @Size(max = 15)
     private List<String> lookingFor;
+
+    @NotEmpty
+    @Size(max = 100)
+    private String location;
 
     @MaxFileSize(8)
     @ImageType(types = {"image/png", "image/jpeg"})
@@ -142,12 +147,21 @@ public abstract class UserEditForm {
         this.soundcloudUrl = soundcloudUrl;
     }
 
-    public void initialize(User user, List<String> musicGenres, List<String> bandRoles, Set<SocialMedia> socialMediaSet) {
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void initialize(User user, List<String> musicGenres, List<String> bandRoles, Set<SocialMedia> socialMediaSet, String location) {
         this.setMusicGenres(musicGenres);
         this.setLookingFor(bandRoles);
         this.setDescription(user.getDescription());
         this.setName(user.getName());
         this.setBand(user.isBand());
+        this.setLocation(location);
         Optional<SocialMedia> twitter = socialMediaSet.stream().filter(socialMedia -> socialMedia.getType().equals(UrlType.TWITTER)).findFirst();
         twitter.ifPresent(socialMedia -> this.setTwitterUrl(socialMedia.getUrl()));
 

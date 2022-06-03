@@ -81,6 +81,25 @@
                         code="edituser.form.invalidDescription"/></p>
             </div>
 
+            <div class="select-div">
+                <form:label class="form-label" path="location">
+                    <spring:message code="welcome.form.location"/>
+                </form:label>
+                <form:select
+                        id="location"
+                        path="location"
+                        multiple="false"
+                >
+                    <form:option value="" selected="true" disabled="true"><spring:message code="welcome.form.location.default"/></form:option>
+
+                    <c:forEach var="location" items="${locationList}" varStatus="loop">
+                        <form:option value="${location.name}"><c:out value="${location.name}"/></form:option>
+                    </c:forEach>
+                </form:select>
+                <form:errors path="location" element="p" cssClass="error">
+                </form:errors>
+            </div>
+
             <div>
                 <jsp:include page="../components/socialMediaForm.jsp"/>
             </div>

@@ -1,9 +1,7 @@
 package ar.edu.itba.paw.service;
 
 import ar.edu.itba.paw.model.*;
-import ar.edu.itba.paw.model.exceptions.DuplicateUserException;
-import ar.edu.itba.paw.model.exceptions.PageNotFoundException;
-import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
+import ar.edu.itba.paw.model.exceptions.*;
 import ar.edu.itba.paw.persistence.UserDao;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
@@ -41,6 +39,8 @@ public class UserServiceImpl implements UserService {
     private GenreService genreService;
     @Autowired
     private MailingService mailingService;
+    @Autowired
+    private LocationService locationService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
     private static final int MAX_USER_GENRES = 15;
@@ -82,12 +82,25 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public void editUser(long userId, String name, String surname, String description, List<String> genresNames, List<String> rolesNames, byte[] image) {
+    public void editUser(long userId, String name, String surname, String description, List<String> genresNames, List<String> rolesNames, byte[] image, String locationName) {
         User user = getUserById(userId).orElseThrow(UserNotFoundException::new);
         user.editInfo(name, surname, description);
         updateUserGenres(genresNames, user);
         updateUserRoles(rolesNames, user);
+        updateUserLocation(locationName, user);
         updateProfilePicture(user,image);
+    }
+
+    @Override
+    public Location getUserLocation(User user) {
+        return user.getLocation();
+    }
+
+    @Transactional
+    @Override
+    public void updateUserLocation(String locationName, User user) {
+        Location location = locationService.getLocationByName(locationName).orElseThrow(LocationNotFoundException::new);
+        user.setLocation(location);
     }
 
     @Override

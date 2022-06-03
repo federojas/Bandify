@@ -69,6 +69,7 @@ public class UserJpaDao implements UserDao {
                 "(SELECT DISTINCT users.id AS uId FROM users " +
                 "LEFT JOIN usergenres ON id = usergenres.userid " +
                 "LEFT JOIN userroles ON id = userroles.userid " +
+                "LEFT JOIN locations ON users.locationid = locations.id " +
                 "LEFT JOIN genres ON genres.id = usergenres.genreid " +
                 "LEFT JOIN roles ON roles.id = userroles.roleid " +
                 "WHERE isEnabled=true ");
@@ -94,6 +95,7 @@ public class UserJpaDao implements UserDao {
                 "(SELECT users.id AS uId FROM users " +
                 "LEFT JOIN usergenres ON id = usergenres.userid " +
                 "LEFT JOIN userroles ON id = userroles.userid " +
+                "LEFT JOIN locations ON users.locationid = locations.id " +
                 "LEFT JOIN genres ON genres.id = usergenres.genreid " +
                 "LEFT JOIN roles ON roles.id = userroles.roleid " +
                 "WHERE isEnabled=true ");
@@ -134,6 +136,10 @@ public class UserJpaDao implements UserDao {
         if(!filterOptions.getRolesNames().isEmpty()) {
             sqlQueryBuilder.append("AND role IN (:rolesNames) ");
             args.put("rolesNames",filterOptions.getRolesNames());
+        }
+        if(!filterOptions.getLocations().isEmpty()) {
+            sqlQueryBuilder.append("AND location IN (:locations) ");
+            args.put("locations",filterOptions.getLocations());
         }
         if(!filterOptions.getTitle().equals("")) {
             sqlQueryBuilder.append("AND lower(CONCAT(name, ' ', surname)) LIKE :name ");

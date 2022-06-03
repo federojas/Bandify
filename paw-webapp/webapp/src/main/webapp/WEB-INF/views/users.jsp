@@ -54,6 +54,7 @@
                 />
                 <jsp:include page="../components/userCard.jsp">
                     <jsp:param name="userId" value="${user.id}"/>
+                    <jsp:param name="location" value="${user.location.name}"/>
                     <jsp:param name="userName" value="${user.name}" />
                     <jsp:param name="userSurname" value="${user.surname}"/>
                     <jsp:param name="isBand" value="${user.band}" />

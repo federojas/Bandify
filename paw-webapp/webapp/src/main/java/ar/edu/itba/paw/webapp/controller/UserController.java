@@ -124,6 +124,9 @@ public class UserController {
         Set<Role> roles = userService.getUserRoles(userToVisit);
         mav.addObject("roles", roles);
 
+        Location location = userService.getUserLocation(userToVisit);
+        mav.addObject("location", location);
+
         Set<SocialMedia> socialMedia = userService.getUserSocialMedia(userToVisit);
         mav.addObject("socialMedia", socialMedia);
         return mav;
@@ -168,15 +171,19 @@ public class UserController {
         User user = authFacadeService.getCurrentUser();
         Set<Role> roleList = roleService.getAll();
         Set<Genre> genreList = genreService.getAll();
+        List<Location> locationList = locationService.getAll();
         Set<Role> userRoles = userService.getUserRoles(user);
         Set<Genre> userGenres = userService.getUserGenres(user);
+        Location userLocation = userService.getUserLocation(user);
         Set<SocialMedia> socialMedia = userService.getUserSocialMedia(user);
         List<String> selectedRoles = userRoles.stream().map(Role::getName).collect(Collectors.toList());
         List<String> selectedGenres = userGenres.stream().map(Genre::getName).collect(Collectors.toList());
-        editForm.initialize(user,selectedGenres,selectedRoles, socialMedia);
+        String selectedLocation = userLocation == null ? null : userLocation.getName();
+        editForm.initialize(user,selectedGenres,selectedRoles, socialMedia, selectedLocation);
         mav.addObject("user", user);
         mav.addObject("roleList", roleList);
         mav.addObject("genreList", genreList);
+        mav.addObject("locationList", locationList);
         return mav;
     }
 
@@ -192,7 +199,7 @@ public class UserController {
 
        userService.editUser(user.getId(), artistEditForm.getName(), artistEditForm.getSurname(), artistEditForm.getDescription(),
                artistEditForm.getMusicGenres(), artistEditForm.getLookingFor(),
-               artistEditForm.getProfileImage().getBytes());
+               artistEditForm.getProfileImage().getBytes(), artistEditForm.getLocation());
        userService.updateSocialMedia(user,artistEditForm.getSocialMedia());
 
         return new ModelAndView("redirect:/profile");
@@ -210,7 +217,7 @@ public class UserController {
 
         userService.editUser(user.getId(), bandEditForm.getName(),null, bandEditForm.getDescription(),
                 bandEditForm.getMusicGenres(), bandEditForm.getLookingFor(),
-                bandEditForm.getProfileImage().getBytes());
+                bandEditForm.getProfileImage().getBytes(), bandEditForm.getLocation());
         userService.updateSocialMedia(user,bandEditForm.getSocialMedia());
 
         return new ModelAndView("redirect:/profile");
