@@ -32,6 +32,19 @@
                 <c:out value="${param.userName}" />
                 <c:out value="${param.userSurname}"/>
             </p>
+
+            <p class="artist-description">
+                <c:if test="${param.isBand}">
+                    <span class="account-type-label-band">
+                        <spring:message code="register.band_word"/>
+                    </span>
+                </c:if>
+                <c:if test="${!param.isBand}">
+                    <span class="account-type-label-artist">
+                        <spring:message code="register.artist_word"/>
+                    </span>
+                </c:if>
+            </p>
             <c:if test="${not empty param.location}">
                 <div class="location">
                     <svg
@@ -46,18 +59,6 @@
                     <p><c:out value="${param.location}" /></p>
                 </div>
             </c:if>
-            <p class="artist-description">
-                <c:if test="${param.isBand}">
-                    <span class="account-type-label-band">
-                        <spring:message code="register.band_word"/>
-                    </span>
-                </c:if>
-                <c:if test="${!param.isBand}">
-                    <span class="account-type-label-artist">
-                        <spring:message code="register.artist_word"/>
-                    </span>
-                </c:if>
-            </p>
             <%--  TODO:   Location--%>
             <div class="roles-div">
                 <div class="loop-div">
