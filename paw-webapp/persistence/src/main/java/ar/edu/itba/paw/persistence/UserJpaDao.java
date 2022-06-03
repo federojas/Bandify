@@ -111,7 +111,7 @@ public class UserJpaDao implements UserDao {
         } else {
             sqlQueryBuilder.append("ORDER BY name, surname ASC");
         }
-        sqlQueryBuilder.append(" LIMIT ").append(PAGE_SIZE).append(" OFFSET ").append((page - 1) * PAGE_SIZE).append(") AS u");
+        sqlQueryBuilder.append(") AS u ").append(" LIMIT ").append(PAGE_SIZE).append(" OFFSET ").append((page - 1) * PAGE_SIZE);
 
 
         Query query = em.createNativeQuery(sqlQueryBuilder.toString());
@@ -122,7 +122,7 @@ public class UserJpaDao implements UserDao {
 
         List<Long> ids = getUserIds(query);
 
-        TypedQuery<User> users = em.createQuery("from User as u where u.id in :ids", User.class);
+        TypedQuery<User> users = em.createQuery("from User as u where u.id in :ids ORDER BY name, surname", User.class);
         users.setParameter("ids",ids);
         return users.getResultList();
     }
