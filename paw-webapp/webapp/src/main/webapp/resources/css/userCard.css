@@ -1,5 +1,5 @@
 .artist-card {
-    padding: 1rem 1rem;
+
     width: 22rem;
     height: 25rem;
     background-color: white;
@@ -31,15 +31,25 @@
     border:2px solid black;
 }
 
-.imageDiv {
+.imageDiv-artist {
     display: flex;
     justify-content: center;
+    background-color: #2E2B48;
+    padding: 1rem 0;
+    border-radius: 0.75rem 0.75rem 0 0;
+}
+
+.imageDiv-band {
+    display: flex;
+    justify-content: center;
+    background-color: #375275;
+    padding: 1rem 0;
+    border-radius: 0.75rem 0.75rem 0 0;
 }
 
 .artist-content {
     text-align: center;
-    margin-bottom: 10px;
-    margin-top: 10px;
+    margin: 10px
 }
 
 .artist-name {
@@ -57,6 +67,7 @@
     color: rgb(100 116 139 / var(--tw-text-opacity));
     overflow-wrap: break-word;
     font-weight: 500;
+    margin: 0.75rem 0 1.5rem;
 }
 
 .artist-profile-btn {
@@ -88,6 +99,7 @@
     position: absolute;
     bottom: 4%;
     align-self: flex-end;
+    right: 4%;
 }
 
 .genres-div {
@@ -141,4 +153,25 @@
     height: 15px;
     width: 15px;
     margin-right: 10px;
+}
+
+.account-type-label-artist {
+    padding: 0.25rem 0.5rem;
+    background-color: #2E2B48;
+    border-radius: 0.25rem;
+    color: #fff;
+    font-size: 1rem;
+    line-height: 1rem;
+    margin: 0.25rem;
+}
+
+.account-type-label-band {
+    padding: 0.25rem 0.5rem;
+    background-color: #375275;
+    border-radius: 0.25rem;
+    color: #fff;
+    font-size: 1rem;
+    line-height: 1rem;
+    margin: 0.25rem;
+
 }

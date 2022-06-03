@@ -10,11 +10,22 @@
 <body>
 <div class="artist-card shadow">
 
-    <div class="imageDiv">
-        <spring:message code="artists.img.alt" var="artistImgAlt"/>
-        <img class="artist-img"
-             src="<c:url value='/user/${param.userId}/profile-image'/>" alt="${artistImgAlt}"/>
-    </div>
+    <c:if test="${param.isBand}">
+        <div class="imageDiv-band">
+            <spring:message code="artists.img.alt" var="artistImgAlt"/>
+            <img class="artist-img"
+                 src="<c:url value='/user/${param.userId}/profile-image'/>" alt="${artistImgAlt}"/>
+        </div>
+    </c:if>
+    <c:if test="${!param.isBand}">
+        <div class="imageDiv-artist">
+            <spring:message code="artists.img.alt" var="artistImgAlt"/>
+            <img class="artist-img"
+                 src="<c:url value='/user/${param.userId}/profile-image'/>" alt="${artistImgAlt}"/>
+        </div>
+    </c:if>
+
+
     <div class="artist-content">
         <div>
             <p class="artist-name">
@@ -37,10 +48,14 @@
             </c:if>
             <p class="artist-description">
                 <c:if test="${param.isBand}">
-                    <spring:message code="register.band_word"/>
+                    <span class="account-type-label-band">
+                        <spring:message code="register.band_word"/>
+                    </span>
                 </c:if>
                 <c:if test="${!param.isBand}">
-                    <spring:message code="register.artist_word"/>
+                    <span class="account-type-label-artist">
+                        <spring:message code="register.artist_word"/>
+                    </span>
                 </c:if>
             </p>
             <%--  TODO:   Location--%>
