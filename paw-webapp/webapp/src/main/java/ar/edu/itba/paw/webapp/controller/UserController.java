@@ -305,7 +305,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/users/search", method = {RequestMethod.GET})
-    public ModelAndView users(@RequestParam(value = "page", defaultValue = "1") int page,
+    public ModelAndView usersSearch(@RequestParam(value = "page", defaultValue = "1") int page,
                               @RequestParam(value = "query", defaultValue = "") String query,
                               @RequestParam(value = "genre", required = false) String[] genres,
                               @RequestParam(value = "role", required = false) String[] roles,
@@ -316,7 +316,8 @@ public class UserController {
         FilterOptions filter = new FilterOptions.FilterOptionsBuilder().
                 withGenres(genres == null ? null : Arrays.asList(genres))
                 .withRoles(roles == null ? null : Arrays.asList(roles))
-                .withLocations(locations == null ? null : Arrays.asList(locations)).build();
+                .withLocations(locations == null ? null : Arrays.asList(locations))
+                .withTitle(query).build();
         initializeFilterOptions(mav);
 
         List<User> userList = userService.filter(filter,page);
@@ -331,7 +332,12 @@ public class UserController {
 
     @RequestMapping(value = "/users", method = {RequestMethod.GET})
     public ModelAndView usersDiscover() {
-        return new ModelAndView("usersDiscover");
+
+        ModelAndView userDiscover = new ModelAndView("usersDiscover");
+
+        initializeFilterOptions(userDiscover);
+
+        return userDiscover;
     }
 
     private void initializeFilterOptions(ModelAndView mav) {

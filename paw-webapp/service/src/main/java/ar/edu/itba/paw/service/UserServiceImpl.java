@@ -210,6 +210,17 @@ public class UserServiceImpl implements UserService {
             user.setProfileImage(image);
     }
 
+    @Transactional
+    @Override
+    public void setLookingFor(boolean isLookingFor, User user) {
+        user.setLookingFor(isLookingFor);
+    }
+
+    @Override
+    public boolean getLookingFor(User user) {
+        return user.isLookingFor();
+    }
+
     @Override
     public List<User> filter(FilterOptions filter, int page) {
         int lastPage = getFilterTotalPages(filter);

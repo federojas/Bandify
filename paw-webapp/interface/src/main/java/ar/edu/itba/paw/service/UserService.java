@@ -44,6 +44,10 @@ public interface UserService {
 
     void updateSocialMedia(User user, Set<MediaUrl> mediaUrls);
 
+    void setLookingFor(boolean isLookingFor, User user);
+
+    boolean getLookingFor(User user);
+
     List<User> filter(FilterOptions filter, int page);
 
     int getFilterTotalPages(FilterOptions filter);
