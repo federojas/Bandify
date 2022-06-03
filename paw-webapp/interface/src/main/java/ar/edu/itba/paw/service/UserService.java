@@ -44,9 +44,9 @@ public interface UserService {
 
     void updateSocialMedia(User user, Set<MediaUrl> mediaUrls);
 
-    void setLookingFor(boolean isLookingFor, User user);
+    void setAvailable(boolean isLookingFor, User user);
 
-    boolean getLookingFor(User user);
+    boolean isAvailable(User user);
 
     List<User> filter(FilterOptions filter, int page);
 

@@ -212,13 +212,14 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public void setLookingFor(boolean isLookingFor, User user) {
-        user.setLookingFor(isLookingFor);
+    public void setAvailable(boolean available, User user) {
+        if(!user.isBand())
+            user.setAvailable(available);
     }
 
     @Override
-    public boolean getLookingFor(User user) {
-        return user.isLookingFor();
+    public boolean isAvailable(User user) {
+        return user.isAvailable();
     }
 
     @Override

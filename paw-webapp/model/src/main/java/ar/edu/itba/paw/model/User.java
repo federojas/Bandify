@@ -41,7 +41,7 @@ public class User {
     private boolean isEnabled;
 
     @Column
-    private boolean isLookingFor;
+    private boolean available;
 
     @Column(table = "profileimages")
     @Basic(fetch = FetchType.LAZY)
@@ -77,7 +77,7 @@ public class User {
         this.isEnabled = builder.isEnabled;
         this.id = builder.id;
         this.description = builder.description;
-        this.isLookingFor = false;
+        this.available = false;
     }
 
     @Override
@@ -85,12 +85,12 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return isBand() == user.isBand() && isEnabled() == user.isEnabled() && isLookingFor() == user.isLookingFor() && Objects.equals(getId(), user.getId()) && Objects.equals(getEmail(), user.getEmail()) && Objects.equals(getPassword(), user.getPassword()) && Objects.equals(getName(), user.getName()) && Objects.equals(getSurname(), user.getSurname()) && Objects.equals(getDescription(), user.getDescription()) && Objects.equals(getLocation(), user.getLocation()) && Arrays.equals(image, user.image) && Objects.equals(getUserRoles(), user.getUserRoles()) && Objects.equals(getUserGenres(), user.getUserGenres()) && Objects.equals(getSocialSocialMedia(), user.getSocialSocialMedia());
+        return isBand() == user.isBand() && isEnabled() == user.isEnabled() && isAvailable() == user.isAvailable() && Objects.equals(getId(), user.getId()) && Objects.equals(getEmail(), user.getEmail()) && Objects.equals(getPassword(), user.getPassword()) && Objects.equals(getName(), user.getName()) && Objects.equals(getSurname(), user.getSurname()) && Objects.equals(getDescription(), user.getDescription()) && Objects.equals(getLocation(), user.getLocation()) && Arrays.equals(image, user.image) && Objects.equals(getUserRoles(), user.getUserRoles()) && Objects.equals(getUserGenres(), user.getUserGenres()) && Objects.equals(getSocialSocialMedia(), user.getSocialSocialMedia());
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(getId(), getEmail(), getPassword(), getName(), getSurname(), getDescription(), getLocation(), isBand(), isEnabled(), isLookingFor(), getUserRoles(), getUserGenres(), getSocialSocialMedia());
+        int result = Objects.hash(getId(), getEmail(), getPassword(), getName(), getSurname(), getDescription(), getLocation(), isBand(), isEnabled(), isAvailable(), getUserRoles(), getUserGenres(), getSocialSocialMedia());
         result = 31 * result + Arrays.hashCode(image);
         return result;
     }
@@ -147,8 +147,8 @@ public class User {
         return location;
     }
 
-    public boolean isLookingFor() {
-        return isLookingFor;
+    public boolean isAvailable() {
+        return available;
     }
 
     public void setPassword(String password) {
@@ -191,8 +191,8 @@ public class User {
         this.location = location;
     }
 
-    public void setLookingFor(boolean lookingFor) {
-            isLookingFor = lookingFor;
+    public void setAvailable(boolean available) {
+            this.available = available;
     }
 
     public void editInfo(String name, String surname, String description) {
