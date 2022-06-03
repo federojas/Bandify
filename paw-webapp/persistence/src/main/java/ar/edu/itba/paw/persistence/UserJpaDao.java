@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @Repository
 public class UserJpaDao implements UserDao {
 
-    private static final int PAGE_SIZE = 12;
+    private static final int PAGE_SIZE = 9;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserJpaDao.class);
 
@@ -92,7 +92,7 @@ public class UserJpaDao implements UserDao {
 
         Map<String,Object> args = new HashMap<>();
         StringBuilder sqlQueryBuilder = new StringBuilder("SELECT DISTINCT u.uId FROM " +
-                "(SELECT users.id AS uId FROM users " +
+                "(SELECT users.id AS uId, name, surname FROM users " +
                 "LEFT JOIN usergenres ON id = usergenres.userid " +
                 "LEFT JOIN userroles ON id = userroles.userid " +
                 "LEFT JOIN locations ON users.locationid = locations.id " +
@@ -122,7 +122,7 @@ public class UserJpaDao implements UserDao {
 
         List<Long> ids = getUserIds(query);
 
-        TypedQuery<User> users = em.createQuery("from User as u where u.id in :ids ORDER BY u.name, u.surname ASC", User.class);
+        TypedQuery<User> users = em.createQuery("from User as u where u.id in :ids", User.class);
         users.setParameter("ids",ids);
         return users.getResultList();
     }

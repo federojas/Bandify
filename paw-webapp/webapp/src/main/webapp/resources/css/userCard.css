@@ -6,9 +6,9 @@
     border-radius: 0.75rem;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
     transition: 1s;
     margin: 20px;
+    position: relative;
 }
 
 .artist-card:hover {
@@ -24,7 +24,6 @@
 
 .artist-img {
     display: block;
-    margin: 0 auto;
     height: 7.5rem;
     width: 7.5rem;
     object-fit: cover;
@@ -32,9 +31,15 @@
     border:2px solid black;
 }
 
+.imageDiv {
+    display: flex;
+    justify-content: center;
+}
+
 .artist-content {
     text-align: center;
-    margin: 1rem 0;
+    margin-bottom: 10px;
+    margin-top: 10px;
 }
 
 .artist-name {
@@ -43,7 +48,8 @@
     color: black;
     font-weight: 600;
     margin: 0.75rem;
-    word-break: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .artist-description {
@@ -60,7 +66,6 @@
     border-radius: 9999px;
     border-width: 1px;
     border-color: #1c041c;
-    margin-top: 1rem;
 }
 
 .artist-profile-btn:hover {
@@ -80,6 +85,8 @@
 }
 
 .artist-btn-div {
+    position: absolute;
+    bottom: 4%;
     align-self: flex-end;
 }
 
