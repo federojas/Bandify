@@ -241,6 +241,13 @@ body {
     align-self: center
 }
 
+.edit-profile-image-container{
+    display: flex;
+    justify-content: center;
+    margin: 10px 0;
+    overflow: hidden;
+}
+
 .editProfile-title {
     font-size: 2.5rem;
     line-height: 1.75rem;
@@ -272,7 +279,26 @@ body {
     display: flex;
     justify-content: space-around;
     align-items: center;
+    flex-direction: row;
 }
+
+.imageWrapper{
+    position: relative;
+}
+
+.top-image-form {
+    margin-top: 2px;
+    position: absolute;
+    height:194px;
+    width: 194px;
+    border-radius: 10000px;
+    z-index: 1;
+    top: 1px;
+    left: 1px;
+    margin-right: 1px;
+    margin-left: 2px;
+}
+
 .edit-image-text-container{
     display: flex;
     flex-direction: column

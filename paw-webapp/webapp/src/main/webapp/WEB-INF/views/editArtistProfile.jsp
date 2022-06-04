@@ -24,12 +24,14 @@
 </jsp:include>
 <main class="flex flex-col justify-center">
     <h1 class="editProfile-title" id="title"><spring:message code="edituser.title" /></h1>
+
     <div class="editProfile-box" id="form">
         <c:url value="/profile/editArtist" var="editProfileUrl"/>
 
         <%--@elvariable id="artistEditForm" type="ar.edu.itba.paw.webapp.form.ArtistEditForm"--%>
         <form:form method="post" acceptCharset="utf-8" modelAttribute="artistEditForm"
                    action="${editProfileUrl}" id="artistEditForm" enctype="multipart/form-data">
+
             <div>
                 <form:label class="form-label" path="name">
                     <spring:message code="register.form.name"/>
@@ -59,11 +61,27 @@
                 </form:label>
                 <br/>
                 <div class = "editProfilePicture">
-                    <spring:message code="profile.img.alt" var="img"/>
-                         <img id="imagePreview" src="<c:url value="/user/${user.id}/profile-image"/>" class="profileImage" alt="${img}"/>
-                    <div class="edit-image-text-container">
+                    <div class="imageWrapper">
+                        <spring:message code="profile.img.alt" var="img"/>
+                             <img id="imagePreview" src="<c:url value="/user/${user.id}/profile-image"/>" class="profileImage" alt="${img}"/>
+                        <spring:message code="available.img.alt" var="available"/>
+                        <img class="top-image-form" id="filter" src="../../resources/images/available.png" alt="${available}"/>
+                    </div>
+                        <div class="edit-image-text-container">
                          <form:input id="selectImage" type="file" path="profileImage" accept="image/png, image/jpeg" onchange="previewImage()" />
                          <form:errors path="profileImage" element="p" cssClass="error"/>
+                        <div>
+                            <form:label class="form-label" path="available">
+                                <spring:message code="edituser.form.available"/>
+                                <form:select path="available" id="available"
+                                             multiple="false" onchange="filterPreview()">
+                                    <spring:message code="edituser.form.yes" var="yes"/>
+                                    <spring:message code="edituser.form.no" var="no"/>
+                                    <form:option value="true"><c:out value="${yes}"/></form:option>
+                                    <form:option value="false"><c:out value="${no}"/></form:option>
+                                </form:select>
+                            </form:label>
+                        </div>
                     </div>
                 </div>
             </div>

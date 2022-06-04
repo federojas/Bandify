@@ -129,6 +129,7 @@ public class UserController {
 
         Set<SocialMedia> socialMedia = userService.getUserSocialMedia(userToVisit);
         mav.addObject("socialMedia", socialMedia);
+
         return mav;
     }
 
@@ -201,6 +202,7 @@ public class UserController {
                artistEditForm.getMusicGenres(), artistEditForm.getLookingFor(),
                artistEditForm.getProfileImage().getBytes(), artistEditForm.getLocation());
        userService.updateSocialMedia(user,artistEditForm.getSocialMedia());
+       userService.setAvailable(artistEditForm.getAvailable(), user);
 
         return new ModelAndView("redirect:/profile");
     }

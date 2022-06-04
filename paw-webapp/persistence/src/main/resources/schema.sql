@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS users
     surname VARCHAR(50),
     isBand BOOLEAN,
     isEnabled BOOLEAN,
-    isLookingForBand BOOLEAN,
+    available BOOLEAN,
     description VARCHAR(500),
     locationId BIGINT,
     UNIQUE(email),

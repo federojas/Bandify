@@ -78,6 +78,7 @@ function toggleSocialMedia(){
         }
     });
 }
+
 function previewImage() {
         let output = document.getElementById('imagePreview');
         output.src = URL.createObjectURL(event.target.files[0]);
@@ -85,6 +86,19 @@ function previewImage() {
             URL.revokeObjectURL(output.src)
         }
 }
+
+
+function filterPreview(){
+    let value = document.getElementById("available").value;
+    let img = document.getElementById("filter");
+
+    if (value === "true"){
+        img.style.visibility = "visible";
+    }else if (value === "false"){
+        img.style.visibility = "hidden";
+    }
+}
+
 
 
 

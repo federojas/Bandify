@@ -197,6 +197,16 @@ auditions-title-div {
     border:3px solid black;
 }
 
+.top-image {
+    margin-top: 3px;
+    position: absolute;
+    height:195px;
+    width: 195px;
+    border-radius: 10000px;
+    z-index: 1;
+    margin-right: 3px;
+}
+
 .location {
     display: flex;
     flex-direction: row;

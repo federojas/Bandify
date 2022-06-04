@@ -17,6 +17,10 @@
             <img class="postcard-profile-image"
                  src="<c:url value="/user/${param.userId}/profile-image"/>"
                  alt="${img}">
+            <c:if test="${param.available}">
+                <spring:message code="available.img.alt" var="available"/>
+                <img class="top-image" src="../../resources/images/available.png" alt="${available}"/>
+            </c:if>
             <span class="user-name">
                     <c:out value="${param.applicantName}"/> <c:out value="${param.applicantSurname}"/>
             </span>

@@ -33,6 +33,10 @@
                                 <spring:message code="profile.img.alt" var="img"/>
                                      src="<c:url value="/user/${user.id}/profile-image"/>"
                                      alt="${img}">
+                                <c:if test="${user.available}">
+                                    <spring:message code="available.img.alt" var="available"/>
+                                    <img class="top-image" src="../../resources/images/available.png alt="${available}"/>
+                                </c:if>
                             </div>
                         </div>
                         <%--                    Info--%>

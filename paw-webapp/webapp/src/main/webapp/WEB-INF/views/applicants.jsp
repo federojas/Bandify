@@ -82,6 +82,7 @@
                                 <jsp:param name="userId" value="${app.applicant.id}" />
                                 <jsp:param name="actionable" value="${app.state.state=='PENDING'}" />
                                 <jsp:param name="message" value="${app.message}"/>
+                                <jsp:param name="available" value="${app.applicant.available}" />
                                 <jsp:param name="email" value="${app.applicant.email}" />
                             </jsp:include>
                         </c:forEach>

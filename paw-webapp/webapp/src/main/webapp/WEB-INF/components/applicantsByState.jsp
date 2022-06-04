@@ -33,6 +33,7 @@
             <jsp:param name="auditionId" value="${param.auditionId}" />
             <jsp:param name="userId" value="${app.applicantId}" />
             <jsp:param name="email" value="${app.applicant.email}" />
+            <jsp:param name="available" value="${app.applicant.available}" />
             <jsp:param name="actionable" value="true" />
           </jsp:include>
         </c:forEach>
@@ -52,6 +53,7 @@
             <jsp:param name="auditionId" value="${param.auditionId}" />
             <jsp:param name="userId" value="${app.applicant.id}" />
             <jsp:param name="email" value="${app.applicant.email}" />
+            <jsp:param name="available" value="${app.applicant.available}" />
             <jsp:param name="actionable" value="false" />
           </jsp:include>
         </c:forEach>
@@ -71,6 +73,7 @@
             <jsp:param name="auditionId" value="${param.auditionId}" />
             <jsp:param name="userId" value="${app.applicant.id}" />
             <jsp:param name="email" value="${app.applicant.email}" />
+            <jsp:param name="available" value="${app.applicant.available}" />
             <jsp:param name="actionable" value="false" />
           </jsp:include>
         </c:forEach>
