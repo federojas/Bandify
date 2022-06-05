@@ -33,13 +33,18 @@ public class RoleDaoTest {
 
     private JdbcTemplate jdbcTemplate;
 
-    private static final long[] roleIds = {1L, 2L, 3L, 4L, 5L};
-    private static final String[] roleNames = {"role", "role2", "role3", "role4", "role5"};
+    private static final Role role1 = new Role(1L, "role");
+    private static final Role role2 = new Role(2L, "role2");
+    private static final Role role3 = new Role(3L, "role3");
+    private static final Role role4 = new Role(4L, "role4");
+    private static final Role role5 = new Role(5L, "role5");
+
 
     private static final long INVALID_ID = 20;
     private static final String INVALID_NAME = "INVALIDO";
-    private static final List<String> ROLE_NAMES = Arrays.asList(roleNames[0], roleNames[1]);
-    private static final List<Role> ROLES = Arrays.asList(new Role(roleIds[0], roleNames[0]), new Role(roleIds[1], roleNames[1]));
+    private static final List<String> ROLE_NAMES = Arrays.asList(role1.getName(), role2.getName());
+    private static final List<Role> ROLES_BY_NAMES = Arrays.asList(role1, role2);
+    private static final List<Role> ROLES = Arrays.asList(role1, role2, role3, role4, role5);
 
     @Before
     public void setUp() {
@@ -48,13 +53,12 @@ public class RoleDaoTest {
 
     @Test
     public void testGetRoleById() {
-        final Optional<Role> optionalRole = roleDao.getRoleById(roleIds[0]);
+        final Optional<Role> optionalRole = roleDao.getRoleById(role1.getId());
 
         assertNotNull(optionalRole);
         assertTrue(optionalRole.isPresent());
 
-        assertEquals(roleNames[0], optionalRole.get().getName());
-        assertEquals(roleIds[0], optionalRole.get().getId());
+        assertEquals(role1, optionalRole.get());
     }
 
     @Test
@@ -66,13 +70,12 @@ public class RoleDaoTest {
 
     @Test
     public void testGetRoleByName() {
-        final Optional<Role> optionalRole = roleDao.getRoleByName(roleNames[0]);
+        final Optional<Role> optionalRole = roleDao.getRoleByName(role2.getName());
 
         assertNotNull(optionalRole);
         assertTrue(optionalRole.isPresent());
 
-        assertEquals(roleIds[0], optionalRole.get().getId());
-        assertEquals(roleNames[0], optionalRole.get().getName());
+        assertEquals(role2, optionalRole.get());
     }
 
     @Test
@@ -84,25 +87,23 @@ public class RoleDaoTest {
 
     @Test
     public void testGetAll() {
-        int i = 0;
         final Set<Role> roleSet = roleDao.getAll();
 
         assertNotNull(roleSet);
         assertEquals(5, roleSet.size());
 
-        for (Role role : roleSet) {
-            assertEquals(roleIds[(int) role.getId() - 1], role.getId());
-            assertEquals(roleNames[(int) role.getId() - 1], role.getName());
-            i++;
-        }
-
+        assertTrue(ROLES.containsAll(roleSet));
+        assertEquals(ROLES.size(), roleSet.size());
         assertEquals(JdbcTestUtils.countRowsInTable(jdbcTemplate, "roles"), roleSet.size());
     }
 
     @Test
     public void testGetRolesByNames() {
         final Set<Role> roleSet = roleDao.getRolesByNames(ROLE_NAMES);
-        assertTrue(ROLES.containsAll(roleSet));
+        assertNotNull(roleSet);
+        assertEquals(2, roleSet.size());
+        assertTrue(ROLES_BY_NAMES.containsAll(roleSet));
+        assertEquals(ROLES_BY_NAMES.size(), roleSet.size());
         assertEquals(JdbcTestUtils.countRowsInTableWhere(jdbcTemplate, "roles", "role = '" + ROLE_NAMES.get(0) + "' OR role = '" + ROLE_NAMES.get(1) + "'"), roleSet.size());
     }
 

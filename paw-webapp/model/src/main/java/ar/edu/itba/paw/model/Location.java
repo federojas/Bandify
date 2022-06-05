@@ -19,6 +19,11 @@ public class Location {
         //Hibernate
     }
 
+    public Location(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public long getId() {
         return id;
     }

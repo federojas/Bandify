@@ -33,8 +33,12 @@ public class LocationDaoTest {
 
     private JdbcTemplate jdbcTemplate;
 
-    private final long[] locationIds = {1L, 2L, 3L};
-    private final String[] locationNames = {"loc", "loc2", "loc3"};
+    private static final Location location1 = new Location(1L, "loc");
+    private static final Location location2 = new Location(2L, "loc2");
+    private static final Location location3 = new Location(3L, "loc3");
+
+    private static final List<Location> LOCATIONS = Arrays.asList(location1, location2, location3);
+    private static final List<String> LOCATION_NAMES = Arrays.asList("loc", "loc2", "loc3");
 
     private static final String INVALID_NAME = "INVALIDO";
 
@@ -48,18 +52,12 @@ public class LocationDaoTest {
 
     @Test
     public void testGetAll() {
-        int i = 0;
         final List<Location> locations = locationDao.getAll();
 
         assertNotNull(locations);
         assertEquals(3, locations.size());
-
-        for (Location location : locations) {
-           assertEquals(locationIds[i], location.getId());
-           assertEquals(locationNames[i], location.getName());
-           i++;
-        }
-
+        assertTrue(LOCATIONS.containsAll(locations));
+        assertEquals(LOCATIONS.size(), locations.size());
         assertEquals(JdbcTestUtils.countRowsInTable(jdbcTemplate, "locations"), locations.size());
     }
 
@@ -68,8 +66,7 @@ public class LocationDaoTest {
         final Optional<Location> optionalLocation = locationDao.getLocationByName(LOCATION_NAME);
         assertNotNull(optionalLocation);
         assertTrue(optionalLocation.isPresent());
-        assertEquals(LOCATION_NAME, optionalLocation.get().getName());
-        assertEquals(LOCATION_ID, optionalLocation.get().getId());
+        assertEquals(location1, optionalLocation.get());
     }
 
     @Test
@@ -82,16 +79,12 @@ public class LocationDaoTest {
     @Test
     public void testGetLocationByNames() {
         int i = 0;
-        final Set<Location> locations = locationDao.getLocationsByNames(Arrays.asList(locationNames));
+        final Set<Location> locations = locationDao.getLocationsByNames(LOCATION_NAMES);
 
         assertNotNull(locations);
         assertEquals(3, locations.size());
-
-        for (Location location : locations) {
-            assertEquals(locationIds[i], location.getId());
-            assertEquals(locationNames[i], location.getName());
-            i++;
-        }
+        assertEquals(LOCATIONS.size(), locations.size());
+        assertTrue(LOCATIONS.containsAll(locations));
     }
 
     @Test
