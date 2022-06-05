@@ -84,10 +84,6 @@ public class Application {
         private LocalDateTime creationDate;
         private String message;
 
-        /* Default */ ApplicationBuilder() {
-            // Just for Hibernate
-        }
-
         public ApplicationBuilder(Audition audition, User applicant, ApplicationState state, LocalDateTime creationDate, String message) {
             this.audition = audition;
             this.applicant = applicant;
