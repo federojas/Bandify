@@ -30,7 +30,7 @@
 //@Rollback
 //@Transactional
 //public class ImageDaoTest {
-///*
+//
 //    @Autowired
 //    private ImageJdbcDao imageDao;
 //    @Autowired
@@ -103,7 +103,4 @@
 //        }
 //    }
 //
-//
-//
-// */
 //}

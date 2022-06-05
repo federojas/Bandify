@@ -51,7 +51,6 @@ public class LocationDaoTest {
         int i = 0;
         final List<Location> locations = locationDao.getAll();
 
-
         assertNotNull(locations);
         assertEquals(3, locations.size());
 
