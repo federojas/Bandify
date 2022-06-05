@@ -13,7 +13,7 @@
 //@Rollback
 //@Transactional
 //public class RoleDaoTest {
-///*
+//
 //    @Autowired
 //    private RoleJpaDao roleDao;
 //    @Autowired
@@ -122,5 +122,5 @@
 ////        assertEquals(USER_ROLES.size(), JdbcTestUtils.countRowsInTableWhere(jdbcTemplate, "userroles", "userid = " + USER_ID + " AND (roleid = " + role.getId() + " OR roleid = " + role2.getId() + ")"));
 ////    }
 //
-// */
+//
 //}
