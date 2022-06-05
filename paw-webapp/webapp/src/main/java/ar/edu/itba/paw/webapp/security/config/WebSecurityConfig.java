@@ -45,12 +45,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .invalidSessionUrl("/welcome")
                 .and().authorizeRequests()
                     .antMatchers( "/welcome","/register","/registerBand","/registerArtist","/verify",
-                                 "/resetPassword","/aboutUs","/newPassword","/login").anonymous()
-                    .antMatchers("/apply", "/profile/applications","/editArtist").hasRole("ARTIST")
+                                 "/resetPassword","/aboutUs","/newPassword","/login","/emailSent","/resetEmailSent").anonymous()
+                    .antMatchers("/apply", "/profile/applications","/editArtist","/success").hasRole("ARTIST")
                     .antMatchers("/newAudition", "/profile/auditions", "/profile/editAudition/{\\d+}", "/profile/deleteAudition/{\\d+}","/editBand",
                                  "/auditions/{\\d+}/applicants").hasRole("BAND")
-                    .antMatchers("/profile/**","/auditions/{\\d+}").authenticated()
-                    .antMatchers("/auditions","/search", "/", "/user/{\\d+}","/user/{\\d+}/profile-image").permitAll()
+                    .antMatchers("/profile/**","/auditions/{\\d+}","/bandAuditions/{\\d+}", "/users/search", "/users").authenticated()
+                    .antMatchers("/auditions","/auditions/search", "/", "/user/{\\d+}","/user/{\\d+}/profile-image").permitAll()
                 .and().formLogin()
                     .usernameParameter("email")
                     .passwordParameter("password")
@@ -58,9 +58,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .loginPage("/login")
                     .failureUrl("/login?error=true")
                 .and().rememberMe()
-                    .rememberMeParameter("rememberme")
+                    .rememberMeParameter("rememberMe")
                     .userDetailsService(userDetailsService)
-                    .key(environment.getRequiredProperty("security.rememberme.key"))
+                    .key(environment.getRequiredProperty("security.rememberMe.key"))
                     .tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(30))
                 .and().logout()
                     .logoutUrl("/logout")
@@ -73,6 +73,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(final WebSecurity web) throws Exception {
-        web.ignoring().antMatchers( "/*.css", "/*.js", " /favicon.ico", "/manifest.json", "/*.png", "/*.svg");
+        web.ignoring().antMatchers( "/css/**", "/js/**", "/images/**", "/icons/**", "/403");
     }
 }

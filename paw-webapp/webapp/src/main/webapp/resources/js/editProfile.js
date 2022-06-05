@@ -27,6 +27,8 @@ function editArtistFormCheck() {
 
         }
     });
+    toggleSocialMedia();
+
 }
 function hideErrorMessages(isArtist){
     let wrongArtistName=document.getElementById("wrongArtistName");
@@ -57,6 +59,24 @@ function editBandFormCheck() {
 
         }
     });
+    toggleSocialMedia();
+}
+function toggleSocialMedia(){
+    socialMediacontainer=document.getElementById("socialMediaContainer");
+    socialMediaContainerOpener=document.getElementById("socialMediaContainerOpener");
+    arrowIcon=document.getElementById("arrowIcon");
+    toggleSocialMediaContainer.addEventListener("click",function (e){
+        if(socialMediacontainer.style.display==='block'){
+            socialMediacontainer.style.display='none';
+            document.querySelector("#arrowIcon").style.transform = "rotate(0deg)";
+
+
+        }else {
+            socialMediacontainer.style.display='block'
+            document.querySelector("#arrowIcon").style.transform = "rotate(180deg)";
+
+        }
+    });
 }
 
 function previewImage() {
@@ -66,4 +86,19 @@ function previewImage() {
             URL.revokeObjectURL(output.src)
         }
 }
+
+
+function filterPreview(){
+    let value = document.getElementById("available").value;
+    let img = document.getElementById("filter");
+
+    if (value === "true"){
+        img.style.visibility = "visible";
+    }else if (value === "false"){
+        img.style.visibility = "hidden";
+    }
+}
+
+
+
 

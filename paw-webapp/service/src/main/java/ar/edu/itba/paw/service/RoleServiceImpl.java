@@ -1,12 +1,12 @@
 package ar.edu.itba.paw.service;
 
-import ar.edu.itba.paw.Role;
+import ar.edu.itba.paw.model.Role;
 import ar.edu.itba.paw.model.exceptions.RoleNotFoundException;
 import ar.edu.itba.paw.persistence.RoleDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -25,7 +25,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public Set<Role> getRolesByNames(List<String> rolesNames) {
         if(rolesNames == null)
-            throw new IllegalArgumentException();
+            return new HashSet<>();
         List<String> roles = roleDao.getAll().stream().map(Role::getName).collect(Collectors.toList());
 
         if(!roles.containsAll(rolesNames))
@@ -33,22 +33,5 @@ public class RoleServiceImpl implements RoleService {
 
         return roleDao.getRolesByNames(rolesNames);
     }
-
-    @Override
-    public Set<Role> getUserRoles(long userId) {
-        return roleDao.getUserRoles(userId);
-    }
-
-    @Transactional
-    @Override
-    public void updateUserRoles(List<String> rolesNames, long userId) {
-        if(rolesNames == null) {
-            roleDao.updateUserRoles(null, userId);
-            return;
-        }
-        Set<Role> newRoles = getRolesByNames(rolesNames);
-        roleDao.updateUserRoles(newRoles, userId);
-    }
-
 
 }

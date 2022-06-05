@@ -13,32 +13,43 @@
         const queryString = window.location.search;
         let parameters = new URLSearchParams(queryString);
         let params = [parameters.getAll('order'), parameters.getAll('location'), parameters.getAll('genre'), parameters.getAll('role')]
+        let input = parameters.get('query');
+        console.log(input)
         let i = 0;
         $(document).ready(function () {
+            let i = 0;
             $(".select-wrapper").each(function () {
                 let wrapper = this;
-                let j = 0;
-                $(this).find("ul>li").each(function () {
-                    let li = this;
-                    let option_text = $(this).text();
-                    if (i > 0) {
-                        if (params[i].includes(option_text)) {
-                            $(li).click();
+
+                if (i > 0) {
+                    $(this).find("ul>li").each(function () {
+                        let li = this;
+                        let option_text = $(this).text();
+                        if (i > 0) {
+                            if (params[i].includes(option_text)) {
+                                $(li).click();
+                            }
                         }
-                    } else {
-                        if (j === 0 && params[i][0] === "DESC") {
-                            $(li).click();
-                        }
-                        if (j === 1 && params[i][0] == "ASC") {
-                            $(li).click();
-                        }
-                        j+=1;
+
+
+                    });
+                }
+                if (i === 0) {
+                    let lis = $(this).find("ul>li");
+                    if (params[i][0] === "DESC") {
+                        $(lis[0]).click();
                     }
-                });
+                    if (params[i][0] === "ASC") {
+                        $(lis[1]).click();
+                    }
+                }
 
-
-                i+=1;
+                i++;
             });
+
+            if (input !== null && input !== '') {
+                $('#inputfield').val(input);
+            }
 
             $(".search").click();
         });
@@ -57,8 +68,18 @@
 
                     });
                 }
+                if (i === 0) {
+                    let lis = $(this).find("ul>li")
+                    if (lis[1].classList.contains("active")) {
+                        list.push("ASC");
+                    } else {
+                        list.push("DESC");
+                    }
+                }
                 i+=1;
             });
+
+
             $('select').val(list).trigger('update');
         }
 
@@ -66,13 +87,12 @@
 </head>
 <body>
 <div class="search-general-div">
-    <c:url value="/search" var="searchUrl"/>
+    <c:url value="/auditions/search" var="searchUrl"/>
     <spring:message code="search.placeholder" var="searchPlaceholder"/>
     <form action="${searchUrl}" method="get" class="searchForm">
         <div class="searchBarAndOrderBy">
             <div class="search">
-                <input type="text" maxlength="80" size="43" placeholder="${searchPlaceholder}" name="query">
-                <button type="submit" aria-hidden="true" onclick="search()"></button>
+                <input id="inputfield" type="text" maxlength="80" size="43" placeholder="${searchPlaceholder}" name="query">
             </div>
             <div id="orderBy-filter" class="orderBy">
                 <select name="order">
@@ -109,6 +129,9 @@
                     </c:forEach>
                 </select>
             </div>
+        </div>
+        <div class="search-button-container">
+            <button class="search-button"  onclick="search()"><spring:message code="search.search"/></button>
         </div>
     </form>
 </div>

@@ -7,6 +7,8 @@
 <head>
     <title><spring:message code="title.emailsent"/></title>
     <c:import url="../config/generalHead.jsp" />
+    <c:import url="../config/materializeHead.jsp"/>
+
     <link rel="stylesheet" href="<c:url value="/resources/css/welcome.css" />"/>
     <link rel="stylesheet" href="<c:url value="/resources/css/success.css" />"/>
     <script type="text/javascript" src="<c:url value="/resources/js/emailSent.js" />"></script>
@@ -18,26 +20,30 @@
     <jsp:param name="name" value="Bandify"/>
 </jsp:include>
 
-<div class="success-content">
-    <spring:message code="email_sent.email" var="email_alt"/>
-    <img src="<c:url value="/resources/icons/mail.svg"/>" class="success-icon" alt="${email_alt}"/>
-    <h1><spring:message code="email_sent.title"/></h1>
-    <p><spring:message code="email_sent.p0" arguments="${email}"/></p>
-    <p><spring:message code="email_sent.p"/></p>
-    <p><spring:message code="email_sent.didntrecieve" /></p>
-    <c:url value="/emailSent" var="resendEmailUrl" />
+<main>
+    <div class="success-content">
+        <spring:message code="email_sent.email" var="email_alt"/>
+        <img src="<c:url value="/resources/icons/mail.svg"/>" class="success-icon" alt="${email_alt}"/>
+        <h1><spring:message code="email_sent.title"/></h1>
+        <p><spring:message code="email_sent.p0"/></p>
+        <p><spring:message code="email_sent.p"/></p>
+        <p><spring:message code="email_sent.didntrecieve" /></p>
+        <c:url value="/emailSent" var="resendEmailUrl" />
 
-    <form method="post" action="${resendEmailUrl}">
-        <input type="hidden" name="email" value="${email}"/>
-        <button type="submit" class="resend-button" id="resendButton" disabled = true>
-            <spring:message code="email_sent.resend" /></button>
-    </form>
+        <form method="post" action="${resendEmailUrl}">
+            <input type="hidden" name="email" value="${email}"/>
+            <button type="submit" class="resend-button" id="resendButton" disabled = true>
+                <spring:message code="email_sent.resend" /></button>
+        </form>
 
-    <a class="back-bandify" href="<c:url value="/welcome" />">
-        <spring:message code="email_sent.link"/>
-    </a>
-</div>
+        <a class="back-bandify" href="<c:url value="/welcome" />">
+            <spring:message code="email_sent.link"/>
+        </a>
+    </div>
+</main>
 
-
+<jsp:include page="../components/footer.jsp">
+    <jsp:param name="name" value="Bandify"/>
+</jsp:include>
 </body>
 </html>

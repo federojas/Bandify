@@ -1,16 +1,12 @@
 package ar.edu.itba.paw.webapp.controller;
 
-import ar.edu.itba.paw.*;
+import ar.edu.itba.paw.model.*;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.service.*;
 import ar.edu.itba.paw.webapp.form.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import ar.edu.itba.paw.service.AuthFacadeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -24,25 +20,29 @@ import java.util.stream.Collectors;
 @Controller
 public class UserController {
 
+    // TODO: ya no haria falta que le pida al servicio por los roles y generos favoritos al mostrar el perfil
+    // por ejemplo, es mas, ya no harian falta esos metodos en el servicio.
     private final UserService userService;
     private final VerificationTokenService verificationTokenService;
     private final RoleService roleService;
     private final GenreService genreService;
-    private final ImageService imageService;
     private final ApplicationService applicationService;
+    private final AuthFacadeService authFacadeService;
+    private final LocationService locationService;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     public UserController(final UserService userService, final VerificationTokenService verificationTokenService,
                           final RoleService roleService, final GenreService genreService,
-                          final ImageService imageService, final ApplicationService applicationService) {
+                          final ApplicationService applicationService,
+                          final AuthFacadeService authFacadeService, LocationService locationService) {
         this.userService = userService;
         this.verificationTokenService = verificationTokenService;
         this.roleService = roleService;
         this.genreService = genreService;
-        this.imageService = imageService;
         this.applicationService = applicationService;
+        this.authFacadeService = authFacadeService;
+        this.locationService = locationService;
     }
 
     @RequestMapping(value = {"/register","/registerBand", "/registerArtist"}, method = {RequestMethod.GET})
@@ -93,9 +93,7 @@ public class UserController {
     @RequestMapping(value = "/profile", method = {RequestMethod.GET})
     public ModelAndView profile() {
         ModelAndView mav = new ModelAndView("profile");
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Optional<User> optionalUser = userService.findByEmail(auth.getName());
-        User user = optionalUser.orElseThrow(UserNotFoundException::new);
+        User user = authFacadeService.getCurrentUser();
         return setAndReturnProfileViewData(user, mav);
     }
 
@@ -105,14 +103,11 @@ public class UserController {
         Optional<User> optionalUser = userService.getUserById(id);
         User userToVisit = optionalUser.orElseThrow(UserNotFoundException::new);
 
-        if(SecurityContextHolder.getContext().getAuthentication() != null &&
-                SecurityContextHolder.getContext().getAuthentication().isAuthenticated() &&
-                !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) {
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            optionalUser = userService.findByEmail(auth.getName());
-            User user = optionalUser.orElseThrow(UserNotFoundException::new);
+        if(authFacadeService.isAuthenticated()) {
 
-            if(user.getId() == userToVisit.getId())
+            User user = authFacadeService.getCurrentUser();
+
+            if(Objects.equals(user.getId(), userToVisit.getId()))
                 return new ModelAndView("redirect:/profile");
         }
 
@@ -123,25 +118,30 @@ public class UserController {
     private ModelAndView setAndReturnProfileViewData(User userToVisit, ModelAndView mav) {
         mav.addObject("user", userToVisit);
 
-        Set<Genre> preferredGenres = genreService.getUserGenres(userToVisit.getId());
+        Set<Genre> preferredGenres = userService.getUserGenres(userToVisit);
         mav.addObject("preferredGenres", preferredGenres);
 
-        Set<Role> roles = roleService.getUserRoles(userToVisit.getId());
+        Set<Role> roles = userService.getUserRoles(userToVisit);
         mav.addObject("roles", roles);
+
+        Location location = userService.getUserLocation(userToVisit);
+        mav.addObject("location", location);
+
+        Set<SocialMedia> socialMedia = userService.getUserSocialMedia(userToVisit);
+        mav.addObject("socialMedia", socialMedia);
 
         return mav;
     }
 
     @RequestMapping(value = "/profile/applications", method = {RequestMethod.GET})
     public ModelAndView applications(@RequestParam(value = "page", defaultValue = "1") int page,
-                                     @RequestParam(value = "state", defaultValue = "all") String state) {
+                                     @RequestParam(value = "state", defaultValue = "0") int state) {
 
         ModelAndView mav = new ModelAndView("profileApplications");
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Optional<User> optionalUser = userService.findByEmail(auth.getName());
-        User user = optionalUser.orElseThrow(UserNotFoundException::new);
-        List<Application> applications = applicationService.getMyApplicationsFiltered(user.getId(), page, ApplicationState.valueOf(state.toUpperCase()));
-        int lastPage = applicationService.getTotalUserApplicationPagesFiltered(user.getId(), ApplicationState.valueOf(state.toUpperCase()));
+        User user = authFacadeService.getCurrentUser();
+        List<Application> applications = applicationService.getMyApplicationsFiltered(user.getId(), page,
+                ApplicationState.values()[state]);
+        int lastPage = applicationService.getTotalUserApplicationPagesFiltered(user.getId(), ApplicationState.values()[state]);
         lastPage = lastPage == 0 ? 1 : lastPage;
         mav.addObject("artistApplications", applications);
         mav.addObject("currentPage", page);
@@ -153,7 +153,7 @@ public class UserController {
             produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
     @ResponseBody
     public byte[] profilePicture(@PathVariable(value = "userId") long userId) throws IOException {
-        return imageService.getProfilePicture(userId, userService.getUserById(userId).orElseThrow(UserNotFoundException::new).isBand());
+        return userService.getProfilePicture(userId);
     }
 
     @RequestMapping(value = "/profile/editArtist", method = {RequestMethod.GET})
@@ -169,19 +169,22 @@ public class UserController {
     }
 
     private ModelAndView initializeEditProfile(ModelAndView mav, UserEditForm editForm ) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Optional<User> optionalUser = userService.findByEmail(auth.getName());
-        User user = optionalUser.orElseThrow(UserNotFoundException::new);
+        User user = authFacadeService.getCurrentUser();
         Set<Role> roleList = roleService.getAll();
         Set<Genre> genreList = genreService.getAll();
-        Set<Role> userRoles = roleService.getUserRoles(user.getId());
-        Set<Genre> userGenres = genreService.getUserGenres(user.getId());
+        List<Location> locationList = locationService.getAll();
+        Set<Role> userRoles = userService.getUserRoles(user);
+        Set<Genre> userGenres = userService.getUserGenres(user);
+        Location userLocation = userService.getUserLocation(user);
+        Set<SocialMedia> socialMedia = userService.getUserSocialMedia(user);
         List<String> selectedRoles = userRoles.stream().map(Role::getName).collect(Collectors.toList());
         List<String> selectedGenres = userGenres.stream().map(Genre::getName).collect(Collectors.toList());
-        editForm.initialize(user,selectedGenres,selectedRoles);
+        String selectedLocation = userLocation == null ? null : userLocation.getName();
+        editForm.initialize(user,selectedGenres,selectedRoles, socialMedia, selectedLocation);
         mav.addObject("user", user);
         mav.addObject("roleList", roleList);
         mav.addObject("genreList", genreList);
+        mav.addObject("locationList", locationList);
         return mav;
     }
 
@@ -192,13 +195,14 @@ public class UserController {
         if (errors.hasErrors()) {
             return editProfile(artistEditForm);
         }
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Optional<User> optionalUser = userService.findByEmail(auth.getName());
-        User user = optionalUser.orElseThrow(UserNotFoundException::new);
+
+        User user = authFacadeService.getCurrentUser();
 
        userService.editUser(user.getId(), artistEditForm.getName(), artistEditForm.getSurname(), artistEditForm.getDescription(),
                artistEditForm.getMusicGenres(), artistEditForm.getLookingFor(),
-               artistEditForm.getProfileImage().getBytes());
+               artistEditForm.getProfileImage().getBytes(), artistEditForm.getLocation());
+       userService.updateSocialMedia(user,artistEditForm.getSocialMedia());
+       userService.setAvailable(artistEditForm.getAvailable(), user);
 
         return new ModelAndView("redirect:/profile");
     }
@@ -211,13 +215,12 @@ public class UserController {
             return editProfile(bandEditForm);
         }
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Optional<User> optionalUser = userService.findByEmail(auth.getName());
-        User user = optionalUser.orElseThrow(UserNotFoundException::new);
+        User user = authFacadeService.getCurrentUser();
 
         userService.editUser(user.getId(), bandEditForm.getName(),null, bandEditForm.getDescription(),
                 bandEditForm.getMusicGenres(), bandEditForm.getLookingFor(),
-                bandEditForm.getProfileImage().getBytes());
+                bandEditForm.getProfileImage().getBytes(), bandEditForm.getLocation());
+        userService.updateSocialMedia(user,bandEditForm.getSocialMedia());
 
         return new ModelAndView("redirect:/profile");
     }
@@ -301,6 +304,51 @@ public class UserController {
     @RequestMapping(value = "/login", method = {RequestMethod.GET})
     public ModelAndView login() {
         return new ModelAndView("login");
+    }
+
+    @RequestMapping(value = "/users/search", method = {RequestMethod.GET})
+    public ModelAndView usersSearch(@RequestParam(value = "page", defaultValue = "1") int page,
+                              @RequestParam(value = "query", defaultValue = "") String query,
+                              @RequestParam(value = "genre", required = false) String[] genres,
+                              @RequestParam(value = "role", required = false) String[] roles,
+                              @RequestParam(value = "location", required = false) String[] locations) {
+
+        ModelAndView mav = new ModelAndView("users");
+
+        FilterOptions filter = new FilterOptions.FilterOptionsBuilder().
+                withGenres(genres == null ? null : Arrays.asList(genres))
+                .withRoles(roles == null ? null : Arrays.asList(roles))
+                .withLocations(locations == null ? null : Arrays.asList(locations))
+                .withTitle(query).build();
+        initializeFilterOptions(mav);
+
+        List<User> userList = userService.filter(filter,page);
+        int lastPage = userService.getFilterTotalPages(filter);
+        lastPage = lastPage == 0 ? 1 : lastPage;
+        mav.addObject("userList", userList);
+        mav.addObject("currentPage", page);
+        mav.addObject("query", query);
+        mav.addObject("lastPage", lastPage);
+        return mav;
+    }
+
+    @RequestMapping(value = "/users", method = {RequestMethod.GET})
+    public ModelAndView usersDiscover() {
+
+        ModelAndView userDiscover = new ModelAndView("usersDiscover");
+
+        initializeFilterOptions(userDiscover);
+
+        return userDiscover;
+    }
+
+    private void initializeFilterOptions(ModelAndView mav) {
+        Set<Role> roleList = roleService.getAll();
+        Set<Genre> genreList = genreService.getAll();
+        List<Location> locationList = locationService.getAll();
+        mav.addObject("roleList", roleList.stream().map(Role::getName).collect(Collectors.toList()));
+        mav.addObject("genreList", genreList.stream().map(Genre::getName).collect(Collectors.toList()));
+        mav.addObject("locationList", locationList.stream().map(Location::getName).collect(Collectors.toList()));
     }
 
 }

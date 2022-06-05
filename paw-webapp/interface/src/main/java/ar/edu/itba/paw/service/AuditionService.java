@@ -1,7 +1,7 @@
 package ar.edu.itba.paw.service;
 
-import ar.edu.itba.paw.AuditionFilter;
-import ar.edu.itba.paw.Audition;
+import ar.edu.itba.paw.model.FilterOptions;
+import ar.edu.itba.paw.model.Audition;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,7 +24,7 @@ public interface AuditionService {
 
     void editAuditionById(Audition.AuditionBuilder builder, long id);
 
-    List<Audition> filter(AuditionFilter filter, int page);
+    List<Audition> filter(FilterOptions filter, int page);
 
-    int getFilterTotalPages(AuditionFilter filter);
+    int getFilterTotalPages(FilterOptions filter);
 }

@@ -21,25 +21,29 @@
     <jsp:param name="name" value="Bandify"/>
 </jsp:include>
 
-<!-- Content -->
-<div class="content">
-    <!-- Hero -->
-    <div class="guitar-hero">
-        <spring:message code="img.alt.guitar" var="guitar"/>
-        <img src="<c:url value="/resources/images/guitar.png"/>" alt="${guitar}"/>
-        <%-- Hero text   --%>
-        <div class="hero-title">
-            <span><spring:message code="welcome.slogan1"/></span>
-            <p><spring:message code="welcome.slogan2"/></p>
-        </div>
+<main>
+    <!-- Content -->
+    <div class="content">
+        <!-- Hero -->
+        <div class="guitar-hero">
+            <spring:message code="img.alt.guitar" var="guitar"/>
+            <img src="<c:url value="/resources/images/guitar.png"/>" alt="${guitar}"/>
+            <%-- Hero text   --%>
+            <div class="hero-title">
+                <span><spring:message code="welcome.slogan1"/></span>
+                <p><spring:message code="welcome.slogan2"/></p>
+            </div>
 
-        <div class="welcome-loginform">
-            <jsp:include page="../components/loginForm.jsp" />
-        </div>
+            <div class="welcome-loginform">
+                <jsp:include page="../components/loginForm.jsp" />
+            </div>
 
+        </div>
     </div>
-</div>
-<div id="snackbar"><spring:message code="snackbar.message"/></div>
-
+    <div id="snackbar"><spring:message code="snackbar.message"/></div>
+</main>
+<jsp:include page="../components/footer.jsp">
+    <jsp:param name="name" value="Bandify"/>
+</jsp:include>
 </body>
 </html>

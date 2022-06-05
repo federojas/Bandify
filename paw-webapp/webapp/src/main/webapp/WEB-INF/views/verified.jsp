@@ -7,6 +7,7 @@
 <head>
     <title><spring:message code="title.verified"/></title>
     <c:import url="../config/generalHead.jsp" />
+
     <link rel="stylesheet" href="<c:url value="/resources/css/welcome.css" />"/>
     <link rel="stylesheet" href="<c:url value="/resources/css/success.css" />"/>
 </head>
@@ -17,13 +18,17 @@
     <jsp:param name="name" value="Bandify"/>
 </jsp:include>
 
-<div class="success-content">
-    <spring:message code="verified.alt" var="success"/>
-    <img src="<c:url value="/resources/icons/success.svg"/>" class="success-icon" alt="${success}"/>
-    <h1><spring:message code="verified.title"/></h1>
-    <p><spring:message code="verified.p"/></p>
-</div>
+<main>
+    <div class="success-content">
+        <spring:message code="verified.alt" var="success"/>
+        <img src="<c:url value="/resources/icons/success.svg"/>" class="success-icon" alt="${success}"/>
+        <h1><spring:message code="verified.title"/></h1>
+        <p><spring:message code="verified.p"/></p>
+    </div>
+</main>
 
-
+<jsp:include page="../components/footer.jsp">
+    <jsp:param name="name" value="Bandify"/>
+</jsp:include>
 </body>
 </html>

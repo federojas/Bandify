@@ -1,7 +1,10 @@
 package ar.edu.itba.paw.persistence;
 
-import ar.edu.itba.paw.User;
+import ar.edu.itba.paw.model.Audition;
+import ar.edu.itba.paw.model.FilterOptions;
+import ar.edu.itba.paw.model.User;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserDao {
@@ -15,5 +18,7 @@ public interface UserDao {
 
     void verifyUser(long userId);
 
-    void editUser(long id, String name, String surname, String description);
+    List<User> filter(FilterOptions filterOptions, int page);
+
+    int getTotalPages(FilterOptions filterOptions);
 }

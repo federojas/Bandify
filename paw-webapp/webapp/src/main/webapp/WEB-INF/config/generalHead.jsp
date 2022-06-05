@@ -6,15 +6,23 @@
 <script src="<c:url value="https://cdn.tailwindcss.com"/>"></script>
 <script type = "text/javascript"
         src = "<c:url value="https://code.jquery.com/jquery-2.1.1.min.js"/>"></script>
-<link rel="icon" type="image/x-icon"
-      href="<c:url value="/resources/images/favi.ico"/>"/>
+<link rel="shortcut icon" type="image/x-icon"
+      href="<c:url value="/resources/images/bandify.ico"/>"/>
 <link
         rel="stylesheet"
         href="<c:url value="https://fonts.googleapis.com/css?family=Questrial"/>"
 />
+
 <style>
     body {
         font-family: "Questrial", sans-serif;
+        display: flex;
+        min-height: 100vh;
+        flex-direction: column;
+    }
+
+    main {
+        flex: 1 0 auto;
     }
 </style>
 <script src="<c:url value="/resources/js/jquery.timeago.js"/>" type="text/javascript"></script>

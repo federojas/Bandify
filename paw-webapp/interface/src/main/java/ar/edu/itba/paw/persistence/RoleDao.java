@@ -1,6 +1,6 @@
 package ar.edu.itba.paw.persistence;
 
-import ar.edu.itba.paw.Role;
+import ar.edu.itba.paw.model.Role;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,8 +14,4 @@ public interface RoleDao {
     Optional<Role> getRoleByName(String name);
 
     Set<Role> getRolesByNames(List<String> rolesNames);
-
-    Set<Role> getUserRoles(long userId);
-
-    void updateUserRoles(Set<Role> newRoles, long userId);
 }

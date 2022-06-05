@@ -222,6 +222,10 @@ ul > li {
   margin: 0.25rem;
 }
 
+.loop-div {
+  margin-top: 15px;
+}
+
 .date-and-location {
   display: flex;
   flex-direction: row;

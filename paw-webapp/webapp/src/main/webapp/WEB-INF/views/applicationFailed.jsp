@@ -6,6 +6,7 @@
 <head>
     <title><spring:message code="title.applicationfailed"/></title>
     <c:import url="../config/generalHead.jsp" />
+    <c:import url="../config/materializeHead.jsp"/>
     <link rel="stylesheet" href="<c:url value="/resources/css/welcome.css" />"/>
     <link rel="stylesheet" href="<c:url value="/resources/css/success.css" />"/>
 </head>
@@ -16,16 +17,20 @@
     <jsp:param name="name" value="Bandify"/>
 </jsp:include>
 
-<div class="success-content">
-    <spring:message code="applicationFailed.alt" var="fail"/>
-    <img src="<c:url value="/resources/icons/reject.svg"/>" class="success-icon" alt="${fail}"/>
-    <h1><spring:message code="applicationFailed.title"/></h1>
-    <p><spring:message code="applicationFailed.p"/></p>
-    <a class="back-bandify" href="<c:url value="/auditions" />">
-        <spring:message code="success.link"/>
-    </a>
-</div>
+<main>
+    <div class="success-content">
+        <spring:message code="applicationFailed.alt" var="fail"/>
+        <img src="<c:url value="/resources/icons/reject.svg"/>" class="success-icon" alt="${fail}"/>
+        <h1><spring:message code="applicationFailed.title"/></h1>
+        <p><spring:message code="applicationFailed.p"/></p>
+        <a class="back-bandify" href="<c:url value="/auditions" />">
+            <spring:message code="success.link"/>
+        </a>
+    </div>
 
-
+</main>
+<jsp:include page="../components/footer.jsp">
+    <jsp:param name="name" value="Bandify"/>
+</jsp:include>
 </body>
 </html>

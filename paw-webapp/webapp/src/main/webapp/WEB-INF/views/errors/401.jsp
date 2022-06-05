@@ -10,5 +10,8 @@
 <spring:message code="img.alt.401" var="img401"/>
 <img src="<c:url value="/resources/images/401.png" />" alt="${img401}" class="image"/>
 <p class="wrong-para"><spring:message code="401.errorMessage"/></p>
+<div class="back-button-container">
+    <a href="<c:url value="/"/>"><button class="error-back-button"><spring:message code="error.backButton"/> </button></a>
+</div>
 </body>
 </html>

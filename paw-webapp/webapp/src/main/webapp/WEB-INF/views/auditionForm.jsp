@@ -15,11 +15,12 @@
     <script src="<c:url value="/resources/js/matMultipleSelect.js"/>"></script>
 </head>
 <body onload="auditionFormCheck()">
-    <!-- Navbar -->
-    <jsp:include page="../components/navbar.jsp">
-        <jsp:param name="navItem" value="${3}" />
-        <jsp:param name="name" value="Bandify" />
-    </jsp:include>
+<!-- Navbar -->
+<jsp:include page="../components/navbar.jsp">
+    <jsp:param name="navItem" value="${3}" />
+    <jsp:param name="name" value="Bandify" />
+</jsp:include>
+<main>
     <!-- Formulario -->
     <div class="card-content-small" id="form-post">
         <h1><spring:message code="welcome.formSectionh1"/></h1>
@@ -39,10 +40,10 @@
                     <form:label class="form-label" path="title">
                         <spring:message code="welcome.form.title"/>
                     </form:label>
-                    <spring:message code="audition.form.title.placeholder" var="titleplaceholder" />
-                    <form:input type="text" id="title"  maxlength="50" placeholder="${titleplaceholder}" class="form-input" path="title" />
+                    <spring:message code="audition.form.title.placeholder" arguments="50" var="titleplaceholder" />
+                    <form:input type="text" id="titleForm"  maxlength="50" placeholder="${titleplaceholder}" class="form-input" path="title" />
                     <p id="emptyTitle" class="error" style="display: none"><spring:message code="NotBlank.auditionForm.title"/> </p>
-                    <p id="longTitle" class="error" style="display: none"><spring:message code="Size.auditionForm.title"/> </p>
+                    <p id="longTitle" class="error" style="display: none"><spring:message code="audition.form.title.maxSize" arguments="50"/> </p>
                     <form:errors path="title" element="p" cssClass="error"> </form:errors>
                 </div>
 
@@ -50,7 +51,7 @@
                     <form:label class="form-label" path="description">
                         <spring:message code="welcome.form.description"/>
                     </form:label>
-                    <spring:message code="audition.form.description.placeholder" var="descriptionplaceholder" />
+                    <spring:message code="audition.form.description.placeholder" arguments="300" var="descriptionplaceholder" />
                     <form:textarea
                             maxlength="300" placeholder="${descriptionplaceholder}"
                             class="form-input-application"
@@ -60,7 +61,7 @@
 
                     />
                     <p id="emptyDescription" class="error" style="display: none"><spring:message code="NotBlank.auditionForm.description" arguments="0"/> </p>
-                    <p id="longDescription" class="error" style="display: none"><spring:message code="Size.auditionForm.description" arguments="${300}"/> </p>
+                    <p id="longDescription" class="error" style="display: none"><spring:message code="audition.form.description.maxSize" arguments="300"/> </p>
                     <form:errors path="description" element="p" cssClass="error"> </form:errors>
                 </div>
                 <div class="select-div">
@@ -91,7 +92,7 @@
                             path="musicGenres"
                             multiple="true"
                     >
-                        <form:option value="" disabled="true" selected="true"><spring:message code="audition.form.musicGenres.maxSelect"/> </form:option>
+                        <form:option value="" disabled="true" selected="true"><spring:message code="audition.form.musicGenres.maxSelect" arguments="5"/> </form:option>
                         <c:forEach var="genre" items="${genreList}" varStatus="loop">
                             <form:option value="${genre.name}"><c:out value="${genre.name}"/></form:option>
                         </c:forEach>
@@ -106,7 +107,7 @@
                             path="lookingFor"
                             multiple="true"
                     >
-                        <form:option value="" disabled="true" selected="true"><spring:message code="audition.form.lookingFor.maxSelect"/>  </form:option>
+                        <form:option value="" disabled="true" selected="true"><spring:message code="audition.form.lookingFor.maxSelect" arguments="5"/>  </form:option>
                         <c:forEach var="role" items="${roleList}" varStatus="loop">
                             <form:option value="${role.name}"><c:out value="${role.name}"/></form:option>
                         </c:forEach>
@@ -128,5 +129,9 @@
     </div>
     <div id="snackbar"><spring:message code="snackbar.message"/></div>
 
+</main>
+<jsp:include page="../components/footer.jsp">
+    <jsp:param name="name" value="Bandify"/>
+</jsp:include>
 </body>
 </html>

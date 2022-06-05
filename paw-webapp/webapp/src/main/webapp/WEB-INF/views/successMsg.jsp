@@ -17,16 +17,20 @@
     <jsp:param name="name" value="Bandify"/>
 </jsp:include>
 
-<div class="success-content">
-    <spring:message code="success.success.alt" var="success"/>
-    <img src="<c:url value="/resources/icons/success.svg"/>" class="success-icon" alt="${success}"/>
-    <h1><spring:message code="success.title"/></h1>
-    <p><spring:message code="success.p"/></p>
-    <a class="back-bandify" href="<c:url value="/auditions" />">
-        <spring:message code="success.link"/>
-    </a>
-</div>
+<main>
+    <div class="success-content">
+        <spring:message code="success.success.alt" var="success"/>
+        <img src="<c:url value="/resources/icons/success.svg"/>" class="success-icon" alt="${success}"/>
+        <h1><spring:message code="success.title"/></h1>
+        <p><spring:message code="success.p"/></p>
+        <a class="back-bandify" href="<c:url value="/auditions" />">
+            <spring:message code="success.link"/>
+        </a>
+    </div>
 
-
+</main>
+<jsp:include page="../components/footer.jsp">
+    <jsp:param name="name" value="Bandify"/>
+</jsp:include>
 </body>
 </html>

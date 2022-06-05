@@ -36,15 +36,18 @@
                     code="Welcome.error.invalidPassword"/></p>
 
             <div class="check-box">
-                <input type="checkbox" id="rememberme" class="remember-me" value="false"/>
-                <spring:message code="welcome.rememberme"/>
+                <input type="checkbox" name="rememberMe" id="rememberMe" class="remember-me"/>
+                <label for="rememberMe">
+                    <spring:message code="welcome.rememberme"/>
+                </label>
             </div>
             <a href="<c:url value="/resetPassword"/>"><u class="login-reset-button"><spring:message code="welcome.resetButton"/></u></a>
 
             <div class="errorDiv">
                 <p class="error">
-                    <c:if test="${param.error}"><c:out
-                            value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/></c:if>
+                    <c:if test="${param.error}">
+                        <spring:message code="login.auth.failed"/>
+                    </c:if>
                 </p>
             </div>
             <div class="loginButton">

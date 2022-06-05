@@ -12,5 +12,8 @@
     <img src="<c:url value="/resources/images/400.png" />" alt="${img400}" class="image"/>
     <p class="wrong-para"><spring:message code="400.errorMessage"/></p>
 </div>
+<div class="back-button-container">
+    <a href="<c:url value="/"/>"><button class="error-back-button"><spring:message code="error.backButton"/> </button></a>
+</div>
 </body>
 </html>

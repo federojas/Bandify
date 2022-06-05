@@ -30,6 +30,7 @@
 
         <div class="w-full md:block md:w-auto" id="mobile-menu">
             <ul>
+
                 <li>
                     <a
                             href="<c:url value="/auditions"/>"
@@ -37,6 +38,15 @@
                     ><spring:message code="navbar.auditions"/></a
                     >
                 </li>
+                <sec:authorize access="isAuthenticated()">
+                    <li>
+                        <a
+                                href="<c:url value="/users"/>"
+                                class="${param.navItem == 7? "block py-2 pr-4 pl-3 text-white font-black rounded text-2xl" : "block py-2 pr-4 pl-3 text-white rounded text-2xl" }"
+                        ><spring:message code="navbar.users"/></a
+                        >
+                    </li>
+                </sec:authorize>
                 <sec:authorize access="!isAuthenticated()">
 
                     <li>
@@ -77,7 +87,13 @@
                         <a
                                 href="<c:url value="/profile"/>"
                                 class="${param.navItem == 4? "block py-2 pr-4 pl-3 text-white font-black rounded text-2xl" : "block py-2 pr-4 pl-3 text-white rounded text-2xl" }"
-                        ><spring:message code="navbar.profile"/></a
+                        >
+                            <spring:message code="navbar.profile" var="profile"/>
+                            <img src="<c:url value="/resources/icons/user.svg"/>"
+                                alt="${profile}"
+                                class="profile-icon-img"
+                            />
+                        </a
                         >
                     </li>
 

@@ -49,4 +49,6 @@ Thumbs.db
 *.mov
 *.wmv
 
+*.jpb
+
 tailwind.config.js

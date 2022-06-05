@@ -1,39 +1,34 @@
 package ar.edu.itba.paw.service;
 
-import ar.edu.itba.paw.Application;
-import ar.edu.itba.paw.ApplicationState;
-import ar.edu.itba.paw.Audition;
-import ar.edu.itba.paw.User;
-import ar.edu.itba.paw.model.exceptions.AuditionNotFoundException;
-import ar.edu.itba.paw.model.exceptions.AuditionNotOwnedException;
-import ar.edu.itba.paw.model.exceptions.PageNotFoundException;
-import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
+import ar.edu.itba.paw.model.Application;
+import ar.edu.itba.paw.model.ApplicationState;
+import ar.edu.itba.paw.model.Audition;
+import ar.edu.itba.paw.model.User;
+import ar.edu.itba.paw.model.exceptions.*;
 import ar.edu.itba.paw.persistence.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
 public class ApplicationServiceImpl implements ApplicationService {
 
+    // TODO: long auditionId, long applicantId VS id
+
     @Autowired
     private ApplicationDao applicationDao;
-
     @Autowired
     private MailingService mailingService;
-
     @Autowired
     private UserService userService;
-
     @Autowired
     private AuditionService auditionService;
-
     private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationServiceImpl.class);
 
     @Override
@@ -49,19 +44,27 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Transactional
     @Override
     public boolean apply(long auditionId, User user, String message) {
-        if(applicationDao.exists(auditionId,user.getId()))
+        if(applicationDao.findApplication(auditionId,user.getId()).isPresent()) {
+            LOGGER.info("User {} already applied to audition {}",user.getId(),auditionId);
             return false;
-        applicationDao.createApplication(new Application.ApplicationBuilder(auditionId,user.getId(),ApplicationState.PENDING, LocalDateTime.now()));
+        }
+        applicationDao.createApplication(new Application.ApplicationBuilder(auditionService.
+                getAuditionById(auditionId).orElseThrow(AuditionNotFoundException::new)
+                ,user,ApplicationState.PENDING, LocalDateTime.now(), message));
         Audition aud = auditionService.getAuditionById(auditionId).orElseThrow(AuditionNotFoundException::new);
-        User band = userService.getUserById(aud.getBandId()).orElseThrow(UserNotFoundException::new);
+        User band = userService.getUserById(aud.getBand().getId()).orElseThrow(UserNotFoundException::new);
         String bandEmail = band.getEmail();
-        mailingService.sendApplicationEmail(user, bandEmail, message);
+        Locale locale = LocaleContextHolder.getLocale();
+        LocaleContextHolder.setLocale(locale, true);
+        LOGGER.debug("User {} applied to audition {}",user.getId(),auditionId);
+        mailingService.sendApplicationEmail(user, bandEmail, message, locale);
         return true;
     }
 
     @Transactional
     @Override
     public void accept(long auditionId, long applicantId) {
+        LOGGER.debug("User {} has been accepted for audition {}",applicantId,auditionId);
         checkIds(auditionId, applicantId);
         setApplicationState(auditionId,applicantId,ApplicationState.ACCEPTED);
     }
@@ -69,6 +72,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Transactional
     @Override
     public void reject(long auditionId, long applicantId) {
+        LOGGER.debug("User {} has been rejected for audition {}",applicantId,auditionId);
         checkIds(auditionId, applicantId);
         setApplicationState(auditionId,applicantId,ApplicationState.REJECTED);
     }
@@ -114,12 +118,16 @@ public class ApplicationServiceImpl implements ApplicationService {
         Audition audition = auditionService.getAuditionById(auditionId).orElseThrow(AuditionNotFoundException::new);
         User band = userService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(UserNotFoundException::new);
         User applicant = userService.getUserById(applicantId).orElseThrow(UserNotFoundException::new);
-        if(audition.getBandId() != band.getId())
+        if(!Objects.equals(audition.getBand().getId(), band.getId()))
             throw new AuditionNotOwnedException();
         if(state.equals(ApplicationState.ACCEPTED)) {
-            mailingService.sendApplicationAcceptedEmail(band, audition, applicant.getEmail());
+            Locale locale = LocaleContextHolder.getLocale();
+            LocaleContextHolder.setLocale(locale, true);
+            mailingService.sendApplicationAcceptedEmail(band, audition, applicant.getEmail(), locale);
         }
-        applicationDao.setApplicationState(auditionId, applicantId, state);
+
+        Application app = applicationDao.findApplication(auditionId, applicantId).orElseThrow(ApplicationNotFoundException::new);
+        app.setState(state);
     }
 
     private void checkPage(int page, int lastPage) {
@@ -134,4 +142,8 @@ public class ApplicationServiceImpl implements ApplicationService {
                 throw new IllegalArgumentException();
     }
 
+    @Override
+    public boolean alreadyApplied(long auditionId, long applicantId) {
+        return applicationDao.findApplication(auditionId,applicantId).isPresent();
+    }
 }

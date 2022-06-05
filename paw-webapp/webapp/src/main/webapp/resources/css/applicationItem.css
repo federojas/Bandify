@@ -10,6 +10,22 @@
     align-items: center;
 }
 
+.applicant-header {
+    margin: 1rem;
+}
+
+.applicant-body {
+    margin: 1.5rem;
+}
+
+.applicant-body-end {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: end;
+    margin-top: 1rem;
+}
+
 .application-icon {
     width: 32px;
     margin: 0 0.25rem;
@@ -27,6 +43,16 @@
     justify-items: center;
     align-items: center;
     margin-top: 15px;
+}
+
+.purple-button {
+    padding: 0.5rem 1.25rem;
+    color: #ffffff;
+    font-weight: 500;
+    border-radius: 9999px;
+    background-color: #6c0c84 !important;
+    height: fit-content;
+    margin-bottom: 1rem;
 }
 
 .user-name {
@@ -49,4 +75,26 @@
     object-fit: cover;
     border-radius: 10000px;
     border:2px solid black;
+}
+
+.top-image {
+    position: absolute;
+    height: 47px;
+    width: 47px;
+    border-radius: 10000px;
+    z-index: 1;
+    margin-bottom: 5px;
+    margin-left: 1px;
+}
+
+.message-span {
+    overflow-wrap: break-word;
+}
+
+.email-span {
+    padding-left: 5px;
+}
+
+.usr-url {
+    color: white;
 }

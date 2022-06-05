@@ -1,7 +1,8 @@
 package ar.edu.itba.paw.service;
 
-import ar.edu.itba.paw.TokenType;
-import ar.edu.itba.paw.VerificationToken;
+import ar.edu.itba.paw.model.TokenType;
+import ar.edu.itba.paw.model.User;
+import ar.edu.itba.paw.model.VerificationToken;
 
 import java.util.Optional;
 
@@ -11,7 +12,7 @@ public interface VerificationTokenService {
 
     void deleteTokenByUserId(long userId, TokenType type);
 
-    VerificationToken generate(long userId, TokenType type);
+    VerificationToken generate(User user, TokenType type);
 
     long getTokenOwner(String token, TokenType type);
 

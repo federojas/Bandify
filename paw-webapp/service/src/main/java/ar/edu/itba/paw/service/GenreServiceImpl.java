@@ -1,12 +1,12 @@
 package ar.edu.itba.paw.service;
 
-import ar.edu.itba.paw.Genre;
+import ar.edu.itba.paw.model.Genre;
 import ar.edu.itba.paw.model.exceptions.GenreNotFoundException;
 import ar.edu.itba.paw.persistence.GenreDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -26,7 +26,7 @@ public class GenreServiceImpl implements GenreService{
     public Set<Genre> getGenresByNames(List<String> genresNames) {
 
         if(genresNames == null)
-            throw new IllegalArgumentException();
+            return new HashSet<>();
 
         List<String> genres = genreDao.getAll().stream().map(Genre::getName).collect(Collectors.toList());
 
@@ -34,22 +34,6 @@ public class GenreServiceImpl implements GenreService{
             throw new GenreNotFoundException();
 
         return genreDao.getGenresByNames(genresNames);
-    }
-
-    @Override
-    public Set<Genre> getUserGenres(long userId) {
-        return genreDao.getUserGenres(userId);
-    }
-
-    @Transactional
-    @Override
-    public void updateUserGenres(List<String> genresNames, long userId) {
-        if(genresNames == null) {
-            genreDao.updateUserGenres(null, userId);
-            return;
-        }
-        Set<Genre> newGenres = getGenresByNames(genresNames);
-        genreDao.updateUserGenres(newGenres, userId);
     }
 
 }

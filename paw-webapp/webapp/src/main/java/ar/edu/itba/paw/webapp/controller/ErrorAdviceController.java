@@ -17,21 +17,21 @@ public class ErrorAdviceController {
     @ExceptionHandler(AuditionNotFoundException.class)
     public ModelAndView auditionNotFound() {
         LOGGER.warn("Audition could not be found");
-        return new ModelAndView("errors/404");
+        return new ModelAndView("forward:/404");
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(IllegalArgumentException.class)
     public ModelAndView illegalArgumentException() {
         LOGGER.warn("An illegal argument was found");
-        return new ModelAndView("errors/400");
+        return new ModelAndView("forward:/400");
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(InvalidTokenException.class)
     public ModelAndView invalidToken() {
         LOGGER.warn("Specified token was expired or non existent");
-        return new ModelAndView("errors/404");
+        return new ModelAndView("forward:/404");
     }
 
 
@@ -46,35 +46,35 @@ public class ErrorAdviceController {
     @ExceptionHandler(LocationNotFoundException.class)
     public ModelAndView locationNotFound() {
         LOGGER.warn("Location could not be found");
-        return new ModelAndView("errors/404");
+        return new ModelAndView("forward:/404");
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(RoleNotFoundException.class)
     public ModelAndView roleNotFound() {
         LOGGER.warn("Role could not be found");
-        return new ModelAndView("errors/404");
+        return new ModelAndView("forward:/404");
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(UserNotFoundException.class)
     public ModelAndView userNotFound() {
         LOGGER.warn("User could not be found");
-        return new ModelAndView("errors/404");
+        return new ModelAndView("forward:/404");
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(PageNotFoundException.class)
     public ModelAndView pageNotFound() {
         LOGGER.warn("Requested page was not found");
-        return new ModelAndView("errors/404");
+        return new ModelAndView("forward:/404");
     }
 
     @ResponseStatus(HttpStatus.FORBIDDEN)
     @ExceptionHandler(AuditionNotOwnedException.class)
     public ModelAndView auditionNotOwned() {
         LOGGER.warn("Audition is not owned by current user");
-        return new ModelAndView("errors/403");
+        return new ModelAndView("forward:/403");
     }
 
 }

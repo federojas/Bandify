@@ -1,5 +1,5 @@
 function getPaginationURL(newPage) {
-    let nweUrl = new URL(window.location.href);
-    nweUrl.searchParams.set('page', newPage);
-    location.href = nweUrl.toString();
+    let newUrl = new URL(window.location.href);
+    newUrl.searchParams.set('page', newPage);
+    location.href = newUrl.toString();
 }

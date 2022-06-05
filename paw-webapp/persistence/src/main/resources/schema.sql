@@ -25,8 +25,11 @@ CREATE TABLE IF NOT EXISTS users
     surname VARCHAR(50),
     isBand BOOLEAN,
     isEnabled BOOLEAN,
+    available BOOLEAN,
     description VARCHAR(500),
-    UNIQUE(email)
+    locationId BIGINT,
+    UNIQUE(email),
+    FOREIGN KEY (locationId) REFERENCES locations
 );
 
 CREATE TABLE IF NOT EXISTS auditions
@@ -91,13 +94,25 @@ CREATE TABLE IF NOT EXISTS profileImages
    FOREIGN KEY (userId) REFERENCES users ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS profileMediaUrls
+(
+    id SERIAL PRIMARY KEY,
+    userId BIGINT NOT NULL,
+    url VARCHAR(2083) NOT NULL,
+    type TEXT NOT NULL,
+    UNIQUE(userId,type),
+    FOREIGN KEY (userId) REFERENCES users ON DELETE CASCADE
+);
+
 CREATE TABLE IF NOT EXISTS applications
 (
+    id SERIAL PRIMARY KEY,
     auditionId BIGINT NOT NULL,
     applicantId BIGINT NOT NULL,
     creationDate TIMESTAMP NOT NULL,
     state TEXT NOT NULL,
-    PRIMARY KEY(auditionId,applicantId),
+    message VARCHAR(300) NOT NULL,
+    UNIQUE(auditionId,applicantId),
     FOREIGN KEY (auditionId) REFERENCES auditions(id) ON DELETE CASCADE,
     FOREIGN KEY (applicantId) REFERENCES users(id) ON DELETE CASCADE
 );

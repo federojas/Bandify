@@ -1,16 +1,13 @@
 package ar.edu.itba.paw.service;
 
-import ar.edu.itba.paw.Audition;
+import ar.edu.itba.paw.model.*;
 import ar.edu.itba.paw.model.exceptions.AuditionNotFoundException;
 import ar.edu.itba.paw.model.exceptions.AuditionNotOwnedException;
-import ar.edu.itba.paw.AuditionFilter;
 import ar.edu.itba.paw.model.exceptions.PageNotFoundException;
 import ar.edu.itba.paw.persistence.*;
-import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
@@ -21,7 +18,7 @@ public class AuditionServiceImpl implements AuditionService {
     @Autowired
     private AuditionDao auditionDao;
     @Autowired
-    private UserService userService;
+    private AuthFacadeService authFacadeService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AuditionServiceImpl.class);
 
@@ -43,7 +40,8 @@ public class AuditionServiceImpl implements AuditionService {
     public void editAuditionById(Audition.AuditionBuilder builder, long id) {
         checkAuditionId(id);
         checkPermissions(id);
-        auditionDao.editAuditionById(builder, id);
+        Optional<Audition> audition = getAuditionById(id);
+        audition.ifPresent(value -> value.edit(builder));
     }
 
     @Override
@@ -77,11 +75,12 @@ public class AuditionServiceImpl implements AuditionService {
     public void deleteAuditionById(long id) {
         checkAuditionId(id);
         checkPermissions(id);
+        LOGGER.debug("Audition {} will be deleted",id);
         auditionDao.deleteAuditionById(id);
     }
-    
+
     @Override
-    public List<Audition> filter(AuditionFilter filter, int page) {
+    public List<Audition> filter(FilterOptions filter, int page) {
         int lastPage = getFilterTotalPages(filter);
         lastPage = lastPage == 0 ? 1 : lastPage;
         checkPage(page, lastPage);
@@ -89,15 +88,16 @@ public class AuditionServiceImpl implements AuditionService {
     }
     
     @Override   
-    public int getFilterTotalPages(AuditionFilter filter) {
-
-         return auditionDao.getTotalPages(filter);
+    public int getFilterTotalPages(FilterOptions filter) {
+        return auditionDao.getTotalPages(filter);
     }
  
     private void checkPermissions(long id) {
-        if(getAuditionById(id).orElseThrow(AuditionNotFoundException::new).getBandId() !=
-                userService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(UserNotFoundException::new).getId())
+        if(getAuditionById(id).orElseThrow(AuditionNotFoundException::new).getBand().getId() !=
+                authFacadeService.getCurrentUser().getId()) {
+            LOGGER.warn("The authenticated user is not the audition owner");
             throw new AuditionNotOwnedException();
+        }
     }
 
     private void checkPage(int page, int lastPage) {

@@ -22,24 +22,22 @@
 
             <div class="button-container">
                 <div>
-                    <button type="button" onclick=" closeConfirmationModal()" class="audition-cancel-confirm-btn"><spring:message code="confirmationModal.cancel"/> </button>
+                        <c:if test="${param.isDelete}">
+                            <form  action="${param.action}" method="post">
+                                    <button type="submit" class="audition-delete-confirm-btn">
+                                        <spring:message code="audition.alt.delete" var="delete"/>
+                                        <spring:message code="confirmationModal.confirm"/>
+                                    </button>
+                            </form>
+                        </c:if>
+                        <c:if test="${!param.isDelete}">
+                            <button type="submit" class="audition-confirm-btn " onclick="closeConfirmationModal()">
+                                <spring:message code="confirmationModal.confirm"/>
+                            </button>
+                        </c:if>
                 </div>
                 <div>
-
-                <form  action="<c:url value="${param.action}"/>" method="post">
-                    <c:if test="${param.isDelete}">
-                        <button type="submit" class="audition-delete-confirm-btn">
-                            <spring:message code="audition.alt.delete" var="delete"/>
-                            <spring:message code="confirmationModal.confirm"/>
-                                <img src="<c:url value="/resources/icons/trash.svg"/>" class="audition-icon" alt="${delete}"/>
-                        </button>
-                    </c:if>
-                    <c:if test="${!param.isDelete}">
-                        <button type="submit" class="audition-confirm-btn ">
-                            <spring:message code="confirmationModal.confirm"/>
-                        </button>
-                    </c:if>
-                </form>
+                    <button type="button" onclick=" closeConfirmationModal()" class="audition-cancel-confirm-btn"><spring:message code="confirmationModal.cancel"/> </button>
                 </div>
             </div>
         </div>
