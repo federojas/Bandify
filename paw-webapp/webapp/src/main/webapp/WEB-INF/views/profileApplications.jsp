@@ -63,10 +63,10 @@
                         <div>
                             <label for="postulation"><spring:message code="applications.seeBy"/></label>
                             <select id="postulation" name="state">
-                                <option value="0"><spring:message code="applications.all"/></option>
-                                <option value="1"><spring:message code="applications.pending"/></option>
-                                <option value="2"><spring:message code="applications.accepted"/></option>
-                                <option value="3"><spring:message code="applications.rejected"/></option>
+                                <option value="ALL"><spring:message code="applications.all"/></option>
+                                <option value="PENDING"><spring:message code="applications.pending"/></option>
+                                <option value="ACCEPTED"><spring:message code="applications.accepted"/></option>
+                                <option value="REJECTED"><spring:message code="applications.rejected"/></option>
                             </select>
                         </div>
                         <button type="submit" class="filter-applications-button"><spring:message code="applications.see"/></button>

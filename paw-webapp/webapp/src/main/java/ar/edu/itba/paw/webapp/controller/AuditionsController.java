@@ -119,11 +119,11 @@ public class AuditionsController {
     @RequestMapping(value = "/auditions/{id}/applicants", method = {RequestMethod.GET})
     public ModelAndView applicants(@PathVariable long id,
                                    @RequestParam(value = "page", defaultValue = "1") int page,
-                                   @RequestParam(value = "state", defaultValue = "1") int state) {
+                                   @RequestParam(value = "state", defaultValue = "ALL") String state) {
         ModelAndView mav = new ModelAndView("applicants");
-        List<Application> applications = applicationService.getAuditionApplicationsByState(id, ApplicationState.values()[state], page);
+        List<Application> applications = applicationService.getAuditionApplicationsByState(id, ApplicationState.valueOf(state), page);
         Audition aud = auditionService.getAuditionById(id).orElseThrow(AuditionNotFoundException::new);
-        int lastPage = applicationService.getTotalAuditionApplicationByStatePages(id, ApplicationState.values()[state]);
+        int lastPage = applicationService.getTotalAuditionApplicationByStatePages(id, ApplicationState.valueOf(state));
         lastPage = lastPage == 0 ? 1 : lastPage;
         mav.addObject("id",id);
         mav.addObject("auditionTitle", aud.getTitle());

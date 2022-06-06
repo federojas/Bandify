@@ -135,13 +135,13 @@ public class UserController {
 
     @RequestMapping(value = "/profile/applications", method = {RequestMethod.GET})
     public ModelAndView applications(@RequestParam(value = "page", defaultValue = "1") int page,
-                                     @RequestParam(value = "state", defaultValue = "0") int state) {
+                                     @RequestParam(value = "state", defaultValue = "ALL") String state) {
 
         ModelAndView mav = new ModelAndView("profileApplications");
         User user = authFacadeService.getCurrentUser();
         List<Application> applications = applicationService.getMyApplicationsFiltered(user.getId(), page,
-                ApplicationState.values()[state]);
-        int lastPage = applicationService.getTotalUserApplicationPagesFiltered(user.getId(), ApplicationState.values()[state]);
+                ApplicationState.valueOf(state));
+        int lastPage = applicationService.getTotalUserApplicationPagesFiltered(user.getId(), ApplicationState.valueOf(state));
         lastPage = lastPage == 0 ? 1 : lastPage;
         mav.addObject("artistApplications", applications);
         mav.addObject("currentPage", page);
