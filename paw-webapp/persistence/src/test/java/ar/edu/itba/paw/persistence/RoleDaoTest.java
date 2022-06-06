@@ -26,7 +26,7 @@ import static org.junit.Assert.*;
 public class RoleDaoTest {
 
     @Autowired
-    private RoleJpaDao roleDao;
+    private RoleDao roleDao;
 
     @Autowired
     private DataSource ds;

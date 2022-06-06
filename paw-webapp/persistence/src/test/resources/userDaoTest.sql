@@ -17,7 +17,7 @@ VALUES (2, 'artist2@mail.com', '12345678', 'name', 'surname', false, false, 'des
 
 --VERIFIED USER FOR FILTER TESTING
 INSERT INTO users(id, email, password, name, surname, isband, isenabled, description, locationid, available)
-VALUES (3, 'artist3@mail.com', '12345678', 'name', 'surname', false, true, 'description', null, false);
+VALUES (3, 'artist3@mail.com', '12345678', 'name', 'surname', false, true, 'description', 1, false);
 
 INSERT INTO roles VALUES(1,'GUITARIST');
 INSERT INTO genres VALUES(1,'ROCK');

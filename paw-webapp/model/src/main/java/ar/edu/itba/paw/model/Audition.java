@@ -51,12 +51,12 @@ public class Audition {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Audition audition = (Audition) o;
-        return getId() == audition.getId() && getBand() == audition.getBand() && getTitle().equals(audition.getTitle()) && getDescription().equals(audition.getDescription()) && getCreationDate().equals(audition.getCreationDate()) && getLocation().equals(audition.getLocation()) && getMusicGenres().equals(audition.getMusicGenres()) && getLookingFor().equals(audition.getLookingFor());
+        return Objects.equals(getId(), audition.getId()) && Objects.equals(getTitle(), audition.getTitle()) && Objects.equals(getDescription(), audition.getDescription()) && Objects.equals(getCreationDate(), audition.getCreationDate());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getBand(), getTitle(), getDescription(), getCreationDate(), getLocation(), getMusicGenres(), getLookingFor());
+        return Objects.hash(getId(), getTitle(), getDescription(), getCreationDate());
     }
 
     public void edit(AuditionBuilder builder) {

@@ -21,6 +21,8 @@ import java.util.List;
 import java.util.Optional;
 import static org.junit.Assert.*;
 
+
+//TODO USER TEST SIN LOCATION GENRE NI ROLE, NO ESTA EN EQUALS NI HASHCODE TAMPOCO
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfig.class)
 @Sql("classpath:userDaoTest.sql")
@@ -40,7 +42,11 @@ public class UserDaoTest {
     private static final User ARTIST = new User.UserBuilder("artist@mail.com","12345678","name",false,false).surname("surname").description("description").id(1L).build();
     private static final User ARTIST2 = new User.UserBuilder("artist2@mail.com","12345678", "name", false, false).surname("surname").description("description").id(2L).build();
     private static final User ARTIST3 = new User.UserBuilder("artist3@mail.com","12345678", "name", false, true).surname("surname").description("description").id(3L).build();
-    private static final FilterOptions FILTER_OPTIONS = new FilterOptions.FilterOptionsBuilder().withGenres(Collections.singletonList("ROCK")).withRoles(Collections.singletonList("GUITARIST")).withTitle("name").build();
+    private static final FilterOptions FILTER_OPTIONS = new FilterOptions.FilterOptionsBuilder().withGenres(Collections.singletonList("ROCK")).withRoles(Collections.singletonList("GUITARIST")).withTitle("name").withLocations(Collections.singletonList("loc")).build();
+    private static final FilterOptions FILTER_OPTIONS_NO_QUERY = new FilterOptions.FilterOptionsBuilder().withGenres(Collections.singletonList("ROCK")).withRoles(Collections.singletonList("GUITARIST")).withTitle("").build();
+    private static final FilterOptions FILTER_OPTIONS_NON_EXISTENT = new FilterOptions.FilterOptionsBuilder().withGenres(Collections.singletonList("ROCK")).withRoles(Collections.singletonList("GUITARIST")).withTitle("INVALID").build();
+
+
     private static final String PASSWORD = "12345678";
     private static final String NAME = "name";
     private static final String SURNAME = "surname";
@@ -125,9 +131,23 @@ public class UserDaoTest {
     }
 
     @Test
+    public void testFilterSearchNoQuery() {
+        List<User> userList = userDao.filter(FILTER_OPTIONS_NO_QUERY,1);
+        assertEquals(1,userList.size());
+        assertEquals(userList.get(0), ARTIST3);
+    }
+
+    @Test
     public void testFilterTotalPages() {
         int pageSize = userDao.getTotalPages(FILTER_OPTIONS);
         assertEquals(1,1);
+    }
+
+    @Test
+    public void testFilterSearchByNonExistent() {
+        List<User> userList = userDao.filter(FILTER_OPTIONS_NON_EXISTENT,1);
+        assertNotNull(userList);
+        assertTrue(userList.isEmpty());
     }
 
 }

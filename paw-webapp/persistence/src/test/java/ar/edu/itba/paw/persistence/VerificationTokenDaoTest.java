@@ -72,12 +72,14 @@ public class VerificationTokenDaoTest {
     @Test
     public void testDeleteTokenByInvalidUserId() {
         verificationTokenDao.deleteTokenByUserId(INVALID_ID, TokenType.RESET);
+        em.flush();
         assertEquals(3, JdbcTestUtils.countRowsInTable(jdbcTemplate, "verificationtokens"));
     }
 
     @Test
     public void testDeleteTokenByUserIdInvalidType() {
         verificationTokenDao.deleteTokenByUserId(INVALID_ID, TokenType.VERIFY);
+        em.flush();
         assertEquals(3, JdbcTestUtils.countRowsInTable(jdbcTemplate, "verificationtokens"));
     }
 

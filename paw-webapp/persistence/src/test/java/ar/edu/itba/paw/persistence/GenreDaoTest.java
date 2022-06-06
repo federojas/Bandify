@@ -28,7 +28,7 @@ import static org.junit.Assert.*;
 public class GenreDaoTest {
 
     @Autowired
-    private GenreJpaDao genreDao;
+    private GenreDao genreDao;
     @Autowired
     private DataSource ds;
 

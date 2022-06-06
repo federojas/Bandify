@@ -26,7 +26,7 @@ import static org.junit.Assert.*;
 public class LocationDaoTest {
 
     @Autowired
-    private LocationJpaDao locationDao;
+    private LocationDao locationDao;
 
     @Autowired
     private DataSource ds;

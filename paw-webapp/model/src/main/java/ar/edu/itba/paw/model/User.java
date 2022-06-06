@@ -85,12 +85,12 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return isBand == user.isBand && isEnabled == user.isEnabled && Objects.equals(id, user.id) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(name, user.name) && Objects.equals(surname, user.surname) && Objects.equals(description, user.description) && Objects.equals(location, user.location);
+        return isBand == user.isBand && isEnabled == user.isEnabled && Objects.equals(id, user.id) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(name, user.name) && Objects.equals(surname, user.surname) && Objects.equals(description, user.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, email, password, name, surname, description, location, isBand, isEnabled);
+        return Objects.hash(id, email, password, name, surname, description, isBand, isEnabled);
     }
 
     public String getEmail() {
