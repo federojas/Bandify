@@ -15,6 +15,7 @@ import java.util.*;
 @Service
 public class AuditionServiceImpl implements AuditionService {
 
+    //TODO: faltan tests, edit y positivos etc
     @Autowired
     private AuditionDao auditionDao;
     @Autowired

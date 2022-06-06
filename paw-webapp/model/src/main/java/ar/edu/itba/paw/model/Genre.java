@@ -17,6 +17,7 @@ public class Genre {
     Genre() {
         //Hibernate
     }
+
     public Genre(String genreName,long id) {
         this.genreName=genreName;
         this.id = id;

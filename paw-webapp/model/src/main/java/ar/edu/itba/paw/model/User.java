@@ -85,14 +85,12 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return isBand() == user.isBand() && isEnabled() == user.isEnabled() && isAvailable() == user.isAvailable() && Objects.equals(getId(), user.getId()) && Objects.equals(getEmail(), user.getEmail()) && Objects.equals(getPassword(), user.getPassword()) && Objects.equals(getName(), user.getName()) && Objects.equals(getSurname(), user.getSurname()) && Objects.equals(getDescription(), user.getDescription()) && Objects.equals(getLocation(), user.getLocation()) && Arrays.equals(image, user.image) && Objects.equals(getUserRoles(), user.getUserRoles()) && Objects.equals(getUserGenres(), user.getUserGenres()) && Objects.equals(getSocialSocialMedia(), user.getSocialSocialMedia());
+        return isBand == user.isBand && isEnabled == user.isEnabled && Objects.equals(id, user.id) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(name, user.name) && Objects.equals(surname, user.surname) && Objects.equals(description, user.description);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(getId(), getEmail(), getPassword(), getName(), getSurname(), getDescription(), getLocation(), isBand(), isEnabled(), isAvailable(), getUserRoles(), getUserGenres(), getSocialSocialMedia());
-        result = 31 * result + Arrays.hashCode(image);
-        return result;
+        return Objects.hash(id, email, password, name, surname, description, isBand, isEnabled);
     }
 
     public String getEmail() {

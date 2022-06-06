@@ -48,8 +48,8 @@ CREATE TABLE IF NOT EXISTS auditionGenres
 (
     auditionId BIGINT NOT NULL,
     genreId BIGINT NOT NULL,
-    FOREIGN KEY(auditionId) references auditions(id) ON DELETE CASCADE,
-    FOREIGN KEY(genreId) references genres(id) ON DELETE CASCADE,
+    FOREIGN KEY(auditionId) REFERENCES auditions(id) ON DELETE CASCADE,
+    FOREIGN KEY(genreId) REFERENCES genres(id) ON DELETE CASCADE,
     UNIQUE(auditionId, genreId)
 );
 
@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS auditionRoles
     auditionId BIGINT NOT NULL,
     roleId BIGINT NOT NULL,
     FOREIGN KEY(auditionId) REFERENCES auditions(id) ON DELETE CASCADE,
-    FOREIGN KEY(roleId) references roles(id) ON DELETE CASCADE,
+    FOREIGN KEY(roleId) REFERENCES roles(id) ON DELETE CASCADE,
     UNIQUE(auditionId, roleId)
 );
 

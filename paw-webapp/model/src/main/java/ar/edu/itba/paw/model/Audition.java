@@ -1,5 +1,8 @@
 package ar.edu.itba.paw.model;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -32,14 +35,21 @@ public class Audition {
     @JoinColumn(name = "locationId")
     private Location location;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH,
+            CascadeType.MERGE,
+            CascadeType.REFRESH,
+            CascadeType.PERSIST})
     @JoinTable(name = "auditiongenres",
             joinColumns = @JoinColumn(name = "auditionId"),
             inverseJoinColumns = @JoinColumn(name = "genreId")
     )
     private Set<Genre> musicGenres;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH,
+            CascadeType.MERGE,
+            CascadeType.REFRESH,
+            CascadeType.PERSIST})
     @JoinTable(name = "auditionroles",
             joinColumns = @JoinColumn(name = "auditionId"),
             inverseJoinColumns = @JoinColumn(name = "roleId")
@@ -51,12 +61,12 @@ public class Audition {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Audition audition = (Audition) o;
-        return getId() == audition.getId() && getBand() == audition.getBand() && getTitle().equals(audition.getTitle()) && getDescription().equals(audition.getDescription()) && getCreationDate().equals(audition.getCreationDate()) && getLocation().equals(audition.getLocation()) && getMusicGenres().equals(audition.getMusicGenres()) && getLookingFor().equals(audition.getLookingFor());
+        return Objects.equals(getId(), audition.getId()) && Objects.equals(getTitle(), audition.getTitle()) && Objects.equals(getDescription(), audition.getDescription()) && Objects.equals(getCreationDate(), audition.getCreationDate());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getBand(), getTitle(), getDescription(), getCreationDate(), getLocation(), getMusicGenres(), getLookingFor());
+        return Objects.hash(getId(), getTitle(), getDescription(), getCreationDate());
     }
 
     public void edit(AuditionBuilder builder) {

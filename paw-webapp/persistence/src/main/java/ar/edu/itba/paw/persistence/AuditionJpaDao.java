@@ -11,6 +11,7 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.math.BigInteger;
 import java.util.*;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
@@ -82,8 +83,7 @@ public class AuditionJpaDao implements AuditionDao {
     public void deleteAuditionById(long id) {
         LOGGER.info("Deleting audition with id {}", id);
         Optional<Audition> audition = getAuditionById(id);
-        if(audition.isPresent())
-            em.remove(audition);
+        audition.ifPresent(value -> em.remove(value));
     }
 
     @Override
@@ -161,7 +161,7 @@ public class AuditionJpaDao implements AuditionDao {
 
     private List<Long> getAuditionIds(Query query) {
         @SuppressWarnings("unchecked")
-        List<Long> ids = (List<Long>) query.getResultList().stream().map(o -> ((Integer) o).longValue()).collect(Collectors.toList());
+        List<Long> ids = (List<Long>) query.getResultList().stream().map(o -> ((Number) o).longValue()).collect(Collectors.toList());
 
         if(ids.isEmpty())
             ids.add(-1L);

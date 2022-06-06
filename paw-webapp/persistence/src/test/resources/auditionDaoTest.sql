@@ -6,12 +6,11 @@ TRUNCATE TABLE locations RESTART IDENTITY AND COMMIT NO CHECK;
 TRUNCATE TABLE auditionroles RESTART IDENTITY AND COMMIT NO CHECK;
 TRUNCATE TABLE auditiongenres RESTART IDENTITY AND COMMIT NO CHECK;
 
+INSERT INTO users(id, email, password, name, surname, isband, isenabled, description, locationid, available)
+VALUES (1, 'band@mail.com', '12345678', 'name', null, true, true, 'description', null, false);
 
-INSERT INTO users(id, email, password, name, surname, isband, isenabled, description)
-VALUES (1, 'band@mail.com', '12345678', 'name', 'surname', true, false, 'description');
-
-INSERT INTO users(id, email, password, name, surname, isband, isenabled, description)
-VALUES (2, 'band2@mail.com', '12345678', 'name', 'surname', true, false, 'description');
+INSERT INTO users(id, email, password, name, surname, isband, isenabled, description, locationid, available)
+VALUES (2, 'band2@mail.com', '12345678', 'name', null, true, true, 'description', null, false);
 
 INSERT INTO roles(id, role)
 VALUES (1, 'role');
@@ -76,13 +75,11 @@ VALUES (10, 1, 'query title', 'description', '2022-07-05 14:23:30', 1);
 INSERT INTO auditions(id, bandid, title, description, creationdate, locationid)
 VALUES (11, 1, 'title', 'description', '2022-07-05 14:23:30', 1);
 
-
 INSERT INTO auditions(id, bandid, title, description, creationdate, locationid)
 VALUES (12, 2, 'title', 'description', '2022-08-05 14:23:30', 1);
 
 INSERT INTO auditions(id, bandid, title, description, creationdate, locationid)
 VALUES (13, 2, 'title', 'description', '2022-06-05 14:23:30', 1);
-
 
 INSERT INTO auditionroles(auditionid, roleid)
 VALUES (1,1);

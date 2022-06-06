@@ -1,12 +1,10 @@
 package ar.edu.itba.paw.persistence;
 
-import ar.edu.itba.paw.model.Audition;
 import ar.edu.itba.paw.model.FilterOptions;
 import ar.edu.itba.paw.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -86,6 +84,7 @@ public class UserJpaDao implements UserDao {
 
     }
 
+    //TODO codigo repetido
     @Override
     public List<User> filter(FilterOptions filterOptions, int page) {
         LOGGER.info("Getting users filtered in page {}", page);
@@ -150,7 +149,7 @@ public class UserJpaDao implements UserDao {
 
     private List<Long> getUserIds(Query query) {
         @SuppressWarnings("unchecked")
-        List<Long> ids = (List<Long>) query.getResultList().stream().map(o -> ((Integer) o).longValue()).collect(Collectors.toList());
+        List<Long> ids = (List<Long>) query.getResultList().stream().map(o -> ((Number) o).longValue()).collect(Collectors.toList());
 
         if(ids.isEmpty())
             ids.add(-1L);
