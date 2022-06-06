@@ -22,7 +22,6 @@ import java.util.Optional;
 import static org.junit.Assert.*;
 
 
-//TODO USER TEST SIN LOCATION GENRE NI ROLE, NO ESTA EN EQUALS NI HASHCODE TAMPOCO
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfig.class)
 @Sql("classpath:userDaoTest.sql")

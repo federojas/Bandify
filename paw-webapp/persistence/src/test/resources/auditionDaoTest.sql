@@ -81,7 +81,6 @@ VALUES (12, 2, 'title', 'description', '2022-08-05 14:23:30', 1);
 INSERT INTO auditions(id, bandid, title, description, creationdate, locationid)
 VALUES (13, 2, 'title', 'description', '2022-06-05 14:23:30', 1);
 
-
 INSERT INTO auditionroles(auditionid, roleid)
 VALUES (1,1);
 

@@ -54,7 +54,9 @@ public class VerificationTokenDaoTest {
 
     @Test
     public void testCreateToken() {
+        JdbcTestUtils.deleteFromTables(jdbcTemplate,"verificationtokens");
         VerificationToken token1 = verificationTokenDao.createToken(USER, TOKEN, EXPIRY_DATE, TokenType.VERIFY);
+        em.flush();
         assertNotNull(token1);
         assertEquals(USER, token1.getUser());
         assertEquals(TOKEN, token1.getToken());

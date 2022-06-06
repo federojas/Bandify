@@ -118,10 +118,13 @@ public class AuditionDaoTest {
         jdbcTemplate = new JdbcTemplate(ds);
     }
 
-    //TODO LOCATION GENRE ROLE, NO ESTAN EN EL EQUALS
     @Test
     public void testCreateAudition() {
+        JdbcTestUtils.deleteFromTables(jdbcTemplate,"auditiongenres");
+        JdbcTestUtils.deleteFromTables(jdbcTemplate,"auditionroles");
+        JdbcTestUtils.deleteFromTables(jdbcTemplate,"auditions");
         final Audition audition = auditionDao.create(new Audition.AuditionBuilder(TITLE, DESCRIPTION, USER, CREATION_DATE));
+        em.flush();
         assertNotNull(audition);
         assertEquals(TITLE, audition.getTitle());
         assertEquals(DESCRIPTION, audition.getDescription());
@@ -207,14 +210,14 @@ public class AuditionDaoTest {
         assertEquals(0,pages);
     }
 
-//    //TODO FALTA ESTE
-//    @Test
-//    public void testDeleteAuditionById() {
-//        auditionDao.deleteAuditionById(aud1.getId());
-//        assertEquals(0, JdbcTestUtils.countRowsInTableWhere(jdbcTemplate, "auditions", "id = " + aud1.getId()));
-//        assertEquals(0, JdbcTestUtils.countRowsInTableWhere(jdbcTemplate, "auditionroles", "auditionid = " + aud1.getId()));
-//        assertEquals(0, JdbcTestUtils.countRowsInTableWhere(jdbcTemplate, "auditiongenres", "auditionid = " + aud1.getId()));
-//    }
+    @Test
+    public void testDeleteAuditionById() {
+        auditionDao.deleteAuditionById(aud1.getId());
+        em.flush();
+        assertEquals(0, JdbcTestUtils.countRowsInTableWhere(jdbcTemplate, "auditions", "id = " + aud1.getId()));
+        assertEquals(0, JdbcTestUtils.countRowsInTableWhere(jdbcTemplate, "auditionroles", "auditionid = " + aud1.getId()));
+        assertEquals(0, JdbcTestUtils.countRowsInTableWhere(jdbcTemplate, "auditiongenres", "auditionid = " + aud1.getId()));
+    }
 
     @Test
     public void testGetTotalPagesByLocationFilter() {
