@@ -17,10 +17,6 @@ body {
     margin: 1rem;
 }
 
-#bandAuditions {
-    word-break: break-all;
-}
-
 .black-title {
     font-size: xxx-large;
     font-weight: bold;
@@ -58,7 +54,7 @@ body {
     flex-wrap: wrap;
     margin: 0.75rem;
     justify-content: space-around;
-    word-break: break-word;
+    word-break: break-all;
     text-align: center;
 }
 

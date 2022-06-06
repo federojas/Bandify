@@ -53,11 +53,8 @@
         </div>
         <div class="applicants-content">
             <h2 class="applicants-title">
-                <spring:message code="applicants.title"/>
+                <spring:message code="applicants.title" arguments="${auditionTitle}"/>
             </h2>
-            <h3 class="subtitle">
-                <b><spring:message code="applicants.subtitle" arguments="${auditionTitle}"/></b>
-            </h3>
             <div class="user-data">
                 <form action="<c:url value="/auditions/${id}/applicants" />" method="get" class="filter-applications-form">
                     <div class="filter-applications">
