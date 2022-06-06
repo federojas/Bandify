@@ -61,7 +61,10 @@ public class Audition {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Audition audition = (Audition) o;
-        return Objects.equals(getId(), audition.getId()) && Objects.equals(getTitle(), audition.getTitle()) && Objects.equals(getDescription(), audition.getDescription()) && Objects.equals(getCreationDate(), audition.getCreationDate());
+        return Objects.equals(getId(), audition.getId()) &&
+                Objects.equals(getTitle(), audition.getTitle()) &&
+                Objects.equals(getDescription(), audition.getDescription()) &&
+                Objects.equals(getCreationDate(), audition.getCreationDate());
     }
 
     @Override

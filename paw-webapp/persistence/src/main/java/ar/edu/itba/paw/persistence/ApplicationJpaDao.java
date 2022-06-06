@@ -87,7 +87,7 @@ public class ApplicationJpaDao implements ApplicationDao {
     @Override
     public int getTotalAuditionApplicationsByStatePages(long auditionId, ApplicationState state) {
         return (int) Math.ceil(((BigInteger) em.createNativeQuery(
-                "SELECT COUNT(*) FROM applications WHERE auditionId = :auditionId AND state=cast(:state AS text)")
+                "SELECT COUNT(*) FROM applications WHERE auditionId = :auditionId AND state= :state")
                 .setParameter("auditionId", auditionId)
                 .setParameter("state", state.getState()).getSingleResult()).doubleValue() / PAGE_SIZE);
     }
@@ -102,14 +102,14 @@ public class ApplicationJpaDao implements ApplicationDao {
     @Override
     public int getTotalUserApplicationPagesFiltered(long userId, ApplicationState state) {
         return (int) Math.ceil(((BigInteger) em.createNativeQuery(
-                "SELECT COUNT(*) FROM applications WHERE applicantid=:applicantId AND state=cast(:state AS text)")
+                "SELECT COUNT(*) FROM applications WHERE applicantid=:applicantId AND state= :state")
                 .setParameter("applicantId", userId)
                 .setParameter("state", state.getState()).getSingleResult()).doubleValue() / PAGE_SIZE);
     }
 
     private List<Long> getApplicationIds(Query query) {
         @SuppressWarnings("unchecked")
-        List<Long> ids = (List<Long>) query.getResultList().stream().map(o -> ((Integer) o).longValue()).collect(Collectors.toList());
+        List<Long> ids = (List<Long>) query.getResultList().stream().map(o -> ((Number) o).longValue()).collect(Collectors.toList());
 
         if(ids.isEmpty())
             ids.add(-1L);

@@ -2,6 +2,7 @@ package ar.edu.itba.paw.model;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 @Table(name = "applications")
@@ -76,6 +77,22 @@ public class Application {
         this.state = state;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Application that = (Application) o;
+        return Objects.equals(id, that.id) &&
+                state == that.state &&
+                Objects.equals(creationDate, that.creationDate) &&
+                Objects.equals(message, that.message);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, audition, applicant, state, creationDate, message);
+    }
+
     public static class ApplicationBuilder {
         private Long id;
         private Audition audition;
@@ -92,7 +109,7 @@ public class Application {
             this.message = message;
         }
 
-        ApplicationBuilder id(Long id) {
+        public ApplicationBuilder id(Long id) {
             this.id = id;
             return this;
         }
