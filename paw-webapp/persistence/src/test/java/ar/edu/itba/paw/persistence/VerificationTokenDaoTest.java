@@ -30,10 +30,9 @@ import static org.junit.Assert.*;
 public class VerificationTokenDaoTest {
 
     @Autowired
-    private VerificationTokenJpaDao verificationTokenDao;
+    private VerificationTokenDao verificationTokenDao;
     @Autowired
     private DataSource ds;
-
     @PersistenceContext
     private EntityManager em;
 
