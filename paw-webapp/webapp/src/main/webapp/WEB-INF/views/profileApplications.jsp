@@ -16,18 +16,26 @@
     <script>
         const queryString = window.location.search;
         const parameters = new URLSearchParams(queryString);
+        console.log(parameters.get('state'));
         $(document).ready(function () {
             $(".select-wrapper").each(function () {
                 var wrapper = this;
-                let i = 0;
-                $(this).find("ul>li").each(function () {
-                    var li = this;
-                    var option_text = $(this).text();
-                    if (i == parameters.get('state')) {
-                        $(li).click();
-                    }
-                    i++;
-                });
+
+                let state = parameters.get('state');
+                if (state == "ALL") {
+                    $(this).find("ul>li").get(0).click();
+                }
+                else if (state == "PENDING") {
+                    $(this).find("ul>li").get(1).click();
+                }
+                else if (state == "ACCEPTED") {
+                    $(this).find("ul>li").get(2).click();
+                }
+                else if (state == "REJECTED") {
+                    $(this).find("ul>li").get(3).click();
+                } else {
+                    $(this).find("ul>li").get(0).click();
+                }
 
             });
         });
