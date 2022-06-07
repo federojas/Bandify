@@ -22,6 +22,7 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.*;
 
@@ -62,7 +63,14 @@ public class ApplicationDaoTest {
             "artist@mail.com",
             "artist2@mail.com",
             "artist3@mail.com",
-            "artist4@mail.com"
+            "artist4@mail.com",
+            "artist5@mail.com",
+            "artist6@mail.com",
+            "artist7@mail.com",
+            "artist8@mail.com",
+            "artist9@mail.com",
+            "artist10@mail.com",
+            "artist11@mail.com"
     );
 
     private static final List<User> BAND_USERS = Arrays.asList(
@@ -74,14 +82,21 @@ public class ApplicationDaoTest {
             new User.UserBuilder(ARTIST_EMAILS.get(0), PWD, NAME, false, false).id(2L).surname(SURNAME).description(DESCRIPTION).build(),
             new User.UserBuilder(ARTIST_EMAILS.get(1), PWD, NAME, false, false).id(3L).surname(SURNAME).description(DESCRIPTION).build(),
             new User.UserBuilder(ARTIST_EMAILS.get(2), PWD, NAME, false, false).id(4L).surname(SURNAME).description(DESCRIPTION).build(),
-            new User.UserBuilder(ARTIST_EMAILS.get(3), PWD, NAME, false, false).id(5L).surname(SURNAME).description(DESCRIPTION).build()
+            new User.UserBuilder(ARTIST_EMAILS.get(3), PWD, NAME, false, false).id(5L).surname(SURNAME).description(DESCRIPTION).build(),
+            new User.UserBuilder(ARTIST_EMAILS.get(4), PWD, NAME, false, false).id(6L).surname(SURNAME).description(DESCRIPTION).build(),
+            new User.UserBuilder(ARTIST_EMAILS.get(5), PWD, NAME, false, false).id(7L).surname(SURNAME).description(DESCRIPTION).build(),
+            new User.UserBuilder(ARTIST_EMAILS.get(6), PWD, NAME, false, false).id(8L).surname(SURNAME).description(DESCRIPTION).build(),
+            new User.UserBuilder(ARTIST_EMAILS.get(7), PWD, NAME, false, false).id(9L).surname(SURNAME).description(DESCRIPTION).build(),
+            new User.UserBuilder(ARTIST_EMAILS.get(8), PWD, NAME, false, false).id(10L).surname(SURNAME).description(DESCRIPTION).build(),
+            new User.UserBuilder(ARTIST_EMAILS.get(9), PWD, NAME, false, false).id(11L).surname(SURNAME).description(DESCRIPTION).build(),
+            new User.UserBuilder(ARTIST_EMAILS.get(10), PWD, NAME, false, false).id(12L).surname(SURNAME).description(DESCRIPTION).build()
     );
 
     private static final LocalDateTime CREATION_DATE = LocalDateTime.of(2022 ,7, 5, 14, 23, 30);
-    private static final LocalDateTime CREATION_DATE_OLDER = LocalDateTime.of(2022 ,6, 5, 14, 23, 30);
 
     private static final List<Audition> AUDITIONS = Arrays.asList(
-            new Audition.AuditionBuilder(TITLE, DESCRIPTION, BAND_USERS.get(0), CREATION_DATE).id(1L).build()
+            new Audition.AuditionBuilder(TITLE, DESCRIPTION, BAND_USERS.get(0), CREATION_DATE).id(1L).build(),
+            new Audition.AuditionBuilder(TITLE, DESCRIPTION, BAND_USERS.get(0), CREATION_DATE).id(2L).build()
     );
 
 
@@ -91,12 +106,32 @@ public class ApplicationDaoTest {
     private static final Application REJECTED_APP_AUD1_1 = new Application.ApplicationBuilder(AUDITIONS.get(0), ARTIST_USERS.get(3), ApplicationState.REJECTED, CREATION_DATE, APPLICATION_MESSAGE).id(4L).build();
     private static final Application REJECTED_APP_AUD1_2 = new Application.ApplicationBuilder(AUDITIONS.get(0), ARTIST_USERS.get(3), ApplicationState.REJECTED, CREATION_DATE, APPLICATION_MESSAGE).id(5L).build();
 
+    private static final Application EXTRA_PAGE_APP_1 = new Application.ApplicationBuilder(AUDITIONS.get(1), ARTIST_USERS.get(0), ApplicationState.PENDING, CREATION_DATE, APPLICATION_MESSAGE).id(6L).build();
+    private static final Application EXTRA_PAGE_APP_2 = new Application.ApplicationBuilder(AUDITIONS.get(1), ARTIST_USERS.get(1), ApplicationState.PENDING, CREATION_DATE, APPLICATION_MESSAGE).id(7L).build();
+    private static final Application EXTRA_PAGE_APP_3 = new Application.ApplicationBuilder(AUDITIONS.get(1), ARTIST_USERS.get(2), ApplicationState.PENDING, CREATION_DATE, APPLICATION_MESSAGE).id(8L).build();
+    private static final Application EXTRA_PAGE_APP_4 = new Application.ApplicationBuilder(AUDITIONS.get(1), ARTIST_USERS.get(3), ApplicationState.PENDING, CREATION_DATE, APPLICATION_MESSAGE).id(9L).build();
+    private static final Application EXTRA_PAGE_APP_5 = new Application.ApplicationBuilder(AUDITIONS.get(1), ARTIST_USERS.get(4), ApplicationState.PENDING, CREATION_DATE, APPLICATION_MESSAGE).id(10L).build();
+    private static final Application EXTRA_PAGE_APP_6 = new Application.ApplicationBuilder(AUDITIONS.get(1), ARTIST_USERS.get(5), ApplicationState.PENDING, CREATION_DATE, APPLICATION_MESSAGE).id(11L).build();
+    private static final Application EXTRA_PAGE_APP_7 = new Application.ApplicationBuilder(AUDITIONS.get(1), ARTIST_USERS.get(6), ApplicationState.PENDING, CREATION_DATE, APPLICATION_MESSAGE).id(12L).build();
+    private static final Application EXTRA_PAGE_APP_8 = new Application.ApplicationBuilder(AUDITIONS.get(1), ARTIST_USERS.get(7), ApplicationState.PENDING, CREATION_DATE, APPLICATION_MESSAGE).id(13L).build();
+    private static final Application EXTRA_PAGE_APP_9 = new Application.ApplicationBuilder(AUDITIONS.get(1), ARTIST_USERS.get(8), ApplicationState.PENDING, CREATION_DATE, APPLICATION_MESSAGE).id(14L).build();
+    private static final Application EXTRA_PAGE_APP_10 = new Application.ApplicationBuilder(AUDITIONS.get(1), ARTIST_USERS.get(9), ApplicationState.PENDING, CREATION_DATE, APPLICATION_MESSAGE).id(15L).build();
+    private static final Application EXTRA_PAGE_APP_11 = new Application.ApplicationBuilder(AUDITIONS.get(1), ARTIST_USERS.get(10), ApplicationState.PENDING, CREATION_DATE, APPLICATION_MESSAGE).id(16L).build();
+
+    private static final List<Application> EXTRA_PAGE_APPS = Arrays.asList(
+            EXTRA_PAGE_APP_1, EXTRA_PAGE_APP_2, EXTRA_PAGE_APP_3, EXTRA_PAGE_APP_4, EXTRA_PAGE_APP_5, EXTRA_PAGE_APP_6, EXTRA_PAGE_APP_7, EXTRA_PAGE_APP_8, EXTRA_PAGE_APP_9, EXTRA_PAGE_APP_10, EXTRA_PAGE_APP_11
+    );
+
+
     private static final List<Application> PENDING_APPS_AUD1 = Arrays.asList(
             PENDING_APP_AUD1_1,
             PENDING_APP_AUD1_2
     );
 
-    private static final List<Application> REJECTED_APPS_AUD1 = Arrays.asList(REJECTED_APP_AUD1_1,REJECTED_APP_AUD1_2);
+    private static final List<Application> REJECTED_APPS_AUD1 = Arrays.asList(
+            REJECTED_APP_AUD1_1,
+            REJECTED_APP_AUD1_2
+    );
 
     @Before
     public void setUp() {
@@ -104,7 +139,7 @@ public class ApplicationDaoTest {
     }
 
     @Test
-    public void testGetAuditionApplicationsByStatePendingFullPage() {
+    public void testGetAuditionApplicationsByStatePending() {
         List<Application> applications = applicationDao.getAuditionApplicationsByState(1, ApplicationState.PENDING, 1);
         assertNotNull(applications);
         assertTrue(applications.containsAll(PENDING_APPS_AUD1));
@@ -112,7 +147,7 @@ public class ApplicationDaoTest {
     }
 
     @Test
-    public void testGetAuditionApplicationsByStateAcceptedNotFullPage() {
+    public void testGetAuditionApplicationsByStateAccepted() {
         List<Application> applications = applicationDao.getAuditionApplicationsByState(1, ApplicationState.ACCEPTED,1);
         assertNotNull(applications);
         assertEquals(ACCEPTED_APP_AUD1_1, applications.get(0));
@@ -120,11 +155,27 @@ public class ApplicationDaoTest {
     }
 
     @Test
-    public void testGetAuditionApplicationsByStateRejectedNotFullPage() {
+    public void testGetAuditionApplicationsByStateRejected() {
         List<Application> applications = applicationDao.getAuditionApplicationsByState(1, ApplicationState.REJECTED,1);
         assertNotNull(applications);
         assertEquals(REJECTED_APP_AUD1_1, applications.get(0));
         assertEquals(2, applications.size());
+    }
+
+    @Test
+    public void testGetAuditionApplicationsByFullPage() {
+        List<Application> applications = applicationDao.getAuditionApplicationsByState(2, ApplicationState.PENDING, 1);
+        assertNotNull(applications);
+        assertTrue(EXTRA_PAGE_APPS.containsAll(applications));
+        assertEquals(PAGE_SIZE, applications.size());
+    }
+
+    @Test
+    public void testGetAuditionApplicationsByNotFullPage() {
+        List<Application> applications = applicationDao.getAuditionApplicationsByState(2, ApplicationState.PENDING, 2);
+        assertNotNull(applications);
+        assertTrue(EXTRA_PAGE_APPS.containsAll(applications));
+        assertEquals(1, applications.size());
     }
 
     @Test
@@ -146,7 +197,7 @@ public class ApplicationDaoTest {
         assertNotNull(applications);
 
         assertTrue(applications.containsAll(REJECTED_APPS_AUD1));
-        assertEquals(REJECTED_APPS_AUD1.size(), applications.size());
+        assertEquals(3, applications.size());
     }
 
     @Test
@@ -203,5 +254,11 @@ public class ApplicationDaoTest {
         assertEquals(0, pages);
     }
 
-
+    @Test
+    public void testFindApplication() {
+        Optional<Application> application = applicationDao.findApplication(1, APPLICANT_ID_2);
+        assertNotNull(application);
+        assertTrue(application.isPresent());
+        assertEquals(PENDING_APP_AUD1_2, application.get());
+    }
 }
