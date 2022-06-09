@@ -4,6 +4,7 @@ import ar.edu.itba.paw.model.Membership;
 import ar.edu.itba.paw.model.MembershipState;
 import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.model.exceptions.DuplicateMembershipException;
+import ar.edu.itba.paw.model.exceptions.MembershipNotFoundException;
 import ar.edu.itba.paw.persistence.MembershipDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,10 +31,23 @@ public class MembershipServiceImpl implements MembershipService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MembershipServiceImpl.class);
 
-    @Override
-    public List<Membership> getUserMemberships(User user, MembershipState state, int page) {
+    private List<Membership> getUserMemberships(User user, MembershipState state, int page) {
         LOGGER.info("Getting specified user memberships");
         return membershipDao.getUserMembershipsByState(user, state, page);
+    }
+
+    @Override
+    public List<Membership> getBandMemberships(User user, MembershipState state, int page) {
+        if(!user.isBand())
+            throw new MembershipNotFoundException();
+        return getUserMemberships(user,state,page);
+    }
+
+    @Override
+    public List<Membership> getArtistMemberships(User user, MembershipState state, int page) {
+        if(user.isBand())
+            throw new MembershipNotFoundException();
+        return getUserMemberships(user,state,page);
     }
 
     @Override

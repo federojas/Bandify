@@ -9,7 +9,9 @@ import java.util.Optional;
 
 public interface MembershipService {
 
-    List<Membership> getUserMemberships(User user, MembershipState state, int page);
+    List<Membership> getBandMemberships(User user, MembershipState state, int page);
+
+    List<Membership> getArtistMemberships(User user, MembershipState state, int page);
 
     int getTotalUserMembershipsPages(User user, MembershipState state);
 

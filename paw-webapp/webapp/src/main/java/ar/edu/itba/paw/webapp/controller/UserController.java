@@ -383,7 +383,7 @@ public class UserController {
     public ModelAndView bandMembershipInvites(@RequestParam(value = "page", defaultValue = "1") int page) {
         ModelAndView mav = new ModelAndView("bandsInvites");
         User currentUser = authFacadeService.getCurrentUser();
-        List<Membership> bandInvites = membershipService.getUserMemberships(currentUser,MembershipState.PENDING,page);
+        List<Membership> bandInvites = membershipService.getArtistMemberships(currentUser,MembershipState.PENDING,page);
         int lastPage = membershipService.getTotalUserMembershipsPages(currentUser,MembershipState.PENDING);
         lastPage = lastPage == 0 ? 1 : lastPage;
         mav.addObject("bandInvites", bandInvites);
@@ -444,7 +444,7 @@ public class UserController {
     }
 
     private ModelAndView getBandMembers(@RequestParam(value = "page", defaultValue = "1") int page, ModelAndView mav, User band) {
-        List<Membership> members = membershipService.getUserMemberships(
+        List<Membership> members = membershipService.getBandMemberships(
                 band,
                 MembershipState.ACCEPTED,
                 page);
