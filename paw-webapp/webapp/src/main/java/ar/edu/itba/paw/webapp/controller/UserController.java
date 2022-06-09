@@ -406,22 +406,29 @@ public class UserController {
     }
 
     /* metodo para visualizar los miembros de una banda en el perfil
-    *  url solo para bandas
+    *  url solo para bandas - vista de admin de los miembros de la banda
+    *  edicion - borrado (opcion)
     */
     @RequestMapping(value = "/profile/bandMembers",  method = {RequestMethod.GET})
     public ModelAndView bandMembers(@RequestParam(value = "page", defaultValue = "1") int page) {
         ModelAndView mav = new ModelAndView("bandMembers");
         User band =  authFacadeService.getCurrentUser();
-        List<Membership> members = membershipService.getUserMemberships(
-                authFacadeService.getCurrentUser(),
-                MembershipState.ACCEPTED,
-                page);
-        int lastPage = membershipService.getTotalUserMembershipsPages(band,MembershipState.PENDING);
-        lastPage = lastPage == 0 ? 1 : lastPage;
-        mav.addObject("members", members);
-        mav.addObject("currentPage", page);
-        mav.addObject("lastPage", lastPage);
-        return mav;
+        return getBandMembers(page, mav, band);
+    }
+
+    /* metodo para que un usuario visualize los miembros de una banda en el perfil publico
+     */
+    @RequestMapping(value = "/user/{id}/bandMembers",  method = {RequestMethod.GET})
+    public ModelAndView viewBandMembers(@PathVariable long id,
+                                        @RequestParam(value = "page", defaultValue = "1") int page) {
+        ModelAndView mav = new ModelAndView("viewBandMembers");
+        User band =  userService.getUserById(id).orElseThrow(UserNotFoundException::new);
+
+        //TODO esta bien este if?
+        if(!band.isBand())
+            throw new IllegalArgumentException();
+
+        return getBandMembers(page, mav, band);
     }
 
     @RequestMapping(value = "/users", method = {RequestMethod.GET})
@@ -432,6 +439,19 @@ public class UserController {
         initializeFilterOptions(userDiscover);
 
         return userDiscover;
+    }
+
+    private ModelAndView getBandMembers(@RequestParam(value = "page", defaultValue = "1") int page, ModelAndView mav, User band) {
+        List<Membership> members = membershipService.getUserMemberships(
+                band,
+                MembershipState.ACCEPTED,
+                page);
+        int lastPage = membershipService.getTotalUserMembershipsPages(band,MembershipState.PENDING);
+        lastPage = lastPage == 0 ? 1 : lastPage;
+        mav.addObject("members", members);
+        mav.addObject("currentPage", page);
+        mav.addObject("lastPage", lastPage);
+        return mav;
     }
 
     private void initializeFilterOptions(ModelAndView mav) {
