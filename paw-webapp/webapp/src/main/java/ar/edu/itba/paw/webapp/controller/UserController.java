@@ -336,7 +336,49 @@ public class UserController {
         mav.addObject("lastPage", lastPage);
         return mav;
     }
+    /* metodos para que una banda mande una membership
+    * las bandas deberian ver un boton en la card de usuario artista para mandarle la membership
+    * (obviamente tienen que ir al discover de usuarios para hacer esto)
+    *  recordar que a partir de aca se manda la solicitud y el artista tiene que aceptar
+    * */
 
+    @RequestMapping(value = "/profile/newMembership/{userId}", method = {RequestMethod.GET})
+    public ModelAndView newMembership(@PathVariable long userId,
+                                      @ModelAttribute("membershipForm")
+                                      final MembershipForm membershipForm) {
+        ModelAndView mav = new ModelAndView("selectApplicant");
+        Set<Role> auditionRoles = roleService.getAll();
+        mav.addObject("applicant",userService.getUserById(userId).orElseThrow(UserNotFoundException::new));
+        mav.addObject("allRoles",auditionRoles);
+        mav.addObject("band", authFacadeService.getCurrentUser());
+        return mav;
+    }
+
+    @RequestMapping(value = "/profile/newMembership/{userId}", method = {RequestMethod.POST})
+    public ModelAndView newMembership(@PathVariable long userId,
+                                      @Valid @ModelAttribute("membershipForm")
+                                      final MembershipForm membershipForm,
+                                      final BindingResult errors) {
+        if (errors.hasErrors()) {
+            return newMembership(userId,membershipForm);
+        }
+
+        // TODO: AGREGAR LAS URLS A SPRING SECURITY
+        // TODO: mandar mail de invitacion
+        // TODO: mensajes de error en .properties
+        // TODO: membershipSuccess.jsp y selectApplicant.jsp
+
+        membershipService.createMembership(new Membership.Builder(
+                userService.getUserById(userId).orElseThrow(UserNotFoundException::new),
+                authFacadeService.getCurrentUser(),
+                roleService.getRolesByNames(membershipForm.getRoles())).
+                description(membershipForm.getDescription()).
+                state(MembershipState.PENDING));
+        return new ModelAndView("membershipSuccess");
+
+    }
+
+    /* metodo para ver las invitaciones de memberships que le mandaron a un artista */
     @RequestMapping(value = "/profile/bands/invites",  method = {RequestMethod.GET})
     public ModelAndView bandMembershipInvites(@RequestParam(value = "page", defaultValue = "1") int page) {
         // TODO: AGREGAR LAS URLS A SPRING SECURITY
@@ -351,6 +393,7 @@ public class UserController {
         return mav;
     }
 
+    /* metodo para aceptar/rechazar la membership */
     @RequestMapping(value = "/profile/bands/invites/{id}",  method = {RequestMethod.GET})
     public ModelAndView evaluateInvite(@PathVariable long id,
                                        @RequestParam(value = "accept") boolean accept) {
@@ -363,6 +406,25 @@ public class UserController {
         }
 
         return new ModelAndView("redirect:/profile");
+    }
+
+    /* metodo para visualizar los miembros de una banda en el perfil
+    *  url solo para bandas
+    */
+    @RequestMapping(value = "/profile/bandMembers",  method = {RequestMethod.GET})
+    public ModelAndView bandMembers(@RequestParam(value = "page", defaultValue = "1") int page) {
+        ModelAndView mav = new ModelAndView("bandMembers");
+        User band =  authFacadeService.getCurrentUser();
+        List<Membership> members = membershipService.getUserMemberships(
+                authFacadeService.getCurrentUser(),
+                MembershipState.ACCEPTED,
+                page);
+        int lastPage = membershipService.getTotalUserMembershipsPages(band,MembershipState.PENDING);
+        lastPage = lastPage == 0 ? 1 : lastPage;
+        mav.addObject("members", members);
+        mav.addObject("currentPage", page);
+        mav.addObject("lastPage", lastPage);
+        return mav;
     }
 
     @RequestMapping(value = "/users", method = {RequestMethod.GET})

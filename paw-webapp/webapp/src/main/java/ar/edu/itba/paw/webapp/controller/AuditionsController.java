@@ -307,6 +307,9 @@ public class AuditionsController {
         return new ModelAndView("redirect:/auditions/" + auditionId + "/applicants");
     }
 
+
+    /* estos metodos son para SELECCIONAR un aplicante y crear la membresía ya ACEPTADA porque pasó la audicion */
+
     @RequestMapping(value = "/auditions/{id}/applicants/select/{applicationId}", method = {RequestMethod.GET})
     public ModelAndView select(@PathVariable long id,
                                @PathVariable long applicationId,
@@ -314,8 +317,9 @@ public class AuditionsController {
         ModelAndView mav = new ModelAndView("selectApplicant");
         Application application = applicationService.getApplicationById(id,applicationId).orElseThrow(ApplicationNotFoundException::new);
         Set<Role> auditionRoles = application.getAudition().getLookingFor();
-        mav.addObject("application",application);
+        mav.addObject("applicant",application.getApplicant());
         mav.addObject("auditionRoles",auditionRoles);
+        mav.addObject("band", application.getAudition().getBand());
         return mav;
     }
 
@@ -342,6 +346,7 @@ public class AuditionsController {
                 roleService.getRolesByNames(membershipForm.getRoles())).
                 description(membershipForm.getDescription()) ,
                 application.getAudition().getId(), applicationId);
+        //TODO: o redireccionar directamente al perfil / miembros de la banda?
         return new ModelAndView("membershipSuccess");
     }
 
