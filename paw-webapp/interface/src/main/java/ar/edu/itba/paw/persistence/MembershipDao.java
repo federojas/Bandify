@@ -7,16 +7,12 @@ import java.util.List;
 
 public interface MembershipDao {
 
-    List<Membership> getBandMemberships(User band, int page);
+    List<Membership> getUserMemberships(User user, int page);
 
-    int getTotalBandMembershipsPages(User band);
+    int getTotalUserMembershipsPages(User user);
 
-    void addMember(Membership.Builder builder);
+    Membership createMembership(Membership.Builder builder);
 
-    void deleteMembership(Membership membership);
-
-    List<Membership> getArtistMemberships(User artist, int page);
-
-    int getTotalArtistMembershipsPages(User band);
+    void deleteMembership(long id);
 
 }

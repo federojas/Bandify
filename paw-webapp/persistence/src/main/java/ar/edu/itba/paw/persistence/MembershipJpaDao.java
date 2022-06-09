@@ -2,14 +2,16 @@ package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.model.Membership;
 import ar.edu.itba.paw.model.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
@@ -21,13 +23,22 @@ public class MembershipJpaDao implements MembershipDao {
     @PersistenceContext
     private EntityManager em;
 
-    @Override
-    public List<Membership> getBandMemberships(User band, int page) {
+    private static final Logger LOGGER = LoggerFactory.getLogger(MembershipJpaDao.class);
 
-        Query query = em.createNativeQuery("SELECT DISTINCT id FROM memberships" +
-                " WHERE bandId = :bandId " +
-                " LIMIT " + PAGE_SIZE + " OFFSET " + (page - 1) * PAGE_SIZE);
-        query.setParameter("bandId", band.getId());
+    @Override
+    public List<Membership> getUserMemberships(User user, int page) {
+        Query query;
+        if(user.isBand()) {
+            query = em.createNativeQuery("SELECT id FROM memberships" +
+                    " WHERE bandId = :bandId " +
+                    " LIMIT " + PAGE_SIZE + " OFFSET " + (page - 1) * PAGE_SIZE);
+            query.setParameter("bandId", user.getId());
+        } else {
+            query = em.createNativeQuery("SELECT id FROM memberships" +
+                    " WHERE artistId = :artistId " +
+                    " LIMIT " + PAGE_SIZE + " OFFSET " + (page - 1) * PAGE_SIZE);
+            query.setParameter("artistId", user.getId());
+        }
 
         @SuppressWarnings("unchecked")
         List<Long> ids = (List<Long>) query.getResultList().stream().map(o -> ((Number) o).longValue()).collect(Collectors.toList());
@@ -39,31 +50,31 @@ public class MembershipJpaDao implements MembershipDao {
         } else {
             return Collections.emptyList();
         }
-
     }
 
     @Override
-    public int getTotalBandMembershipsPages(User band) {
+    public int getTotalUserMembershipsPages(User user) {
         return 0;
     }
 
     @Override
-    public void addMember(Membership.Builder builder) {
-
+    public Membership createMembership(Membership.Builder builder) {
+        LOGGER.info("Creating new membership");
+        final Membership membership = builder.build();
+        em.persist(membership);
+        return membership;
     }
 
     @Override
-    public void deleteMembership(Membership membership) {
-
+    public void deleteMembership(long id) {
+        LOGGER.info("Deleting membership with id {}", id);
+        Optional<Membership> membership = getMembershipById(id);
+        membership.ifPresent(value -> em.remove(value));
     }
 
-    @Override
-    public List<Membership> getArtistMemberships(User artist, int page) {
-        return null;
+    private Optional<Membership> getMembershipById(long id) {
+        LOGGER.info("Getting membership with id {}", id);
+        return Optional.ofNullable(em.find(Membership.class, id));
     }
 
-    @Override
-    public int getTotalArtistMembershipsPages(User band) {
-        return 0;
-    }
 }
