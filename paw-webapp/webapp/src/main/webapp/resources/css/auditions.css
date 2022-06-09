@@ -39,7 +39,31 @@ body {
     padding: 0.75rem 1.25rem;
     margin: 1rem;
     width: 600px;
+    display: flex;
+    flex-direction: column;
 }
+
+.user-data-tabs {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin: 1rem;
+}
+
+.selected-tab {
+    font-weight: 700;
+    font-size: medium;
+}
+
+.user-data-applicants {
+    margin: 1rem;
+}
+
+hr.rounded {
+    border-top: 1px solid #bbb;
+    border-radius: 5px;
+}
+
 .posts {
     display: flex;
     flex-direction: row;
