@@ -49,23 +49,7 @@
         </ul>
 
         <div class="band-post-card-btns">
-            <div class="row-btns">
-                <a class="audition-delete-btn">
-                    <button class="audition-btn" onclick="openConfirmation()" type="submit">
-                        <spring:message code="audition.alt.delete" var="delete"/>
-                        <spring:message code="audition.delete"/>
-                        <img src="<c:url value="/resources/icons/trash.svg"/>" class="audition-icon" alt="${delete}"/>
-                    </button>
-                </a>
-                <a class="audition-edit-btn hover: shadow-sm" href="<c:url value="/profile/editAudition/${param.id}"/>">
-                    <button class="audition-btn" type="submit">
-                        <spring:message code="audition.alt.edit" var="edit"/>
-                        <spring:message code="audition.edit"/>
-                        <img src="<c:url value="/resources/icons/edit-white-icon.svg"/>" class="audition-icon"
-                             alt="${edit}"/>
-                    </button>
-                </a>
-            </div>
+
             <div class="row-btns">
                 <a class="audition-applicants-btn hover: shadow-sm"
                    href="<c:url value="/auditions/${param.id}/applicants"/>">
@@ -83,7 +67,11 @@
                             type="button"
                     >
                         <spring:message code="postCard.button"/>
+                        <spring:message code="audition.applicants.alt" var="altApplicants"/>
+                        <img src="<c:url value="/resources/icons/info.png"/>" class="audition-icon invert"
+                             alt="${altApplicants}"/>
                     </button>
+
                 </a>
             </div>
         </div>

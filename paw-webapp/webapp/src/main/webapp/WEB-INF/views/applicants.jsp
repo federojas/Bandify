@@ -27,7 +27,7 @@
     <!-- Auditions content -->
     <div class="applicants-container">
         <div class="left-panel-abs">
-            <a class="back-anchor" href="<c:url value="/auditions/${id}" />">
+            <a class="back-anchor" onclick="window.history.back();" style="cursor: pointer;">
                 <div class="back-div">
                     <spring:message code="audition.alt.back" var="backAlt"/>
                     <img src="<c:url value="/resources/icons/back.svg" />" alt="${backAlt}" class="back-icon"/>

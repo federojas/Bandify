@@ -31,7 +31,7 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
     <main>
       <div class="audition-content">
         <div class="left-panel">
-          <a class="back-anchor" href="<c:url value="/auditions" />">
+          <a class="back-anchor" onclick="window.history.back();" style="cursor: pointer;">
             <div class="back-div">
               <spring:message code="audition.alt.back" var="backAlt"/>
               <img src="<c:url value="/resources/icons/back.svg"/>" alt="${backAlt}" class="back-icon"/>
