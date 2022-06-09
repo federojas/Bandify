@@ -13,33 +13,8 @@
     <link rel="stylesheet" href="<c:url value="/resources/css/welcome.css" />"/>
     <link rel="stylesheet" href="<c:url value="/resources/css/auditions.css" />"/>
     <script src="<c:url value="/resources/js/pagination.js" />"></script>
-    <script>
-        const queryString = window.location.search;
-        const parameters = new URLSearchParams(queryString);
-        console.log(parameters.get('state'));
-        $(document).ready(function () {
-            $(".select-wrapper").each(function () {
-                var wrapper = this;
+    <script src="<c:url value="/resources/js/applicants.js"/>"></script>
 
-                let state = parameters.get('state');
-                if (state == "ALL") {
-                    $(this).find("ul>li").get(0).click();
-                }
-                else if (state == "PENDING") {
-                    $(this).find("ul>li").get(1).click();
-                }
-                else if (state == "ACCEPTED") {
-                    $(this).find("ul>li").get(2).click();
-                }
-                else if (state == "REJECTED") {
-                    $(this).find("ul>li").get(3).click();
-                } else {
-                    $(this).find("ul>li").get(0).click();
-                }
-
-            });
-        });
-    </script>
 </head>
 <body>
 <!-- Navbar -->
@@ -64,36 +39,37 @@
                 <spring:message code="profile.myApplications"/>
             </h2>
             <div class="user-data">
-
-                <form action="<c:url value="/profile/applications" />" method="get" class="filter-applications-form">
-                    <div class="filter-applications">
-
-                        <div>
-                            <label for="postulation"><spring:message code="applications.seeBy"/></label>
-                            <select id="postulation" name="state">
-                                <option value="ALL"><spring:message code="applications.all"/></option>
-                                <option value="PENDING"><spring:message code="applications.pending"/></option>
-                                <option value="ACCEPTED"><spring:message code="applications.accepted"/></option>
-                                <option value="REJECTED"><spring:message code="applications.rejected"/></option>
-                            </select>
-                        </div>
-                        <button type="submit" class="filter-applications-button"><spring:message code="applications.see"/></button>
-                    </div>
-                </form>
-                <c:if test="${artistApplications.size() > 0}">
-                    <c:forEach var="artistApplication" items="${artistApplications}">
-                        <jsp:include page="../components/artistApplicationItem.jsp">
-                            <jsp:param name="artistApplicationState" value="${artistApplication.state}"/>
-                            <jsp:param name="auditionTitle" value="${artistApplication.audition.title}"/>
-                            <jsp:param name="auditionId" value="${artistApplication.audition.id}"/>
-                        </jsp:include>
-                    </c:forEach>
-                </c:if>
-                <c:if test="${artistApplications.size() == 0}">
-                    <p class="no-applications">
-                        <spring:message code="profile.noApplications"/>
-                    </p>
-                </c:if>
+                <div class="user-data-tabs">
+                    <c:url value="/profile/applications" var="pendingUrl">
+                        <c:param name="state" value="PENDING"/>
+                    </c:url>
+                    <c:url value="/profile/applications" var="acceptedUrl">
+                        <c:param name="state" value="ACCEPTED"/>
+                    </c:url>
+                    <c:url value="/profile/applications" var="rejectedUrl">
+                        <c:param name="state" value="REJECTED"/>
+                    </c:url>
+                    <a href="${pendingUrl}" id="pending"><spring:message code="applications.pending"/></a>
+                    <a href="${acceptedUrl}" id="accepted"><spring:message code="applications.accepted"/></a>
+                    <a href="${rejectedUrl}" id="rejected"><spring:message code="applications.rejected"/></a>
+                </div>
+                <hr class="rounded">
+                <div class="user-data-applicants">
+                    <c:if test="${artistApplications.size() > 0}">
+                        <c:forEach var="artistApplication" items="${artistApplications}">
+                            <jsp:include page="../components/artistApplicationItem.jsp">
+                                <jsp:param name="artistApplicationState" value="${artistApplication.state}"/>
+                                <jsp:param name="auditionTitle" value="${artistApplication.audition.title}"/>
+                                <jsp:param name="auditionId" value="${artistApplication.audition.id}"/>
+                            </jsp:include>
+                        </c:forEach>
+                    </c:if>
+                    <c:if test="${artistApplications.size() == 0}">
+                        <p class="no-applications">
+                            <spring:message code="profile.noApplications"/>
+                        </p>
+                    </c:if>
+                </div>
             </div>
             <div class="pagination">
                 <c:if test="${currentPage > 1}">

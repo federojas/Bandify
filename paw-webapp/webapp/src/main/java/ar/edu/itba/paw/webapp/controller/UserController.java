@@ -142,7 +142,7 @@ public class UserController {
 
     @RequestMapping(value = "/profile/applications", method = {RequestMethod.GET})
     public ModelAndView applications(@RequestParam(value = "page", defaultValue = "1") int page,
-                                     @RequestParam(value = "state", defaultValue = "ALL") String state) {
+                                     @RequestParam(value = "state", defaultValue = "PENDING") String state) {
 
         ModelAndView mav = new ModelAndView("profileApplications");
         User user = authFacadeService.getCurrentUser();
