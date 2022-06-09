@@ -3,6 +3,7 @@
         prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+
 <html>
 <head>
     <title><spring:message code="title.applicationItem"/> </title>
@@ -54,19 +55,29 @@
                             <c:param name="accept" value="false"/>
                             <c:param name="userId" value="${param.userId}"/>
                         </c:url>
-                        <form action="${acceptUrl}" method="post">
-                            <button type="submit"><img src="<c:url value="/resources/icons/success.svg" />" alt="${accept}" class="application-icon"/></button>
-                        </form>
-                        <form action="${rejectUrl}" method="post">
-                            <button type="submit"><img src="<c:url value="/resources/icons/reject.svg" />" alt="${reject}" class="application-icon"/></button>
-                        </form>
+                        <div class="application-confirmation-buttons">
+                            <form action="${acceptUrl}" method="post">
+                                <button type="submit"><img src="<c:url value="/resources/icons/success.svg" />" alt="${accept}" class="application-icon"/></button>
+                            </form>
+                                <button onclick="openConfirmation()" ><img src="<c:url value="/resources/icons/reject.svg" />" alt="${reject}" class="application-icon"/></button>
+                        </div>
                     </div>
                 </c:if>
 
             </div>
         </div>
     </div>
-
+    <spring:message code="rejectConfirmationModal.title" var="modalTitle"/>
+    <spring:message code="rejectConfirmationModal.rejectApplicant" var="modalHeading"/>
+    <spring:message code="rejectConfirmationModal.confirmationQuestion" var="confirmationQuestion"/>
+    <c:url value="/profile/deleteAudition/${param.userId}" var="postPath"/>
+    <jsp:include page="../components/confirmationModal.jsp">
+        <jsp:param name="modalTitle" value="${modalTitle}" />
+        <jsp:param name="isDelete" value="${true}" />
+        <jsp:param name="modalHeading" value="${modalHeading}" />
+        <jsp:param name="confirmationQuestion" value="${confirmationQuestion}" />
+        <jsp:param name="action" value="${rejectUrl}" />
+    </jsp:include>
 </li>
 
 </body>

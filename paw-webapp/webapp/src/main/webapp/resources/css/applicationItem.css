@@ -44,6 +44,11 @@
     align-items: center;
     margin-top: 15px;
 }
+.application-confirmation-buttons{
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+}
 
 .purple-button {
     padding: 0.5rem 1.25rem;
