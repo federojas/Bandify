@@ -59,16 +59,20 @@ public class AuditionServiceImpl implements AuditionService {
     }
 
     @Override
-    public List<Audition> getBandAuditions(long userId, int page) {
-        int lastPage = getTotalBandAuditionPages(userId);
+    public List<Audition> getBandAuditions(User band, int page) {
+        if(!band.isBand())
+            throw new AuditionNotFoundException();
+        int lastPage = getTotalBandAuditionPages(band);
         lastPage = lastPage == 0 ? 1 : lastPage;
         checkPage(page, lastPage);
-        return auditionDao.getBandAuditions(userId, page);
+        return auditionDao.getBandAuditions(band.getId(), page);
     }
 
     @Override
-    public int getTotalBandAuditionPages(long userId) {
-        return auditionDao.getTotalBandAuditionPages(userId);
+    public int getTotalBandAuditionPages(User band) {
+        if(!band.isBand())
+            throw new AuditionNotFoundException();
+        return auditionDao.getTotalBandAuditionPages(band.getId());
     }
 
     @Transactional

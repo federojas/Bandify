@@ -32,6 +32,7 @@ public class AuditionServiceTest {
     private AuditionService auditionService = new AuditionServiceImpl();
 
     private static final User user = new User.UserBuilder("artist@mail.com","12345678", "name", false, false).surname("surname").description("description").id(1L).build();
+    private static final User band = new User.UserBuilder("band@mail.com","12345678", "name", true, false).description("description").id(2L).build();
     private static final Audition.AuditionBuilder AUD_BUILDER = new Audition.AuditionBuilder("title", "desc", user, LocalDateTime.now()).location(new Location(1L, "location")).lookingFor(new Role(1, "role")).musicGenres(new Genre( "genre",1));
     private static final Audition AUD = new Audition.AuditionBuilder("title", "desc", user, LocalDateTime.now()).location(new Location(1L, "location")).lookingFor(new Role(1, "role")).musicGenres(new Genre("genre",1)).id(1).build();
     private static final FilterOptions FILTER = new FilterOptions.FilterOptionsBuilder().build();
@@ -99,14 +100,14 @@ public class AuditionServiceTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testGetBandAuditionsIllegalPage() {
-        auditionService.getBandAuditions(1,-1);
+        auditionService.getBandAuditions(band,-1);
         Assert.fail("Should have thrown IllegalArgumentException");
     }
 
     @Test(expected = PageNotFoundException.class)
     public void testGetBandAuditionsInvalidPage() {
-        when(auditionService.getTotalBandAuditionPages(1)).thenReturn(5);
-        auditionService.getBandAuditions(1,500);
+        when(auditionService.getTotalBandAuditionPages(band)).thenReturn(5);
+        auditionService.getBandAuditions(band,500);
         Assert.fail("Should have thrown PageNotFoundException");
     }
 

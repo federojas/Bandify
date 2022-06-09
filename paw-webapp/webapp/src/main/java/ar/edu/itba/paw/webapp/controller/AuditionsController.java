@@ -258,8 +258,8 @@ public class AuditionsController {
 
         User user = authFacadeService.getCurrentUser();
 
-        List<Audition> auditionList = auditionService.getBandAuditions(user.getId(), page);
-        int lastPage = auditionService.getTotalBandAuditionPages(user.getId());
+        List<Audition> auditionList = auditionService.getBandAuditions(user, page);
+        int lastPage = auditionService.getTotalBandAuditionPages(user);
         lastPage = lastPage == 0 ? 1 : lastPage;
         mav.addObject("userName", user.getName());
         mav.addObject("userId", user.getId());
@@ -275,8 +275,8 @@ public class AuditionsController {
         ModelAndView mav = new ModelAndView("profileAuditions");
 
         User user = userService.getUserById(bandId).orElseThrow(UserNotFoundException::new);
-        List<Audition> auditionList = auditionService.getBandAuditions(bandId, page);
-        int lastPage = auditionService.getTotalBandAuditionPages(user.getId());
+        List<Audition> auditionList = auditionService.getBandAuditions(user, page);
+        int lastPage = auditionService.getTotalBandAuditionPages(user);
         lastPage = lastPage == 0 ? 1 : lastPage;
         mav.addObject("userName", user.getName());
         mav.addObject("userId", user.getId());

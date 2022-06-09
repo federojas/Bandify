@@ -2,6 +2,7 @@ package ar.edu.itba.paw.service;
 
 import ar.edu.itba.paw.model.FilterOptions;
 import ar.edu.itba.paw.model.Audition;
+import ar.edu.itba.paw.model.User;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,9 +17,9 @@ public interface AuditionService {
 
     int getTotalPages();
 
-    List<Audition> getBandAuditions(long userId, int page);
+    List<Audition> getBandAuditions(User band, int page);
 
-    int getTotalBandAuditionPages(long userId);
+    int getTotalBandAuditionPages(User band);
 
     void deleteAuditionById(long id);
 
