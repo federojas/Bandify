@@ -1,7 +1,7 @@
 package ar.edu.itba.paw.model;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "memberships")
@@ -40,7 +40,7 @@ public class Membership {
             joinColumns = @JoinColumn(name = "membershipId"),
             inverseJoinColumns = @JoinColumn(name = "roleId")
     )
-    private List<Role> roles;
+    private Set<Role> roles;
 
     @Column(length = 100)
     private String description;
@@ -81,11 +81,11 @@ public class Membership {
         this.band = band;
     }
 
-    public List<Role> getRoles() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<Role> roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 
@@ -102,10 +102,10 @@ public class Membership {
         private Long id;
         private final User artist;
         private final User band;
-        private final List<Role> roles;
+        private final Set<Role> roles;
         private String description;
 
-        public Builder(User artist, User band, List<Role> roles) {
+        public Builder(User artist, User band, Set<Role> roles) {
             this.artist = artist;
             this.band = band;
             this.roles = roles;

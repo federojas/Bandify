@@ -29,10 +29,17 @@ public class ApplicationServiceImpl implements ApplicationService {
     private UserService userService;
     @Autowired
     private AuditionService auditionService;
+    @Autowired
+    private AuthFacadeService authFacadeService;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationServiceImpl.class);
 
     @Override
     public List<Application> getAuditionApplicationsByState(long auditionId, ApplicationState state, int page) {
+        User user = authFacadeService.getCurrentUser();
+        Audition audition = auditionService.getAuditionById(auditionId).orElseThrow(AuditionNotFoundException::new);
+        if(user.getId() != audition.getBand().getId())
+            throw new AuditionNotOwnedException();
         int lastPage = getTotalAuditionApplicationByStatePages(auditionId, state);
         lastPage = lastPage == 0 ? 1 : lastPage;
         checkPage(page, lastPage);
@@ -145,5 +152,14 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Override
     public boolean alreadyApplied(long auditionId, long applicantId) {
         return applicationDao.findApplication(auditionId,applicantId).isPresent();
+    }
+
+    @Override
+    public Optional<Application> getApplicationById(long auditionId, long applicationId)  {
+        User user = authFacadeService.getCurrentUser();
+        Audition audition = auditionService.getAuditionById(auditionId).orElseThrow(AuditionNotFoundException::new);
+        if(user.getId() != audition.getBand().getId())
+            throw new AuditionNotOwnedException();
+        return applicationDao.findApplication(applicationId);
     }
 }

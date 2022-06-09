@@ -1,14 +1,12 @@
 package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.model.*;
-import ar.edu.itba.paw.model.exceptions.AuditionNotOwnedException;
-import ar.edu.itba.paw.model.exceptions.AuditionNotFoundException;
-import ar.edu.itba.paw.model.exceptions.LocationNotFoundException;
-import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
+import ar.edu.itba.paw.model.exceptions.*;
 import ar.edu.itba.paw.service.*;
 import ar.edu.itba.paw.webapp.form.ApplicationForm;
 import ar.edu.itba.paw.webapp.form.AuditionForm;
 import ar.edu.itba.paw.service.AuthFacadeService;
+import ar.edu.itba.paw.webapp.form.MembershipForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -28,13 +26,15 @@ public class AuditionsController {
     private final UserService userService;
     private final ApplicationService applicationService;
     private final AuthFacadeService authFacadeService;
+    private final MembershipService membershipService;
 
     @Autowired
     public AuditionsController(final AuditionService auditionService,
                                final GenreService genreService, final LocationService locationService,
                                final RoleService roleService, final UserService userService,
                                final ApplicationService applicationService,
-                               final AuthFacadeService authFacadeService) {
+                               final AuthFacadeService authFacadeService,
+                               final MembershipService membershipService) {
         this.auditionService = auditionService;
         this.roleService = roleService;
         this.genreService = genreService;
@@ -42,6 +42,7 @@ public class AuditionsController {
         this.userService = userService;
         this.applicationService = applicationService;
         this.authFacadeService = authFacadeService;
+        this.membershipService = membershipService;
     }
 
     @RequestMapping(value = "/", method = {RequestMethod.GET})
@@ -304,6 +305,41 @@ public class AuditionsController {
         }
 
         return new ModelAndView("redirect:/auditions/" + auditionId + "/applicants");
+    }
+
+    @RequestMapping(value = "/auditions/{id}/applicants/select/{applicationId}", method = {RequestMethod.GET})
+    public ModelAndView select(@PathVariable long id,
+                               @PathVariable long applicationId,
+                               @ModelAttribute("membershipForm") final MembershipForm membershipForm) {
+        ModelAndView mav = new ModelAndView("selectApplicant");
+        Application application = applicationService.getApplicationById(id,applicationId).orElseThrow(ApplicationNotFoundException::new);
+        Set<Role> auditionRoles = application.getAudition().getLookingFor();
+        mav.addObject("application",application);
+        mav.addObject("auditionRoles",auditionRoles);
+        return mav;
+    }
+
+    @RequestMapping(value = "/auditions/{id}/applicants/select/{applicationId}", method = {RequestMethod.POST})
+    public ModelAndView select(@PathVariable long id,
+                               @PathVariable long applicationId,
+                               @Valid @ModelAttribute("membershipForm") final MembershipForm membershipForm,
+                               final BindingResult errors) {
+
+        if (errors.hasErrors()) {
+            return select(id,applicationId,membershipForm);
+        }
+        Application application = applicationService.getApplicationById(id,applicationId).orElseThrow(ApplicationNotFoundException::new);
+
+        // TODO: mandar mail
+        // TODO: mensajes de error en .properties
+        // TODO: falta poder rechazar en vez de seleccionar
+        // TODO: membershipSuccess.jsp y selectApplicant.jsp
+
+        membershipService.createMembership(new Membership.Builder(application.getApplicant(),
+                application.getAudition().getBand(),
+                roleService.getRolesByNames(membershipForm.getRoles())).description(membershipForm.getDescription()));
+
+        return new ModelAndView("membershipSuccess");
     }
 
 }

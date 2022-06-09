@@ -48,6 +48,11 @@ public class ApplicationJpaDao implements ApplicationDao {
     }
 
     @Override
+    public Optional<Application> findApplication(long applicationId) {
+        return Optional.ofNullable(em.find(Application.class, applicationId));
+    }
+
+    @Override
     public Application createApplication(Application.ApplicationBuilder applicationBuilder) {
         final Application application = applicationBuilder.build();
         em.persist(application);

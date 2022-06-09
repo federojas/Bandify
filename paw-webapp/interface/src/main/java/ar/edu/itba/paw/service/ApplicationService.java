@@ -5,6 +5,7 @@ import ar.edu.itba.paw.model.ApplicationState;
 import ar.edu.itba.paw.model.User;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ApplicationService {
 
@@ -27,4 +28,6 @@ public interface ApplicationService {
     int getTotalAuditionApplicationByStatePages(long auditionId, ApplicationState state);
 
     boolean alreadyApplied(long auditionId, long applicantId);
+
+    Optional<Application> getApplicationById(long auditionId, long applicationId) ;
 }
