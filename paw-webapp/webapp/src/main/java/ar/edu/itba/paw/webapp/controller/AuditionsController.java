@@ -330,6 +330,8 @@ public class AuditionsController {
         }
         Application application = applicationService.getApplicationById(id,applicationId).orElseThrow(ApplicationNotFoundException::new);
 
+
+        // TODO: AGREGAR LAS URLS A SPRING SECURITY
         // TODO: mandar mail
         // TODO: mensajes de error en .properties
         // TODO: falta poder rechazar en vez de seleccionar
@@ -337,7 +339,8 @@ public class AuditionsController {
 
         membershipService.createMembership(new Membership.Builder(application.getApplicant(),
                 application.getAudition().getBand(),
-                roleService.getRolesByNames(membershipForm.getRoles())).description(membershipForm.getDescription()));
+                roleService.getRolesByNames(membershipForm.getRoles())).
+                description(membershipForm.getDescription()).state(MembershipState.ACCEPTED));
 
         return new ModelAndView("membershipSuccess");
     }

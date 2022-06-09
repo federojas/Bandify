@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.model.*;
+import ar.edu.itba.paw.model.exceptions.MembershipNotFoundException;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.service.*;
 import ar.edu.itba.paw.webapp.form.*;
@@ -29,13 +30,16 @@ public class UserController {
     private final ApplicationService applicationService;
     private final AuthFacadeService authFacadeService;
     private final LocationService locationService;
+    private final MembershipService membershipService;
 
 
     @Autowired
     public UserController(final UserService userService, final VerificationTokenService verificationTokenService,
                           final RoleService roleService, final GenreService genreService,
                           final ApplicationService applicationService,
-                          final AuthFacadeService authFacadeService, LocationService locationService) {
+                          final AuthFacadeService authFacadeService,
+                          final LocationService locationService,
+                          final MembershipService membershipService) {
         this.userService = userService;
         this.verificationTokenService = verificationTokenService;
         this.roleService = roleService;
@@ -43,6 +47,7 @@ public class UserController {
         this.applicationService = applicationService;
         this.authFacadeService = authFacadeService;
         this.locationService = locationService;
+        this.membershipService = membershipService;
     }
 
     @RequestMapping(value = {"/register","/registerBand", "/registerArtist"}, method = {RequestMethod.GET})
@@ -330,6 +335,34 @@ public class UserController {
         mav.addObject("query", query);
         mav.addObject("lastPage", lastPage);
         return mav;
+    }
+
+    @RequestMapping(value = "/profile/bands/invites",  method = {RequestMethod.GET})
+    public ModelAndView bandMembershipInvites(@RequestParam(value = "page", defaultValue = "1") int page) {
+        // TODO: AGREGAR LAS URLS A SPRING SECURITY
+        ModelAndView mav = new ModelAndView("bandsInvites");
+        User currentUser = authFacadeService.getCurrentUser();
+        List<Membership> bandInvites = membershipService.getUserMemberships(currentUser,MembershipState.PENDING,page);
+        int lastPage = membershipService.getTotalUserMembershipsPages(currentUser,MembershipState.PENDING);
+        lastPage = lastPage == 0 ? 1 : lastPage;
+        mav.addObject("bandInvites", bandInvites);
+        mav.addObject("currentPage", page);
+        mav.addObject("lastPage", lastPage);
+        return mav;
+    }
+
+    @RequestMapping(value = "/profile/bands/invites/{id}",  method = {RequestMethod.GET})
+    public ModelAndView evaluateInvite(@PathVariable long id,
+                                       @RequestParam(value = "accept") boolean accept) {
+        Membership membership = membershipService.getMembershipById(id).orElseThrow(MembershipNotFoundException::new);
+        // TODO: PODRIA RECIBIR EL STATE Y HCER UNVALUEOF
+        if (accept) {
+            membershipService.changeState(membership, MembershipState.ACCEPTED);
+        } else {
+            membershipService.changeState(membership, MembershipState.REJECTED);
+        }
+
+        return new ModelAndView("redirect:/profile");
     }
 
     @RequestMapping(value = "/users", method = {RequestMethod.GET})

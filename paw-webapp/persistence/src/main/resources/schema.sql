@@ -123,6 +123,7 @@ CREATE TABLE IF NOT EXISTS memberships
     bandId BIGINT NOT NULL,
     artistId BIGINT NOT NULL,
     description VARCHAR(100),
+    state TEXT NOT NULL,
     FOREIGN KEY (bandId) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (artistId) REFERENCES users(id) ON DELETE CASCADE
 );
@@ -131,7 +132,7 @@ CREATE TABLE IF NOT EXISTS membershipRoles
 (
     membershipId BIGINT NOT NULL,
     roleId BIGINT NOT NULL,
-    FOREIGN KEY (membershipId) REFERENCES membership(id) ON DELETE CASCADE,
+    FOREIGN KEY (membershipId) REFERENCES memberships(id) ON DELETE CASCADE,
     FOREIGN KEY (roleId) REFERENCES roles(id),
     UNIQUE(membershipId,roleId)
 );

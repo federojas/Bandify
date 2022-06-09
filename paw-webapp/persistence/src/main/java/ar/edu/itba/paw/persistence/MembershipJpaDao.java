@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.model.Membership;
+import ar.edu.itba.paw.model.MembershipState;
 import ar.edu.itba.paw.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import java.math.BigInteger;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -26,19 +28,20 @@ public class MembershipJpaDao implements MembershipDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(MembershipJpaDao.class);
 
     @Override
-    public List<Membership> getUserMemberships(User user, int page) {
+    public List<Membership> getUserMembershipsByState(User user, MembershipState state, int page) {
         Query query;
         if(user.isBand()) {
             query = em.createNativeQuery("SELECT id FROM memberships" +
-                    " WHERE bandId = :bandId " +
+                    " WHERE bandId = :bandId AND state = :state " +
                     " LIMIT " + PAGE_SIZE + " OFFSET " + (page - 1) * PAGE_SIZE);
             query.setParameter("bandId", user.getId());
         } else {
             query = em.createNativeQuery("SELECT id FROM memberships" +
-                    " WHERE artistId = :artistId " +
+                    " WHERE artistId = :artistId AND state = :state " +
                     " LIMIT " + PAGE_SIZE + " OFFSET " + (page - 1) * PAGE_SIZE);
             query.setParameter("artistId", user.getId());
         }
+        query.setParameter("state", state.getState());
 
         @SuppressWarnings("unchecked")
         List<Long> ids = (List<Long>) query.getResultList().stream().map(o -> ((Number) o).longValue()).collect(Collectors.toList());
@@ -53,8 +56,19 @@ public class MembershipJpaDao implements MembershipDao {
     }
 
     @Override
-    public int getTotalUserMembershipsPages(User user) {
-        return 0;
+    public int getTotalUserMembershipsByStatePages(User user, MembershipState state) {
+        Query query;
+        if(user.isBand()) {
+            query = em.createNativeQuery(
+                    "SELECT COUNT(*) FROM memberships WHERE bandId = :bandId AND state= :state");
+            query.setParameter("bandId", user.getId());
+        } else {
+            query = em.createNativeQuery(
+                    "SELECT COUNT(*) FROM memberships WHERE artistId = :artistId AND state= :state");
+            query.setParameter("artistId", user.getId());
+        }
+        query.setParameter("state", state.getState());
+        return (int) Math.ceil(((BigInteger) query.getSingleResult()).doubleValue() / PAGE_SIZE);
     }
 
     @Override
@@ -72,7 +86,8 @@ public class MembershipJpaDao implements MembershipDao {
         membership.ifPresent(value -> em.remove(value));
     }
 
-    private Optional<Membership> getMembershipById(long id) {
+    @Override
+    public Optional<Membership> getMembershipById(long id) {
         LOGGER.info("Getting membership with id {}", id);
         return Optional.ofNullable(em.find(Membership.class, id));
     }

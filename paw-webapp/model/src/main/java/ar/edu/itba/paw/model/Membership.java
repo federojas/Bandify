@@ -45,6 +45,9 @@ public class Membership {
     @Column(length = 100)
     private String description;
 
+    @Enumerated(EnumType.STRING)
+    private MembershipState state;
+
     /* Default */ Membership() {
         // Just for Hibernate
     }
@@ -55,6 +58,7 @@ public class Membership {
         this.description = builder.description;
         this.roles = builder.roles;
         this.id = builder.id;
+        this.state = builder.state;
     }
 
     public Long getId() {
@@ -97,6 +101,14 @@ public class Membership {
         this.description = description;
     }
 
+    public MembershipState getState() {
+        return state;
+    }
+
+    public void setState(MembershipState state) {
+        this.state = state;
+    }
+
     public static class Builder {
 
         private Long id;
@@ -104,6 +116,7 @@ public class Membership {
         private final User band;
         private final Set<Role> roles;
         private String description;
+        private MembershipState state;
 
         public Builder(User artist, User band, Set<Role> roles) {
             this.artist = artist;
@@ -118,6 +131,11 @@ public class Membership {
 
         public Builder id(Long id) {
             this.id = id;
+            return this;
+        }
+
+        public Builder state(MembershipState state) {
+            this.state = state;
             return this;
         }
 
