@@ -142,5 +142,13 @@ public class Membership {
         public Membership build() {
             return new Membership(this);
         }
+
+        public User getArtist() {
+            return artist;
+        }
+
+        public User getBand() {
+            return band;
+        }
     }
 }

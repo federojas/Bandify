@@ -20,4 +20,6 @@ public interface MembershipService {
     void changeState(Membership membership, MembershipState state);
 
     Optional<Membership> getMembershipById(long id);
+
+    void createMembershipByApplication(Membership.Builder builder, long applicationId, long id);
 }

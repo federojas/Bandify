@@ -337,11 +337,11 @@ public class AuditionsController {
         // TODO: falta poder rechazar en vez de seleccionar
         // TODO: membershipSuccess.jsp y selectApplicant.jsp
 
-        membershipService.createMembership(new Membership.Builder(application.getApplicant(),
+        membershipService.createMembershipByApplication(new Membership.Builder(application.getApplicant(),
                 application.getAudition().getBand(),
                 roleService.getRolesByNames(membershipForm.getRoles())).
-                description(membershipForm.getDescription()).state(MembershipState.ACCEPTED));
-
+                description(membershipForm.getDescription()) ,
+                application.getAudition().getId(), applicationId);
         return new ModelAndView("membershipSuccess");
     }
 

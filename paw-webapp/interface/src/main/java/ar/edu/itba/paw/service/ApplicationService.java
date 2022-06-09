@@ -17,6 +17,8 @@ public interface ApplicationService {
 
     void reject(long auditionId, long applicantId);
 
+    void select(long auditionId, long applicantId);
+
     List<Application> getMyApplications(long applicantId, int page);
 
     int getTotalUserApplicationPages(long userId);

@@ -3,6 +3,7 @@ package ar.edu.itba.paw.service;
 import ar.edu.itba.paw.model.Membership;
 import ar.edu.itba.paw.model.MembershipState;
 import ar.edu.itba.paw.model.User;
+import ar.edu.itba.paw.model.exceptions.DuplicateMembershipException;
 import ar.edu.itba.paw.persistence.MembershipDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +20,8 @@ public class MembershipServiceImpl implements MembershipService {
     @Autowired
     private MembershipDao membershipDao;
     @Autowired
-    private UserService userService;
+    private ApplicationService applicationService;
+
     // TODO: CHEQUEOS DE OWNER?
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MembershipServiceImpl.class);
@@ -38,7 +40,8 @@ public class MembershipServiceImpl implements MembershipService {
 
     @Override
     public Membership createMembership(Membership.Builder builder) {
-        // TODO: CHEQUEAR QUE NO EXISTA
+        if(membershipDao.membershipExists(builder.getBand(), builder.getArtist()))
+            throw new DuplicateMembershipException();
         LOGGER.info("Creating new membership");
         return membershipDao.createMembership(builder);
     }
@@ -58,5 +61,12 @@ public class MembershipServiceImpl implements MembershipService {
     @Override
     public Optional<Membership> getMembershipById(long id) {
         return membershipDao.getMembershipById(id);
+    }
+
+    /* Closes the application by setting SELECTED state and creates the membership with state ACCEPTED */
+    @Override
+    public void createMembershipByApplication(Membership.Builder builder, long auditionId, long applicationId) {
+        applicationService.select(auditionId, applicationId);
+        createMembership(builder.state(MembershipState.ACCEPTED));
     }
 }

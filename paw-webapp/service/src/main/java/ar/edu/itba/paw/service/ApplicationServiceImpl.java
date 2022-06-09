@@ -84,6 +84,14 @@ public class ApplicationServiceImpl implements ApplicationService {
         setApplicationState(auditionId,applicantId,ApplicationState.REJECTED);
     }
 
+    @Transactional
+    @Override
+    public void select(long auditionId, long applicantId) {
+        LOGGER.debug("User {} has been selected in the audition {}",applicantId,auditionId);
+        checkIds(auditionId, applicantId);
+        setApplicationState(auditionId,applicantId,ApplicationState.SELECTED);
+    }
+
     @Override
     public List<Application> getMyApplications(long applicantId, int page) {
         int lastPage = getTotalUserApplicationPages(applicantId);

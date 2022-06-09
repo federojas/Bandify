@@ -18,4 +18,6 @@ public interface MembershipDao {
     void deleteMembership(long id);
 
     Optional<Membership> getMembershipById(long id);
+
+    boolean membershipExists(User band, User artist);
 }

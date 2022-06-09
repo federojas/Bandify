@@ -125,7 +125,8 @@ CREATE TABLE IF NOT EXISTS memberships
     description VARCHAR(100),
     state TEXT NOT NULL,
     FOREIGN KEY (bandId) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (artistId) REFERENCES users(id) ON DELETE CASCADE
+    FOREIGN KEY (artistId) REFERENCES users(id) ON DELETE CASCADE,
+    UNIQUE(bandId,artistId)
 );
 
 CREATE TABLE IF NOT EXISTS membershipRoles
