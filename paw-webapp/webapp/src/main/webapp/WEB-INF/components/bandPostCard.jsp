@@ -57,7 +57,7 @@
                         <img src="<c:url value="/resources/icons/trash.svg"/>" class="audition-icon" alt="${delete}"/>
                     </button>
                 </a>
-                <a class="audition-edit-btn hover: shadow-sm" href="<c:url value="/profile/editAudition/${audition.id}"/>">
+                <a class="audition-edit-btn hover: shadow-sm" href="<c:url value="/profile/editAudition/${param.id}"/>">
                     <button class="audition-btn" type="submit">
                         <spring:message code="audition.alt.edit" var="edit"/>
                         <spring:message code="audition.edit"/>
@@ -68,7 +68,7 @@
             </div>
             <div class="row-btns">
                 <a class="audition-applicants-btn hover: shadow-sm"
-                   href="<c:url value="/auditions/${audition.id}/applicants"/>">
+                   href="<c:url value="/auditions/${param.id}/applicants"/>">
                     <button class="audition-btn" type="submit">
                         <spring:message code="audition.applicants"/>
                         <spring:message code="audition.applicants.alt" var="altApplicants"/>
