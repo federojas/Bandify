@@ -67,9 +67,9 @@
                             type="button"
                     >
                         <spring:message code="postCard.button"/>
-                        <spring:message code="audition.applicants.alt" var="altApplicants"/>
+                        <spring:message code="audition.info.alt" var="moreAlt"/>
                         <img src="<c:url value="/resources/icons/info.png"/>" class="audition-icon invert"
-                             alt="${altApplicants}"/>
+                             alt="${moreAlt}"/>
                     </button>
 
                 </a>
