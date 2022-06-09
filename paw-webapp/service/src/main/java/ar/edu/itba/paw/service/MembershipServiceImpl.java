@@ -8,10 +8,12 @@ import ar.edu.itba.paw.persistence.MembershipDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 @Service
@@ -21,6 +23,8 @@ public class MembershipServiceImpl implements MembershipService {
     private MembershipDao membershipDao;
     @Autowired
     private ApplicationService applicationService;
+    @Autowired
+    private MailingService mailingService;
 
     // TODO: CHEQUEOS DE OWNER?
 
@@ -68,6 +72,9 @@ public class MembershipServiceImpl implements MembershipService {
     public void createMembershipByApplication(Membership.Builder builder, long auditionId, long applicationId) {
         applicationService.select(auditionId, applicationId);
         createMembership(builder.state(MembershipState.ACCEPTED));
+        Locale locale = LocaleContextHolder.getLocale();
+        LocaleContextHolder.setLocale(locale, true);
+        mailingService.sendAddedToBandEmail(builder.getBand(), builder.getArtist().getEmail(), locale);
     }
 
     @Override

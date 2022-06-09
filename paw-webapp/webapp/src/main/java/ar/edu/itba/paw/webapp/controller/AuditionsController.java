@@ -335,9 +335,6 @@ public class AuditionsController {
         Application application = applicationService.getApplicationById(id,applicationId).orElseThrow(ApplicationNotFoundException::new);
 
 
-        // TODO: AGREGAR LAS URLS A SPRING SECURITY
-        // TODO: mandar mail
-        // TODO: mensajes de error en .properties
         // TODO: falta poder rechazar en vez de seleccionar
         // TODO: membershipSuccess.jsp y selectApplicant.jsp
 

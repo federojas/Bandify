@@ -363,9 +363,7 @@ public class UserController {
             return newMembership(userId,membershipForm);
         }
 
-        // TODO: AGREGAR LAS URLS A SPRING SECURITY
         // TODO: mandar mail de invitacion
-        // TODO: mensajes de error en .properties
         // TODO: membershipSuccess.jsp y selectApplicant.jsp
 
         membershipService.createMembership(new Membership.Builder(
@@ -381,7 +379,6 @@ public class UserController {
     /* metodo para ver las invitaciones de memberships que le mandaron a un artista */
     @RequestMapping(value = "/profile/bands/invites",  method = {RequestMethod.GET})
     public ModelAndView bandMembershipInvites(@RequestParam(value = "page", defaultValue = "1") int page) {
-        // TODO: AGREGAR LAS URLS A SPRING SECURITY
         ModelAndView mav = new ModelAndView("bandsInvites");
         User currentUser = authFacadeService.getCurrentUser();
         List<Membership> bandInvites = membershipService.getUserMemberships(currentUser,MembershipState.PENDING,page);
