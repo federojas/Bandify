@@ -308,7 +308,7 @@ public class AuditionsController {
     }
 
 
-    /* estos metodos son para SELECCIONAR un aplicante y crear la membresía ya ACEPTADA porque pasó la audicion */
+    /* estos metodos (metodo 1) son para SELECCIONAR un aplicante y crear la membresía ya ACEPTADA porque pasó la audicion */
 
     @RequestMapping(value = "/auditions/{id}/applicants/select/{applicationId}", method = {RequestMethod.GET})
     public ModelAndView select(@PathVariable long id,

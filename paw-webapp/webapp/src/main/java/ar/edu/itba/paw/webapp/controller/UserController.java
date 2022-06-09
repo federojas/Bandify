@@ -99,6 +99,8 @@ public class UserController {
     public ModelAndView profile() {
         ModelAndView mav = new ModelAndView("profile");
         User user = authFacadeService.getCurrentUser();
+        int pendingMembershipsCount = membershipService.getPendingMembershipsCount(user);
+        mav.addObject("pending", pendingMembershipsCount);
         return setAndReturnProfileViewData(user, mav);
     }
 
@@ -419,7 +421,7 @@ public class UserController {
                 authFacadeService.getCurrentUser(),
                 MembershipState.ACCEPTED,
                 page);
-        int lastPage = membershipService.getTotalUserMembershipsPages(band,MembershipState.PENDING);
+        int lastPage = membershipService.getTotalUserMembershipsPages(band,MembershipState.ACCEPTED);
         lastPage = lastPage == 0 ? 1 : lastPage;
         mav.addObject("members", members);
         mav.addObject("currentPage", page);
