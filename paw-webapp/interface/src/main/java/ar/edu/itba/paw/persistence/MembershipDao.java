@@ -20,4 +20,6 @@ public interface MembershipDao {
     Optional<Membership> getMembershipById(long id);
 
     boolean membershipExists(User band, User artist);
+
+    int getPendingMembershipsCount(User user);
 }

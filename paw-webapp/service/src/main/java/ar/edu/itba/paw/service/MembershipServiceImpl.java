@@ -69,4 +69,9 @@ public class MembershipServiceImpl implements MembershipService {
         applicationService.select(auditionId, applicationId);
         createMembership(builder.state(MembershipState.ACCEPTED));
     }
+
+    @Override
+    public int getPendingMembershipsCount(User user) {
+        return membershipDao.getPendingMembershipsCount(user);
+    }
 }

@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 public class MembershipJpaDao implements MembershipDao {
     // TODO: EN TODOS LOS DAOS DEJAR DE AGREGAR UN ID -1 CUANDO LA LISTA ES VACÍA
     // ES MEJOR NO HACER LA QUERY DIRECTAMENTE SI ES VACÍA
+    // mirar los ejemplos de este dao
     private final int PAGE_SIZE = 5;
 
     @PersistenceContext
@@ -58,17 +59,7 @@ public class MembershipJpaDao implements MembershipDao {
 
     @Override
     public int getTotalUserMembershipsByStatePages(User user, MembershipState state) {
-        Query query;
-        if(user.isBand()) {
-            query = em.createNativeQuery(
-                    "SELECT COUNT(*) FROM memberships WHERE bandId = :bandId AND state= :state");
-            query.setParameter("bandId", user.getId());
-        } else {
-            query = em.createNativeQuery(
-                    "SELECT COUNT(*) FROM memberships WHERE artistId = :artistId AND state= :state");
-            query.setParameter("artistId", user.getId());
-        }
-        query.setParameter("state", state.getState());
+        Query query = membershipCountQuery(user, state);
         return (int) Math.ceil(((BigInteger) query.getSingleResult()).doubleValue() / PAGE_SIZE);
     }
 
@@ -100,6 +91,27 @@ public class MembershipJpaDao implements MembershipDao {
         query.setParameter("artistId", artist.getId());
         query.setParameter("bandId", band.getId());
         return query.getResultList().stream().findFirst().isPresent();
+    }
+
+    @Override
+    public int getPendingMembershipsCount(User user) {
+        Query query = membershipCountQuery(user, MembershipState.PENDING);
+        return ((Number) query.getSingleResult()).intValue();
+    }
+
+    private Query membershipCountQuery(User user, MembershipState state) {
+        Query query;
+        if(user.isBand()) {
+            query = em.createNativeQuery(
+                    "SELECT COUNT(*) FROM memberships WHERE bandId = :bandId AND state= :state");
+            query.setParameter("bandId", user.getId());
+        } else {
+            query = em.createNativeQuery(
+                    "SELECT COUNT(*) FROM memberships WHERE artistId = :artistId AND state= :state");
+            query.setParameter("artistId", user.getId());
+        }
+        query.setParameter("state", state.getState());
+        return query;
     }
 
 }
