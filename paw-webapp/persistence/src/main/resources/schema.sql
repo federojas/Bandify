@@ -116,3 +116,22 @@ CREATE TABLE IF NOT EXISTS applications
     FOREIGN KEY (auditionId) REFERENCES auditions(id) ON DELETE CASCADE,
     FOREIGN KEY (applicantId) REFERENCES users(id) ON DELETE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS memberships
+(
+    id SERIAL PRIMARY KEY,
+    bandId BIGINT NOT NULL,
+    artistId BIGINT NOT NULL,
+    description VARCHAR(100),
+    FOREIGN KEY (bandId) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (artistId) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS membershipRoles
+(
+    membershipId BIGINT NOT NULL,
+    roleId BIGINT NOT NULL,
+    FOREIGN KEY (membershipId) REFERENCES membership(id) ON DELETE CASCADE,
+    FOREIGN KEY (roleId) REFERENCES roles(id),
+    UNIQUE(membershipId,roleId)
+);
