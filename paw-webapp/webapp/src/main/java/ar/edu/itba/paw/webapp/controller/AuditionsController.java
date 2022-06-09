@@ -120,7 +120,7 @@ public class AuditionsController {
     @RequestMapping(value = "/auditions/{id}/applicants", method = {RequestMethod.GET})
     public ModelAndView applicants(@PathVariable long id,
                                    @RequestParam(value = "page", defaultValue = "1") int page,
-                                   @RequestParam(value = "state", defaultValue = "ALL") String state) {
+                                   @RequestParam(value = "state", defaultValue = "PENDING") String state) {
         ModelAndView mav = new ModelAndView("applicants");
         List<Application> applications = applicationService.getAuditionApplicationsByState(id, ApplicationState.valueOf(state), page);
         Audition aud = auditionService.getAuditionById(id).orElseThrow(AuditionNotFoundException::new);
@@ -308,7 +308,7 @@ public class AuditionsController {
     }
 
 
-    /* estos metodos son para SELECCIONAR un aplicante y crear la membresía ya ACEPTADA porque pasó la audicion */
+    /* estos metodos (metodo 1) son para SELECCIONAR un aplicante y crear la membresía ya ACEPTADA porque pasó la audicion */
 
     @RequestMapping(value = "/auditions/{id}/applicants/select/{applicationId}", method = {RequestMethod.GET})
     public ModelAndView select(@PathVariable long id,

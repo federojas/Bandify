@@ -99,6 +99,8 @@ public class UserController {
     public ModelAndView profile() {
         ModelAndView mav = new ModelAndView("profile");
         User user = authFacadeService.getCurrentUser();
+        int pendingMembershipsCount = membershipService.getPendingMembershipsCount(user);
+        mav.addObject("pending", pendingMembershipsCount);
         return setAndReturnProfileViewData(user, mav);
     }
 
@@ -140,7 +142,7 @@ public class UserController {
 
     @RequestMapping(value = "/profile/applications", method = {RequestMethod.GET})
     public ModelAndView applications(@RequestParam(value = "page", defaultValue = "1") int page,
-                                     @RequestParam(value = "state", defaultValue = "ALL") String state) {
+                                     @RequestParam(value = "state", defaultValue = "PENDING") String state) {
 
         ModelAndView mav = new ModelAndView("profileApplications");
         User user = authFacadeService.getCurrentUser();
