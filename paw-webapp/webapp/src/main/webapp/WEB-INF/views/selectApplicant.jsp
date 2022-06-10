@@ -63,7 +63,7 @@
                         </span>
                     </div>
 
-                    <c:url value="/auditions/${auditionId}/applicants/select/${applicantId}" var="addToBandActionUrl" />
+                    <c:url value="/auditions/${auditionId}/applicants/select/${applicationId}" var="addToBandActionUrl" />
                     <%--@elvariable id="membershipForm" type="ar.edu.itba.paw.webapp.form.MembershipForm"--%>
 
                     <form:form method="post" acceptCharset="utf-8"

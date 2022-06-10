@@ -29,7 +29,7 @@ public interface MembershipService {
 
     Optional<Membership> getMembershipById(long id);
 
-    void createMembershipByApplication(Membership.Builder builder, long applicationId, long id);
+    void createMembershipByApplication(Membership.Builder builder, long auditionId);
 
     int getPendingMembershipsCount(User user);
 

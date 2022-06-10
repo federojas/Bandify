@@ -55,7 +55,7 @@
             </div>
             <c:if test="${param.accepted}">
                 <div class="add-to-band-button">
-                    <c:url value="/auditions/${param.auditionId}/applicants/select/${param.userId}" var="addToBandUrl" />
+                    <c:url value="/auditions/${param.auditionId}/applicants/select/${param.applicationId}" var="addToBandUrl" />
                     <a href="${addToBandUrl}" onmouseover="invertImg()"
                        onmouseout="invertImgBack()">
                         <button class="artist-profile-btn" id="addToBandBtn">

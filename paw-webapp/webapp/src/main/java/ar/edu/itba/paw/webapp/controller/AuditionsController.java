@@ -349,7 +349,7 @@ public class AuditionsController {
                 application.getAudition().getBand(),
                 roleService.getRolesByNames(membershipForm.getRoles())).
                 description(membershipForm.getDescription()) ,
-                application.getAudition().getId(), applicationId);
+                application.getAudition().getId());
         //TODO: o redireccionar directamente al perfil / miembros de la banda?
         return new ModelAndView("membershipSuccess");
     }

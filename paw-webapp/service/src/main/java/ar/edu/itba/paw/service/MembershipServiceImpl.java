@@ -115,8 +115,8 @@ public class MembershipServiceImpl implements MembershipService {
 
     @Transactional
     @Override
-    public void createMembershipByApplication(Membership.Builder builder, long auditionId, long applicationId) {
-        applicationService.select(auditionId, applicationId);
+    public void createMembershipByApplication(Membership.Builder builder, long auditionId) {
+        applicationService.select(auditionId, builder.getArtist().getId());
         createMembership(builder.state(MembershipState.ACCEPTED));
         Locale locale = LocaleContextHolder.getLocale();
         LocaleContextHolder.setLocale(locale, true);
