@@ -81,6 +81,11 @@
         </div>
       </c:if>
     </div>
+    <c:if test="${param.isBand}">
+      <div>
+        <p class="legend"><spring:message code="artist.member.legend"/></p>
+      </div>
+    </c:if>
     <div class="message-div">
       <span class="message-span"><c:out value="${param.description}"/></span>
     </div>

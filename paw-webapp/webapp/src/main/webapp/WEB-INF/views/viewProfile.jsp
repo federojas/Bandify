@@ -213,6 +213,7 @@
                                     <jsp:param name="userId" value="${member.artist.id}" />
                                     <jsp:param name="description" value="${member.description}"/>
                                     <jsp:param name="available" value="${member.artist.available}" />
+                                    <jsp:param name="isBand" value="false" />
                                 </jsp:include>
                                 <c:if test="${loop.count < members.size()}">
                                     <div class="vertical-line"></div>
@@ -262,6 +263,7 @@
                                 <jsp:param name="userId" value="${member.band.id}" />
                                 <jsp:param name="description" value="${member.description}"/>
                                 <jsp:param name="available" value="false" />
+                                <jsp:param name="isBand" value="true" />
                             </jsp:include>
                             <c:if test="${loop.count < members.size()}">
                                 <div class="vertical-line"></div>

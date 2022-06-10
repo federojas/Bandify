@@ -53,10 +53,6 @@
 
                         </span>
                         <div class="image-and-name">
-                            <spring:message code="profile.img.alt" var="img"/>
-                            <img class="postcard-profile-image"
-                                 src="<c:url value="/user/${applicantId}/profile-image"/>"
-                                 alt="${img}"/>
                             <span class="user-name">
                                 <c:out value="${applicantName}"/> <c:out value="${applicantSurname}"/>
                             </span>

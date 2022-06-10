@@ -92,8 +92,13 @@
     font-size: medium;
     color: white;
     line-height: 1.25rem;
-
 }
+
+.legend {
+    font-size: medium;
+    font-weight: 600;
+}
+
 
 .member-edit-btn:hover {
     background-color: #0369a1;
