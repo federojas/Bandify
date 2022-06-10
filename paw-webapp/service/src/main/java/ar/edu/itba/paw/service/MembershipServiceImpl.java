@@ -2,6 +2,7 @@ package ar.edu.itba.paw.service;
 
 import ar.edu.itba.paw.model.Membership;
 import ar.edu.itba.paw.model.MembershipState;
+import ar.edu.itba.paw.model.Role;
 import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.model.exceptions.*;
 import ar.edu.itba.paw.persistence.MembershipDao;
@@ -12,10 +13,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class MembershipServiceImpl implements MembershipService {
@@ -122,6 +120,15 @@ public class MembershipServiceImpl implements MembershipService {
     public int getPendingMembershipsCount(User user) {
         //TODO CHEQUEAR USER???????
         return membershipDao.getPendingMembershipsCount(user);
+    }
+
+    @Transactional
+    @Override
+    public void editMembershipById(String description, Set<Role> roles, long id) {
+        checkMembershipId(id);
+        checkPermissions(id);
+        Optional<Membership> membership = getMembershipById(id);
+        membership.ifPresent(value -> value.edit(description, roles));
     }
 
     private void checkPermissions(long id) {

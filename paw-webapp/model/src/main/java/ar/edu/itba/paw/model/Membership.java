@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.model;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -108,6 +109,24 @@ public class Membership {
         this.state = state;
     }
 
+    public void edit(String description, Set<Role> roles) {
+        this.description = description;
+        this.roles = roles;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Membership that = (Membership) o;
+        return Objects.equals(getId(), that.getId()) && Objects.equals(getArtist(), that.getArtist()) && Objects.equals(getBand(), that.getBand()) && Objects.equals(getRoles(), that.getRoles()) && Objects.equals(getDescription(), that.getDescription()) && getState() == that.getState();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getArtist(), getBand(), getRoles(), getDescription(), getState());
+    }
+
     public static class Builder {
 
         private Long id;
@@ -148,6 +167,14 @@ public class Membership {
 
         public User getBand() {
             return band;
+        }
+
+        public Set<Role> getRoles() {
+            return roles;
+        }
+
+        public String getDescription() {
+            return description;
         }
     }
 }

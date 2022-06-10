@@ -1,8 +1,7 @@
 package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.model.*;
-import ar.edu.itba.paw.model.exceptions.MembershipNotFoundException;
-import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
+import ar.edu.itba.paw.model.exceptions.*;
 import ar.edu.itba.paw.service.*;
 import ar.edu.itba.paw.webapp.form.*;
 import ar.edu.itba.paw.service.AuthFacadeService;
@@ -467,14 +466,45 @@ public class UserController {
         mav.addObject("locationList", locationList.stream().map(Location::getName).collect(Collectors.toList()));
     }
 
-    @RequestMapping(value = "/profile/editMembership/{membershipId}", method = {RequestMethod.POST})
-    public ModelAndView editMembership(@PathVariable long membershipId,
-                                      @Valid @ModelAttribute("membershipForm")
-                                      final MembershipForm membershipForm,
-                                      final BindingResult errors) {
-        //TODO HACERLO
-        return new ModelAndView("membershipSuccess");
+    @RequestMapping(value = "/profile/editMembership/{membershipId}", method = {RequestMethod.GET})
+    public ModelAndView editMembership(@ModelAttribute("membershipForm") final MembershipForm membershipForm,
+                                     @PathVariable long membershipId) {
+
+        User user = authFacadeService.getCurrentUser();
+
+        Membership membership = membershipService.getMembershipById(membershipId).orElseThrow(MembershipNotFoundException::new);
+
+        if(!Objects.equals(user.getId(), membership.getBand().getId()))
+            throw new BandNotOwnedException();
+
+        ModelAndView mav = new ModelAndView("editMembership");
+
+        Set<Role> roleList = roleService.getAll();
+
+        mav.addObject("roleList", roleList);
+        mav.addObject("membershipId", membershipId);
+
+        membershipForm.setDescription(membership.getDescription());
+
+        List<String> selectedRoles = membership.getRoles().stream().map(Role::getName).collect(Collectors.toList());
+        membershipForm.setRoles(selectedRoles);
+
+        return mav;
     }
+
+    @RequestMapping(value = "/profile/editMembership/{membershipId}", method = {RequestMethod.POST})
+    public ModelAndView postEditMembership(@Valid @ModelAttribute("membershipForm") final MembershipForm membershipForm,
+                                      final BindingResult errors, @PathVariable long membershipId) {
+
+        if(errors.hasErrors()) {
+            return editMembership(membershipForm, membershipId);
+        }
+
+        membershipService.editMembershipById(membershipForm.getDescription(),roleService.getRolesByNames(membershipForm.getRoles()), membershipId);
+
+        return new ModelAndView("redirect:/profile/bandMembers");
+    }
+
 
     @RequestMapping(value = "/profile/deleteMembership/{membershipId}", method = {RequestMethod.POST})
     public ModelAndView deleteMembership(@PathVariable long membershipId) {

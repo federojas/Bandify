@@ -2,10 +2,12 @@ package ar.edu.itba.paw.service;
 
 import ar.edu.itba.paw.model.Membership;
 import ar.edu.itba.paw.model.MembershipState;
+import ar.edu.itba.paw.model.Role;
 import ar.edu.itba.paw.model.User;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface MembershipService {
 
@@ -28,4 +30,6 @@ public interface MembershipService {
     void createMembershipByApplication(Membership.Builder builder, long applicationId, long id);
 
     int getPendingMembershipsCount(User user);
+
+    void editMembershipById(String description, Set<Role> roles, long id);
 }
