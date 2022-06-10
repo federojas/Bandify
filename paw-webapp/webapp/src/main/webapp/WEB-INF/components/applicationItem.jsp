@@ -53,19 +53,21 @@
                     <img src="<c:url value="/resources/icons/user.svg"/>" class="audition-icon invert" alt="${altApplicants}" />
                 </a>
             </div>
-            <div class="add-to-band-button">
-                <c:url value="/auditions/${param.auditionId}/applicants/select/${param.userId}" var="addToBandUrl" />
-                <a href="${addToBandUrl}" onmouseover="invertImg()"
-                   onmouseout="invertImgBack()">
-                    <button class="artist-profile-btn" id="addToBandBtn">
-                        <spring:message code="applicants.addToBand"/>
-                        <spring:message code="audition.applicants.alt" var="altAddToBand"/>
-                        <img src="<c:url value="/resources/icons/add-user.png"/>"
-                             id="addToBandBtnImg"
-                             class="audition-icon" alt="${altAddToBand}" />
-                    </button>
-                </a>
-            </div>
+            <c:if test="${param.accepted}">
+                <div class="add-to-band-button">
+                    <c:url value="/auditions/${param.auditionId}/applicants/select/${param.userId}" var="addToBandUrl" />
+                    <a href="${addToBandUrl}" onmouseover="invertImg()"
+                       onmouseout="invertImgBack()">
+                        <button class="artist-profile-btn" id="addToBandBtn">
+                            <spring:message code="applicants.addToBand"/>
+                            <spring:message code="audition.applicants.alt" var="altAddToBand"/>
+                            <img src="<c:url value="/resources/icons/add-user.png"/>"
+                                 id="addToBandBtnImg"
+                                 class="audition-icon" alt="${altAddToBand}" />
+                        </button>
+                    </a>
+                </div>
+            </c:if>
             <c:if test="${param.actionable}">
             <div>
                 <spring:message code="application.accept" var="accept"/>

@@ -65,6 +65,7 @@
                                     <jsp:param name="auditionId" value="${app.audition.id}" />
                                     <jsp:param name="userId" value="${app.applicant.id}" />
                                     <jsp:param name="actionable" value="${app.state.state=='PENDING'}" />
+                                    <jsp:param name="accepted" value="${app.state.state == 'ACCEPTED'}"/>
                                     <jsp:param name="message" value="${app.message}"/>
                                     <jsp:param name="available" value="${app.applicant.available}" />
                                     <jsp:param name="email" value="${app.applicant.email}" />
