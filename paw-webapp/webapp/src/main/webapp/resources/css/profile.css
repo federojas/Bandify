@@ -39,6 +39,19 @@
     font-size: 1.5rem;
 }
 
+.no-members {
+    display: flex;
+    justify-content: center;
+    margin-top: 140px;
+    font-weight: 600;
+    font-size: large;
+}
+
+.description {
+    word-break: break-word;
+    white-space: normal;
+}
+
 .register-buttons{
     padding-top: 1rem
 }
@@ -52,6 +65,24 @@ body {
     max-height: 1.25rem;
     align-self: center;
 }
+
+.members-icon{
+    max-width: 2rem;
+    max-height: 2rem;
+    align-self: center;
+}
+
+.members-data {
+    margin: 1rem;
+}
+
+.view-button-div {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+}
+
 .status-box{
     padding: 0.5rem 0.75rem;
     margin-top: 0.5rem;
@@ -64,7 +95,6 @@ body {
 
 .edit-btn {
     margin: 0.5rem;
-
     padding: 15px 15px 15px 10px;
     background-color: #6c0c84;
     display: flex;
@@ -77,6 +107,23 @@ body {
 }
 
 .edit-btn:hover {
+    background-color: #0369a1;
+}
+
+.view-all-btn {
+    margin: 0.5rem;
+    padding: 15px;
+    background-color: #6c0c84;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-radius: 9999px;
+    color: #ffffff;
+    height: 40px;
+    font-size: large;
+}
+
+.view-all-btn:hover {
     background-color: #0369a1;
 }
 
@@ -128,6 +175,12 @@ body {
     padding: 1rem 0 1rem 0.25rem;
 }
 
+.top {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
 .about-section-data{
     display: flex;
     justify-content: start;
@@ -149,6 +202,33 @@ body {
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     padding: 0.75rem 1.25rem;
     margin: 1rem;
+}
+.user-info-div {
+    margin-bottom: 40px;
+}
+
+.member-data {
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    padding: 0.75rem 1.25rem;
+    margin-left: 12.8rem;
+    width: 1255px;
+    height: 400px;
+}
+
+.member-view-data {
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    padding: 0.75rem 1.25rem;
+    margin-left: 11.9rem;
+    width: 1255px;
+    height: 400px;
+    margin-top: 20px;
+}
+
+.members-div {
+    display: flex;
+    justify-content: space-evenly;
 }
 
 .profile-btns {
@@ -272,9 +352,7 @@ auditions-title-div {
     display: flex;
     justify-content: start;
 }
-.view-public-profile{
-    padding-bottom: 200px;
-}
+
 .edit-div {
     display: flex;
     justify-content: center;
@@ -286,11 +364,20 @@ auditions-title-div {
     background-color: white;
     overflow-wrap: break-word;
     padding: 0.75rem;
+    height: 608px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+
+.profile-card-view {
+    background-color: white;
+    overflow-wrap: break-word;
+    padding: 0.75rem;
+    height: 650px;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
 }
 
 .left-side {
-    margin: 1rem;
+    margin: 1rem 1rem 0;
     width: 100%;
 }
 

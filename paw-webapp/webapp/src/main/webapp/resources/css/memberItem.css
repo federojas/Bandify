@@ -1,0 +1,45 @@
+.main-div {
+    width: 180px;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+}
+.info-div {
+    display: flex;
+    flex-direction: column;
+}
+
+.message-div {
+    word-break: break-word;
+    margin-top: 10px;
+}
+
+.vertical-line {
+    border-left: 2px solid lightgrey;
+    height: 250px;
+}
+
+.member-band-name {
+    margin-left: 10px;
+    max-width: 80%;
+    color: black;
+    font-size: 1rem;
+    font-weight: 700;
+    word-break: break-word;
+}
+
+.roles-div {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.roles-span {
+    padding: 0.25rem 0.5rem;
+    background-color: #4AAABC;
+    border-radius: 0.25rem;
+    color: #fff;
+    font-size: 1.25rem;
+    line-height: 1.25rem;
+    margin: 0.25rem;
+}

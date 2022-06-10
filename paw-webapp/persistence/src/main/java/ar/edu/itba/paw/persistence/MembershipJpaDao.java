@@ -20,7 +20,9 @@ import java.util.stream.Collectors;
 @Repository
 public class MembershipJpaDao implements MembershipDao {
 
-    private final int PAGE_SIZE = 5;
+    private final int PAGE_SIZE = 10;
+    private final int PREVIEW_SIZE = 4;
+
 
     @PersistenceContext
     private EntityManager em;
@@ -42,6 +44,25 @@ public class MembershipJpaDao implements MembershipDao {
             query.setParameter("artistId", user.getId());
         }
         query.setParameter("state", state.getState());
+
+        @SuppressWarnings("unchecked")
+        List<Long> ids = (List<Long>) query.getResultList().stream().map(o -> ((Number) o).longValue()).collect(Collectors.toList());
+
+        if(!ids.isEmpty()) {
+            TypedQuery<Membership> membershipsQuery = em.createQuery("from Membership as m where m.id in :ids ORDER BY m.id asc", Membership.class);
+            membershipsQuery.setParameter("ids",ids);
+            return membershipsQuery.getResultList();
+        }
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<Membership> getBandMembershipsPreview(User user) {
+        Query query;
+        query = em.createNativeQuery("SELECT id FROM memberships" +
+                " WHERE bandId = :bandId" +
+                " LIMIT " + PREVIEW_SIZE);
+        query.setParameter("bandId", user.getId());
 
         @SuppressWarnings("unchecked")
         List<Long> ids = (List<Long>) query.getResultList().stream().map(o -> ((Number) o).longValue()).collect(Collectors.toList());

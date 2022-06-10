@@ -55,7 +55,7 @@
                 </p>
             </li>
 
-            <div class="genres-div my-5">
+            <div class="roles-div my-5">
                 <c:forEach var="role"
                            items="${requestScope.lookingFor}"
                            varStatus="loop">
@@ -73,7 +73,7 @@
                 </c:forEach>
             </div>
 
-            <div class="roles-div my-5">
+            <div class="genres-div my-5">
                 <c:forEach var="genre"
                            items="${requestScope.musicGenres}"
                            varStatus="loop">

@@ -11,6 +11,8 @@ public interface MembershipDao {
 
     List<Membership> getUserMembershipsByState(User user, MembershipState state, int page);
 
+    List<Membership> getBandMembershipsPreview(User user);
+
     int getTotalUserMembershipsByStatePages(User user, MembershipState state);
 
     Membership createMembership(Membership.Builder builder);

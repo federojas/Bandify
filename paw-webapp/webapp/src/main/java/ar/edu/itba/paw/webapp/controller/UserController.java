@@ -99,8 +99,12 @@ public class UserController {
     public ModelAndView profile() {
         ModelAndView mav = new ModelAndView("profile");
         User user = authFacadeService.getCurrentUser();
-        int pendingMembershipsCount = membershipService.getPendingMembershipsCount(user);
-        mav.addObject("pending", pendingMembershipsCount);
+        if(user.isBand()) {
+            mav.addObject("members", membershipService.getBandMembershipsPreview(user));
+        } else {
+            int pendingMembershipsCount = membershipService.getPendingMembershipsCount(user);
+            mav.addObject("pending", pendingMembershipsCount);
+        }
         return setAndReturnProfileViewData(user, mav);
     }
 
@@ -117,12 +121,16 @@ public class UserController {
             if(Objects.equals(user.getId(), userToVisit.getId()))
                 return new ModelAndView("redirect:/profile");
         }
-
         ModelAndView mav = new ModelAndView("viewProfile");
         return setAndReturnProfileViewData(userToVisit, mav);
     }
 
     private ModelAndView setAndReturnProfileViewData(User userToVisit, ModelAndView mav) {
+
+        if(userToVisit.isBand()) {
+            mav.addObject("members", membershipService.getBandMembershipsPreview(userToVisit));
+        }
+
         mav.addObject("user", userToVisit);
 
         Set<Genre> preferredGenres = userService.getUserGenres(userToVisit);

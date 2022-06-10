@@ -43,6 +43,13 @@ public class MembershipServiceImpl implements MembershipService {
     }
 
     @Override
+    public List<Membership> getBandMembershipsPreview(User user) {
+        if(!user.isBand())
+            throw new MembershipNotFoundException();
+        return membershipDao.getBandMembershipsPreview(user);
+    }
+
+    @Override
     public List<Membership> getArtistMemberships(User user, MembershipState state, int page) {
         if(user.isBand())
             throw new MembershipNotFoundException();
