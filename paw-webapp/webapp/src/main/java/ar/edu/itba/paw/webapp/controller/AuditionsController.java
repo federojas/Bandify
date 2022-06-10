@@ -318,15 +318,14 @@ public class AuditionsController {
         Application application = applicationService.getApplicationById(id,applicationId).orElseThrow(ApplicationNotFoundException::new);
         Set<Role> auditionRoles = application.getAudition().getLookingFor();
         String auditionTitle = application.getAudition().getTitle();
-        System.out.println("ACA DOG");
-        System.out.println(application.getApplicant().getId());
-        System.out.println(application.getApplicant().getName());
+
         mav.addObject("applicant",application.getApplicant());
         mav.addObject("auditionRoles",auditionRoles);
         mav.addObject("auditionTitle", auditionTitle);
         mav.addObject("applicantName", application.getApplicant().getName());
         mav.addObject("applicantSurname", application.getApplicant().getSurname());
         mav.addObject("applicantId", application.getApplicant().getId());
+        mav.addObject("auditionId", application.getAudition().getId());
         mav.addObject("band", application.getAudition().getBand());
         return mav;
     }

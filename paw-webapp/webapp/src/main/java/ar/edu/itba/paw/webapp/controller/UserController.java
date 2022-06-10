@@ -371,7 +371,7 @@ public class UserController {
         ModelAndView mav = new ModelAndView("selectApplicant");
         Set<Role> auditionRoles = roleService.getAll();
         mav.addObject("applicant",userService.getUserById(userId).orElseThrow(UserNotFoundException::new));
-        mav.addObject("allRoles",auditionRoles);
+        mav.addObject("auditionRoles",auditionRoles);
         mav.addObject("band", authFacadeService.getCurrentUser());
         return mav;
     }

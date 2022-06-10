@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="<c:url value="/resources/css/welcome.css" />"/>
     <link rel="stylesheet" href="<c:url value="/resources/css/auditions.css" />"/>
     <link rel="stylesheet" href="<c:url value="/resources/css/applicants.css" />"/>
+    <link rel="stylesheet" href="<c:url value="/resources/css/selectApplicant.css" />"/>
     <script src="<c:url value="/resources/js/pagination.js" />"></script>
     <script src="<c:url value="/resources/js/applicants.js"/>"></script>
 </head>
@@ -65,6 +66,63 @@
                         <spring:message code="applicants.confirmation.artist2"/>
                         </span>
                     </div>
+
+                    <c:url value="/auditions/${auditionId}/applicants/select/${applicantId}" var="addToBandActionUrl" />
+                    <%--@elvariable id="membershipForm" type="ar.edu.itba.paw.webapp.form.MembershipForm"--%>
+
+                    <form:form method="post" acceptCharset="utf-8"
+                               action="${addToBandActionUrl}" id="membershipForm"
+                               modelAttribute="membershipForm"
+                                cssClass="gapped-form"
+                    >
+                        <div class="roles-selection">
+                            <form:label class="membership-form-description-label" path="roles">
+                                <spring:message code="applicants.confirmation.roles"/>
+                            </form:label>
+                            <form:select
+                                    class="multiple-select"
+                                    path="roles"
+                                    multiple="true"
+                            >
+                                <form:option value="" disabled="true" selected="true"><spring:message code="edituser.lookingFor.maxSelect" arguments="${auditionRoles.size()}"/></form:option>
+
+                                <c:forEach var="role" items="${auditionRoles}" varStatus="loop">
+                                    <form:option value="${role.name}"><c:out value="${role.name}"/></form:option>
+                                </c:forEach>
+
+                            </form:select>
+                            <form:errors path="roles" element="p" cssClass="error">
+                            </form:errors>
+                        </div>
+                        <div class="description-artist">
+                            <form:label class="membership-form-description-label" path="description">
+                                <spring:message code="applicants.confirmation.description"/>
+                            </form:label>
+                            <spring:message code="audition.form.description.placeholder" arguments="100" var="descriptionplaceholder" />
+                            <form:textarea
+                                    maxlength="100" placeholder="${descriptionplaceholder}"
+                                    class="membership-form-description-textarea"
+                                    type="text"
+                                    id="description"
+                                    path="description"
+                            />
+<%--                            <p id="emptyDescription" class="error" style="display: none"><spring:message code="NotBlank.auditionForm.description" arguments="0"/> </p>--%>
+<%--                            <p id="longDescription" class="error" style="display: none"><spring:message code="audition.form.description.maxSize" arguments="100"/> </p>--%>
+                            <form:errors path="description" element="p" cssClass="error">
+                            </form:errors>
+                        </div>
+                        <div class="end-addtoband-btn">
+                            <button
+                                    type="submit"
+                                    value="submit"
+                                    form="membershipForm"
+                                    class="artist-profile-btn"
+                            >
+                                <spring:message code="applicants.addToBand"/>
+                            </button>
+                        </div>
+                    </form:form>
+
                 </div>
 
             </div>

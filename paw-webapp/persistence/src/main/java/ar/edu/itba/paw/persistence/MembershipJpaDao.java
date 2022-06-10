@@ -1,6 +1,5 @@
 package ar.edu.itba.paw.persistence;
 
-import ar.edu.itba.paw.model.Application;
 import ar.edu.itba.paw.model.Membership;
 import ar.edu.itba.paw.model.MembershipState;
 import ar.edu.itba.paw.model.User;
@@ -125,8 +124,8 @@ public class MembershipJpaDao implements MembershipDao {
 
     @Override
     public boolean membershipExists(User band, User artist) {
-        final TypedQuery<Application> query = em.createQuery("FROM Membership as m where m.artist.id = :artistId and m.band.id = :bandId AND m.state <> :state",
-                Application.class);
+        final TypedQuery<Membership> query = em.createQuery("FROM Membership as m where m.artist.id = :artistId and m.band.id = :bandId AND m.state <> :state",
+                Membership.class);
         query.setParameter("artistId", artist.getId());
         query.setParameter("bandId", band.getId());
         query.setParameter("state", MembershipState.REJECTED);
