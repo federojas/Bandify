@@ -86,10 +86,11 @@ public class MembershipJpaDao implements MembershipDao {
 
     @Override
     public boolean membershipExists(User band, User artist) {
-        final TypedQuery<Application> query = em.createQuery("FROM Membership as m where m.artist.id = :artistId and m.band.id = :bandId",
+        final TypedQuery<Application> query = em.createQuery("FROM Membership as m where m.artist.id = :artistId and m.band.id = :bandId AND m.state <> :state",
                 Application.class);
         query.setParameter("artistId", artist.getId());
         query.setParameter("bandId", band.getId());
+        query.setParameter("state", MembershipState.REJECTED);
         return query.getResultList().stream().findFirst().isPresent();
     }
 

@@ -5,6 +5,7 @@ import ar.edu.itba.paw.model.MembershipState;
 import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.model.exceptions.DuplicateMembershipException;
 import ar.edu.itba.paw.model.exceptions.MembershipNotFoundException;
+import ar.edu.itba.paw.model.exceptions.UserNotAvailableException;
 import ar.edu.itba.paw.persistence.MembershipDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,8 +27,6 @@ public class MembershipServiceImpl implements MembershipService {
     private ApplicationService applicationService;
     @Autowired
     private MailingService mailingService;
-
-    // TODO: CHEQUEOS DE OWNER?
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MembershipServiceImpl.class);
 
@@ -56,8 +55,22 @@ public class MembershipServiceImpl implements MembershipService {
         return membershipDao.getTotalUserMembershipsByStatePages(user,state);
     }
 
+
     @Override
-    public Membership createMembership(Membership.Builder builder) {
+    public Membership createMembershipInvite(Membership.Builder builder) {
+        if(builder.getArtist().isBand() || !builder.getArtist().isAvailable()) {
+            throw new UserNotAvailableException();
+        }
+        // TODO: mandar mail de invitación
+        /*
+        Locale locale = LocaleContextHolder.getLocale();
+        LocaleContextHolder.setLocale(locale, true);
+        mailingService.sendInviteEmail(builder.getBand(), builder.getArtist().getEmail(), locale);
+         */
+        return createMembership(builder.state(MembershipState.PENDING));
+    }
+
+    private Membership createMembership(Membership.Builder builder) {
         if(membershipDao.membershipExists(builder.getBand(), builder.getArtist()))
             throw new DuplicateMembershipException();
         LOGGER.info("Creating new membership");

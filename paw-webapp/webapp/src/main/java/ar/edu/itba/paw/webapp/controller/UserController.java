@@ -368,7 +368,7 @@ public class UserController {
         // TODO: mandar mail de invitacion
         // TODO: membershipSuccess.jsp y selectApplicant.jsp
 
-        membershipService.createMembership(new Membership.Builder(
+        membershipService.createMembershipInvite(new Membership.Builder(
                 userService.getUserById(userId).orElseThrow(UserNotFoundException::new),
                 authFacadeService.getCurrentUser(),
                 roleService.getRolesByNames(membershipForm.getRoles())).

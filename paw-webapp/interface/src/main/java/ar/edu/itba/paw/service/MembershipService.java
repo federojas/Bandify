@@ -15,7 +15,7 @@ public interface MembershipService {
 
     int getTotalUserMembershipsPages(User user, MembershipState state);
 
-    Membership createMembership(Membership.Builder builder);
+    Membership createMembershipInvite(Membership.Builder builder);
 
     void deleteMembership(long id);
 

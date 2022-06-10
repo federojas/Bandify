@@ -84,4 +84,11 @@ public class ErrorAdviceController {
         return new ModelAndView("forward:/403");
     }
 
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler(UserNotAvailableException.class)
+    public ModelAndView userNotAvailable() {
+        LOGGER.warn("User is not available");
+        return new ModelAndView("forward:/403");
+    }
+
 }
