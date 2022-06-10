@@ -65,7 +65,7 @@ public class MembershipServiceImpl implements MembershipService {
         return membershipDao.getTotalUserMembershipsByStatePages(user,state);
     }
 
-
+    @Transactional
     @Override
     public Membership createMembershipInvite(Membership.Builder builder) {
         if(builder.getArtist().isBand() || !builder.getArtist().isAvailable()) {
@@ -87,6 +87,7 @@ public class MembershipServiceImpl implements MembershipService {
         return membershipDao.createMembership(builder);
     }
 
+    @Transactional
     @Override
     public void deleteMembership(long id) {
         checkMembershipId(id);
@@ -107,6 +108,7 @@ public class MembershipServiceImpl implements MembershipService {
         return membershipDao.getMembershipById(id);
     }
 
+    @Transactional
     @Override
     public void createMembershipByApplication(Membership.Builder builder, long auditionId, long applicationId) {
         applicationService.select(auditionId, applicationId);
