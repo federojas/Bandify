@@ -216,12 +216,31 @@ body {
     height: 400px;
 }
 
+.play-data {
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    padding: 0.75rem 1.25rem;
+    margin-left: 12rem;
+    width: 1174px;
+    height: 400px;
+}
+
 .member-view-data {
     background-color: white;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     padding: 0.75rem 1.25rem;
-    margin-left: 11.9rem;
-    width: 1255px;
+    margin-left: 11.2rem;
+    width: 1174px;
+    height: 400px;
+    margin-top: 20px;
+}
+
+.plays-view-data {
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    padding: 0.75rem 1.25rem;
+    margin-left: 11.2rem;
+    width: 1174px;
     height: 400px;
     margin-top: 20px;
 }

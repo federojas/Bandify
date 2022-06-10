@@ -25,9 +25,16 @@
 </jsp:include>
 
 <main>
-  <h2 class="bandMembers-title">
-    <spring:message code="band.members.title" arguments="${bandName}"/>
-  </h2>
+  <c:if test="${isPropietary}">
+    <h2 class="bandMembers-title">
+      <spring:message code="artist.bands.title" arguments="${artistName}, ${artistSurname}"/>
+    </h2>
+  </c:if>
+  <c:if test="${!isPropietary}">
+    <h2 class="bandMembers-title">
+      <spring:message code="artist.bands.title.owner" arguments="${artistName}, ${artistSurname}"/>
+    </h2>
+  </c:if>
   <!-- Auditions content -->
   <div class="band-members-container ">
     <div class="left-panel-abs-bandMembers">
@@ -52,12 +59,12 @@
                 <jsp:include page="../components/memberCard.jsp">
                   <jsp:param name="id" value="${member.id}" />
                   <jsp:param name="isPropietary" value="${isPropietary}" />
-                  <jsp:param name="memberName" value="${member.artist.name}" />
-                  <jsp:param name="memberSurname" value="${member.artist.surname}" />
-                  <jsp:param name="userId" value="${member.artist.id}" />
+                  <jsp:param name="memberName" value="${member.band.name}" />
+                  <jsp:param name="memberSurname" value="" />
+                  <jsp:param name="userId" value="${member.band.id}" />
                   <jsp:param name="description" value="${member.description}"/>
-                  <jsp:param name="isBand" value="false"/>
-                  <jsp:param name="available" value="${member.artist.available}" />
+                  <jsp:param name="isBand" value="true"/>
+                  <jsp:param name="available" value="false" />
                 </jsp:include>
                 <c:if test="${loop.count < members.size()}">
                   <hr/><div class="horizontal-line"></div>

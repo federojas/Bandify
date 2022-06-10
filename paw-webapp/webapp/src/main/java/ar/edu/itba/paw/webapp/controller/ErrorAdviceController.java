@@ -98,4 +98,11 @@ public class ErrorAdviceController {
         return new ModelAndView("forward:/403");
     }
 
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler(UserNotInBandException.class)
+    public ModelAndView userNotInBAND() {
+        LOGGER.warn("Current user is not in the specified band");
+        return new ModelAndView("forward:/403");
+    }
+
 }

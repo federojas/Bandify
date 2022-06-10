@@ -13,6 +13,8 @@ public interface MembershipDao {
 
     List<Membership> getBandMembershipsPreview(User user);
 
+    List<Membership> getArtistMembershipsPreview(User user);
+
     int getTotalUserMembershipsByStatePages(User user, MembershipState state);
 
     Membership createMembership(Membership.Builder builder);

@@ -29,7 +29,7 @@
             <c:out value="${param.memberName}"/> <c:out value="${param.memberSurname}"/>
           </h1>
         </a>
-        <c:if test="${param.isPropietary}">
+        <c:if test="${param.isPropietary and !param.isBand}">
           <div class="member-buttonry">
             <a class="member-edit-btn hover: shadow-sm" href="<c:url value="/profile/editMembership/${param.id}"/>">
               <button class="member-btn" type="submit">
@@ -58,6 +58,28 @@
             </jsp:include>
           </div>
         </c:if>
+      <c:if test="${param.isPropietary and param.isBand}">
+        <div class="member-buttonry">
+          <a class="member-remove-btn">
+            <button class="member-btn" onclick="openConfirmation()" type="submit">
+              <spring:message code="audition.alt.delete" var="delete"/>
+              <spring:message code="member.leave" />
+              <img src="<c:url value="/resources/icons/trash.svg"/>" class="member-button-icon" alt="${delete}"/>
+            </button>
+          </a>
+          <spring:message code="leaveConfirmationModal.title" var="modalTitle"/>
+          <spring:message code="leaveConfirmationModal.removeMember" var="modalHeading"/>
+          <spring:message code="leaveConfirmationModal.confirmationQuestion" var="confirmationQuestion"/>
+          <c:url value="/profile/deleteMembership/${param.id}" var="postPath"/>
+          <jsp:include page="confirmationModal.jsp">
+            <jsp:param name="modalTitle" value="${modalTitle}" />
+            <jsp:param name="isDelete" value="${true}"/>
+            <jsp:param name="modalHeading" value="${modalHeading}" />
+            <jsp:param name="confirmationQuestion" value="${confirmationQuestion}" />
+            <jsp:param name="action" value="${postPath}" />
+          </jsp:include>
+        </div>
+      </c:if>
     </div>
     <div class="message-div">
       <span class="message-span"><c:out value="${param.description}"/></span>

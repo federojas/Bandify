@@ -51,6 +51,11 @@ public class MembershipServiceImpl implements MembershipService {
     }
 
     @Override
+    public List<Membership> getArtistMembershipsPreview(User user) {
+        return membershipDao.getArtistMembershipsPreview(user);
+    }
+
+    @Override
     public List<Membership> getArtistMemberships(User user, MembershipState state, int page) {
         if(user.isBand())
             throw new MembershipNotFoundException();
@@ -134,9 +139,18 @@ public class MembershipServiceImpl implements MembershipService {
     }
 
     private void checkPermissions(long id) {
-        if(!Objects.equals(getMembershipById(id).orElseThrow(MembershipNotFoundException::new).getBand().getId(), authFacadeService.getCurrentUser().getId())) {
-            LOGGER.warn("The authenticated user is not the band owner");
-            throw new BandNotOwnedException();
+        Membership membership = getMembershipById(id).orElseThrow(MembershipNotFoundException::new);
+        User current = authFacadeService.getCurrentUser();
+        if(current.isBand()) {
+            if(!Objects.equals(membership.getBand().getId(), current.getId())) {
+                LOGGER.warn("The authenticated user is not the band owner");
+                throw new BandNotOwnedException();
+            }
+        } else {
+            if(!Objects.equals(membership.getArtist().getId(), current.getId())) {
+                LOGGER.warn("The authenticated user is not in the band");
+                throw new UserNotInBandException();
+            }
         }
     }
 

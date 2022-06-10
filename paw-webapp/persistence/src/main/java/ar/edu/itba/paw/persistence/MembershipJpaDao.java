@@ -78,6 +78,25 @@ public class MembershipJpaDao implements MembershipDao {
     }
 
     @Override
+    public List<Membership> getArtistMembershipsPreview(User user) {
+        Query query;
+        query = em.createNativeQuery("SELECT id FROM memberships" +
+                " WHERE artistId = :artistId" +
+                " LIMIT " + PREVIEW_SIZE);
+        query.setParameter("artistId", user.getId());
+
+        @SuppressWarnings("unchecked")
+        List<Long> ids = (List<Long>) query.getResultList().stream().map(o -> ((Number) o).longValue()).collect(Collectors.toList());
+
+        if(!ids.isEmpty()) {
+            TypedQuery<Membership> membershipsQuery = em.createQuery("from Membership as m where m.id in :ids ORDER BY m.id asc", Membership.class);
+            membershipsQuery.setParameter("ids",ids);
+            return membershipsQuery.getResultList();
+        }
+        return Collections.emptyList();
+    }
+
+    @Override
     public int getTotalUserMembershipsByStatePages(User user, MembershipState state) {
         Query query = membershipCountQuery(user, state);
         return (int) Math.ceil(((BigInteger) query.getSingleResult()).doubleValue() / PAGE_SIZE);

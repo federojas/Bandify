@@ -15,6 +15,8 @@ public interface MembershipService {
 
     List<Membership> getBandMembershipsPreview(User user);
 
+    List<Membership> getArtistMembershipsPreview(User user);
+
     List<Membership> getArtistMemberships(User user, MembershipState state, int page);
 
     int getTotalUserMembershipsPages(User user, MembershipState state);
