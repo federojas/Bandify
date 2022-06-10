@@ -42,6 +42,12 @@
                     <spring:message code="applicants.seeProfile"/>
                 </a>
             </div>
+            <c:url value="/auditions/${param.auditionId}/applicants/select/${param.userId}" var="addToBandUrl" />
+            <a href="${addToBandUrl}">
+                <button class="artist-profile-btn">
+                    <spring:message code="applicants.addToBand"/>
+                </button>
+            </a>
             <div>
                 <spring:message code="application.accept" var="accept"/>
                 <spring:message code="application.reject" var="reject"/>

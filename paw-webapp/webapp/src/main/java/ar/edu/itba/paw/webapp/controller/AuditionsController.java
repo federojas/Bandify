@@ -310,6 +310,7 @@ public class AuditionsController {
 
     /* estos metodos (metodo 1) son para SELECCIONAR un aplicante y crear la membresía ya ACEPTADA porque pasó la audicion */
 
+//   TODO: Limitar el acceso a esta URL solo a los usuarios con applicantId de artista
     @RequestMapping(value = "/auditions/{id}/applicants/select/{applicationId}", method = {RequestMethod.GET})
     public ModelAndView select(@PathVariable long id,
                                @PathVariable long applicationId,
@@ -317,8 +318,16 @@ public class AuditionsController {
         ModelAndView mav = new ModelAndView("selectApplicant");
         Application application = applicationService.getApplicationById(id,applicationId).orElseThrow(ApplicationNotFoundException::new);
         Set<Role> auditionRoles = application.getAudition().getLookingFor();
+        String auditionTitle = application.getAudition().getTitle();
+        System.out.println("ACA DOG");
+        System.out.println(application.getApplicant().getId());
+        System.out.println(application.getApplicant().getName());
         mav.addObject("applicant",application.getApplicant());
         mav.addObject("auditionRoles",auditionRoles);
+        mav.addObject("auditionTitle", auditionTitle);
+        mav.addObject("applicantName", application.getApplicant().getName());
+        mav.addObject("applicantSurname", application.getApplicant().getSurname());
+        mav.addObject("applicantId", application.getApplicant().getId());
         mav.addObject("band", application.getAudition().getBand());
         return mav;
     }
