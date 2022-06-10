@@ -8,6 +8,15 @@
 <head>
     <title><spring:message code="title.applicationItem"/> </title>
     <link rel="stylesheet" href="<c:url value="/resources/css/applicationItem.css" />" />
+    <script>
+        function invertImg() {
+            document.getElementById("addToBandBtnImg").className = "audition-icon invert";
+        }
+
+        function invertImgBack() {
+            document.getElementById("addToBandBtnImg").className = "audition-icon";
+        }
+    </script>
 </head>
 <body>
 <li>
@@ -40,37 +49,45 @@
                 <c:url value="/user/${param.userId}" var="userUrl"/>
                 <a href="${userUrl}" class="usr-url">
                     <spring:message code="applicants.seeProfile"/>
+                    <spring:message code="audition.applicants.alt" var="altApplicants"/>
+                    <img src="<c:url value="/resources/icons/user.svg"/>" class="audition-icon invert" alt="${altApplicants}" />
                 </a>
             </div>
-            <c:url value="/auditions/${param.auditionId}/applicants/select/${param.userId}" var="addToBandUrl" />
-            <a href="${addToBandUrl}">
-                <button class="artist-profile-btn">
-                    <spring:message code="applicants.addToBand"/>
-                </button>
-            </a>
+            <div class="add-to-band-button">
+                <c:url value="/auditions/${param.auditionId}/applicants/select/${param.userId}" var="addToBandUrl" />
+                <a href="${addToBandUrl}" onmouseover="invertImg()"
+                   onmouseout="invertImgBack()">
+                    <button class="artist-profile-btn" id="addToBandBtn">
+                        <spring:message code="applicants.addToBand"/>
+                        <spring:message code="audition.applicants.alt" var="altAddToBand"/>
+                        <img src="<c:url value="/resources/icons/add-user.png"/>"
+                             id="addToBandBtnImg"
+                             class="audition-icon" alt="${altAddToBand}" />
+                    </button>
+                </a>
+            </div>
+            <c:if test="${param.actionable}">
             <div>
                 <spring:message code="application.accept" var="accept"/>
                 <spring:message code="application.reject" var="reject"/>
-                <c:if test="${param.actionable}">
-                    <div class="application-icons">
-                        <c:url value="/auditions/${param.auditionId}" var="acceptUrl">
-                            <c:param name="accept" value="true"/>
-                            <c:param name="userId" value="${param.userId}"/>
-                        </c:url>
-                        <c:url value="/auditions/${param.auditionId}" var="rejectUrl">
-                            <c:param name="accept" value="false"/>
-                            <c:param name="userId" value="${param.userId}"/>
-                        </c:url>
-                        <div class="application-confirmation-buttons">
-                            <form action="${acceptUrl}" method="post">
-                                <button type="submit"><img src="<c:url value="/resources/icons/success.svg" />" alt="${accept}" class="application-icon"/></button>
-                            </form>
-                                <button onclick="openConfirmation()" ><img src="<c:url value="/resources/icons/reject.svg" />" alt="${reject}" class="application-icon"/></button>
-                        </div>
+                <div class="application-icons">
+                    <c:url value="/auditions/${param.auditionId}" var="acceptUrl">
+                        <c:param name="accept" value="true"/>
+                        <c:param name="userId" value="${param.userId}"/>
+                    </c:url>
+                    <c:url value="/auditions/${param.auditionId}" var="rejectUrl">
+                        <c:param name="accept" value="false"/>
+                        <c:param name="userId" value="${param.userId}"/>
+                    </c:url>
+                    <div class="application-confirmation-buttons">
+                        <form action="${acceptUrl}" method="post">
+                            <button type="submit"><img src="<c:url value="/resources/icons/success.svg" />" alt="${accept}" class="application-icon"/></button>
+                        </form>
+                            <button onclick="openConfirmation()" ><img src="<c:url value="/resources/icons/reject.svg" />" alt="${reject}" class="application-icon"/></button>
                     </div>
-                </c:if>
-
+                </div>
             </div>
+            </c:if>
         </div>
     </div>
     <spring:message code="rejectConfirmationModal.title" var="modalTitle"/>
