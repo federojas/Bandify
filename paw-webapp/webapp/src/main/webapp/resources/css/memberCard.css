@@ -1,0 +1,115 @@
+.main-div {
+    width: 100%;
+    height: 180px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.info-div {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.message-div {
+    word-break: break-word;
+    margin-top: 10px;
+}
+
+.horizontal-line {
+    border-left: 2px solid lightgrey;
+    margin-bottom: 20px;
+}
+
+.image-name-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.member-band-name {
+    margin-left: 10px;
+    max-width: 80%;
+    color: black;
+    font-size: 1rem;
+    font-weight: 700;
+    word-break: break-word;
+    margin-top: 18px;
+}
+
+.roles-div {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.roles-span {
+    padding: 0.25rem 0.5rem;
+    background-color: #4AAABC;
+    border-radius: 0.25rem;
+    color: #fff;
+    font-size: 1.25rem;
+    line-height: 1.25rem;
+    margin: 0.25rem;
+    height: 25px;
+}
+
+.member-btn {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.member-remove-btn {
+    background-color: #b91c1c;
+    color: white;
+    line-height: 1.25rem;
+    display: flex;
+    font-weight: 500;
+    font-size: medium;
+    height: 30px;
+    justify-content: space-evenly;
+    border-radius: 9999px;
+    padding: 10px;
+    width: 90px;
+}
+
+
+.member-remove-btn:hover{
+    background-color: #ff3b3b;
+}
+
+.member-edit-btn {
+    background-color: #6c0c84;
+    display: flex;
+    justify-content: space-evenly;
+    border-radius: 9999px;
+    padding: 10px;
+    height: 30px;
+    width: 90px;
+    font-weight: 500;
+    font-size: medium;
+    color: white;
+    line-height: 1.25rem;
+
+}
+
+.member-edit-btn:hover {
+    background-color: #0369a1;
+}
+
+.member-button-icon {
+    max-width: 0.75rem;
+    max-height: 0.75rem;
+    margin-left: 3px;
+    color: white;
+}
+
+.member-buttonry {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: center;
+}

@@ -3,9 +3,7 @@ package ar.edu.itba.paw.service;
 import ar.edu.itba.paw.model.Membership;
 import ar.edu.itba.paw.model.MembershipState;
 import ar.edu.itba.paw.model.User;
-import ar.edu.itba.paw.model.exceptions.DuplicateMembershipException;
-import ar.edu.itba.paw.model.exceptions.MembershipNotFoundException;
-import ar.edu.itba.paw.model.exceptions.UserNotAvailableException;
+import ar.edu.itba.paw.model.exceptions.*;
 import ar.edu.itba.paw.persistence.MembershipDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -27,6 +26,8 @@ public class MembershipServiceImpl implements MembershipService {
     private ApplicationService applicationService;
     @Autowired
     private MailingService mailingService;
+    @Autowired
+    private AuthFacadeService authFacadeService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MembershipServiceImpl.class);
 
@@ -39,6 +40,8 @@ public class MembershipServiceImpl implements MembershipService {
     public List<Membership> getBandMemberships(User user, MembershipState state, int page) {
         if(!user.isBand())
             throw new MembershipNotFoundException();
+        int lastPage = getTotalUserMembershipsPages(user, state);
+        checkPage(page, lastPage);
         return getUserMemberships(user,state,page);
     }
 
@@ -53,6 +56,8 @@ public class MembershipServiceImpl implements MembershipService {
     public List<Membership> getArtistMemberships(User user, MembershipState state, int page) {
         if(user.isBand())
             throw new MembershipNotFoundException();
+        int lastPage = getTotalUserMembershipsPages(user, state);
+        checkPage(page, lastPage);
         return getUserMemberships(user,state,page);
     }
 
@@ -86,6 +91,8 @@ public class MembershipServiceImpl implements MembershipService {
 
     @Override
     public void deleteMembership(long id) {
+        checkMembershipId(id);
+        checkPermissions(id);
         LOGGER.info("Deleting membership with id: {}", id);
         membershipDao.deleteMembership(id);
     }
@@ -98,10 +105,10 @@ public class MembershipServiceImpl implements MembershipService {
 
     @Override
     public Optional<Membership> getMembershipById(long id) {
+        checkMembershipId(id);
         return membershipDao.getMembershipById(id);
     }
 
-    /* Closes the application by setting SELECTED state and creates the membership with state ACCEPTED */
     @Override
     public void createMembershipByApplication(Membership.Builder builder, long auditionId, long applicationId) {
         applicationService.select(auditionId, applicationId);
@@ -113,6 +120,26 @@ public class MembershipServiceImpl implements MembershipService {
 
     @Override
     public int getPendingMembershipsCount(User user) {
+        //TODO CHEQUEAR USER???????
         return membershipDao.getPendingMembershipsCount(user);
+    }
+
+    private void checkPermissions(long id) {
+        if(!Objects.equals(getMembershipById(id).orElseThrow(MembershipNotFoundException::new).getBand().getId(), authFacadeService.getCurrentUser().getId())) {
+            LOGGER.warn("The authenticated user is not the band owner");
+            throw new BandNotOwnedException();
+        }
+    }
+
+    private void checkPage(int page, int lastPage) {
+        if(page <= 0)
+            throw new IllegalArgumentException();
+        if(page > lastPage)
+            throw new PageNotFoundException();
+    }
+
+    private void checkMembershipId(long id) {
+        if(id < 0)
+            throw new IllegalArgumentException();
     }
 }

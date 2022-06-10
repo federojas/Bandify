@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @Repository
 public class MembershipJpaDao implements MembershipDao {
 
-    private final int PAGE_SIZE = 10;
+    private final int PAGE_SIZE = 5;
     private final int PREVIEW_SIZE = 4;
 
 

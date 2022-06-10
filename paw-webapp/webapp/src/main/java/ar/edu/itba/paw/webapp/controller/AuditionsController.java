@@ -288,7 +288,6 @@ public class AuditionsController {
 
         }else{
             mav.addObject("isPropietary", false);
-
         }
 
             return mav;

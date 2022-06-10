@@ -346,12 +346,22 @@ public class UserController {
         mav.addObject("lastPage", lastPage);
         return mav;
     }
+
+    @RequestMapping(value = "/users", method = {RequestMethod.GET})
+    public ModelAndView usersDiscover() {
+
+        ModelAndView userDiscover = new ModelAndView("usersDiscover");
+
+        initializeFilterOptions(userDiscover);
+
+        return userDiscover;
+    }
+
     /* metodos para que una banda mande una membership
     * las bandas deberian ver un boton en la card de usuario artista para mandarle la membership
     * (obviamente tienen que ir al discover de usuarios para hacer esto)
     *  recordar que a partir de aca se manda la solicitud y el artista tiene que aceptar
     * */
-
     @RequestMapping(value = "/profile/newMembership/{userId}", method = {RequestMethod.GET})
     public ModelAndView newMembership(@PathVariable long userId,
                                       @ModelAttribute("membershipForm")
@@ -415,52 +425,36 @@ public class UserController {
         return new ModelAndView("redirect:/profile");
     }
 
-    /* metodo para visualizar los miembros de una banda en el perfil
-    *  url solo para bandas - vista de admin de los miembros de la banda
-    *  edicion - borrado (opcion)
-    */
     @RequestMapping(value = "/profile/bandMembers",  method = {RequestMethod.GET})
     public ModelAndView bandMembers(@RequestParam(value = "page", defaultValue = "1") int page) {
-        ModelAndView mav = new ModelAndView("bandMembers");
         User band =  authFacadeService.getCurrentUser();
-        return getBandMembers(page, mav, band);
+        return getBandMembers(page, band);
     }
 
-    /* metodo para que un usuario visualize los miembros de una banda en el perfil publico
-     */
     @RequestMapping(value = "/user/{id}/bandMembers",  method = {RequestMethod.GET})
     public ModelAndView viewBandMembers(@PathVariable long id,
                                         @RequestParam(value = "page", defaultValue = "1") int page) {
-        ModelAndView mav = new ModelAndView("viewBandMembers");
         User band =  userService.getUserById(id).orElseThrow(UserNotFoundException::new);
-
-
-
-
-
-        return getBandMembers(page, mav, band);
+        return getBandMembers(page, band);
     }
 
-    @RequestMapping(value = "/users", method = {RequestMethod.GET})
-    public ModelAndView usersDiscover() {
-
-        ModelAndView userDiscover = new ModelAndView("usersDiscover");
-
-        initializeFilterOptions(userDiscover);
-
-        return userDiscover;
-    }
-
-    private ModelAndView getBandMembers(@RequestParam(value = "page", defaultValue = "1") int page, ModelAndView mav, User band) {
+    private ModelAndView getBandMembers(@RequestParam(value = "page", defaultValue = "1") int page, User band) {
         List<Membership> members = membershipService.getBandMemberships(
                 band,
                 MembershipState.ACCEPTED,
                 page);
-        int lastPage = membershipService.getTotalUserMembershipsPages(band,MembershipState.PENDING);
+        int lastPage = membershipService.getTotalUserMembershipsPages(band,MembershipState.ACCEPTED);
         lastPage = lastPage == 0 ? 1 : lastPage;
+        ModelAndView mav = new ModelAndView("bandMembers");
+        if(band.getId().equals(authFacadeService.getCurrentUser().getId())){
+            mav.addObject("isPropietary", true);
+        }else{
+            mav.addObject("isPropietary", false);
+        }
         mav.addObject("members", members);
         mav.addObject("currentPage", page);
         mav.addObject("lastPage", lastPage);
+        mav.addObject("bandName", band.getName());
         return mav;
     }
 
@@ -471,6 +465,21 @@ public class UserController {
         mav.addObject("roleList", roleList.stream().map(Role::getName).collect(Collectors.toList()));
         mav.addObject("genreList", genreList.stream().map(Genre::getName).collect(Collectors.toList()));
         mav.addObject("locationList", locationList.stream().map(Location::getName).collect(Collectors.toList()));
+    }
+
+    @RequestMapping(value = "/profile/editMembership/{membershipId}", method = {RequestMethod.POST})
+    public ModelAndView editMembership(@PathVariable long membershipId,
+                                      @Valid @ModelAttribute("membershipForm")
+                                      final MembershipForm membershipForm,
+                                      final BindingResult errors) {
+        //TODO HACERLO
+        return new ModelAndView("membershipSuccess");
+    }
+
+    @RequestMapping(value = "/profile/deleteMembership/{membershipId}", method = {RequestMethod.POST})
+    public ModelAndView deleteMembership(@PathVariable long membershipId) {
+        membershipService.deleteMembership(membershipId);
+        return new ModelAndView("redirect:/profile/bandMembers");
     }
 
 }
