@@ -49,17 +49,7 @@
                 <div class="confirmation-container">
                     <div class="header-welcome-artist">
                         <span class="welcome-title-2">
-                        <spring:message code="applicants.confirmation.artist1"/>
-
-                        </span>
-                        <div class="image-and-name">
-                            <span class="user-name">
-                                <c:out value="${applicantName}"/> <c:out value="${applicantSurname}"/>
-                            </span>
-                        </div>
-                        <span class="welcome-title-2">
-
-                        <spring:message code="applicants.confirmation.artist2"/>
+                        <spring:message code="applicants.confirmation.artist1" arguments="${applicantName},${applicantSurname}"/>
                         </span>
                     </div>
 

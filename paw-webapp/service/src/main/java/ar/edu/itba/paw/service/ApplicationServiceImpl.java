@@ -168,6 +168,9 @@ public class ApplicationServiceImpl implements ApplicationService {
         Audition audition = auditionService.getAuditionById(auditionId).orElseThrow(AuditionNotFoundException::new);
         if(user.getId() != audition.getBand().getId())
             throw new AuditionNotOwnedException();
-        return applicationDao.findApplication(applicationId);
+        Optional<Application> application = applicationDao.findApplication(applicationId);
+        if (application.isPresent() && application.get().getState().equals(ApplicationState.SELECTED))
+            return Optional.empty();
+        return application;
     }
 }
