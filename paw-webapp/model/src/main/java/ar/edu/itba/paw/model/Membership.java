@@ -7,7 +7,6 @@ import java.util.Set;
 @Table(name = "memberships")
 public class Membership {
 
-    // TODO: la sequence se genera con BIGINT, hay que cambiarlo en deploy y localmente tmb
     // TODO: EAGER VS LAZY
 
     @Id

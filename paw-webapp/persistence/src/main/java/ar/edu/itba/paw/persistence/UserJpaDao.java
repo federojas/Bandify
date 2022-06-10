@@ -120,10 +120,13 @@ public class UserJpaDao implements UserDao {
         }
 
         List<Long> ids = getUserIds(query);
+        if(!ids.isEmpty()) {
+            TypedQuery<User> users = em.createQuery("from User as u where u.id in :ids ORDER BY name, surname", User.class);
+            users.setParameter("ids",ids);
+            return users.getResultList();
+        }
+        return Collections.emptyList();
 
-        TypedQuery<User> users = em.createQuery("from User as u where u.id in :ids ORDER BY name, surname", User.class);
-        users.setParameter("ids",ids);
-        return users.getResultList();
     }
 
 
@@ -150,10 +153,6 @@ public class UserJpaDao implements UserDao {
     private List<Long> getUserIds(Query query) {
         @SuppressWarnings("unchecked")
         List<Long> ids = (List<Long>) query.getResultList().stream().map(o -> ((Number) o).longValue()).collect(Collectors.toList());
-
-        if(ids.isEmpty())
-            ids.add(-1L);
-
         return ids;
     }
 }

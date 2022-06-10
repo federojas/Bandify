@@ -365,7 +365,7 @@ public class UserController {
             return newMembership(userId,membershipForm);
         }
 
-        // TODO: mandar mail de invitacion
+
         // TODO: membershipSuccess.jsp y selectApplicant.jsp
 
         membershipService.createMembershipInvite(new Membership.Builder(
@@ -426,9 +426,9 @@ public class UserController {
         ModelAndView mav = new ModelAndView("viewBandMembers");
         User band =  userService.getUserById(id).orElseThrow(UserNotFoundException::new);
 
-        //TODO esta bien este if?
-        if(!band.isBand())
-            throw new IllegalArgumentException();
+
+
+
 
         return getBandMembers(page, mav, band);
     }

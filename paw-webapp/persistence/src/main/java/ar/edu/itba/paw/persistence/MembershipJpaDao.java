@@ -19,9 +19,7 @@ import java.util.stream.Collectors;
 
 @Repository
 public class MembershipJpaDao implements MembershipDao {
-    // TODO: EN TODOS LOS DAOS DEJAR DE AGREGAR UN ID -1 CUANDO LA LISTA ES VACÍA
-    // ES MEJOR NO HACER LA QUERY DIRECTAMENTE SI ES VACÍA
-    // mirar los ejemplos de este dao
+
     private final int PAGE_SIZE = 5;
 
     @PersistenceContext
@@ -52,9 +50,8 @@ public class MembershipJpaDao implements MembershipDao {
             TypedQuery<Membership> membershipsQuery = em.createQuery("from Membership as m where m.id in :ids ORDER BY m.id asc", Membership.class);
             membershipsQuery.setParameter("ids",ids);
             return membershipsQuery.getResultList();
-        } else {
-            return Collections.emptyList();
         }
+        return Collections.emptyList();
     }
 
     @Override
