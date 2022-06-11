@@ -27,6 +27,13 @@ public class ErrorAdviceController {
         return new ModelAndView("forward:/404");
     }
 
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(ApplicationNotFoundException.class)
+    public ModelAndView applicationNotFound() {
+        LOGGER.warn("Application could not be found");
+        return new ModelAndView("forward:/404");
+    }
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(IllegalArgumentException.class)
     public ModelAndView illegalArgumentException() {

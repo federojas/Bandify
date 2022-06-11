@@ -169,8 +169,18 @@ public class ApplicationServiceImpl implements ApplicationService {
         if(user.getId() != audition.getBand().getId())
             throw new AuditionNotOwnedException();
         Optional<Application> application = applicationDao.findApplication(applicationId);
-        if (application.isPresent() && application.get().getState().equals(ApplicationState.SELECTED))
+        if (application.isPresent() && !application.get().getAudition().getId().equals(auditionId)
+                && application.get().getState().equals(ApplicationState.SELECTED))
             return Optional.empty();
         return application;
+    }
+
+    @Override
+    public Optional<Application> getAcceptedApplicationById(long auditionId, long applicationId)  {
+        Optional<Application> application = getApplicationById(auditionId,applicationId);
+        if(application.isPresent() && application.get().getAudition().getId().equals(auditionId) &&
+                application.get().getState().equals(ApplicationState.ACCEPTED))
+            return application;
+        return Optional.empty();
     }
 }

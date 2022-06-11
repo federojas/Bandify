@@ -315,7 +315,7 @@ public class AuditionsController {
                                @PathVariable long applicationId,
                                @ModelAttribute("membershipForm") final MembershipForm membershipForm) {
         ModelAndView mav = new ModelAndView("selectApplicant");
-        Application application = applicationService.getApplicationById(id,applicationId).orElseThrow(ApplicationNotFoundException::new);
+        Application application = applicationService.getAcceptedApplicationById(id,applicationId).orElseThrow(ApplicationNotFoundException::new);
         Set<Role> auditionRoles = application.getAudition().getLookingFor();
         String auditionTitle = application.getAudition().getTitle();
 
