@@ -11,9 +11,7 @@ public interface MembershipDao {
 
     List<Membership> getUserMembershipsByState(User user, MembershipState state, int page);
 
-    List<Membership> getBandMembershipsPreview(User user);
-
-    List<Membership> getArtistMembershipsPreview(User user);
+    List<Membership> getUserMembershipsPreview(User user);
 
     int getTotalUserMembershipsByStatePages(User user, MembershipState state);
 

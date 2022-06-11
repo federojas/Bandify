@@ -98,13 +98,9 @@ public class UserController {
     public ModelAndView profile() {
         ModelAndView mav = new ModelAndView("profile");
         User user = authFacadeService.getCurrentUser();
-        if(user.isBand()) {
-            mav.addObject("members", membershipService.getBandMembershipsPreview(user));
-        } else {
-            mav.addObject("members", membershipService.getArtistMembershipsPreview(user));
-            int pendingMembershipsCount = membershipService.getPendingMembershipsCount(user);
-            mav.addObject("pending", pendingMembershipsCount);
-        }
+        mav.addObject("members", membershipService.getUserMembershipsPreview(user));
+        int pendingMembershipsCount = membershipService.getPendingMembershipsCount(user);
+        mav.addObject("pending", pendingMembershipsCount);
         return setAndReturnProfileViewData(user, mav);
     }
 
@@ -127,12 +123,7 @@ public class UserController {
 
     private ModelAndView setAndReturnProfileViewData(User userToVisit, ModelAndView mav) {
 
-        if(userToVisit.isBand()) {
-            mav.addObject("members", membershipService.getBandMembershipsPreview(userToVisit));
-        } else {
-            mav.addObject("members", membershipService.getArtistMembershipsPreview(userToVisit));
-        }
-
+        mav.addObject("members", membershipService.getUserMembershipsPreview(userToVisit));
         mav.addObject("user", userToVisit);
 
         Set<Genre> preferredGenres = userService.getUserGenres(userToVisit);
@@ -403,7 +394,7 @@ public class UserController {
     public ModelAndView bandMembershipInvites(@RequestParam(value = "page", defaultValue = "1") int page) {
         ModelAndView mav = new ModelAndView("bandsInvites");
         User currentUser = authFacadeService.getCurrentUser();
-        List<Membership> bandInvites = membershipService.getArtistMemberships(currentUser,MembershipState.PENDING,page);
+        List<Membership> bandInvites = membershipService.getUserMemberships(currentUser,MembershipState.PENDING,page);
         int lastPage = membershipService.getTotalUserMembershipsPages(currentUser,MembershipState.PENDING);
         lastPage = lastPage == 0 ? 1 : lastPage;
         mav.addObject("bandInvites", bandInvites);
@@ -482,7 +473,9 @@ public class UserController {
         Set<Role> roleList = roleService.getAll();
 
         mav.addObject("roleList", roleList);
-        mav.addObject("membershipId", membershipId);
+        mav.addObject("membershipId", membership.getId());
+        mav.addObject("artistName", membership.getArtist().getName());
+        mav.addObject("artistSurname", membership.getArtist().getSurname());
 
         membershipForm.setDescription(membership.getDescription());
 
@@ -513,7 +506,7 @@ public class UserController {
     }
 
     private ModelAndView getBandMembers(int page, User band) {
-        List<Membership> members = membershipService.getBandMemberships(
+        List<Membership> members = membershipService.getUserMemberships(
                 band,
                 MembershipState.ACCEPTED,
                 page);
@@ -523,7 +516,7 @@ public class UserController {
     }
 
     private ModelAndView getArtistBands(int page, User artist) {
-        List<Membership> members = membershipService.getArtistMemberships(
+        List<Membership> members = membershipService.getUserMemberships(
                 artist,
                 MembershipState.ACCEPTED,
                 page);

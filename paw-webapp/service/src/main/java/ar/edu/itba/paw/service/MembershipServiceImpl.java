@@ -29,39 +29,17 @@ public class MembershipServiceImpl implements MembershipService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MembershipServiceImpl.class);
 
-    private List<Membership> getUserMemberships(User user, MembershipState state, int page) {
+    @Override
+    public List<Membership> getUserMemberships(User user, MembershipState state, int page) {
+        int lastPage = getTotalUserMembershipsPages(user, state);
+        checkPage(page, lastPage);
         LOGGER.info("Getting specified user memberships");
         return membershipDao.getUserMembershipsByState(user, state, page);
     }
 
     @Override
-    public List<Membership> getBandMemberships(User user, MembershipState state, int page) {
-        if(!user.isBand())
-            throw new MembershipNotFoundException();
-        int lastPage = getTotalUserMembershipsPages(user, state);
-        checkPage(page, lastPage);
-        return getUserMemberships(user,state,page);
-    }
-
-    @Override
-    public List<Membership> getBandMembershipsPreview(User user) {
-        if(!user.isBand())
-            throw new MembershipNotFoundException();
-        return membershipDao.getBandMembershipsPreview(user);
-    }
-
-    @Override
-    public List<Membership> getArtistMembershipsPreview(User user) {
-        return membershipDao.getArtistMembershipsPreview(user);
-    }
-
-    @Override
-    public List<Membership> getArtistMemberships(User user, MembershipState state, int page) {
-        if(user.isBand())
-            throw new MembershipNotFoundException();
-        int lastPage = getTotalUserMembershipsPages(user, state);
-        checkPage(page, lastPage);
-        return getUserMemberships(user,state,page);
+    public List<Membership> getUserMembershipsPreview(User user) {
+        return membershipDao.getUserMembershipsPreview(user);
     }
 
     @Override
@@ -125,7 +103,6 @@ public class MembershipServiceImpl implements MembershipService {
 
     @Override
     public int getPendingMembershipsCount(User user) {
-        //TODO CHEQUEAR USER???????
         return membershipDao.getPendingMembershipsCount(user);
     }
 

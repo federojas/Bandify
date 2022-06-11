@@ -11,13 +11,9 @@ import java.util.Set;
 
 public interface MembershipService {
 
-    List<Membership> getBandMemberships(User user, MembershipState state, int page);
+    List<Membership> getUserMemberships(User user, MembershipState state, int page);
 
-    List<Membership> getBandMembershipsPreview(User user);
-
-    List<Membership> getArtistMembershipsPreview(User user);
-
-    List<Membership> getArtistMemberships(User user, MembershipState state, int page);
+    List<Membership> getUserMembershipsPreview(User user);
 
     int getTotalUserMembershipsPages(User user, MembershipState state);
 

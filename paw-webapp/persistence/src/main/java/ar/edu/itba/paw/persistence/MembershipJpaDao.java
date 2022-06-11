@@ -23,7 +23,8 @@ public class MembershipJpaDao implements MembershipDao {
 
     private final int PAGE_SIZE = 5;
     private final int PREVIEW_SIZE = 4;
-
+    private final int NO_OFFSET = 0;
+    private final int DEFAULT_PAGE = 1;
 
     @PersistenceContext
     private EntityManager em;
@@ -32,57 +33,28 @@ public class MembershipJpaDao implements MembershipDao {
 
     @Override
     public List<Membership> getUserMembershipsByState(User user, MembershipState state, int page) {
+        return getMemberships(user, state, PAGE_SIZE, (page-1) * PAGE_SIZE, page);
+    }
+
+    @Override
+    public List<Membership> getUserMembershipsPreview(User user) {
+        return getMemberships(user, MembershipState.ACCEPTED, PREVIEW_SIZE, NO_OFFSET, DEFAULT_PAGE);
+    }
+
+    private List<Membership> getMemberships(User user, MembershipState state, int page_size, int offset, int page) {
         Query query;
         if(user.isBand()) {
             query = em.createNativeQuery("SELECT id FROM memberships" +
-                    " WHERE bandId = :bandId AND state = :state " +
-                    " LIMIT " + PAGE_SIZE + " OFFSET " + (page - 1) * PAGE_SIZE);
+                    " WHERE bandId = :bandId AND state = :state ORDER BY id ASC " +
+                    " LIMIT " + page_size + " OFFSET " + offset);
             query.setParameter("bandId", user.getId());
         } else {
             query = em.createNativeQuery("SELECT id FROM memberships" +
-                    " WHERE artistId = :artistId AND state = :state " +
-                    " LIMIT " + PAGE_SIZE + " OFFSET " + (page - 1) * PAGE_SIZE);
+                    " WHERE artistId = :artistId AND state = :state ORDER BY id ASC " +
+                    " LIMIT " + page_size + " OFFSET " + offset);
             query.setParameter("artistId", user.getId());
         }
         query.setParameter("state", state.getState());
-
-        @SuppressWarnings("unchecked")
-        List<Long> ids = (List<Long>) query.getResultList().stream().map(o -> ((Number) o).longValue()).collect(Collectors.toList());
-
-        if(!ids.isEmpty()) {
-            TypedQuery<Membership> membershipsQuery = em.createQuery("from Membership as m where m.id in :ids ORDER BY m.id asc", Membership.class);
-            membershipsQuery.setParameter("ids",ids);
-            return membershipsQuery.getResultList();
-        }
-        return Collections.emptyList();
-    }
-
-    @Override
-    public List<Membership> getBandMembershipsPreview(User user) {
-        Query query;
-        query = em.createNativeQuery("SELECT id FROM memberships" +
-                " WHERE bandId = :bandId" +
-                " LIMIT " + PREVIEW_SIZE);
-        query.setParameter("bandId", user.getId());
-
-        @SuppressWarnings("unchecked")
-        List<Long> ids = (List<Long>) query.getResultList().stream().map(o -> ((Number) o).longValue()).collect(Collectors.toList());
-
-        if(!ids.isEmpty()) {
-            TypedQuery<Membership> membershipsQuery = em.createQuery("from Membership as m where m.id in :ids ORDER BY m.id asc", Membership.class);
-            membershipsQuery.setParameter("ids",ids);
-            return membershipsQuery.getResultList();
-        }
-        return Collections.emptyList();
-    }
-
-    @Override
-    public List<Membership> getArtistMembershipsPreview(User user) {
-        Query query;
-        query = em.createNativeQuery("SELECT id FROM memberships" +
-                " WHERE artistId = :artistId" +
-                " LIMIT " + PREVIEW_SIZE);
-        query.setParameter("artistId", user.getId());
 
         @SuppressWarnings("unchecked")
         List<Long> ids = (List<Long>) query.getResultList().stream().map(o -> ((Number) o).longValue()).collect(Collectors.toList());

@@ -110,7 +110,7 @@ public class AuditionsController {
         User user = authFacadeService.getCurrentUser();
         User band = userService.getUserById(audition.getBand().getId()).orElseThrow(UserNotFoundException::new);
         boolean alreadyApplied = applicationService.alreadyApplied(id, user.getId());
-        mav.addObject("isOwner", audition.getBand().getId() == user.getId());
+        mav.addObject("isOwner", Objects.equals(audition.getBand().getId(), user.getId()));
         mav.addObject("audition", audition);
         mav.addObject("user",band);
         mav.addObject("alreadyApplied", alreadyApplied);
@@ -204,7 +204,7 @@ public class AuditionsController {
 
         Audition audition = auditionService.getAuditionById(id).orElseThrow(AuditionNotFoundException::new);
 
-        if(user.getId() != audition.getBand().getId())
+        if(!Objects.equals(user.getId(), audition.getBand().getId()))
             throw new AuditionNotOwnedException();
 
         ModelAndView mav = new ModelAndView("editAudition");
@@ -308,8 +308,6 @@ public class AuditionsController {
 
 
     /* estos metodos (metodo 1) son para SELECCIONAR un aplicante y crear la membresía ya ACEPTADA porque pasó la audicion */
-
-//   TODO: Limitar el acceso a esta URL solo a los usuarios con applicantId de artista
     @RequestMapping(value = "/auditions/{id}/applicants/select/{applicationId}", method = {RequestMethod.GET})
     public ModelAndView select(@PathVariable long id,
                                @PathVariable long applicationId,
