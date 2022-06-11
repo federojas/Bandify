@@ -70,14 +70,7 @@
                                     path="roles"
                                     multiple="true"
                             >
-                                <c:choose>
-                                    <c:when test="${auditionRoles.size() > 5}">
-                                        <form:option value="" disabled="true" selected="true"><spring:message code="edituser.lookingFor.maxSelect" arguments="5"/></form:option>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <form:option value="" disabled="true" selected="true"><spring:message code="edituser.lookingFor.maxSelect" arguments="${auditionRoles.size()}"/></form:option>
-                                    </c:otherwise>
-                                </c:choose>
+                                <form:option value="" disabled="true" selected="true"><spring:message code="edituser.lookingFor.maxSelect" arguments="${auditionRoles.size()}"/></form:option>
                                 <c:forEach var="role" items="${auditionRoles}" varStatus="loop">
                                     <form:option value="${role.name}"><c:out value="${role.name}"/></form:option>
                                 </c:forEach>
