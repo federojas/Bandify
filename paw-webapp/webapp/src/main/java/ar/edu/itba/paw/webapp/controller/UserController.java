@@ -1,7 +1,7 @@
 package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.model.*;
-import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
+import ar.edu.itba.paw.model.exceptions.*;
 import ar.edu.itba.paw.service.*;
 import ar.edu.itba.paw.webapp.form.*;
 import ar.edu.itba.paw.service.AuthFacadeService;
@@ -29,13 +29,16 @@ public class UserController {
     private final ApplicationService applicationService;
     private final AuthFacadeService authFacadeService;
     private final LocationService locationService;
+    private final MembershipService membershipService;
 
 
     @Autowired
     public UserController(final UserService userService, final VerificationTokenService verificationTokenService,
                           final RoleService roleService, final GenreService genreService,
                           final ApplicationService applicationService,
-                          final AuthFacadeService authFacadeService, LocationService locationService) {
+                          final AuthFacadeService authFacadeService,
+                          final LocationService locationService,
+                          final MembershipService membershipService) {
         this.userService = userService;
         this.verificationTokenService = verificationTokenService;
         this.roleService = roleService;
@@ -43,6 +46,7 @@ public class UserController {
         this.applicationService = applicationService;
         this.authFacadeService = authFacadeService;
         this.locationService = locationService;
+        this.membershipService = membershipService;
     }
 
     @RequestMapping(value = {"/register","/registerBand", "/registerArtist"}, method = {RequestMethod.GET})
@@ -94,6 +98,9 @@ public class UserController {
     public ModelAndView profile() {
         ModelAndView mav = new ModelAndView("profile");
         User user = authFacadeService.getCurrentUser();
+        mav.addObject("members", membershipService.getUserMembershipsPreview(user));
+        int pendingMembershipsCount = membershipService.getPendingMembershipsCount(user);
+        mav.addObject("pending", pendingMembershipsCount);
         return setAndReturnProfileViewData(user, mav);
     }
 
@@ -110,12 +117,13 @@ public class UserController {
             if(Objects.equals(user.getId(), userToVisit.getId()))
                 return new ModelAndView("redirect:/profile");
         }
-
         ModelAndView mav = new ModelAndView("viewProfile");
         return setAndReturnProfileViewData(userToVisit, mav);
     }
 
     private ModelAndView setAndReturnProfileViewData(User userToVisit, ModelAndView mav) {
+
+        mav.addObject("members", membershipService.getUserMembershipsPreview(userToVisit));
         mav.addObject("user", userToVisit);
 
         Set<Genre> preferredGenres = userService.getUserGenres(userToVisit);
@@ -342,6 +350,104 @@ public class UserController {
         return userDiscover;
     }
 
+    /* metodos para que una banda mande una membership
+    * las bandas deberian ver un boton en la card de usuario artista para mandarle la membership
+    * (obviamente tienen que ir al discover de usuarios para hacer esto)
+    *  recordar que a partir de aca se manda la solicitud y el artista tiene que aceptar
+    * */
+    @RequestMapping(value = "/profile/newMembership/{userId}", method = {RequestMethod.GET})
+    public ModelAndView newMembership(@PathVariable long userId,
+                                      @ModelAttribute("membershipForm")
+                                      final MembershipForm membershipForm) {
+        ModelAndView mav = new ModelAndView("selectApplicant");
+        Set<Role> auditionRoles = roleService.getAll();
+        mav.addObject("applicant",userService.getUserById(userId).orElseThrow(UserNotFoundException::new));
+        mav.addObject("auditionRoles",auditionRoles);
+        mav.addObject("band", authFacadeService.getCurrentUser());
+        return mav;
+    }
+
+    @RequestMapping(value = "/profile/newMembership/{userId}", method = {RequestMethod.POST})
+    public ModelAndView newMembership(@PathVariable long userId,
+                                      @Valid @ModelAttribute("membershipForm")
+                                      final MembershipForm membershipForm,
+                                      final BindingResult errors) {
+        if (errors.hasErrors()) {
+            return newMembership(userId,membershipForm);
+        }
+
+
+        // TODO: membershipSuccess.jsp y selectApplicant.jsp
+
+        membershipService.createMembershipInvite(new Membership.Builder(
+                userService.getUserById(userId).orElseThrow(UserNotFoundException::new),
+                authFacadeService.getCurrentUser(),
+                roleService.getRolesByNames(membershipForm.getRoles())).
+                description(membershipForm.getDescription()).
+                state(MembershipState.PENDING));
+        return new ModelAndView("membershipSuccess");
+
+    }
+
+    /* metodo para ver las invitaciones de memberships que le mandaron a un artista */
+    @RequestMapping(value = "/profile/bands/invites",  method = {RequestMethod.GET})
+    public ModelAndView bandMembershipInvites(@RequestParam(value = "page", defaultValue = "1") int page) {
+        ModelAndView mav = new ModelAndView("bandsInvites");
+        User currentUser = authFacadeService.getCurrentUser();
+        List<Membership> bandInvites = membershipService.getUserMemberships(currentUser,MembershipState.PENDING,page);
+        int lastPage = membershipService.getTotalUserMembershipsPages(currentUser,MembershipState.PENDING);
+        lastPage = lastPage == 0 ? 1 : lastPage;
+        mav.addObject("bandInvites", bandInvites);
+        mav.addObject("currentPage", page);
+        mav.addObject("lastPage", lastPage);
+        return mav;
+    }
+
+    /* metodo para aceptar/rechazar la membership */
+    @RequestMapping(value = "/profile/bands/invites/{id}",  method = {RequestMethod.GET})
+    public ModelAndView evaluateInvite(@PathVariable long id,
+                                       @RequestParam(value = "accept") boolean accept) {
+        Membership membership = membershipService.getMembershipById(id).orElseThrow(MembershipNotFoundException::new);
+        // TODO: PODRIA RECIBIR EL STATE Y HCER UNVALUEOF
+        if (accept) {
+            membershipService.changeState(membership, MembershipState.ACCEPTED);
+        } else {
+            membershipService.changeState(membership, MembershipState.REJECTED);
+        }
+
+        return new ModelAndView("redirect:/profile");
+    }
+
+    @RequestMapping(value = "/profile/bandMembers",  method = {RequestMethod.GET})
+    public ModelAndView bandMembers(@RequestParam(value = "page", defaultValue = "1") int page) {
+        User band =  authFacadeService.getCurrentUser();
+        return getBandMembers(page, band);
+    }
+
+    @RequestMapping(value = "/user/{id}/bandMembers",  method = {RequestMethod.GET})
+    public ModelAndView viewBandMembers(@PathVariable long id,
+                                        @RequestParam(value = "page", defaultValue = "1") int page) {
+        User band =  userService.getUserById(id).orElseThrow(UserNotFoundException::new);
+        if(band.getId().equals(authFacadeService.getCurrentUser().getId()))
+            return new ModelAndView("redirect:/profile/bandMembers");
+        return getBandMembers(page, band);
+    }
+
+    @RequestMapping(value = "/profile/bands",  method = {RequestMethod.GET})
+    public ModelAndView artistBands(@RequestParam(value = "page", defaultValue = "1") int page) {
+        User artist =  authFacadeService.getCurrentUser();
+        return getArtistBands(page, artist);
+    }
+
+    @RequestMapping(value = "/user/{id}/bands",  method = {RequestMethod.GET})
+    public ModelAndView viewArtistBands(@PathVariable long id,
+                                        @RequestParam(value = "page", defaultValue = "1") int page) {
+        User artist =  userService.getUserById(id).orElseThrow(UserNotFoundException::new);
+        if(artist.getId().equals(authFacadeService.getCurrentUser().getId()))
+            return new ModelAndView("redirect:/profile/bands");
+        return getArtistBands(page, artist);
+    }
+
     private void initializeFilterOptions(ModelAndView mav) {
         Set<Role> roleList = roleService.getAll();
         Set<Genre> genreList = genreService.getAll();
@@ -349,6 +455,89 @@ public class UserController {
         mav.addObject("roleList", roleList.stream().map(Role::getName).collect(Collectors.toList()));
         mav.addObject("genreList", genreList.stream().map(Genre::getName).collect(Collectors.toList()));
         mav.addObject("locationList", locationList.stream().map(Location::getName).collect(Collectors.toList()));
+    }
+
+    @RequestMapping(value = "/profile/editMembership/{membershipId}", method = {RequestMethod.GET})
+    public ModelAndView editMembership(@ModelAttribute("membershipForm") final MembershipForm membershipForm,
+                                     @PathVariable long membershipId) {
+
+        User user = authFacadeService.getCurrentUser();
+
+        Membership membership = membershipService.getMembershipById(membershipId).orElseThrow(MembershipNotFoundException::new);
+
+        if(!Objects.equals(user.getId(), membership.getBand().getId()))
+            throw new BandNotOwnedException();
+
+        ModelAndView mav = new ModelAndView("editMembership");
+
+        Set<Role> roleList = roleService.getAll();
+
+        mav.addObject("roleList", roleList);
+        mav.addObject("membershipId", membership.getId());
+        mav.addObject("artistName", membership.getArtist().getName());
+        mav.addObject("artistSurname", membership.getArtist().getSurname());
+
+        membershipForm.setDescription(membership.getDescription());
+
+        List<String> selectedRoles = membership.getRoles().stream().map(Role::getName).collect(Collectors.toList());
+        membershipForm.setRoles(selectedRoles);
+
+        return mav;
+    }
+
+    @RequestMapping(value = "/profile/editMembership/{membershipId}", method = {RequestMethod.POST})
+    public ModelAndView postEditMembership(@Valid @ModelAttribute("membershipForm") final MembershipForm membershipForm,
+                                      final BindingResult errors, @PathVariable long membershipId) {
+
+        if(errors.hasErrors()) {
+            return editMembership(membershipForm, membershipId);
+        }
+
+        membershipService.editMembershipById(membershipForm.getDescription(),roleService.getRolesByNames(membershipForm.getRoles()), membershipId);
+
+        return new ModelAndView("redirect:/profile/bandMembers");
+    }
+
+
+    @RequestMapping(value = "/profile/deleteMembership/{membershipId}", method = {RequestMethod.POST})
+    public ModelAndView deleteMembership(@PathVariable long membershipId) {
+        membershipService.deleteMembership(membershipId);
+        return new ModelAndView("redirect:/profile");
+    }
+
+    private ModelAndView getBandMembers(int page, User band) {
+        List<Membership> members = membershipService.getUserMemberships(
+                band,
+                MembershipState.ACCEPTED,
+                page);
+        ModelAndView mav = new ModelAndView("bandMembers");
+        mav.addObject("bandName", band.getName());
+        return getMembershipMav(mav, band, page, members);
+    }
+
+    private ModelAndView getArtistBands(int page, User artist) {
+        List<Membership> members = membershipService.getUserMemberships(
+                artist,
+                MembershipState.ACCEPTED,
+                page);
+        ModelAndView mav = new ModelAndView("playsIn");
+        mav.addObject("artistName", artist.getName());
+        mav.addObject("artistSurname", artist.getSurname());
+        return getMembershipMav(mav, artist, page, members);
+    }
+
+    private ModelAndView getMembershipMav(ModelAndView mav, User user, int page, List<Membership> members) {
+        if(user.getId().equals(authFacadeService.getCurrentUser().getId())){
+            mav.addObject("isPropietary", true);
+        } else {
+            mav.addObject("isPropietary", false);
+        }
+        int lastPage = membershipService.getTotalUserMembershipsPages(user, MembershipState.ACCEPTED);
+        lastPage = lastPage == 0 ? 1 : lastPage;
+        mav.addObject("members", members);
+        mav.addObject("currentPage", page);
+        mav.addObject("lastPage", lastPage);
+        return mav;
     }
 
 }

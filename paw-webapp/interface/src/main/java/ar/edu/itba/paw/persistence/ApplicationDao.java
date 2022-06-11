@@ -12,6 +12,8 @@ public interface ApplicationDao {
 
     Optional<Application> findApplication(long auditionId, long applicantId);
 
+    Optional<Application> findApplication(long applicationId);
+
     Application createApplication(Application.ApplicationBuilder applicationBuilder);
 
     List<Application> getMyApplications(long applicantId, int page);

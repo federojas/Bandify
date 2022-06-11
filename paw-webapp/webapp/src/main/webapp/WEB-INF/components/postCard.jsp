@@ -55,10 +55,11 @@
                 </p>
             </li>
 
-            <div class="genres-div my-5">
+            <div class="roles-div my-5">
                 <c:forEach var="role"
                            items="${requestScope.lookingFor}"
                            varStatus="loop">
+
                     <div class="loop-div">
                         <c:url value="/auditions/search" var="searchLink">
                             <c:param name="query" value=""/>
@@ -73,7 +74,7 @@
                 </c:forEach>
             </div>
 
-            <div class="roles-div my-5">
+            <div class="genres-div my-5">
                 <c:forEach var="genre"
                            items="${requestScope.musicGenres}"
                            varStatus="loop">

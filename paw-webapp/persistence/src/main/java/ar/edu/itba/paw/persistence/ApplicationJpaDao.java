@@ -2,14 +2,13 @@ package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.model.Application;
 import ar.edu.itba.paw.model.ApplicationState;
-import ar.edu.itba.paw.model.Audition;
 import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.math.BigInteger;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -27,15 +26,12 @@ public class ApplicationJpaDao implements ApplicationDao {
         Query query = em.createNativeQuery("SELECT DISTINCT a.id FROM " +
                 "(SELECT id, creationDate FROM applications " +
                 "WHERE auditionId = :auditionId AND state = :state " +
+                " ORDER BY creationDate " +
                 " LIMIT " + PAGE_SIZE + " OFFSET " + (page-1) * PAGE_SIZE + " ) AS a");
         query.setParameter("auditionId", auditionId);
         query.setParameter("state", state.getState());
 
-        List<Long> ids = getApplicationIds(query);
-
-        TypedQuery<Application> applications = em.createQuery("from Application as a where a.id in :ids ORDER BY a.creationDate DESC", Application.class);
-        applications.setParameter("ids",ids);
-        return applications.getResultList();
+        return getApplications(query);
     }
 
     @Override
@@ -45,6 +41,11 @@ public class ApplicationJpaDao implements ApplicationDao {
         query.setParameter("applicantId", applicantId);
         query.setParameter("auditionId", auditionId);
         return query.getResultList().stream().findFirst();
+    }
+
+    @Override
+    public Optional<Application> findApplication(long applicationId) {
+        return Optional.ofNullable(em.find(Application.class, applicationId));
     }
 
     @Override
@@ -59,29 +60,29 @@ public class ApplicationJpaDao implements ApplicationDao {
 
         Query query = em.createNativeQuery("SELECT DISTINCT a.id FROM (SELECT id, creationDate FROM applications WHERE applicantId = :applicantId ORDER BY creationDate DESC LIMIT "+ PAGE_SIZE + " OFFSET " + (page-1) * PAGE_SIZE + " ) AS a");
         query.setParameter("applicantId", applicantId);
+        return getApplications(query);
 
+    }
+
+    private List<Application> getApplications(Query query) {
         List<Long> ids = getApplicationIds(query);
-
-        TypedQuery<Application> applications = em.createQuery("from Application as a where a.id in :ids ORDER BY a.creationDate DESC", Application.class);
-        applications.setParameter("ids",ids);
-        return applications.getResultList();
+        if(!ids.isEmpty()) {
+            TypedQuery<Application> applications = em.createQuery("from Application as a where a.id in :ids ORDER BY a.creationDate DESC", Application.class);
+            applications.setParameter("ids",ids);
+            return applications.getResultList();
+        }
+        return Collections.emptyList();
     }
 
     @Override
     public List<Application> getMyApplicationsFiltered(long applicantId, int page, ApplicationState state) {
-
         Query query = em.createNativeQuery(
                 "SELECT DISTINCT a.id FROM " +
                         "(SELECT id, creationDate FROM applications" +
                         " WHERE applicantId = :applicantId AND state = :state ORDER BY creationDate DESC LIMIT " + PAGE_SIZE + " OFFSET " + (page-1) * PAGE_SIZE + ") AS a");
         query.setParameter("applicantId", applicantId);
         query.setParameter("state", state.getState());
-
-        List<Long> ids = getApplicationIds(query);
-
-        TypedQuery<Application> applications = em.createQuery("from Application as a where a.id in :ids ORDER BY a.creationDate DESC", Application.class);
-        applications.setParameter("ids",ids);
-        return applications.getResultList();
+        return getApplications(query);
     }
 
     @Override
@@ -110,10 +111,6 @@ public class ApplicationJpaDao implements ApplicationDao {
     private List<Long> getApplicationIds(Query query) {
         @SuppressWarnings("unchecked")
         List<Long> ids = (List<Long>) query.getResultList().stream().map(o -> ((Number) o).longValue()).collect(Collectors.toList());
-
-        if(ids.isEmpty())
-            ids.add(-1L);
-
         return ids;
     }
 }

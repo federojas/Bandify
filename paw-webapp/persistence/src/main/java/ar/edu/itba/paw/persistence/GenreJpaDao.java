@@ -20,7 +20,6 @@ public class GenreJpaDao implements GenreDao {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GenreJpaDao.class);
 
-    // TODO: revisar si seguimos usando SET o cambiamos a list
     @Override
     public Set<Genre> getAll() {
         LOGGER.debug("Getting all genres");

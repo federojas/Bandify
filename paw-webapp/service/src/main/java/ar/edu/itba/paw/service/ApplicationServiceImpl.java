@@ -29,10 +29,17 @@ public class ApplicationServiceImpl implements ApplicationService {
     private UserService userService;
     @Autowired
     private AuditionService auditionService;
+    @Autowired
+    private AuthFacadeService authFacadeService;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationServiceImpl.class);
 
     @Override
     public List<Application> getAuditionApplicationsByState(long auditionId, ApplicationState state, int page) {
+        User user = authFacadeService.getCurrentUser();
+        Audition audition = auditionService.getAuditionById(auditionId).orElseThrow(AuditionNotFoundException::new);
+        if(user.getId() != audition.getBand().getId())
+            throw new AuditionNotOwnedException();
         int lastPage = getTotalAuditionApplicationByStatePages(auditionId, state);
         lastPage = lastPage == 0 ? 1 : lastPage;
         checkPage(page, lastPage);
@@ -75,6 +82,14 @@ public class ApplicationServiceImpl implements ApplicationService {
         LOGGER.debug("User {} has been rejected for audition {}",applicantId,auditionId);
         checkIds(auditionId, applicantId);
         setApplicationState(auditionId,applicantId,ApplicationState.REJECTED);
+    }
+
+    @Transactional
+    @Override
+    public void select(long auditionId, long applicantId) {
+        LOGGER.debug("User {} has been selected in the audition {}",applicantId,auditionId);
+        checkIds(auditionId, applicantId);
+        setApplicationState(auditionId,applicantId,ApplicationState.SELECTED);
     }
 
     @Override
@@ -145,5 +160,27 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Override
     public boolean alreadyApplied(long auditionId, long applicantId) {
         return applicationDao.findApplication(auditionId,applicantId).isPresent();
+    }
+
+    @Override
+    public Optional<Application> getApplicationById(long auditionId, long applicationId)  {
+        User user = authFacadeService.getCurrentUser();
+        Audition audition = auditionService.getAuditionById(auditionId).orElseThrow(AuditionNotFoundException::new);
+        if(user.getId() != audition.getBand().getId())
+            throw new AuditionNotOwnedException();
+        Optional<Application> application = applicationDao.findApplication(applicationId);
+        if (application.isPresent() && !application.get().getAudition().getId().equals(auditionId)
+                && application.get().getState().equals(ApplicationState.SELECTED))
+            return Optional.empty();
+        return application;
+    }
+
+    @Override
+    public Optional<Application> getAcceptedApplicationById(long auditionId, long applicationId)  {
+        Optional<Application> application = getApplicationById(auditionId,applicationId);
+        if(application.isPresent() && application.get().getAudition().getId().equals(auditionId) &&
+                application.get().getState().equals(ApplicationState.ACCEPTED))
+            return application;
+        return Optional.empty();
     }
 }
