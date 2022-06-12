@@ -8,8 +8,8 @@
 <head>
     <title><spring:message code="title.viewprofile"/></title>
     <c:import url="../config/generalHead.jsp"/>
-
     <link rel="stylesheet" href="<c:url value="/resources/css/profile.css" />"/>
+    <script type="text/javascript" src="<c:url value="/resources/js/invertImg.js" />"></script>
 </head>
 <body>
 
@@ -72,19 +72,34 @@
                             </c:if>
 
                         </div>
-                            <c:if test="${user.band}">
-                                <div class="auditions-div">
-                                    <ul>
-                                        <li class="pt-2">
-                                            <a href="<c:url value="/bandAuditions/${user.id}"/>">
-                                                <button class="auditions-btn hover: shadow-sm">
-                                                    <spring:message code="viewprofile.bandAuditions"/>
-                                                </button>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </c:if>
+                        <c:if test="${user.band}">
+                            <div class="auditions-div">
+                                <ul>
+                                    <li class="pt-2">
+                                        <a href="<c:url value="/bandAuditions/${user.id}"/>">
+                                            <button class="auditions-btn hover: shadow-sm">
+                                                <spring:message code="viewprofile.bandAuditions"/>
+                                            </button>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </c:if>
+                        <c:if test="${canBeAddedToBand}">
+                            <div class="add-to-band-button">
+                                <c:url value="/user/${user.id}/addToBand" var="addToBandUrl" />
+                                <a href="${addToBandUrl}" onmouseover="invertImg()"
+                                   onmouseout="invertImgBack()">
+                                    <button class="artist-profile-btn" id="addToBandBtn">
+                                        <spring:message code="applicants.addToBand"/>
+                                        <spring:message code="audition.applicants.alt" var="altAddToBand"/>
+                                        <img src="<c:url value="/resources/icons/add-user.png"/>"
+                                             id="addToBandBtnImg"
+                                             class="audition-icon" alt="${altAddToBand}" />
+                                    </button>
+                                </a>
+                            </div>
+                        </c:if>
                     </div>
                 </div>
                 <!-- Right Side -->
@@ -231,56 +246,54 @@
         </div>
         </c:if>
         <c:if test="${!user.band}">
-        <div class="plays-view-data">
-            <div class="top">
-                <div class="about-section-heading">
-                    <spring:message code="profile.members.alt" var="memberalt"/>
-                    <img src="<c:url value="/resources/icons/members.svg"/>" class="members-icon" alt="${memberalt}"/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;<span><spring:message code="profile.plays.in"/></span>
+            <div class="plays-view-data">
+                <div class="top">
+                    <div class="about-section-heading">
+                        <spring:message code="profile.members.alt" var="memberalt"/>
+                        <img src="<c:url value="/resources/icons/members.svg"/>" class="members-icon" alt="${memberalt}"/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span><spring:message code="profile.plays.in"/></span>
+                    </div>
+                    <c:if test="${members.size() != 0}">
+                        <div class="view-button-div">
+                            <a href="<c:url value="/user/${user.id}/bands" />">
+                                <button class="view-all-btn hover: shadow-sm">
+                                    <spring:message code="profile.plays.viewAll"/>
+                                </button>
+                            </a>
+                        </div>
+                    </c:if>
                 </div>
-                <c:if test="${members.size() != 0}">
-                    <div class="view-button-div">
-                        <a href="<c:url value="/user/${user.id}/bands" />">
-                            <button class="view-all-btn hover: shadow-sm">
-                                <spring:message code="profile.plays.viewAll"/>
-                            </button>
-                        </a>
-                    </div>
-                </c:if>
+                <div class="members-data">
+                    <c:if test="${members.size() > 0}">
+                        <div class="members-div">
+                            <c:forEach var="member" items="${members}" varStatus="loop">
+                                <c:set
+                                        var="memberRoles"
+                                        value="${member.roles}"
+                                        scope="request"
+                                />
+                                <jsp:include page="../components/memberItem.jsp">
+                                    <jsp:param name="memberName" value="${member.band.name}" />
+                                    <jsp:param name="memberSurname" value="" />
+                                    <jsp:param name="userId" value="${member.band.id}" />
+                                    <jsp:param name="description" value="${member.description}"/>
+                                    <jsp:param name="available" value="false" />
+                                    <jsp:param name="isBand" value="true" />
+                                </jsp:include>
+                                <c:if test="${loop.count < members.size()}">
+                                    <div class="vertical-line"></div>
+                                </c:if>
+                            </c:forEach>
+                        </div>
+                    </c:if>
+                    <c:if test="${members.size() == 0}">
+                        <p class="no-members">
+                            <spring:message code="profile.noPlays"/>
+                        </p>
+                    </c:if>
+                </div>
             </div>
-            <div class="members-data">
-                <c:if test="${members.size() > 0}">
-                    <div class="members-div">
-                        <c:forEach var="member" items="${members}" varStatus="loop">
-                            <c:set
-                                    var="memberRoles"
-                                    value="${member.roles}"
-                                    scope="request"
-                            />
-                            <jsp:include page="../components/memberItem.jsp">
-                                <jsp:param name="memberName" value="${member.band.name}" />
-                                <jsp:param name="memberSurname" value="" />
-                                <jsp:param name="userId" value="${member.band.id}" />
-                                <jsp:param name="description" value="${member.description}"/>
-                                <jsp:param name="available" value="false" />
-                                <jsp:param name="isBand" value="true" />
-                            </jsp:include>
-                            <c:if test="${loop.count < members.size()}">
-                                <div class="vertical-line"></div>
-                            </c:if>
-                        </c:forEach>
-                    </div>
-                </c:if>
-                <c:if test="${members.size() == 0}">
-                    <p class="no-members">
-                        <spring:message code="profile.noPlays"/>
-                    </p>
-                </c:if>
-            </div>
-        </div>
-        </div>
         </c:if>
-        </div>
     </div>
 </main>
 

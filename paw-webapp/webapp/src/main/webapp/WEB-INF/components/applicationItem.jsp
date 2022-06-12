@@ -8,15 +8,7 @@
 <head>
     <title><spring:message code="title.applicationItem"/> </title>
     <link rel="stylesheet" href="<c:url value="/resources/css/applicationItem.css" />" />
-    <script>
-        function invertImg() {
-            document.getElementById("addToBandBtnImg").className = "audition-icon invert";
-        }
-
-        function invertImgBack() {
-            document.getElementById("addToBandBtnImg").className = "audition-icon";
-        }
-    </script>
+    <script type="text/javascript" src="<c:url value="/resources/js/invertImg.js" />"></script>
 </head>
 <body>
 <li>

@@ -30,4 +30,6 @@ public interface MembershipService {
     int getPendingMembershipsCount(User user);
 
     void editMembershipById(String description, Set<Role> roles, long id);
+
+    boolean canBeAddedToBand(User band, User artist);
 }

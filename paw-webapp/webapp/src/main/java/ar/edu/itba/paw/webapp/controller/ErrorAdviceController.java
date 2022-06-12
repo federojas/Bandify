@@ -112,4 +112,11 @@ public class ErrorAdviceController {
         return new ModelAndView("forward:/403");
     }
 
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler(MembershipNotOwnedException.class)
+    public ModelAndView membershipNotOwned() {
+        LOGGER.warn("Membership is not owned by current user");
+        return new ModelAndView("forward:/403");
+    }
+
 }

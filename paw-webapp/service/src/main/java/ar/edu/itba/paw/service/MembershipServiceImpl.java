@@ -32,6 +32,7 @@ public class MembershipServiceImpl implements MembershipService {
     @Override
     public List<Membership> getUserMemberships(User user, MembershipState state, int page) {
         int lastPage = getTotalUserMembershipsPages(user, state);
+        lastPage = lastPage == 0 ? 1 : lastPage;
         checkPage(page, lastPage);
         LOGGER.info("Getting specified user memberships");
         return membershipDao.getUserMembershipsByState(user, state, page);
@@ -82,7 +83,18 @@ public class MembershipServiceImpl implements MembershipService {
     @Transactional
     @Override
     public void changeState(Membership membership, MembershipState state) {
-        membership.setState(state);
+        User currentUser = authFacadeService.getCurrentUser();
+        Long currentUserId = currentUser.getId();
+        if (currentUserId.equals(membership.getBand().getId())
+                || currentUserId.equals(membership.getArtist().getId())) {
+            if (!membership.getState().equals(MembershipState.PENDING)) {
+                throw new MembershipNotFoundException();
+            }
+            membership.setState(state);
+        } else {
+            throw new MembershipNotOwnedException();
+        }
+
     }
 
     @Override
@@ -141,5 +153,10 @@ public class MembershipServiceImpl implements MembershipService {
     private void checkMembershipId(long id) {
         if(id < 0)
             throw new IllegalArgumentException();
+    }
+
+    @Override
+    public boolean canBeAddedToBand(User band, User artist) {
+        return !membershipDao.membershipExists(band, artist) && artist.isAvailable();
     }
 }
