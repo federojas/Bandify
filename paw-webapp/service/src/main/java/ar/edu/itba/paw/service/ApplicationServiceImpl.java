@@ -31,6 +31,8 @@ public class ApplicationServiceImpl implements ApplicationService {
     private AuditionService auditionService;
     @Autowired
     private AuthFacadeService authFacadeService;
+    @Autowired
+    private MembershipService membershipService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationServiceImpl.class);
 
@@ -55,11 +57,16 @@ public class ApplicationServiceImpl implements ApplicationService {
             LOGGER.info("User {} already applied to audition {}",user.getId(),auditionId);
             return false;
         }
+        //TODO PODRIAMOS YA RECIBIR LA BANDA?
+        Audition aud = auditionService.getAuditionById(auditionId).orElseThrow(AuditionNotFoundException::new);
+        User band = userService.getUserById(aud.getBand().getId()).orElseThrow(UserNotFoundException::new);
+        if(!membershipService.canBeAddedToBand(band, user)) {
+            LOGGER.info("User {} already in band ",user.getId());
+            return false;
+        }
         applicationDao.createApplication(new Application.ApplicationBuilder(auditionService.
                 getAuditionById(auditionId).orElseThrow(AuditionNotFoundException::new)
                 ,user,ApplicationState.PENDING, LocalDateTime.now(), message));
-        Audition aud = auditionService.getAuditionById(auditionId).orElseThrow(AuditionNotFoundException::new);
-        User band = userService.getUserById(aud.getBand().getId()).orElseThrow(UserNotFoundException::new);
         String bandEmail = band.getEmail();
         Locale locale = LocaleContextHolder.getLocale();
         LocaleContextHolder.setLocale(locale, true);

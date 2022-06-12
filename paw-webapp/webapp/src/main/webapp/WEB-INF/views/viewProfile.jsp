@@ -153,7 +153,7 @@
                                 <p><spring:message code="profile.bandRoles"/> </p>
                             </c:if>
                             <c:if test="${!user.band}">
-                                <p><spring:message code="profile.userRoles"/> </p>
+                                <p><spring:message code="profile.public.userRoles"/> </p>
                             </c:if>
                         </span>
                         </div>

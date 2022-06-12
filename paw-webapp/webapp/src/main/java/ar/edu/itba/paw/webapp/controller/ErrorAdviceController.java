@@ -35,6 +35,13 @@ public class ErrorAdviceController {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(DuplicateMembershipException.class)
+    public ModelAndView duplicateMembership() {
+        LOGGER.warn("Duplicated membership");
+        return new ModelAndView("forward:/400");
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(IllegalArgumentException.class)
     public ModelAndView illegalArgumentException() {
         LOGGER.warn("An illegal argument was found");

@@ -110,10 +110,12 @@ public class AuditionsController {
         User user = authFacadeService.getCurrentUser();
         User band = userService.getUserById(audition.getBand().getId()).orElseThrow(UserNotFoundException::new);
         boolean alreadyApplied = applicationService.alreadyApplied(id, user.getId());
+        boolean canBeAddedToBand = membershipService.canBeAddedToBand(band, user);
         mav.addObject("isOwner", Objects.equals(audition.getBand().getId(), user.getId()));
         mav.addObject("audition", audition);
         mav.addObject("user",band);
         mav.addObject("alreadyApplied", alreadyApplied);
+        mav.addObject("canBeAddedToBand", canBeAddedToBand);
         return mav;
     }
 
@@ -343,12 +345,15 @@ public class AuditionsController {
         // TODO: falta poder rechazar en vez de seleccionar
         // TODO: membershipSuccess.jsp y selectApplicant.jsp
 
-        membershipService.createMembershipByApplication(new Membership.Builder(application.getApplicant(),
+        boolean canBeAddedToBand = membershipService.createMembershipByApplication(new Membership.Builder(application.getApplicant(),
                 application.getAudition().getBand(),
                 roleService.getRolesByNames(membershipForm.getRoles())).
                 description(membershipForm.getDescription()) ,
                 application.getAudition().getId());
         //TODO: o redireccionar directamente al perfil / miembros de la banda?
+        if(!canBeAddedToBand) {
+            return new ModelAndView("redirect:/profile/bandMembers");
+        }
         return new ModelAndView("membershipSuccess");
     }
 

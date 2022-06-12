@@ -105,12 +105,17 @@ public class MembershipServiceImpl implements MembershipService {
 
     @Transactional
     @Override
-    public void createMembershipByApplication(Membership.Builder builder, long auditionId) {
+    public boolean createMembershipByApplication(Membership.Builder builder, long auditionId) {
+        if(!membershipDao.membershipExists(builder.getBand(), builder.getArtist())) {
+            LOGGER.info("User {} already in band ", builder.getArtist().getId());
+            return false;
+        }
         applicationService.select(auditionId, builder.getArtist().getId());
         createMembership(builder.state(MembershipState.ACCEPTED));
         Locale locale = LocaleContextHolder.getLocale();
         LocaleContextHolder.setLocale(locale, true);
         mailingService.sendAddedToBandEmail(builder.getBand(), builder.getArtist().getEmail(), locale);
+        return true;
     }
 
     @Override

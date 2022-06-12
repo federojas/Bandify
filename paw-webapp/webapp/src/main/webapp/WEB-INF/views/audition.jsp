@@ -115,7 +115,7 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
                 </ul>
               </div>
               <sec:authorize access="hasRole('ARTIST')">
-                <c:if test="${!alreadyApplied}">
+                <c:if test="${!alreadyApplied and canBeAddedToBand}">
                   <div class="audition-application">
                     <jsp:include page="../components/applicationForm.jsp">
                       <jsp:param name="auditionForm" value="${1}" />
