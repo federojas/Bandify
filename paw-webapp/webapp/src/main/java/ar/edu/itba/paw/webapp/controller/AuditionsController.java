@@ -343,7 +343,7 @@ public class AuditionsController {
 
 
         // TODO: falta poder rechazar en vez de seleccionar
-        // TODO: membershipSuccess.jsp y selectApplicant.jsp
+        // TODO: selectApplicant.jsp
 
         boolean canBeAddedToBand = membershipService.createMembershipByApplication(new Membership.Builder(application.getApplicant(),
                 application.getAudition().getBand(),

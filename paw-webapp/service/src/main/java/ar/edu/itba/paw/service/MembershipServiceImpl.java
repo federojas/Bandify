@@ -106,7 +106,7 @@ public class MembershipServiceImpl implements MembershipService {
     @Transactional
     @Override
     public boolean createMembershipByApplication(Membership.Builder builder, long auditionId) {
-        if(!membershipDao.membershipExists(builder.getBand(), builder.getArtist())) {
+        if(membershipDao.membershipExists(builder.getBand(), builder.getArtist())) {
             LOGGER.info("User {} already in band ", builder.getArtist().getId());
             return false;
         }

@@ -180,7 +180,7 @@ public class UserController {
         }
 
 
-        // TODO: membershipSuccess.jsp y selectApplicant.jsp
+        // TODO: y selectApplicant.jsp
 
         membershipService.createMembershipInvite(new Membership.Builder(
                 userService.getUserById(id).orElseThrow(UserNotFoundException::new),
@@ -189,7 +189,7 @@ public class UserController {
                 description(membershipForm.getDescription()).
                 state(MembershipState.PENDING));
 
-        return new ModelAndView("membershipSuccess");
+        return new ModelAndView("membershipInvite");
     }
 
 

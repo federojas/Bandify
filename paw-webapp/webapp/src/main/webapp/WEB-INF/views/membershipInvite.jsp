@@ -21,10 +21,10 @@
     <div class="success-content">
         <spring:message code="success.success.alt" var="success"/>
         <img src="<c:url value="/resources/icons/success.svg"/>" class="success-icon" alt="${success}"/>
-        <h1><spring:message code="membershipSuccess.title"/></h1>
-        <p><spring:message code="membershipSuccess.p"/></p>
-        <a class="back-bandify" href="<c:url value="/profile/bandMembers" />">
-            <spring:message code="success.membership.link"/>
+        <h1><spring:message code="membershipInvite.title"/></h1>
+        <p><spring:message code="membershipInvite.p"/></p>
+        <a class="back-bandify" href="<c:url value="/users" />">
+            <spring:message code="success.invite.link"/>
         </a>
     </div>
 
