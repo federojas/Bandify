@@ -147,7 +147,7 @@
                                         >
                                             <spring:message code="applicants.addToBand"/>
                                             <spring:message code="audition.applicants.alt" var="altAddToBand"/>
-                                            <img src="<c:url value="/resources/icons/add-user.png"/>"
+                                            <img src="<c:url value="/resources/icons/add-user.svg"/>"
                                                  id="addToBandBtnImg"
                                                  class="audition-icon" alt="${altAddToBand}" />
                                         </button>

@@ -85,6 +85,16 @@
 
                     <li>
                         <a
+                            href="<c:url value="/invites"/>"
+                            class="${param.navItem == 9? "block py-2 pr-4 pl-3 text-white font-black rounded text-2xl" : "block py-2 pr-4 pl-3 text-white rounded text-2xl" }"
+                        >
+                            <spring:message code="navbar.manager" var="manager"/>
+                            <img src="<c:url value="/resources/icons/manager.svg" />"
+                                 class="profile-icon-img" alt="${manager}"/>
+                        </a>
+                    </li>
+                    <li>
+                        <a
                                 href="<c:url value="/profile"/>"
                                 class="${param.navItem == 4? "block py-2 pr-4 pl-3 text-white font-black rounded text-2xl" : "block py-2 pr-4 pl-3 text-white rounded text-2xl" }"
                         >
