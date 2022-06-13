@@ -134,3 +134,26 @@
     flex-direction: column;
     gap: 1rem;
 }
+
+.audition-delete-btn {
+    background-color: #b91c1c;
+    color: white;
+    line-height: 1.25rem;
+    display: flex;
+    font-weight: 500;
+    justify-content: space-evenly;
+    border-radius: 9999px;
+    padding: 10px;
+    width: 125px;
+}
+
+
+.audition-delete-btn:hover{
+    background-color: #ff3b3b;
+}
+
+.audition-btn {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}

@@ -40,6 +40,7 @@ CREATE TABLE IF NOT EXISTS auditions
     description VARCHAR(300) NOT NULL,
     creationDate TIMESTAMP NOT NULL,
     locationId BIGINT NOT NULL,
+    isOpen BOOLEAN,
     FOREIGN KEY (locationId) REFERENCES locations,
     FOREIGN KEY (bandId) REFERENCES users(id) ON DELETE CASCADE
 );

@@ -106,16 +106,15 @@ public class AuditionsController {
                                  @PathVariable long id) {
 
         final ModelAndView mav = new ModelAndView("audition");
-        Audition audition = auditionService.getAuditionById(id).orElseThrow(AuditionNotFoundException::new);
+        Audition audition = auditionService.getAuditionById(id);
         User user = authFacadeService.getCurrentUser();
         User band = userService.getUserById(audition.getBand().getId()).orElseThrow(UserNotFoundException::new);
         boolean alreadyApplied = applicationService.alreadyApplied(id, user.getId());
-        boolean canBeAddedToBand = membershipService.canBeAddedToBand(band, user);
         mav.addObject("isOwner", Objects.equals(audition.getBand().getId(), user.getId()));
         mav.addObject("audition", audition);
         mav.addObject("user",band);
         mav.addObject("alreadyApplied", alreadyApplied);
-        mav.addObject("canBeAddedToBand", canBeAddedToBand);
+        mav.addObject("canBeAddedToBand", membershipService.canBeAddedToBand(band, user));
         return mav;
     }
 
@@ -125,11 +124,12 @@ public class AuditionsController {
                                    @RequestParam(value = "state", defaultValue = "PENDING") String state) {
         ModelAndView mav = new ModelAndView("applicants");
         List<Application> applications = applicationService.getAuditionApplicationsByState(id, ApplicationState.valueOf(state), page);
-        Audition aud = auditionService.getAuditionById(id).orElseThrow(AuditionNotFoundException::new);
+        Audition aud = auditionService.getAuditionById(id);
         int lastPage = applicationService.getTotalAuditionApplicationByStatePages(id, ApplicationState.valueOf(state));
         lastPage = lastPage == 0 ? 1 : lastPage;
         mav.addObject("id",id);
         mav.addObject("auditionTitle", aud.getTitle());
+        mav.addObject("auditionId", aud.getId());
         mav.addObject("applications", applications);
         mav.addObject("currentPage", page);
         mav.addObject("lastPage", lastPage);
@@ -193,9 +193,10 @@ public class AuditionsController {
         return new ModelAndView("successMsg");
     }
 
-    @RequestMapping(value = "/profile/deleteAudition/{id}", method = {RequestMethod.POST})
-    public ModelAndView deleteAudition(@PathVariable long id) {
-        auditionService.deleteAuditionById(id);
+    @RequestMapping(value = "/profile/closeAudition/{id}", method = {RequestMethod.POST})
+    public ModelAndView closeAudition(@PathVariable long id) {
+        auditionService.closeAuditionById(id);
+        applicationService.closeApplicationsByAuditionId(id);
         return new ModelAndView("redirect:/profile/auditions");
     }
 
@@ -204,7 +205,7 @@ public class AuditionsController {
 
         User user = authFacadeService.getCurrentUser();
 
-        Audition audition = auditionService.getAuditionById(id).orElseThrow(AuditionNotFoundException::new);
+        Audition audition = auditionService.getAuditionById(id);
 
         if(!Objects.equals(user.getId(), audition.getBand().getId()))
             throw new AuditionNotOwnedException();
@@ -343,17 +344,14 @@ public class AuditionsController {
 
 
         // TODO: falta poder rechazar en vez de seleccionar
-        // TODO: selectApplicant.jsp
+        // TODO: membershipSuccess.jsp y selectApplicant.jsp
 
-        boolean canBeAddedToBand = membershipService.createMembershipByApplication(new Membership.Builder(application.getApplicant(),
+        membershipService.createMembershipByApplication(new Membership.Builder(application.getApplicant(),
                 application.getAudition().getBand(),
                 roleService.getRolesByNames(membershipForm.getRoles())).
                 description(membershipForm.getDescription()) ,
                 application.getAudition().getId());
         //TODO: o redireccionar directamente al perfil / miembros de la banda?
-        if(!canBeAddedToBand) {
-            return new ModelAndView("redirect:/profile/bandMembers");
-        }
         return new ModelAndView("membershipSuccess");
     }
 

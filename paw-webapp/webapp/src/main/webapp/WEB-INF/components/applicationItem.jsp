@@ -87,7 +87,6 @@
     <spring:message code="rejectConfirmationModal.title" var="modalTitle"/>
     <spring:message code="rejectConfirmationModal.rejectApplicant" var="modalHeading"/>
     <spring:message code="rejectConfirmationModal.confirmationQuestion" var="confirmationQuestion"/>
-    <c:url value="/profile/deleteAudition/${param.userId}" var="postPath"/>
     <jsp:include page="../components/confirmationModal.jsp">
         <jsp:param name="modalTitle" value="${modalTitle}" />
         <jsp:param name="isDelete" value="${true}" />

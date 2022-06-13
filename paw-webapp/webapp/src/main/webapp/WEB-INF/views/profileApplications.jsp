@@ -60,6 +60,7 @@
                             <jsp:include page="../components/artistApplicationItem.jsp">
                                 <jsp:param name="artistApplicationState" value="${artistApplication.state}"/>
                                 <jsp:param name="auditionTitle" value="${artistApplication.audition.title}"/>
+                                <jsp:param name="isOpen" value="${artistApplication.audition.isOpen}"/>
                                 <jsp:param name="auditionId" value="${artistApplication.audition.id}"/>
                             </jsp:include>
                         </c:forEach>

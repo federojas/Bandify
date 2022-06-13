@@ -39,8 +39,8 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Override
     public List<Application> getAuditionApplicationsByState(long auditionId, ApplicationState state, int page) {
         User user = authFacadeService.getCurrentUser();
-        Audition audition = auditionService.getAuditionById(auditionId).orElseThrow(AuditionNotFoundException::new);
-        if(user.getId() != audition.getBand().getId())
+        Audition audition = auditionService.getAuditionById(auditionId);
+        if(!Objects.equals(user.getId(), audition.getBand().getId()))
             throw new AuditionNotOwnedException();
         int lastPage = getTotalAuditionApplicationByStatePages(auditionId, state);
         lastPage = lastPage == 0 ? 1 : lastPage;
@@ -58,15 +58,14 @@ public class ApplicationServiceImpl implements ApplicationService {
             return false;
         }
         //TODO PODRIAMOS YA RECIBIR LA BANDA?
-        Audition aud = auditionService.getAuditionById(auditionId).orElseThrow(AuditionNotFoundException::new);
+        Audition aud = auditionService.getAuditionById(auditionId);
         User band = userService.getUserById(aud.getBand().getId()).orElseThrow(UserNotFoundException::new);
         if(!membershipService.canBeAddedToBand(band, user)) {
             LOGGER.info("User {} already in band ",user.getId());
             return false;
         }
         applicationDao.createApplication(new Application.ApplicationBuilder(auditionService.
-                getAuditionById(auditionId).orElseThrow(AuditionNotFoundException::new)
-                ,user,ApplicationState.PENDING, LocalDateTime.now(), message));
+                getAuditionById(auditionId),user,ApplicationState.PENDING, LocalDateTime.now(), message));
         String bandEmail = band.getEmail();
         Locale locale = LocaleContextHolder.getLocale();
         LocaleContextHolder.setLocale(locale, true);
@@ -137,7 +136,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     private void setApplicationState(long auditionId, long applicantId, ApplicationState state) {
-        Audition audition = auditionService.getAuditionById(auditionId).orElseThrow(AuditionNotFoundException::new);
+        Audition audition = auditionService.getAuditionById(auditionId);
         User band = userService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(UserNotFoundException::new);
         User applicant = userService.getUserById(applicantId).orElseThrow(UserNotFoundException::new);
         if(!Objects.equals(audition.getBand().getId(), band.getId()))
@@ -172,7 +171,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Override
     public Optional<Application> getApplicationById(long auditionId, long applicationId)  {
         User user = authFacadeService.getCurrentUser();
-        Audition audition = auditionService.getAuditionById(auditionId).orElseThrow(AuditionNotFoundException::new);
+        Audition audition = auditionService.getAuditionById(auditionId);
         if(user.getId() != audition.getBand().getId())
             throw new AuditionNotOwnedException();
         Optional<Application> application = applicationDao.findApplication(applicationId);
@@ -189,5 +188,30 @@ public class ApplicationServiceImpl implements ApplicationService {
                 application.get().getState().equals(ApplicationState.ACCEPTED))
             return application;
         return Optional.empty();
+    }
+
+    @Transactional
+    @Override
+    public void closeApplicationsByAuditionId(long id) {
+        if(id < 0)
+            throw new IllegalArgumentException();
+        User user = authFacadeService.getCurrentUser();
+        Audition audition = auditionService.getAuditionById(id);
+        if(!Objects.equals(user.getId(), audition.getBand().getId()))
+            throw new AuditionNotOwnedException();
+        for (Application app : getAuditionApplicationsByState(id, ApplicationState.PENDING)) {
+            app.setState(ApplicationState.REJECTED);
+        }
+    }
+
+    @Override
+    public List<Application> getAuditionApplicationsByState(long auditionId, ApplicationState state) {
+        User user = authFacadeService.getCurrentUser();
+        Audition audition = auditionService.getAuditionById(auditionId);
+        if(!Objects.equals(user.getId(), audition.getBand().getId()))
+            throw new AuditionNotOwnedException();
+        if(state == ApplicationState.ALL)
+            state = ApplicationState.PENDING;
+        return applicationDao.getAuditionApplicationsByState(auditionId,state);
     }
 }

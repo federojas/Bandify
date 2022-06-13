@@ -38,7 +38,24 @@
             <h2 class="applicants-title">
                 <spring:message code="applicants.title" arguments="${auditionTitle}"/>
             </h2>
-
+            <a class="audition-delete-btn">
+                <button class="audition-btn" onclick="openConfirmation()" type="submit">
+                    <spring:message code="audition.alt.delete" var="delete"/>
+                    <spring:message code="audition.delete" />
+                    <img src="<c:url value="/resources/icons/trash.svg"/>" class="audition-icon" alt="${delete}"/>
+                </button>
+            </a>
+            <spring:message code="deleteConfirmationModal.title" var="modalTitle"/>
+            <spring:message code="deleteConfirmationModal.deleteAudition" var="modalHeading"/>
+            <spring:message code="deleteConfirmationModal.confirmationQuestion" var="confirmationQuestion"/>
+            <c:url value="/profile/closeAudition/${auditionId}" var="postPath"/>
+            <jsp:include page="../components/confirmationModal.jsp">
+                <jsp:param name="modalTitle" value="${modalTitle}" />
+                <jsp:param name="isDelete" value="${true}" />
+                <jsp:param name="modalHeading" value="${modalHeading}" />
+                <jsp:param name="confirmationQuestion" value="${confirmationQuestion}" />
+                <jsp:param name="action" value="${postPath}" />
+            </jsp:include>
             <div class="user-data">
                 <div class="user-data-tabs">
                     <c:url value="/auditions/${id}/applicants" var="pendingUrl">

@@ -133,7 +133,7 @@ public class UserController {
             mav.addObject("isInBand", false);
         } else {
             mav.addObject("canBeAddedToBand", false);
-            if(userToVisit.isBand()) {
+            if(userToVisit.isBand() && currentUser != null) {
                 boolean isInBand = !membershipService.canBeAddedToBand(userToVisit, currentUser);
                 mav.addObject("isInBand", isInBand);
                 if(isInBand)

@@ -22,7 +22,5 @@ public interface AuditionDao {
 
     int getTotalBandAuditionPages(long userId);
 
-    void deleteAuditionById(long id);
-
     List<Audition> filter(FilterOptions filterOptions, int page);
 }

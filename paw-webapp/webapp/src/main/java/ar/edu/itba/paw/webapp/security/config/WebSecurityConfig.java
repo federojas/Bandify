@@ -47,7 +47,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers( "/welcome","/register","/registerBand","/registerArtist","/verify",
                                  "/resetPassword","/aboutUs","/newPassword","/login","/emailSent","/resetEmailSent").anonymous()
                     .antMatchers("/apply", "/profile/applications","/editArtist","/success", "/profile/bands/invites", "/profile/bands/invites/{\\d+}", "/profile/bands").hasRole("ARTIST")
-                    .antMatchers("/newAudition", "/profile/auditions", "/profile/editAudition/{\\d+}", "/profile/deleteAudition/{\\d+}","/editBand",
+                    .antMatchers("/newAudition", "/profile/auditions", "/profile/editAudition/{\\d+}", "/profile/closeAudition/{\\d+}","/editBand",
                                  "/auditions/{\\d+}/applicants", "/auditions/{\\d+}/applicants/select/{\\d+}", "/profile/newMembership/{\\d+}", "/profile/bandMembers",
                                  "/profile/editMembership/{\\d+}", "/user/{\\d+}/addToBand").hasRole("BAND")
                     .antMatchers("/profile/**","/auditions/{\\d+}","/bandAuditions/{\\d+}", "/users/search", "/users", "/user/{\\d+}/bandMembers", "/user/{\\d+}/bands",
