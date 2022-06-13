@@ -16,7 +16,7 @@
 <body>
 <!-- Navbar -->
 <jsp:include page="../components/navbar.jsp">
-    <jsp:param name="navItem" value="${2}" />
+    <jsp:param name="navItem" value="${11}" />
     <jsp:param name="name" value="Bandify" />
 </jsp:include>
 
@@ -105,6 +105,7 @@
                                 name="auditionDescription"
                                 value="${audition.description}"
                         />
+                        <jsp:param name="pendingApplicantsCount" value="${auditionPendingApplicants[loop.index]}"/>
                     </jsp:include>
                 </c:forEach>
 

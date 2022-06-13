@@ -54,6 +54,12 @@
                 <a class="audition-applicants-btn hover: shadow-sm"
                    href="<c:url value="/auditions/${param.id}/applicants"/>">
                     <button class="audition-btn" type="submit">
+                        <c:if test="${param.pendingApplicantsCount > 0}">
+                            <span class="icon-button__badge">
+                            <c:out value="${param.pendingApplicantsCount}"/>
+                        </span>
+                            &nbsp;
+                        </c:if>
                         <spring:message code="audition.applicants"/>
                         <spring:message code="audition.applicants.alt" var="altApplicants"/>
                         <img src="<c:url value="/resources/icons/user.svg"/>" class="audition-icon invert"

@@ -1,10 +1,9 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
-<%@ taglib
-        prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ page
-        contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib
-        prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %> <%@ taglib
+        prefix="form" uri="http://www.springframework.org/tags/form" %> <%@ page
+        contentType="text/html;charset=UTF-8" language="java" %> <%@ taglib
+        prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <html>
 <head>
     <title><spring:message code="title.profileapplications"/></title>
@@ -12,6 +11,8 @@
     <c:import url="../config/materializeHead.jsp"/>
     <link rel="stylesheet" href="<c:url value="/resources/css/welcome.css" />"/>
     <link rel="stylesheet" href="<c:url value="/resources/css/auditions.css" />"/>
+    <link rel="stylesheet" href="<c:url value="/resources/css/applicants.css" />"/>
+    <link rel="stylesheet" href="<c:url value="/resources/css/invites.css" />"/>
     <script src="<c:url value="/resources/js/pagination.js" />"></script>
     <script src="<c:url value="/resources/js/applicants.js"/>"></script>
 
@@ -19,25 +20,25 @@
 <body>
 <!-- Navbar -->
 <jsp:include page="../components/navbar.jsp">
-    <jsp:param name="navItem" value="${2}"/>
-    <jsp:param name="name" value="Bandify"/>
+    <jsp:param name="navItem" value="${11}" />
+    <jsp:param name="name" value="Bandify" />
 </jsp:include>
 
-<main>
-    <!-- Auditions content -->
-    <div class="applicants-container">
-        <div class="left-panel-abs">
-            <a class="back-anchor" href="<c:url value="/profile" />">
-                <div class="back-div">
-                    <spring:message code="audition.alt.back" var="backAlt"/>
-                    <img src="<c:url value="/resources/icons/back.svg" />" alt="${backAlt}" class="back-icon"/>
-                </div>
-            </a>
-        </div>
+<main class="manager-page">
+    <jsp:include page="../components/managerTabs.jsp">
+        <jsp:param name="tabItem" value="${1}"/>
+        <jsp:param name="pendingMembershipsCount" value="${pendingMembershipsCount}"/>
+    </jsp:include>
+
+    <div class="manager-items-container">
+
+        <span class="manager-items-title">
+            <spring:message code="manager.myApplicationsTitle"/>
+        </span>
+
+        <hr class="rounded">
+
         <div class="auditions-content">
-            <h2 id="posts">
-                <spring:message code="profile.myApplications"/>
-            </h2>
             <div class="user-data">
                 <div class="user-data-tabs">
                     <c:url value="/profile/applications" var="pendingUrl">
@@ -72,23 +73,25 @@
                     </c:if>
                 </div>
             </div>
-            <div class="pagination">
-                <c:if test="${currentPage > 1}">
-                    <spring:message code="pagination.previous.page.alt" var="previous"/>
-                    <a onclick="getPaginationURL(${currentPage-1})">
-                        <img src="<c:url value="/resources/images/page-next.png"/>"
-                             alt="${previous}" class="pagination-next rotate">
-                    </a>
-                </c:if>
-                <b><spring:message code="page.current" arguments="${currentPage},${lastPage}"/></b>
-                <c:if test="${currentPage < lastPage}">
-                    <spring:message code="pagination.next.page.alt" var="next"/>
-                    <a onclick="getPaginationURL(${currentPage+1})">
-                        <img src="<c:url value="/resources/images/page-next.png"/>"
-                             alt="${next}" class="pagination-next">
-                    </a>
-                </c:if>
-            </div>
+
+        </div>
+
+        <div class="pagination">
+            <c:if test="${currentPage > 1}">
+                <spring:message code="pagination.previous.page.alt" var="previous"/>
+                <a onclick="getPaginationURL(${currentPage-1})">
+                    <img src="<c:url value="/resources/images/page-next.png"/>"
+                         alt="${previous}" class="pagination-next rotate">
+                </a>
+            </c:if>
+            <b><spring:message code="page.current" arguments="${currentPage},${lastPage}"/></b>
+            <c:if test="${currentPage < lastPage}">
+                <spring:message code="pagination.next.page.alt" var="next"/>
+                <a onclick="getPaginationURL(${currentPage+1})">
+                    <img src="<c:url value="/resources/images/page-next.png"/>"
+                         alt="${next}" class="pagination-next">
+                </a>
+            </c:if>
         </div>
     </div>
 </main>

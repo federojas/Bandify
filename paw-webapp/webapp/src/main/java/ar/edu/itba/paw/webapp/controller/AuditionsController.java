@@ -262,6 +262,12 @@ public class AuditionsController {
         User user = authFacadeService.getCurrentUser();
 
         List<Audition> auditionList = auditionService.getBandAuditions(user, page);
+//        TODO: Pasar a Servicio o ver que hacer
+        List<Integer> auditionPendingApplicants = new ArrayList<>();
+        for (Audition audition : auditionList) {
+            auditionPendingApplicants.add(applicationService.getAuditionApplicationsByState(audition.getId(), ApplicationState.PENDING).size());
+        }
+
         int lastPage = auditionService.getTotalBandAuditionPages(user);
         lastPage = lastPage == 0 ? 1 : lastPage;
         mav.addObject("userName", user.getName());
@@ -270,7 +276,9 @@ public class AuditionsController {
         mav.addObject("currentPage", page);
         mav.addObject("lastPage", lastPage);
         mav.addObject("isPropietary", true);
-
+        System.out.println("ACA");
+        System.out.println(auditionPendingApplicants);
+        mav.addObject("auditionPendingApplicants", auditionPendingApplicants);
         return mav;
     }
     @RequestMapping(value = "/bandAuditions/{bandId}", method = {RequestMethod.GET})

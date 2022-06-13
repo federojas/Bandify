@@ -220,6 +220,7 @@ public class UserController {
         int lastPage = applicationService.getTotalUserApplicationPagesFiltered(user.getId(), ApplicationState.valueOf(state));
         lastPage = lastPage == 0 ? 1 : lastPage;
         mav.addObject("artistApplications", applications);
+        mav.addObject("pendingMembershipsCount", membershipService.getPendingMembershipsCount(user));
         mav.addObject("currentPage", page);
         mav.addObject("lastPage", lastPage);
         return mav;
