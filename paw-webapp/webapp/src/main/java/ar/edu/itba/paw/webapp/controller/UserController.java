@@ -127,10 +127,20 @@ public class UserController {
         mav.addObject("members", membershipService.getUserMembershipsPreview(userToVisit));
         mav.addObject("user", userToVisit);
 
+        //TODO ACA QUEDO BASTANTE NEFASTO
         if (currentUser != null && currentUser.isBand()) {
             mav.addObject("canBeAddedToBand", membershipService.canBeAddedToBand(currentUser, userToVisit));
+            mav.addObject("isInBand", false);
         } else {
             mav.addObject("canBeAddedToBand", false);
+            if(userToVisit.isBand()) {
+                boolean isInBand = !membershipService.canBeAddedToBand(userToVisit, currentUser);
+                mav.addObject("isInBand", isInBand);
+                if(isInBand)
+                    mav.addObject("membershipId", membershipService.getMembershipByUsers(userToVisit, currentUser).orElseThrow(MembershipNotFoundException::new).getId());
+            } else {
+                mav.addObject("isInBand", false);
+            }
         }
 
         Set<Genre> preferredGenres = userService.getUserGenres(userToVisit);

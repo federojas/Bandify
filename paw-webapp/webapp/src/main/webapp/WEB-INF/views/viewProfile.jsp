@@ -100,6 +100,28 @@
                                 </a>
                             </div>
                         </c:if>
+                        <c:if test="${isInBand}">
+                            <div class="leave-band-button">
+                                <a class="leave-band-btn">
+                                    <button class="leave-btn" onclick="openConfirmation()" type="submit">
+                                        <spring:message code="audition.alt.delete" var="delete"/>
+                                        <spring:message code="member.leave" />
+                                        <img src="<c:url value="/resources/icons/trash.svg"/>" class="audition-icon" alt="${delete}"/>
+                                    </button>
+                                </a>
+                                <spring:message code="leaveConfirmationModal.title" var="modalTitle"/>
+                                <spring:message code="leaveConfirmationModal.removeMember" var="modalHeading"/>
+                                <spring:message code="leaveConfirmationModal.confirmationQuestion" var="confirmationQuestion"/>
+                                <c:url value="/profile/deleteMembership/${membershipId}" var="postPath"/>
+                                <jsp:include page="../components/confirmationModal.jsp">
+                                    <jsp:param name="modalTitle" value="${modalTitle}" />
+                                    <jsp:param name="isDelete" value="${true}"/>
+                                    <jsp:param name="modalHeading" value="${modalHeading}" />
+                                    <jsp:param name="confirmationQuestion" value="${confirmationQuestion}" />
+                                    <jsp:param name="action" value="${postPath}" />
+                                </jsp:include>
+                            </div>
+                        </c:if>
                     </div>
                 </div>
                 <!-- Right Side -->

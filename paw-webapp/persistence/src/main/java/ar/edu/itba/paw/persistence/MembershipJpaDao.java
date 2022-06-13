@@ -95,6 +95,15 @@ public class MembershipJpaDao implements MembershipDao {
     }
 
     @Override
+    public Optional<Membership> getMembershipByUsers(User band, User artist) {
+        LOGGER.info("Getting membership with band id {} and artist id {}", band.getId(), artist.getId());
+        final TypedQuery<Membership> query = em.createQuery("SELECT m FROM Membership as m where m.band.id = :bandId and m.artist.id = :artistId", Membership.class);
+        query.setParameter("bandId", band.getId());
+        query.setParameter("artistId", artist.getId());
+        return query.getResultList().stream().findFirst();
+    }
+
+    @Override
     public boolean membershipExists(User band, User artist) {
         final TypedQuery<Membership> query = em.createQuery("FROM Membership as m where m.artist.id = :artistId and m.band.id = :bandId AND m.state <> :state",
                 Membership.class);

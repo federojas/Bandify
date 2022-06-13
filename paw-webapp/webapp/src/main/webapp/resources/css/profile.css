@@ -37,6 +37,34 @@
     margin: 1rem;
 }
 
+.leave-btn {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.leave-band-button {
+    display: flex;
+    justify-content: center;
+    margin: 1rem;
+}
+
+.leave-band-btn {
+    background-color: #b91c1c;
+    color: white;
+    line-height: 1.25rem;
+    display: flex;
+    font-weight: 500;
+    font-size: large;
+    height: 40px;
+    justify-content: space-evenly;
+    border-radius: 9999px;
+    width: 110px;
+}
+
+.leave-band-btn:hover{
+    background-color: #ff3b3b;
+}
 .artist-profile-btn {
     padding: 0.25rem 1rem;
     color: #1c041c;

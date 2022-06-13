@@ -25,6 +25,8 @@ public interface MembershipService {
 
     Optional<Membership> getMembershipById(long id);
 
+    Optional<Membership> getMembershipByUsers(User band, User artist);
+
     boolean createMembershipByApplication(Membership.Builder builder, long auditionId);
 
     int getPendingMembershipsCount(User user);
