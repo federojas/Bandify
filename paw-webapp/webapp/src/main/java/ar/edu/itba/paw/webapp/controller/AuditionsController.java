@@ -106,7 +106,7 @@ public class AuditionsController {
                                  @PathVariable long id) {
 
         final ModelAndView mav = new ModelAndView("audition");
-        Audition audition = auditionService.getAuditionById(id).orElseThrow(AuditionNotFoundException::new);
+        Audition audition = auditionService.getAuditionById(id);
         User user = authFacadeService.getCurrentUser();
         User band = userService.getUserById(audition.getBand().getId()).orElseThrow(UserNotFoundException::new);
         boolean alreadyApplied = applicationService.alreadyApplied(id, user.getId());
@@ -124,7 +124,7 @@ public class AuditionsController {
                                    @RequestParam(value = "state", defaultValue = "PENDING") String state) {
         ModelAndView mav = new ModelAndView("applicants");
         List<Application> applications = applicationService.getAuditionApplicationsByState(id, ApplicationState.valueOf(state), page);
-        Audition aud = auditionService.getAuditionById(id).orElseThrow(AuditionNotFoundException::new);
+        Audition aud = auditionService.getAuditionById(id);
         int lastPage = applicationService.getTotalAuditionApplicationByStatePages(id, ApplicationState.valueOf(state));
         lastPage = lastPage == 0 ? 1 : lastPage;
         mav.addObject("id",id);
@@ -205,7 +205,7 @@ public class AuditionsController {
 
         User user = authFacadeService.getCurrentUser();
 
-        Audition audition = auditionService.getAuditionById(id).orElseThrow(AuditionNotFoundException::new);
+        Audition audition = auditionService.getAuditionById(id);
 
         if(!Objects.equals(user.getId(), audition.getBand().getId()))
             throw new AuditionNotOwnedException();

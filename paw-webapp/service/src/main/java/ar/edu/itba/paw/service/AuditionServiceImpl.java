@@ -24,11 +24,13 @@ public class AuditionServiceImpl implements AuditionService {
     private static final Logger LOGGER = LoggerFactory.getLogger(AuditionServiceImpl.class);
 
 
-    //TODO COMO VERIFICO QUE NO ME PIDAN UNA AUDITION CERRADA
     @Override
-    public Optional<Audition> getAuditionById(long id) {
+    public Audition getAuditionById(long id) {
         checkAuditionId(id);
-        return auditionDao.getAuditionById(id);
+        Optional<Audition> audition = auditionDao.getAuditionById(id);
+        if(!audition.isPresent() || !audition.get().getIsOpen())
+            throw new AuditionNotFoundException();
+        return audition.get();
     }
 
     @Transactional
@@ -42,8 +44,8 @@ public class AuditionServiceImpl implements AuditionService {
     public void editAuditionById(Audition.AuditionBuilder builder, long id) {
         checkAuditionId(id);
         checkPermissions(id);
-        Optional<Audition> audition = getAuditionById(id);
-        audition.ifPresent(value -> value.edit(builder));
+        Audition audition = getAuditionById(id);
+        audition.edit(builder);
     }
 
     @Override
@@ -82,7 +84,7 @@ public class AuditionServiceImpl implements AuditionService {
         checkAuditionId(id);
         checkPermissions(id);
         LOGGER.debug("Audition {} will be closed",id);
-        Audition audition = getAuditionById(id).orElseThrow(AuditionNotFoundException::new);
+        Audition audition = getAuditionById(id);
         if(audition.getIsOpen())
             audition.setIsOpen(false);
     }
@@ -101,7 +103,7 @@ public class AuditionServiceImpl implements AuditionService {
     }
  
     private void checkPermissions(long id) {
-        if(getAuditionById(id).orElseThrow(AuditionNotFoundException::new).getBand().getId() !=
+        if(getAuditionById(id).getBand().getId() !=
                 authFacadeService.getCurrentUser().getId()) {
             LOGGER.warn("The authenticated user is not the audition owner");
             throw new AuditionNotOwnedException();

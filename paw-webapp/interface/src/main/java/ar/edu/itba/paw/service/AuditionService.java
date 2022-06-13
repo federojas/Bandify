@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface AuditionService {
 
-    Optional<Audition> getAuditionById(long id);
+    Audition getAuditionById(long id);
 
     Audition create(Audition.AuditionBuilder builder);
 

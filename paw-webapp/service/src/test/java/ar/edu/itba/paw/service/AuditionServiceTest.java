@@ -63,7 +63,7 @@ public class AuditionServiceTest {
 
     @Test(expected = AuditionNotOwnedException.class)
     public void testEditAuditionByIdNotOwned() {
-        when(auditionService.getAuditionById(Mockito.eq(AUD_ID))).thenReturn(Optional.of(AUD));
+        when(auditionService.getAuditionById(Mockito.eq(AUD_ID))).thenReturn(AUD);
         when(authFacadeService.getCurrentUser()).thenReturn(USER);
         auditionService.editAuditionById(AUD_BUILDER, AUD_ID);
         Assert.fail("Should have thrown AuditionNotOwnedException");
@@ -71,7 +71,7 @@ public class AuditionServiceTest {
 
     @Test(expected = UserNotFoundException.class)
     public void testEditAuditionByIdUserNotFound() {
-        when(auditionService.getAuditionById(Mockito.eq(AUD_ID))).thenReturn(Optional.of(AUD));
+        when(auditionService.getAuditionById(Mockito.eq(AUD_ID))).thenReturn(AUD);
         when(authFacadeService.getCurrentUser()).thenThrow(new UserNotFoundException());
         auditionService.editAuditionById(AUD_BUILDER, AUD_ID);
         Assert.fail("Should have thrown UserNotFoundException");
