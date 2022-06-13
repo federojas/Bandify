@@ -210,14 +210,14 @@ public class AuditionDaoTest {
         assertEquals(0,pages);
     }
 
-    @Test
-    public void testDeleteAuditionById() {
-        auditionDao.deleteAuditionById(aud1.getId());
-        em.flush();
-        assertEquals(0, JdbcTestUtils.countRowsInTableWhere(jdbcTemplate, "auditions", "id = " + aud1.getId()));
-        assertEquals(0, JdbcTestUtils.countRowsInTableWhere(jdbcTemplate, "auditionroles", "auditionid = " + aud1.getId()));
-        assertEquals(0, JdbcTestUtils.countRowsInTableWhere(jdbcTemplate, "auditiongenres", "auditionid = " + aud1.getId()));
-    }
+//    @Test
+//    public void testDeleteAuditionById() {
+//        auditionDao.deleteAuditionById(aud1.getId());
+//        em.flush();
+//        assertEquals(0, JdbcTestUtils.countRowsInTableWhere(jdbcTemplate, "auditions", "id = " + aud1.getId()));
+//        assertEquals(0, JdbcTestUtils.countRowsInTableWhere(jdbcTemplate, "auditionroles", "auditionid = " + aud1.getId()));
+//        assertEquals(0, JdbcTestUtils.countRowsInTableWhere(jdbcTemplate, "auditiongenres", "auditionid = " + aud1.getId()));
+//    }
 
     @Test
     public void testGetTotalPagesByLocationFilter() {

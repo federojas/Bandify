@@ -24,6 +24,7 @@ public class AuditionServiceImpl implements AuditionService {
     private static final Logger LOGGER = LoggerFactory.getLogger(AuditionServiceImpl.class);
 
 
+    //TODO COMO VERIFICO QUE NO ME PIDAN UNA AUDITION CERRADA
     @Override
     public Optional<Audition> getAuditionById(long id) {
         checkAuditionId(id);
@@ -77,11 +78,13 @@ public class AuditionServiceImpl implements AuditionService {
 
     @Transactional
     @Override
-    public void deleteAuditionById(long id) {
+    public void closeAuditionById(long id) {
         checkAuditionId(id);
         checkPermissions(id);
-        LOGGER.debug("Audition {} will be deleted",id);
-        auditionDao.deleteAuditionById(id);
+        LOGGER.debug("Audition {} will be closed",id);
+        Audition audition = getAuditionById(id).orElseThrow(AuditionNotFoundException::new);
+        if(audition.getIsOpen())
+            audition.setIsOpen(false);
     }
 
     @Override

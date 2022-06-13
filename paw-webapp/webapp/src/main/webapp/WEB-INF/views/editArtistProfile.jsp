@@ -80,6 +80,7 @@
                                     <form:option value="true"><c:out value="${yes}"/></form:option>
                                     <form:option value="false"><c:out value="${no}"/></form:option>
                                 </form:select>
+                                <spring:message code="edituser.form.available.effect"/>
                             </form:label>
                         </div>
                     </div>

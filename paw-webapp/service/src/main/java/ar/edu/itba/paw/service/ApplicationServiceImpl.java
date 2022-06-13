@@ -40,7 +40,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     public List<Application> getAuditionApplicationsByState(long auditionId, ApplicationState state, int page) {
         User user = authFacadeService.getCurrentUser();
         Audition audition = auditionService.getAuditionById(auditionId).orElseThrow(AuditionNotFoundException::new);
-        if(user.getId() != audition.getBand().getId())
+        if(!Objects.equals(user.getId(), audition.getBand().getId()))
             throw new AuditionNotOwnedException();
         int lastPage = getTotalAuditionApplicationByStatePages(auditionId, state);
         lastPage = lastPage == 0 ? 1 : lastPage;
@@ -189,5 +189,30 @@ public class ApplicationServiceImpl implements ApplicationService {
                 application.get().getState().equals(ApplicationState.ACCEPTED))
             return application;
         return Optional.empty();
+    }
+
+    @Transactional
+    @Override
+    public void closeApplicationsByAuditionId(long id) {
+        if(id < 0)
+            throw new IllegalArgumentException();
+        User user = authFacadeService.getCurrentUser();
+        Audition audition = auditionService.getAuditionById(id).orElseThrow(AuditionNotFoundException::new);
+        if(!Objects.equals(user.getId(), audition.getBand().getId()))
+            throw new AuditionNotOwnedException();
+        for (Application app : getAuditionApplicationsByState(id, ApplicationState.PENDING)) {
+            app.setState(ApplicationState.REJECTED);
+        }
+    }
+
+    @Override
+    public List<Application> getAuditionApplicationsByState(long auditionId, ApplicationState state) {
+        User user = authFacadeService.getCurrentUser();
+        Audition audition = auditionService.getAuditionById(auditionId).orElseThrow(AuditionNotFoundException::new);
+        if(!Objects.equals(user.getId(), audition.getBand().getId()))
+            throw new AuditionNotOwnedException();
+        if(state == ApplicationState.ALL)
+            state = ApplicationState.PENDING;
+        return applicationDao.getAuditionApplicationsByState(auditionId,state);
     }
 }

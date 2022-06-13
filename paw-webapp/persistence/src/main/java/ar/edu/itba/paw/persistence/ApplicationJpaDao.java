@@ -35,6 +35,17 @@ public class ApplicationJpaDao implements ApplicationDao {
     }
 
     @Override
+    public List<Application> getAuditionApplicationsByState(long auditionId, ApplicationState state) {
+        Query query = em.createNativeQuery("SELECT DISTINCT a.id FROM " +
+                "(SELECT id, creationDate FROM applications " +
+                "WHERE auditionId = :auditionId AND state = :state " +
+                " ORDER BY creationDate  ) AS a");
+        query.setParameter("auditionId", auditionId);
+        query.setParameter("state", state.getState());
+        return getApplications(query);
+    }
+
+    @Override
     public Optional<Application> findApplication(long auditionId, long applicantId) {
         final TypedQuery<Application> query = em.createQuery("FROM Application as a where a.applicant.id =:applicantId and  a.audition.id =:auditionId",
                 Application.class);

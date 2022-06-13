@@ -19,9 +19,9 @@ public interface AuditionService {
 
     List<Audition> getBandAuditions(User band, int page);
 
-    int getTotalBandAuditionPages(User band);
+    void closeAuditionById(long id);
 
-    void deleteAuditionById(long id);
+    int getTotalBandAuditionPages(User band);
 
     void editAuditionById(Audition.AuditionBuilder builder, long id);
 

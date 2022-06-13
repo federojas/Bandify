@@ -42,20 +42,20 @@ public class AuditionJpaDao implements AuditionDao {
     @Override
     public List<Audition> getAll(int page) {
         LOGGER.info("Getting auditions in page {}", page);
-        Query query = em.createNativeQuery("SELECT DISTINCT a.id FROM (SELECT id, creationDate FROM auditions ORDER BY creationDate DESC LIMIT " + PAGE_SIZE + " OFFSET " + (page-1) * PAGE_SIZE + ") AS a");
+        Query query = em.createNativeQuery("SELECT DISTINCT a.id FROM (SELECT id, creationDate FROM auditions WHERE isOpen = true ORDER BY creationDate DESC LIMIT " + PAGE_SIZE + " OFFSET " + (page-1) * PAGE_SIZE + ") AS a");
         return getAuditions(query);
     }
 
     @Override
     public int getTotalPages() {
         LOGGER.info("Getting total audition page count");
-        return (int) Math.ceil(((BigInteger) em.createNativeQuery("SELECT COUNT(*) FROM auditions").getSingleResult()).doubleValue() / PAGE_SIZE);
+        return (int) Math.ceil(((BigInteger) em.createNativeQuery("SELECT COUNT(*) FROM auditions WHERE isOpen = true").getSingleResult()).doubleValue() / PAGE_SIZE);
     }
 
     @Override
     public List<Audition> getBandAuditions(long userId, int page) {
         LOGGER.info("Getting auditions from user with id {} in page {}", userId, page);
-        Query query = em.createNativeQuery("SELECT DISTINCT a.id FROM (SELECT id, creationDate FROM auditions WHERE bandId = :userId ORDER BY creationDate DESC LIMIT " + PAGE_SIZE + " OFFSET " + (page-1) * PAGE_SIZE + ") AS a");
+        Query query = em.createNativeQuery("SELECT DISTINCT a.id FROM (SELECT id, creationDate FROM auditions WHERE bandId = :userId and isOpen = true ORDER BY creationDate DESC LIMIT " + PAGE_SIZE + " OFFSET " + (page-1) * PAGE_SIZE + ") AS a");
         query.setParameter("userId", userId);
         return getAuditions(query);
     }
@@ -73,15 +73,8 @@ public class AuditionJpaDao implements AuditionDao {
     @Override
     public int getTotalBandAuditionPages(long userId) {
         LOGGER.info("Getting total audition page count from user with id {}", userId);
-        return (int) Math.ceil(((BigInteger) em.createNativeQuery("SELECT COUNT(*) FROM auditions WHERE bandId = :userId")
+        return (int) Math.ceil(((BigInteger) em.createNativeQuery("SELECT COUNT(*) FROM auditions WHERE bandId = :userId and isOpen = true")
                 .setParameter("userId", userId).getSingleResult()).doubleValue() / PAGE_SIZE);
-    }
-
-    @Override
-    public void deleteAuditionById(long id) {
-        LOGGER.info("Deleting audition with id {}", id);
-        Optional<Audition> audition = getAuditionById(id);
-        audition.ifPresent(value -> em.remove(value));
     }
 
     @Override
@@ -139,7 +132,7 @@ public class AuditionJpaDao implements AuditionDao {
     }
 
     private void filterQuery(FilterOptions filterOptions, Map<String, Object> args, StringBuilder sqlQueryBuilder) {
-        sqlQueryBuilder.append("WHERE true ");
+        sqlQueryBuilder.append("WHERE isOpen = true ");
         if(!filterOptions.getGenresNames().isEmpty()) {
             sqlQueryBuilder.append("AND genre IN (:genresNames) ");
             args.put("genresNames",filterOptions.getGenresNames());

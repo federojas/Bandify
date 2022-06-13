@@ -110,12 +110,11 @@ public class AuditionsController {
         User user = authFacadeService.getCurrentUser();
         User band = userService.getUserById(audition.getBand().getId()).orElseThrow(UserNotFoundException::new);
         boolean alreadyApplied = applicationService.alreadyApplied(id, user.getId());
-        boolean canBeAddedToBand = membershipService.canBeAddedToBand(band, user);
         mav.addObject("isOwner", Objects.equals(audition.getBand().getId(), user.getId()));
         mav.addObject("audition", audition);
         mav.addObject("user",band);
         mav.addObject("alreadyApplied", alreadyApplied);
-        mav.addObject("canBeAddedToBand", canBeAddedToBand);
+        mav.addObject("canBeAddedToBand", membershipService.canBeAddedToBand(band, user));
         return mav;
     }
 
@@ -193,9 +192,10 @@ public class AuditionsController {
         return new ModelAndView("successMsg");
     }
 
-    @RequestMapping(value = "/profile/deleteAudition/{id}", method = {RequestMethod.POST})
-    public ModelAndView deleteAudition(@PathVariable long id) {
-        auditionService.deleteAuditionById(id);
+    @RequestMapping(value = "/profile/closeAudition/{id}", method = {RequestMethod.POST})
+    public ModelAndView closeAudition(@PathVariable long id) {
+        auditionService.closeAuditionById(id);
+        applicationService.closeApplicationsByAuditionId(id);
         return new ModelAndView("redirect:/profile/auditions");
     }
 
@@ -343,17 +343,14 @@ public class AuditionsController {
 
 
         // TODO: falta poder rechazar en vez de seleccionar
-        // TODO: selectApplicant.jsp
+        // TODO: membershipSuccess.jsp y selectApplicant.jsp
 
-        boolean canBeAddedToBand = membershipService.createMembershipByApplication(new Membership.Builder(application.getApplicant(),
+        membershipService.createMembershipByApplication(new Membership.Builder(application.getApplicant(),
                 application.getAudition().getBand(),
                 roleService.getRolesByNames(membershipForm.getRoles())).
                 description(membershipForm.getDescription()) ,
                 application.getAudition().getId());
         //TODO: o redireccionar directamente al perfil / miembros de la banda?
-        if(!canBeAddedToBand) {
-            return new ModelAndView("redirect:/profile/bandMembers");
-        }
         return new ModelAndView("membershipSuccess");
     }
 
