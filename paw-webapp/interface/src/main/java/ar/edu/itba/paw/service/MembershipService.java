@@ -34,4 +34,6 @@ public interface MembershipService {
     void editMembershipById(String description, Set<Role> roles, long id);
 
     boolean canBeAddedToBand(User band, User artist);
+
+    boolean isInBandBand(User band, User artist);
 }

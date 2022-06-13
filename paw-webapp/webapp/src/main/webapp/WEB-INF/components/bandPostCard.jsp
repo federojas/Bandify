@@ -71,23 +71,11 @@
                         <img src="<c:url value="/resources/icons/info.png"/>" class="audition-icon invert"
                              alt="${moreAlt}"/>
                     </button>
-
                 </a>
             </div>
         </div>
     </div>
 
 </div>
-<spring:message code="deleteConfirmationModal.title" var="modalTitle"/>
-<spring:message code="deleteConfirmationModal.deleteAudition" var="modalHeading"/>
-<spring:message code="deleteConfirmationModal.confirmationQuestion" var="confirmationQuestion"/>
-<c:url value="/profile/closeAudition/${param.id}" var="postPath"/>
-<jsp:include page="../components/confirmationModal.jsp">
-    <jsp:param name="modalTitle" value="${modalTitle}" />
-    <jsp:param name="isDelete" value="${true}" />
-    <jsp:param name="modalHeading" value="${modalHeading}" />
-    <jsp:param name="confirmationQuestion" value="${confirmationQuestion}" />
-    <jsp:param name="action" value="${postPath}" />
-</jsp:include>
 </body>
 </html>

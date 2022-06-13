@@ -44,11 +44,15 @@
     </div>
 
     <div class="manager-items-container">
+
         <span class="manager-items-title">
             <spring:message code="invites.title" arguments="${pendingMembershipsCount}"/>
         </span>
-
         <hr class="rounded">
+
+        <c:if test="${invites.size() == 0}">
+            <p class="no-invites"><spring:message code="invites.none"/></p>
+        </c:if>
 
         <div class="manager-items-list">
             <div>
@@ -64,25 +68,24 @@
                     </c:forEach>
                 </ul>
             </div>
-            <div class="pagination">
-                <c:if test="${currentPage > 1}">
-                    <spring:message code="pagination.previous.page.alt" var="previous"/>
-                    <a href="<c:url value="/invites?page=${currentPage-1}"/>">
-                        <img src="<c:url value="/resources/images/page-next.png"/>"
-                             alt="${previous}" class="pagination-next rotate">
-                    </a>
-                </c:if>
-                <b><spring:message code="page.current" arguments="${currentPage},${lastPage}" /></b>
-                <c:if test="${currentPage < lastPage}">
-                    <spring:message code="pagination.next.page.alt" var="next"/>
+        </div>
 
-                    <a href="<c:url value="/invites?page=${currentPage+1}"/>">
-                        <img src="<c:url value="/resources/images/page-next.png"/>"
-                             alt="${next}" class="pagination-next">
-                    </a>
-
-                </c:if>
-            </div>
+        <div class="pagination">
+            <c:if test="${currentPage > 1}">
+                <spring:message code="pagination.previous.page.alt" var="previous"/>
+                <a onclick="getPaginationURL(${currentPage-1});">
+                    <img src="<c:url value="/resources/images/page-next.png"/>"
+                         alt="${previous}" class="pagination-next rotate">
+                </a>
+            </c:if>
+            <b><spring:message code="page.current" arguments="${currentPage},${lastPage}" /></b>
+            <c:if test="${currentPage < lastPage}">
+                <spring:message code="pagination.next.page.alt" var="next"/>
+                <a onclick="getPaginationURL(${currentPage+1});">
+                    <img src="<c:url value="/resources/images/page-next.png"/>"
+                         alt="${next}" class="pagination-next">
+                </a>
+            </c:if>
         </div>
     </div>
 </main>

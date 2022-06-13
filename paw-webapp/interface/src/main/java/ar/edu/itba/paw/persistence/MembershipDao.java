@@ -26,4 +26,6 @@ public interface MembershipDao {
     boolean membershipExists(User band, User artist);
 
     int getPendingMembershipsCount(User user);
+
+    boolean isInBand(User band, User artist);
 }

@@ -98,9 +98,15 @@ public class UserController {
     public ModelAndView profile() {
         ModelAndView mav = new ModelAndView("profile");
         User user = authFacadeService.getCurrentUser();
+        int pendingCount = 0;
+        if(user.isBand()) {
+            pendingCount = applicationService.getTotalUserApplicationsFiltered(user.getId(), ApplicationState.PENDING);
+            mav.addObject("pendingApps", pendingCount);
+        } else {
+            pendingCount = membershipService.getPendingMembershipsCount(user);
+            mav.addObject("pendingMemberships", pendingCount);
+        }
         mav.addObject("members", membershipService.getUserMembershipsPreview(user));
-        int pendingMembershipsCount = membershipService.getPendingMembershipsCount(user);
-        mav.addObject("pending", pendingMembershipsCount);
         return setAndReturnProfileViewData(user, null, mav);
     }
 
@@ -134,7 +140,7 @@ public class UserController {
         } else {
             mav.addObject("canBeAddedToBand", false);
             if(userToVisit.isBand() && currentUser != null) {
-                boolean isInBand = !membershipService.canBeAddedToBand(userToVisit, currentUser);
+                boolean isInBand = membershipService.isInBandBand(userToVisit, currentUser);
                 mav.addObject("isInBand", isInBand);
                 if(isInBand)
                     mav.addObject("membershipId", membershipService.getMembershipByUsers(userToVisit, currentUser).orElseThrow(MembershipNotFoundException::new).getId());
@@ -158,7 +164,7 @@ public class UserController {
         return mav;
     }
 
-    @RequestMapping(value = "/user/{id}/addToBand", method = {RequestMethod.GET})
+    @RequestMapping(value = "/user/{id}/invite", method = {RequestMethod.GET})
     public ModelAndView viewProfileAddToBand(@PathVariable long id,
                                              @ModelAttribute("membershipForm")
                                              final MembershipForm membershipForm) {
@@ -180,7 +186,7 @@ public class UserController {
         return mav;
     }
 
-    @RequestMapping(value = "/user/{id}/addToBand", method = {RequestMethod.POST})
+    @RequestMapping(value = "/user/{id}/invite", method = {RequestMethod.POST})
     public ModelAndView viewProfileAddToBand(@PathVariable long id,
                                       @Valid @ModelAttribute("membershipForm")
                                       final MembershipForm membershipForm,
@@ -189,15 +195,14 @@ public class UserController {
             return viewProfileAddToBand(id,membershipForm);
         }
 
-
         // TODO: y selectApplicant.jsp
 
         membershipService.createMembershipInvite(new Membership.Builder(
                 userService.getUserById(id).orElseThrow(UserNotFoundException::new),
-                authFacadeService.getCurrentUser(),
-                roleService.getRolesByNames(membershipForm.getRoles())).
+                authFacadeService.getCurrentUser()).
                 description(membershipForm.getDescription()).
-                state(MembershipState.PENDING));
+                state(MembershipState.PENDING)).
+                setRoles(roleService.getRolesByNames(membershipForm.getRoles()));
 
         return new ModelAndView("membershipInvite");
     }
@@ -427,9 +432,9 @@ public class UserController {
         lastPage = lastPage == 0 ? 1 : lastPage;
         mav.addObject("user", currentUser);
         mav.addObject("invites", bandInvites);
-        mav.addObject("pendingMembershipsCount", membershipService.getPendingMembershipsCount(currentUser));
         mav.addObject("currentPage", page);
         mav.addObject("lastPage", lastPage);
+        mav.addObject("pendingMembershipsCount", membershipService.getPendingMembershipsCount(currentUser));
         return mav;
     }
 

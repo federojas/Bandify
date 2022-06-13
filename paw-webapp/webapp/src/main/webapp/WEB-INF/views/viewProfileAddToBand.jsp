@@ -92,7 +92,7 @@
                                     <spring:message code="applicants.confirmation.artist1" arguments="${user.name},${user.surname}"/>
                                 </span>
                             </div>
-                            <c:url value="/user/${id}/addToBand" var="addToBandActionUrl" />
+                            <c:url value="/user/${id}/invite" var="addToBandActionUrl" />
                             <%--@elvariable id="membershipForm" type="ar.edu.itba.paw.webapp.form.MembershipForm"--%>
 
                             <form:form method="post" acceptCharset="utf-8"
@@ -145,7 +145,7 @@
                                                 form="membershipForm"
                                                 class="artist-profile-btn"
                                         >
-                                            <spring:message code="applicants.addToBand"/>
+                                            <spring:message code="applicants.inviteToBand"/>
                                             <spring:message code="audition.applicants.alt" var="altAddToBand"/>
                                             <img src="<c:url value="/resources/icons/add-user.svg"/>"
                                                  id="addToBandBtnImg"

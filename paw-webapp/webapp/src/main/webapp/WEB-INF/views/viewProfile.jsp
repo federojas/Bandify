@@ -87,11 +87,11 @@
                         </c:if>
                         <c:if test="${canBeAddedToBand}">
                             <div class="add-to-band-button">
-                                <c:url value="/user/${user.id}/addToBand" var="addToBandUrl" />
+                                <c:url value="/user/${user.id}/invite" var="addToBandUrl" />
                                 <a href="${addToBandUrl}" onmouseover="invertImg()"
                                    onmouseout="invertImgBack()">
                                     <button class="artist-profile-btn" id="addToBandBtn">
-                                        <spring:message code="applicants.addToBand"/>
+                                        <spring:message code="applicants.inviteToBand"/>
                                         <spring:message code="audition.applicants.alt" var="altAddToBand"/>
                                         <img src="<c:url value="/resources/icons/add-user.svg"/>"
                                              id="addToBandBtnImg"
@@ -217,6 +217,7 @@
                     </div>
                 </div>
             </div>
+            <div class="md:flex no-wrap justify-center md:-mx-2 mt-24">
             <c:if test="${user.band}">
             <div class="member-view-data">
                 <div class="top">
@@ -316,6 +317,7 @@
                 </div>
             </div>
         </c:if>
+        </div>
     </div>
 </main>
 

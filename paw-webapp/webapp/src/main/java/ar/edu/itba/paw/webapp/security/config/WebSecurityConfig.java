@@ -46,10 +46,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().authorizeRequests()
                     .antMatchers( "/welcome","/register","/registerBand","/registerArtist","/verify",
                                  "/resetPassword","/aboutUs","/newPassword","/login","/emailSent","/resetEmailSent").anonymous()
-                    .antMatchers("/apply", "/profile/applications","/editArtist","/success", "/profile/bands/invites", "/profile/bands/invites/{\\d+}", "/profile/bands").hasRole("ARTIST")
+                    .antMatchers("/apply", "/profile/applications","/editArtist","/success", "/invites", "/invites/{\\d+}", "/profile/bands").hasRole("ARTIST")
                     .antMatchers("/newAudition", "/profile/auditions", "/profile/editAudition/{\\d+}", "/profile/closeAudition/{\\d+}","/editBand",
                                  "/auditions/{\\d+}/applicants", "/auditions/{\\d+}/applicants/select/{\\d+}", "/profile/newMembership/{\\d+}", "/profile/bandMembers",
-                                 "/profile/editMembership/{\\d+}", "/user/{\\d+}/addToBand").hasRole("BAND")
+                                 "/profile/editMembership/{\\d+}", "/user/{\\d+}/invite").hasRole("BAND")
                     .antMatchers("/profile/**","/auditions/{\\d+}","/bandAuditions/{\\d+}", "/users/search", "/users", "/user/{\\d+}/bandMembers", "/user/{\\d+}/bands",
                             "/profile/deleteMembership/{\\d+}").authenticated()
                     .antMatchers("/auditions","/auditions/search", "/", "/user/{\\d+}","/user/{\\d+}/profile-image").permitAll()

@@ -67,3 +67,15 @@
     border-radius: 50%;
     justify-self: end;
 }
+.no-invites {
+    display: flex;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 20px;
+    margin-top: 30px;
+    width: 780px;
+    word-break: break-word;
+    text-align: center;
+    align-items: center;
+    margin-left: 180px;
+}

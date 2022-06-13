@@ -171,4 +171,9 @@ public class MembershipServiceImpl implements MembershipService {
     public boolean canBeAddedToBand(User band, User artist) {
         return !membershipDao.membershipExists(band, artist) && artist.isAvailable();
     }
+
+    @Override
+    public boolean isInBandBand(User band, User artist) {
+        return membershipDao.isInBand(band, artist) && artist.isAvailable();
+    }
 }

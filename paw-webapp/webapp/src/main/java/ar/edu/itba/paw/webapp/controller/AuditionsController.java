@@ -347,9 +347,9 @@ public class AuditionsController {
         // TODO: membershipSuccess.jsp y selectApplicant.jsp
 
         membershipService.createMembershipByApplication(new Membership.Builder(application.getApplicant(),
-                application.getAudition().getBand(),
-                roleService.getRolesByNames(membershipForm.getRoles())).
-                description(membershipForm.getDescription()) ,
+                application.getAudition().getBand())
+                        .description(membershipForm.getDescription())
+                        .roles(roleService.getRolesByNames(membershipForm.getRoles())) ,
                 application.getAudition().getId());
         //TODO: o redireccionar directamente al perfil / miembros de la banda?
         return new ModelAndView("membershipSuccess");

@@ -126,15 +126,25 @@
                                         </a>
                                     </li>
                                 </ul>
+                                <c:if test="${pendingApps != 0}">
+                                    <p class="pending-p"><spring:message code="profile.pending.apps" arguments="${pendingApps}"/></p>
+                                </c:if>
                             </div>
                         </sec:authorize>
                         <sec:authorize access="hasRole('ARTIST')">
                             <div class="auditions-div">
-                                <ul>
+                                <ul class="button-ul">
                                     <li class="pt-2">
                                         <a href="<c:url value="/profile/applications"/>">
                                             <button class="auditions-btn hover: shadow-sm">
                                                 <spring:message code="profile.myApplications"/>
+                                            </button>
+                                        </a>
+                                    </li>
+                                    <li class="pt-2">
+                                        <a href="<c:url value="/invites"/>">
+                                            <button class="auditions-btn hover: shadow-sm">
+                                                <spring:message code="profile.invites"/>
                                             </button>
                                         </a>
                                     </li>
@@ -260,6 +270,7 @@
                 </div>
             </div>
             </div>
+            <div class="md:flex no-wrap justify-center md:-mx-2 mt-24">
             <c:if test="${user.band}">
                 <div class="member-data">
                     <div class="top">
@@ -365,6 +376,7 @@
         </div>
     </div>
     </c:if>
+    </div>
         </div>
     </div>
 </main>

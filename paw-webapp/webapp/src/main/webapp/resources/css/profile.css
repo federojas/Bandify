@@ -161,7 +161,7 @@ body {
 }
 
 .edit-btn {
-    margin: 0.5rem;
+    margin: 0.25rem;
     padding: 15px 15px 15px 10px;
     background-color: #6c0c84;
     display: flex;
@@ -208,13 +208,12 @@ body {
 
 }
 
-.auditions-btn:hover{
-    background-color: #0369a1;
+.pending-p {
+    font-size: large;
 }
 
-.auditions-div{
-    display: flex;
-    justify-content: center;
+.auditions-btn:hover{
+    background-color: #0369a1;
 }
 
 
@@ -278,8 +277,7 @@ body {
     background-color: white;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     padding: 0.75rem 1.25rem;
-    margin-left: 12.8rem;
-    width: 1255px;
+    width: 76%;
     height: 400px;
 }
 
@@ -287,8 +285,7 @@ body {
     background-color: white;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     padding: 0.75rem 1.25rem;
-    margin-left: 12rem;
-    width: 1174px;
+    width: 76%;
     height: 400px;
 }
 
@@ -296,20 +293,16 @@ body {
     background-color: white;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     padding: 0.75rem 1.25rem;
-    margin-left: 11.2rem;
-    width: 1174px;
+    width: 76%;
     height: 400px;
-    margin-top: 20px;
 }
 
 .plays-view-data {
     background-color: white;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     padding: 0.75rem 1.25rem;
-    margin-left: 11.2rem;
-    width: 1174px;
+    width: 76%;
     height: 400px;
-    margin-top: 20px;
 }
 
 .members-div {
@@ -340,8 +333,14 @@ body {
     flex-wrap: wrap;
     display: flex;
     flex-direction: row;
-    margin: 0.75rem;
     justify-content: space-around;
+}
+
+.button-ul {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 auditions-title-div {

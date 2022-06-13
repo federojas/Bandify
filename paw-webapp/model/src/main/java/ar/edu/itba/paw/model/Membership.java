@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.model;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -15,19 +16,11 @@ public class Membership {
     @SequenceGenerator(name = "memberships_id_seq", sequenceName = "memberships_id_seq", allocationSize = 1)
     private Long id;
 
-    /* Excluding CascadeType.REMOVE */
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH,
-            CascadeType.MERGE,
-            CascadeType.REFRESH,
-            CascadeType.PERSIST})
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "artistId")
     private User artist;
 
-    /* Excluding CascadeType.REMOVE */
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH,
-            CascadeType.MERGE,
-            CascadeType.REFRESH,
-            CascadeType.PERSIST})
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bandId")
     private User band;
 
@@ -119,12 +112,12 @@ public class Membership {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Membership that = (Membership) o;
-        return Objects.equals(getId(), that.getId()) && Objects.equals(getArtist(), that.getArtist()) && Objects.equals(getBand(), that.getBand()) && Objects.equals(getRoles(), that.getRoles()) && Objects.equals(getDescription(), that.getDescription()) && getState() == that.getState();
+        return Objects.equals(getId(), that.getId()) && Objects.equals(getArtist().getId(), that.getArtist().getId()) && Objects.equals(getBand().getId(), that.getBand().getId()) && Objects.equals(getRoles(), that.getRoles()) && Objects.equals(getDescription(), that.getDescription()) && getState() == that.getState();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getArtist(), getBand(), getRoles(), getDescription(), getState());
+        return Objects.hash(getId(), getArtist().getId(), getBand().getId(), getRoles(), getDescription(), getState());
     }
 
     public static class Builder {
@@ -132,18 +125,28 @@ public class Membership {
         private Long id;
         private final User artist;
         private final User band;
-        private final Set<Role> roles;
+        private Set<Role> roles;
         private String description;
         private MembershipState state;
 
-        public Builder(User artist, User band, Set<Role> roles) {
+        public Builder(User artist, User band) {
             this.artist = artist;
             this.band = band;
-            this.roles = roles;
+            this.roles = new HashSet<>();
         }
 
         public Builder description(String description) {
             this.description = description;
+            return this;
+        }
+
+        public Builder roles(Set<Role> roles) {
+            this.roles = roles;
+            return this;
+        }
+
+        public Builder roles(Role role) {
+            this.roles.add(role);
             return this;
         }
 

@@ -119,6 +119,12 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
+    public int getTotalUserApplicationsFiltered(long userId, ApplicationState state) {
+        return applicationDao.getTotalUserApplicationsFiltered(userId, state);
+    }
+
+
+    @Override
     public List<Application> getMyApplicationsFiltered(long applicantId, int page, ApplicationState state) {
         int lastPage = getTotalUserApplicationPagesFiltered(applicantId, state);
         lastPage = lastPage == 0 ? 1 : lastPage;

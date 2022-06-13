@@ -119,6 +119,13 @@ public class ApplicationJpaDao implements ApplicationDao {
                 .setParameter("state", state.getState()).getSingleResult()).doubleValue() / PAGE_SIZE);
     }
 
+    @Override
+    public int getTotalUserApplicationsFiltered(long userId, ApplicationState state) {
+        return (int) ((BigInteger) em.createNativeQuery("SELECT COUNT(*) FROM applications WHERE applicantid=:applicantId AND state= :state ")
+                .setParameter("applicantId", userId)
+                .setParameter("state", state.getState()).getSingleResult()).longValue();
+    }
+
     private List<Long> getApplicationIds(Query query) {
         @SuppressWarnings("unchecked")
         List<Long> ids = (List<Long>) query.getResultList().stream().map(o -> ((Number) o).longValue()).collect(Collectors.toList());

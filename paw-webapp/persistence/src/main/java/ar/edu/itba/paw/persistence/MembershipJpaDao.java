@@ -114,6 +114,16 @@ public class MembershipJpaDao implements MembershipDao {
     }
 
     @Override
+    public boolean isInBand(User band, User artist) {
+        final TypedQuery<Membership> query = em.createQuery("FROM Membership as m where m.artist.id = :artistId and m.band.id = :bandId AND m.state = :state",
+                Membership.class);
+        query.setParameter("artistId", artist.getId());
+        query.setParameter("bandId", band.getId());
+        query.setParameter("state", MembershipState.ACCEPTED);
+        return query.getResultList().stream().findFirst().isPresent();
+    }
+
+    @Override
     public int getPendingMembershipsCount(User user) {
         Query query = membershipCountQuery(user, MembershipState.PENDING);
         return ((Number) query.getSingleResult()).intValue();
