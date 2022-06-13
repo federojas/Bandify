@@ -129,6 +129,7 @@ public class AuditionsController {
         lastPage = lastPage == 0 ? 1 : lastPage;
         mav.addObject("id",id);
         mav.addObject("auditionTitle", aud.getTitle());
+        mav.addObject("auditionId", aud.getId());
         mav.addObject("applications", applications);
         mav.addObject("currentPage", page);
         mav.addObject("lastPage", lastPage);
