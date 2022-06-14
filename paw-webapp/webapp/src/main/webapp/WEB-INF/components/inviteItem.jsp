@@ -6,8 +6,7 @@
 
 <html>
 <head>
-  <title><spring:message code="title.applicationItem"/> </title>
-
+  <title><spring:message code="title.inviteItem"/> </title>
   <link rel="stylesheet" href="<c:url value="/resources/css/applicationItem.css" />" />
   <script type="text/javascript" src="<c:url value="/resources/js/invertImg.js" />"></script>
 </head>
@@ -31,6 +30,11 @@
   <div class="collapsible-body applicant-body">
     <div>
       <span class="message-span"><c:out value="${param.inviteDescription}"/></span>
+    </div>
+    <div class="roles-div my-5">
+      <c:forEach var="role" items="${requestScope.memberRoles}">
+          <span class="roles-span"><c:out value="${role.name}"/></span>
+      </c:forEach>
     </div>
     <div class="applicant-body-end">
       <div class="purple-button">

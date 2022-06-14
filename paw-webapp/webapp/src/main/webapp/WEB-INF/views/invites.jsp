@@ -50,6 +50,11 @@
                 <div>
                     <ul class="collapsible">
                         <c:forEach var="pendingMembership" items="${invites}">
+                            <c:set
+                                    var="memberRoles"
+                                    value="${pendingMembership.roles}"
+                                    scope="request"
+                            />
                             <jsp:include page="../components/inviteItem.jsp">
                                 <jsp:param name="bandId" value="${pendingMembership.band.id}"/>
                                 <jsp:param name="bandName" value="${pendingMembership.band.name}"/>

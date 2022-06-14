@@ -42,7 +42,7 @@
                 <button class="audition-btn" onclick="openConfirmation()" type="submit">
                     <spring:message code="audition.alt.delete" var="delete"/>
                     <spring:message code="audition.delete" />
-                    <img src="<c:url value="/resources/icons/trash.svg"/>" class="audition-icon" alt="${delete}"/>
+                    <img src="<c:url value="/resources/icons/reject.svg"/>" class="audition-icon invert" alt="${delete}"/>
                 </button>
             </a>
             <spring:message code="deleteConfirmationModal.title" var="modalTitle"/>

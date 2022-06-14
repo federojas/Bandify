@@ -98,7 +98,7 @@ public class UserController {
     public ModelAndView profile() {
         ModelAndView mav = new ModelAndView("profile");
         User user = authFacadeService.getCurrentUser();
-        int pendingCount = 0;
+        int pendingCount;
         if(user.isBand()) {
             pendingCount = applicationService.getTotalUserApplicationsFiltered(user.getId(), ApplicationState.PENDING);
             mav.addObject("pendingApps", pendingCount);
@@ -180,8 +180,8 @@ public class UserController {
         mav.addObject("user", userToVisit);
         Location location = userService.getUserLocation(userToVisit);
         mav.addObject("location", location);
-        Set<Role> auditionRoles = roleService.getAll();
-        mav.addObject("auditionRoles",auditionRoles);
+        Set<Role> roles = roleService.getAll();
+        mav.addObject("roleList",roles);
 
         return mav;
     }
@@ -201,8 +201,8 @@ public class UserController {
                 userService.getUserById(id).orElseThrow(UserNotFoundException::new),
                 authFacadeService.getCurrentUser()).
                 description(membershipForm.getDescription()).
-                state(MembershipState.PENDING)).
-                setRoles(roleService.getRolesByNames(membershipForm.getRoles()));
+                state(MembershipState.PENDING).
+                roles(roleService.getRolesByNames(membershipForm.getRoles())));
 
         return new ModelAndView("membershipInvite");
     }

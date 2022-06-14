@@ -10,6 +10,23 @@
     align-items: center;
 }
 
+.roles-span {
+    padding: 0.25rem 0.5rem;
+    background-color: #4AAABC;
+    border-radius: 0.25rem;
+    color: #fff;
+    font-size: 1.25rem;
+    line-height: 1.25rem;
+    margin: 0.25rem;
+    height: 25px;
+}
+
+.roles-div {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
 .applicant-header {
     margin: 1rem;
 }

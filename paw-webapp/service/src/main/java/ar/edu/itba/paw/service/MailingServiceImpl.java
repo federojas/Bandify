@@ -56,6 +56,34 @@ public class MailingServiceImpl implements MailingService {
 
     @Async
     @Override
+    public void sendInvitationAcceptedEmail(User artist, String receiverEmail, Locale locale) {
+        try {
+            final String url = new URL(environment.getRequiredProperty("app.protocol"), environment.getRequiredProperty("app.base.url"), environment.getRequiredProperty("app.group.directory") + "user/" + artist.getId()).toString();
+            Map<String, Object> mailData = new HashMap<>();
+            String subject = messageSource.getMessage("added-artist.title",null,locale);
+            mailData.put("goToBandifyURL", url);
+            sendEmail(artist, receiverEmail, subject, "added-artist", mailData,  locale);
+        } catch (MalformedURLException e) {
+            LOGGER.warn("Invitation accepted email threw url exception");
+        }
+    }
+
+    @Async
+    @Override
+    public void sendNewInvitationEmail(User band, String receiverEmail, Locale locale) {
+        try {
+            final String url = new URL(environment.getRequiredProperty("app.protocol"), environment.getRequiredProperty("app.base.url"), environment.getRequiredProperty("app.group.directory") + "user/" + band.getId()).toString();
+            Map<String, Object> mailData = new HashMap<>();
+            String subject = messageSource.getMessage("new-invite.title",null,locale);
+            mailData.put("goToBandifyURL", url);
+            sendEmail(band, receiverEmail, subject, "new-invite", mailData,  locale);
+        } catch (MalformedURLException e) {
+            LOGGER.warn("New invitation email threw url exception");
+        }
+    }
+
+    @Async
+    @Override
     public void sendApplicationAcceptedEmail(User band, Audition audition, String receiverEmail, Locale locale) {
         try {
             final String url = new URL(environment.getRequiredProperty("app.protocol"), environment.getRequiredProperty("app.base.url"), environment.getRequiredProperty("app.group.directory") + "user/" + band.getId()).toString();

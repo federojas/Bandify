@@ -12,5 +12,7 @@ public interface MailingService {
     void sendVerificationEmail(User user, VerificationToken token, Locale locale);
     void sendResetPasswordEmail(User user, VerificationToken token, Locale locale);
     void sendAddedToBandEmail(User band, String receiverEmail, Locale locale);
+    void sendInvitationAcceptedEmail(User artist, String receiverEmail, Locale locale);
+    void sendNewInvitationEmail(User band, String receiverEmail, Locale locale);
     void sendApplicationAcceptedEmail(User band, Audition audition, String receiverEmail, Locale locale);
 }

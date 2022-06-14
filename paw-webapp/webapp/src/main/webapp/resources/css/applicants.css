@@ -17,6 +17,10 @@
     width: 48px;
 }
 
+.invert {
+    filter: invert(100%);
+}
+
 .back-div {
     display: flex;
     flex-direction: row;

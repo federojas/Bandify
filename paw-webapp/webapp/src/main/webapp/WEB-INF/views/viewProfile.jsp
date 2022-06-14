@@ -106,7 +106,7 @@
                                     <button class="leave-btn" onclick="openConfirmation()" type="submit">
                                         <spring:message code="audition.alt.delete" var="delete"/>
                                         <spring:message code="member.leave" />
-                                        <img src="<c:url value="/resources/icons/trash.svg"/>" class="audition-icon" alt="${delete}"/>
+                                        <img src="<c:url value="/resources/icons/logout.svg"/>" class="audition-icon" alt="${delete}"/>
                                     </button>
                                 </a>
                                 <spring:message code="leaveConfirmationModal.title" var="modalTitle"/>

@@ -55,12 +55,9 @@ public class MembershipServiceImpl implements MembershipService {
         if(builder.getArtist().isBand() || !builder.getArtist().isAvailable()) {
             throw new UserNotAvailableException();
         }
-        // TODO: mandar mail de invitación
-        /*
         Locale locale = LocaleContextHolder.getLocale();
         LocaleContextHolder.setLocale(locale, true);
-        mailingService.sendInviteEmail(builder.getBand(), builder.getArtist().getEmail(), locale);
-         */
+        mailingService.sendNewInvitationEmail(builder.getBand(), builder.getArtist().getEmail(), locale);
         return createMembership(builder.state(MembershipState.PENDING));
     }
 
@@ -91,6 +88,11 @@ public class MembershipServiceImpl implements MembershipService {
                 throw new MembershipNotFoundException();
             }
             membership.setState(state);
+            if(state == MembershipState.ACCEPTED) {
+                Locale locale = LocaleContextHolder.getLocale();
+                LocaleContextHolder.setLocale(locale, true);
+                mailingService.sendInvitationAcceptedEmail(membership.getArtist(), membership.getBand().getEmail(), locale);
+            }
         } else {
             throw new MembershipNotOwnedException();
         }

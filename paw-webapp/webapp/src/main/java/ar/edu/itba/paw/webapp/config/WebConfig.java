@@ -46,7 +46,7 @@ import java.util.Properties;
 @PropertySource(value= {"classpath:application.properties"})
 public class WebConfig extends WebMvcConfigurerAdapter {
 
-    //TODO ANTES DE DEPLOYAR COPIAR MESSGES EN A MESSAGES DEFAULT
+
     private static final boolean DEPLOY = false;
 
     private static boolean isDeploying() {

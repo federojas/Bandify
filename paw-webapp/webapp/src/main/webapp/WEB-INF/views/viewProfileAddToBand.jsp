@@ -109,8 +109,8 @@
                                             path="roles"
                                             multiple="true"
                                     >
-                                        <form:option value="" disabled="true" selected="true"><spring:message code="edituser.lookingFor.maxSelect" arguments="${auditionRoles.size()}"/></form:option>
-                                        <c:forEach var="role" items="${auditionRoles}" varStatus="loop">
+                                        <form:option value="" disabled="true" selected="true"><spring:message code="edituser.lookingFor.maxSelect" arguments="${roleList.size()}"/></form:option>
+                                        <c:forEach var="role" items="${roleList}" varStatus="loop">
                                             <form:option value="${role.name}"><c:out value="${role.name}"/></form:option>
                                         </c:forEach>
 
