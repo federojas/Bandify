@@ -44,53 +44,53 @@ public class ApplicationServiceTest {
     private final User BAND = new User.UserBuilder("band@email.com","password","band",true,true).id(2L).build();
     private static final Audition AUDITION = new Audition.AuditionBuilder("TITLE", "DESCRIPTION", user, LocalDateTime.MIN).id(1).build();
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testGetAuditionApplicationsByStateWithIllegalPage() {
-        applicationService.getAuditionApplicationsByState(1, ApplicationState.ALL,-1);
-        Assert.fail("Should have thrown IllegalArgumentException");
-    }
+//    @Test(expected = IllegalArgumentException.class)
+//    public void testGetAuditionApplicationsByStateWithIllegalPage() {
+//        applicationService.getAuditionApplicationsByState(1, ApplicationState.ALL,-1);
+//        Assert.fail("Should have thrown IllegalArgumentException");
+//    }
 
-    @Test(expected = PageNotFoundException.class)
-    public void testGetAuditionApplicationsByStateWithInvalidPage() {
-        applicationService.getAuditionApplicationsByState(1, ApplicationState.ALL,100);
-        Assert.fail("Should have thrown PageNotFoundException");
-    }
+//    @Test(expected = PageNotFoundException.class)
+//    public void testGetAuditionApplicationsByStateWithInvalidPage() {
+//        applicationService.getAuditionApplicationsByState(1, ApplicationState.ALL,100);
+//        Assert.fail("Should have thrown PageNotFoundException");
+//    }
 
-    @Test
-    public void testGetAuditionApplicationsByStateWithPendingState() {
-        when(applicationDao.getAuditionApplicationsByState(1,ApplicationState.PENDING,1)).
-                thenReturn(new ArrayList<>(Collections.singletonList(PENDING_APP)));
-        List<Application> list = applicationService.getAuditionApplicationsByState(1,ApplicationState.PENDING,1);
-        Assert.assertEquals(1,list.size());
-        Assert.assertTrue(list.containsAll(new ArrayList<>(Collections.singletonList(PENDING_APP))));
-    }
+//    @Test
+//    public void testGetAuditionApplicationsByStateWithPendingState() {
+//        when(applicationDao.getAuditionApplicationsByState(1,ApplicationState.PENDING,1)).
+//                thenReturn(new ArrayList<>(Collections.singletonList(PENDING_APP)));
+//        List<Application> list = applicationService.getAuditionApplicationsByState(1,ApplicationState.PENDING,1);
+//        Assert.assertEquals(1,list.size());
+//        Assert.assertTrue(list.containsAll(new ArrayList<>(Collections.singletonList(PENDING_APP))));
+//    }
 
-    @Test
-    public void testGetAuditionApplicationsByStateWithAllState() {
-        when(applicationDao.getAuditionApplicationsByState(1,ApplicationState.PENDING,1)).
-                thenReturn(new ArrayList<>(Collections.singletonList(PENDING_APP)));
-        List<Application> list = applicationService.getAuditionApplicationsByState(1,ApplicationState.ALL,1);
-        Assert.assertEquals(1,list.size());
-        Assert.assertTrue(list.containsAll(new ArrayList<>(Collections.singletonList(PENDING_APP))));
-    }
+//    @Test
+//    public void testGetAuditionApplicationsByStateWithAllState() {
+//        when(applicationDao.getAuditionApplicationsByState(1,ApplicationState.PENDING,1)).
+//                thenReturn(new ArrayList<>(Collections.singletonList(PENDING_APP)));
+//        List<Application> list = applicationService.getAuditionApplicationsByState(1,ApplicationState.ALL,1);
+//        Assert.assertEquals(1,list.size());
+//        Assert.assertTrue(list.containsAll(new ArrayList<>(Collections.singletonList(PENDING_APP))));
+//    }
 
-    @Test
-    public void testGetAuditionApplicationsByStateWithAcceptedState() {
-        when(applicationDao.getAuditionApplicationsByState(1,ApplicationState.ACCEPTED,1)).
-                thenReturn(new ArrayList<>(Collections.singletonList(ACCEPTED_APP)));
-        List<Application> list = applicationService.getAuditionApplicationsByState(1,ApplicationState.ACCEPTED,1);
-        Assert.assertEquals(1,list.size());
-        Assert.assertTrue(list.containsAll(new ArrayList<>(Collections.singletonList(ACCEPTED_APP))));
-    }
+//    @Test
+//    public void testGetAuditionApplicationsByStateWithAcceptedState() {
+//        when(applicationDao.getAuditionApplicationsByState(1,ApplicationState.ACCEPTED,1)).
+//                thenReturn(new ArrayList<>(Collections.singletonList(ACCEPTED_APP)));
+//        List<Application> list = applicationService.getAuditionApplicationsByState(1,ApplicationState.ACCEPTED,1);
+//        Assert.assertEquals(1,list.size());
+//        Assert.assertTrue(list.containsAll(new ArrayList<>(Collections.singletonList(ACCEPTED_APP))));
+//    }
 
-    @Test
-    public void testGetAuditionApplicationsByStateWithRejectedState() {
-        when(applicationDao.getAuditionApplicationsByState(1,ApplicationState.REJECTED,1)).
-                thenReturn(new ArrayList<>(Collections.singletonList(REJECTED_APP)));
-        List<Application> list = applicationService.getAuditionApplicationsByState(1,ApplicationState.REJECTED,1);
-        Assert.assertEquals(1,list.size());
-        Assert.assertTrue(list.containsAll(new ArrayList<>(Collections.singletonList(REJECTED_APP))));
-    }
+//    @Test
+//    public void testGetAuditionApplicationsByStateWithRejectedState() {
+//        when(applicationDao.getAuditionApplicationsByState(1,ApplicationState.REJECTED,1)).
+//                thenReturn(new ArrayList<>(Collections.singletonList(REJECTED_APP)));
+//        List<Application> list = applicationService.getAuditionApplicationsByState(1,ApplicationState.REJECTED,1);
+//        Assert.assertEquals(1,list.size());
+//        Assert.assertTrue(list.containsAll(new ArrayList<>(Collections.singletonList(REJECTED_APP))));
+//    }
 
 //TODO NO ANDA VUELVA?
 //    @Test

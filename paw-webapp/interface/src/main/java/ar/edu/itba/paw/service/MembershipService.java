@@ -35,5 +35,5 @@ public interface MembershipService {
 
     boolean canBeAddedToBand(User band, User artist);
 
-    boolean isInBandBand(User band, User artist);
+    boolean isInBand(User band, User artist);
 }

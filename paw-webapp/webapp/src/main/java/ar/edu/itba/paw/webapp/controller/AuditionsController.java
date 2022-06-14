@@ -125,6 +125,16 @@ public class AuditionsController {
         ModelAndView mav = new ModelAndView("applicants");
         List<Application> applications = applicationService.getAuditionApplicationsByState(id, ApplicationState.valueOf(state), page);
         Audition aud = auditionService.getAuditionById(id);
+
+        //TODO ESTO ES MUY MALO MIRAR
+        ArrayList<Boolean> isInBandArray = new ArrayList<>();
+        if(Objects.equals(state, ApplicationState.ACCEPTED.getState())) {
+            for(Application application : applications) {
+                isInBandArray.add(membershipService.isInBand(application.getAudition().getBand(), application.getApplicant()));
+            }
+            mav.addObject("isInBand", isInBandArray);
+        }
+
         int lastPage = applicationService.getTotalAuditionApplicationByStatePages(id, ApplicationState.valueOf(state));
         lastPage = lastPage == 0 ? 1 : lastPage;
         mav.addObject("id",id);
@@ -350,6 +360,9 @@ public class AuditionsController {
         }
         Application application = applicationService.getApplicationById(id,applicationId).orElseThrow(ApplicationNotFoundException::new);
 
+        if(membershipService.isInBand(application.getAudition().getBand(), application.getApplicant())) {
+            return new ModelAndView("redirect: /profile");
+        }
 
         // TODO: falta poder rechazar en vez de seleccionar
         // TODO: membershipSuccess.jsp y selectApplicant.jsp

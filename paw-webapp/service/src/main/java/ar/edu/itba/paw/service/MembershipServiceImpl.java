@@ -175,7 +175,7 @@ public class MembershipServiceImpl implements MembershipService {
     }
 
     @Override
-    public boolean isInBandBand(User band, User artist) {
-        return membershipDao.isInBand(band, artist) && artist.isAvailable();
+    public boolean isInBand(User band, User artist) {
+        return membershipDao.isInBand(band, artist);
     }
 }

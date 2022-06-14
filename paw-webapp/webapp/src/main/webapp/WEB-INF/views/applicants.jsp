@@ -75,7 +75,7 @@
                 <div class="user-data-applicants">
                     <c:if test="${applications.size() > 0}">
                         <ul class="collapsible applicants-ul">
-                            <c:forEach var="app" items="${applications}">
+                            <c:forEach var="app" items="${applications}" varStatus="loop">
                                 <jsp:include page="../components/applicationItem.jsp">
                                     <jsp:param name="applicantName" value="${app.applicant.name}" />
                                     <jsp:param name="applicantSurname" value="${app.applicant.surname}" />
@@ -87,6 +87,7 @@
                                     <jsp:param name="message" value="${app.message}"/>
                                     <jsp:param name="available" value="${app.applicant.available}" />
                                     <jsp:param name="email" value="${app.applicant.email}" />
+                                    <jsp:param name="isInBand" value="${isInBand[loop.index]}" />
                                 </jsp:include>
                             </c:forEach>
                         </ul>

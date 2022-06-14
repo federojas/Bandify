@@ -140,7 +140,7 @@ public class UserController {
         } else {
             mav.addObject("canBeAddedToBand", false);
             if(userToVisit.isBand() && currentUser != null) {
-                boolean isInBand = membershipService.isInBandBand(userToVisit, currentUser);
+                boolean isInBand = membershipService.isInBand(userToVisit, currentUser);
                 mav.addObject("isInBand", isInBand);
                 if(isInBand)
                     mav.addObject("membershipId", membershipService.getMembershipByUsers(userToVisit, currentUser).orElseThrow(MembershipNotFoundException::new).getId());
