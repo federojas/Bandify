@@ -20,6 +20,7 @@ public class MembershipServiceImpl implements MembershipService {
 
     @Autowired
     private MembershipDao membershipDao;
+
     @Autowired
     private ApplicationService applicationService;
     @Autowired

@@ -37,10 +37,45 @@ public class AuditionServiceTest {
     private static final Audition AUD = new Audition.AuditionBuilder("title", "desc", user, LocalDateTime.now()).location(new Location(1L, "location")).lookingFor(new Role(1, "role")).musicGenres(new Genre("genre",1)).id(1).build();
     private static final FilterOptions FILTER = new FilterOptions.FilterOptionsBuilder().build();
 
-
     private static final long INVALID_ID = -2;
     private static final long AUD_ID = 1;
     private static final User USER = new User.UserBuilder("artist@mail.com","12345678", "name", false, false).surname("surname").description("description").id(2L).build();
+
+    private static final String AUD_TITLE = "title";
+    private static final String AUD_DESCRIPTION = "description";
+    private static final User AUD_USER = user;
+    private static final LocalDateTime AUD_DATE = LocalDateTime.now();
+    private static final Location AUD_LOCATION = new Location(1L, "location");
+    private static final Role AUD_ROLE = new Role(1, "role");
+    private static final Genre AUD_GENRE = new Genre("genre",1);
+
+    private static final Audition.AuditionBuilder defaultAudBuilder = new Audition.AuditionBuilder(
+            AUD_TITLE, AUD_DESCRIPTION, AUD_USER, AUD_DATE)
+            .location(AUD_LOCATION)
+            .lookingFor(AUD_ROLE)
+            .musicGenres(AUD_GENRE)
+            .id(AUD_ID);
+
+    private static final Audition defaultAud = defaultAudBuilder.build();
+
+    @Mock
+    private Audition aud;
+
+    @Mock
+    private Audition.AuditionBuilder audBuilder;
+
+    @Test
+    public void testCreateAudition() {
+        auditionService.create(defaultAudBuilder);
+        verify(auditionDao).create(defaultAudBuilder);
+    }
+
+//    @Test
+//    public void testEditAudition() {
+//        auditionService.editAuditionById(defaultAudBuilder, aud.getId());
+//        aud.setIsOpen(true);
+//        verify(aud).edit(defaultAudBuilder);
+//    }
 
     @Test(expected = IllegalArgumentException.class)
     public void testGetAuditionByInvalidId() {
