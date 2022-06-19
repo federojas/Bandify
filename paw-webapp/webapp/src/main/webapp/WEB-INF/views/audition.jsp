@@ -31,7 +31,7 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
     <main>
       <div class="audition-content">
         <div class="left-panel">
-          <a class="back-anchor" href="<c:url value="/auditions" />">
+          <a class="back-anchor" onclick="window.history.back();" style="cursor: pointer;">
             <div class="back-div">
               <spring:message code="audition.alt.back" var="backAlt"/>
               <img src="<c:url value="/resources/icons/back.svg"/>" alt="${backAlt}" class="back-icon"/>
@@ -115,7 +115,7 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
                 </ul>
               </div>
               <sec:authorize access="hasRole('ARTIST')">
-                <c:if test="${!alreadyApplied}">
+                <c:if test="${!alreadyApplied and canBeAddedToBand}">
                   <div class="audition-application">
                     <jsp:include page="../components/applicationForm.jsp">
                       <jsp:param name="auditionForm" value="${1}" />
@@ -130,15 +130,15 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
 
         <div class="right-panel">
           <div class="buttonry">
-            <div class="audition-applicants-btn hover: shadow-sm">
+            <a class="audition-applicants-btn hover: shadow-sm">
               <button class="audition-btn" onclick="share()">
                 <spring:message code="audition.share" />
                 <spring:message code="audition.share.alt" var="altShare"/>
                 <img src="<c:url value="/resources/icons/copy.svg"/>" class="audition-icon invert" alt="${altShare}" />
               </button>
-            </div>
+            </a>
             <c:if test="${isOwner}">
-                <a class="audition-applicants-btn hover: shadow-sm" href="<c:url value="/auditions/${audition.id}/applicants"/>">
+              <a class="audition-applicants-btn hover: shadow-sm" href="<c:url value="/auditions/${audition.id}/applicants"/>">
                 <button class="audition-btn" type="submit">
                   <spring:message code="audition.applicants" />
                   <spring:message code="audition.applicants.alt" var="altApplicants"/>
@@ -152,17 +152,17 @@ prefix="spring" uri="http://www.springframework.org/tags" %>
                   <img src="<c:url value="/resources/icons/edit-white-icon.svg"/>" class="audition-icon" alt="${edit}"/>
                 </button>
               </a>
-              <div  class="audition-delete-btn">
+              <a class="audition-delete-btn">
                 <button class="audition-btn" onclick="openConfirmation()" type="submit">
                   <spring:message code="audition.alt.delete" var="delete"/>
                   <spring:message code="audition.delete" />
-                  <img src="<c:url value="/resources/icons/trash.svg"/>" class="audition-icon" alt="${delete}"/>
+                  <img src="<c:url value="/resources/icons/reject.svg"/>" class="audition-icon-remove invert" alt="${delete}"/>
                 </button>
-              </div>
+              </a>
               <spring:message code="deleteConfirmationModal.title" var="modalTitle"/>
               <spring:message code="deleteConfirmationModal.deleteAudition" var="modalHeading"/>
               <spring:message code="deleteConfirmationModal.confirmationQuestion" var="confirmationQuestion"/>
-              <c:url value="/profile/deleteAudition/${audition.id}" var="postPath"/>
+              <c:url value="/profile/closeAudition/${audition.id}" var="postPath"/>
               <jsp:include page="../components/confirmationModal.jsp">
                 <jsp:param name="modalTitle" value="${modalTitle}" />
                 <jsp:param name="isDelete" value="${true}" />

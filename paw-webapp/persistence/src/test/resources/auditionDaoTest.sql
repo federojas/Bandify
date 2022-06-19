@@ -42,44 +42,44 @@ VALUES (3, 'location3');
 INSERT INTO locations(id, location)
 VALUES (4, 'locationUnique');
 
-INSERT INTO auditions(id, bandid, title, description, creationdate, locationid)
-VALUES (1, 1, 'title', 'description', '2022-07-05 14:23:30', 1);
+INSERT INTO auditions(id, bandid, title, description, creationdate, locationid, isOpen)
+VALUES (1, 1, 'title', 'description', '2022-07-05 14:23:30', 1, true);
 
-INSERT INTO auditions(id, bandid, title, description, creationdate, locationid)
-VALUES (2, 1, 'title', 'description', '2022-07-05 14:23:30', 1);
+INSERT INTO auditions(id, bandid, title, description, creationdate, locationid, isOpen)
+VALUES (2, 1, 'title', 'description', '2022-07-05 14:23:30', 1, true);
 
-INSERT INTO auditions(id, bandid, title, description, creationdate, locationid)
-VALUES (3, 1, 'title', 'description', '2022-07-05 14:23:30', 1);
+INSERT INTO auditions(id, bandid, title, description, creationdate, locationid, isOpen)
+VALUES (3, 1, 'title', 'description', '2022-07-05 14:23:30', 1, true);
 
-INSERT INTO auditions(id, bandid, title, description, creationdate, locationid)
-VALUES (4, 1, 'title', 'description', '2022-07-05 14:23:30', 2);
+INSERT INTO auditions(id, bandid, title, description, creationdate, locationid, isOpen)
+VALUES (4, 1, 'title', 'description', '2022-07-05 14:23:30', 2, true);
 
-INSERT INTO auditions(id, bandid, title, description, creationdate, locationid)
-VALUES (5, 1, 'title', 'description', '2022-07-05 14:23:30', 2);
+INSERT INTO auditions(id, bandid, title, description, creationdate, locationid, isOpen)
+VALUES (5, 1, 'title', 'description', '2022-07-05 14:23:30', 2, true);
 
-INSERT INTO auditions(id, bandid, title, description, creationdate, locationid)
-VALUES (6, 1, 'title', 'description', '2022-07-05 14:23:30', 2);
+INSERT INTO auditions(id, bandid, title, description, creationdate, locationid, isOpen)
+VALUES (6, 1, 'title', 'description', '2022-07-05 14:23:30', 2, true);
 
-INSERT INTO auditions(id, bandid, title, description, creationdate, locationid)
-VALUES (7, 1, 'title', 'description', '2022-07-05 14:23:30', 3);
+INSERT INTO auditions(id, bandid, title, description, creationdate, locationid, isOpen)
+VALUES (7, 1, 'title', 'description', '2022-07-05 14:23:30', 3, true);
 
-INSERT INTO auditions(id, bandid, title, description, creationdate, locationid)
-VALUES (8, 1, 'title', 'description', '2022-07-05 14:23:30', 3);
+INSERT INTO auditions(id, bandid, title, description, creationdate, locationid, isOpen)
+VALUES (8, 1, 'title', 'description', '2022-07-05 14:23:30', 3, true);
 
-INSERT INTO auditions(id, bandid, title, description, creationdate, locationid)
-VALUES (9, 1, 'title', 'description', '2022-07-05 14:23:30', 1);
+INSERT INTO auditions(id, bandid, title, description, creationdate, locationid, isOpen)
+VALUES (9, 1, 'title', 'description', '2022-07-05 14:23:30', 1, true);
 
-INSERT INTO auditions(id, bandid, title, description, creationdate, locationid)
-VALUES (10, 1, 'query title', 'description', '2022-07-05 14:23:30', 1);
+INSERT INTO auditions(id, bandid, title, description, creationdate, locationid, isOpen)
+VALUES (10, 1, 'query title', 'description', '2022-07-05 14:23:30', 1, true);
 
-INSERT INTO auditions(id, bandid, title, description, creationdate, locationid)
-VALUES (11, 1, 'title', 'description', '2022-07-05 14:23:30', 1);
+INSERT INTO auditions(id, bandid, title, description, creationdate, locationid, isOpen)
+VALUES (11, 1, 'title', 'description', '2022-07-05 14:23:30', 1, true);
 
-INSERT INTO auditions(id, bandid, title, description, creationdate, locationid)
-VALUES (12, 2, 'title', 'description', '2022-08-05 14:23:30', 1);
+INSERT INTO auditions(id, bandid, title, description, creationdate, locationid, isOpen)
+VALUES (12, 2, 'title', 'description', '2022-08-05 14:23:30', 1, true);
 
-INSERT INTO auditions(id, bandid, title, description, creationdate, locationid)
-VALUES (13, 2, 'title', 'description', '2022-06-05 14:23:30', 1);
+INSERT INTO auditions(id, bandid, title, description, creationdate, locationid, isOpen)
+VALUES (13, 2, 'title', 'description', '2022-06-05 14:23:30', 1, true);
 
 INSERT INTO auditionroles(auditionid, roleid)
 VALUES (1,1);

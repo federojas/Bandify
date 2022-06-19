@@ -77,7 +77,7 @@ public class User {
         this.isEnabled = builder.isEnabled;
         this.id = builder.id;
         this.description = builder.description;
-        this.available = false;
+        this.available = builder.available;
     }
 
     @Override
@@ -85,7 +85,14 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return isBand == user.isBand && isEnabled == user.isEnabled && Objects.equals(id, user.id) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(name, user.name) && Objects.equals(surname, user.surname) && Objects.equals(description, user.description);
+        return isBand == user.isBand &&
+                isEnabled == user.isEnabled &&
+                Objects.equals(id, user.id) &&
+                Objects.equals(email, user.email) &&
+                Objects.equals(password, user.password) &&
+                Objects.equals(name, user.name) &&
+                Objects.equals(surname, user.surname) &&
+                Objects.equals(description, user.description);
     }
 
     @Override
@@ -204,6 +211,7 @@ public class User {
         private String email, name;
         private String surname, description, password;
         private boolean isBand, isEnabled;
+        private boolean available;
 
         /* Default */ UserBuilder() {
             // Just for Hibernate
@@ -282,6 +290,11 @@ public class User {
 
         public Long getId() {
             return id;
+        }
+
+        public UserBuilder available(boolean available) {
+            this.available = available;
+            return this;
         }
     }
 }

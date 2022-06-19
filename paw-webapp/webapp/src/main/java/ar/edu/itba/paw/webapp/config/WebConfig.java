@@ -46,6 +46,7 @@ import java.util.Properties;
 @PropertySource(value= {"classpath:application.properties"})
 public class WebConfig extends WebMvcConfigurerAdapter {
 
+
     private static final boolean DEPLOY = false;
 
     private static boolean isDeploying() {

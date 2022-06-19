@@ -14,24 +14,7 @@
     <link rel="stylesheet" href="<c:url value="/resources/css/auditions.css" />"/>
     <link rel="stylesheet" href="<c:url value="/resources/css/applicants.css" />"/>
     <script src="<c:url value="/resources/js/pagination.js" />"></script>
-    <script>
-        const queryString = window.location.search;
-        const parameters = new URLSearchParams(queryString);
-        $(document).ready(function () {
-            $(".select-wrapper").each(function () {
-                let wrapper = this;
-                let i = 0;
-                $(this).find("ul>li").each(function () {
-                    let li = this;
-                    let option_text = $(this).text();
-                    if (i == parameters.get('state')-1) {
-                        $(li).click();
-                    }
-                    i++;
-                });
-            });
-        });
-    </script>
+    <script src="<c:url value="/resources/js/applicants.js"/>"></script>
 </head>
 <body>
 <!-- Navbar -->
@@ -44,7 +27,7 @@
     <!-- Auditions content -->
     <div class="applicants-container">
         <div class="left-panel-abs">
-            <a class="back-anchor" href="<c:url value="/auditions/${id}" />">
+            <a class="back-anchor" onclick="window.history.back();" style="cursor: pointer;">
                 <div class="back-div">
                     <spring:message code="audition.alt.back" var="backAlt"/>
                     <img src="<c:url value="/resources/icons/back.svg" />" alt="${backAlt}" class="back-icon"/>
@@ -53,47 +36,70 @@
         </div>
         <div class="applicants-content">
             <h2 class="applicants-title">
-                <spring:message code="applicants.title"/>
+                <spring:message code="applicants.title" arguments="${auditionTitle}"/>
             </h2>
-            <h3 class="subtitle">
-                <b><spring:message code="applicants.subtitle" arguments="${auditionTitle}"/></b>
-            </h3>
+            <a class="audition-delete-btn">
+                <button class="audition-btn" onclick="openConfirmation()" type="submit">
+                    <spring:message code="audition.alt.delete" var="delete"/>
+                    <spring:message code="audition.delete" />
+                    <img src="<c:url value="/resources/icons/reject.svg"/>" class="audition-icon invert" alt="${delete}"/>
+                </button>
+            </a>
+            <spring:message code="deleteConfirmationModal.title" var="modalTitle"/>
+            <spring:message code="deleteConfirmationModal.deleteAudition" var="modalHeading"/>
+            <spring:message code="deleteConfirmationModal.confirmationQuestion" var="confirmationQuestion"/>
+            <c:url value="/profile/closeAudition/${auditionId}" var="postPath"/>
+            <jsp:include page="../components/confirmationModal.jsp">
+                <jsp:param name="modalTitle" value="${modalTitle}" />
+                <jsp:param name="isDelete" value="${true}" />
+                <jsp:param name="modalHeading" value="${modalHeading}" />
+                <jsp:param name="confirmationQuestion" value="${confirmationQuestion}" />
+                <jsp:param name="action" value="${postPath}" />
+            </jsp:include>
             <div class="user-data">
-                <form action="<c:url value="/auditions/${id}/applicants" />" method="get" class="filter-applications-form">
-                    <div class="filter-applications">
-                        <div>
-                            <label for="postulation"><spring:message code="applications.seeBy"/></label>
-                            <select id="postulation" name="state">
-                                <option value="1"><spring:message code="applications.pending"/></option>
-                                <option value="2"><spring:message code="applications.accepted"/></option>
-                                <option value="3"><spring:message code="applications.rejected"/></option>
-                            </select>
-                        </div>
-                        <button type="submit" class="filter-applications-button"><spring:message code="applications.see"/></button>
-                    </div>
-                </form>
-                <c:if test="${applications.size() > 0}">
-                    <ul class="collapsible applicants-ul">
-                        <c:forEach var="app" items="${applications}">
-                            <jsp:include page="../components/applicationItem.jsp">
-                                <jsp:param name="applicantName" value="${app.applicant.name}" />
-                                <jsp:param name="applicantSurname" value="${app.applicant.surname}" />
-                                <jsp:param name="auditionId" value="${app.audition.id}" />
-                                <jsp:param name="userId" value="${app.applicant.id}" />
-                                <jsp:param name="actionable" value="${app.state.state=='PENDING'}" />
-                                <jsp:param name="message" value="${app.message}"/>
-                                <jsp:param name="available" value="${app.applicant.available}" />
-                                <jsp:param name="email" value="${app.applicant.email}" />
-                            </jsp:include>
-                        </c:forEach>
-                    </ul>
-                </c:if>
-                <c:if test="${applications.size() == 0}">
-                    <p class="no-applications">
-                        <spring:message code="profile.noApplications"/>
-                    </p>
-                </c:if>
+                <div class="user-data-tabs">
+                    <c:url value="/auditions/${id}/applicants" var="pendingUrl">
+                        <c:param name="state" value="PENDING"/>
+                    </c:url>
+                    <c:url value="/auditions/${id}/applicants" var="acceptedUrl">
+                        <c:param name="state" value="ACCEPTED"/>
+                    </c:url>
+                    <c:url value="/auditions/${id}/applicants" var="rejectedUrl">
+                        <c:param name="state" value="REJECTED"/>
+                    </c:url>
+                    <a href="${pendingUrl}" id="pending"><spring:message code="applications.pending"/></a>
+                    <a href="${acceptedUrl}" id="accepted"><spring:message code="applications.accepted"/></a>
+                    <a href="${rejectedUrl}" id="rejected"><spring:message code="applications.rejected"/></a>
+                </div>
+                <hr class="rounded">
+                <div class="user-data-applicants">
+                    <c:if test="${applications.size() > 0}">
+                        <ul class="collapsible applicants-ul">
+                            <c:forEach var="app" items="${applications}" varStatus="loop">
+                                <jsp:include page="../components/applicationItem.jsp">
+                                    <jsp:param name="applicantName" value="${app.applicant.name}" />
+                                    <jsp:param name="applicantSurname" value="${app.applicant.surname}" />
+                                    <jsp:param name="auditionId" value="${app.audition.id}" />
+                                    <jsp:param name="userId" value="${app.applicant.id}" />
+                                    <jsp:param name="applicationId" value="${app.id}" />
+                                    <jsp:param name="actionable" value="${app.state.state=='PENDING'}" />
+                                    <jsp:param name="accepted" value="${app.state.state == 'ACCEPTED'}"/>
+                                    <jsp:param name="message" value="${app.message}"/>
+                                    <jsp:param name="available" value="${app.applicant.available}" />
+                                    <jsp:param name="email" value="${app.applicant.email}" />
+                                    <jsp:param name="isInBand" value="${isInBand[loop.index]}" />
+                                </jsp:include>
+                            </c:forEach>
+                        </ul>
+                    </c:if>
+                    <c:if test="${applications.size() == 0}">
+                        <p class="no-applications">
+                            <spring:message code="profile.noApplications"/>
+                        </p>
+                    </c:if>
+                </div>
             </div>
+
             <div class="pagination">
                 <c:if test="${currentPage > 1}">
                     <spring:message code="pagination.previous.page.alt" var="previous"/>

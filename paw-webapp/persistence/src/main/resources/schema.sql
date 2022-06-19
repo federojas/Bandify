@@ -40,6 +40,7 @@ CREATE TABLE IF NOT EXISTS auditions
     description VARCHAR(300) NOT NULL,
     creationDate TIMESTAMP NOT NULL,
     locationId BIGINT NOT NULL,
+    isOpen BOOLEAN,
     FOREIGN KEY (locationId) REFERENCES locations,
     FOREIGN KEY (bandId) REFERENCES users(id) ON DELETE CASCADE
 );
@@ -115,4 +116,25 @@ CREATE TABLE IF NOT EXISTS applications
     UNIQUE(auditionId,applicantId),
     FOREIGN KEY (auditionId) REFERENCES auditions(id) ON DELETE CASCADE,
     FOREIGN KEY (applicantId) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS memberships
+(
+    id SERIAL PRIMARY KEY,
+    bandId BIGINT NOT NULL,
+    artistId BIGINT NOT NULL,
+    description VARCHAR(100),
+    state TEXT NOT NULL,
+    FOREIGN KEY (bandId) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (artistId) REFERENCES users(id) ON DELETE CASCADE,
+    UNIQUE(bandId,artistId)
+);
+
+CREATE TABLE IF NOT EXISTS membershipRoles
+(
+    membershipId BIGINT NOT NULL,
+    roleId BIGINT NOT NULL,
+    FOREIGN KEY (membershipId) REFERENCES memberships(id) ON DELETE CASCADE,
+    FOREIGN KEY (roleId) REFERENCES roles(id),
+    UNIQUE(membershipId,roleId)
 );

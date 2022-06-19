@@ -10,7 +10,11 @@ public interface ApplicationDao {
 
     List<Application> getAuditionApplicationsByState(long auditionId, ApplicationState state, int page);
 
+    List<Application> getAuditionApplicationsByState(long auditionId, ApplicationState state);
+
     Optional<Application> findApplication(long auditionId, long applicantId);
+
+    Optional<Application> findApplication(long applicationId);
 
     Application createApplication(Application.ApplicationBuilder applicationBuilder);
 
@@ -23,5 +27,7 @@ public interface ApplicationDao {
     List<Application> getMyApplicationsFiltered(long applicantId, int page, ApplicationState state);
 
     int getTotalAuditionApplicationsByStatePages(long auditionId, ApplicationState state);
-    
+
+    int getTotalUserApplicationsFiltered(long userId, ApplicationState state);
+
 }

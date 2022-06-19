@@ -65,7 +65,7 @@
                         <spring:message code="profile.img.alt" var="img"/>
                              <img id="imagePreview" src="<c:url value="/user/${user.id}/profile-image"/>" class="profileImage" alt="${img}"/>
                         <spring:message code="available.img.alt" var="available"/>
-                        <img class="top-image-form" id="filter" src="../../resources/images/available.png" alt="${available}"/>
+                        <img class="top-image-form" id="filter" src="<c:url value="/resources/images/available.png"/>" alt="${available}"/>
                     </div>
                         <div class="edit-image-text-container">
                          <form:input id="selectImage" type="file" path="profileImage" accept="image/png, image/jpeg" onchange="previewImage()" />
@@ -80,6 +80,7 @@
                                     <form:option value="true"><c:out value="${yes}"/></form:option>
                                     <form:option value="false"><c:out value="${no}"/></form:option>
                                 </form:select>
+                                <spring:message code="edituser.form.available.effect"/>
                             </form:label>
                         </div>
                     </div>

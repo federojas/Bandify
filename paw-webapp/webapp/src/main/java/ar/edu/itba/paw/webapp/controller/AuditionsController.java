@@ -1,14 +1,12 @@
 package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.model.*;
-import ar.edu.itba.paw.model.exceptions.AuditionNotOwnedException;
-import ar.edu.itba.paw.model.exceptions.AuditionNotFoundException;
-import ar.edu.itba.paw.model.exceptions.LocationNotFoundException;
-import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
+import ar.edu.itba.paw.model.exceptions.*;
 import ar.edu.itba.paw.service.*;
 import ar.edu.itba.paw.webapp.form.ApplicationForm;
 import ar.edu.itba.paw.webapp.form.AuditionForm;
 import ar.edu.itba.paw.service.AuthFacadeService;
+import ar.edu.itba.paw.webapp.form.MembershipForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -28,13 +26,15 @@ public class AuditionsController {
     private final UserService userService;
     private final ApplicationService applicationService;
     private final AuthFacadeService authFacadeService;
+    private final MembershipService membershipService;
 
     @Autowired
     public AuditionsController(final AuditionService auditionService,
                                final GenreService genreService, final LocationService locationService,
                                final RoleService roleService, final UserService userService,
                                final ApplicationService applicationService,
-                               final AuthFacadeService authFacadeService) {
+                               final AuthFacadeService authFacadeService,
+                               final MembershipService membershipService) {
         this.auditionService = auditionService;
         this.roleService = roleService;
         this.genreService = genreService;
@@ -42,6 +42,7 @@ public class AuditionsController {
         this.userService = userService;
         this.applicationService = applicationService;
         this.authFacadeService = authFacadeService;
+        this.membershipService = membershipService;
     }
 
     @RequestMapping(value = "/", method = {RequestMethod.GET})
@@ -105,28 +106,40 @@ public class AuditionsController {
                                  @PathVariable long id) {
 
         final ModelAndView mav = new ModelAndView("audition");
-        Audition audition = auditionService.getAuditionById(id).orElseThrow(AuditionNotFoundException::new);
+        Audition audition = auditionService.getAuditionById(id);
         User user = authFacadeService.getCurrentUser();
         User band = userService.getUserById(audition.getBand().getId()).orElseThrow(UserNotFoundException::new);
         boolean alreadyApplied = applicationService.alreadyApplied(id, user.getId());
-        mav.addObject("isOwner", audition.getBand().getId() == user.getId());
+        mav.addObject("isOwner", Objects.equals(audition.getBand().getId(), user.getId()));
         mav.addObject("audition", audition);
         mav.addObject("user",band);
         mav.addObject("alreadyApplied", alreadyApplied);
+        mav.addObject("canBeAddedToBand", membershipService.canBeAddedToBand(band, user));
         return mav;
     }
 
     @RequestMapping(value = "/auditions/{id}/applicants", method = {RequestMethod.GET})
     public ModelAndView applicants(@PathVariable long id,
                                    @RequestParam(value = "page", defaultValue = "1") int page,
-                                   @RequestParam(value = "state", defaultValue = "1") int state) {
+                                   @RequestParam(value = "state", defaultValue = "PENDING") String state) {
         ModelAndView mav = new ModelAndView("applicants");
-        List<Application> applications = applicationService.getAuditionApplicationsByState(id, ApplicationState.values()[state], page);
-        Audition aud = auditionService.getAuditionById(id).orElseThrow(AuditionNotFoundException::new);
-        int lastPage = applicationService.getTotalAuditionApplicationByStatePages(id, ApplicationState.values()[state]);
+        List<Application> applications = applicationService.getAuditionApplicationsByState(id, ApplicationState.valueOf(state), page);
+        Audition aud = auditionService.getAuditionById(id);
+
+        //TODO ESTO ES MUY MALO MIRAR
+        ArrayList<Boolean> isInBandArray = new ArrayList<>();
+        if(Objects.equals(state, ApplicationState.ACCEPTED.getState())) {
+            for(Application application : applications) {
+                isInBandArray.add(membershipService.isInBand(application.getAudition().getBand(), application.getApplicant()));
+            }
+            mav.addObject("isInBand", isInBandArray);
+        }
+
+        int lastPage = applicationService.getTotalAuditionApplicationByStatePages(id, ApplicationState.valueOf(state));
         lastPage = lastPage == 0 ? 1 : lastPage;
         mav.addObject("id",id);
         mav.addObject("auditionTitle", aud.getTitle());
+        mav.addObject("auditionId", aud.getId());
         mav.addObject("applications", applications);
         mav.addObject("currentPage", page);
         mav.addObject("lastPage", lastPage);
@@ -190,9 +203,10 @@ public class AuditionsController {
         return new ModelAndView("successMsg");
     }
 
-    @RequestMapping(value = "/profile/deleteAudition/{id}", method = {RequestMethod.POST})
-    public ModelAndView deleteAudition(@PathVariable long id) {
-        auditionService.deleteAuditionById(id);
+    @RequestMapping(value = "/profile/closeAudition/{id}", method = {RequestMethod.POST})
+    public ModelAndView closeAudition(@PathVariable long id) {
+        auditionService.closeAuditionById(id);
+        applicationService.closeApplicationsByAuditionId(id);
         return new ModelAndView("redirect:/profile/auditions");
     }
 
@@ -201,9 +215,9 @@ public class AuditionsController {
 
         User user = authFacadeService.getCurrentUser();
 
-        Audition audition = auditionService.getAuditionById(id).orElseThrow(AuditionNotFoundException::new);
+        Audition audition = auditionService.getAuditionById(id);
 
-        if(user.getId() != audition.getBand().getId())
+        if(!Objects.equals(user.getId(), audition.getBand().getId()))
             throw new AuditionNotOwnedException();
 
         ModelAndView mav = new ModelAndView("editAudition");
@@ -257,8 +271,14 @@ public class AuditionsController {
 
         User user = authFacadeService.getCurrentUser();
 
-        List<Audition> auditionList = auditionService.getBandAuditions(user.getId(), page);
-        int lastPage = auditionService.getTotalBandAuditionPages(user.getId());
+        List<Audition> auditionList = auditionService.getBandAuditions(user, page);
+//        TODO: Pasar a Servicio o ver que hacer
+        List<Integer> auditionPendingApplicants = new ArrayList<>();
+        for (Audition audition : auditionList) {
+            auditionPendingApplicants.add(applicationService.getAuditionApplicationsByState(audition.getId(), ApplicationState.PENDING).size());
+        }
+
+        int lastPage = auditionService.getTotalBandAuditionPages(user);
         lastPage = lastPage == 0 ? 1 : lastPage;
         mav.addObject("userName", user.getName());
         mav.addObject("userId", user.getId());
@@ -266,7 +286,9 @@ public class AuditionsController {
         mav.addObject("currentPage", page);
         mav.addObject("lastPage", lastPage);
         mav.addObject("isPropietary", true);
-
+        System.out.println("ACA");
+        System.out.println(auditionPendingApplicants);
+        mav.addObject("auditionPendingApplicants", auditionPendingApplicants);
         return mav;
     }
     @RequestMapping(value = "/bandAuditions/{bandId}", method = {RequestMethod.GET})
@@ -274,8 +296,8 @@ public class AuditionsController {
         ModelAndView mav = new ModelAndView("profileAuditions");
 
         User user = userService.getUserById(bandId).orElseThrow(UserNotFoundException::new);
-        List<Audition> auditionList = auditionService.getBandAuditions(bandId, page);
-        int lastPage = auditionService.getTotalBandAuditionPages(user.getId());
+        List<Audition> auditionList = auditionService.getBandAuditions(user, page);
+        int lastPage = auditionService.getTotalBandAuditionPages(user);
         lastPage = lastPage == 0 ? 1 : lastPage;
         mav.addObject("userName", user.getName());
         mav.addObject("userId", user.getId());
@@ -287,7 +309,6 @@ public class AuditionsController {
 
         }else{
             mav.addObject("isPropietary", false);
-
         }
 
             return mav;
@@ -304,6 +325,55 @@ public class AuditionsController {
         }
 
         return new ModelAndView("redirect:/auditions/" + auditionId + "/applicants");
+    }
+
+
+    /* estos metodos (metodo 1) son para SELECCIONAR un aplicante y crear la membresía ya ACEPTADA porque pasó la audicion */
+    @RequestMapping(value = "/auditions/{id}/applicants/select/{applicationId}", method = {RequestMethod.GET})
+    public ModelAndView select(@PathVariable long id,
+                               @PathVariable long applicationId,
+                               @ModelAttribute("membershipForm") final MembershipForm membershipForm) {
+        ModelAndView mav = new ModelAndView("selectApplicant");
+        Application application = applicationService.getAcceptedApplicationById(id,applicationId).orElseThrow(ApplicationNotFoundException::new);
+        Set<Role> auditionRoles = application.getAudition().getLookingFor();
+        String auditionTitle = application.getAudition().getTitle();
+
+        mav.addObject("applicant",application.getApplicant());
+        mav.addObject("auditionRoles",auditionRoles);
+        mav.addObject("auditionTitle", auditionTitle);
+        mav.addObject("applicantName", application.getApplicant().getName());
+        mav.addObject("applicantSurname", application.getApplicant().getSurname());
+        mav.addObject("applicantId", application.getApplicant().getId());
+        mav.addObject("auditionId", application.getAudition().getId());
+        mav.addObject("band", application.getAudition().getBand());
+        return mav;
+    }
+
+    @RequestMapping(value = "/auditions/{id}/applicants/select/{applicationId}", method = {RequestMethod.POST})
+    public ModelAndView select(@PathVariable long id,
+                               @PathVariable long applicationId,
+                               @Valid @ModelAttribute("membershipForm") final MembershipForm membershipForm,
+                               final BindingResult errors) {
+
+        if (errors.hasErrors()) {
+            return select(id,applicationId,membershipForm);
+        }
+        Application application = applicationService.getApplicationById(id,applicationId).orElseThrow(ApplicationNotFoundException::new);
+
+        if(membershipService.isInBand(application.getAudition().getBand(), application.getApplicant())) {
+            return new ModelAndView("redirect: /profile");
+        }
+
+        // TODO: falta poder rechazar en vez de seleccionar
+        // TODO: membershipSuccess.jsp y selectApplicant.jsp
+
+        membershipService.createMembershipByApplication(new Membership.Builder(application.getApplicant(),
+                application.getAudition().getBand())
+                        .description(membershipForm.getDescription())
+                        .roles(roleService.getRolesByNames(membershipForm.getRoles())) ,
+                application.getAudition().getId());
+        //TODO: o redireccionar directamente al perfil / miembros de la banda?
+        return new ModelAndView("membershipSuccess");
     }
 
 }

@@ -17,52 +17,52 @@ INSERT INTO roles(id, role)
 VALUES (1, 'role');
 
 
-INSERT INTO users(id, email, password, name, surname, isband, isenabled, description)
-VALUES (1, 'band@mail.com', '12345678', 'name', null, true, false, 'description');
+INSERT INTO users(id, email, password, name, surname, isband, isenabled, description, available)
+VALUES (1, 'band@mail.com', '12345678', 'name', null, true, false, 'description', false);
 
-INSERT INTO users(id, email, password, name, surname, isband, isenabled, description)
-VALUES (13, 'band2@mail.com', '12345678', 'name', null, true, false, 'description');
-
-
-INSERT INTO users(id, email, password, name, surname, isband, isenabled, description)
-VALUES (2, 'artist@mail.com', '12345678', 'name', 'surname', false, false, 'description');
-
-INSERT INTO users(id, email, password, name, surname, isband, isenabled, description)
-VALUES (3, 'artist2@mail.com', '12345678', 'name', 'surname', false, false, 'description');
-
-INSERT INTO users(id, email, password, name, surname, isband, isenabled, description)
-VALUES (4, 'artist3@mail.com', '12345678', 'name', 'surname', false, false, 'description');
-
-INSERT INTO users(id, email, password, name, surname, isband, isenabled, description)
-VALUES (5, 'artist4@mail.com', '12345678', 'name', 'surname', false, false, 'description');
-
-INSERT INTO users(id, email, password, name, surname, isband, isenabled, description)
-VALUES (6, 'artist5@mail.com', '12345678', 'name', 'surname', false, false, 'description');
-
-INSERT INTO users(id, email, password, name, surname, isband, isenabled, description)
-VALUES (7, 'artist6@mail.com', '12345678', 'name', 'surname', false, false, 'description');
-
-INSERT INTO users(id, email, password, name, surname, isband, isenabled, description)
-VALUES (8, 'artist7@mail.com', '12345678', 'name', 'surname', false, false, 'description');
-
-INSERT INTO users(id, email, password, name, surname, isband, isenabled, description)
-VALUES (9, 'artist8@mail.com', '12345678', 'name', 'surname', false, false, 'description');
-
-INSERT INTO users(id, email, password, name, surname, isband, isenabled, description)
-VALUES (10, 'artist9@mail.com', '12345678', 'name', 'surname', false, false, 'description');
-
-INSERT INTO users(id, email, password, name, surname, isband, isenabled, description)
-VALUES (11, 'artist10@mail.com', '12345678', 'name', 'surname', false, false, 'description');
-
-INSERT INTO users(id, email, password, name, surname, isband, isenabled, description)
-VALUES (12, 'artist11@mail.com', '12345678', 'name', 'surname', false, false, 'description');
+INSERT INTO users(id, email, password, name, surname, isband, isenabled, description, available)
+VALUES (13, 'band2@mail.com', '12345678', 'name', null, true, false, 'description', false);
 
 
-INSERT INTO auditions(id, bandid, title, description, creationdate, locationid)
-VALUES (1, 1, 'title', 'description', '2022-07-05 14:23:30', 1);
+INSERT INTO users(id, email, password, name, surname, isband, isenabled, description, available)
+VALUES (2, 'artist@mail.com', '12345678', 'name', 'surname', false, false, 'description', false);
 
-INSERT INTO auditions(id, bandid, title, description, creationdate, locationid)
-VALUES (2, 1, 'title', 'description', '2022-07-05 14:23:30', 1);
+INSERT INTO users(id, email, password, name, surname, isband, isenabled, description, available)
+VALUES (3, 'artist2@mail.com', '12345678', 'name', 'surname', false, false, 'description', false);
+
+INSERT INTO users(id, email, password, name, surname, isband, isenabled, description, available)
+VALUES (4, 'artist3@mail.com', '12345678', 'name', 'surname', false, false, 'description', false);
+
+INSERT INTO users(id, email, password, name, surname, isband, isenabled, description, available)
+VALUES (5, 'artist4@mail.com', '12345678', 'name', 'surname', false, false, 'description', false);
+
+INSERT INTO users(id, email, password, name, surname, isband, isenabled, description, available)
+VALUES (6, 'artist5@mail.com', '12345678', 'name', 'surname', false, false, 'description', false);
+
+INSERT INTO users(id, email, password, name, surname, isband, isenabled, description, available)
+VALUES (7, 'artist6@mail.com', '12345678', 'name', 'surname', false, false, 'description', false);
+
+INSERT INTO users(id, email, password, name, surname, isband, isenabled, description, available)
+VALUES (8, 'artist7@mail.com', '12345678', 'name', 'surname', false, false, 'description', false);
+
+INSERT INTO users(id, email, password, name, surname, isband, isenabled, description, available)
+VALUES (9, 'artist8@mail.com', '12345678', 'name', 'surname', false, false, 'description', false);
+
+INSERT INTO users(id, email, password, name, surname, isband, isenabled, description, available)
+VALUES (10, 'artist9@mail.com', '12345678', 'name', 'surname', false, false, 'description', false);
+
+INSERT INTO users(id, email, password, name, surname, isband, isenabled, description, available)
+VALUES (11, 'artist10@mail.com', '12345678', 'name', 'surname', false, false, 'description', false);
+
+INSERT INTO users(id, email, password, name, surname, isband, isenabled, description, available)
+VALUES (12, 'artist11@mail.com', '12345678', 'name', 'surname', false, false, 'description', false);
+
+
+INSERT INTO auditions(id, bandid, title, description, creationdate, locationid, isOpen)
+VALUES (1, 1, 'title', 'description', '2022-07-05 14:23:30', 1, true);
+
+INSERT INTO auditions(id, bandid, title, description, creationdate, locationid, isOpen)
+VALUES (2, 1, 'title', 'description', '2022-07-05 14:23:30', 1, true);
 
 
 INSERT INTO applications(id, auditionid, applicantid, creationdate, state, message)
