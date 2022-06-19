@@ -77,7 +77,7 @@ public class User {
         this.isEnabled = builder.isEnabled;
         this.id = builder.id;
         this.description = builder.description;
-        this.available = false;
+        this.available = builder.available;
     }
 
     @Override
@@ -211,6 +211,7 @@ public class User {
         private String email, name;
         private String surname, description, password;
         private boolean isBand, isEnabled;
+        private boolean available;
 
         /* Default */ UserBuilder() {
             // Just for Hibernate
@@ -289,6 +290,11 @@ public class User {
 
         public Long getId() {
             return id;
+        }
+
+        public UserBuilder available(boolean available) {
+            this.available = available;
+            return this;
         }
     }
 }

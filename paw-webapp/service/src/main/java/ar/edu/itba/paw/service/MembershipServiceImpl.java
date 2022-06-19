@@ -53,6 +53,8 @@ public class MembershipServiceImpl implements MembershipService {
     @Transactional
     @Override
     public Membership createMembershipInvite(Membership.Builder builder) {
+        System.out.println(builder.getArtist().isBand());
+        System.out.println(!builder.getArtist().isAvailable());
         if(builder.getArtist().isBand() || !builder.getArtist().isAvailable()) {
             throw new UserNotAvailableException();
         }
@@ -80,7 +82,7 @@ public class MembershipServiceImpl implements MembershipService {
 
     @Transactional
     @Override
-    public void changeState(Membership membership, MembershipState state) {
+    public Membership changeState(Membership membership, MembershipState state) {
         User currentUser = authFacadeService.getCurrentUser();
         Long currentUserId = currentUser.getId();
         if (currentUserId.equals(membership.getBand().getId())
@@ -97,7 +99,7 @@ public class MembershipServiceImpl implements MembershipService {
         } else {
             throw new MembershipNotOwnedException();
         }
-
+        return membership;
     }
 
     @Override
@@ -135,11 +137,17 @@ public class MembershipServiceImpl implements MembershipService {
 
     @Transactional
     @Override
-    public void editMembershipById(String description, Set<Role> roles, long id) {
+    public Membership editMembershipById(String description, Set<Role> roles, long id) {
         checkMembershipId(id);
         checkPermissions(id);
         Optional<Membership> membership = getMembershipById(id);
-        membership.ifPresent(value -> value.edit(description, roles));
+        if (membership.isPresent()) {
+            Membership memRet = membership.get();
+            memRet.edit(description, roles);
+            return memRet;
+        }
+
+        return null;
     }
 
     private void checkPermissions(long id) {

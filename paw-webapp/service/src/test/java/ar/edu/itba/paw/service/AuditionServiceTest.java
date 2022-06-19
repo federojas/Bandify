@@ -77,6 +77,12 @@ public class AuditionServiceTest {
 //        verify(aud).edit(defaultAudBuilder);
 //    }
 
+    @Test
+    public void testCloseAudition() {
+
+    }
+
+
     @Test(expected = IllegalArgumentException.class)
     public void testGetAuditionByInvalidId() {
         auditionService.getAuditionById(INVALID_ID);
