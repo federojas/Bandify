@@ -5,7 +5,6 @@ import ar.edu.itba.paw.model.Audition;
 import ar.edu.itba.paw.model.User;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface AuditionService {
 
@@ -19,11 +18,11 @@ public interface AuditionService {
 
     List<Audition> getBandAuditions(User band, int page);
 
-    void closeAuditionById(long id);
+    Audition closeAuditionById(long id);
 
     int getTotalBandAuditionPages(User band);
 
-    void editAuditionById(Audition.AuditionBuilder builder, long id);
+    Audition editAuditionById(Audition.AuditionBuilder builder, long id);
 
     List<Audition> filter(FilterOptions filter, int page);
 

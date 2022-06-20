@@ -76,7 +76,7 @@ public class MembershipServiceTest {
         when(authFacadeService.getCurrentUser()).thenReturn(ARTIST);
 
         Membership memRet = membershipService.changeState(mem1, MembershipState.PENDING);
-        assertTrue(memRet.getState().equals(MembershipState.PENDING));
+        assertEquals(memRet.getState(), MembershipState.PENDING);
     }
 
     @Test
@@ -85,7 +85,7 @@ public class MembershipServiceTest {
 
         doNothing().when(mailingService).sendInvitationAcceptedEmail(any(), any(), any());
         Membership memRet = membershipService.changeState(mem4, MembershipState.ACCEPTED);
-        assertTrue(memRet.getState().equals(MembershipState.ACCEPTED));
+        assertEquals(memRet.getState(), MembershipState.ACCEPTED);
     }
 
     @Test
@@ -93,7 +93,7 @@ public class MembershipServiceTest {
         when(authFacadeService.getCurrentUser()).thenReturn(ARTIST);
 
         Membership memRet = membershipService.changeState(mem5, MembershipState.REJECTED);
-        assertTrue(memRet.getState().equals(MembershipState.REJECTED));
+        assertEquals(memRet.getState(), MembershipState.REJECTED);
     }
 
 //    @Test

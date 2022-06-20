@@ -41,11 +41,12 @@ public class AuditionServiceImpl implements AuditionService {
 
     @Transactional
     @Override
-    public void editAuditionById(Audition.AuditionBuilder builder, long id) {
+    public Audition editAuditionById(Audition.AuditionBuilder builder, long id) {
         checkAuditionId(id);
         checkPermissions(id);
         Audition audition = getAuditionById(id);
         audition.edit(builder);
+        return audition;
     }
 
     @Override
@@ -80,13 +81,14 @@ public class AuditionServiceImpl implements AuditionService {
 
     @Transactional
     @Override
-    public void closeAuditionById(long id) {
+    public Audition closeAuditionById(long id) {
         checkAuditionId(id);
         checkPermissions(id);
         LOGGER.debug("Audition {} will be closed",id);
         Audition audition = getAuditionById(id);
         if(audition.getIsOpen())
             audition.setIsOpen(false);
+        return audition;
     }
 
     @Override
@@ -103,8 +105,7 @@ public class AuditionServiceImpl implements AuditionService {
     }
  
     private void checkPermissions(long id) {
-        if(getAuditionById(id).getBand().getId() !=
-                authFacadeService.getCurrentUser().getId()) {
+        if(!Objects.equals(getAuditionById(id).getBand().getId(), authFacadeService.getCurrentUser().getId())) {
             LOGGER.warn("The authenticated user is not the audition owner");
             throw new AuditionNotOwnedException();
         }
