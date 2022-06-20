@@ -37,7 +37,7 @@ public interface ApplicationService {
 
     Optional<Application> getAcceptedApplicationById(long auditionId, long applicationId);
 
-    void closeApplicationsByAuditionId(long id);
+    boolean closeApplicationsByAuditionId(long id);
 
     int getTotalUserApplicationsFiltered(long userId, ApplicationState state);
 }

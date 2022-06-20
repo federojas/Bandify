@@ -96,14 +96,6 @@ public class MembershipServiceTest {
         assertEquals(memRet.getState(), MembershipState.REJECTED);
     }
 
-//    @Test
-//    public void testCreateMembershipInvite() {
-////        verify(ARTIST_AVAILABLE).setAvailable(true);
-//
-//        Membership memRet = membershipService.createMembershipInvite(mem5Builder);
-//        when(membershipDao.createMembership(mem5Builder)).thenReturn(mem5);
-//        assertEquals(memRet.getState(), MembershipState.PENDING);
-//    }
 
     @Test
     public void testCreateMembershipByApplication() {

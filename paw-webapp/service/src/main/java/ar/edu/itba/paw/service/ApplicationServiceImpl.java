@@ -183,7 +183,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     public Optional<Application> getApplicationById(long auditionId, long applicationId)  {
         User user = authFacadeService.getCurrentUser();
         Audition audition = auditionService.getAuditionById(auditionId);
-        if(user.getId() != audition.getBand().getId())
+        if(!Objects.equals(user.getId(), audition.getBand().getId()))
             throw new AuditionNotOwnedException();
         Optional<Application> application = applicationDao.findApplication(applicationId);
         if (application.isPresent() && !application.get().getAudition().getId().equals(auditionId)
@@ -203,7 +203,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Transactional
     @Override
-    public void closeApplicationsByAuditionId(long id) {
+    public boolean closeApplicationsByAuditionId(long id) {
         if(id < 0)
             throw new IllegalArgumentException();
         User user = authFacadeService.getCurrentUser();
@@ -213,6 +213,7 @@ public class ApplicationServiceImpl implements ApplicationService {
         for (Application app : getAuditionApplicationsByState(id, ApplicationState.PENDING)) {
             app.setState(ApplicationState.REJECTED);
         }
+        return true;
     }
 
     @Override
