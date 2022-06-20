@@ -175,7 +175,6 @@ public class UserServiceTest {
     @Test
     public void testChangePassword() {
         when(verificationTokenService.getTokenOwner(TOKEN_VALUE, TokenType.RESET)).thenReturn(USER.getId());
-//        doNothing().when(userDao).changePassword(USER.getId(), PASSWORD);
         when(userService.getUserById(USER.getId())).thenReturn(Optional.of(USER));
 
         boolean changePassword = userService.changePassword(TOKEN_VALUE, PASSWORD);

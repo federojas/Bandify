@@ -15,11 +15,11 @@ public interface ApplicationService {
 
     boolean apply(long auditionId, User user, String message);
 
-    void accept(long auditionId, long applicantId);
+    Application accept(long auditionId, long applicantId);
 
-    void reject(long auditionId, long applicantId);
+    Application reject(long auditionId, long applicantId);
 
-    void select(long auditionId, long applicantId);
+    Application select(long auditionId, long applicantId);
 
     List<Application> getMyApplications(long applicantId, int page);
 

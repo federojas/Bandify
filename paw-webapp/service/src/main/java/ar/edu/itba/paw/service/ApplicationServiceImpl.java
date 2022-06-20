@@ -40,13 +40,16 @@ public class ApplicationServiceImpl implements ApplicationService {
     public List<Application> getAuditionApplicationsByState(long auditionId, ApplicationState state, int page) {
         User user = authFacadeService.getCurrentUser();
         Audition audition = auditionService.getAuditionById(auditionId);
+
         if(!Objects.equals(user.getId(), audition.getBand().getId()))
             throw new AuditionNotOwnedException();
+
         int lastPage = getTotalAuditionApplicationByStatePages(auditionId, state);
         lastPage = lastPage == 0 ? 1 : lastPage;
         checkPage(page, lastPage);
         if(state == ApplicationState.ALL)
             state = ApplicationState.PENDING;
+
         return applicationDao.getAuditionApplicationsByState(auditionId,state, page);
     }
 
@@ -57,13 +60,14 @@ public class ApplicationServiceImpl implements ApplicationService {
             LOGGER.info("User {} already applied to audition {}",user.getId(),auditionId);
             return false;
         }
-        //TODO PODRIAMOS YA RECIBIR LA BANDA?
+
         Audition aud = auditionService.getAuditionById(auditionId);
         User band = userService.getUserById(aud.getBand().getId()).orElseThrow(UserNotFoundException::new);
         if(!membershipService.canBeAddedToBand(band, user)) {
             LOGGER.info("User {} already in band ",user.getId());
             return false;
         }
+
         applicationDao.createApplication(new Application.ApplicationBuilder(auditionService.
                 getAuditionById(auditionId),user,ApplicationState.PENDING, LocalDateTime.now(), message));
         String bandEmail = band.getEmail();
@@ -76,26 +80,26 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Transactional
     @Override
-    public void accept(long auditionId, long applicantId) {
+    public Application accept(long auditionId, long applicantId) {
         LOGGER.debug("User {} has been accepted for audition {}",applicantId,auditionId);
         checkIds(auditionId, applicantId);
-        setApplicationState(auditionId,applicantId,ApplicationState.ACCEPTED);
+        return setApplicationState(auditionId,applicantId,ApplicationState.ACCEPTED);
     }
 
     @Transactional
     @Override
-    public void reject(long auditionId, long applicantId) {
+    public Application reject(long auditionId, long applicantId) {
         LOGGER.debug("User {} has been rejected for audition {}",applicantId,auditionId);
         checkIds(auditionId, applicantId);
-        setApplicationState(auditionId,applicantId,ApplicationState.REJECTED);
+        return setApplicationState(auditionId,applicantId,ApplicationState.REJECTED);
     }
 
     @Transactional
     @Override
-    public void select(long auditionId, long applicantId) {
+    public Application select(long auditionId, long applicantId) {
         LOGGER.debug("User {} has been selected in the audition {}",applicantId,auditionId);
         checkIds(auditionId, applicantId);
-        setApplicationState(auditionId,applicantId,ApplicationState.SELECTED);
+        return setApplicationState(auditionId,applicantId,ApplicationState.SELECTED);
     }
 
     @Override
@@ -141,7 +145,7 @@ public class ApplicationServiceImpl implements ApplicationService {
         return applicationDao.getTotalAuditionApplicationsByStatePages(auditionId,state);
     }
 
-    private void setApplicationState(long auditionId, long applicantId, ApplicationState state) {
+    private Application setApplicationState(long auditionId, long applicantId, ApplicationState state) {
         Audition audition = auditionService.getAuditionById(auditionId);
         User band = userService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(UserNotFoundException::new);
         User applicant = userService.getUserById(applicantId).orElseThrow(UserNotFoundException::new);
@@ -155,6 +159,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 
         Application app = applicationDao.findApplication(auditionId, applicantId).orElseThrow(ApplicationNotFoundException::new);
         app.setState(state);
+        return app;
     }
 
     private void checkPage(int page, int lastPage) {
