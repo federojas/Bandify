@@ -70,7 +70,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public void resendUserVerification(String email) {
         User user = findByEmail(email).orElseThrow(UserNotFoundException::new);
-
         verificationTokenService.deleteTokenByUserId(user.getId(), TokenType.VERIFY);
 
         VerificationToken token = verificationTokenService.generate(user, TokenType.VERIFY);
@@ -82,13 +81,15 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public void editUser(long userId, String name, String surname, String description, List<String> genresNames, List<String> rolesNames, byte[] image, String locationName) {
+    public User editUser(long userId, String name, String surname, String description, List<String> genresNames, List<String> rolesNames, byte[] image, String locationName) {
         User user = getUserById(userId).orElseThrow(UserNotFoundException::new);
         user.editInfo(name, surname, description);
         updateUserGenres(genresNames, user);
         updateUserRoles(rolesNames, user);
         updateUserLocation(locationName, user);
         updateProfilePicture(user,image);
+
+        return user;
     }
 
     @Override

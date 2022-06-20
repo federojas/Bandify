@@ -22,7 +22,7 @@ public interface UserService {
 
     void resendUserVerification(String email);
 
-    void editUser(long userId, String name, String surname, String description, List<String> genresNames, List<String> rolesNames, byte[] image, String locationName);
+    User editUser(long userId, String name, String surname, String description, List<String> genresNames, List<String> rolesNames, byte[] image, String locationName);
 
     void updateUserLocation(String locationName, User user);
 
