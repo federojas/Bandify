@@ -38,7 +38,24 @@
             <h2 class="applicants-title">
                 <spring:message code="applicants.title" arguments="${auditionTitle}"/>
             </h2>
-
+            <a class="audition-delete-btn">
+                <button class="audition-btn" onclick="openConfirmation()" type="submit">
+                    <spring:message code="audition.alt.delete" var="delete"/>
+                    <spring:message code="audition.delete" />
+                    <img src="<c:url value="/resources/icons/reject.svg"/>" class="audition-icon invert" alt="${delete}"/>
+                </button>
+            </a>
+            <spring:message code="deleteConfirmationModal.title" var="modalTitle"/>
+            <spring:message code="deleteConfirmationModal.deleteAudition" var="modalHeading"/>
+            <spring:message code="deleteConfirmationModal.confirmationQuestion" var="confirmationQuestion"/>
+            <c:url value="/profile/closeAudition/${auditionId}" var="postPath"/>
+            <jsp:include page="../components/confirmationModal.jsp">
+                <jsp:param name="modalTitle" value="${modalTitle}" />
+                <jsp:param name="isDelete" value="${true}" />
+                <jsp:param name="modalHeading" value="${modalHeading}" />
+                <jsp:param name="confirmationQuestion" value="${confirmationQuestion}" />
+                <jsp:param name="action" value="${postPath}" />
+            </jsp:include>
             <div class="user-data">
                 <div class="user-data-tabs">
                     <c:url value="/auditions/${id}/applicants" var="pendingUrl">
@@ -58,16 +75,19 @@
                 <div class="user-data-applicants">
                     <c:if test="${applications.size() > 0}">
                         <ul class="collapsible applicants-ul">
-                            <c:forEach var="app" items="${applications}">
+                            <c:forEach var="app" items="${applications}" varStatus="loop">
                                 <jsp:include page="../components/applicationItem.jsp">
                                     <jsp:param name="applicantName" value="${app.applicant.name}" />
                                     <jsp:param name="applicantSurname" value="${app.applicant.surname}" />
                                     <jsp:param name="auditionId" value="${app.audition.id}" />
                                     <jsp:param name="userId" value="${app.applicant.id}" />
+                                    <jsp:param name="applicationId" value="${app.id}" />
                                     <jsp:param name="actionable" value="${app.state.state=='PENDING'}" />
+                                    <jsp:param name="accepted" value="${app.state.state == 'ACCEPTED'}"/>
                                     <jsp:param name="message" value="${app.message}"/>
                                     <jsp:param name="available" value="${app.applicant.available}" />
                                     <jsp:param name="email" value="${app.applicant.email}" />
+                                    <jsp:param name="isInBand" value="${isInBand[loop.index]}" />
                                 </jsp:include>
                             </c:forEach>
                         </ul>

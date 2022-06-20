@@ -52,7 +52,7 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
 
     @Transactional
     @Override
-    public void isValid(String token) {
+    public boolean isValid(String token) {
         Optional<VerificationToken> t = getToken(token);
         if(!t.isPresent()) {
             LOGGER.warn("Given token is invalid");
@@ -64,6 +64,8 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
             deleteTokenByUserId(t.get().getUser().getId(), TokenType.RESET);
             throw new InvalidTokenException();
         }
+
+        return true;
     }
 
     @Transactional

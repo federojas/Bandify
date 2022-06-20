@@ -51,6 +51,7 @@
             <jsp:param name="applicantName" value="${app.applicant.name}" />
             <jsp:param name="applicantSurname" value="${app.applicant.surname}" />
             <jsp:param name="auditionId" value="${param.auditionId}" />
+            <jsp:param name="applicationId" value="${app.id}" />
             <jsp:param name="userId" value="${app.applicant.id}" />
             <jsp:param name="email" value="${app.applicant.email}" />
             <jsp:param name="available" value="${app.applicant.available}" />

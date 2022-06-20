@@ -54,6 +54,12 @@
                 <a class="audition-applicants-btn hover: shadow-sm"
                    href="<c:url value="/auditions/${param.id}/applicants"/>">
                     <button class="audition-btn" type="submit">
+                        <c:if test="${param.pendingApplicantsCount > 0}">
+                            <span class="icon-button__badge">
+                            <c:out value="${param.pendingApplicantsCount}"/>
+                        </span>
+                            &nbsp;
+                        </c:if>
                         <spring:message code="audition.applicants"/>
                         <spring:message code="audition.applicants.alt" var="altApplicants"/>
                         <img src="<c:url value="/resources/icons/user.svg"/>" class="audition-icon invert"
@@ -67,27 +73,15 @@
                             type="button"
                     >
                         <spring:message code="postCard.button"/>
-                        <spring:message code="audition.applicants.alt" var="altApplicants"/>
+                        <spring:message code="audition.info.alt" var="moreAlt"/>
                         <img src="<c:url value="/resources/icons/info.png"/>" class="audition-icon invert"
-                             alt="${altApplicants}"/>
+                             alt="${moreAlt}"/>
                     </button>
-
                 </a>
             </div>
         </div>
     </div>
 
 </div>
-<spring:message code="deleteConfirmationModal.title" var="modalTitle"/>
-<spring:message code="deleteConfirmationModal.deleteAudition" var="modalHeading"/>
-<spring:message code="deleteConfirmationModal.confirmationQuestion" var="confirmationQuestion"/>
-<c:url value="/profile/deleteAudition/${param.id}" var="postPath"/>
-<jsp:include page="../components/confirmationModal.jsp">
-    <jsp:param name="modalTitle" value="${modalTitle}" />
-    <jsp:param name="isDelete" value="${true}" />
-    <jsp:param name="modalHeading" value="${modalHeading}" />
-    <jsp:param name="confirmationQuestion" value="${confirmationQuestion}" />
-    <jsp:param name="action" value="${postPath}" />
-</jsp:include>
 </body>
 </html>

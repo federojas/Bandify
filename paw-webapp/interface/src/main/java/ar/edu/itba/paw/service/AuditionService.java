@@ -2,13 +2,13 @@ package ar.edu.itba.paw.service;
 
 import ar.edu.itba.paw.model.FilterOptions;
 import ar.edu.itba.paw.model.Audition;
+import ar.edu.itba.paw.model.User;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface AuditionService {
 
-    Optional<Audition> getAuditionById(long id);
+    Audition getAuditionById(long id);
 
     Audition create(Audition.AuditionBuilder builder);
 
@@ -16,13 +16,13 @@ public interface AuditionService {
 
     int getTotalPages();
 
-    List<Audition> getBandAuditions(long userId, int page);
+    List<Audition> getBandAuditions(User band, int page);
 
-    int getTotalBandAuditionPages(long userId);
+    Audition closeAuditionById(long id);
 
-    void deleteAuditionById(long id);
+    int getTotalBandAuditionPages(User band);
 
-    void editAuditionById(Audition.AuditionBuilder builder, long id);
+    Audition editAuditionById(Audition.AuditionBuilder builder, long id);
 
     List<Audition> filter(FilterOptions filter, int page);
 

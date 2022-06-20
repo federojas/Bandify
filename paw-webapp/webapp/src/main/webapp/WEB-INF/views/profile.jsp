@@ -20,8 +20,8 @@
 </jsp:include>
 <main>
     <div class="bg-gray-100">
-
         <div class="main-box">
+            <div class="user-info-div">
             <div class="md:flex no-wrap justify-center md:-mx-2 ">
                 <!-- Left Side -->
                 <div class="left-side">
@@ -36,7 +36,7 @@
                                      alt="${img}">
                                 <c:if test="${user.available}">
                                     <spring:message code="available.img.alt" var="available"/>
-                                    <img class="top-image" src="<c:url value="/resources/images/available.png"/>" alt="${available}"/>
+                                    <img class="top-image-big" src="<c:url value="/resources/images/available.png"/>" alt="${available}"/>
                                 </c:if>
                             </div>
                         </div>
@@ -126,15 +126,25 @@
                                         </a>
                                     </li>
                                 </ul>
+                                <c:if test="${pendingApps != 0}">
+                                    <p class="pending-p"><spring:message code="profile.pending.apps" arguments="${pendingApps}"/></p>
+                                </c:if>
                             </div>
                         </sec:authorize>
                         <sec:authorize access="hasRole('ARTIST')">
                             <div class="auditions-div">
-                                <ul>
+                                <ul class="button-ul">
                                     <li class="pt-2">
                                         <a href="<c:url value="/profile/applications"/>">
                                             <button class="auditions-btn hover: shadow-sm">
                                                 <spring:message code="profile.myApplications"/>
+                                            </button>
+                                        </a>
+                                    </li>
+                                    <li class="pt-2">
+                                        <a href="<c:url value="/invites"/>">
+                                            <button class="auditions-btn hover: shadow-sm">
+                                                <spring:message code="profile.invites"/>
                                             </button>
                                         </a>
                                     </li>
@@ -170,7 +180,7 @@
                                         <p><spring:message code="profile.userEmptyBiography"/></p>
                                     </c:if>
                                 </c:if>
-                                <c:out value="${user.description}"/>
+                                <p class="description"><c:out value="${user.description}"/></p>
                             </c:if>
                         </div>
                     </div>
@@ -237,11 +247,9 @@
                     <%--social networks    --%>
                     <div class="user-data">
                         <div class="about-section-heading">
-                    <span>
-
-                            <p><spring:message code="profile.socialMedia"/> </p>
-
-                    </span>
+                            <span>
+                             <p><spring:message code="profile.socialMedia"/> </p>
+                            </span>
                         </div>
                         <div class="roles-div">
                             <c:if test="${socialMedia.size() == 0}">
@@ -258,15 +266,122 @@
                                 </a>
                             </c:forEach>
                         </div>
-
                     </div>
                 </div>
             </div>
+            </div>
+            <div class="md:flex no-wrap justify-center md:-mx-2 mt-24">
+            <c:if test="${user.band}">
+                <div class="member-data">
+                    <div class="top">
+                        <div class="about-section-heading">
+                            <spring:message code="profile.members.alt" var="memberalt"/>
+                            <img src="<c:url value="/resources/icons/members.svg"/>" class="members-icon" alt="${memberalt}"/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span><spring:message code="profile.members"/></span>
+                        </div>
+                        <c:if test="${members.size() != 0}">
+                            <div class="view-button-div">
+                                <a href="<c:url value="/profile/bandMembers" />">
+                                    <button class="edit-btn hover: shadow-sm">
+                                        <spring:message code="profile.edit.alt" var="edit"/>
+                                        <img src="<c:url value="/resources/icons/edit-white-icon.svg"/>"
+                                             alt="${edit}"
+                                             class="icon-img"
+                                        />
+                                        <spring:message code="profile.edit"/>
+                                    </button>
+                                </a>
+                            </div>
+                        </c:if>
+                    </div>
+                        <div class="members-data">
+                            <c:if test="${members.size() > 0}">
+                                <div class="members-div">
+                                    <c:forEach var="member" items="${members}" varStatus="loop">
+                                        <c:set
+                                                var="memberRoles"
+                                                value="${member.roles}"
+                                                scope="request"
+                                        />
+                                        <jsp:include page="../components/memberItem.jsp">
+                                            <jsp:param name="memberName" value="${member.artist.name}" />
+                                            <jsp:param name="memberSurname" value="${member.artist.surname}" />
+                                            <jsp:param name="userId" value="${member.artist.id}" />
+                                            <jsp:param name="description" value="${member.description}"/>
+                                            <jsp:param name="available" value="${member.artist.available}" />
+                                            <jsp:param name="isBand" value="false" />
+                                        </jsp:include>
+                                        <c:if test="${loop.count < members.size()}">
+                                            <div class="vertical-line"></div>
+                                        </c:if>
+                                    </c:forEach>
+                                </div>
+                            </c:if>
+                            <c:if test="${members.size() == 0}">
+                                <p class="no-members">
+                                    <spring:message code="profile.noMembers.private"/>
+                                </p>
+                            </c:if>
+                        </div>
+                    </div>
+                </div>
+            </c:if>
+        <c:if test="${!user.band}">
+        <div class="play-data">
+            <div class="top">
+                <div class="about-section-heading">
+                    <spring:message code="profile.members.alt" var="memberalt"/>
+                    <img src="<c:url value="/resources/icons/members.svg"/>" class="members-icon" alt="${memberalt}"/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span><spring:message code="profile.plays.in"/></span>
+                </div>
+                <c:if test="${members.size() != 0}">
+                    <div class="view-button-div">
+                        <a href="<c:url value="/profile/bands" />">
+                            <button class="view-all-btn hover: shadow-sm">
+                                <spring:message code="profile.plays.viewAll"/>
+                            </button>
+                        </a>
+                    </div>
+                </c:if>
+            </div>
+            <div class="members-data">
+                <c:if test="${members.size() > 0}">
+                    <div class="members-div">
+                        <c:forEach var="member" items="${members}" varStatus="loop">
+                            <c:set
+                                    var="memberRoles"
+                                    value="${member.roles}"
+                                    scope="request"
+                            />
+                            <jsp:include page="../components/memberItem.jsp">
+                                <jsp:param name="memberName" value="${member.band.name}" />
+                                <jsp:param name="memberSurname" value="" />
+                                <jsp:param name="userId" value="${member.band.id}" />
+                                <jsp:param name="description" value="${member.description}"/>
+                                <jsp:param name="available" value="false" />
+                                <jsp:param name="isBand" value="true" />
+                            </jsp:include>
+                            <c:if test="${loop.count < members.size()}">
+                                <div class="vertical-line"></div>
+                            </c:if>
+                        </c:forEach>
+                    </div>
+                </c:if>
+                <c:if test="${members.size() == 0}">
+                    <p class="no-members">
+                        <spring:message code="profile.noPlays.private"/>
+                    </p>
+                </c:if>
+            </div>
+        </div>
+    </div>
+    </c:if>
+    </div>
         </div>
     </div>
 </main>
+</body>
 <jsp:include page="../components/footer.jsp">
     <jsp:param name="name" value="Bandify"/>
 </jsp:include>
-</body>
 </html>

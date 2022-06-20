@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.service;
 
 import ar.edu.itba.paw.model.*;
+import ar.edu.itba.paw.model.exceptions.AuditionNotOwnedException;
 import ar.edu.itba.paw.model.exceptions.PageNotFoundException;
 import ar.edu.itba.paw.persistence.ApplicationDao;
 import org.junit.Assert;
@@ -8,7 +9,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -30,6 +33,15 @@ public class ApplicationServiceTest {
     @Mock
     private AuditionService auditionService;
 
+    @Mock
+    private MembershipService membershipService;
+
+    @Mock
+    private AuthFacadeService authFacadeService;
+
+    @Mock
+    private MailingService mailingService;
+
     @InjectMocks
     private ApplicationService applicationService = new ApplicationServiceImpl();
 
@@ -41,72 +53,231 @@ public class ApplicationServiceTest {
     private final Application ACCEPTED_APP = new Application.ApplicationBuilder(AUD,user, ApplicationState.ACCEPTED, LocalDateTime.MIN, "a").build();
     private final User USER_ALREADY_APPLIED = new User.UserBuilder("email@email.com","password","name",false,true).id(1L).build();
     private final User USER_NOT_APPLIED = new User.UserBuilder("email2@email.com","password","name",false,true).id(3L).build();
-    private final User BAND = new User.UserBuilder("band@email.com","password","band",true,true).id(2L).build();
+    private final static User BAND = new User.UserBuilder("band@email.com","password","band",true,true).id(2L).build();
     private static final Audition AUDITION = new Audition.AuditionBuilder("TITLE", "DESCRIPTION", user, LocalDateTime.MIN).id(1).build();
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testGetAuditionApplicationsByStateWithIllegalPage() {
-        applicationService.getAuditionApplicationsByState(1, ApplicationState.ALL,-1);
-        Assert.fail("Should have thrown IllegalArgumentException");
-    }
-
-    @Test(expected = PageNotFoundException.class)
-    public void testGetAuditionApplicationsByStateWithInvalidPage() {
-        applicationService.getAuditionApplicationsByState(1, ApplicationState.ALL,100);
-        Assert.fail("Should have thrown PageNotFoundException");
-    }
+    private static final Audition BAND_AUDITION = new Audition.AuditionBuilder("TITLE", "DESCRIPTION", BAND, LocalDateTime.MIN).id(2).build();
 
     @Test
     public void testGetAuditionApplicationsByStateWithPendingState() {
-        when(applicationDao.getAuditionApplicationsByState(1,ApplicationState.PENDING,1)).
+        long auditionId = 1;
+        when(applicationDao.getAuditionApplicationsByState(auditionId, ApplicationState.PENDING,1)).
                 thenReturn(new ArrayList<>(Collections.singletonList(PENDING_APP)));
-        List<Application> list = applicationService.getAuditionApplicationsByState(1,ApplicationState.PENDING,1);
+        when(authFacadeService.getCurrentUser()).thenReturn(BAND);
+        when(auditionService.getAuditionById(auditionId)).thenReturn(BAND_AUDITION);
+
+        List<Application> list = applicationService
+                .getAuditionApplicationsByState(1,ApplicationState.PENDING,1);
+
+        verify(applicationDao).getAuditionApplicationsByState(auditionId, ApplicationState.PENDING,1);
         Assert.assertEquals(1,list.size());
         Assert.assertTrue(list.containsAll(new ArrayList<>(Collections.singletonList(PENDING_APP))));
     }
 
     @Test
     public void testGetAuditionApplicationsByStateWithAllState() {
-        when(applicationDao.getAuditionApplicationsByState(1,ApplicationState.PENDING,1)).
+        long auditionId = 1;
+        when(applicationDao.getAuditionApplicationsByState(auditionId, ApplicationState.PENDING,1)).
                 thenReturn(new ArrayList<>(Collections.singletonList(PENDING_APP)));
+        when(authFacadeService.getCurrentUser()).thenReturn(BAND);
+        when(auditionService.getAuditionById(auditionId)).thenReturn(BAND_AUDITION);
+
         List<Application> list = applicationService.getAuditionApplicationsByState(1,ApplicationState.ALL,1);
+
+        verify(applicationDao).getAuditionApplicationsByState(auditionId, ApplicationState.PENDING,1);
         Assert.assertEquals(1,list.size());
         Assert.assertTrue(list.containsAll(new ArrayList<>(Collections.singletonList(PENDING_APP))));
     }
 
     @Test
     public void testGetAuditionApplicationsByStateWithAcceptedState() {
-        when(applicationDao.getAuditionApplicationsByState(1,ApplicationState.ACCEPTED,1)).
+        long auditionId = 1;
+        when(applicationDao.getAuditionApplicationsByState(auditionId,ApplicationState.ACCEPTED,1)).
                 thenReturn(new ArrayList<>(Collections.singletonList(ACCEPTED_APP)));
+        when(authFacadeService.getCurrentUser()).thenReturn(BAND);
+        when(auditionService.getAuditionById(auditionId)).thenReturn(BAND_AUDITION);
+
         List<Application> list = applicationService.getAuditionApplicationsByState(1,ApplicationState.ACCEPTED,1);
+
+        verify(applicationDao).getAuditionApplicationsByState(auditionId, ApplicationState.ACCEPTED,1);
         Assert.assertEquals(1,list.size());
         Assert.assertTrue(list.containsAll(new ArrayList<>(Collections.singletonList(ACCEPTED_APP))));
     }
 
     @Test
     public void testGetAuditionApplicationsByStateWithRejectedState() {
-        when(applicationDao.getAuditionApplicationsByState(1,ApplicationState.REJECTED,1)).
+        long auditionId = 1;
+        when(applicationDao.getAuditionApplicationsByState(auditionId,ApplicationState.REJECTED,1)).
                 thenReturn(new ArrayList<>(Collections.singletonList(REJECTED_APP)));
+        when(authFacadeService.getCurrentUser()).thenReturn(BAND);
+        when(auditionService.getAuditionById(auditionId)).thenReturn(BAND_AUDITION);
+
         List<Application> list = applicationService.getAuditionApplicationsByState(1,ApplicationState.REJECTED,1);
+
+        verify(applicationDao).getAuditionApplicationsByState(auditionId, ApplicationState.REJECTED,1);
         Assert.assertEquals(1,list.size());
         Assert.assertTrue(list.containsAll(new ArrayList<>(Collections.singletonList(REJECTED_APP))));
     }
 
-//TODO NO ANDA VUELVA?
-//    @Test
-//    public void testApplyWithUserWhoAlreadyAppliedThisAudition() {
-//        boolean applied = applicationService.apply(1, USER_ALREADY_APPLIED,"message");
-//        Assert.assertFalse(applied);
-//    }
+    @Test
+    public void testApplyWithUserWhoAlreadyAppliedThisAudition() {
+        long auditionId = 1;
+        when(applicationDao.findApplication(auditionId, USER_ALREADY_APPLIED.getId())).thenReturn(Optional.of(PENDING_APP));
+        boolean applied = applicationService.apply(auditionId, USER_ALREADY_APPLIED,"message");
+        Assert.assertFalse(applied);
+    }
 
-//TODO NO ANDA VUELVA?
-//    @Test
-//    public void testApplyWithUserWhoDidntAppliedThisAudition() {
-//        when(auditionService.getAuditionById(1)).thenReturn(Optional.of(AUDITION));
-//        when(userService.getUserById(2)).thenReturn(Optional.of(BAND));
-//        boolean applied = applicationService.apply(1, USER_NOT_APPLIED,"message");
-//        Assert.assertTrue(applied);
-//    }
+    @Test
+    public void testApplyWithUserWhoIsAlreadyInBand() {
+        long auditionId = 1;
+        when(applicationDao.findApplication(auditionId, USER_NOT_APPLIED.getId())).thenReturn(Optional.empty());
+        when(auditionService.getAuditionById(auditionId)).thenReturn(AUDITION);
+        when(userService.getUserById(AUDITION.getBand().getId())).thenReturn(Optional.of(BAND));
+        when(membershipService.canBeAddedToBand(BAND, USER_NOT_APPLIED)).thenReturn(false);
+
+        boolean applied = applicationService.apply(auditionId, USER_NOT_APPLIED,"message");
+        Assert.assertFalse(applied);
+    }
+
+    @Test
+    public void testApplyWithUserWhoDidntAppliedThisAudition() {
+        long auditionId = 1;
+        when(applicationDao.findApplication(auditionId, USER_NOT_APPLIED.getId())).thenReturn(Optional.empty());
+        when(auditionService.getAuditionById(auditionId)).thenReturn(AUDITION);
+        when(userService.getUserById(AUDITION.getBand().getId())).thenReturn(Optional.of(BAND));
+        when(membershipService.canBeAddedToBand(BAND, USER_NOT_APPLIED)).thenReturn(true);
+
+
+        boolean applied = applicationService.apply(auditionId, USER_NOT_APPLIED,"message");
+        Assert.assertTrue(applied);
+    }
+
+    @Test
+    public void testGetMyPendingApplications() {
+        long applicantId = 1;
+        when(applicationDao.getMyApplicationsFiltered(applicantId, 1, ApplicationState.PENDING)).
+                thenReturn(new ArrayList<>(Collections.singletonList(PENDING_APP)));
+        List<Application> myApps = applicationService.getMyApplicationsFiltered(applicantId, 1, ApplicationState.PENDING);
+        Assert.assertEquals(1, myApps.size());
+        Assert.assertTrue(myApps.containsAll(new ArrayList<>(Collections.singletonList(PENDING_APP))));
+    }
+
+    @Test
+    public void testGetMyAcceptedApplications() {
+        long applicantId = 1;
+        when(applicationDao.getMyApplicationsFiltered(applicantId, 1, ApplicationState.ACCEPTED)).
+                thenReturn(new ArrayList<>(Collections.singletonList(ACCEPTED_APP)));
+        List<Application> myApps = applicationService.getMyApplicationsFiltered(applicantId, 1, ApplicationState.ACCEPTED);
+        Assert.assertEquals(1, myApps.size());
+        Assert.assertTrue(myApps.containsAll(new ArrayList<>(Collections.singletonList(ACCEPTED_APP))));
+    }
+
+    @Test
+    public void testGetMyRejectedApplications() {
+        long applicantId = 1;
+        when(applicationDao.getMyApplicationsFiltered(applicantId, 1, ApplicationState.REJECTED)).
+                thenReturn(new ArrayList<>(Collections.singletonList(REJECTED_APP)));
+        List<Application> myApps = applicationService.getMyApplicationsFiltered(applicantId, 1, ApplicationState.REJECTED);
+        Assert.assertEquals(1, myApps.size());
+        Assert.assertTrue(myApps.containsAll(new ArrayList<>(Collections.singletonList(REJECTED_APP))));
+    }
+
+    @Test
+    public void testGetApplicationById() {
+        long applicationId = 1;
+        long auditionId = 1;
+        when(authFacadeService.getCurrentUser()).thenReturn(BAND);
+        when(auditionService.getAuditionById(auditionId)).thenReturn(BAND_AUDITION);
+        when(applicationDao.findApplication(applicationId)).thenReturn(Optional.of(PENDING_APP));
+        Optional<Application> app = applicationService.getApplicationById(auditionId, applicationId);
+        Assert.assertTrue(app.isPresent());
+        Assert.assertEquals(PENDING_APP, app.get());
+    }
+
+    @Test
+    public void testGetApplicationByIdEmpty() {
+        long applicationId = 1;
+        long auditionId = 1;
+        when(authFacadeService.getCurrentUser()).thenReturn(BAND);
+        when(auditionService.getAuditionById(auditionId)).thenReturn(BAND_AUDITION);
+        when(applicationDao.findApplication(applicationId)).thenReturn(Optional.empty());
+        Optional<Application> app = applicationService.getApplicationById(auditionId, applicationId);
+        Assert.assertFalse(app.isPresent());
+    }
+
+    @Test
+    public void testGetAcceptedApplicationById() {
+        long applicationId = 1;
+        long auditionId = 1;
+        when(authFacadeService.getCurrentUser()).thenReturn(BAND);
+        when(auditionService.getAuditionById(auditionId)).thenReturn(BAND_AUDITION);
+        when(applicationDao.findApplication(applicationId)).thenReturn(Optional.of(ACCEPTED_APP));
+        Optional<Application> app = applicationService.getApplicationById(auditionId, applicationId);
+        Assert.assertTrue(app.isPresent());
+        Assert.assertEquals(ACCEPTED_APP, app.get());
+    }
+
+    @Test
+    public void testCloseApplicationsByAuditionId() {
+        long auditionId = 1;
+        when(authFacadeService.getCurrentUser()).thenReturn(BAND);
+        when(auditionService.getAuditionById(auditionId)).thenReturn(BAND_AUDITION);
+        when(applicationDao.getAuditionApplicationsByState(auditionId, ApplicationState.PENDING)).thenReturn(new ArrayList<>(Collections.singletonList(PENDING_APP)));
+        boolean closedApps = applicationService.closeApplicationsByAuditionId(auditionId);
+        Assert.assertTrue(closedApps);
+    }
+
+    @Test(expected = AuditionNotOwnedException.class)
+    public void testCloseApplicationsByAuditionIdNotOwned() {
+        long auditionId = 1;
+        when(authFacadeService.getCurrentUser()).thenReturn(BAND);
+        when(auditionService.getAuditionById(auditionId)).thenReturn(AUDITION);
+        applicationService.closeApplicationsByAuditionId(auditionId);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testCloseApplicationsByAuditionIdIllegalId() {
+        long auditionId = -10;
+        applicationService.closeApplicationsByAuditionId(auditionId);
+    }
+
+    @Test(expected = AuditionNotOwnedException.class)
+    public void testGetApplicationByIdNotOwned() {
+        long applicationId = 1;
+        long auditionId = 1;
+        when(authFacadeService.getCurrentUser()).thenReturn(BAND);
+        when(auditionService.getAuditionById(auditionId)).thenReturn(AUDITION);
+        applicationService.getApplicationById(applicationId,auditionId);
+        Assert.fail("Should have thrown AuditionNotOwnedException");
+    }
+
+    @Test(expected = AuditionNotOwnedException.class)
+    public void testGetAuditionApplicationsByStateWithIllegalOwner() {
+        long auditionId = 1;
+        when(authFacadeService.getCurrentUser()).thenReturn(BAND);
+        when(auditionService.getAuditionById(auditionId)).thenReturn(AUDITION);
+        applicationService.getAuditionApplicationsByState(auditionId, ApplicationState.ALL,-1);
+        Assert.fail("Should have thrown AuditionNotOwnedException");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testGetAuditionApplicationsByStateWithIllegalPage() {
+        long auditionId = 1;
+        when(authFacadeService.getCurrentUser()).thenReturn(BAND);
+        when(auditionService.getAuditionById(auditionId)).thenReturn(BAND_AUDITION);
+
+        applicationService.getAuditionApplicationsByState(auditionId, ApplicationState.ALL,-1);
+        Assert.fail("Should have thrown IllegalArgumentException");
+    }
+
+    @Test(expected = PageNotFoundException.class)
+    public void testGetAuditionApplicationsByStateWithInvalidPage() {
+        long auditionId = 1;
+        when(authFacadeService.getCurrentUser()).thenReturn(BAND);
+        when(auditionService.getAuditionById(auditionId)).thenReturn(BAND_AUDITION);
+
+        applicationService.getAuditionApplicationsByState(auditionId, ApplicationState.ALL,100);
+        Assert.fail("Should have thrown PageNotFoundException");
+    }
 
     @Test(expected = IllegalArgumentException.class)
     public void testAcceptWithInvalidAuditionId() {

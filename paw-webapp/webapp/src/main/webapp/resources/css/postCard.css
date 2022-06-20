@@ -15,6 +15,18 @@
   height: 440px;
   position: relative;
 }
+
+.icon-button__badge {
+  width: 25px;
+  height: 25px;
+  background: red;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  justify-self: end;
+}
 .postCard-div-0:hover {
   transform: translateY(-10px);
 }
@@ -248,7 +260,7 @@ ul > li {
 .row-btns {
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: space-between;
   margin: 1rem 0;
 }
 
@@ -287,7 +299,7 @@ ul > li {
   justify-content: space-evenly;
   border-radius: 9999px;
   padding: 10px;
-  width: 125px;
+  width: 170px;
   font-weight: 500;
   color: white;
   line-height: 1.25rem;
@@ -302,15 +314,19 @@ ul > li {
 }
 
 .auditions-more-btn {
-  background-color: #71D7D1;
-    display: flex;
-    justify-content: space-evenly;
-    border-radius: 9999px;
+  background-color: #6c0c84;
+  display: flex;
+  justify-content: space-evenly;
+  border-radius: 9999px;
   padding: 10px;
   width: 125px;
   font-weight: 600;
   color: white;
   line-height: 1.25rem;
+}
+
+.auditions-more-btn:hover {
+  background-color: #0369a1;
 }
 
 .audition-icon{

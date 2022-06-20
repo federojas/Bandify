@@ -20,6 +20,27 @@ public class ErrorAdviceController {
         return new ModelAndView("forward:/404");
     }
 
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(MembershipNotFoundException.class)
+    public ModelAndView membershipNotFound() {
+        LOGGER.warn("Membership could not be found");
+        return new ModelAndView("forward:/404");
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(ApplicationNotFoundException.class)
+    public ModelAndView applicationNotFound() {
+        LOGGER.warn("Application could not be found");
+        return new ModelAndView("forward:/404");
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(DuplicateMembershipException.class)
+    public ModelAndView duplicateMembership() {
+        LOGGER.warn("Duplicated membership");
+        return new ModelAndView("forward:/400");
+    }
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(IllegalArgumentException.class)
     public ModelAndView illegalArgumentException() {
@@ -74,6 +95,34 @@ public class ErrorAdviceController {
     @ExceptionHandler(AuditionNotOwnedException.class)
     public ModelAndView auditionNotOwned() {
         LOGGER.warn("Audition is not owned by current user");
+        return new ModelAndView("forward:/403");
+    }
+
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler(BandNotOwnedException.class)
+    public ModelAndView bandNotOwned() {
+        LOGGER.warn("Band is not owned by current user");
+        return new ModelAndView("forward:/403");
+    }
+
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler(UserNotAvailableException.class)
+    public ModelAndView userNotAvailable() {
+        LOGGER.warn("User is not available");
+        return new ModelAndView("forward:/403");
+    }
+
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler(UserNotInBandException.class)
+    public ModelAndView userNotInBAND() {
+        LOGGER.warn("Current user is not in the specified band");
+        return new ModelAndView("forward:/403");
+    }
+
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler(MembershipNotOwnedException.class)
+    public ModelAndView membershipNotOwned() {
+        LOGGER.warn("Membership is not owned by current user");
         return new ModelAndView("forward:/403");
     }
 

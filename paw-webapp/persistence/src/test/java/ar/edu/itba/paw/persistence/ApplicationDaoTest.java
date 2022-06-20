@@ -147,6 +147,14 @@ public class ApplicationDaoTest {
     }
 
     @Test
+    public void testGetAuditionApplicationsByStatePendingAll() {
+        List<Application> applications = applicationDao.getAuditionApplicationsByState(1, ApplicationState.PENDING);
+        assertNotNull(applications);
+        assertTrue(applications.containsAll(PENDING_APPS_AUD1));
+        assertEquals(PENDING_APPS_AUD1.size(), applications.size());
+    }
+
+    @Test
     public void testGetAuditionApplicationsByStateAccepted() {
         List<Application> applications = applicationDao.getAuditionApplicationsByState(1, ApplicationState.ACCEPTED,1);
         assertNotNull(applications);
@@ -155,8 +163,24 @@ public class ApplicationDaoTest {
     }
 
     @Test
+    public void testGetAuditionApplicationsByStateAcceptedAll() {
+        List<Application> applications = applicationDao.getAuditionApplicationsByState(1, ApplicationState.ACCEPTED);
+        assertNotNull(applications);
+        assertEquals(ACCEPTED_APP_AUD1_1, applications.get(0));
+        assertEquals(1, applications.size());
+    }
+
+    @Test
     public void testGetAuditionApplicationsByStateRejected() {
         List<Application> applications = applicationDao.getAuditionApplicationsByState(1, ApplicationState.REJECTED,1);
+        assertNotNull(applications);
+        assertEquals(REJECTED_APP_AUD1_1, applications.get(0));
+        assertEquals(2, applications.size());
+    }
+
+    @Test
+    public void testGetAuditionApplicationsByStateRejectedAll() {
+        List<Application> applications = applicationDao.getAuditionApplicationsByState(1, ApplicationState.REJECTED);
         assertNotNull(applications);
         assertEquals(REJECTED_APP_AUD1_1, applications.get(0));
         assertEquals(2, applications.size());
@@ -225,6 +249,18 @@ public class ApplicationDaoTest {
     }
 
     @Test
+    public void testGetTotalUserApplicationsFiltered() {
+        int total = applicationDao.getTotalUserApplicationsFiltered(APPLICANT_ID, ApplicationState.REJECTED);
+        assertEquals(2, total);
+    }
+
+    @Test
+    public void testGetTotalUserApplicationsFilteredNone() {
+        int total = applicationDao.getTotalUserApplicationsFiltered(APPLICANT_ID_3, ApplicationState.REJECTED);
+        assertEquals(0, total);
+    }
+
+    @Test
     public void testGetMyApplicationsFiltered() {
         List<Application> applications = applicationDao.getMyApplicationsFiltered(APPLICANT_ID_2, 1, ApplicationState.PENDING);
         assertEquals(applications.get(0), PENDING_APP_AUD1_2);
@@ -257,6 +293,14 @@ public class ApplicationDaoTest {
     @Test
     public void testFindApplication() {
         Optional<Application> application = applicationDao.findApplication(1, APPLICANT_ID_2);
+        assertNotNull(application);
+        assertTrue(application.isPresent());
+        assertEquals(PENDING_APP_AUD1_2, application.get());
+    }
+
+    @Test
+    public void testFindApplicationById() {
+        Optional<Application> application = applicationDao.findApplication(2L);
         assertNotNull(application);
         assertTrue(application.isPresent());
         assertEquals(PENDING_APP_AUD1_2, application.get());

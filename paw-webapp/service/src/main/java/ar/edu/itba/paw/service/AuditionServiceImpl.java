@@ -25,9 +25,13 @@ public class AuditionServiceImpl implements AuditionService {
 
 
     @Override
-    public Optional<Audition> getAuditionById(long id) {
+    public Audition getAuditionById(long id) {
         checkAuditionId(id);
-        return auditionDao.getAuditionById(id);
+        Optional<Audition> audition = auditionDao.getAuditionById(id);
+
+        if(!audition.isPresent() || !audition.get().getIsOpen())
+            throw new AuditionNotFoundException();
+        return audition.get();
     }
 
     @Transactional
@@ -38,11 +42,12 @@ public class AuditionServiceImpl implements AuditionService {
 
     @Transactional
     @Override
-    public void editAuditionById(Audition.AuditionBuilder builder, long id) {
+    public Audition editAuditionById(Audition.AuditionBuilder builder, long id) {
         checkAuditionId(id);
         checkPermissions(id);
-        Optional<Audition> audition = getAuditionById(id);
-        audition.ifPresent(value -> value.edit(builder));
+        Audition audition = getAuditionById(id);
+        audition.edit(builder);
+        return audition;
     }
 
     @Override
@@ -59,25 +64,32 @@ public class AuditionServiceImpl implements AuditionService {
     }
 
     @Override
-    public List<Audition> getBandAuditions(long userId, int page) {
-        int lastPage = getTotalBandAuditionPages(userId);
+    public List<Audition> getBandAuditions(User band, int page) {
+        if(!band.isBand())
+            throw new AuditionNotFoundException();
+        int lastPage = getTotalBandAuditionPages(band);
         lastPage = lastPage == 0 ? 1 : lastPage;
         checkPage(page, lastPage);
-        return auditionDao.getBandAuditions(userId, page);
+        return auditionDao.getBandAuditions(band.getId(), page);
     }
 
     @Override
-    public int getTotalBandAuditionPages(long userId) {
-        return auditionDao.getTotalBandAuditionPages(userId);
+    public int getTotalBandAuditionPages(User band) {
+        if(!band.isBand())
+            throw new AuditionNotFoundException();
+        return auditionDao.getTotalBandAuditionPages(band.getId());
     }
 
     @Transactional
     @Override
-    public void deleteAuditionById(long id) {
+    public Audition closeAuditionById(long id) {
         checkAuditionId(id);
         checkPermissions(id);
-        LOGGER.debug("Audition {} will be deleted",id);
-        auditionDao.deleteAuditionById(id);
+        LOGGER.debug("Audition {} will be closed",id);
+        Audition audition = getAuditionById(id);
+        if(audition.getIsOpen())
+            audition.setIsOpen(false);
+        return audition;
     }
 
     @Override
@@ -94,8 +106,7 @@ public class AuditionServiceImpl implements AuditionService {
     }
  
     private void checkPermissions(long id) {
-        if(getAuditionById(id).orElseThrow(AuditionNotFoundException::new).getBand().getId() !=
-                authFacadeService.getCurrentUser().getId()) {
+        if(!Objects.equals(getAuditionById(id).getBand().getId(), authFacadeService.getCurrentUser().getId())) {
             LOGGER.warn("The authenticated user is not the audition owner");
             throw new AuditionNotOwnedException();
         }

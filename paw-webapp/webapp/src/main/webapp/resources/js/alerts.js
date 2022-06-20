@@ -15,8 +15,10 @@ function confirmationModalLoad(){
     }
 }
 function closeConfirmationModal(){
-        confirmationModal.style.display = "none";
+    let confirmationModal = document.getElementById('confirmationModal');
+    confirmationModal.style.display = "none";
 }
 function openConfirmation(){
+    let confirmationModal = document.getElementById('confirmationModal');
     confirmationModal.style.display = "block";
 }

@@ -1,8 +1,5 @@
 package ar.edu.itba.paw.model;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -34,6 +31,9 @@ public class Audition {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "locationId")
     private Location location;
+
+    @Column
+    private boolean isOpen;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH,
             CascadeType.MERGE,
@@ -80,6 +80,10 @@ public class Audition {
         location = builder.getLocation();
     }
 
+    public void setIsOpen(boolean open) {
+        isOpen = open;
+    }
+
     /* Default */ Audition() {
         // Just for Hibernate
     }
@@ -92,6 +96,7 @@ public class Audition {
         private Set<Role> lookingFor;
         private final User band;
         private Long id;
+        private boolean isOpen;
 
         public AuditionBuilder(String title, String description,User band, LocalDateTime creationDate) {
             this.creationDate = creationDate;
@@ -100,6 +105,7 @@ public class Audition {
             this.band = band;
             this.lookingFor = new HashSet<>();
             this.musicGenres = new HashSet<>();
+            this.isOpen = true;
         }
 
         public AuditionBuilder location(Location location) {
@@ -168,6 +174,9 @@ public class Audition {
             return id;
         }
 
+        public boolean isOpen() {
+            return isOpen;
+        }
     }
 
     private Audition(AuditionBuilder builder) {
@@ -179,6 +188,7 @@ public class Audition {
         creationDate = builder.creationDate;
         musicGenres = builder.musicGenres;
         lookingFor = builder.lookingFor;
+        this.isOpen = true;
     }
 
     public Long getId() {
@@ -211,5 +221,9 @@ public class Audition {
 
     public Set<Role> getLookingFor() {
         return lookingFor;
+    }
+
+    public boolean getIsOpen() {
+        return isOpen;
     }
 }

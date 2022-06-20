@@ -211,15 +211,6 @@ public class AuditionDaoTest {
     }
 
     @Test
-    public void testDeleteAuditionById() {
-        auditionDao.deleteAuditionById(aud1.getId());
-        em.flush();
-        assertEquals(0, JdbcTestUtils.countRowsInTableWhere(jdbcTemplate, "auditions", "id = " + aud1.getId()));
-        assertEquals(0, JdbcTestUtils.countRowsInTableWhere(jdbcTemplate, "auditionroles", "auditionid = " + aud1.getId()));
-        assertEquals(0, JdbcTestUtils.countRowsInTableWhere(jdbcTemplate, "auditiongenres", "auditionid = " + aud1.getId()));
-    }
-
-    @Test
     public void testGetTotalPagesByLocationFilter() {
         int pages = auditionDao.getTotalPages(locationFilter);
         assertEquals(2, pages);

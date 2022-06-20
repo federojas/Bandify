@@ -21,7 +21,6 @@ public class RoleJpaDao implements RoleDao {
     @PersistenceContext
     private EntityManager em;
 
-    //TODO usar List<Role> ???
     @Override
     public Set<Role> getAll() {
         LOGGER.info("Getting all roles");

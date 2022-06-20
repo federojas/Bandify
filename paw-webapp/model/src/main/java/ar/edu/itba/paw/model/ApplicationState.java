@@ -4,7 +4,8 @@ public enum ApplicationState {
     ALL("ALL"),
     PENDING("PENDING"),
     ACCEPTED("ACCEPTED"),
-    REJECTED("REJECTED");
+    REJECTED("REJECTED"),
+    SELECTED("SELECTED");
 
     private final String  state;
 
