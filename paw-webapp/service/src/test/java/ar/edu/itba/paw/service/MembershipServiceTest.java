@@ -100,7 +100,7 @@ public class MembershipServiceTest {
     @Test
     public void testCreateMembershipByApplication() {
         when(membershipDao.membershipExists(any(), any())).thenReturn(false);
-        doNothing().when(applicationService).select(1, mem5Builder.getArtist().getId());
+
         boolean created = membershipService.createMembershipByApplication(mem5Builder, 1);
         assertTrue(created);
     }

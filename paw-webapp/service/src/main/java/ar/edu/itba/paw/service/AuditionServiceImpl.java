@@ -28,6 +28,7 @@ public class AuditionServiceImpl implements AuditionService {
     public Audition getAuditionById(long id) {
         checkAuditionId(id);
         Optional<Audition> audition = auditionDao.getAuditionById(id);
+
         if(!audition.isPresent() || !audition.get().getIsOpen())
             throw new AuditionNotFoundException();
         return audition.get();

@@ -61,6 +61,15 @@ public class AuditionServiceTest {
 
     private static final Audition defaultAud = defaultAudBuilder.build();
 
+    private static final Audition.AuditionBuilder defaultAud2Builder = new Audition.AuditionBuilder(
+            AUD_TITLE, AUD_DESCRIPTION, AUD_USER, AUD_DATE)
+            .location(AUD_LOCATION)
+            .lookingFor(AUD_ROLE)
+            .musicGenres(AUD_GENRE)
+            .id(AUD_ID);
+
+    private static final Audition defaultAud2 = defaultAud2Builder.build();
+
     private final static String AUD_TITLE_EDITED = "Edited title";
     private final static String AUD_DESCRIPTION_EDITED = "Edited description";
     private static final Audition.AuditionBuilder editedAudBuilder = new Audition.AuditionBuilder(
@@ -84,15 +93,15 @@ public class AuditionServiceTest {
         verify(auditionDao).create(defaultAudBuilder);
     }
 
-//    @Test
-//    public void testEditAuditionById() {
-//        when(auditionDao.getAuditionById(1L)).thenReturn(Optional.of(defaultAud));
-//        when(authFacadeService.getCurrentUser()).thenReturn(defaultAud.getBand());
-//
-//        Audition editedAud = auditionService.editAuditionById(editedAudBuilder, 1L);
-//        assertEquals(editedAud.getTitle(), AUD_TITLE_EDITED);
-//        assertEquals(editedAud.getDescription(), AUD_DESCRIPTION_EDITED);
-//    }
+    @Test
+    public void testEditAuditionById() {
+        when(auditionDao.getAuditionById(1L)).thenReturn(Optional.of(defaultAud2));
+        when(authFacadeService.getCurrentUser()).thenReturn(defaultAud2.getBand());
+
+        Audition editedAud = auditionService.editAuditionById(editedAudBuilder, 1L);
+        assertEquals(editedAud.getTitle(), AUD_TITLE_EDITED);
+        assertEquals(editedAud.getDescription(), AUD_DESCRIPTION_EDITED);
+    }
 
     @Test
     public void testGetAllValidPage() {
@@ -165,7 +174,10 @@ public class AuditionServiceTest {
 
     @Test(expected = AuditionNotFoundException.class)
     public void testEditAuditionNotExistsById() {
-        auditionService.editAuditionById(AUD_BUILDER, 5);
+        long auditionId = 5;
+        when(auditionDao.getAuditionById(auditionId)).thenReturn(Optional.empty());
+
+        auditionService.editAuditionById(AUD_BUILDER, auditionId);
         Assert.fail("Should have thrown AuditionNotFoundException");
     }
 
