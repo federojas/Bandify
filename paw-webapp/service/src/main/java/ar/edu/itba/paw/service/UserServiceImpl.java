@@ -99,9 +99,10 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public void updateUserLocation(String locationName, User user) {
+    public User updateUserLocation(String locationName, User user) {
         Location location = locationService.getLocationByName(locationName).orElseThrow(LocationNotFoundException::new);
         user.setLocation(location);
+        return user;
     }
 
     @Override
@@ -111,11 +112,12 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public void updateUserRoles(List<String> rolesNames, User user) {
+    public User updateUserRoles(List<String> rolesNames, User user) {
         Set<Role> roles = roleService.getRolesByNames(rolesNames);
         if(roles.size() > MAX_USER_ROLES)
             throw new IllegalArgumentException();
         user.setUserRoles(roles);
+        return user;
     }
 
     @Override
@@ -130,11 +132,12 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public void updateUserGenres(List<String> genreNames, User user) {
+    public User updateUserGenres(List<String> genreNames, User user) {
         Set<Genre> genres = genreService.getGenresByNames(genreNames);
         if(genres.size() > MAX_USER_GENRES)
             throw new IllegalArgumentException();
         user.setUserGenres(genres);
+        return user;
     }
 
     @Override
@@ -144,13 +147,13 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public void verifyUser(String token) {
+    public boolean verifyUser(String token) {
         long userId = verificationTokenService.getTokenOwner(token, TokenType.VERIFY);
         userDao.verifyUser(userId);
-        autoLogin(userId);
+        return autoLogin(userId);
     }
 
-    private void autoLogin(long userId) {
+    private boolean autoLogin(long userId) {
         final User user = getUserById(userId).orElseThrow(UserNotFoundException::new);
         final Collection<GrantedAuthority> authorities = new ArrayList<>();
         if(user.isBand())
@@ -160,6 +163,7 @@ public class UserServiceImpl implements UserService {
         Authentication auth = new UsernamePasswordAuthenticationToken(user.getEmail(),user.getPassword(),authorities);
         SecurityContextHolder.getContext().setAuthentication(auth);
         LOGGER.debug("Autologin for user {}",userId);
+        return true;
     }
 
     @Transactional
@@ -175,10 +179,10 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public void changePassword(String token, String newPassword) {
+    public boolean changePassword(String token, String newPassword) {
         long userId = verificationTokenService.getTokenOwner(token, TokenType.RESET);
         userDao.changePassword(userId, passwordEncoder.encode(newPassword));
-        autoLogin(userId);
+        return autoLogin(userId);
     }
 
     @Override
@@ -206,16 +210,18 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public void updateProfilePicture(User user, byte[] image) {
+    public User updateProfilePicture(User user, byte[] image) {
         if(image.length > 0)
             user.setProfileImage(image);
+        return user;
     }
 
     @Transactional
     @Override
-    public void setAvailable(boolean available, User user) {
+    public User setAvailable(boolean available, User user) {
         if(!user.isBand())
             user.setAvailable(available);
+        return user;
     }
 
     @Override

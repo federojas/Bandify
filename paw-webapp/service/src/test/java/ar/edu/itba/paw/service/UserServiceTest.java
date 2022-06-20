@@ -57,6 +57,8 @@ public class UserServiceTest {
     private static final String INVALID_EMAIL = "invalid@mail.com";
     private static final User.UserBuilder USER_BUILDER = new User.UserBuilder("artist@mail.com","12345678", "name", false, false).surname("surname").id(1L).description("description");
     private static final User USER = USER_BUILDER.build();
+    private static final User.UserBuilder USER_BUILDER_BAND = new User.UserBuilder("band@mail.com","12345678","name",true,true).id(2L);
+    private static final User USER_BAND = USER_BUILDER_BAND.build();
 
     private static final String EDIT_NAME = "editName";
     private static final String EDIT_SURNAME = "editSurname";
@@ -115,9 +117,81 @@ public class UserServiceTest {
         assertEquals(EDIT_NAME, user.getName());
         assertEquals(EDIT_SURNAME, user.getSurname());
         assertEquals(EDIT_DESCRIPTION, user.getDescription());
-        assertEquals(EDIT_GENRES, user.getUserGenres().stream().map(Genre::getName).collect(Collectors.toList()));
-        assertEquals(EDIT_ROLES, user.getUserRoles().stream().map(Role::getName).collect(Collectors.toList()));
+    }
+
+    @Test
+    public void testUpdateUserLocation() {
+        when(locationService.getLocationByName(EDIT_LOCATION)).thenReturn(Optional.of(new Location(1L, EDIT_LOCATION)));
+
+        User user = userService.updateUserLocation(EDIT_LOCATION, USER);
+        assertNotNull(user);
         assertEquals(EDIT_LOCATION, user.getLocation().getName());
+    }
+
+    @Test
+    public void testUpdateUserGenres() {
+        when(genreService.getGenresByNames(EDIT_GENRES)).thenReturn(EDIT_GENRES_SET);
+
+        User user = userService.updateUserGenres(EDIT_GENRES, USER);
+        assertNotNull(user);
+        assertEquals(EDIT_GENRES, user.getUserGenres().stream().map(Genre::getName).collect(Collectors.toList()));
+    }
+
+    @Test
+    public void testUpdateUserRoles() {
+        when(roleService.getRolesByNames(EDIT_ROLES)).thenReturn(EDIT_ROLES_SET);
+
+        User user = userService.updateUserRoles(EDIT_ROLES, USER);
+        assertNotNull(user);
+        assertEquals(EDIT_ROLES, user.getUserRoles().stream().map(Role::getName).collect(Collectors.toList()));
+    }
+
+    @Test
+    public void testUpdateUserImage() {
+        User user = userService.updateProfilePicture(USER, EDIT_IMAGE);
+        assertNotNull(user);
+        assertArrayEquals(EDIT_IMAGE, user.getProfileImage());
+    }
+
+    @Test
+    public void testVerifyUser() {
+        when(verificationTokenService.getTokenOwner(TOKEN_VALUE, TokenType.VERIFY)).thenReturn(USER.getId());
+        doNothing().when(userDao).verifyUser(USER.getId());
+        when(userService.getUserById(USER.getId())).thenReturn(Optional.ofNullable(USER));
+
+        boolean verifiedAndAutoLogged = userService.verifyUser(TOKEN_VALUE);
+        assertTrue(verifiedAndAutoLogged);
+    }
+
+    @Test
+    public void testSendResetEmail() {
+        when(userDao.findByEmail(USER.getEmail())).thenReturn(Optional.of(USER));
+        when(verificationTokenService.generate(Mockito.eq(USER), Mockito.eq(TokenType.RESET))).thenReturn(any(VerificationToken.class));
+
+        userService.sendResetEmail(USER.getEmail());
+        verify(mailingService).sendResetPasswordEmail(Mockito.eq(USER), any(), any());
+    }
+
+    @Test
+    public void testChangePassword() {
+        when(verificationTokenService.getTokenOwner(TOKEN_VALUE, TokenType.RESET)).thenReturn(USER.getId());
+//        doNothing().when(userDao).changePassword(USER.getId(), PASSWORD);
+        when(userService.getUserById(USER.getId())).thenReturn(Optional.of(USER));
+
+        boolean changePassword = userService.changePassword(TOKEN_VALUE, PASSWORD);
+        assertTrue(changePassword);
+    }
+
+    @Test
+    public void testSetAvailableArtist() {
+        User user = userService.setAvailable(true, USER);
+        assertTrue(user.isAvailable());
+    }
+
+    @Test
+    public void testSetAvailableBand() {
+        User user = userService.setAvailable(false, USER_BAND);
+        assertFalse(user.isAvailable());
     }
 
     @Test(expected = DuplicateUserException.class)
