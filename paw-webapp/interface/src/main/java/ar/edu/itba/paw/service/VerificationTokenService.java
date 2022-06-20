@@ -16,6 +16,6 @@ public interface VerificationTokenService {
 
     long getTokenOwner(String token, TokenType type);
 
-    void isValid(String token);
+    boolean isValid(String token);
 
 }
