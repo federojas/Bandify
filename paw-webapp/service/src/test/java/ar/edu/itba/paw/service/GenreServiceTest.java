@@ -34,7 +34,7 @@ public class GenreServiceTest {
     private static final Genre JAZZ = new Genre("JAZZ", 4);
     private static final Genre COUNTRY = new Genre("COUNTRY", 5);
     private static final Genre REGGAE = new Genre("REGGAE", 6);
-    
+
     private static final List<Genre> GENRE_LIST = Arrays.asList(ROCK, POP, CUMBIA, JAZZ, COUNTRY, REGGAE);
     private static final List<String> GENRE_LIST_STRING = Arrays.asList("ROCK", "POP", "CUMBIA", "JAZZ", "COUNTRY", "REGGAE");
 
@@ -58,7 +58,7 @@ public class GenreServiceTest {
 
         Set<Genre> genres = genreService.getGenresByNames(Arrays.asList("ROCK", "POP", "CUMBIA"));
 
-        Assert.assertEquals(new HashSet<>(Arrays.asList(ROCK, POP, CUMBIA)), genres);
+        Assert.assertEquals(expected, genres);
     }
 
 
