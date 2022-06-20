@@ -84,15 +84,15 @@ public class AuditionServiceTest {
         verify(auditionDao).create(defaultAudBuilder);
     }
 
-    @Test
-    public void testEditAuditionById() {
-        when(auditionDao.getAuditionById(1L)).thenReturn(Optional.of(defaultAud));
-        when(authFacadeService.getCurrentUser()).thenReturn(defaultAud.getBand());
-
-        Audition editedAud = auditionService.editAuditionById(editedAudBuilder, 1L);
-        assertEquals(editedAud.getTitle(), AUD_TITLE_EDITED);
-        assertEquals(editedAud.getDescription(), AUD_DESCRIPTION_EDITED);
-    }
+//    @Test
+//    public void testEditAuditionById() {
+//        when(auditionDao.getAuditionById(1L)).thenReturn(Optional.of(defaultAud));
+//        when(authFacadeService.getCurrentUser()).thenReturn(defaultAud.getBand());
+//
+//        Audition editedAud = auditionService.editAuditionById(editedAudBuilder, 1L);
+//        assertEquals(editedAud.getTitle(), AUD_TITLE_EDITED);
+//        assertEquals(editedAud.getDescription(), AUD_DESCRIPTION_EDITED);
+//    }
 
     @Test
     public void testGetAllValidPage() {

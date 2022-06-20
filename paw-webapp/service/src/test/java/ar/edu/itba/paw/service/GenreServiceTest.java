@@ -13,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.mockito.Mockito.when;
 
@@ -27,10 +28,39 @@ public class GenreServiceTest {
 
     private static final String INVALID = "INVALID";
 
-
     private static final Genre ROCK = new Genre("ROCK", 1);
     private static final Genre POP = new Genre("POP", 2);
-    private static final List<Genre> GENRE_LIST = Arrays.asList(ROCK, POP);
+    private static final Genre CUMBIA = new Genre("CUMBIA", 3);
+    private static final Genre JAZZ = new Genre("JAZZ", 4);
+    private static final Genre COUNTRY = new Genre("COUNTRY", 5);
+    private static final Genre REGGAE = new Genre("REGGAE", 6);
+    
+    private static final List<Genre> GENRE_LIST = Arrays.asList(ROCK, POP, CUMBIA, JAZZ, COUNTRY, REGGAE);
+    private static final List<String> GENRE_LIST_STRING = Arrays.asList("ROCK", "POP", "CUMBIA", "JAZZ", "COUNTRY", "REGGAE");
+
+    @Test
+    public void testGetAll() {
+        when(genreDao.getAll()).thenReturn(new HashSet<>(GENRE_LIST));
+        Assert.assertEquals(new HashSet<>(GENRE_LIST), genreService.getAll());
+    }
+
+    @Test
+    public void testGetAllEmpty() {
+        when(genreDao.getAll()).thenReturn(new HashSet<>());
+        Assert.assertEquals(new HashSet<>(), genreService.getAll());
+    }
+
+    @Test
+    public void testGetGenresByNames() {
+        Set<Genre> expected = new HashSet<>(Arrays.asList(ROCK, POP, CUMBIA));
+        when(genreDao.getAll()).thenReturn((Set<Genre>) new HashSet<>(GENRE_LIST));
+        when(genreDao.getGenresByNames(Arrays.asList("ROCK", "POP", "CUMBIA"))).thenReturn(expected);
+
+        Set<Genre> genres = genreService.getGenresByNames(Arrays.asList("ROCK", "POP", "CUMBIA"));
+
+        Assert.assertEquals(new HashSet<>(Arrays.asList(ROCK, POP, CUMBIA)), genres);
+    }
+
 
     @Test(expected = GenreNotFoundException.class)
     public void testValidateAndReturnGenresWithInvalidGenre() {
