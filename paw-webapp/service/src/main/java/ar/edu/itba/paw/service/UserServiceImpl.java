@@ -51,6 +51,15 @@ public class UserServiceImpl implements UserService {
         return userDao.getUserById(id);
     }
 
+    @Override
+    public User getArtistById(long id) {
+        Optional<User> artist = getUserById(id);
+        if(!artist.isPresent() || artist.get().isBand())
+            throw new UserNotFoundException("User is a band");
+        else
+            return artist.get();
+    }
+
     @Transactional
     @Override
     public User create(User.UserBuilder userBuilder) {

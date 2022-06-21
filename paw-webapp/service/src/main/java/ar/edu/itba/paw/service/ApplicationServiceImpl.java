@@ -19,8 +19,6 @@ import java.util.*;
 @Service
 public class ApplicationServiceImpl implements ApplicationService {
 
-    // TODO: long auditionId, long applicantId VS id
-
     @Autowired
     private ApplicationDao applicationDao;
     @Autowired
@@ -63,7 +61,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 
         Audition aud = auditionService.getAuditionById(auditionId);
         User band = userService.getUserById(aud.getBand().getId()).orElseThrow(UserNotFoundException::new);
-        if(!membershipService.canBeAddedToBand(band, user)) {
+        if(membershipService.isInBand(band, user)) {
             LOGGER.info("User {} already in band ",user.getId());
             return false;
         }

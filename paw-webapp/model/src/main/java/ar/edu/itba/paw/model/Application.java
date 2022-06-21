@@ -8,8 +8,6 @@ import java.util.Objects;
 @Table(name = "applications")
 public class Application {
 
-    // TODO: HACE FALTA PATRON BUILDER? ESTA MAL IMPLEMENTADO CREO
-
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "applications_id_seq")
     @SequenceGenerator(name = "applications_id_seq", sequenceName = "applications_id_seq", allocationSize = 1)

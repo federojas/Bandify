@@ -19,7 +19,6 @@ public class VerificationToken {
     @Column(name = "token", nullable = false)
     private String token;
 
-    // TODO: EAGER O LAZY?
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId")
     private User user;

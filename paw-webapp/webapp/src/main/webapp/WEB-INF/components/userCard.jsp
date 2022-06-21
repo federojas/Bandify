@@ -62,7 +62,6 @@
                     <p><c:out value="${param.location}" /></p>
                 </div>
             </c:if>
-            <%--  TODO:   Location--%>
             <div class="roles-div">
                 <div class="loop-div">
                     <c:forEach var="role"

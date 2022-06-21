@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
 
 @Controller
 public class AuditionsController {
-    // TODO: Sacar las URLs del tipo success
     private final AuditionService auditionService;
     private final RoleService roleService;
     private final GenreService genreService;
@@ -114,7 +113,7 @@ public class AuditionsController {
         mav.addObject("audition", audition);
         mav.addObject("user",band);
         mav.addObject("alreadyApplied", alreadyApplied);
-        mav.addObject("canBeAddedToBand", membershipService.canBeAddedToBand(band, user));
+        mav.addObject("canBeAddedToBand", !membershipService.isInBand(band, user));
         return mav;
     }
 
@@ -272,7 +271,8 @@ public class AuditionsController {
         User user = authFacadeService.getCurrentUser();
 
         List<Audition> auditionList = auditionService.getBandAuditions(user, page);
-//        TODO: Pasar a Servicio o ver que hacer
+
+//        TODO: ESTO ES MUY MALO MIRAR
         List<Integer> auditionPendingApplicants = new ArrayList<>();
         for (Audition audition : auditionList) {
             auditionPendingApplicants.add(applicationService.getAuditionApplicationsByState(audition.getId(), ApplicationState.PENDING).size());
@@ -364,15 +364,11 @@ public class AuditionsController {
             return new ModelAndView("redirect: /profile");
         }
 
-        // TODO: falta poder rechazar en vez de seleccionar
-        // TODO: membershipSuccess.jsp y selectApplicant.jsp
-
         membershipService.createMembershipByApplication(new Membership.Builder(application.getApplicant(),
                 application.getAudition().getBand())
                         .description(membershipForm.getDescription())
                         .roles(roleService.getRolesByNames(membershipForm.getRoles())) ,
                 application.getAudition().getId());
-        //TODO: o redireccionar directamente al perfil / miembros de la banda?
         return new ModelAndView("membershipSuccess");
     }
 

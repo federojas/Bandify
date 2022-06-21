@@ -84,7 +84,6 @@ public class UserJpaDao implements UserDao {
 
     }
 
-    //TODO codigo repetido
     @Override
     public List<User> filter(FilterOptions filterOptions, int page) {
         LOGGER.info("Getting users filtered in page {}", page);

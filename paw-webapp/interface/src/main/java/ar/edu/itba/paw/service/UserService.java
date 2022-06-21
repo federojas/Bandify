@@ -10,6 +10,8 @@ import java.util.Set;
 public interface UserService {
     Optional<User> getUserById(long id);
 
+    User getArtistById(long id);
+
     User create(User.UserBuilder userBuilder);
 
     Optional<User> findByEmail(String email);

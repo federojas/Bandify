@@ -9,8 +9,6 @@ import java.util.Set;
 @Table(name = "memberships")
 public class Membership {
 
-    // TODO: EAGER VS LAZY
-
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "memberships_id_seq")
     @SequenceGenerator(name = "memberships_id_seq", sequenceName = "memberships_id_seq", allocationSize = 1)

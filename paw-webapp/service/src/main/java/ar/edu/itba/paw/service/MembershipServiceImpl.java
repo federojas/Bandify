@@ -180,11 +180,15 @@ public class MembershipServiceImpl implements MembershipService {
 
     @Override
     public boolean canBeAddedToBand(User band, User artist) {
-        return !membershipDao.membershipExists(band, artist) && artist.isAvailable();
+        if(band != null && band.isBand())
+            return !membershipDao.membershipExists(band, artist) && artist.isAvailable();
+        return false;
     }
 
     @Override
     public boolean isInBand(User band, User artist) {
-        return membershipDao.isInBand(band, artist);
+        if(band.isBand() && artist != null)
+            return membershipDao.isInBand(band, artist);
+        return false;
     }
 }

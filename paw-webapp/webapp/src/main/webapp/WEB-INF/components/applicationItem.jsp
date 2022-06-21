@@ -50,7 +50,7 @@
                     <c:url value="/auditions/${param.auditionId}/applicants/select/${param.applicationId}" var="addToBandUrl" />
                     <a href="${addToBandUrl}" onmouseover="invertImg()"
                        onmouseout="invertImgBack()">
-                        <button class="artist-profile-btn" id="addToBandBtn">
+                        <button class="add-toband-button" id="addToBandBtn">
                             <spring:message code="applicants.addToBand"/>
                             <spring:message code="audition.applicants.alt" var="altAddToBand"/>
                             <img src="<c:url value="/resources/icons/add-user.svg"/>"

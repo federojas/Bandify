@@ -31,6 +31,28 @@
     margin: 1rem;
 }
 
+.add-toband-button {
+    padding: 0.25rem 1rem;
+    color: #1c041c;
+    font-weight: 600;
+    border-radius: 9999px;
+    border-width: 1px;
+    border-color: #1c041c;
+    height: fit-content;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 15px;
+}
+
+.add-toband-button:hover {
+    --tw-text-opacity: 1;
+    color: white;
+    --tw-bg-opacity: 1;
+    background-color: #1c041c;
+    border-color: transparent;
+
+}
+
 .applicant-body {
     margin: 1.5rem;
 }

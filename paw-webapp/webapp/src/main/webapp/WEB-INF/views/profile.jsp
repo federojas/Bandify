@@ -126,9 +126,6 @@
                                         </a>
                                     </li>
                                 </ul>
-                                <c:if test="${pendingApps != 0}">
-                                    <p class="pending-p"><spring:message code="profile.pending.apps" arguments="${pendingApps}"/></p>
-                                </c:if>
                             </div>
                         </sec:authorize>
                         <sec:authorize access="hasRole('ARTIST')">

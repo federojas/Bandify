@@ -50,10 +50,10 @@
         <spring:message code="application.reject" var="reject"/>
         <div class="application-icons">
           <c:url value="/invites/${param.membershipId}" var="acceptUrl">
-            <c:param name="accept" value="true"/>
+            <c:param name="accept" value="ACCEPTED"/>
           </c:url>
           <c:url value="/invites/${param.membershipId}" var="rejectUrl">
-            <c:param name="accept" value="false"/>
+            <c:param name="accept" value="REJECTED"/>
           </c:url>
           <div class="application-confirmation-buttons">
             <form action="${acceptUrl}" method="post">

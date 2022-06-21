@@ -20,8 +20,6 @@ import java.util.stream.Collectors;
 @Controller
 public class UserController {
 
-    // TODO: ya no haria falta que le pida al servicio por los roles y generos favoritos al mostrar el perfil
-    // por ejemplo, es mas, ya no harian falta esos metodos en el servicio.
     private final UserService userService;
     private final VerificationTokenService verificationTokenService;
     private final RoleService roleService;
@@ -98,14 +96,6 @@ public class UserController {
     public ModelAndView profile() {
         ModelAndView mav = new ModelAndView("profile");
         User user = authFacadeService.getCurrentUser();
-        int pendingCount;
-        if(user.isBand()) {
-            pendingCount = applicationService.getTotalUserApplicationsFiltered(user.getId(), ApplicationState.PENDING);
-            mav.addObject("pendingApps", pendingCount);
-        } else {
-            pendingCount = membershipService.getPendingMembershipsCount(user);
-            mav.addObject("pendingMemberships", pendingCount);
-        }
         mav.addObject("members", membershipService.getUserMembershipsPreview(user));
         return setAndReturnProfileViewData(user, null, mav);
     }
@@ -133,21 +123,11 @@ public class UserController {
         mav.addObject("members", membershipService.getUserMembershipsPreview(userToVisit));
         mav.addObject("user", userToVisit);
 
-        //TODO ACA QUEDO BASTANTE NEFASTO
-        if (currentUser != null && currentUser.isBand()) {
-            mav.addObject("canBeAddedToBand", membershipService.canBeAddedToBand(currentUser, userToVisit));
-            mav.addObject("isInBand", false);
-        } else {
-            mav.addObject("canBeAddedToBand", false);
-            if(userToVisit.isBand() && currentUser != null) {
-                boolean isInBand = membershipService.isInBand(userToVisit, currentUser);
-                mav.addObject("isInBand", isInBand);
-                if(isInBand)
-                    mav.addObject("membershipId", membershipService.getMembershipByUsers(userToVisit, currentUser).orElseThrow(MembershipNotFoundException::new).getId());
-            } else {
-                mav.addObject("isInBand", false);
-            }
-        }
+        mav.addObject("canBeAddedToBand", membershipService.canBeAddedToBand(currentUser, userToVisit));
+        boolean isInBand = membershipService.isInBand(userToVisit, currentUser);
+        mav.addObject("isInBand", isInBand);
+        if(isInBand)
+            mav.addObject("membershipId", membershipService.getMembershipByUsers(userToVisit, currentUser).orElseThrow(MembershipNotFoundException::new).getId());
 
         Set<Genre> preferredGenres = userService.getUserGenres(userToVisit);
         mav.addObject("preferredGenres", preferredGenres);
@@ -170,12 +150,7 @@ public class UserController {
                                              final MembershipForm membershipForm) {
         ModelAndView mav = new ModelAndView("viewProfileAddToBand");
 
-        Optional<User> optionalUser = userService.getUserById(id);
-        User userToVisit = optionalUser.orElseThrow(UserNotFoundException::new);
-//        TODO: Pasar validacion de usuario de tipo artista a servicio
-        if (userToVisit.isBand()) {
-            throw new UserNotFoundException("User is a band");
-        }
+        User userToVisit = userService.getArtistById(id);
 
         mav.addObject("user", userToVisit);
         Location location = userService.getUserLocation(userToVisit);
@@ -194,8 +169,6 @@ public class UserController {
         if (errors.hasErrors()) {
             return viewProfileAddToBand(id,membershipForm);
         }
-
-        // TODO: y selectApplicant.jsp
 
         membershipService.createMembershipInvite(new Membership.Builder(
                 userService.getUserById(id).orElseThrow(UserNotFoundException::new),
@@ -419,11 +392,6 @@ public class UserController {
         return userDiscover;
     }
 
-
-//    TODO: refactor this method
-//    membershipService.getUserMemberships(currentUser,MembershipState.PENDING,page);
-//    me da lo mismo si estoy en dos bandas distintas (JetsonMade y JackHarlow)
-    /* metodo para ver las invitaciones de memberships que le mandaron a un artista */
     @RequestMapping(value = "/invites",  method = {RequestMethod.GET})
     public ModelAndView bandMembershipInvites(@RequestParam(value = "page", defaultValue = "1") int page) {
         ModelAndView mav = new ModelAndView("invites");
@@ -439,17 +407,12 @@ public class UserController {
         return mav;
     }
 
-    /* metodo para aceptar/rechazar la membership */
     @RequestMapping(value = "/invites/{membershipId}",  method = {RequestMethod.POST})
     public ModelAndView evaluateInvite(@PathVariable long membershipId,
-                                       @RequestParam(value = "accept") boolean accept) {
+                                       @RequestParam(value = "accept", defaultValue = "") String accept) {
         Membership membership = membershipService.getMembershipById(membershipId).orElseThrow(MembershipNotFoundException::new);
-        // TODO: PODRIA RECIBIR EL STATE Y HCER UNVALUEOF
-        if (accept) {
-            membershipService.changeState(membership, MembershipState.ACCEPTED);
-        } else {
-            membershipService.changeState(membership, MembershipState.REJECTED);
-        }
+
+        membershipService.changeState(membership, MembershipState.valueOf(accept));
 
         return new ModelAndView("redirect:/profile");
     }
