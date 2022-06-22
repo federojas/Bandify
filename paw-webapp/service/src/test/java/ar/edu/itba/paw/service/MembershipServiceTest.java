@@ -166,9 +166,7 @@ public class MembershipServiceTest {
 
     @Test
     public void testIsNotInBand() {
-        when(membershipDao.isInBand(ARTIST, ARTIST)).thenReturn(true);
-
-        boolean isInBand = membershipService.isInBand(BAND, ARTIST);
+        boolean isInBand = membershipService.isInBand(ARTIST, ARTIST);
         assertFalse(isInBand);
     }
 }
