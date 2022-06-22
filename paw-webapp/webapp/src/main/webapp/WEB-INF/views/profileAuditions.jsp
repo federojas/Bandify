@@ -105,7 +105,7 @@
                                 name="auditionDescription"
                                 value="${audition.description}"
                         />
-                        <jsp:param name="pendingApplicantsCount" value="${auditionPendingApplicants[loop.index]}"/>
+                        <jsp:param name="pendingApplicantsCount" value="${audition.pendingCount}"/>
                     </jsp:include>
                 </c:forEach>
 

@@ -1,5 +1,7 @@
 package ar.edu.itba.paw.model;
 
+import org.hibernate.annotations.Formula;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -55,6 +57,9 @@ public class Audition {
             inverseJoinColumns = @JoinColumn(name = "roleId")
     )
     private Set<Role> lookingFor;
+
+    @Formula(value = "(select count(*) from auditions as a join applications as ap on a.id = ap.auditionid where ap.state = 'PENDING' and a.id = id)")
+    private int pendingCount;
 
     @Override
     public boolean equals(Object o) {
@@ -225,5 +230,13 @@ public class Audition {
 
     public boolean getIsOpen() {
         return isOpen;
+    }
+
+    public boolean isOpen() {
+        return isOpen;
+    }
+
+    public int getPendingCount() {
+        return pendingCount;
     }
 }
