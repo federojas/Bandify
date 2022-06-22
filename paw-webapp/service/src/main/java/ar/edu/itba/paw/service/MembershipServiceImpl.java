@@ -53,8 +53,6 @@ public class MembershipServiceImpl implements MembershipService {
     @Transactional
     @Override
     public Membership createMembershipInvite(Membership.Builder builder) {
-        System.out.println(builder.getArtist().isBand());
-        System.out.println(!builder.getArtist().isAvailable());
         if(builder.getArtist().isBand() || !builder.getArtist().isAvailable()) {
             throw new UserNotAvailableException();
         }

@@ -80,11 +80,31 @@ public class MembershipServiceTest {
     }
 
     @Test
+    public void testGetUserMembershipsPreview() {
+        when(membershipDao.getUserMembershipsPreview(ARTIST)).thenReturn(MEMS_LIST);
+        List<Membership> memsList = membershipService.getUserMembershipsPreview(ARTIST);
+        assertEquals(MEMS_LIST, memsList);
+    }
+
+    @Test
+    public void testCreateMembershipInvite() {
+        Membership.Builder memBuilder = mem5Builder.state(MembershipState.PENDING);
+        Membership memExpected = memBuilder.build();
+        when(membershipDao.membershipExists(memBuilder.getBand(), memBuilder.getArtist())).thenReturn(false);
+        when(membershipDao.createMembership(memBuilder)).thenReturn(memExpected);
+
+        Membership mem = membershipService.createMembershipInvite(memBuilder);
+        assertNotNull(mem);
+        assertEquals(memExpected, mem);
+    }
+
+    @Test
     public void testChangeStateToAccepted() {
         when(authFacadeService.getCurrentUser()).thenReturn(ARTIST);
 
         doNothing().when(mailingService).sendInvitationAcceptedEmail(any(), any(), any());
         Membership memRet = membershipService.changeState(mem4, MembershipState.ACCEPTED);
+
         assertEquals(MembershipState.ACCEPTED, memRet.getState());
     }
 
@@ -136,4 +156,19 @@ public class MembershipServiceTest {
         assertFalse(canBeAddedToBand);
     }
 
+    @Test
+    public void testIsInBand() {
+        when(membershipDao.isInBand(BAND, ARTIST)).thenReturn(true);
+
+        boolean isInBand = membershipService.isInBand(BAND, ARTIST);
+        assertTrue(isInBand);
+    }
+
+    @Test
+    public void testIsNotInBand() {
+        when(membershipDao.isInBand(ARTIST, ARTIST)).thenReturn(true);
+
+        boolean isInBand = membershipService.isInBand(BAND, ARTIST);
+        assertFalse(isInBand);
+    }
 }
