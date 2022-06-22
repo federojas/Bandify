@@ -145,8 +145,8 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     private Application setApplicationState(long auditionId, long applicantId, ApplicationState state) {
         Audition audition = auditionService.getAuditionById(auditionId);
-        User band = userService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(UserNotFoundException::new);
         User applicant = userService.getUserById(applicantId).orElseThrow(UserNotFoundException::new);
+        User band = userService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(UserNotFoundException::new);
         if(!Objects.equals(audition.getBand().getId(), band.getId()))
             throw new AuditionNotOwnedException();
         if(state.equals(ApplicationState.ACCEPTED)) {

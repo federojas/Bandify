@@ -19,6 +19,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -41,6 +42,7 @@ public class ApplicationServiceTest {
 
     @Mock
     private MailingService mailingService;
+
 
     @InjectMocks
     private ApplicationService applicationService = new ApplicationServiceImpl();
@@ -69,8 +71,8 @@ public class ApplicationServiceTest {
                 .getAuditionApplicationsByState(1,ApplicationState.PENDING,1);
 
         verify(applicationDao).getAuditionApplicationsByState(auditionId, ApplicationState.PENDING,1);
-        Assert.assertEquals(1,list.size());
-        Assert.assertTrue(list.containsAll(new ArrayList<>(Collections.singletonList(PENDING_APP))));
+        assertEquals(1,list.size());
+        assertTrue(list.containsAll(new ArrayList<>(Collections.singletonList(PENDING_APP))));
     }
 
     @Test
@@ -84,8 +86,8 @@ public class ApplicationServiceTest {
         List<Application> list = applicationService.getAuditionApplicationsByState(1,ApplicationState.ALL,1);
 
         verify(applicationDao).getAuditionApplicationsByState(auditionId, ApplicationState.PENDING,1);
-        Assert.assertEquals(1,list.size());
-        Assert.assertTrue(list.containsAll(new ArrayList<>(Collections.singletonList(PENDING_APP))));
+        assertEquals(1,list.size());
+        assertTrue(list.containsAll(new ArrayList<>(Collections.singletonList(PENDING_APP))));
     }
 
     @Test
@@ -99,8 +101,8 @@ public class ApplicationServiceTest {
         List<Application> list = applicationService.getAuditionApplicationsByState(1,ApplicationState.ACCEPTED,1);
 
         verify(applicationDao).getAuditionApplicationsByState(auditionId, ApplicationState.ACCEPTED,1);
-        Assert.assertEquals(1,list.size());
-        Assert.assertTrue(list.containsAll(new ArrayList<>(Collections.singletonList(ACCEPTED_APP))));
+        assertEquals(1,list.size());
+        assertTrue(list.containsAll(new ArrayList<>(Collections.singletonList(ACCEPTED_APP))));
     }
 
     @Test
@@ -114,8 +116,8 @@ public class ApplicationServiceTest {
         List<Application> list = applicationService.getAuditionApplicationsByState(1,ApplicationState.REJECTED,1);
 
         verify(applicationDao).getAuditionApplicationsByState(auditionId, ApplicationState.REJECTED,1);
-        Assert.assertEquals(1,list.size());
-        Assert.assertTrue(list.containsAll(new ArrayList<>(Collections.singletonList(REJECTED_APP))));
+        assertEquals(1,list.size());
+        assertTrue(list.containsAll(new ArrayList<>(Collections.singletonList(REJECTED_APP))));
     }
 
     @Test
@@ -148,7 +150,7 @@ public class ApplicationServiceTest {
 
 
         boolean applied = applicationService.apply(auditionId, USER_NOT_APPLIED,"message");
-        Assert.assertTrue(applied);
+        assertTrue(applied);
     }
 
     @Test
@@ -157,8 +159,8 @@ public class ApplicationServiceTest {
         when(applicationDao.getMyApplicationsFiltered(applicantId, 1, ApplicationState.PENDING)).
                 thenReturn(new ArrayList<>(Collections.singletonList(PENDING_APP)));
         List<Application> myApps = applicationService.getMyApplicationsFiltered(applicantId, 1, ApplicationState.PENDING);
-        Assert.assertEquals(1, myApps.size());
-        Assert.assertTrue(myApps.containsAll(new ArrayList<>(Collections.singletonList(PENDING_APP))));
+        assertEquals(1, myApps.size());
+        assertTrue(myApps.containsAll(new ArrayList<>(Collections.singletonList(PENDING_APP))));
     }
 
     @Test
@@ -167,8 +169,8 @@ public class ApplicationServiceTest {
         when(applicationDao.getMyApplicationsFiltered(applicantId, 1, ApplicationState.ACCEPTED)).
                 thenReturn(new ArrayList<>(Collections.singletonList(ACCEPTED_APP)));
         List<Application> myApps = applicationService.getMyApplicationsFiltered(applicantId, 1, ApplicationState.ACCEPTED);
-        Assert.assertEquals(1, myApps.size());
-        Assert.assertTrue(myApps.containsAll(new ArrayList<>(Collections.singletonList(ACCEPTED_APP))));
+        assertEquals(1, myApps.size());
+        assertTrue(myApps.containsAll(new ArrayList<>(Collections.singletonList(ACCEPTED_APP))));
     }
 
     @Test
@@ -177,8 +179,8 @@ public class ApplicationServiceTest {
         when(applicationDao.getMyApplicationsFiltered(applicantId, 1, ApplicationState.REJECTED)).
                 thenReturn(new ArrayList<>(Collections.singletonList(REJECTED_APP)));
         List<Application> myApps = applicationService.getMyApplicationsFiltered(applicantId, 1, ApplicationState.REJECTED);
-        Assert.assertEquals(1, myApps.size());
-        Assert.assertTrue(myApps.containsAll(new ArrayList<>(Collections.singletonList(REJECTED_APP))));
+        assertEquals(1, myApps.size());
+        assertTrue(myApps.containsAll(new ArrayList<>(Collections.singletonList(REJECTED_APP))));
     }
 
     @Test
@@ -189,8 +191,8 @@ public class ApplicationServiceTest {
         when(auditionService.getAuditionById(auditionId)).thenReturn(BAND_AUDITION);
         when(applicationDao.findApplication(applicationId)).thenReturn(Optional.of(PENDING_APP));
         Optional<Application> app = applicationService.getApplicationById(auditionId, applicationId);
-        Assert.assertTrue(app.isPresent());
-        Assert.assertEquals(PENDING_APP, app.get());
+        assertTrue(app.isPresent());
+        assertEquals(PENDING_APP, app.get());
     }
 
     @Test
@@ -211,10 +213,22 @@ public class ApplicationServiceTest {
         when(authFacadeService.getCurrentUser()).thenReturn(BAND);
         when(auditionService.getAuditionById(auditionId)).thenReturn(BAND_AUDITION);
         when(applicationDao.findApplication(applicationId)).thenReturn(Optional.of(ACCEPTED_APP));
-        Optional<Application> app = applicationService.getApplicationById(auditionId, applicationId);
-        Assert.assertTrue(app.isPresent());
-        Assert.assertEquals(ACCEPTED_APP, app.get());
+        Optional<Application> app = applicationService.getAcceptedApplicationById(auditionId, applicationId);
+        assertTrue(app.isPresent());
+        assertEquals(ACCEPTED_APP, app.get());
     }
+
+    @Test
+    public void testGetAcceptedApplicationByIdButIsNotAccepted() {
+        long applicationId = 1;
+        long auditionId = 1;
+        when(authFacadeService.getCurrentUser()).thenReturn(BAND);
+        when(auditionService.getAuditionById(auditionId)).thenReturn(BAND_AUDITION);
+        when(applicationDao.findApplication(applicationId)).thenReturn(Optional.of(PENDING_APP));
+        Optional<Application> app = applicationService.getAcceptedApplicationById(auditionId, applicationId);
+        assertFalse(app.isPresent());
+    }
+
 
     @Test
     public void testCloseApplicationsByAuditionId() {
@@ -223,8 +237,24 @@ public class ApplicationServiceTest {
         when(auditionService.getAuditionById(auditionId)).thenReturn(BAND_AUDITION);
         when(applicationDao.getAuditionApplicationsByState(auditionId, ApplicationState.PENDING)).thenReturn(new ArrayList<>(Collections.singletonList(PENDING_APP)));
         boolean closedApps = applicationService.closeApplicationsByAuditionId(auditionId);
-        Assert.assertTrue(closedApps);
+        assertTrue(closedApps);
     }
+
+//    @Test
+//    public void testSelect() {
+//        long auditionId = 1;
+//        long applicantId = 1;
+//        when(auditionService.getAuditionById(auditionId)).thenReturn(BAND_AUDITION);
+//        when(userService.findByEmail(any())).thenReturn(Optional.of(BAND));
+//        when(userService.getUserById(applicantId)).thenReturn(Optional.of(user));
+//        when(applicationDao.findApplication(auditionId, applicantId)).thenReturn(Optional.of(PENDING_APP));
+//
+//        Application app = applicationService.select(auditionId, applicantId);
+//        assertNotNull(app);
+//        assertEquals(ApplicationState.SELECTED, app.getState());
+//    }
+
+
 
     @Test(expected = AuditionNotOwnedException.class)
     public void testCloseApplicationsByAuditionIdNotOwned() {
