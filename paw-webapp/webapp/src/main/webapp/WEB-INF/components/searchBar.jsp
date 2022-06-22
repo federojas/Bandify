@@ -14,7 +14,6 @@
         let parameters = new URLSearchParams(queryString);
         let params = [parameters.getAll('order'), parameters.getAll('location'), parameters.getAll('genre'), parameters.getAll('role')]
         let input = parameters.get('query');
-        console.log(input)
         let i = 0;
         $(document).ready(function () {
             let i = 0;
