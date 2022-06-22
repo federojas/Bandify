@@ -204,8 +204,8 @@ public class AuditionsController {
 
     @RequestMapping(value = "/profile/closeAudition/{id}", method = {RequestMethod.POST})
     public ModelAndView closeAudition(@PathVariable long id) {
-        auditionService.closeAuditionById(id);
         applicationService.closeApplicationsByAuditionId(id);
+        auditionService.closeAuditionById(id);
         return new ModelAndView("redirect:/profile/auditions");
     }
 
