@@ -80,6 +80,14 @@ public class UserServiceTest {
     }
 
     @Test
+    public void testGetArtistById() {
+        when(userDao.getUserById(1L)).thenReturn(Optional.ofNullable(USER));
+
+        User user = userService.getArtistById(1L);
+        assertEquals(USER, user);
+    }
+
+    @Test
     public void testGetUserByIdNotFound() {
         when(userDao.getUserById(1L)).thenReturn(Optional.empty());
 
@@ -191,6 +199,26 @@ public class UserServiceTest {
     public void testSetAvailableBand() {
         User user = userService.setAvailable(false, USER_BAND);
         assertFalse(user.isAvailable());
+    }
+
+    @Test
+    public void testFilter() {
+        int page = 1;
+        List<User> expectedUsers = Arrays.asList(USER, USER_BAND);
+        FilterOptions filter = any();
+        when(userDao.filter(filter, eq(page))).thenReturn(expectedUsers);
+
+        List<User> users = userService.filter(filter, page);
+        assertNotNull(users);
+        assertEquals(expectedUsers, users);
+    }
+
+    @Test(expected = UserNotFoundException.class)
+    public void testGetArtistByIdButIsBand() {
+        when(userDao.getUserById(1L)).thenReturn(Optional.ofNullable(USER_BAND));
+
+        userService.getArtistById(1L);
+        fail("Should have thrown UserNotFoundException");
     }
 
     @Test(expected = DuplicateUserException.class)
