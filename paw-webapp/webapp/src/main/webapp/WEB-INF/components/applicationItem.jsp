@@ -77,23 +77,15 @@
                         <form action="${acceptUrl}" method="post">
                             <button type="submit"><img src="<c:url value="/resources/icons/success.svg" />" alt="${accept}" class="application-icon"/></button>
                         </form>
-                            <button onclick="openConfirmation()" ><img src="<c:url value="/resources/icons/reject.svg" />" alt="${reject}" class="application-icon"/></button>
+                        <form action="${rejectUrl}" method="post">
+                            <button type="submit" ><img src="<c:url value="/resources/icons/reject.svg" />" alt="${reject}" class="application-icon"/></button>
+                        </form>
                     </div>
                 </div>
             </div>
             </c:if>
         </div>
     </div>
-    <spring:message code="rejectConfirmationModal.title" var="modalTitle"/>
-    <spring:message code="rejectConfirmationModal.rejectApplicant" var="modalHeading"/>
-    <spring:message code="rejectConfirmationModal.confirmationQuestion" var="confirmationQuestion"/>
-    <jsp:include page="../components/confirmationModal.jsp">
-        <jsp:param name="modalTitle" value="${modalTitle}" />
-        <jsp:param name="isDelete" value="${true}" />
-        <jsp:param name="modalHeading" value="${modalHeading}" />
-        <jsp:param name="confirmationQuestion" value="${confirmationQuestion}" />
-        <jsp:param name="action" value="${rejectUrl}" />
-    </jsp:include>
 </li>
 
 </body>
