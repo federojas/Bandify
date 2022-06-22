@@ -13,6 +13,16 @@
     text-decoration: underline;
     color: black;
 }
+
+.pagination-applications {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 0.75rem;
+    justify-content: center;
+}
+
 .back-icon {
     width: 48px;
 }

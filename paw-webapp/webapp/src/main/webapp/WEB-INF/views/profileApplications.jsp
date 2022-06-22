@@ -76,7 +76,7 @@
 
         </div>
 
-        <div class="pagination">
+        <div class="pagination-applications">
             <c:if test="${currentPage > 1}">
                 <spring:message code="pagination.previous.page.alt" var="previous"/>
                 <a onclick="getPaginationURL(${currentPage-1})">

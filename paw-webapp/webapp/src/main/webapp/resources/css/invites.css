@@ -16,6 +16,15 @@
     height: fit-content;
 }
 
+.pagination-invites {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 0.75rem;
+    justify-content: center;
+}
+
 .manager-items-title {
     font-size: x-large;
     font-weight: bold;
