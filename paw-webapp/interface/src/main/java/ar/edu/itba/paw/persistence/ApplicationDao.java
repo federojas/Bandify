@@ -30,4 +30,6 @@ public interface ApplicationDao {
 
     int getTotalUserApplicationsFiltered(long userId, ApplicationState state);
 
+    void closeApplications(long bandId, long artistId);
+
 }

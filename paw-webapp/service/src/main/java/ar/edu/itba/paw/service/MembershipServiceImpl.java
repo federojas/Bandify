@@ -90,6 +90,7 @@ public class MembershipServiceImpl implements MembershipService {
             }
             membership.setState(state);
             if(state == MembershipState.ACCEPTED) {
+                applicationService.closeApplications(membership.getBand().getId(), membership.getArtist().getId());
                 Locale locale = LocaleContextHolder.getLocale();
                 LocaleContextHolder.setLocale(locale, true);
                 mailingService.sendInvitationAcceptedEmail(membership.getArtist(), membership.getBand().getEmail(), locale);
@@ -120,7 +121,7 @@ public class MembershipServiceImpl implements MembershipService {
             LOGGER.info("User {} already in band ", builder.getArtist().getId());
             return false;
         }
-        applicationService.select(auditionId, builder.getArtist().getId());
+        applicationService.select(auditionId, builder.getBand().getId(), builder.getArtist().getId());
         createMembership(builder.state(MembershipState.ACCEPTED));
         Locale locale = LocaleContextHolder.getLocale();
         LocaleContextHolder.setLocale(locale, true);

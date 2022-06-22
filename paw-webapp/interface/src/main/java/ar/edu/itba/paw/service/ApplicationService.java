@@ -19,7 +19,7 @@ public interface ApplicationService {
 
     Application reject(long auditionId, long applicantId);
 
-    Application select(long auditionId, long applicantId);
+    Application select(long auditionId, long bandId, long applicantId);
 
     List<Application> getMyApplications(long applicantId, int page);
 
@@ -40,4 +40,6 @@ public interface ApplicationService {
     boolean closeApplicationsByAuditionId(long id);
 
     int getTotalUserApplicationsFiltered(long userId, ApplicationState state);
+
+    void closeApplications(long bandId, long applicantId);
 }

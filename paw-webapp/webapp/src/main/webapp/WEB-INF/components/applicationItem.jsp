@@ -45,7 +45,7 @@
                     <img src="<c:url value="/resources/icons/user.svg"/>" class="audition-icon invert" alt="${altApplicants}" />
                 </a>
             </div>
-            <c:if test="${param.accepted and !param.isInBand}">
+            <c:if test="${param.accepted}">
                 <div class="add-to-band-button">
                     <c:url value="/auditions/${param.auditionId}/applicants/select/${param.applicationId}" var="addToBandUrl" />
                     <a href="${addToBandUrl}" onmouseover="invertImg()"

@@ -125,15 +125,6 @@ public class AuditionsController {
         List<Application> applications = applicationService.getAuditionApplicationsByState(id, ApplicationState.valueOf(state), page);
         Audition aud = auditionService.getAuditionById(id);
 
-        //TODO ESTO ES MUY MALO MIRAR
-        ArrayList<Boolean> isInBandArray = new ArrayList<>();
-        if(Objects.equals(state, ApplicationState.ACCEPTED.getState())) {
-            for(Application application : applications) {
-                isInBandArray.add(membershipService.isInBand(application.getAudition().getBand(), application.getApplicant()));
-            }
-            mav.addObject("isInBand", isInBandArray);
-        }
-
         int lastPage = applicationService.getTotalAuditionApplicationByStatePages(id, ApplicationState.valueOf(state));
         lastPage = lastPage == 0 ? 1 : lastPage;
         mav.addObject("id",id);
@@ -270,6 +261,12 @@ public class AuditionsController {
 
         User user = authFacadeService.getCurrentUser();
 
+        bandAuditions(page, mav, user);
+        mav.addObject("isPropietary", true);
+        return mav;
+    }
+
+    private void bandAuditions(@RequestParam(value = "page", defaultValue = "1") int page, ModelAndView mav, User user) {
         List<Audition> auditionList = auditionService.getBandAuditions(user, page);
 
         int lastPage = auditionService.getTotalBandAuditionPages(user);
@@ -279,22 +276,14 @@ public class AuditionsController {
         mav.addObject("auditionList", auditionList);
         mav.addObject("currentPage", page);
         mav.addObject("lastPage", lastPage);
-        mav.addObject("isPropietary", true);
-        return mav;
     }
+
     @RequestMapping(value = "/bandAuditions/{bandId}", method = {RequestMethod.GET})
     public ModelAndView profilePublicAuditions(@PathVariable long bandId, @RequestParam(value = "page", defaultValue = "1") int page) {
         ModelAndView mav = new ModelAndView("profileAuditions");
 
         User user = userService.getUserById(bandId).orElseThrow(UserNotFoundException::new);
-        List<Audition> auditionList = auditionService.getBandAuditions(user, page);
-        int lastPage = auditionService.getTotalBandAuditionPages(user);
-        lastPage = lastPage == 0 ? 1 : lastPage;
-        mav.addObject("userName", user.getName());
-        mav.addObject("userId", user.getId());
-        mav.addObject("auditionList", auditionList);
-        mav.addObject("currentPage", page);
-        mav.addObject("lastPage", lastPage);
+        bandAuditions(page, mav, user);
         if(user.getId().equals(authFacadeService.getCurrentUser().getId())){
             mav.addObject("isPropietary", true);
 

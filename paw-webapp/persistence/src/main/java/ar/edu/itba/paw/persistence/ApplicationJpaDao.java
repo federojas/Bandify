@@ -8,6 +8,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.math.BigInteger;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -130,5 +131,22 @@ public class ApplicationJpaDao implements ApplicationDao {
         @SuppressWarnings("unchecked")
         List<Long> ids = (List<Long>) query.getResultList().stream().map(o -> ((Number) o).longValue()).collect(Collectors.toList());
         return ids;
+    }
+
+    @Override
+    public void closeApplications(long bandId, long artistId) {
+        Query idsQuery = em.createNativeQuery("SELECT DISTINCT a.id FROM auditions" +
+                " JOIN applications a on auditions.id = a.auditionid WHERE auditions.bandid = :bandId" +
+                " AND applicantid = :artistId AND state IN :states");
+        idsQuery.setParameter("bandId", bandId);
+        idsQuery.setParameter("artistId", artistId);
+        idsQuery.setParameter("states", Arrays.asList(ApplicationState.ACCEPTED.getState(), ApplicationState.PENDING.getState()));
+        @SuppressWarnings("unchecked")
+        List<Long> ids = (List<Long>) idsQuery.getResultList().stream().map(o -> ((Number) o).longValue()).collect(Collectors.toList());
+        if(ids.isEmpty())
+            return;
+        Query query = em.createNativeQuery("UPDATE applications SET state = 'CLOSED' WHERE id IN :ids");
+        query.setParameter("ids",ids);
+        query.executeUpdate();
     }
 }
