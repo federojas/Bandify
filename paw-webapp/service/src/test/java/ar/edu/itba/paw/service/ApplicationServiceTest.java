@@ -132,7 +132,7 @@ public class ApplicationServiceTest {
         when(applicationDao.findApplication(auditionId, USER_NOT_APPLIED.getId())).thenReturn(Optional.empty());
         when(auditionService.getAuditionById(auditionId)).thenReturn(AUDITION);
         when(userService.getUserById(AUDITION.getBand().getId())).thenReturn(Optional.of(BAND));
-        when(membershipService.canBeAddedToBand(BAND, USER_NOT_APPLIED)).thenReturn(false);
+        when(membershipService.isInBand(BAND, USER_NOT_APPLIED)).thenReturn(true);
 
         boolean applied = applicationService.apply(auditionId, USER_NOT_APPLIED,"message");
         Assert.assertFalse(applied);
@@ -144,7 +144,7 @@ public class ApplicationServiceTest {
         when(applicationDao.findApplication(auditionId, USER_NOT_APPLIED.getId())).thenReturn(Optional.empty());
         when(auditionService.getAuditionById(auditionId)).thenReturn(AUDITION);
         when(userService.getUserById(AUDITION.getBand().getId())).thenReturn(Optional.of(BAND));
-        when(membershipService.canBeAddedToBand(BAND, USER_NOT_APPLIED)).thenReturn(true);
+        when(membershipService.isInBand(BAND, USER_NOT_APPLIED)).thenReturn(false);
 
 
         boolean applied = applicationService.apply(auditionId, USER_NOT_APPLIED,"message");

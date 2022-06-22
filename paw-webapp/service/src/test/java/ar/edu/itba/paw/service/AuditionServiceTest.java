@@ -99,8 +99,8 @@ public class AuditionServiceTest {
         when(authFacadeService.getCurrentUser()).thenReturn(defaultAud2.getBand());
 
         Audition editedAud = auditionService.editAuditionById(editedAudBuilder, 1L);
-        assertEquals(editedAud.getTitle(), AUD_TITLE_EDITED);
-        assertEquals(editedAud.getDescription(), AUD_DESCRIPTION_EDITED);
+        assertEquals(AUD_TITLE_EDITED, editedAud.getTitle());
+        assertEquals(AUD_DESCRIPTION_EDITED, editedAud.getDescription());
     }
 
     @Test
