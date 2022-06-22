@@ -17,6 +17,8 @@ import org.springframework.test.jdbc.JdbcTestUtils;
 import org.springframework.transaction.annotation.Transactional;
 import static java.lang.Math.toIntExact;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -38,6 +40,10 @@ public class ApplicationDaoTest {
 
     @Autowired
     private DataSource ds;
+
+    @PersistenceContext
+    private EntityManager em;
+
 
     private JdbcTemplate jdbcTemplate;
 
@@ -204,14 +210,16 @@ public class ApplicationDaoTest {
 
     @Test
     public void testCreateApplication() {
+        JdbcTestUtils.deleteFromTables(jdbcTemplate,"applications");
         final Application application = applicationDao.createApplication(
                 new Application.
                         ApplicationBuilder(AUDITIONS.get(0), ARTIST_USERS.get(0), ApplicationState.PENDING, CREATION_DATE, APPLICATION_MESSAGE));
-
+        em.flush();
         assertNotNull(application);
         assertEquals(ApplicationState.PENDING, application.getState());
         assertEquals(ARTIST_USERS.get(0), application.getApplicant());
         assertEquals(CREATION_DATE,application.getCreationDate());
+        assertEquals(1, JdbcTestUtils.countRowsInTableWhere(jdbcTemplate, "applications", "id = " + application.getId()));
     }
 
 
@@ -304,5 +312,12 @@ public class ApplicationDaoTest {
         assertNotNull(application);
         assertTrue(application.isPresent());
         assertEquals(PENDING_APP_AUD1_2, application.get());
+    }
+
+    @Test
+    public void testCloseApplications() {
+        applicationDao.closeApplications(1, 3);
+        em.flush();
+        assertEquals(2, JdbcTestUtils.countRowsInTableWhere(jdbcTemplate, "applications", "state = 'CLOSED'"));
     }
 }
