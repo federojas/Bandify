@@ -99,12 +99,13 @@ public class UserJpaDao implements UserDao {
                 "WHERE isEnabled=true ");
         filterQuery(filterOptions, args, sqlQueryBuilder);
 
-        String requestedString = filterOptions.getTitle().replace("%", "\\%").replace("_", "\\_").toLowerCase();
+        String requestedString = filterOptions.getTitle().replace("%", "\\%").
+                replace("_", "\\_");
 
         if(!Objects.equals(filterOptions.getTitle(), "")) {
-            sqlQueryBuilder.append("ORDER BY CASE WHEN lower(CONCAT(name, ' ', surname)) LIKE '").append(requestedString).append("' THEN 1 ")
-                    .append("WHEN lower(CONCAT(name, ' ', surname)) LIKE '").append(requestedString).append("%").append("' THEN 2 ")
-                    .append("WHEN lower(CONCAT(name, ' ', surname)) LIKE '").append("%").append(requestedString).append("' THEN 3 ")
+            sqlQueryBuilder.append("ORDER BY CASE WHEN CONCAT(name, ' ', surname) ILIKE '").append(requestedString).append("' THEN 1 ")
+                    .append("WHEN CONCAT(name, ' ', surname) ILIKE '").append(requestedString).append("%").append("' THEN 2 ")
+                    .append("WHEN CONCAT(name, ' ', surname) ILIKE '").append("%").append(requestedString).append("' THEN 3 ")
                     .append("ELSE 4 END");
         } else {
             sqlQueryBuilder.append("ORDER BY name, surname ASC");
@@ -143,9 +144,9 @@ public class UserJpaDao implements UserDao {
             args.put("locations",filterOptions.getLocations());
         }
         if(!filterOptions.getTitle().equals("")) {
-            sqlQueryBuilder.append("AND lower(CONCAT(name, ' ', surname)) LIKE :name ");
+            sqlQueryBuilder.append("AND CONCAT(name, ' ', surname) ILIKE :name ");
             args.put("name","%" + filterOptions.getTitle().replace("%", "\\%").
-                    replace("_", "\\_").toLowerCase() + "%");
+                    replace("_", "\\_") + "%");
         }
     }
 

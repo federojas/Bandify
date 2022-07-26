@@ -146,9 +146,9 @@ public class AuditionJpaDao implements AuditionDao {
             args.put("locations",filterOptions.getLocations());
         }
         if(!filterOptions.getTitle().equals("")) {
-            sqlQueryBuilder.append("AND lower(title) LIKE :title ");
+            sqlQueryBuilder.append("AND title ILIKE :title ");
             args.put("title","%" + filterOptions.getTitle().replace("%", "\\%").
-                    replace("_", "\\_").toLowerCase() + "%");
+                    replace("_", "\\_") + "%");
         }
     }
 
