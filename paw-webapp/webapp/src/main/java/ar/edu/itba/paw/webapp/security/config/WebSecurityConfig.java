@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -44,15 +45,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement()
                     .invalidSessionUrl("/welcome")
                 .and().authorizeRequests()
-                    .antMatchers( "/welcome","/register","/registerBand","/registerArtist","/verify",
-                                 "/resetPassword","/aboutUs","/newPassword","/login","/emailSent","/resetEmailSent").anonymous()
-                    .antMatchers("/apply", "/profile/applications","/editArtist","/success", "/invites", "/invites/{\\d+}", "/profile/bands").hasRole("ARTIST")
-                    .antMatchers("/newAudition", "/profile/auditions", "/profile/editAudition/{\\d+}", "/profile/closeAudition/{\\d+}","/editBand",
-                                 "/auditions/{\\d+}/applicants", "/auditions/{\\d+}/applicants/select/{\\d+}", "/profile/newMembership/{\\d+}", "/profile/bandMembers",
-                                 "/profile/editMembership/{\\d+}", "/user/{\\d+}/invite").hasRole("BAND")
-                    .antMatchers("/profile/**","/auditions/{\\d+}","/bandAuditions/{\\d+}", "/users/search", "/users", "/user/{\\d+}/bandMembers", "/user/{\\d+}/bands",
-                            "/profile/deleteMembership/{\\d+}").authenticated()
-                    .antMatchers("/auditions","/auditions/search", "/", "/user/{\\d+}","/user/{\\d+}/profile-image").permitAll()
+                      .antMatchers(HttpMethod.GET, "/users").permitAll()
+//                    .antMatchers( "/welcome","/register","/registerBand","/registerArtist","/verify",
+//                                 "/resetPassword","/aboutUs","/newPassword","/login","/emailSent","/resetEmailSent").anonymous()
+//                    .antMatchers("/apply", "/profile/applications","/editArtist","/success", "/invites", "/invites/{\\d+}", "/profile/bands").hasRole("ARTIST")
+//                    .antMatchers("/newAudition", "/profile/auditions", "/profile/editAudition/{\\d+}", "/profile/closeAudition/{\\d+}","/editBand",
+//                                 "/auditions/{\\d+}/applicants", "/auditions/{\\d+}/applicants/select/{\\d+}", "/profile/newMembership/{\\d+}", "/profile/bandMembers",
+//                                 "/profile/editMembership/{\\d+}", "/user/{\\d+}/invite").hasRole("BAND")
+//                    .antMatchers("/profile/**","/auditions/{\\d+}","/bandAuditions/{\\d+}", "/users/search", "/users", "/user/{\\d+}/bandMembers", "/user/{\\d+}/bands",
+//                            "/profile/deleteMembership/{\\d+}").authenticated()
+//                    .antMatchers("/auditions","/auditions/search", "/", "/user/{\\d+}","/user/{\\d+}/profile-image").permitAll()
                 .and().formLogin()
                     .usernameParameter("email")
                     .passwordParameter("password")
