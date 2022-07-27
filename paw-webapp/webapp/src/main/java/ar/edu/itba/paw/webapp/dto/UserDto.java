@@ -5,7 +5,6 @@ import ar.edu.itba.paw.model.User;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
-import java.net.URI;
 
 public class UserDto {
 
@@ -44,23 +43,24 @@ public class UserDto {
         dto.self = userUriBuilder.build();
 
         final UriBuilder locationUriBuilder = uriInfo.getAbsolutePathBuilder()
-                .replacePath("users").path(String.valueOf(user.getId())).path("location");
-        dto.location = locationUriBuilder.build();
+                .replacePath("locations");
+        dto.location = locationUriBuilder.clone()
+                .queryParam("ofUser", String.valueOf(user.getId())).build();
 
         final UriBuilder roleUriBuilder = uriInfo.getAbsolutePathBuilder()
-                .replacePath("users").path(String.valueOf(user.getId())).path("roles");
-        dto.roles = roleUriBuilder.build();
+                .replacePath("roles");
+        dto.roles = roleUriBuilder.clone()
+                .queryParam("ofUser", String.valueOf(user.getId())).build();
 
         final UriBuilder genreUriBuilder = uriInfo.getAbsolutePathBuilder()
-                .replacePath("users").path(String.valueOf(user.getId())).path("genres");
-        dto.genres = genreUriBuilder.build();
+                .replacePath("genres");
+        dto.genres = genreUriBuilder.clone()
+                .queryParam("ofUser", String.valueOf(user.getId())).build();
 
-        // TODO ACA IRIAN QUERY PARAM POR CADA SOCIAL MEDIA TYPE?
         final UriBuilder socialUriBuilder = uriInfo.getAbsolutePathBuilder()
-                .replacePath("users").path(String.valueOf(user.getId())).path("social-media");
-        dto.socialMedia = socialUriBuilder.build();
-
-        //TODO LINKS/URIS VER OPCIONES CHEQUEAR Y REVISAR
+                .replacePath("social-media");
+        dto.socialMedia = socialUriBuilder
+                .queryParam("ofUser", String.valueOf(user.getId())).build();
 
         return dto;
     }

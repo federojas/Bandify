@@ -7,14 +7,12 @@ import ar.edu.itba.paw.webapp.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.jws.soap.SOAPBinding;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Filter;
 import java.util.stream.Collectors;
 
 @Path("users")
@@ -27,20 +25,6 @@ public class UserController {
     @Context
     private UriInfo uriInfo;
 
-    @GET
-    @Produces(value = { MediaType.APPLICATION_JSON, })
-    public Response listUsers(@QueryParam("page") @DefaultValue("1") final int page) {
-        final List<UserDto> allUsers = us.filter(new FilterOptions.FilterOptionsBuilder().withTitle("").withOrder("").withGenres(null).withLocations(null).withRoles(null).build(), page)
-                .stream().map(u -> UserDto.fromUser(uriInfo, u)).collect(Collectors.toList());
-        if(allUsers.isEmpty()) {
-            return Response.noContent().build();
-        }
-
-
-        //TODO links MODULARIZAR PAGINATION LINKS
-        return Response.ok(new GenericEntity<List<UserDto>>(allUsers) {}).build();
-    }
-
     //register TODO FORM DTO
 //    @POST
 //    @Produces(value = { MediaType.APPLICATION_JSON, })
@@ -51,12 +35,12 @@ public class UserController {
 //        return Response.created(uri).build();
 //    }
 //
+
     @GET
     @Path("/{id}")
     @Produces(value = { MediaType.APPLICATION_JSON, })
     public Response getById(@PathParam("id") final long id) {
         final Optional<User> user = us.getUserById(id);
-        //TODO links
         if (user.isPresent())
             return Response.ok(UserDto.fromUser(uriInfo, user.get())).build();
         return Response.status(Response.Status.NOT_FOUND).build();
@@ -66,13 +50,10 @@ public class UserController {
     @Path("/{id}/profile-image")
     @Produces("application/vnd.campus.api.v1+json")
     public Response getUserProfileImage(@PathParam("id") Long id) throws IOException {
-        //TODO links
         return Response.ok(new ByteArrayInputStream(us.getProfilePicture(id))).build();
     }
 
-    //TODO SEGUN LEI EL DEFAULT ES QUE LOS QUERY PARAM NO SON NUNCA OBLIGATORIOS, MANDAN NULL
     @GET
-    @Path("/search")
     @Produces(value = { MediaType.APPLICATION_JSON, })
     public Response usersSearch(@QueryParam("page") @DefaultValue("1") final int page,
                                 @QueryParam("query") @DefaultValue("") final String query,
@@ -89,17 +70,18 @@ public class UserController {
         if(users.isEmpty()) {
             return Response.noContent().build();
         }
-        //TODO links
-        return Response.ok(new GenericEntity<List<UserDto>>(users) {}).build();
+        Response.ResponseBuilder response = Response.ok(new GenericEntity<List<UserDto>>(users) {});
+        getResponsePaginationLinks(response, page, filter);
+        return response.build();
     }
 
-
-    //TODO NO HAY DELETE JERSEY MANDA 405 AUTOMATICAMENTE O HACERLO
-//    @DELETE
-//    @Path("/{id}")
-//    @Produces(value = { MediaType.APPLICATION_JSON, })
-//    public Response deleteById(@PathParam("id") final long id) {
-//        us.deleteById(id);
-//        return Response.noContent().build();
-//    }
+    private void getResponsePaginationLinks(Response.ResponseBuilder response, int currentPage, FilterOptions filter) {
+        int lastPage = us.getFilterTotalPages(filter);
+        if(currentPage != 1)
+            response.link(uriInfo.getAbsolutePathBuilder().queryParam("page", currentPage - 1).build(), "prev");
+        if(currentPage != lastPage)
+            response.link(uriInfo.getAbsolutePathBuilder().queryParam("page", currentPage + 1).build(), "next");
+        response.link(uriInfo.getAbsolutePathBuilder().queryParam("page", 1).build(), "first");
+        response.link(uriInfo.getAbsolutePathBuilder().queryParam("page", lastPage).build(), "last");
+    }
 }
