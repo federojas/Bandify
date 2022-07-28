@@ -4,13 +4,18 @@ import ar.edu.itba.paw.model.FilterOptions;
 import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.service.UserService;
 import ar.edu.itba.paw.webapp.dto.UserDto;
+import ar.edu.itba.paw.webapp.form.UserArtistForm;
+import ar.edu.itba.paw.webapp.form.UserForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.print.attribute.standard.Media;
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -25,16 +30,20 @@ public class UserController {
     @Context
     private UriInfo uriInfo;
 
-    //register TODO FORM DTO
-//    @POST
-//    @Produces(value = { MediaType.APPLICATION_JSON, })
-//    public Response createUser(final UserDTO userDto) {
-//        final User user = us.register(userDto.getUsername(), userDto.getPassword());
-//        final URI uri = uriInfo.getAbsolutePathBuilder()
-//                .path(String.valueOf(user.getId())).build();
-//        return Response.created(uri).build();
-//    }
-//
+    @POST
+    @Consumes(value = {MediaType.APPLICATION_JSON, })
+    public Response createUser(@Valid UserForm form) {
+        User.UserBuilder builder = new User.UserBuilder(form.getEmail(), form.getPassword(),
+                form.getName(), form.isBand(), false);
+        //TODO que hacemos con esto?
+//        if(form.isBand())
+//            builder.surname(form.getSurname());
+        final User user = us.create(builder);
+        final URI uri = uriInfo.getAbsolutePathBuilder()
+                .path(String.valueOf(user.getId())).build();
+        return Response.created(uri).build();
+    }
+
 
     @GET
     @Path("/{id}")

@@ -26,7 +26,7 @@
     <org.hibernate.validator>4.3.1.Final</org.hibernate.validator>
     <javax.mail.version>1.6.2</javax.mail.version>
     <org.thymeleaf.version>3.0.11.RELEASE</org.thymeleaf.version>
-    <spring-security.version>4.0.4.RELEASE</spring-security.version>
+    <spring-security.version>4.1.5.RELEASE</spring-security.version>
     <org.slf4j.version>1.7.5</org.slf4j.version>
     <logback.version>1.1.2</logback.version>
     <logback-ext-spring.version>0.1.1</logback-ext-spring.version>
