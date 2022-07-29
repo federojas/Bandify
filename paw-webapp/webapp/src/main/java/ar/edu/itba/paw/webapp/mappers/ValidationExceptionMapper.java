@@ -11,6 +11,7 @@ import javax.ws.rs.ext.Provider;
 import java.util.List;
 import java.util.stream.Collectors;
 
+// TODO: Respuestas de error
 @Provider
 public class ValidationExceptionMapper implements ExceptionMapper<ConstraintViolationException> {
     @Override

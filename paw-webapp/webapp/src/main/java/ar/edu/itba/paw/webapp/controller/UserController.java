@@ -5,11 +5,9 @@ import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.service.UserService;
 import ar.edu.itba.paw.webapp.dto.UserDto;
 import ar.edu.itba.paw.webapp.form.UserArtistForm;
-import ar.edu.itba.paw.webapp.form.UserForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.print.attribute.standard.Media;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
@@ -30,14 +28,14 @@ public class UserController {
     @Context
     private UriInfo uriInfo;
 
+
+    // TODO: Rehacer el userform para que sea unico para bandas y artistas
+    // por ahora solo admite artistas para poder probar el post
     @POST
     @Consumes(value = {MediaType.APPLICATION_JSON, })
-    public Response createUser(@Valid UserForm form) {
+    public Response createUser(@Valid UserArtistForm form) {
         User.UserBuilder builder = new User.UserBuilder(form.getEmail(), form.getPassword(),
-                form.getName(), form.isBand(), false);
-        //TODO que hacemos con esto?
-//        if(form.isBand())
-//            builder.surname(form.getSurname());
+                form.getName(), form.isBand(), false).surname(form.getSurname());
         final User user = us.create(builder);
         final URI uri = uriInfo.getAbsolutePathBuilder()
                 .path(String.valueOf(user.getId())).build();

@@ -44,26 +44,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
+    // TODO: nueva configuracion de spring security
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         http.sessionManagement()
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().headers().cacheControl().disable()
+                .invalidSessionUrl("/welcome")
                 .and().authorizeRequests()
-//                    .antMatchers( "/welcome","/register","/registerBand","/registerArtist","/verify",
-//                                 "/resetPassword","/aboutUs","/newPassword","/login","/emailSent","/resetEmailSent").anonymous()
-//                    .antMatchers("/apply", "/profile/applications","/editArtist","/success", "/invites", "/invites/{\\d+}", "/profile/bands").hasRole("ARTIST")
-//                    .antMatchers("/newAudition", "/profile/auditions", "/profile/editAudition/{\\d+}", "/profile/closeAudition/{\\d+}","/editBand",
-//                                 "/auditions/{\\d+}/applicants", "/auditions/{\\d+}/applicants/select/{\\d+}", "/profile/newMembership/{\\d+}", "/profile/bandMembers",
-//                                 "/profile/editMembership/{\\d+}", "/user/{\\d+}/invite").hasRole("BAND")
-//                    .antMatchers("/profile/**","/auditions/{\\d+}","/bandAuditions/{\\d+}", "/users/search", "/users", "/user/{\\d+}/bandMembers", "/user/{\\d+}/bands",
-//                            "/profile/deleteMembership/{\\d+}").authenticated()
-//                    .antMatchers("/auditions","/auditions/search", "/", "/user/{\\d+}","/user/{\\d+}/profile-image").permitAll()
-                      .antMatchers("/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/users").permitAll()
+                .antMatchers(HttpMethod.POST, "/users").permitAll()
                 .and().exceptionHandling()
-                    .accessDeniedPage("/403")
-                .and().csrf().disable()
-                .addFilterBefore(new JwtFilter(), UsernamePasswordAuthenticationFilter.class);
+                .and().csrf().disable();
     }
 
 
@@ -73,6 +63,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
+    /*
     @Bean
     public CorsConfiguration corsConfiguration() {
         CorsConfiguration cors = new CorsConfiguration();
@@ -80,4 +71,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         cors.addAllowedOrigin("http://localhost:9000/");
         return cors;
     }
+     */
 }
