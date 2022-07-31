@@ -45,22 +45,22 @@ public class UserDto {
         final UriBuilder locationUriBuilder = uriInfo.getAbsolutePathBuilder()
                 .replacePath("locations");
         dto.location = locationUriBuilder.clone()
-                .queryParam("ofUser", String.valueOf(user.getId())).build();
+                .queryParam("user", String.valueOf(user.getId())).build();
 
         final UriBuilder roleUriBuilder = uriInfo.getAbsolutePathBuilder()
                 .replacePath("roles");
         dto.roles = roleUriBuilder.clone()
-                .queryParam("ofUser", String.valueOf(user.getId())).build();
+                .queryParam("user", String.valueOf(user.getId())).build();
 
         final UriBuilder genreUriBuilder = uriInfo.getAbsolutePathBuilder()
                 .replacePath("genres");
         dto.genres = genreUriBuilder.clone()
-                .queryParam("ofUser", String.valueOf(user.getId())).build();
+                .queryParam("user", String.valueOf(user.getId())).build();
 
         final UriBuilder socialUriBuilder = uriInfo.getAbsolutePathBuilder()
                 .replacePath("social-media");
         dto.socialMedia = socialUriBuilder
-                .queryParam("ofUser", String.valueOf(user.getId())).build();
+                .queryParam("user", String.valueOf(user.getId())).build();
 
         return dto;
     }
