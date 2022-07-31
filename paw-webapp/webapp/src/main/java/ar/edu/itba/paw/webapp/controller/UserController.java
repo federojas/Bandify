@@ -1,16 +1,17 @@
 package ar.edu.itba.paw.webapp.controller;
 
+import ar.edu.itba.paw.model.ApplicationState;
 import ar.edu.itba.paw.model.FilterOptions;
 import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
+import ar.edu.itba.paw.service.ApplicationService;
 import ar.edu.itba.paw.service.UserService;
+import ar.edu.itba.paw.webapp.dto.ApplicationDto;
 import ar.edu.itba.paw.webapp.dto.UserDto;
 import ar.edu.itba.paw.webapp.form.ArtistEditForm;
 import ar.edu.itba.paw.webapp.form.UserArtistForm;
-import ar.edu.itba.paw.webapp.form.UserEditForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
@@ -24,6 +25,9 @@ import java.util.stream.Collectors;
 @Path("users")
 @Component
 public class UserController {
+
+    @Autowired
+    private ApplicationService applicationService;
 
     @Autowired
     private UserService userService;
@@ -90,7 +94,7 @@ public class UserController {
                 .withLocations(locations)
                 .withTitle(query).build();
         List<UserDto> users = userService.filter(filter, page)
-                .stream().map(u -> UserDto.fromUser(uriInfo, u)).collect(Collectors.toList());;
+                .stream().map(u -> UserDto.fromUser(uriInfo, u)).collect(Collectors.toList());
         if(users.isEmpty()) {
             return Response.noContent().build();
         }
@@ -108,4 +112,30 @@ public class UserController {
         response.link(uriInfo.getAbsolutePathBuilder().queryParam("page", 1).build(), "first");
         response.link(uriInfo.getAbsolutePathBuilder().queryParam("page", lastPage).build(), "last");
     }
+
+    // TODO: seguridad
+    @GET
+    @Path("/{id}/applications")
+    @Produces(value = { MediaType.APPLICATION_JSON, })
+    public Response getUserApplications(@PathParam("id") final long id,
+                                        @QueryParam("state") @DefaultValue("PENDING") final String state,
+                                        @QueryParam("page") @DefaultValue("1") final int page){
+        final List<ApplicationDto> applicationDtos =
+                applicationService.getMyApplicationsFiltered(id,page, ApplicationState.valueOf(state))
+                        .stream().map(application -> ApplicationDto.fromApplication(uriInfo,application))
+                        .collect(Collectors.toList());
+        if(applicationDtos.isEmpty())
+            return Response.noContent().build();
+        Response.ResponseBuilder responseBuilder = Response.ok(new GenericEntity<List<ApplicationDto>>(applicationDtos){});
+        int lastPage = applicationService.getTotalUserApplicationsFiltered(id,ApplicationState.valueOf(state));
+        if(page != 1)
+            responseBuilder.link(uriInfo.getAbsolutePathBuilder().queryParam("page", page - 1).build(), "prev");
+        if(page != lastPage)
+            responseBuilder.link(uriInfo.getAbsolutePathBuilder().queryParam("page", page + 1).build(), "next");
+        responseBuilder.link(uriInfo.getAbsolutePathBuilder().queryParam("page", 1).build(), "first");
+        responseBuilder.link(uriInfo.getAbsolutePathBuilder().queryParam("page", lastPage).build(), "last");
+        return responseBuilder.build();
+    }
+
+
 }

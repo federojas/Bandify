@@ -7,6 +7,7 @@ import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class ApplicationDto {
     private Long id;
@@ -38,7 +39,7 @@ public class ApplicationDto {
 
         final UriBuilder applicantUriBuilder = uriInfo.getAbsolutePathBuilder()
                 .replacePath("users").path(String.valueOf(application.getApplicant().getId()));
-        applicationDto.audition = applicantUriBuilder.build();
+        applicationDto.applicant = applicantUriBuilder.build();
         return applicationDto;
     }
 
