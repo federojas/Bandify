@@ -19,7 +19,6 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Path("users")
@@ -68,10 +67,8 @@ public class UserController {
     @Path("/{id}")
     @Produces(value = { MediaType.APPLICATION_JSON, })
     public Response getById(@PathParam("id") final long id) {
-        final Optional<User> user = userService.getUserById(id);
-        if (user.isPresent())
-            return Response.ok(UserDto.fromUser(uriInfo, user.get())).build();
-        return Response.status(Response.Status.NOT_FOUND).build();
+        final User user = us.getUserById(id).orElseThrow(UserNotFoundException::new);
+        return Response.ok(UserDto.fromUser(uriInfo, user)).build();
     }
 
     @GET
