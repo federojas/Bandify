@@ -34,13 +34,16 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationServiceImpl.class);
 
+    // TODO: saque el chequeo de owner porque no tenemos security todavia
     @Override
     public List<Application> getAuditionApplicationsByState(long auditionId, ApplicationState state, int page) {
-        User user = authFacadeService.getCurrentUser();
+       /* User user = authFacadeService.getCurrentUser();
         Audition audition = auditionService.getAuditionById(auditionId);
 
         if(!Objects.equals(user.getId(), audition.getBand().getId()))
             throw new AuditionNotOwnedException();
+
+        */
 
         int lastPage = getTotalAuditionApplicationByStatePages(auditionId, state);
         lastPage = lastPage == 0 ? 1 : lastPage;

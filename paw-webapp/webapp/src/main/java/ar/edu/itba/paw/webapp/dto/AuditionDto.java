@@ -27,23 +27,23 @@ public class AuditionDto {
         auditionDto.description = audition.getDescription();
         auditionDto.creationDate = audition.getCreationDate();
 
-        final UriBuilder userUriBuilder = uriInfo.getAbsolutePathBuilder()
+        final UriBuilder selfUriBuilder = uriInfo.getAbsolutePathBuilder()
                 .replacePath("auditions").path(String.valueOf(audition.getId()));
-        auditionDto.self = userUriBuilder.build();
+        auditionDto.self = selfUriBuilder.build();
 
         final UriBuilder locationUriBuilder = uriInfo.getAbsolutePathBuilder()
                 .replacePath("locations");
         auditionDto.location = locationUriBuilder.clone()
                 .queryParam("audition", String.valueOf(audition.getId())).build();
 
-        final UriBuilder roleUriBuilder = uriInfo.getAbsolutePathBuilder()
+        final UriBuilder rolesUriBuilder = uriInfo.getAbsolutePathBuilder()
                 .replacePath("roles");
-        auditionDto.lookingFor = roleUriBuilder.clone()
+        auditionDto.lookingFor = rolesUriBuilder.clone()
                 .queryParam("audition", String.valueOf(audition.getId())).build();
 
-        final UriBuilder genreUriBuilder = uriInfo.getAbsolutePathBuilder()
+        final UriBuilder genresUriBuilder = uriInfo.getAbsolutePathBuilder()
                 .replacePath("genres");
-        auditionDto.musicGenres = genreUriBuilder.clone()
+        auditionDto.musicGenres = genresUriBuilder.clone()
                 .queryParam("audition", String.valueOf(audition.getId())).build();
 
         return auditionDto;

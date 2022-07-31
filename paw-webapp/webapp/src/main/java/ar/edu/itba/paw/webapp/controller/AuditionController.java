@@ -1,10 +1,12 @@
 package ar.edu.itba.paw.webapp.controller;
 
+import ar.edu.itba.paw.model.ApplicationState;
 import ar.edu.itba.paw.model.Audition;
 import ar.edu.itba.paw.model.FilterOptions;
 import ar.edu.itba.paw.model.exceptions.LocationNotFoundException;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.service.*;
+import ar.edu.itba.paw.webapp.dto.ApplicationDto;
 import ar.edu.itba.paw.webapp.dto.AuditionDto;
 import ar.edu.itba.paw.webapp.form.AuditionForm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +39,9 @@ public class AuditionController {
 
     @Autowired
     private LocationService locationService;
+
+    @Autowired
+    private ApplicationService applicationService;
 
     // TODO: Obtener usuario logueado, por ahora esta hardcodeado el ID
     @POST
@@ -95,6 +100,30 @@ public class AuditionController {
     public Response getAuditionById(@PathParam("id") final long auditionId) {
         final Audition audition = auditionService.getAuditionById(auditionId);
         return Response.ok(AuditionDto.fromAudition(uriInfo, audition)).build();
+    }
+
+    // TODO: codigo repetido al final
+    @GET
+    @Path("/{id}/applications")
+    @Produces(value = { MediaType.APPLICATION_JSON, })
+    public Response getAuditionsApplications(@PathParam("id") final long auditionId,
+                                             @QueryParam("page") @DefaultValue("1") final int page,
+                                             @QueryParam("state") @DefaultValue("PENDING") final String state) {
+        List<ApplicationDto> applicationDtos =
+                applicationService.getAuditionApplicationsByState(auditionId, ApplicationState.valueOf(state), page)
+                        .stream().map(application -> ApplicationDto.
+                                fromApplication(uriInfo,application)).collect(Collectors.toList());
+        if(applicationDtos.isEmpty())
+            return Response.noContent().build();
+        Response.ResponseBuilder responseBuilder = Response.ok(new GenericEntity<List<ApplicationDto>>(applicationDtos){});
+        int lastPage = applicationService.getTotalAuditionApplicationByStatePages(auditionId,ApplicationState.valueOf(state));
+        if(page != 1)
+            responseBuilder.link(uriInfo.getAbsolutePathBuilder().queryParam("page", page - 1).build(), "prev");
+        if(page != lastPage)
+            responseBuilder.link(uriInfo.getAbsolutePathBuilder().queryParam("page", page + 1).build(), "next");
+        responseBuilder.link(uriInfo.getAbsolutePathBuilder().queryParam("page", 1).build(), "first");
+        responseBuilder.link(uriInfo.getAbsolutePathBuilder().queryParam("page", lastPage).build(), "last");
+        return responseBuilder.build();
     }
 
 }
