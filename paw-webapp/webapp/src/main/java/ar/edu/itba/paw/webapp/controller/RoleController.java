@@ -31,7 +31,7 @@ public class RoleController {
         @Context
         private UriInfo uriInfo;
 
-        // TODO: paginacion?
+        // TODO: paginacion? LINKS?
         @GET
         @Produces(value = { MediaType.APPLICATION_JSON, })
         public Response roles(@QueryParam("user") final Long userId,

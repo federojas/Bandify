@@ -77,20 +77,12 @@ public class AuditionController {
 
         if(auditionDtos.isEmpty())
             return Response.noContent().build();
+
         Response.ResponseBuilder responseBuilder = Response.ok(new GenericEntity<List<AuditionDto>>(auditionDtos){});
-        getResponsePaginationLinks(responseBuilder, page, filter);
+        int lastPage = auditionService.getFilterTotalPages(filter);
+        getResponsePaginationLinks(responseBuilder, page, lastPage);
         return responseBuilder.build();
 
-    }
-
-    private void getResponsePaginationLinks(Response.ResponseBuilder response, int currentPage, FilterOptions filter) {
-        int lastPage = auditionService.getFilterTotalPages(filter);
-        if(currentPage != 1)
-            response.link(uriInfo.getAbsolutePathBuilder().queryParam("page", currentPage - 1).build(), "prev");
-        if(currentPage != lastPage)
-            response.link(uriInfo.getAbsolutePathBuilder().queryParam("page", currentPage + 1).build(), "next");
-        response.link(uriInfo.getAbsolutePathBuilder().queryParam("page", 1).build(), "first");
-        response.link(uriInfo.getAbsolutePathBuilder().queryParam("page", lastPage).build(), "last");
     }
 
     // TODO: y si no esta presente? o esta closed?
@@ -102,7 +94,7 @@ public class AuditionController {
         return Response.ok(AuditionDto.fromAudition(uriInfo, audition)).build();
     }
 
-    // TODO: codigo repetido al final
+
     @GET
     @Path("/{id}/applications")
     @Produces(value = { MediaType.APPLICATION_JSON, })
@@ -117,13 +109,18 @@ public class AuditionController {
             return Response.noContent().build();
         Response.ResponseBuilder responseBuilder = Response.ok(new GenericEntity<List<ApplicationDto>>(applicationDtos){});
         int lastPage = applicationService.getTotalAuditionApplicationByStatePages(auditionId,ApplicationState.valueOf(state));
-        if(page != 1)
-            responseBuilder.link(uriInfo.getAbsolutePathBuilder().queryParam("page", page - 1).build(), "prev");
-        if(page != lastPage)
-            responseBuilder.link(uriInfo.getAbsolutePathBuilder().queryParam("page", page + 1).build(), "next");
-        responseBuilder.link(uriInfo.getAbsolutePathBuilder().queryParam("page", 1).build(), "first");
-        responseBuilder.link(uriInfo.getAbsolutePathBuilder().queryParam("page", lastPage).build(), "last");
+        getResponsePaginationLinks(responseBuilder, page, lastPage);
         return responseBuilder.build();
+    }
+
+    //TODO HACER CLASE UTILS?
+    private void getResponsePaginationLinks(Response.ResponseBuilder response, int currentPage, int lastPage) {
+        if(currentPage != 1)
+            response.link(uriInfo.getAbsolutePathBuilder().queryParam("page", currentPage - 1).build(), "prev");
+        if(currentPage != lastPage)
+            response.link(uriInfo.getAbsolutePathBuilder().queryParam("page", currentPage + 1).build(), "next");
+        response.link(uriInfo.getAbsolutePathBuilder().queryParam("page", 1).build(), "first");
+        response.link(uriInfo.getAbsolutePathBuilder().queryParam("page", lastPage).build(), "last");
     }
 
 }

@@ -31,7 +31,7 @@ public class LocationController {
     @Context
     private UriInfo uriInfo;
 
-    // TODO: paginacion?
+    // TODO: paginacion? LINKS?
     @GET
     @Produces(value = { MediaType.APPLICATION_JSON, })
     public Response locations(@QueryParam("user") final Long userId,

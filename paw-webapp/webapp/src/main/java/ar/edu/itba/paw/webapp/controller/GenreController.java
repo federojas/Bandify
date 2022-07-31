@@ -29,7 +29,7 @@ public class GenreController {
     @Context
     private UriInfo uriInfo;
 
-    // TODO: paginacion?
+    // TODO: paginacion? LINKS?
     @GET
     @Produces(value = { MediaType.APPLICATION_JSON, })
     public Response genres(@QueryParam("user") final Long userId,
