@@ -51,9 +51,9 @@ public class UserController {
     public Response updateUser(@Valid ArtistEditForm form, @PathParam("id") final long id) {
         //TODO SECURITY
         //TODO FORM = NULL EXCEPTION?
-        final User user = us.getUserById(id).orElseThrow(UserNotFoundException::new);
+        final User user = userService.getUserById(id).orElseThrow(UserNotFoundException::new);
 
-        us.editUser(user.getId(), form.getName(), form.getSurname(), form.getDescription(),
+        userService.editUser(user.getId(), form.getName(), form.getSurname(), form.getDescription(),
                 form.getMusicGenres(), form.getLookingFor(), form.getProfileImage().getBytes(), form.getLocation());
 
         return Response.ok().build();
@@ -73,7 +73,7 @@ public class UserController {
     @GET
     @Path("/{id}/profile-image")
     public Response getUserProfileImage(@PathParam("id") final long id) throws IOException {
-        return Response.ok(new ByteArrayInputStream(us.getProfilePicture(id))).build();
+        return Response.ok(new ByteArrayInputStream(userService.getProfilePicture(id))).build();
     }
 
 
