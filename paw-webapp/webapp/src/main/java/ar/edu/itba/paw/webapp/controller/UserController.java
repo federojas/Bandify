@@ -2,9 +2,12 @@ package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.model.FilterOptions;
 import ar.edu.itba.paw.model.User;
+import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.service.UserService;
 import ar.edu.itba.paw.webapp.dto.UserDto;
+import ar.edu.itba.paw.webapp.form.ArtistEditForm;
 import ar.edu.itba.paw.webapp.form.UserArtistForm;
+import ar.edu.itba.paw.webapp.form.UserEditForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -42,6 +45,20 @@ public class UserController {
         return Response.created(uri).build();
     }
 
+    @PUT
+    @Path("/{id}")
+    @Consumes(value = {MediaType.APPLICATION_JSON, })
+    public Response updateUser(@Valid ArtistEditForm form, @PathParam("id") final long id) {
+        //TODO SECURITY
+        //TODO FORM = NULL EXCEPTION?
+        final User user = us.getUserById(id).orElseThrow(UserNotFoundException::new);
+
+        us.editUser(user.getId(), form.getName(), form.getSurname(), form.getDescription(),
+                form.getMusicGenres(), form.getLookingFor(), form.getProfileImage().getBytes(), form.getLocation());
+
+        return Response.ok().build();
+    }
+
 
     @GET
     @Path("/{id}")
@@ -55,10 +72,10 @@ public class UserController {
 
     @GET
     @Path("/{id}/profile-image")
-    @Produces("application/vnd.campus.api.v1+json")
-    public Response getUserProfileImage(@PathParam("id") Long id) throws IOException {
+    public Response getUserProfileImage(@PathParam("id") final long id) throws IOException {
         return Response.ok(new ByteArrayInputStream(us.getProfilePicture(id))).build();
     }
+
 
     @GET
     @Produces(value = { MediaType.APPLICATION_JSON, })
