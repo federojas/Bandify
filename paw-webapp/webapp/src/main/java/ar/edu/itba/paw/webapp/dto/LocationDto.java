@@ -3,6 +3,7 @@ package ar.edu.itba.paw.webapp.dto;
 import ar.edu.itba.paw.model.Location;
 
 import javax.ws.rs.core.UriInfo;
+import java.util.Objects;
 
 public class LocationDto {
 
@@ -33,5 +34,18 @@ public class LocationDto {
 
     public void setLocName(String locName) {
         this.locName = locName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        LocationDto that = (LocationDto) o;
+        return id == that.id && Objects.equals(locName, that.locName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, locName);
     }
 }

@@ -2,6 +2,7 @@ package ar.edu.itba.paw.webapp.dto;
 
 import ar.edu.itba.paw.model.Genre;
 import javax.ws.rs.core.UriInfo;
+import java.util.Objects;
 
 public class GenreDto {
 
@@ -32,5 +33,18 @@ public class GenreDto {
 
     public void setGenreName(String genreName) {
         this.genreName = genreName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        GenreDto genreDto = (GenreDto) o;
+        return id == genreDto.id && Objects.equals(genreName, genreDto.genreName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, genreName);
     }
 }

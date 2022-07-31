@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 public class UserController {
 
     @Autowired
-    private UserService us;
+    private UserService userService;
 
     @Context
     private UriInfo uriInfo;
@@ -36,7 +36,7 @@ public class UserController {
     public Response createUser(@Valid UserArtistForm form) {
         User.UserBuilder builder = new User.UserBuilder(form.getEmail(), form.getPassword(),
                 form.getName(), form.isBand(), false).surname(form.getSurname());
-        final User user = us.create(builder);
+        final User user = userService.create(builder);
         final URI uri = uriInfo.getAbsolutePathBuilder()
                 .path(String.valueOf(user.getId())).build();
         return Response.created(uri).build();
@@ -47,7 +47,7 @@ public class UserController {
     @Path("/{id}")
     @Produces(value = { MediaType.APPLICATION_JSON, })
     public Response getById(@PathParam("id") final long id) {
-        final Optional<User> user = us.getUserById(id);
+        final Optional<User> user = userService.getUserById(id);
         if (user.isPresent())
             return Response.ok(UserDto.fromUser(uriInfo, user.get())).build();
         return Response.status(Response.Status.NOT_FOUND).build();
@@ -57,7 +57,7 @@ public class UserController {
     @Path("/{id}/profile-image")
     @Produces("application/vnd.campus.api.v1+json")
     public Response getUserProfileImage(@PathParam("id") Long id) throws IOException {
-        return Response.ok(new ByteArrayInputStream(us.getProfilePicture(id))).build();
+        return Response.ok(new ByteArrayInputStream(userService.getProfilePicture(id))).build();
     }
 
     @GET
@@ -72,7 +72,7 @@ public class UserController {
                 .withRoles(roles)
                 .withLocations(locations)
                 .withTitle(query).build();
-        List<UserDto> users = us.filter(filter, page)
+        List<UserDto> users = userService.filter(filter, page)
                 .stream().map(u -> UserDto.fromUser(uriInfo, u)).collect(Collectors.toList());;
         if(users.isEmpty()) {
             return Response.noContent().build();
@@ -83,7 +83,7 @@ public class UserController {
     }
 
     private void getResponsePaginationLinks(Response.ResponseBuilder response, int currentPage, FilterOptions filter) {
-        int lastPage = us.getFilterTotalPages(filter);
+        int lastPage = userService.getFilterTotalPages(filter);
         if(currentPage != 1)
             response.link(uriInfo.getAbsolutePathBuilder().queryParam("page", currentPage - 1).build(), "prev");
         if(currentPage != lastPage)

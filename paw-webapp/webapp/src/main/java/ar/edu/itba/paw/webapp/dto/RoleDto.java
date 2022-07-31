@@ -4,6 +4,7 @@ package ar.edu.itba.paw.webapp.dto;
 import ar.edu.itba.paw.model.Role;
 
 import javax.ws.rs.core.UriInfo;
+import java.util.Objects;
 
 public class RoleDto {
 
@@ -35,5 +36,18 @@ public class RoleDto {
 
     public void setRoleName(String roleName) {
         this.roleName = roleName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RoleDto roleDto = (RoleDto) o;
+        return id == roleDto.id && Objects.equals(roleName, roleDto.roleName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, roleName);
     }
 }
