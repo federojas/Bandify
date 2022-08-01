@@ -12,4 +12,6 @@ public interface LocationService {
     Optional<Location> getLocationByName(String name);
 
     Set<Location> getLocationsByNames(List<String> locations);
+
+    Optional<Location> getLocationById(Long id);
 }

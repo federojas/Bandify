@@ -1,5 +1,7 @@
 package ar.edu.itba.paw.webapp.controller;
 
+import ar.edu.itba.paw.model.Location;
+import ar.edu.itba.paw.model.exceptions.LocationNotFoundException;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.service.AuditionService;
 import ar.edu.itba.paw.service.LocationService;
@@ -7,10 +9,8 @@ import ar.edu.itba.paw.service.UserService;
 import ar.edu.itba.paw.webapp.dto.LocationDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+
+import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -31,7 +31,7 @@ public class LocationController {
     @Context
     private UriInfo uriInfo;
 
-    // TODO: paginacion? LINKS?
+    // TODO: paginacion?
     @GET
     @Produces(value = { MediaType.APPLICATION_JSON, })
     public Response locations(@QueryParam("user") final Long userId,
@@ -60,6 +60,14 @@ public class LocationController {
 
         Response.ResponseBuilder response = Response.ok(new GenericEntity<Set<LocationDto>>(locations) {});
         return response.build();
+    }
+
+    @GET
+    @Path("/{id}")
+    @Produces(value = { MediaType.APPLICATION_JSON, })
+    public Response getById(@PathParam("id") final long id) {
+        final Location location = locationService.getLocationById(id).orElseThrow(LocationNotFoundException::new);
+        return Response.ok(LocationDto.fromLoc(uriInfo, location)).build();
     }
 }
 

@@ -1,5 +1,7 @@
 package ar.edu.itba.paw.webapp.controller;
 
+import ar.edu.itba.paw.model.Role;
+import ar.edu.itba.paw.model.exceptions.RoleNotFoundException;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.service.AuditionService;
 import ar.edu.itba.paw.service.RoleService;
@@ -7,10 +9,8 @@ import ar.edu.itba.paw.service.UserService;
 import ar.edu.itba.paw.webapp.dto.RoleDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+
+import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -31,7 +31,7 @@ public class RoleController {
         @Context
         private UriInfo uriInfo;
 
-        // TODO: paginacion? LINKS?
+        // TODO: paginacion?
         @GET
         @Produces(value = { MediaType.APPLICATION_JSON, })
         public Response roles(@QueryParam("user") final Long userId,
@@ -57,5 +57,13 @@ public class RoleController {
             Response.ResponseBuilder response = Response.ok(new GenericEntity<Set<RoleDto>>(roles) {});
             return response.build();
         }
+
+    @GET
+    @Path("/{id}")
+    @Produces(value = { MediaType.APPLICATION_JSON, })
+    public Response getById(@PathParam("id") final long id) {
+        final Role role = roleService.getRoleById(id).orElseThrow(RoleNotFoundException::new);
+        return Response.ok(RoleDto.fromRole(uriInfo, role)).build();
+    }
 
 }

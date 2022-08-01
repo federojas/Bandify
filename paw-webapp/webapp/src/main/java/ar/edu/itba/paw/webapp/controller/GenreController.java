@@ -1,5 +1,7 @@
 package ar.edu.itba.paw.webapp.controller;
 
+import ar.edu.itba.paw.model.Genre;
+import ar.edu.itba.paw.model.exceptions.GenreNotFoundException;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.service.AuditionService;
 import ar.edu.itba.paw.service.GenreService;
@@ -29,7 +31,7 @@ public class GenreController {
     @Context
     private UriInfo uriInfo;
 
-    // TODO: paginacion? LINKS?
+    // TODO: paginacion?
     @GET
     @Produces(value = { MediaType.APPLICATION_JSON, })
     public Response genres(@QueryParam("user") final Long userId,
@@ -58,6 +60,14 @@ public class GenreController {
         Response.ResponseBuilder response = Response.ok(new GenericEntity<Set<GenreDto>>(genres) {});
         return response.build();
 
+    }
+
+    @GET
+    @Path("/{id}")
+    @Produces(value = { MediaType.APPLICATION_JSON, })
+    public Response getById(@PathParam("id") final long id) {
+        final Genre genre = genreService.getGenreById(id).orElseThrow(GenreNotFoundException::new);
+        return Response.ok(GenreDto.fromGenre(uriInfo, genre)).build();
     }
 
 }

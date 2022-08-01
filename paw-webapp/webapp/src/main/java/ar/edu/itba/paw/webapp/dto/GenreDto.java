@@ -1,13 +1,19 @@
 package ar.edu.itba.paw.webapp.dto;
 
 import ar.edu.itba.paw.model.Genre;
+
+import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 import java.util.Objects;
+import java.net.URI;
+
 
 public class GenreDto {
 
     private long id;
     private String genreName;
+
+    private URI self;
 
     public static GenreDto fromGenre(final UriInfo uriInfo, final Genre genre) {
         if(genre == null)
@@ -15,6 +21,9 @@ public class GenreDto {
         GenreDto dto = new GenreDto();
         dto.id = genre.getId();
         dto.genreName = genre.getName();
+        final UriBuilder userUriBuilder = uriInfo.getAbsolutePathBuilder()
+                .replacePath("genres").path(String.valueOf(genre.getId()));
+        dto.self = userUriBuilder.build();
 
         return dto;
     }
@@ -33,6 +42,14 @@ public class GenreDto {
 
     public void setGenreName(String genreName) {
         this.genreName = genreName;
+    }
+
+    public URI getSelf() {
+        return self;
+    }
+
+    public void setSelf(URI self) {
+        this.self = self;
     }
 
     @Override

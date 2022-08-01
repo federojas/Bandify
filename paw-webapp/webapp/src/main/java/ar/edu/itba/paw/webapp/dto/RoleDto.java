@@ -3,13 +3,17 @@ package ar.edu.itba.paw.webapp.dto;
 
 import ar.edu.itba.paw.model.Role;
 
+import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
+import java.net.URI;
 import java.util.Objects;
 
 public class RoleDto {
 
     private long id;
     private String roleName;
+
+    private URI self;
 
     public static RoleDto fromRole(final UriInfo uriInfo, final Role role) {
         if(role == null)
@@ -18,9 +22,20 @@ public class RoleDto {
         dto.id = role.getId();
         dto.roleName = role.getName();
 
+        final UriBuilder userUriBuilder = uriInfo.getAbsolutePathBuilder()
+                .replacePath("roles").path(String.valueOf(role.getId()));
+        dto.self = userUriBuilder.build();
+
         return dto;
     }
 
+    public URI getSelf() {
+        return self;
+    }
+
+    public void setSelf(URI self) {
+        this.self = self;
+    }
 
     public long getId() {
         return id;

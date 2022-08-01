@@ -9,6 +9,6 @@ import java.util.Set;
 public interface LocationDao {
     List<Location> getAll();
     Optional<Location> getLocationByName(String name);
-
     Set<Location> getLocationsByNames(List<String> locationNames);
+    Optional<Location> getLocationById(Long id);
 }

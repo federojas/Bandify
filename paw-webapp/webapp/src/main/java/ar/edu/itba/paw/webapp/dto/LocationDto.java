@@ -2,13 +2,16 @@ package ar.edu.itba.paw.webapp.dto;
 
 import ar.edu.itba.paw.model.Location;
 
+import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
+import java.net.URI;
 import java.util.Objects;
 
 public class LocationDto {
 
     private long id;
     private String locName;
+    private URI self;
 
     public static LocationDto fromLoc(final UriInfo uriInfo, final Location loc) {
         if(loc == null)
@@ -16,8 +19,19 @@ public class LocationDto {
         LocationDto dto = new LocationDto();
         dto.id = loc.getId();
         dto.locName = loc.getName();
+        final UriBuilder userUriBuilder = uriInfo.getAbsolutePathBuilder()
+                .replacePath("locations").path(String.valueOf(loc.getId()));
+        dto.self = userUriBuilder.build();
 
         return dto;
+    }
+
+    public URI getSelf() {
+        return self;
+    }
+
+    public void setSelf(URI self) {
+        this.self = self;
     }
 
     public long getId() {
