@@ -1,5 +1,7 @@
 package ar.edu.itba.paw.webapp.dto;
 
+import org.hibernate.validator.internal.engine.path.PathImpl;
+
 import javax.validation.ConstraintViolation;
 
 public class ValidationErrorDto {
@@ -12,7 +14,8 @@ public class ValidationErrorDto {
     public static ValidationErrorDto fromValidationException(final ConstraintViolation<?> violation) {
         final ValidationErrorDto dto = new ValidationErrorDto();
         dto.message = violation.getMessage();
-        dto.path = violation.getPropertyPath().toString();
+        PathImpl pathImpl = (PathImpl) violation.getPropertyPath();
+        dto.path = pathImpl.getLeafNode().toString();
         return dto;
     }
 

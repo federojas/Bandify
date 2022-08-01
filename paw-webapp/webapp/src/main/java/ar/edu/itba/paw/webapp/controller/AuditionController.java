@@ -46,12 +46,12 @@ public class AuditionController {
     // TODO: Obtener usuario logueado, por ahora esta hardcodeado el ID
     @POST
     @Consumes(value = {MediaType.APPLICATION_JSON, })
-    public Response createAudition(@Valid AuditionForm form) {
-        Audition audition = auditionService.create(form.toBuilder(userService.getUserById(1)
+    public Response createAudition(@Valid AuditionForm auditionForm) {
+        Audition audition = auditionService.create(auditionForm.toBuilder(userService.getUserById(1)
                         .orElseThrow(UserNotFoundException::new))
-                .lookingFor(roleService.getRolesByNames(form.getLookingFor()))
-                .musicGenres(genreService.getGenresByNames(form.getMusicGenres()))
-                .location(locationService.getLocationByName(form.getLocation())
+                .lookingFor(roleService.getRolesByNames(auditionForm.getLookingFor()))
+                .musicGenres(genreService.getGenresByNames(auditionForm.getMusicGenres()))
+                .location(locationService.getLocationByName(auditionForm.getLocation())
                         .orElseThrow(LocationNotFoundException::new)));
         final URI uri = uriInfo.getAbsolutePathBuilder()
                 .path(String.valueOf(audition.getId())).build();
