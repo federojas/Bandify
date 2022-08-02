@@ -13,7 +13,7 @@ export default function Home() {
     <Stack minH={"100vh"} direction={{ base: "column", md: "row" }}>
       {/* Guitar image */}
       <Flex flex={5}>
-        <Image alt={"Login Image"} objectFit={"cover"} src={"welcome.png"} />
+        <Image alt={"Login Image"} objectFit={"cover"} src={"welcome-2.png"} />
       </Flex>
       {/* Welcome actions (Discover, About us, Log, Register) */}
       <Flex p={8} flex={3} align={"center"} justify={"center"}>
