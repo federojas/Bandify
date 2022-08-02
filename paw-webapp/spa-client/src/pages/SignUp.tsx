@@ -31,9 +31,9 @@ export default function SignUpCard() {
           <Heading fontSize={'4xl'} textAlign={'center'}>
             Sign up
           </Heading>
-          <Text fontSize={'lg'} color={'gray.600'}>
+          {/* <Text fontSize={'lg'} color={'gray.600'}>
             to enjoy all of our cool features ✌️
-          </Text>
+          </Text> */}
         </Stack>
         <Box
           rounded={'lg'}

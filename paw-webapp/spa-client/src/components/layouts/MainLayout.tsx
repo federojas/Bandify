@@ -8,7 +8,7 @@ import { ReactNode } from "react";
 
 const PageOrganizer = ({ children }: { children: ReactNode }) => {
   return (
-    <Box pt={{ base: 16, md: 32 }} pb={{ base: 24, md: 16 }}>
+    <Box>
       {children}
     </Box>
   );
@@ -20,14 +20,15 @@ const PageContainer = ({ children }: { children: ReactNode }) => {
 
 function MainLayout() {
   return (
-    <NavBar />
-    // {/*<PageOrganizer>*/}
-
-    //   <PageContainer>
-    //     <Outlet />
-    //   </PageContainer>
-    //   {/* <Footer /> */}
-    // {/*</PageOrganizer>*/}
+    <>
+      <NavBar />
+      <PageOrganizer>
+        <PageContainer>
+          <Outlet />
+        </PageContainer>
+        {/* <Footer /> */}
+      </PageOrganizer>
+    </>
   );
 }
 

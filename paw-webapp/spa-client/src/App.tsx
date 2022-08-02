@@ -24,6 +24,7 @@ function App() {
             <Route path="signup" element={<SignUp />} />
           </Route>
           <Route path="/login" element={<SignIn />} />
+          <Route path="/welcome" element={<Home />}/>
         </Routes>
       </Router>
     </ChakraProvider>
