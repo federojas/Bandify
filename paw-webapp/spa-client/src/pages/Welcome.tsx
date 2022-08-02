@@ -6,6 +6,7 @@ import {
   Stack,
   Text,
   useBreakpointValue,
+  Link,
 } from "@chakra-ui/react";
 
 export default function Home() {
@@ -46,17 +47,21 @@ export default function Home() {
             Join bands... or create your own!
           </Text>
           <Stack direction={{ base: "column", md: "column" }} spacing={4}>
-            <Button
-              rounded={"full"}
-              bg={"blue.400"}
-              color={"white"}
-              _hover={{
-                bg: "blue.500",
-              }}
-            >
-              Sign up with your email
-            </Button>
-            <Button rounded={"full"}>Sign in</Button>
+            <Link href={"/signup"} >
+              <Button
+                rounded={"full"}
+                bg={"blue.400"}
+                color={"white"}
+                _hover={{
+                  bg: "blue.500",
+                }}
+              >
+                Sign up with your email
+              </Button>
+            </Link>
+            <Link href={"/login"}>
+              <Button rounded={"full"}>Sign in</Button>
+            </Link>
           </Stack>
         </Stack>
       </Flex>

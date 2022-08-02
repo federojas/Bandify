@@ -47,7 +47,7 @@ export default function SignInCard() {
                 align={'start'}
                 justify={'space-between'}>
                 <Checkbox>Remember me</Checkbox>
-                <Link color={'blue.400'}>Forgot password?</Link>
+                <Link color={'blue.400'} href={"/forgot-password"}>Forgot password?</Link>
               </Stack>
               <Button
                 bg={'blue.400'}
