@@ -1,9 +1,11 @@
 package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.model.Role;
+import ar.edu.itba.paw.model.exceptions.MembershipNotFoundException;
 import ar.edu.itba.paw.model.exceptions.RoleNotFoundException;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.service.AuditionService;
+import ar.edu.itba.paw.service.MembershipService;
 import ar.edu.itba.paw.service.RoleService;
 import ar.edu.itba.paw.service.UserService;
 import ar.edu.itba.paw.webapp.dto.RoleDto;
@@ -28,6 +30,9 @@ public class RoleController {
         @Autowired
         private AuditionService auditionService;
 
+        @Autowired
+        private MembershipService membershipService;
+
         @Context
         private UriInfo uriInfo;
 
@@ -35,9 +40,10 @@ public class RoleController {
         @GET
         @Produces(value = { MediaType.APPLICATION_JSON, })
         public Response roles(@QueryParam("user") final Long userId,
-                              @QueryParam("audition") final Long auditionId) {
+                              @QueryParam("audition") final Long auditionId,
+                              @QueryParam("membership") final Long membershipId) {
             Set<RoleDto> roles;
-            if(userId == null && auditionId == null) {
+            if(userId == null && auditionId == null && membershipId == null) {
                 roles = roleService.getAll()
                         .stream().map(r -> RoleDto.fromRole(uriInfo, r)).collect(Collectors.toSet());
             } else {
@@ -49,6 +55,10 @@ public class RoleController {
                 if (auditionId != null)
                     roles.addAll(auditionService.getAuditionById(auditionId).getLookingFor()
                             .stream().map(r -> RoleDto.fromRole(uriInfo, r))
+                            .collect(Collectors.toSet()));
+                if (membershipId != null)
+                    roles.addAll(membershipService.getMembershipById(membershipId).orElseThrow(MembershipNotFoundException::new)
+                            .getRoles().stream().map(r -> RoleDto.fromRole(uriInfo, r))
                             .collect(Collectors.toSet()));
             }
             if(roles.isEmpty())

@@ -40,6 +40,9 @@ public class MembershipServiceTest {
     private MailingService mailingService;
 
     @Mock
+    private RoleService roleService;
+
+    @Mock
     private AuthFacadeService authFacadeService;
 
 
@@ -74,8 +77,9 @@ public class MembershipServiceTest {
     @Test
     public void testChangeStateToPending() {
         when(authFacadeService.getCurrentUser()).thenReturn(ARTIST);
+        when(membershipDao.getMembershipById(mem1.getId())).thenReturn(Optional.of(mem1));
 
-        Membership memRet = membershipService.changeState(mem1, MembershipState.PENDING);
+        Membership memRet = membershipService.changeState(mem1.getId(), MembershipState.PENDING);
         assertEquals(MembershipState.PENDING, memRet.getState());
     }
 
@@ -101,9 +105,10 @@ public class MembershipServiceTest {
     @Test
     public void testChangeStateToAccepted() {
         when(authFacadeService.getCurrentUser()).thenReturn(ARTIST);
+        when(membershipDao.getMembershipById(mem4.getId())).thenReturn(Optional.of(mem4));
 
         doNothing().when(mailingService).sendInvitationAcceptedEmail(any(), any(), any());
-        Membership memRet = membershipService.changeState(mem4, MembershipState.ACCEPTED);
+        Membership memRet = membershipService.changeState(mem4.getId(), MembershipState.ACCEPTED);
 
         assertEquals(MembershipState.ACCEPTED, memRet.getState());
     }
@@ -111,8 +116,9 @@ public class MembershipServiceTest {
     @Test
     public void testChangeStateToRejected() {
         when(authFacadeService.getCurrentUser()).thenReturn(ARTIST);
+        when(membershipDao.getMembershipById(mem5.getId())).thenReturn(Optional.of(mem5));
 
-        Membership memRet = membershipService.changeState(mem5, MembershipState.REJECTED);
+        Membership memRet = membershipService.changeState(mem5.getId(), MembershipState.REJECTED);
         assertEquals(MembershipState.REJECTED, memRet.getState());
     }
 
@@ -127,14 +133,15 @@ public class MembershipServiceTest {
 
     @Test
     public void testEditMembershipById() {
-        Set<Role> roles = new HashSet<Role>();
+        Set<Role> roles = new HashSet<>();
         String newDescription = "Nueva descripcion";
-
+        List<String> roleList = Collections.singletonList("Role1");
         roles.add(new Role(1, "Role1"));
         when(membershipDao.getMembershipById(1L)).thenReturn(Optional.of(mem5));
         when(authFacadeService.getCurrentUser()).thenReturn(BAND2);
+        when(roleService.getRolesByNames(roleList)).thenReturn(roles);
 
-        Membership editedMem = membershipService.editMembershipById(newDescription, roles, 1L);
+        Membership editedMem = membershipService.editMembershipById(newDescription, roleList, 1L);
         assertNotNull(editedMem);
         assertEquals(newDescription, editedMem.getDescription());
         assertEquals(roles, editedMem.getRoles());

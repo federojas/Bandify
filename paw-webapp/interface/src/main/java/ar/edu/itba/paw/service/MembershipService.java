@@ -21,7 +21,7 @@ public interface MembershipService {
 
     void deleteMembership(long id);
 
-    Membership changeState(Membership membership, MembershipState state);
+    Membership changeState(long id, MembershipState state);
 
     Optional<Membership> getMembershipById(long id);
 
@@ -31,7 +31,7 @@ public interface MembershipService {
 
     int getPendingMembershipsCount(User user);
 
-    Membership editMembershipById(String description, Set<Role> roles, long id);
+    Membership editMembershipById(String description, List<String> roles, long id);
 
     boolean canBeAddedToBand(User band, User artist);
 

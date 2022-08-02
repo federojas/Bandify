@@ -41,7 +41,7 @@ public class MembershipDto {
 
         final UriBuilder bandUriBuilder = uriInfo.getAbsolutePathBuilder()
                 .replacePath("users").path(String.valueOf(membership.getBand().getId()));
-        dto.artist = bandUriBuilder.build();
+        dto.band = bandUriBuilder.build();
 
         return dto;
     }

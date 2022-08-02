@@ -41,15 +41,16 @@ public class MembershipController {
         return Response.ok(MembershipDto.fromMembership(uriInfo, membership)).build();
     }
 
-    @GET
-    @Produces(value = { MediaType.APPLICATION_JSON, })
-    public Response getMembershipsByUsers(@QueryParam("artist") final Long artistId,
-                                          @QueryParam("band") final Long bandId) {
-        final User artist = userService.getUserById(artistId).orElseThrow(UserNotFoundException::new);
-        final User band = userService.getUserById(bandId).orElseThrow(UserNotFoundException::new);
-        final Membership membership = membershipService.getMembershipByUsers(band, artist).orElseThrow(MembershipNotFoundException::new);
-        return Response.ok(MembershipDto.fromMembership(uriInfo, membership)).build();
-    }
+    //TODO VUELA? O COMBINAMOS?
+//    @GET
+//    @Produces(value = { MediaType.APPLICATION_JSON, })
+//    public Response getMembershipsByUsers(@QueryParam("artist") final Long artistId,
+//                                          @QueryParam("band") final Long bandId) {
+//        final User artist = userService.getUserById(artistId).orElseThrow(UserNotFoundException::new);
+//        final User band = userService.getUserById(bandId).orElseThrow(UserNotFoundException::new);
+//        final Membership membership = membershipService.getMembershipByUsers(band, artist).orElseThrow(MembershipNotFoundException::new);
+//        return Response.ok(MembershipDto.fromMembership(uriInfo, membership)).build();
+//    }
 
     @GET
     @Produces(value = { MediaType.APPLICATION_JSON, })
@@ -70,19 +71,20 @@ public class MembershipController {
         return response.build();
     }
 
-    @GET
-    @Produces(value = { MediaType.APPLICATION_JSON, })
-    public Response getUserMembershipsPreview(@QueryParam("user") final Long userId) {
-        final User user = userService.getUserById(userId).orElseThrow(UserNotFoundException::new);
-        final List<MembershipDto> memberships = membershipService.getUserMembershipsPreview(user)
-                .stream().map(m -> MembershipDto.fromMembership(uriInfo, m))
-                .collect(Collectors.toList());
-
-        if(memberships.isEmpty()) {
-            return Response.noContent().build();
-        }
-        return Response.ok(new GenericEntity<List<MembershipDto>>(memberships) {}).build();
-    }
+    //TODO VUELA? O COMBINAMOS?
+//    @GET
+//    @Produces(value = { MediaType.APPLICATION_JSON, })
+//    public Response getUserMembershipsPreview(@QueryParam("user") final Long userId) {
+//        final User user = userService.getUserById(userId).orElseThrow(UserNotFoundException::new);
+//        final List<MembershipDto> memberships = membershipService.getUserMembershipsPreview(user)
+//                .stream().map(m -> MembershipDto.fromMembership(uriInfo, m))
+//                .collect(Collectors.toList());
+//
+//        if(memberships.isEmpty()) {
+//            return Response.noContent().build();
+//        }
+//        return Response.ok(new GenericEntity<List<MembershipDto>>(memberships) {}).build();
+//    }
 // TODO FALTAN LOS POST
 //    @POST
 //    @Consumes(value = {MediaType.APPLICATION_JSON, })
@@ -102,24 +104,18 @@ public class MembershipController {
         return Response.noContent().build();
     }
 
-    @PUT
-    @Path("/{id}")
-    @Consumes(value = { MediaType.APPLICATION_JSON, })
-    public Response changeMembershipState(@PathParam("id") final Long id,
-                                          @QueryParam("state") final String state) {
-        Membership membership = membershipService.getMembershipById(id).orElseThrow(MembershipNotFoundException::new);
-        membership = membershipService.changeState(membership, Enum.valueOf(MembershipState.class, state));
-        return Response.ok().build();
-    }
-
-    // TODO ACA PORQUE RECIBIAMOS SET DE ROLE EN EDIT?
+    // TODO ACA PORQUE RECIBIAMOS SET DE ROLE EN EDIT? REVISAR LOS METODOS DEL SERVICIO
     @PUT
     @Path("/{id}")
     @Consumes(value = { MediaType.APPLICATION_JSON, })
     public Response editMembershipById(@PathParam("id") final Long id,
                                        @QueryParam("description") final String description,
-                                       @QueryParam("roles") final List<String> roles) {
-        Membership membership = membershipService.editMembershipById(description, roleService.getRolesByNames(roles), id);
+                                       @QueryParam("roles") final List<String> roles,
+                                       @QueryParam("state") final String state) {
+        if((roles != null && !roles.isEmpty()) || description != null)
+            membershipService.editMembershipById(description, roles, id);
+        if(state != null)
+            membershipService.changeState(id, Enum.valueOf(MembershipState.class, state));
         return Response.ok().build();
     }
 
