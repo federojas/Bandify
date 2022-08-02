@@ -30,7 +30,7 @@ public class ApplicationDto {
 
         final UriBuilder selfBuilder = uriInfo.getAbsolutePathBuilder()
                 .replacePath("auditions").path(String.valueOf(application.getAudition().getId()))
-                .replacePath("applications").path(String.valueOf(application.getId()));
+                .path("applications").path(String.valueOf(application.getId()));
         applicationDto.self = selfBuilder.build();
 
         final UriBuilder auditionUriBuilder = uriInfo.getAbsolutePathBuilder()

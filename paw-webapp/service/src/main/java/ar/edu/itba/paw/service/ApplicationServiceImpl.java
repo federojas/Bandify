@@ -187,12 +187,16 @@ public class ApplicationServiceImpl implements ApplicationService {
         return applicationDao.findApplication(auditionId,applicantId).isPresent();
     }
 
+    // TODO: descomentar authfacade
     @Override
     public Optional<Application> getApplicationById(long auditionId, long applicationId)  {
+        /*
         User user = authFacadeService.getCurrentUser();
         Audition audition = auditionService.getAuditionById(auditionId);
         if(!Objects.equals(user.getId(), audition.getBand().getId()))
             throw new AuditionNotOwnedException();
+
+         */
         Optional<Application> application = applicationDao.findApplication(applicationId);
         if (application.isPresent() && !application.get().getAudition().getId().equals(auditionId)
                 && application.get().getState().equals(ApplicationState.SELECTED))

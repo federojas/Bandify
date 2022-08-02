@@ -17,6 +17,7 @@ public class AuditionDto {
     private URI location;
     private URI lookingFor;
     private URI musicGenres;
+    private URI applications;
 
     public static AuditionDto fromAudition(final UriInfo uriInfo, final Audition audition) {
         if(audition == null)
@@ -46,6 +47,10 @@ public class AuditionDto {
         auditionDto.musicGenres = genresUriBuilder.clone()
                 .queryParam("audition", String.valueOf(audition.getId())).build();
 
+        final UriBuilder applicationsUriBuilder = uriInfo.getAbsolutePathBuilder()
+                .replacePath("auditions").path(String.valueOf(audition.getId()))
+                .path("applications");
+        auditionDto.applications = applicationsUriBuilder.clone().build();
         return auditionDto;
     }
 
@@ -111,5 +116,13 @@ public class AuditionDto {
 
     public void setMusicGenres(URI musicGenres) {
         this.musicGenres = musicGenres;
+    }
+
+    public URI getApplications() {
+        return applications;
+    }
+
+    public void setApplications(URI applications) {
+        this.applications = applications;
     }
 }

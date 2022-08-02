@@ -1,8 +1,10 @@
 package ar.edu.itba.paw.webapp.controller;
 
+import ar.edu.itba.paw.model.Application;
 import ar.edu.itba.paw.model.ApplicationState;
 import ar.edu.itba.paw.model.Audition;
 import ar.edu.itba.paw.model.FilterOptions;
+import ar.edu.itba.paw.model.exceptions.ApplicationNotFoundException;
 import ar.edu.itba.paw.model.exceptions.LocationNotFoundException;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.service.*;
@@ -121,6 +123,16 @@ public class AuditionController {
             response.link(uriInfo.getAbsolutePathBuilder().queryParam("page", currentPage + 1).build(), "next");
         response.link(uriInfo.getAbsolutePathBuilder().queryParam("page", 1).build(), "first");
         response.link(uriInfo.getAbsolutePathBuilder().queryParam("page", lastPage).build(), "last");
+    }
+
+    @GET
+    @Path("/{id}/applications/{id}")
+    @Produces(value = { MediaType.APPLICATION_JSON, })
+    public Response getApplication(@PathParam("id") final long auditionId,
+                                   @PathParam("id") final long applicationId) {
+        final Application application = applicationService.getApplicationById(auditionId,applicationId)
+                .orElseThrow(ApplicationNotFoundException::new);
+        return Response.ok(ApplicationDto.fromApplication(uriInfo, application)).build();
     }
 
 }
