@@ -51,7 +51,9 @@ export default function NavBar() {
             onClick={isOpen ? onClose : onOpen}
           />
           <HStack spacing={8} alignItems={"center"}>
-            <Box><Image src={"logo.png"} w={8} h={8}></Image></Box>
+            <Box>
+              <Image src={"logo.png"} w={8} h={8}></Image>
+            </Box>
             <HStack
               as={"nav"}
               spacing={4}
@@ -63,7 +65,7 @@ export default function NavBar() {
             </HStack>
           </HStack>
           <Flex alignItems={"center"}>
-            {/* <Menu>
+            <Menu>
               <MenuButton
                 as={Button}
                 rounded={"full"}
@@ -84,7 +86,8 @@ export default function NavBar() {
                 <MenuDivider />
                 <MenuItem>Link 3</MenuItem>
               </MenuList>
-            </Menu> */}
+            </Menu>
+
             <Box>
               <Stack
                 flex={{ base: 1, md: 0 }}
@@ -101,7 +104,8 @@ export default function NavBar() {
                 >
                   Log in
                 </Button>
-                <Button
+                {/* este boton de abajo es el que rompe que rompe  */}
+                {/* <Button
                   display={{ base: "none", md: "inline-flex" }}
                   fontSize={"sm"}
                   fontWeight={600}
@@ -113,13 +117,13 @@ export default function NavBar() {
                   }}
                 >
                   Register
-                </Button>
+                </Button> */}
               </Stack>
             </Box>
           </Flex>
         </Flex>
 
-        {isOpen ? (
+        {/* {isOpen ? (
           <Box pb={4} display={{ md: "none" }}>
             <Stack as={"nav"} spacing={4}>
               {Links.map((link) => (
@@ -127,7 +131,7 @@ export default function NavBar() {
               ))}
             </Stack>
           </Box>
-        ) : null}
+              ) : null} */}
       </Box>
     </>
   );
