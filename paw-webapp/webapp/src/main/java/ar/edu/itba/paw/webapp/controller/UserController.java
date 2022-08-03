@@ -2,11 +2,14 @@ package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.model.ApplicationState;
 import ar.edu.itba.paw.model.FilterOptions;
+import ar.edu.itba.paw.model.SocialMedia;
 import ar.edu.itba.paw.model.User;
+import ar.edu.itba.paw.model.exceptions.SocialMediaNotFoundException;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.service.ApplicationService;
 import ar.edu.itba.paw.service.UserService;
 import ar.edu.itba.paw.webapp.dto.ApplicationDto;
+import ar.edu.itba.paw.webapp.dto.SocialMediaDto;
 import ar.edu.itba.paw.webapp.dto.UserDto;
 import ar.edu.itba.paw.webapp.form.ArtistEditForm;
 import ar.edu.itba.paw.webapp.form.UserArtistForm;
@@ -19,6 +22,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Path("users")
@@ -101,6 +105,9 @@ public class UserController {
     }
 
     // TODO: seguridad
+    // TODO: las aplicaciones que da son por defecto las pendientes
+    // le podes pasar para que te de las del estado que quieras, podemos dejarlo asi
+    // o que por defecto te de las que sean de cualquier estado.
     @GET
     @Path("/{id}/applications")
     @Produces(value = { MediaType.APPLICATION_JSON, })
@@ -128,6 +135,34 @@ public class UserController {
             response.link(uriInfo.getAbsolutePathBuilder().queryParam("page", currentPage + 1).build(), "next");
         response.link(uriInfo.getAbsolutePathBuilder().queryParam("page", 1).build(), "first");
         response.link(uriInfo.getAbsolutePathBuilder().queryParam("page", lastPage).build(), "last");
+    }
+
+    @GET
+    @Path("/{id}/social-media")
+    @Produces(value = { MediaType.APPLICATION_JSON, })
+    public Response getUserSocialMedia(@PathParam("id") final long id){
+        final Set<SocialMediaDto> socialMediaDtos = userService.getUserById(id)
+                .orElseThrow(UserNotFoundException::new).getSocialSocialMedia()
+                .stream().map(socialMedia -> SocialMediaDto.fromSocialMedia(uriInfo,socialMedia))
+                .collect(Collectors.toSet());
+        if(socialMediaDtos.isEmpty())
+            return Response.noContent().build();
+        Response.ResponseBuilder responseBuilder =
+                Response.ok(new GenericEntity<Set<SocialMediaDto>>(socialMediaDtos){});
+        return responseBuilder.build();
+    }
+
+    @GET
+    @Path("/{userId}/social-media/{id}")
+    @Produces(value = { MediaType.APPLICATION_JSON, })
+    public Response getSocialMedia(@PathParam("userId") final long userId,
+                                   @PathParam("id") final long id){
+        final Set<SocialMedia> socialMedia = userService.getUserById(userId).orElseThrow(UserNotFoundException::new)
+                .getSocialSocialMedia().stream().filter(socialMedia1 -> socialMedia1.getId().equals(id))
+                .collect(Collectors.toSet());
+        return Response.ok(SocialMediaDto.fromSocialMedia(
+                uriInfo,socialMedia.stream().findFirst().orElseThrow(
+                        SocialMediaNotFoundException::new))).build();
     }
 
 }

@@ -97,6 +97,9 @@ public class AuditionController {
     }
 
 
+    // TODO: las aplicaciones que da son por defecto las pendientes
+    // le podes pasar para que te de las del estado que quieras, podemos dejarlo asi
+    // o que por defecto te de las que sean de cualquier estado.
     @GET
     @Path("/{id}/applications")
     @Produces(value = { MediaType.APPLICATION_JSON, })
@@ -126,9 +129,9 @@ public class AuditionController {
     }
 
     @GET
-    @Path("/{id}/applications/{id}")
+    @Path("/{auditionId}/applications/{id}")
     @Produces(value = { MediaType.APPLICATION_JSON, })
-    public Response getApplication(@PathParam("id") final long auditionId,
+    public Response getApplication(@PathParam("auditionId") final long auditionId,
                                    @PathParam("id") final long applicationId) {
         final Application application = applicationService.getApplicationById(auditionId,applicationId)
                 .orElseThrow(ApplicationNotFoundException::new);

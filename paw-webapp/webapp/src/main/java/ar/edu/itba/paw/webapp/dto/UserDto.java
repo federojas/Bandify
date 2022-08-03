@@ -23,6 +23,7 @@ public class UserDto {
     private URI roles;
     private URI genres;
     private URI socialMedia;
+    private URI applications;
 
     public static UserDto fromUser(final UriInfo uriInfo, final User user) {
         if(user == null)
@@ -57,10 +58,15 @@ public class UserDto {
         dto.genres = genreUriBuilder.clone()
                 .queryParam("user", String.valueOf(user.getId())).build();
 
-        final UriBuilder socialUriBuilder = uriInfo.getAbsolutePathBuilder()
-                .replacePath("social-media");
-        dto.socialMedia = socialUriBuilder
-                .queryParam("user", String.valueOf(user.getId())).build();
+        final UriBuilder socialMediaUriBuilder = uriInfo.getAbsolutePathBuilder()
+                .replacePath("users").path(String.valueOf(user.getId()))
+                .path("social-media");
+        dto.socialMedia = socialMediaUriBuilder.build();
+
+        final UriBuilder applicationsUriBuilder = uriInfo.getAbsolutePathBuilder()
+                .replacePath("users").path(String.valueOf(user.getId()))
+                .path("applications");
+        dto.applications = applicationsUriBuilder.build();
 
         return dto;
     }
@@ -175,5 +181,13 @@ public class UserDto {
 
     public void setSocialMedia(URI socialMedia) {
         this.socialMedia = socialMedia;
+    }
+
+    public URI getApplications() {
+        return applications;
+    }
+
+    public void setApplications(URI applications) {
+        this.applications = applications;
     }
 }
