@@ -6,8 +6,8 @@ import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.model.exceptions.MembershipNotFoundException;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.service.MembershipService;
-import ar.edu.itba.paw.service.RoleService;
 import ar.edu.itba.paw.service.UserService;
+import ar.edu.itba.paw.webapp.controller.utils.PaginationLinkBuilder;
 import ar.edu.itba.paw.webapp.dto.MembershipDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -26,9 +26,6 @@ public class MembershipController {
 
     @Autowired
     private UserService userService;
-
-    @Autowired
-    private RoleService roleService;
 
     @Context
     private UriInfo uriInfo;
@@ -67,7 +64,7 @@ public class MembershipController {
             return Response.noContent().build();
         }
         Response.ResponseBuilder response = Response.ok(new GenericEntity<List<MembershipDto>>(memberships) {});
-        getResponsePaginationLinks(response, page, membershipService.getTotalUserMembershipsPages(user, Enum.valueOf(MembershipState.class, state)));
+        PaginationLinkBuilder.getResponsePaginationLinks(response, uriInfo, page,  membershipService.getTotalUserMembershipsPages(user, Enum.valueOf(MembershipState.class, state)));
         return response.build();
     }
 
@@ -117,15 +114,5 @@ public class MembershipController {
         if(state != null)
             membershipService.changeState(id, Enum.valueOf(MembershipState.class, state));
         return Response.ok().build();
-    }
-
-    //TODO HACER CLASE UTILS?
-    private void getResponsePaginationLinks(Response.ResponseBuilder response, int currentPage, int lastPage) {
-        if(currentPage != 1)
-            response.link(uriInfo.getAbsolutePathBuilder().queryParam("page", currentPage - 1).build(), "prev");
-        if(currentPage != lastPage)
-            response.link(uriInfo.getAbsolutePathBuilder().queryParam("page", currentPage + 1).build(), "next");
-        response.link(uriInfo.getAbsolutePathBuilder().queryParam("page", 1).build(), "first");
-        response.link(uriInfo.getAbsolutePathBuilder().queryParam("page", lastPage).build(), "last");
     }
 }

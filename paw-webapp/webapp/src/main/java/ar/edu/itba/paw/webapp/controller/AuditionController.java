@@ -8,6 +8,7 @@ import ar.edu.itba.paw.model.exceptions.ApplicationNotFoundException;
 import ar.edu.itba.paw.model.exceptions.LocationNotFoundException;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.service.*;
+import ar.edu.itba.paw.webapp.controller.utils.PaginationLinkBuilder;
 import ar.edu.itba.paw.webapp.dto.ApplicationDto;
 import ar.edu.itba.paw.webapp.dto.AuditionDto;
 import ar.edu.itba.paw.webapp.form.AuditionForm;
@@ -82,7 +83,7 @@ public class AuditionController {
 
         Response.ResponseBuilder responseBuilder = Response.ok(new GenericEntity<List<AuditionDto>>(auditionDtos){});
         int lastPage = auditionService.getFilterTotalPages(filter);
-        getResponsePaginationLinks(responseBuilder, page, lastPage);
+        PaginationLinkBuilder.getResponsePaginationLinks(responseBuilder, uriInfo, page, lastPage);
         return responseBuilder.build();
 
     }
@@ -114,18 +115,8 @@ public class AuditionController {
             return Response.noContent().build();
         Response.ResponseBuilder responseBuilder = Response.ok(new GenericEntity<List<ApplicationDto>>(applicationDtos){});
         int lastPage = applicationService.getTotalAuditionApplicationByStatePages(auditionId,ApplicationState.valueOf(state));
-        getResponsePaginationLinks(responseBuilder, page, lastPage);
+        PaginationLinkBuilder.getResponsePaginationLinks(responseBuilder, uriInfo, page, lastPage);
         return responseBuilder.build();
-    }
-
-    //TODO HACER CLASE UTILS?
-    private void getResponsePaginationLinks(Response.ResponseBuilder response, int currentPage, int lastPage) {
-        if(currentPage != 1)
-            response.link(uriInfo.getAbsolutePathBuilder().queryParam("page", currentPage - 1).build(), "prev");
-        if(currentPage != lastPage)
-            response.link(uriInfo.getAbsolutePathBuilder().queryParam("page", currentPage + 1).build(), "next");
-        response.link(uriInfo.getAbsolutePathBuilder().queryParam("page", 1).build(), "first");
-        response.link(uriInfo.getAbsolutePathBuilder().queryParam("page", lastPage).build(), "last");
     }
 
     @GET

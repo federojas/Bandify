@@ -8,6 +8,7 @@ import ar.edu.itba.paw.model.exceptions.SocialMediaNotFoundException;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.service.ApplicationService;
 import ar.edu.itba.paw.service.UserService;
+import ar.edu.itba.paw.webapp.controller.utils.PaginationLinkBuilder;
 import ar.edu.itba.paw.webapp.dto.ApplicationDto;
 import ar.edu.itba.paw.webapp.dto.SocialMediaDto;
 import ar.edu.itba.paw.webapp.dto.UserDto;
@@ -100,7 +101,7 @@ public class UserController {
             return Response.noContent().build();
         }
         Response.ResponseBuilder response = Response.ok(new GenericEntity<List<UserDto>>(users) {});
-        getResponsePaginationLinks(response, page, userService.getFilterTotalPages(filter));
+        PaginationLinkBuilder.getResponsePaginationLinks(response, uriInfo, page, userService.getFilterTotalPages(filter));
         return response.build();
     }
 
@@ -123,18 +124,8 @@ public class UserController {
         Response.ResponseBuilder responseBuilder = Response.ok(new GenericEntity<List<ApplicationDto>>(applicationDtos){});
 
         int lastPage = applicationService.getTotalUserApplicationsFiltered(id,ApplicationState.valueOf(state));
-        getResponsePaginationLinks(responseBuilder, page, lastPage);
+        PaginationLinkBuilder.getResponsePaginationLinks(responseBuilder, uriInfo, page, lastPage);
         return responseBuilder.build();
-    }
-
-    //TODO HACER CLASE UTILS?
-    private void getResponsePaginationLinks(Response.ResponseBuilder response, int currentPage, int lastPage) {
-        if(currentPage != 1)
-            response.link(uriInfo.getAbsolutePathBuilder().queryParam("page", currentPage - 1).build(), "prev");
-        if(currentPage != lastPage)
-            response.link(uriInfo.getAbsolutePathBuilder().queryParam("page", currentPage + 1).build(), "next");
-        response.link(uriInfo.getAbsolutePathBuilder().queryParam("page", 1).build(), "first");
-        response.link(uriInfo.getAbsolutePathBuilder().queryParam("page", lastPage).build(), "last");
     }
 
     @GET
