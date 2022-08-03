@@ -33,7 +33,7 @@ public class GenreController {
 
     // TODO: paginacion?
     @GET
-    @Produces("application/vnd.bandify.api.v1+json")
+    @Produces("application/vnd.genre-list.v1+json")
     public Response genres(@QueryParam("user") final Long userId,
                            @QueryParam("audition") final Long auditionId) {
         Set<GenreDto> genres;
@@ -64,7 +64,7 @@ public class GenreController {
 
     @GET
     @Path("/{id}")
-    @Produces("application/vnd.bandify.api.v1+json")
+    @Produces("application/vnd.genre.v1+json")
     public Response getById(@PathParam("id") final long id) {
         final Genre genre = genreService.getGenreById(id).orElseThrow(GenreNotFoundException::new);
         return Response.ok(GenreDto.fromGenre(uriInfo, genre)).build();

@@ -4,6 +4,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 public class PaginationLinkBuilder {
+
     private PaginationLinkBuilder() {
 
     }
@@ -16,4 +17,5 @@ public class PaginationLinkBuilder {
         response.link(uriInfo.getAbsolutePathBuilder().queryParam("page", 1).build(), "first");
         response.link(uriInfo.getAbsolutePathBuilder().queryParam("page", lastPage).build(), "last");
     }
+
 }

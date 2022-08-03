@@ -48,7 +48,7 @@ public class AuditionController {
 
     // TODO: Obtener usuario logueado, por ahora esta hardcodeado el ID
     @POST
-    @Consumes("application/vnd.bandify.api.v1+json")
+    @Consumes("application/vnd.audition.v1+json")
     public Response createAudition(@Valid AuditionForm auditionForm) {
         Audition audition = auditionService.create(auditionForm.toBuilder(userService.getUserById(1)
                         .orElseThrow(UserNotFoundException::new))
@@ -62,7 +62,7 @@ public class AuditionController {
     }
 
     @GET
-    @Produces("application/vnd.bandify.api.v1+json")
+    @Produces("application/vnd.audition-list.v1+json")
     public Response getAuditions(@QueryParam("page") @DefaultValue("1") final int page,
                                  @QueryParam("query") @DefaultValue("") final String query,
                                  @QueryParam("genre") final List<String> genres,
@@ -91,7 +91,7 @@ public class AuditionController {
     // TODO: y si no esta presente? o esta closed?
     @GET
     @Path("/{id}")
-    @Produces("application/vnd.bandify.api.v1+json")
+    @Produces("application/vnd.audition.v1+json")
     public Response getAuditionById(@PathParam("id") final long auditionId) {
         final Audition audition = auditionService.getAuditionById(auditionId);
         return Response.ok(AuditionDto.fromAudition(uriInfo, audition)).build();
@@ -103,7 +103,7 @@ public class AuditionController {
     // o que por defecto te de las que sean de cualquier estado.
     @GET
     @Path("/{id}/applications")
-    @Produces("application/vnd.bandify.api.v1+json")
+    @Produces("application/vnd.application-list.v1+json")
     public Response getAuditionsApplications(@PathParam("id") final long auditionId,
                                              @QueryParam("page") @DefaultValue("1") final int page,
                                              @QueryParam("state") @DefaultValue("PENDING") final String state) {
@@ -121,7 +121,7 @@ public class AuditionController {
 
     @GET
     @Path("/{auditionId}/applications/{id}")
-    @Produces("application/vnd.bandify.api.v1+json")
+    @Produces("application/vnd.application.v1+json")
     public Response getApplication(@PathParam("auditionId") final long auditionId,
                                    @PathParam("id") final long applicationId) {
         final Application application = applicationService.getApplicationById(auditionId,applicationId)

@@ -33,7 +33,7 @@ public class MembershipController {
 
     @GET
     @Path("/{id}")
-    @Produces("application/vnd.bandify.api.v1+json")
+    @Produces("application/vnd.membership.v1+json")
     public Response getMemberships(@PathParam("id") final long membershipId) {
         final Membership membership = membershipService.getMembershipById(membershipId).orElseThrow(MembershipNotFoundException::new);
         return Response.ok(MembershipDto.fromMembership(uriInfo, membership)).build();
@@ -51,7 +51,7 @@ public class MembershipController {
 //    }
 
     @GET
-    @Produces("application/vnd.bandify.api.v1+json")
+    @Produces("application/vnd.membership-list.v1+json")
     public Response getUserMemberships(@QueryParam("user") final Long userId,
                                        @QueryParam("state") @DefaultValue("PENDING") final String state,
                                        @QueryParam("page") @DefaultValue("1") final int page) {
@@ -95,7 +95,7 @@ public class MembershipController {
 
     @DELETE
     @Path("/{id}")
-    @Produces("application/vnd.bandify.api.v1+json")
+    @Produces("application/vnd.membership.v1+json")
     public Response deleteMembership(@PathParam("id") final Long id) {
         if(!membershipService.getMembershipById(id).isPresent()) {
             throw new MembershipNotFoundException();
@@ -107,7 +107,7 @@ public class MembershipController {
     // TODO ACA PORQUE RECIBIAMOS SET DE ROLE EN EDIT? REVISAR LOS METODOS DEL SERVICIO
     @PUT
     @Path("/{id}")
-    @Consumes("application/vnd.bandify.api.v1+json")
+    @Consumes("application/vnd.membership.v1+json")
     public Response editMembershipById(@PathParam("id") final Long id,
                                        @QueryParam("description") final String description,
                                        @QueryParam("roles") final List<String> roles,

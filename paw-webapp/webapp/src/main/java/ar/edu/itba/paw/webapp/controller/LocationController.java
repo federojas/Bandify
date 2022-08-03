@@ -33,7 +33,7 @@ public class LocationController {
 
     // TODO: paginacion?
     @GET
-    @Produces("application/vnd.bandify.api.v1+json")
+    @Produces("application/vnd.location-list.v1+json")
     public Response locations(@QueryParam("user") final Long userId,
                               @QueryParam("audition") final Long auditionId) {
 
@@ -64,7 +64,7 @@ public class LocationController {
 
     @GET
     @Path("/{id}")
-    @Produces("application/vnd.bandify.api.v1+json")
+    @Produces("application/vnd.location.v1+json")
     public Response getById(@PathParam("id") final long id) {
         final Location location = locationService.getLocationById(id).orElseThrow(LocationNotFoundException::new);
         return Response.ok(LocationDto.fromLoc(uriInfo, location)).build();
