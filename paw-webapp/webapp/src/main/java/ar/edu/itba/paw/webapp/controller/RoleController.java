@@ -38,7 +38,7 @@ public class RoleController {
 
         // TODO: paginacion?
         @GET
-        @Produces(value = { MediaType.APPLICATION_JSON, })
+        @Produces("application/vnd.bandify.api.v1+json")
         public Response roles(@QueryParam("user") final Long userId,
                               @QueryParam("audition") final Long auditionId,
                               @QueryParam("membership") final Long membershipId) {
@@ -70,7 +70,7 @@ public class RoleController {
 
     @GET
     @Path("/{id}")
-    @Produces(value = { MediaType.APPLICATION_JSON, })
+    @Produces("application/vnd.bandify.api.v1+json")
     public Response getById(@PathParam("id") final long id) {
         final Role role = roleService.getRoleById(id).orElseThrow(RoleNotFoundException::new);
         return Response.ok(RoleDto.fromRole(uriInfo, role)).build();

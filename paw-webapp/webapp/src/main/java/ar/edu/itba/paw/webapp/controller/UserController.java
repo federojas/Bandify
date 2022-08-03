@@ -43,7 +43,7 @@ public class UserController {
     // TODO: Rehacer el userform para que sea unico para bandas y artistas
     // por ahora solo admite artistas para poder probar el post
     @POST
-    @Consumes(value = {MediaType.APPLICATION_JSON, })
+    @Consumes("application/vnd.bandify.api.v1+json")
     public Response createUser(@Valid UserArtistForm form) {
         User.UserBuilder builder = new User.UserBuilder(form.getEmail(), form.getPassword(),
                 form.getName(), form.isBand(), false).surname(form.getSurname());
@@ -55,7 +55,7 @@ public class UserController {
 
     @PUT
     @Path("/{id}")
-    @Consumes(value = {MediaType.APPLICATION_JSON, })
+    @Consumes("application/vnd.bandify.api.v1+json")
     public Response updateUser(@Valid ArtistEditForm form, @PathParam("id") final long id) {
         //TODO SECURITY
         //TODO FORM = NULL EXCEPTION?
@@ -70,7 +70,7 @@ public class UserController {
 
     @GET
     @Path("/{id}")
-    @Produces(value = { MediaType.APPLICATION_JSON, })
+    @Produces("application/vnd.bandify.api.v1+json")
     public Response getById(@PathParam("id") final long id) {
         final User user = userService.getUserById(id).orElseThrow(UserNotFoundException::new);
         return Response.ok(UserDto.fromUser(uriInfo, user)).build();
@@ -84,7 +84,7 @@ public class UserController {
 
 
     @GET
-    @Produces(value = { MediaType.APPLICATION_JSON, })
+    @Produces("application/vnd.bandify.api.v1+json")
     public Response usersSearch(@QueryParam("page") @DefaultValue("1") final int page,
                                 @QueryParam("query") @DefaultValue("") final String query,
                                 @QueryParam("genre") final List<String> genres,
@@ -111,7 +111,7 @@ public class UserController {
     // o que por defecto te de las que sean de cualquier estado.
     @GET
     @Path("/{id}/applications")
-    @Produces(value = { MediaType.APPLICATION_JSON, })
+    @Produces("application/vnd.bandify.api.v1+json")
     public Response getUserApplications(@PathParam("id") final long id,
                                         @QueryParam("state") @DefaultValue("PENDING") final String state,
                                         @QueryParam("page") @DefaultValue("1") final int page){
@@ -130,7 +130,7 @@ public class UserController {
 
     @GET
     @Path("/{id}/social-media")
-    @Produces(value = { MediaType.APPLICATION_JSON, })
+    @Produces("application/vnd.bandify.api.v1+json")
     public Response getUserSocialMedia(@PathParam("id") final long id){
         final Set<SocialMediaDto> socialMediaDtos = userService.getUserById(id)
                 .orElseThrow(UserNotFoundException::new).getSocialSocialMedia()
@@ -145,7 +145,7 @@ public class UserController {
 
     @GET
     @Path("/{userId}/social-media/{id}")
-    @Produces(value = { MediaType.APPLICATION_JSON, })
+    @Produces("application/vnd.bandify.api.v1+json")
     public Response getSocialMedia(@PathParam("userId") final long userId,
                                    @PathParam("id") final long id){
         final Set<SocialMedia> socialMedia = userService.getUserById(userId).orElseThrow(UserNotFoundException::new)

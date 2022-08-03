@@ -9,6 +9,7 @@ import ar.edu.itba.paw.service.MembershipService;
 import ar.edu.itba.paw.service.UserService;
 import ar.edu.itba.paw.webapp.controller.utils.PaginationLinkBuilder;
 import ar.edu.itba.paw.webapp.dto.MembershipDto;
+import ar.edu.itba.paw.webapp.security.exceptions.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -32,7 +33,7 @@ public class MembershipController {
 
     @GET
     @Path("/{id}")
-    @Produces(value = { MediaType.APPLICATION_JSON, })
+    @Produces("application/vnd.bandify.api.v1+json")
     public Response getMemberships(@PathParam("id") final long membershipId) {
         final Membership membership = membershipService.getMembershipById(membershipId).orElseThrow(MembershipNotFoundException::new);
         return Response.ok(MembershipDto.fromMembership(uriInfo, membership)).build();
@@ -50,10 +51,12 @@ public class MembershipController {
 //    }
 
     @GET
-    @Produces(value = { MediaType.APPLICATION_JSON, })
+    @Produces("application/vnd.bandify.api.v1+json")
     public Response getUserMemberships(@QueryParam("user") final Long userId,
                                        @QueryParam("state") @DefaultValue("PENDING") final String state,
                                        @QueryParam("page") @DefaultValue("1") final int page) {
+        if(userId == null)
+            throw new BadRequestException("Parameter 'user' is required");
         final User user = userService.getUserById(userId).orElseThrow(UserNotFoundException::new);
         final List<MembershipDto> memberships = membershipService.getUserMemberships(user,
                         Enum.valueOf(MembershipState.class, state), page)
@@ -92,7 +95,7 @@ public class MembershipController {
 
     @DELETE
     @Path("/{id}")
-    @Produces(value = { MediaType.APPLICATION_JSON, })
+    @Produces("application/vnd.bandify.api.v1+json")
     public Response deleteMembership(@PathParam("id") final Long id) {
         if(!membershipService.getMembershipById(id).isPresent()) {
             throw new MembershipNotFoundException();
@@ -104,11 +107,13 @@ public class MembershipController {
     // TODO ACA PORQUE RECIBIAMOS SET DE ROLE EN EDIT? REVISAR LOS METODOS DEL SERVICIO
     @PUT
     @Path("/{id}")
-    @Consumes(value = { MediaType.APPLICATION_JSON, })
+    @Consumes("application/vnd.bandify.api.v1+json")
     public Response editMembershipById(@PathParam("id") final Long id,
                                        @QueryParam("description") final String description,
                                        @QueryParam("roles") final List<String> roles,
                                        @QueryParam("state") final String state) {
+        if(description == null && roles == null && state == null)
+            throw new BadRequestException("Parameters 'description' 'roles' 'state' can not be all null");
         if((roles != null && !roles.isEmpty()) || description != null)
             membershipService.editMembershipById(description, roles, id);
         if(state != null)
