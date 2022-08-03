@@ -17,10 +17,12 @@ const PageContainer = ({ children }: { children: ReactNode }) => {
 function MainLayout() {
   return (
     <PageOrganizer>
-      <NavBar> </NavBar>
-      <PageContainer>
-        <Outlet />
-      </PageContainer>
+      <NavBar>
+        <PageContainer>
+          <Outlet />
+        </PageContainer>
+      </NavBar>
+
       <Footer />
     </PageOrganizer>
   );
