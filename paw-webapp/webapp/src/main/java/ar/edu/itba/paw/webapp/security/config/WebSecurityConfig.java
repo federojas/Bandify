@@ -18,9 +18,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.concurrent.TimeUnit;
 
+import java.util.Arrays;
+import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
@@ -43,33 +46,56 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
 
+    // TODO: nueva configuracion de spring security
+//    @Override
+//    protected void configure(final HttpSecurity http) throws Exception {
+//        http.sessionManagement()
+//                .invalidSessionUrl("/welcome")
+//                .and().authorizeRequests()
+//                .antMatchers(HttpMethod.GET, "/users").permitAll()
+//                .antMatchers(HttpMethod.POST, "/users").permitAll()
+//                .and().exceptionHandling()
+//                .and().csrf().disable();
+//    }
 
     // TODO: nueva configuracion de spring security
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
-        http.sessionManagement()
-                .invalidSessionUrl("/welcome")
+        http
+                .cors().and().csrf().disable()
+                .sessionManagement()
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//              .invalidSessionUrl("/welcome") TODO VUELA?
                 .and().authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/users").permitAll()
-                .antMatchers(HttpMethod.POST, "/users").permitAll()
-                .and().exceptionHandling()
-                .and().csrf().disable();
+                .anyRequest().permitAll()
+                .and().addFilterBefore(new JwtFilter(), UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling();
+//                .authenticationEntryPoint(TODO ENTRY POINT)
+//                .accessDeniedHandler(TODO AUTH DENIED HANDLER);
     }
+
+
 
 
     @Override
     public void configure(final WebSecurity web) throws Exception {
-        web.ignoring().antMatchers( "/css/**", "/js/**", "/images/**", "/icons/**", "/403");
+        web.ignoring().antMatchers( "/css/**", "/js/**", "/images/**", "/icons/**");
     }
 
 
-    /*
+    //TODO revisar
     @Bean
-    public CorsConfiguration corsConfiguration() {
+    public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration cors = new CorsConfiguration();
+        cors.setAllowedOrigins(Collections.singletonList("*"));
+        cors.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+        cors.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
+        cors.setExposedHeaders(Arrays.asList("x-auth-token", "authorization", "X-Total-Pages", "Content-Disposition"));
         //TODO ESTO EN PRODUCCION VUELA !!!!!!!!!!!!!!!!!!!!!!!!
-        cors.addAllowedOrigin("http://localhost:9000/");
-        return cors;
+//        cors.addAllowedOrigin("http://localhost:9000/");
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", cors);
+        return source;
     }
-     */
+
 }
