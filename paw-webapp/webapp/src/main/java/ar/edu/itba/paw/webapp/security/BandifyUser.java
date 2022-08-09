@@ -8,7 +8,9 @@ public class BandifyUser extends User {
 
     private final boolean isEnabled;
 
-    public BandifyUser(String username, String password, Collection<? extends GrantedAuthority> authorities, boolean isEnabled) {
+    public BandifyUser(String username, String password,
+                       Collection<? extends GrantedAuthority> authorities,
+                       boolean isEnabled) {
         super(username, password, authorities);
         this.isEnabled = isEnabled;
     }
