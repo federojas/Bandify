@@ -36,6 +36,7 @@
     <org.hibernate.validator.version>5.1.3.Final</org.hibernate.validator.version>
     <org.hibernate.jpa.version>1.0.0.Final</org.hibernate.jpa.version>
     <jersey.version>3.0-SNAPSHOT</jersey.version>
+    <jjwt.version>0.9.1</jjwt.version>
   </properties>
 
   <repositories>
@@ -286,6 +287,11 @@
         <groupId>org.glassfish.jersey.ext</groupId>
         <artifactId>jersey-bean-validation</artifactId>
         <version>${jersey.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.jsonwebtoken</groupId>
+        <artifactId>jjwt</artifactId>
+        <version>${jjwt.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
