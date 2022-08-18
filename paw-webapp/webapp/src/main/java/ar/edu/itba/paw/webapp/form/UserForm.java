@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @FieldsMatch(field = "password", secondField = "passwordConfirmation")
-public abstract class UserForm {
+public class UserForm {
 
     @Email
     @NotBlank
@@ -26,6 +26,9 @@ public abstract class UserForm {
     @NotBlank
     @Size(max = 50)
     private String name;
+
+    @Size(max = 50)
+    private String surname;
 
     private boolean isBand;
 
@@ -69,4 +72,14 @@ public abstract class UserForm {
         this.passwordConfirmation = passwordConfirmation;
     }
 
+    public String getSurname() {
+        if(this.isBand)
+            return null;
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        if(!this.isBand)
+            this.surname = surname;
+    }
 }

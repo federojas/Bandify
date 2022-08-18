@@ -1,6 +1,5 @@
 package ar.edu.itba.paw.service;
 
-import ar.edu.itba.paw.model.Genre;
 import ar.edu.itba.paw.model.Role;
 import ar.edu.itba.paw.model.exceptions.RoleNotFoundException;
 import ar.edu.itba.paw.persistence.RoleDao;
@@ -50,7 +49,7 @@ public class RoleServiceTest {
     @Test
     public void testGetRolesByNames() {
         Set<Role> expected = new HashSet<>(Arrays.asList(GUITARIST, DRUMMER, BASSIST));
-        when(roleDao.getAll()).thenReturn((Set<Role>) new HashSet<>(ROLE_LIST));
+        when(roleDao.getAll()).thenReturn(new HashSet<>(ROLE_LIST));
         when(roleDao.getRolesByNames(Arrays.asList("Guitarist", "Drummer", "Bassist"))).thenReturn(expected);
 
         Set<Role> roles = roleService.getRolesByNames(Arrays.asList("Guitarist", "Drummer", "Bassist"));

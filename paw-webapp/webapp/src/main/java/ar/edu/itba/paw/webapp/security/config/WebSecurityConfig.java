@@ -63,25 +63,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .cacheControl().disable()
                 .and().authorizeRequests()
 
-                // ---------------------- UserController ---------------------------
-                .antMatchers(HttpMethod.POST,
-                        "/users").anonymous()
-                .antMatchers(HttpMethod.GET,
-                        "/users",
-                        "/users/{\\d+}",
-                        "/users/{\\d+}/profile-image",
-                        "/users/{\\d+}/applications",
-                        "/users/{\\d+}/social-media",
-                        "/users/{\\d+}/social-media/{\\d+}").hasAnyRole()
-                .antMatchers(HttpMethod.PUT,
-                        "/users").hasAnyRole()
-                // -------------------------------------------------------------------
-
-
-                // ----------------------- RoleController -----------------------------
-
-
-                // --------------------------------------------------------------------
+//                // ---------------------- UserController ---------------------------
+//                .antMatchers(HttpMethod.POST,
+//                        "/users").anonymous()
+//                .antMatchers(HttpMethod.GET,
+//                        "/users",
+//                        "/users/{\\d+}",
+//                        "/users/{\\d+}/profile-image",
+//                        "/users/{\\d+}/applications",
+//                        "/users/{\\d+}/social-media",
+//                        "/users/{\\d+}/social-media/{\\d+}").hasAnyRole()
+//                .antMatchers(HttpMethod.PUT,
+//                        "/users").hasAnyRole()
+//                // -------------------------------------------------------------------
+//
+//
+//                // ----------------------- RoleController -----------------------------
+//
+//
+//                // --------------------------------------------------------------------
                 .antMatchers("/**").permitAll()
 
 

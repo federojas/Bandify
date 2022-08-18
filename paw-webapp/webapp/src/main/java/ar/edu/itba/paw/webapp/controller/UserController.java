@@ -12,8 +12,8 @@ import ar.edu.itba.paw.webapp.controller.utils.PaginationLinkBuilder;
 import ar.edu.itba.paw.webapp.dto.ApplicationDto;
 import ar.edu.itba.paw.webapp.dto.SocialMediaDto;
 import ar.edu.itba.paw.webapp.dto.UserDto;
-import ar.edu.itba.paw.webapp.form.ArtistEditForm;
-import ar.edu.itba.paw.webapp.form.UserArtistForm;
+import ar.edu.itba.paw.webapp.form.UserEditForm;
+import ar.edu.itba.paw.webapp.form.UserForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import javax.validation.Valid;
@@ -39,12 +39,9 @@ public class UserController {
     @Context
     private UriInfo uriInfo;
 
-
-    // TODO: Rehacer el userform para que sea unico para bandas y artistas
-    // por ahora solo admite artistas para poder probar el post
     @POST
     @Consumes("application/vnd.user.v1+json")
-    public Response createUser(@Valid UserArtistForm form) {
+    public Response createUser(@Valid UserForm form) {
         User.UserBuilder builder = new User.UserBuilder(form.getEmail(), form.getPassword(),
                 form.getName(), form.isBand(), false).surname(form.getSurname());
         final User user = userService.create(builder);
@@ -56,13 +53,16 @@ public class UserController {
     @PUT
     @Path("/{id}")
     @Consumes("application/vnd.user.v1+json")
-    public Response updateUser(@Valid ArtistEditForm form, @PathParam("id") final long id) {
+    public Response updateUser(@Valid UserEditForm form, @PathParam("id") final long id) {
         //TODO SECURITY
         //TODO FORM = NULL EXCEPTION?
         final User user = userService.getUserById(id).orElseThrow(UserNotFoundException::new);
 
         userService.editUser(user.getId(), form.getName(), form.getSurname(), form.getDescription(),
                 form.getMusicGenres(), form.getLookingFor(), form.getProfileImage().getBytes(), form.getLocation());
+        if(!user.isBand()) {
+            userService.setAvailable(form.getAvailable(), user);
+        }
 
         return Response.ok().build();
     }

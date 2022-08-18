@@ -5,16 +5,11 @@ import ar.edu.itba.paw.model.MembershipState;
 import ar.edu.itba.paw.model.Role;
 import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.persistence.MembershipDao;
-import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
 
@@ -28,13 +23,7 @@ public class MembershipServiceTest {
     private final MembershipService membershipService = new MembershipServiceImpl();
 
     @Mock
-    private Membership membership;
-
-    @Mock
     private MembershipDao membershipDao;
-
-    @Mock
-    private ApplicationService applicationService;
 
     @Mock
     private MailingService mailingService;
@@ -49,13 +38,10 @@ public class MembershipServiceTest {
 
     private static final Role role1 = new Role(1L, "role");
     private static final User ARTIST = new User.UserBuilder("artist@mail.com","12345678","name",false,false).surname("surname").description("description").id(1L).build();
-    private static final User ARTIST2 = new User.UserBuilder("artist2@mail.com","12345678","name",false,false).surname("surname").description("description").id(3L).build();
     private static final User BAND = new User.UserBuilder("band@mail.com","12345678", "name", true, false).description("description").id(2L).build();
     private static final User BAND2 = new User.UserBuilder("band2@mail.com","12345678", "name", true, false).description("description").id(4L).build();
-    private static final User BAND3 = new User.UserBuilder("band3@mail.com","12345678", "name", true, false).description("description").id(5L).build();
 
     private static final Membership mem1 = new Membership.Builder(ARTIST, BAND).roles(role1).description("description").state(MembershipState.PENDING).id(1L).build();
-    private static final Membership mem2 = new Membership.Builder(ARTIST2, BAND).roles(role1).description("description").state(MembershipState.ACCEPTED).id(2L).build();
     private static final Membership mem4 = new Membership.Builder(ARTIST, BAND2).roles(role1).description("description").state(MembershipState.PENDING).id(4L).build();
 
     private static final User ARTIST_AVAILABLE = new User.UserBuilder("artist@mail.com","12345678","name",false,false).surname("surname").description("description").id(1L).available(true).build();
