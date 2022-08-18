@@ -16,7 +16,8 @@ import java.util.Collection;
 @Component
 public class BandifyUserDetailsService implements UserDetailsService {
 
-    private final UserService us;
+    @Autowired
+    private UserService us;
 
     @Autowired
     public BandifyUserDetailsService(final UserService us) {

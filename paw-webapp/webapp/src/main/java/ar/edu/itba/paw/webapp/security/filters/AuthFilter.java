@@ -1,13 +1,17 @@
 package ar.edu.itba.paw.webapp.security.filters;
 
-import antlr.StringUtils;
 import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.service.UserService;
+import ar.edu.itba.paw.webapp.security.services.BandifyUserDetailsService;
+import ar.edu.itba.paw.webapp.security.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import javax.servlet.FilterChain;
@@ -21,13 +25,13 @@ import java.util.Base64;
 
 // TODO: chequear si está bien que esto sea un Component
 @Component
-public class JwtFilter extends OncePerRequestFilter {
+public class AuthFilter extends OncePerRequestFilter {
 
-    private final UserService userService;
+    private final AuthenticationManager authenticationManager;
 
     @Autowired
-    public JwtFilter(final UserService userService) {
-        this.userService = userService;
+    public AuthFilter(final AuthenticationManager authenticationManager) {
+        this.authenticationManager = authenticationManager;
     }
 
     @Override
@@ -40,11 +44,13 @@ public class JwtFilter extends OncePerRequestFilter {
         if(receivedHeader == null || receivedHeader.isEmpty() ||
                 !(receivedHeader.startsWith("Bearer") || receivedHeader.startsWith("Basic"))) {
             filterChain.doFilter(httpServletRequest,httpServletResponse);
+            return;
         }
 
         final String payload = receivedHeader.split(" ")[1].trim();
         Authentication auth;
-        if(receivedHeader.startsWith("Basic")){
+
+        if(receivedHeader.startsWith("Basic")) {
             String[] decodedCredentials;
             decodedCredentials = new String(Base64.getDecoder().decode(payload), StandardCharsets.UTF_8).split(":");
             if (decodedCredentials.length != 2) {
@@ -52,22 +58,28 @@ public class JwtFilter extends OncePerRequestFilter {
             }
             final String email = decodedCredentials[0];
             final String password = decodedCredentials[1];
-
-            // TODO: obtener auth manager
-            /*
             auth = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(email, password)
             );
 
-             */
-
-            //final User user = userService.findByEmail(auth.getName()).orElseThrow(UserNotFoundException::new);
-
-            // TODO: agregar tokens
-            //httpServletResponse.addHeader("X-JWT", "untoken");
-            //httpServletResponse.addHeader("X-Refresh-Token", "unrefreshtoken");
+            httpServletResponse.addHeader("X-JWT", JwtUtil.generateToken((UserDetails) auth.getDetails()));
+            // TODO: refresh token
         } else {
-            // TODO: startsWith Bearer
+           UserDetails userDetails = JwtUtil.validateToken(payload);
+           if(userDetails != null)
+               auth = new UsernamePasswordAuthenticationToken(
+                       userDetails.getUsername(),
+                       userDetails.getPassword(),
+                       userDetails.getAuthorities()
+               );
+            // TODO: reintentar con el token de refresh
+            filterChain.doFilter(httpServletRequest,httpServletResponse);
+            return;
+
         }
+        SecurityContextHolder
+                .getContext()
+                .setAuthentication(auth);
+        filterChain.doFilter(httpServletRequest,httpServletResponse);
     }
 }

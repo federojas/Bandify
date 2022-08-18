@@ -1,14 +1,13 @@
 package ar.edu.itba.paw.webapp.security.utils;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+
+import java.util.*;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class JwtUtil {
 
@@ -16,6 +15,24 @@ public class JwtUtil {
     }
 
     private final static String SECRET_KEY = "secret";
+
+    public static UserDetails validateToken(String token) {
+        try {
+            final Claims claims = extractAllClaims(token);
+            final String username = claims.getSubject();
+            final Collection<GrantedAuthority> authorities =
+                    getAuthorities(claims.get("roles", String.class));
+            return new org.springframework.security.core.userdetails.User(username, "", authorities);
+
+        } catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SignatureException | IllegalArgumentException e) {
+            return null;
+        }
+    }
+
+    public static String generateToken(UserDetails userDetails) {
+        Map<String, Object> claims = new HashMap<>();
+        return createToken(claims, userDetails.getUsername());
+    }
 
     public static String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -37,11 +54,6 @@ public class JwtUtil {
         return extractExpiration(token).before(new Date());
     }
 
-    public static String generateToken(UserDetails userDetails) {
-        Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, userDetails.getUsername());
-    }
-
     private static String createToken(Map<String, Object> claims, String subject) {
 
         return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
@@ -49,8 +61,9 @@ public class JwtUtil {
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY).compact();
     }
 
-    public static Boolean validateToken(String token, UserDetails userDetails) {
-        final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+    private static Collection<GrantedAuthority> getAuthorities(String roles) {
+        return Arrays.stream(roles.split(" "))
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
+                .collect(Collectors.toList());
     }
 }

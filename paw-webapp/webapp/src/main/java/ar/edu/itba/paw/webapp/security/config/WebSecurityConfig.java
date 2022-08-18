@@ -1,7 +1,7 @@
 package ar.edu.itba.paw.webapp.security.config;
 
 
-import ar.edu.itba.paw.webapp.security.filters.JwtFilter;
+import ar.edu.itba.paw.webapp.security.filters.AuthFilter;
 import ar.edu.itba.paw.webapp.security.services.BandifyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -29,17 +29,14 @@ import java.util.Collections;
 @Configuration
 @EnableWebSecurity
 @ComponentScan({"ar.edu.itba.paw.webapp.security.services",
-                "ar.edu.itba.paw.webapp.security.filters"} )
+                "ar.edu.itba.paw.webapp.security.filters" } )
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final BandifyUserDetailsService userDetailsService;
-    private final JwtFilter jwtFilter;
     @Autowired
-    public WebSecurityConfig(final BandifyUserDetailsService userDetailsService,
-                             final JwtFilter jwtFilter) {
-        this.userDetailsService = userDetailsService;
-        this.jwtFilter = jwtFilter;
-    }
+    private BandifyUserDetailsService userDetailsService;
+
+    @Autowired
+    private AuthFilter authFilter;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -88,9 +85,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/**").permitAll()
 
 
-                .and().addFilterBefore(jwtFilter,
-                        UsernamePasswordAuthenticationFilter.class)
-                .exceptionHandling();
+                .and().addFilterBefore(authFilter,
+                        UsernamePasswordAuthenticationFilter.class).exceptionHandling();
 //                .authenticationEntryPoint(TODO ENTRY POINT)
 //                .accessDeniedHandler(TODO AUTH DENIED HANDLER);
     }
