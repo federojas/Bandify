@@ -14,7 +14,7 @@ import {
   useColorModeValue,
   Link,
 } from "@chakra-ui/react";
-import AuditionCard from "../components/AuditionCard";
+import AuditionCard from "../components/PostCard/PostCard";
 
 export default function AuditionsPage() {
   return (
