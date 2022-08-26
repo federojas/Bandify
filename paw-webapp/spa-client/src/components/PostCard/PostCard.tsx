@@ -20,7 +20,14 @@ import {
   PostCardButtonContainer,
   PostCardButton,
 } from "./styles";
+
+//i18 translations
+import { useTranslation } from "react-i18next";
+import "../../common/i18n/index";
+
 export default function PostCard() {
+  const { t } = useTranslation();
+
   return (
     <>
       <PostCardMainContainer>
@@ -125,7 +132,7 @@ export default function PostCard() {
             <a href="#">
               <PostCardButton type="button">
                 {/* TODO: SPRING MESSAGE */}
-                Ver más
+                {t("PostCard.postCardButton")}
               </PostCardButton>
             </a>
           </PostCardButtonContainer>

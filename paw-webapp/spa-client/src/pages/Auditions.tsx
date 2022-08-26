@@ -14,23 +14,23 @@ import {
   useColorModeValue,
   Link,
 } from "@chakra-ui/react";
-import AuditionCard from "../components/PostCard/PostCard";
+import PostCard from "../components/PostCard/PostCard";
 
 export default function AuditionsPage() {
   return (
     <>
       <Flex align={"center"} mt={8} direction={"row"}>
         <Box p={6}>
-          <AuditionCard></AuditionCard>
+          <PostCard></PostCard>
         </Box>
         <Box p={6}>
-          <AuditionCard></AuditionCard>
+          <PostCard></PostCard>
         </Box>
         <Box p={6}>
-          <AuditionCard></AuditionCard>
+          <PostCard></PostCard>
         </Box>
         <Box p={6}>
-          <AuditionCard></AuditionCard>
+          <PostCard></PostCard>
         </Box>
       </Flex>
     </>
