@@ -32,7 +32,6 @@ export default function PostCard() {
     <>
       <PostCardMainContainer>
         <PostCardProfile>
-          {/* TODO: ALT MESSAGE */}
           {/* TODO: a href */}
 
           <img
@@ -43,6 +42,7 @@ export default function PostCard() {
               borderRadius: "1000px",
               border: "2px solid black",
             }}
+            alt={t("Profile.alt.img")}
             src="https://cdn-1.motorsport.com/images/amp/6O1P1km2/s1000/jos-verstappen-1.jpg"
           ></img>
           <PostCardBandName>Los totora</PostCardBandName>
@@ -131,7 +131,6 @@ export default function PostCard() {
           <PostCardButtonContainer>
             <a href="#">
               <PostCardButton type="button">
-                {/* TODO: SPRING MESSAGE */}
                 {t("PostCard.postCardButton")}
               </PostCardButton>
             </a>
