@@ -10,5 +10,7 @@ export const TRANSLATIONS_EN = {
   },
   NavBar: {
     title: "navbar",
+    logo: "Bandify logo",
+    bandify: "Bandify",
   },
 };
