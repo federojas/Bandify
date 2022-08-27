@@ -10,7 +10,6 @@ import {
 } from "react-router-dom";
 import Welcome from "./pages/Welcome";
 import customTheme from "./theme/index";
-import NavBar from "./components/NavBar";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import MainLayout from "./components/layouts/MainLayout";

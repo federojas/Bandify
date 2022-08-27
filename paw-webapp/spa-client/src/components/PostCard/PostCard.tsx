@@ -30,6 +30,10 @@ export default function PostCard() {
 
   return (
     <>
+      <head>
+        <title>{t("PostCard.title")}</title>
+      </head>
+      {/* TODO: EL JSP TIENE UN SCRIPT QUE NO SE QUE HACE */}
       <PostCardMainContainer>
         <PostCardProfile>
           {/* TODO: a href */}

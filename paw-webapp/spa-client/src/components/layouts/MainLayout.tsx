@@ -1,11 +1,10 @@
-import NavBar from "../NavBar";
 import Footer from "../Footer";
 import React from "react";
 import { Outlet } from "react-router-dom";
 // @ts-ignore
 import { Box } from "@chakra-ui/react";
 import { ReactNode } from "react";
-
+import NavBar from "../NavBar/NavBar";
 const PageOrganizer = ({ children }: { children: ReactNode }) => {
   return <Box>{children}</Box>;
 };
@@ -17,11 +16,10 @@ const PageContainer = ({ children }: { children: ReactNode }) => {
 function MainLayout() {
   return (
     <PageOrganizer>
-      <NavBar>
-        <PageContainer>
-          <Outlet />
-        </PageContainer>
-      </NavBar>
+      <NavBar></NavBar>
+      <PageContainer>
+        <Outlet />
+      </PageContainer>
 
       <Footer />
     </PageOrganizer>
