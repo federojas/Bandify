@@ -12,5 +12,7 @@ export const TRANSLATIONS_ES = {
     title: "Barra de navegación",
     logo: "Logo de Bandify",
     bandify: "Bandify",
+    auditions: "Audiciones",
+    AboutUs: "Sobre nosotros",
   },
 };

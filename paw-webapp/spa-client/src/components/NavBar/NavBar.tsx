@@ -26,8 +26,8 @@ export default function NavBar() {
           <div style={{ width: "full" }}>
             <NavBarItemList>
               {/* TODO: conditional rendering o states */}
-              <NavBarItem href="/auditions">Audiciones</NavBarItem>
-              <NavBarItem href="/auditions">About us</NavBarItem>
+              <NavBarItem href="/auditions">{t("NavBar.auditions")}</NavBarItem>
+              <NavBarItem href="/auditions">{t("NavBar.AboutUs")}</NavBarItem>
               <NavBarItem href="/auditions">Audiciones</NavBarItem>
             </NavBarItemList>
           </div>

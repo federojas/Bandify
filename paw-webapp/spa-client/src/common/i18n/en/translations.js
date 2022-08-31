@@ -12,5 +12,7 @@ export const TRANSLATIONS_EN = {
     title: "navbar",
     logo: "Bandify logo",
     bandify: "Bandify",
+    auditions: "Auditions",
+    AboutUs: "About us",
   },
 };

@@ -35,22 +35,23 @@ export default function PostCard() {
       </head>
       {/* TODO: EL JSP TIENE UN SCRIPT QUE NO SE QUE HACE */}
       <PostCardMainContainer>
-        <PostCardProfile>
-          {/* TODO: a href */}
-
-          <img
-            style={{
-              width: "50px",
-              height: "50px",
-              objectFit: "cover",
-              borderRadius: "1000px",
-              border: "2px solid black",
-            }}
-            alt={t("Profile.alt.img")}
-            src="https://cdn-1.motorsport.com/images/amp/6O1P1km2/s1000/jos-verstappen-1.jpg"
-          ></img>
-          <PostCardBandName>Los totora</PostCardBandName>
-        </PostCardProfile>
+        {/* TODO: a href */}
+        <a href="#">
+          <PostCardProfile>
+            <img
+              style={{
+                width: "50px",
+                height: "50px",
+                objectFit: "cover",
+                borderRadius: "1000px",
+                border: "2px solid black",
+              }}
+              alt={t("Profile.alt.img")}
+              src="https://cdn-1.motorsport.com/images/amp/6O1P1km2/s1000/jos-verstappen-1.jpg"
+            ></img>
+            <PostCardBandName>Los totora</PostCardBandName>
+          </PostCardProfile>
+        </a>
 
         {/* --------------- postcard title -------------  */}
         <div style={{ marginLeft: "20px" }}>
