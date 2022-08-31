@@ -14,5 +14,6 @@ export const TRANSLATIONS_ES = {
     bandify: "Bandify",
     auditions: "Audiciones",
     AboutUs: "Sobre nosotros",
+    Profile: "Perfil",
   },
 };

@@ -1,6 +1,8 @@
 //i18 translations
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+
 import "../../common/i18n/index";
 import {
   NavBarContainer,
@@ -13,6 +15,10 @@ import {
 export default function NavBar() {
   const { t } = useTranslation();
   const [isLogged, setIsLogged] = useState<boolean>(false);
+  const sections = [
+    { path: "/auditions", name: t("NavBar.auditions") },
+    // TODO: PONER BIEN LOS LINKS DESPUES
+  ];
 
   function login() {
     setIsLogged(!isLogged);
@@ -34,11 +40,18 @@ export default function NavBar() {
           </NavBarLogoSection>
           <div style={{ width: "full" }}>
             <NavBarItemList>
-              {/* TODO: conditional rendering o states */}
-              <NavBarItem href="/auditions">{t("NavBar.auditions")}</NavBarItem>
-              <NavBarItem href="/auditions">{t("NavBar.AboutUs")}</NavBarItem>
-              <NavBarItem href="/auditions">Audiciones</NavBarItem>
-              {isLogged && <NavBarItem href="/#">Perfil</NavBarItem>}
+              {sections.map((section) => (
+                <NavBarItem key={section.path}>
+                  <Link to={section.path}>{section.name}</Link>
+                </NavBarItem>
+              ))}
+              <NavBarItem>
+                {isLogged ? (
+                  <Link to="/welcome">{t("NavBar.Profile")}</Link>
+                ) : (
+                  <button>logeate papa</button>
+                )}
+              </NavBarItem>
             </NavBarItemList>
           </div>
         </NavBarContainer>

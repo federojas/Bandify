@@ -60,7 +60,7 @@ export const NavBarItemList = styled.ul`
   }
 `;
 
-export const NavBarItem = styled.a`
+export const NavBarItem = styled.li`
   margin: 2rem;
   font-size: 23px;
   color: white;
