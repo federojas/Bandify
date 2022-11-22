@@ -251,6 +251,30 @@ public class UserServiceImpl implements UserService {
         return userDao.getTotalPages(filter);
     }
 
+    @Transactional
+    @Override
+    public VerificationToken refreshAuthToken(String email) {
+        User user = userDao.findByEmail(email).orElseThrow(UserNotFoundException::new);
+
+        final Optional<VerificationToken> refreshTokenOpt = verificationTokenService.getRefreshToken(user);
+
+        if (refreshTokenOpt.isPresent()) {
+            VerificationToken refreshToken = refreshTokenOpt.get();
+            if (!refreshToken.isValid()) {
+                refreshToken.refresh();
+            }
+            return refreshToken;
+        }
+
+        return verificationTokenService.generate(user, TokenType.REFRESH);
+    }
+
+    @Transactional
+    @Override
+    public Optional<User> getUserByRefreshToken(String payload) {
+        return verificationTokenService.getToken(payload).filter(VerificationToken::isValid).map(VerificationToken::getUser);
+    }
+
     private void checkPage(int page, int lastPage) {
         if(page <= 0)
             throw new IllegalArgumentException();

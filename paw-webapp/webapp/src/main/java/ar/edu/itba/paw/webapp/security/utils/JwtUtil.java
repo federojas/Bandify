@@ -1,18 +1,33 @@
 package ar.edu.itba.paw.webapp.security.utils;
 
+import ar.edu.itba.paw.model.User;
 import io.jsonwebtoken.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+
+@PropertySource(value= {"classpath:application.properties"})
 public class JwtUtil {
+
+    private static final int REFRESH_RATE_MILLIS = 20 * 1000 * 60;
+    public static final String JWT_RESPONSE = "X-JWT";
+    public static final String JWT_REFRESH_RESPONSE = "X-Refresh-Token";
 
     private JwtUtil() {
     }
+
+    @Autowired
+    private static Environment environment;
 
     private final static String SECRET_KEY = "secret";
 
@@ -29,9 +44,27 @@ public class JwtUtil {
         }
     }
 
-    public static String generateToken(UserDetails userDetails) {
+    public static String generateToken(User user) throws MalformedURLException {
         Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, userDetails.getUsername());
+        if(user.isBand())
+            claims.put("roles", "BAND");
+        else
+            claims.put("roles", "ARTIST");
+        claims.put("userUrl", /*getAppBaseUrl() + TODO NO ANDA NO SE PORQUE */ "api/users/" + user.getId());
+        return "Bearer " + Jwts.builder()
+                .setClaims(claims)
+                .setSubject(user.getEmail())
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + REFRESH_RATE_MILLIS))
+                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+                .compact();
+    }
+
+    private static URL getAppBaseUrl() throws MalformedURLException {
+        return new URL(environment.getRequiredProperty("app.protocol"),
+                environment.getRequiredProperty("app.base.url"),
+                Integer.parseInt(environment.getRequiredProperty("app.port")),
+                environment.getRequiredProperty("app.group.directory"));
     }
 
     public static String extractUsername(String token) {
@@ -52,13 +85,6 @@ public class JwtUtil {
 
     private static Boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
-    }
-
-    private static String createToken(Map<String, Object> claims, String subject) {
-
-        return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY).compact();
     }
 
     private static Collection<GrantedAuthority> getAuthorities(String roles) {

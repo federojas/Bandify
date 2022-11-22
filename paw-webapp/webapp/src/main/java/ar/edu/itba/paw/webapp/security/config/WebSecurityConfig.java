@@ -82,11 +82,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //
 //
 //                // --------------------------------------------------------------------
-                .antMatchers("/**").permitAll()
+                .antMatchers("/**").authenticated()
 
 
                 .and().addFilterBefore(authFilter,
-                        UsernamePasswordAuthenticationFilter.class).exceptionHandling();
+                        UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling();
 //                .authenticationEntryPoint(TODO ENTRY POINT)
 //                .accessDeniedHandler(TODO AUTH DENIED HANDLER);
     }

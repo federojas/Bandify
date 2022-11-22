@@ -53,4 +53,8 @@ public interface UserService {
     List<User> filter(FilterOptions filter, int page);
 
     int getFilterTotalPages(FilterOptions filter);
+
+    VerificationToken refreshAuthToken(String email);
+
+    Optional<User> getUserByRefreshToken(String payload);
 }
