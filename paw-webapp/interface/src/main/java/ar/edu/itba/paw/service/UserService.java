@@ -54,7 +54,7 @@ public interface UserService {
 
     int getFilterTotalPages(FilterOptions filter);
 
-    VerificationToken refreshAuthToken(String email);
+    VerificationToken getAuthRefreshToken(String email);
 
     Optional<User> getUserByRefreshToken(String payload);
 }

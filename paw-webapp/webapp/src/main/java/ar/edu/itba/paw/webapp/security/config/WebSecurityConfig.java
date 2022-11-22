@@ -1,7 +1,9 @@
 package ar.edu.itba.paw.webapp.security.config;
 
 
+import ar.edu.itba.paw.webapp.security.BandifyAuthenticationEntryPoint;
 import ar.edu.itba.paw.webapp.security.filters.AuthFilter;
+import ar.edu.itba.paw.webapp.security.hanlders.BandifyAccessDeniedHandler;
 import ar.edu.itba.paw.webapp.security.services.BandifyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -17,6 +19,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -38,6 +41,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private AuthFilter authFilter;
 
+    @Autowired
+    private BandifyAuthenticationEntryPoint authenticationEntryPoint;
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -51,6 +57,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+    }
+
+    @Bean
+    public AccessDeniedHandler accessDeniedHandler() {
+        return new BandifyAccessDeniedHandler();
     }
 
     @Override
@@ -87,11 +98,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and().addFilterBefore(authFilter,
                         UsernamePasswordAuthenticationFilter.class)
-                .exceptionHandling();
-//                .authenticationEntryPoint(TODO ENTRY POINT)
-//                .accessDeniedHandler(TODO AUTH DENIED HANDLER);
+                .exceptionHandling()
+                    .authenticationEntryPoint(authenticationEntryPoint) //TODO CHECK, COMPONENT?
+                    .accessDeniedHandler(accessDeniedHandler()); //TODO CHECK
     }
-
 
 
 

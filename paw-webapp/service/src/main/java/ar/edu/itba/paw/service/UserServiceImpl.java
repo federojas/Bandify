@@ -253,17 +253,17 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public VerificationToken refreshAuthToken(String email) {
+    public VerificationToken getAuthRefreshToken(String email) {
         User user = userDao.findByEmail(email).orElseThrow(UserNotFoundException::new);
 
         final Optional<VerificationToken> refreshTokenOpt = verificationTokenService.getRefreshToken(user);
 
         if (refreshTokenOpt.isPresent()) {
             VerificationToken refreshToken = refreshTokenOpt.get();
-            if (!refreshToken.isValid()) {
-                refreshToken.refresh();
-            }
-            return refreshToken;
+            if (refreshToken.isValid())
+                return refreshToken;
+            else
+                verificationTokenService.deleteTokenByUserId(user.getId(), TokenType.REFRESH);
         }
 
         return verificationTokenService.generate(user, TokenType.REFRESH);

@@ -90,7 +90,7 @@ public class AuthFilter extends OncePerRequestFilter {
 
         //TODO CHECK EL PRIMER HEADER
         httpServletResponse.addHeader(JwtUtil.JWT_RESPONSE, JwtUtil.generateToken(user));
-        httpServletResponse.addHeader(JwtUtil.JWT_REFRESH_RESPONSE, userService.refreshAuthToken(user.getEmail()).getToken());
+        httpServletResponse.addHeader(JwtUtil.JWT_REFRESH_RESPONSE, userService.getAuthRefreshToken(user.getEmail()).getToken());
 
         // TODO: CHECK REFRESH HEADER
 

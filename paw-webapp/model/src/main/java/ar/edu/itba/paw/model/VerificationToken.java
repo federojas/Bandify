@@ -10,7 +10,6 @@ import java.util.UUID;
 public class VerificationToken {
 
     private static final int EXPIRATION_DAYS = 1;
-    private static final int REFRESH_RATE_MINUTES = 20;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "verificationtokens_tokenid_seq")
@@ -44,11 +43,6 @@ public class VerificationToken {
 
     public static LocalDateTime getNewExpiryDate() {
         return LocalDateTime.now().plusDays(EXPIRATION_DAYS);
-    }
-
-    public void refresh() {
-        this.token = UUID.randomUUID().toString();
-        this.expiryDate = LocalDateTime.now().plusMinutes(REFRESH_RATE_MINUTES);
     }
 
     public boolean isValid() {
