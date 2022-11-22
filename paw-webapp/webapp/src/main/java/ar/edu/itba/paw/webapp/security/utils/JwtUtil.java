@@ -51,7 +51,7 @@ public class JwtUtil {
         else
             claims.put("roles", "ARTIST");
         claims.put("userUrl", /*getAppBaseUrl() + TODO NO ANDA NO SE PORQUE */ "api/users/" + user.getId());
-        return "Bearer " + Jwts.builder()
+        return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(user.getEmail())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
