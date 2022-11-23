@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -41,9 +40,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private AuthFilter authFilter;
 
-    @Autowired
-    private BandifyAuthenticationEntryPoint authenticationEntryPoint;
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -62,6 +58,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public AccessDeniedHandler accessDeniedHandler() {
         return new BandifyAccessDeniedHandler();
+    }
+
+    @Bean
+    public BandifyAuthenticationEntryPoint authenticationEntryPoint() {
+        return new BandifyAuthenticationEntryPoint();
     }
 
     @Override
@@ -99,14 +100,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().addFilterBefore(authFilter,
                         UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling()
-                    .authenticationEntryPoint(authenticationEntryPoint) //TODO CHECK, COMPONENT?
+                    .authenticationEntryPoint(authenticationEntryPoint()) //TODO CHECK, COMPONENT?
                     .accessDeniedHandler(accessDeniedHandler()); //TODO CHECK
     }
 
 
 
     @Override
-    public void configure(final WebSecurity web) throws Exception {
+    public void configure(final WebSecurity web) {
         web.ignoring().antMatchers( "/css/**", "/js/**", "/images/**", "/icons/**");
     }
 
@@ -120,6 +121,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         cors.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
         cors.setExposedHeaders(Arrays.asList("x-auth-token", "authorization", "X-Total-Pages",
                 "Content-Disposition"));
+        //TODO ESTO EN PRODUCCION VUELA !!!!!!!!!!!!!!!!!!!!!!!!
         //cors.addAllowedOrigin("http://localhost:9000/");
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", cors);

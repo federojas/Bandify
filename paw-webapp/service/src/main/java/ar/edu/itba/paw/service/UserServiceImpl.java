@@ -271,8 +271,16 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public Optional<User> getUserByRefreshToken(String payload) {
-        return verificationTokenService.getToken(payload).filter(VerificationToken::isValid).map(VerificationToken::getUser);
+    public User getUserByRefreshToken(String payload) {
+        Optional<VerificationToken> token = verificationTokenService.getToken(payload);
+        if(token.isPresent() ) {
+            if(!token.get().isValid()) {
+                verificationTokenService.deleteTokenByUserId(token.get().getUser().getId(), TokenType.REFRESH);
+                return null;
+            }
+            return token.get().getUser();
+        }
+        return null;
     }
 
     private void checkPage(int page, int lastPage) {

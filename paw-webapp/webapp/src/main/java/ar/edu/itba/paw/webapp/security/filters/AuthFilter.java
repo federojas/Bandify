@@ -108,13 +108,11 @@ public class AuthFilter extends OncePerRequestFilter {
                     userDetails.getAuthorities()
             );
 
-        final Optional<User> userOpt = userService.getUserByRefreshToken(payload);
+        final User user = userService.getUserByRefreshToken(payload);
 
-        if (!userOpt.isPresent()) {
+        if (user == null) {
             throw new AuthenticationCredentialsNotFoundException("Invalid refresh token.");
         }
-
-        final User user = userOpt.get();
 
         httpServletResponse.addHeader(JwtUtil.JWT_RESPONSE, JwtUtil.generateToken(user));
 

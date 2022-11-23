@@ -56,5 +56,6 @@ public interface UserService {
 
     VerificationToken getAuthRefreshToken(String email);
 
-    Optional<User> getUserByRefreshToken(String payload);
+    User getUserByRefreshToken(String payload);
+
 }
