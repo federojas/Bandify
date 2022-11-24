@@ -9,7 +9,6 @@ import {
   Navigate,
 } from "react-router-dom";
 import Welcome from "./pages/Welcome";
-import customTheme from "./theme/index";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import MainLayout from "./components/layouts/MainLayout";
@@ -17,7 +16,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import AuditionsPage from "./pages/Auditions";
 function App() {
   return (
-    <ChakraProvider theme={customTheme}>
+    <ChakraProvider>
       {/* <NavBar /> */}
 
       <Router basename={process.env.PUBLIC_URL}>
