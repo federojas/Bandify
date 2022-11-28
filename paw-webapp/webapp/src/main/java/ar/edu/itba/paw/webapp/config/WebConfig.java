@@ -146,11 +146,18 @@ public class WebConfig {
         return factoryBean;
     }
 
+    //TODO revisar esto vs clase Settings
     @Bean(name = "appUrl")
     public URL getAppBaseUrl() throws MalformedURLException {
         return new URL(environment.getRequiredProperty("app.protocol"),
                 environment.getRequiredProperty("app.base.url"),
                 Integer.parseInt(environment.getRequiredProperty("app.port")),
                 environment.getRequiredProperty("app.group.directory"));
+    }
+
+    //TODO revisar esto vs clase Settings
+    @Bean(name = "secretJWT")
+    public String getAppJWTSecret() {
+        return environment.getRequiredProperty("app.JWT.secret");
     }
 }
