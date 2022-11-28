@@ -1,7 +1,6 @@
 import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
-import { ChakraProvider } from "@chakra-ui/react";
 import {
   BrowserRouter as Router,
   Route,
@@ -13,7 +12,7 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import MainLayout from "./components/layouts";
 import ForgotPassword from "./pages/ForgotPassword";
-import AuditionsPage from "./pages/Auditions";
+import AuditionsPage from "./pages/Auditions/Auditions";
 function App() {
   return (
 
@@ -27,10 +26,10 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<SignIn />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-        {/* <Route path="/" element={<MainLayout />}>
+        <Route path="/" element={<MainLayout />}>
           <Route index element={<Navigate to={"/auditions"} />} />
           <Route path="auditions" element={<AuditionsPage />} />
-        </Route> */}
+        </Route>
         {/* <Route path="/auditions" element={<AuditionsPage></AuditionsPage>} /> */}
       </Routes>
     </Router>

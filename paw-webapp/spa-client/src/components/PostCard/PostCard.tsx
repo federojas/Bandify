@@ -1,16 +1,4 @@
 import {
-  Heading,
-  Avatar,
-  Box,
-  Center,
-  Text,
-  Stack,
-  Button,
-  Link,
-  Badge,
-  useColorModeValue,
-} from "@chakra-ui/react";
-import {
   PostCardMainContainer,
   PostCardProfile,
   PostCardBandName,
