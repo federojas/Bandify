@@ -1,7 +1,7 @@
 import Footer from "../Footer";
 import React from "react";
 import { Outlet } from "react-router-dom";
-import NavBar from "../NavBar/NavBar";
+import NavBar from "../NavBar";
 import { PageOrganizer, PageContainer } from "./styles";
 
 function MainLayout() {

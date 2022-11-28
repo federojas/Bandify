@@ -1,5 +1,13 @@
 import styled from "styled-components";
 
+export const Nav = styled.nav`
+  background-color: #1c041c !important;
+    padding-bottom: 10px !important;
+    display: flex !important;
+    align-items: center !important;
+    height: 80px !important;
+`;
+
 export const NavBarContainer = styled.div`
   width: 100%;
   background-color: #1c041c !important;
@@ -12,22 +20,6 @@ export const NavBarContainer = styled.div`
   padding: 0 !important;
   padding-top: 10px !important;
 
-  //   @media (min-width: 640px) {
-  //     max-width: 640px;
-  //   }
-  //   @media (min-width: 768px) {
-  //     max-width: 768px;
-  //   }
-  //   @media (min-width: 1024px) {
-  //     max-width: 1024px;
-  //   }
-  //   @media (min-width: 1280px) {
-  //     max-width: 1280px;
-  //   }
-  //   @media (min-width: 1536px) {
-  //     max-width: 1536px;
-  //   }
-  //     TODO: ESTO NO FUNCA BIEN
 `;
 export const NavBarLogoSection = styled.a`
   display: flex;
@@ -64,4 +56,10 @@ export const NavBarItem = styled.li`
   margin: 2rem;
   font-size: 23px;
   color: white;
+`;
+
+export const BandifyLogoImg = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 `;
