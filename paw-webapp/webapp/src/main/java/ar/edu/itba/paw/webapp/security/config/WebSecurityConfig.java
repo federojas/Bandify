@@ -1,9 +1,9 @@
 package ar.edu.itba.paw.webapp.security.config;
 
 
-import ar.edu.itba.paw.webapp.security.BandifyAuthenticationEntryPoint;
+import ar.edu.itba.paw.webapp.security.handlers.BandifyAuthenticationEntryPoint;
 import ar.edu.itba.paw.webapp.security.filters.AuthFilter;
-import ar.edu.itba.paw.webapp.security.hanlders.BandifyAccessDeniedHandler;
+import ar.edu.itba.paw.webapp.security.handlers.BandifyAccessDeniedHandler;
 import ar.edu.itba.paw.webapp.security.services.BandifyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -100,8 +100,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().addFilterBefore(authFilter,
                         UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling()
-                    .authenticationEntryPoint(authenticationEntryPoint()) //TODO CHECK, COMPONENT?
-                    .accessDeniedHandler(accessDeniedHandler()); //TODO CHECK
+                    .authenticationEntryPoint(authenticationEntryPoint())
+                    .accessDeniedHandler(accessDeniedHandler());
     }
 
 

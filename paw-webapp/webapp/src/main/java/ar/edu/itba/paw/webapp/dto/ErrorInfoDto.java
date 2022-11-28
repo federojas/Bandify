@@ -1,6 +1,11 @@
 package ar.edu.itba.paw.webapp.dto;
 
-public class ErrorInfoDto {
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+import java.io.Serializable;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class ErrorInfoDto implements Serializable {
 
     private Integer status;
     private String title;

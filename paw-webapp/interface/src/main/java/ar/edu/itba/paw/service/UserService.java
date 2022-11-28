@@ -12,6 +12,8 @@ public interface UserService {
 
     User getArtistById(long id);
 
+    User getBandById(long id);
+
     User create(User.UserBuilder userBuilder);
 
     Optional<User> findByEmail(String email);

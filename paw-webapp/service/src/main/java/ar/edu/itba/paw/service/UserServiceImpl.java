@@ -53,11 +53,20 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getArtistById(long id) {
-        Optional<User> artist = getUserById(id);
-        if(!artist.isPresent() || artist.get().isBand())
+        User artist = getUserById(id).orElseThrow(UserNotFoundException::new);
+        if(artist.isBand())
             throw new UserNotFoundException("User is a band");
         else
-            return artist.get();
+            return artist;
+    }
+
+    @Override
+    public User getBandById(long id) {
+        User band = getUserById(id).orElseThrow(UserNotFoundException::new);
+        if(!band.isBand())
+            throw new UserNotFoundException("User is an artist");
+        else
+            return band;
     }
 
     @Transactional
@@ -259,11 +268,7 @@ public class UserServiceImpl implements UserService {
         final Optional<VerificationToken> refreshTokenOpt = verificationTokenService.getRefreshToken(user);
 
         if (refreshTokenOpt.isPresent()) {
-            VerificationToken refreshToken = refreshTokenOpt.get();
-            if (refreshToken.isValid())
-                return refreshToken;
-            else
-                verificationTokenService.deleteTokenByUserId(user.getId(), TokenType.REFRESH);
+            verificationTokenService.deleteTokenByUserId(user.getId(), TokenType.REFRESH);
         }
 
         return verificationTokenService.generate(user, TokenType.REFRESH);

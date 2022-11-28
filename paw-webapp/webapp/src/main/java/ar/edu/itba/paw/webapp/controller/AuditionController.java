@@ -1,9 +1,7 @@
 package ar.edu.itba.paw.webapp.controller;
 
+import ar.edu.itba.paw.model.*;
 import ar.edu.itba.paw.model.Application;
-import ar.edu.itba.paw.model.ApplicationState;
-import ar.edu.itba.paw.model.Audition;
-import ar.edu.itba.paw.model.FilterOptions;
 import ar.edu.itba.paw.model.exceptions.ApplicationNotFoundException;
 import ar.edu.itba.paw.model.exceptions.LocationNotFoundException;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
@@ -67,22 +65,32 @@ public class AuditionController {
                                  @QueryParam("query") @DefaultValue("") final String query,
                                  @QueryParam("genre") final List<String> genres,
                                  @QueryParam("role") final List<String> roles,
-                                 @QueryParam("location")  final List<String> locations) {
-
-        FilterOptions filter = new FilterOptions.FilterOptionsBuilder().
-                withGenres(genres)
-                .withRoles(roles)
-                .withLocations(locations)
-                .withTitle(query).build();
-        List<AuditionDto> auditionDtos = auditionService.filter(filter,page).stream()
-                .map(audition -> AuditionDto.fromAudition(uriInfo,audition))
-                .collect(Collectors.toList());
+                                 @QueryParam("location")  final List<String> locations,
+                                 @QueryParam("bandId") final Long bandId) {
+        List<AuditionDto> auditionDtos;
+        int lastPage;
+        if(bandId != null) {
+            User band = userService.getBandById(bandId);
+            auditionDtos = auditionService.getBandAuditions(band, page).stream()
+                    .map(audition -> AuditionDto.fromAudition(uriInfo,audition))
+                    .collect(Collectors.toList());
+            lastPage = auditionService.getTotalBandAuditionPages(band);
+        } else {
+            FilterOptions filter = new FilterOptions.FilterOptionsBuilder().
+                    withGenres(genres)
+                    .withRoles(roles)
+                    .withLocations(locations)
+                    .withTitle(query).build();
+            auditionDtos = auditionService.filter(filter,page).stream()
+                    .map(audition -> AuditionDto.fromAudition(uriInfo,audition))
+                    .collect(Collectors.toList());
+            lastPage = auditionService.getFilterTotalPages(filter);
+        }
 
         if(auditionDtos.isEmpty())
             return Response.noContent().build();
 
         Response.ResponseBuilder responseBuilder = Response.ok(new GenericEntity<List<AuditionDto>>(auditionDtos){});
-        int lastPage = auditionService.getFilterTotalPages(filter);
         PaginationLinkBuilder.getResponsePaginationLinks(responseBuilder, uriInfo, page, lastPage);
         return responseBuilder.build();
 

@@ -3,9 +3,7 @@ package ar.edu.itba.paw.webapp.security.filters;
 import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.service.UserService;
-import ar.edu.itba.paw.webapp.security.exceptions.BadRequestException;
-import ar.edu.itba.paw.webapp.security.exceptions.ExpiredJWTException;
-import ar.edu.itba.paw.webapp.security.exceptions.InvalidSignatureException;
+import ar.edu.itba.paw.webapp.security.exceptions.UnauthorizedException;
 import ar.edu.itba.paw.webapp.security.utils.JwtUtil;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
@@ -112,14 +110,16 @@ public class AuthFilter extends OncePerRequestFilter {
         UserDetails userDetails;
         try {
             userDetails = JwtUtil.validateToken(payload);
-        } catch(UnsupportedJwtException | MalformedJwtException | IllegalArgumentException e) {
+        } catch(MalformedJwtException  e) {
+
             final User user = userService.getUserByRefreshToken(payload);
 
-            if (user == null) { //TODO tirar otra excepcion? CHEQUEAR SI PROBAMOS REFRESH CATCHEANDO ESTAS
-                throw new AuthenticationCredentialsNotFoundException("Invalid refresh token.");
+            if (user == null) {
+                throw new AuthenticationCredentialsNotFoundException("Invalid JWT or refresh token.");
             }
 
             httpServletResponse.addHeader(JwtUtil.JWT_RESPONSE, JwtUtil.generateToken(user, appUrl));
+            httpServletResponse.addHeader(JwtUtil.JWT_REFRESH_RESPONSE, userService.getAuthRefreshToken(user.getEmail()).getToken());
 
             final Collection<GrantedAuthority> authorities = new ArrayList<>();
             if (user.isBand())
@@ -129,12 +129,10 @@ public class AuthFilter extends OncePerRequestFilter {
 
             return new UsernamePasswordAuthenticationToken
                     (user.getEmail(), user.getPassword(), authorities);
+        } catch (ExpiredJwtException | UnsupportedJwtException | SignatureException | IllegalArgumentException e) {
+            throw new UnauthorizedException(e.getMessage(), e); //TODO COMO AGARRAMOS
         }
-        catch(SignatureException e) {
-            throw new InvalidSignatureException(e.getMessage());
-        } catch(ExpiredJwtException e) {
-            throw new ExpiredJWTException(e.getMessage());
-        }
+
         return new UsernamePasswordAuthenticationToken(
                 userDetails.getUsername(),
                 userDetails.getPassword(),
