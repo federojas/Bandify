@@ -19,3 +19,15 @@ export const HeroTitle = styled.div`
     color: #efefef;
     width: 50%;    
 `
+
+export const Slogan1 = styled.span`
+font-weight: 700;
+    font-size: 2.5rem;
+    line-height: 2.75rem;
+    `;
+
+export const Slogan2 = styled.p`
+    font-size: 1.5rem;
+    line-height: 1.75rem;
+    margin-top: 1rem;
+`;

@@ -1,4 +1,4 @@
-import { HeroContainer, HeroTitle } from "./styles";
+import { HeroContainer, HeroTitle, Slogan1, Slogan2 } from "./styles";
 
 function Home() {
   return (
@@ -7,8 +7,8 @@ function Home() {
       <HeroContainer>
         {/* Hero text */}
         <HeroTitle>
-          <span>Connect with nearby bands and artists</span>
-          <p>Join bands... or create your own!</p>
+          <Slogan1>Connect with nearby bands and artists</Slogan1>
+          <Slogan2>Join bands... or create your own!</Slogan2>
         </HeroTitle>
       </HeroContainer>
     </div>
