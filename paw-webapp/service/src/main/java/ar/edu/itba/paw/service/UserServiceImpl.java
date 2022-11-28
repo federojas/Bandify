@@ -273,7 +273,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserByRefreshToken(String payload) {
         Optional<VerificationToken> token = verificationTokenService.getToken(payload);
-        if(token.isPresent() ) {
+        if(token.isPresent()) {
             if(!token.get().isValid()) {
                 verificationTokenService.deleteTokenByUserId(token.get().getUser().getId(), TokenType.REFRESH);
                 return null;

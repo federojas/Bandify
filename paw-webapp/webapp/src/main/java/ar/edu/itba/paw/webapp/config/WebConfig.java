@@ -24,6 +24,8 @@ import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
@@ -33,7 +35,6 @@ import java.util.Properties;
 @EnableAsync
 @PropertySource(value= {"classpath:application.properties"})
 public class WebConfig {
-
 
     private static final boolean DEPLOY = false;
 
@@ -143,5 +144,13 @@ public class WebConfig {
         }
         factoryBean.setJpaProperties(properties);
         return factoryBean;
+    }
+
+    @Bean(name = "appUrl")
+    public URL getAppBaseUrl() throws MalformedURLException {
+        return new URL(environment.getRequiredProperty("app.protocol"),
+                environment.getRequiredProperty("app.base.url"),
+                Integer.parseInt(environment.getRequiredProperty("app.port")),
+                environment.getRequiredProperty("app.group.directory"));
     }
 }

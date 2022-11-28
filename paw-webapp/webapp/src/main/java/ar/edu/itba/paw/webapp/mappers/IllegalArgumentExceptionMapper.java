@@ -1,7 +1,5 @@
 package ar.edu.itba.paw.webapp.mappers;
 
-import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
-
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;

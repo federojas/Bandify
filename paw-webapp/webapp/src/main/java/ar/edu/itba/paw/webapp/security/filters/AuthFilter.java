@@ -3,7 +3,14 @@ package ar.edu.itba.paw.webapp.security.filters;
 import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.service.UserService;
+import ar.edu.itba.paw.webapp.security.exceptions.BadRequestException;
+import ar.edu.itba.paw.webapp.security.exceptions.ExpiredJWTException;
+import ar.edu.itba.paw.webapp.security.exceptions.InvalidSignatureException;
 import ar.edu.itba.paw.webapp.security.utils.JwtUtil;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,12 +29,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.HttpHeaders;
 import java.io.IOException;
-import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collection;
-import java.util.Optional;
 
 // TODO: chequear si está bien que esto sea un Component
 @Component
@@ -37,6 +43,9 @@ public class AuthFilter extends OncePerRequestFilter {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private URL appUrl;
 
     @Autowired
     public AuthFilter(final AuthenticationManager authenticationManager) {
@@ -73,7 +82,7 @@ public class AuthFilter extends OncePerRequestFilter {
     }
 
     private Authentication useBasicAuthentication(String payload,
-                                                  HttpServletResponse httpServletResponse) throws AuthenticationException, MalformedURLException {
+                                                  HttpServletResponse httpServletResponse) throws AuthenticationException {
         String[] decodedCredentials;
         decodedCredentials = new String(Base64.getDecoder().decode(payload), StandardCharsets.UTF_8).split(":");
         if (decodedCredentials.length != 2) {
@@ -89,7 +98,7 @@ public class AuthFilter extends OncePerRequestFilter {
         final User user = userService.findByEmail(auth.getName()).orElseThrow(UserNotFoundException::new);
 
         //TODO CHECK EL PRIMER HEADER
-        httpServletResponse.addHeader(JwtUtil.JWT_RESPONSE, JwtUtil.generateToken(user));
+        httpServletResponse.addHeader(JwtUtil.JWT_RESPONSE, JwtUtil.generateToken(user, appUrl));
         httpServletResponse.addHeader(JwtUtil.JWT_REFRESH_RESPONSE, userService.getAuthRefreshToken(user.getEmail()).getToken());
 
         // TODO: CHECK REFRESH HEADER
@@ -98,31 +107,38 @@ public class AuthFilter extends OncePerRequestFilter {
     }
 
     private Authentication useBearerAuthentication(final String payload,
-                                                   final HttpServletResponse httpServletResponse) throws AuthenticationException, MalformedURLException {
+                                                   final HttpServletResponse httpServletResponse) throws AuthenticationException {
 
-        UserDetails userDetails = JwtUtil.validateToken(payload);
-        if(userDetails != null)
-            return new UsernamePasswordAuthenticationToken(
-                    userDetails.getUsername(),
-                    userDetails.getPassword(),
-                    userDetails.getAuthorities()
-            );
+        UserDetails userDetails;
+        try {
+            userDetails = JwtUtil.validateToken(payload);
+        } catch(UnsupportedJwtException | MalformedJwtException | IllegalArgumentException e) {
+            final User user = userService.getUserByRefreshToken(payload);
 
-        final User user = userService.getUserByRefreshToken(payload);
+            if (user == null) { //TODO tirar otra excepcion? CHEQUEAR SI PROBAMOS REFRESH CATCHEANDO ESTAS
+                throw new AuthenticationCredentialsNotFoundException("Invalid refresh token.");
+            }
 
-        if (user == null) {
-            throw new AuthenticationCredentialsNotFoundException("Invalid refresh token.");
+            httpServletResponse.addHeader(JwtUtil.JWT_RESPONSE, JwtUtil.generateToken(user, appUrl));
+
+            final Collection<GrantedAuthority> authorities = new ArrayList<>();
+            if (user.isBand())
+                authorities.add(new SimpleGrantedAuthority("ROLE_BAND"));
+            else
+                authorities.add(new SimpleGrantedAuthority("ROLE_ARTIST"));
+
+            return new UsernamePasswordAuthenticationToken
+                    (user.getEmail(), user.getPassword(), authorities);
         }
-
-        httpServletResponse.addHeader(JwtUtil.JWT_RESPONSE, JwtUtil.generateToken(user));
-
-        final Collection<GrantedAuthority> authorities = new ArrayList<>();
-        if(user.isBand())
-            authorities.add(new SimpleGrantedAuthority("ROLE_BAND"));
-        else
-            authorities.add(new SimpleGrantedAuthority("ROLE_ARTIST"));
-
-        return new UsernamePasswordAuthenticationToken
-                (user.getEmail(), user.getPassword(), authorities);
+        catch(SignatureException e) {
+            throw new InvalidSignatureException(e.getMessage());
+        } catch(ExpiredJwtException e) {
+            throw new ExpiredJWTException(e.getMessage());
+        }
+        return new UsernamePasswordAuthenticationToken(
+                userDetails.getUsername(),
+                userDetails.getPassword(),
+                userDetails.getAuthorities()
+        );
     }
 }
