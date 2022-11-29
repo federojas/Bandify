@@ -14,6 +14,7 @@ import {
   Nav,
   BandifyLogoImg,
 } from "./styles";
+import { Button, MenuItem } from "@mui/material";
 
 export default function NavBar() {
   const { t } = useTranslation();
@@ -40,17 +41,17 @@ export default function NavBar() {
         <div style={{ width: "full" }}>
           <NavBarItemList>
             {sections.map((section) => (
-              <NavBarItem key={section.path}>
-                <Link to={section.path}>{section.name}</Link>
-              </NavBarItem>
+              <MenuItem key={section.path}>
+                <Button variant="text" href={section.path}>{section.name}</Button>
+              </MenuItem>
             ))}
-            <NavBarItem>
+            <MenuItem>
               {isLogged ? (
                 <Link to="/welcome">{t("NavBar.Profile")}</Link>
               ) : (
-                <button>logeate papa</button>
+                <Button variant="contained">Log in</Button>
               )}
-            </NavBarItem>
+            </MenuItem>
           </NavBarItemList>
         </div>
       </NavBarContainer>

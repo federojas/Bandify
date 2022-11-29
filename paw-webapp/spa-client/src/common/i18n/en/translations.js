@@ -11,7 +11,7 @@ export const TRANSLATIONS_EN = {
   NavBar: {
     title: "navbar",
     logo: "Bandify logo",
-    bandify: "Bandify",
+    bandify: "bandify",
     auditions: "Auditions",
     AboutUs: "About us",
     Profile: "Profile",
