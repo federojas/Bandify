@@ -19,6 +19,8 @@ public class BandifyAuthenticationEntryPoint implements AuthenticationEntryPoint
                          AuthenticationException exception) throws IOException {
         ErrorInfoDto errorInfoDto = new ErrorInfoDto();
 
+
+        //TODO VER DE AGREGAR LOS HEADERS DE WWW-AUTHENTICATE
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setContentType("application/vnd.bandify.api.v1+json");
 
