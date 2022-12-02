@@ -70,6 +70,14 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
 
     @Transactional
     @Override
+    public Optional<VerificationToken> getRefreshToken(User user) {
+        return verificationTokenDao.getRefreshToken(user.getId());
+    }
+
+    //TODO MIRA ACA QUE REUTILIZE ESTA CLASE PARA EL REFRESH TOKEN DE JWT ESTA BIEN?
+    //REUTILIZE EL UUID.RANDOMUUID PARA EL TOKEN ESTA BIEN?
+    @Transactional
+    @Override
     public VerificationToken generate(User user, TokenType type) {
         final String token = UUID.randomUUID().toString();
         return verificationTokenDao.createToken(user, token, VerificationToken.getNewExpiryDate(), type);

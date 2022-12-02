@@ -1,8 +1,6 @@
 package ar.edu.itba.paw.service;
 
 import ar.edu.itba.paw.model.Genre;
-import ar.edu.itba.paw.model.Role;
-import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.model.exceptions.GenreNotFoundException;
 import ar.edu.itba.paw.persistence.GenreDao;
 import org.junit.Assert;
@@ -13,7 +11,6 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static org.mockito.Mockito.when;
 
@@ -36,7 +33,6 @@ public class GenreServiceTest {
     private static final Genre REGGAE = new Genre("REGGAE", 6);
 
     private static final List<Genre> GENRE_LIST = Arrays.asList(ROCK, POP, CUMBIA, JAZZ, COUNTRY, REGGAE);
-    private static final List<String> GENRE_LIST_STRING = Arrays.asList("ROCK", "POP", "CUMBIA", "JAZZ", "COUNTRY", "REGGAE");
 
     @Test
     public void testGetAll() {
@@ -53,7 +49,7 @@ public class GenreServiceTest {
     @Test
     public void testGetGenresByNames() {
         Set<Genre> expected = new HashSet<>(Arrays.asList(ROCK, POP, CUMBIA));
-        when(genreDao.getAll()).thenReturn((Set<Genre>) new HashSet<>(GENRE_LIST));
+        when(genreDao.getAll()).thenReturn(new HashSet<>(GENRE_LIST));
         when(genreDao.getGenresByNames(Arrays.asList("ROCK", "POP", "CUMBIA"))).thenReturn(expected);
 
         Set<Genre> genres = genreService.getGenresByNames(Arrays.asList("ROCK", "POP", "CUMBIA"));

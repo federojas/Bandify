@@ -26,6 +26,8 @@ public class MembershipServiceImpl implements MembershipService {
     @Autowired
     private MailingService mailingService;
     @Autowired
+    private RoleService roleService;
+    @Autowired
     private AuthFacadeService authFacadeService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MembershipServiceImpl.class);
@@ -80,7 +82,8 @@ public class MembershipServiceImpl implements MembershipService {
 
     @Transactional
     @Override
-    public Membership changeState(Membership membership, MembershipState state) {
+    public Membership changeState(long id, MembershipState state) {
+        Membership membership = getMembershipById(id).orElseThrow(MembershipNotFoundException::new);
         User currentUser = authFacadeService.getCurrentUser();
         Long currentUserId = currentUser.getId();
         if (currentUserId.equals(membership.getBand().getId())
@@ -136,16 +139,17 @@ public class MembershipServiceImpl implements MembershipService {
 
     @Transactional
     @Override
-    public Membership editMembershipById(String description, Set<Role> roles, long id) {
+    public Membership editMembershipById(String description, List<String> roles, long id) {
         checkMembershipId(id);
         checkPermissions(id);
         Optional<Membership> membership = getMembershipById(id);
         if (membership.isPresent()) {
             Membership memRet = membership.get();
-            memRet.edit(description, roles);
+            Set<Role> roleSet = roleService.getRolesByNames(roles);
+            memRet.edit(description, roleSet);
             return memRet;
         }
-
+        //TODO PORQUE ACA RETURN NULL EN VEZ DE EXCEPTION?
         return null;
     }
 

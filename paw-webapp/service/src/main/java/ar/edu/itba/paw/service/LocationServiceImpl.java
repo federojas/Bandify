@@ -45,4 +45,9 @@ public class LocationServiceImpl implements LocationService {
 
         return locationDao.getLocationsByNames(locationNames);
     }
+
+    @Override
+    public Optional<Location> getLocationById(Long id) {
+        return locationDao.getLocationById(id);
+    }
 }

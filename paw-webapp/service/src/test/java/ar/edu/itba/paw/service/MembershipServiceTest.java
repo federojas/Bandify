@@ -5,16 +5,11 @@ import ar.edu.itba.paw.model.MembershipState;
 import ar.edu.itba.paw.model.Role;
 import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.persistence.MembershipDao;
-import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
 
@@ -28,16 +23,13 @@ public class MembershipServiceTest {
     private final MembershipService membershipService = new MembershipServiceImpl();
 
     @Mock
-    private Membership membership;
-
-    @Mock
     private MembershipDao membershipDao;
 
     @Mock
-    private ApplicationService applicationService;
+    private MailingService mailingService;
 
     @Mock
-    private MailingService mailingService;
+    private RoleService roleService;
 
     @Mock
     private AuthFacadeService authFacadeService;
@@ -46,13 +38,10 @@ public class MembershipServiceTest {
 
     private static final Role role1 = new Role(1L, "role");
     private static final User ARTIST = new User.UserBuilder("artist@mail.com","12345678","name",false,false).surname("surname").description("description").id(1L).build();
-    private static final User ARTIST2 = new User.UserBuilder("artist2@mail.com","12345678","name",false,false).surname("surname").description("description").id(3L).build();
     private static final User BAND = new User.UserBuilder("band@mail.com","12345678", "name", true, false).description("description").id(2L).build();
     private static final User BAND2 = new User.UserBuilder("band2@mail.com","12345678", "name", true, false).description("description").id(4L).build();
-    private static final User BAND3 = new User.UserBuilder("band3@mail.com","12345678", "name", true, false).description("description").id(5L).build();
 
     private static final Membership mem1 = new Membership.Builder(ARTIST, BAND).roles(role1).description("description").state(MembershipState.PENDING).id(1L).build();
-    private static final Membership mem2 = new Membership.Builder(ARTIST2, BAND).roles(role1).description("description").state(MembershipState.ACCEPTED).id(2L).build();
     private static final Membership mem4 = new Membership.Builder(ARTIST, BAND2).roles(role1).description("description").state(MembershipState.PENDING).id(4L).build();
 
     private static final User ARTIST_AVAILABLE = new User.UserBuilder("artist@mail.com","12345678","name",false,false).surname("surname").description("description").id(1L).available(true).build();
@@ -74,8 +63,9 @@ public class MembershipServiceTest {
     @Test
     public void testChangeStateToPending() {
         when(authFacadeService.getCurrentUser()).thenReturn(ARTIST);
+        when(membershipDao.getMembershipById(mem1.getId())).thenReturn(Optional.of(mem1));
 
-        Membership memRet = membershipService.changeState(mem1, MembershipState.PENDING);
+        Membership memRet = membershipService.changeState(mem1.getId(), MembershipState.PENDING);
         assertEquals(MembershipState.PENDING, memRet.getState());
     }
 
@@ -101,9 +91,10 @@ public class MembershipServiceTest {
     @Test
     public void testChangeStateToAccepted() {
         when(authFacadeService.getCurrentUser()).thenReturn(ARTIST);
+        when(membershipDao.getMembershipById(mem4.getId())).thenReturn(Optional.of(mem4));
 
         doNothing().when(mailingService).sendInvitationAcceptedEmail(any(), any(), any());
-        Membership memRet = membershipService.changeState(mem4, MembershipState.ACCEPTED);
+        Membership memRet = membershipService.changeState(mem4.getId(), MembershipState.ACCEPTED);
 
         assertEquals(MembershipState.ACCEPTED, memRet.getState());
     }
@@ -111,8 +102,9 @@ public class MembershipServiceTest {
     @Test
     public void testChangeStateToRejected() {
         when(authFacadeService.getCurrentUser()).thenReturn(ARTIST);
+        when(membershipDao.getMembershipById(mem5.getId())).thenReturn(Optional.of(mem5));
 
-        Membership memRet = membershipService.changeState(mem5, MembershipState.REJECTED);
+        Membership memRet = membershipService.changeState(mem5.getId(), MembershipState.REJECTED);
         assertEquals(MembershipState.REJECTED, memRet.getState());
     }
 
@@ -127,14 +119,15 @@ public class MembershipServiceTest {
 
     @Test
     public void testEditMembershipById() {
-        Set<Role> roles = new HashSet<Role>();
+        Set<Role> roles = new HashSet<>();
         String newDescription = "Nueva descripcion";
-
+        List<String> roleList = Collections.singletonList("Role1");
         roles.add(new Role(1, "Role1"));
         when(membershipDao.getMembershipById(1L)).thenReturn(Optional.of(mem5));
         when(authFacadeService.getCurrentUser()).thenReturn(BAND2);
+        when(roleService.getRolesByNames(roleList)).thenReturn(roles);
 
-        Membership editedMem = membershipService.editMembershipById(newDescription, roles, 1L);
+        Membership editedMem = membershipService.editMembershipById(newDescription, roleList, 1L);
         assertNotNull(editedMem);
         assertEquals(newDescription, editedMem.getDescription());
         assertEquals(roles, editedMem.getRoles());

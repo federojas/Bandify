@@ -30,6 +30,12 @@ public class LocationJpaDao implements LocationDao {
     }
 
     @Override
+    public Optional<Location> getLocationById(Long id) {
+        LOGGER.debug("Getting location with id {}", id);
+        return Optional.ofNullable(em.find(Location.class, id));
+    }
+
+    @Override
     public Optional<Location> getLocationByName(String name) {
         LOGGER.debug("Getting location with name {}", name);
         final TypedQuery<Location> query = em.createQuery("FROM Location AS l WHERE l.name = :name", Location.class);

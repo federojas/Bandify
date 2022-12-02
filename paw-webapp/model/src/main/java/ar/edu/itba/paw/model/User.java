@@ -202,7 +202,8 @@ public class User {
 
     public void editInfo(String name, String surname, String description) {
         setName(name);
-        setSurname(surname);
+        if(this.isBand)
+            setSurname(surname);
         setDescription(description);
     }
 

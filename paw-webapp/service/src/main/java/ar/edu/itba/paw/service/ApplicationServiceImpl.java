@@ -34,6 +34,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationServiceImpl.class);
 
+    // TODO: saque el chequeo de owner porque no tenemos security todavia
     @Override
     public List<Application> getAuditionApplicationsByState(long auditionId, ApplicationState state, int page) {
         User user = authFacadeService.getCurrentUser();
@@ -184,6 +185,7 @@ public class ApplicationServiceImpl implements ApplicationService {
         return applicationDao.findApplication(auditionId,applicantId).isPresent();
     }
 
+    // TODO: descomentar authfacade
     @Override
     public Optional<Application> getApplicationById(long auditionId, long applicationId)  {
         User user = authFacadeService.getCurrentUser();
