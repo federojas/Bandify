@@ -52,7 +52,7 @@ public class JwtUtil {
 
     private static Collection<GrantedAuthority> getAuthorities(String roles) {
         return Arrays.stream(roles.split(" "))
-                .map(SimpleGrantedAuthority::new)
+                .map((role) -> new SimpleGrantedAuthority("ROLE_" + role))
                 .collect(Collectors.toList());
     }
 }

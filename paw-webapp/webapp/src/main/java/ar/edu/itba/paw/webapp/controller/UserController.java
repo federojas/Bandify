@@ -55,9 +55,9 @@ public class UserController {
     }
 
     //TODO REVISAR SI SE PUEDE PASAR EL CHECK OWNERSHIP AL SERVICIO
+    // TODO: PUT sin funcionar
     @PUT
     @Path("/{id}")
-    @Consumes("application/vnd.user.v1+json")
     public Response updateUser(@Valid UserEditForm form, @PathParam("id") final long id) {
         final User user = userService.findByEmail(securityContext.getUserPrincipal().getName()).orElseThrow(UserNotFoundException::new);
         checkOwnership(user, id);
