@@ -17,7 +17,6 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.net.URI;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Path("auditions")
@@ -44,9 +43,6 @@ public class AuditionController {
 
     @Autowired
     private ApplicationService applicationService;
-
-    @Context
-    private SecurityContext securityContext;
 
     // TODO: Obtener usuario logueado, por ahora esta hardcodeado el ID
     @POST
@@ -119,7 +115,6 @@ public class AuditionController {
     public Response getAuditionsApplications(@PathParam("id") final long auditionId,
                                              @QueryParam("page") @DefaultValue("1") final int page,
                                              @QueryParam("state") @DefaultValue("PENDING") final String state) {
-        checkAuditionOwnership(auditionId);
         List<ApplicationDto> applicationDtos =
                 applicationService.getAuditionApplicationsByState(auditionId, ApplicationState.valueOf(state), page)
                         .stream().map(application -> ApplicationDto.
@@ -137,18 +132,9 @@ public class AuditionController {
     @Produces("application/vnd.application.v1+json")
     public Response getApplication(@PathParam("auditionId") final long auditionId,
                                    @PathParam("id") final long applicationId) {
-        checkAuditionOwnership(auditionId);
         final Application application = applicationService.getApplicationById(auditionId,applicationId)
                 .orElseThrow(ApplicationNotFoundException::new);
         return Response.ok(ApplicationDto.fromApplication(uriInfo, application)).build();
-    }
-
-    private void checkAuditionOwnership(long auditionId) {
-        final User user = userService.findByEmail(securityContext.getUserPrincipal().getName()).orElseThrow(UserNotFoundException::new);
-        Audition audition = auditionService.getAuditionById(auditionId);
-        if (!Objects.equals(user.getId(), audition.getBand().getId())) {
-            throw new ForbiddenException();
-        }
     }
 
 }

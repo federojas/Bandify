@@ -37,13 +37,11 @@ public class ApplicationServiceImpl implements ApplicationService {
     // TODO: saque el chequeo de owner porque no tenemos security todavia
     @Override
     public List<Application> getAuditionApplicationsByState(long auditionId, ApplicationState state, int page) {
-       /* User user = authFacadeService.getCurrentUser();
+        User user = authFacadeService.getCurrentUser();
         Audition audition = auditionService.getAuditionById(auditionId);
 
         if(!Objects.equals(user.getId(), audition.getBand().getId()))
             throw new AuditionNotOwnedException();
-
-        */
 
         int lastPage = getTotalAuditionApplicationByStatePages(auditionId, state);
         lastPage = lastPage == 0 ? 1 : lastPage;
@@ -190,13 +188,10 @@ public class ApplicationServiceImpl implements ApplicationService {
     // TODO: descomentar authfacade
     @Override
     public Optional<Application> getApplicationById(long auditionId, long applicationId)  {
-        /*
         User user = authFacadeService.getCurrentUser();
         Audition audition = auditionService.getAuditionById(auditionId);
         if(!Objects.equals(user.getId(), audition.getBand().getId()))
             throw new AuditionNotOwnedException();
-
-         */
         Optional<Application> application = applicationDao.findApplication(applicationId);
         if (application.isPresent() && !application.get().getAudition().getId().equals(auditionId)
                 && application.get().getState().equals(ApplicationState.SELECTED))

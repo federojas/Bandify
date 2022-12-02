@@ -103,7 +103,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling()
                     .authenticationEntryPoint(authenticationEntryPoint())
-                    .accessDeniedHandler(accessDeniedHandler());
+                    .accessDeniedHandler(accessDeniedHandler()); //TODO 500 CUANDO PONES MAL LAS CREDENTIALS TOKENS ETC
     }
 
 

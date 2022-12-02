@@ -53,6 +53,7 @@ public class UserController {
         return Response.created(uri).build();
     }
 
+    //TODO REVISAR SI SE PUEDE PASAR EL CHECK OWNERSHIP AL SERVICIO
     @PUT
     @Path("/{id}")
     @Consumes("application/vnd.user.v1+json")
@@ -106,7 +107,7 @@ public class UserController {
         return response.build();
     }
 
-
+    //TODO REVISAR SI SE PUEDE PASAR EL CHECK OWNERSHIP AL SERVICIO
     // TODO: las aplicaciones que da son por defecto las pendientes
     // le podes pasar para que te de las del estado que quieras, podemos dejarlo asi
     // o que por defecto te de las que sean de cualquier estado.
