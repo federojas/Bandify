@@ -4,6 +4,7 @@ import ar.edu.itba.paw.webapp.form.constraints.annotations.FieldsMatch;
 import ar.edu.itba.paw.webapp.form.constraints.annotations.NotDuplicatedEmail;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -29,8 +30,7 @@ public class UserForm {
 
     @Size(max = 50)
     private String surname;
-
-    private boolean isBand;
+    private boolean band;
 
     public String getEmail() {
         return email;
@@ -56,14 +56,6 @@ public class UserForm {
         this.name = name;
     }
 
-    public boolean isBand() {
-        return isBand;
-    }
-
-    public void setBand(boolean band) {
-        isBand = band;
-    }
-
     public String getPasswordConfirmation() {
         return passwordConfirmation;
     }
@@ -73,13 +65,25 @@ public class UserForm {
     }
 
     public String getSurname() {
-        if(this.isBand)
+        if (this.band)
             return null;
         return surname;
     }
 
     public void setSurname(String surname) {
-        if(!this.isBand)
+        if (!this.band)
             this.surname = surname;
+    }
+
+    public boolean isBand() {
+        return band;
+    }
+
+    public boolean getBand() {
+        return band;
+    }
+
+    public void setBand(boolean band) {
+        this.band = band;
     }
 }

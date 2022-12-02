@@ -42,12 +42,12 @@ public class UserController {
 
     @Context
     private SecurityContext securityContext;
-
     @POST
     @Consumes("application/vnd.user.v1+json")
     public Response createUser(@Valid UserForm form) {
+        System.out.println("El boolean: " + form.getBand());
         User.UserBuilder builder = new User.UserBuilder(form.getEmail(), form.getPassword(),
-                form.getName(), form.isBand(), false).surname(form.getSurname());
+                form.getName(), form.getBand(), false).surname(form.getSurname());
         final User user = userService.create(builder);
         final URI uri = uriInfo.getAbsolutePathBuilder()
                 .path(String.valueOf(user.getId())).build();

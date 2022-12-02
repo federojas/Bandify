@@ -44,12 +44,16 @@ public class AuditionController {
     @Autowired
     private ApplicationService applicationService;
 
-    // TODO: Obtener usuario logueado, por ahora esta hardcodeado el ID
+    @Context
+    private SecurityContext securityContext;
+
+
     @POST
     @Consumes("application/vnd.audition.v1+json")
     public Response createAudition(@Valid AuditionForm auditionForm) {
-        Audition audition = auditionService.create(auditionForm.toBuilder(userService.getUserById(1)
-                        .orElseThrow(UserNotFoundException::new))
+        Audition audition = auditionService.create(auditionForm.toBuilder(userService.findByEmail(
+                               securityContext.getUserPrincipal().getName()
+                        ).orElseThrow(UserNotFoundException::new))
                 .lookingFor(roleService.getRolesByNames(auditionForm.getLookingFor()))
                 .musicGenres(genreService.getGenresByNames(auditionForm.getMusicGenres()))
                 .location(locationService.getLocationByName(auditionForm.getLocation())
