@@ -9,6 +9,8 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -38,7 +40,7 @@ import java.util.Collection;
 public class AuthFilter extends OncePerRequestFilter {
 
     private final AuthenticationManager authenticationManager;
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuthFilter.class);
     @Autowired
     private UserService userService;
 
@@ -91,7 +93,7 @@ public class AuthFilter extends OncePerRequestFilter {
         }
         final String email = decodedCredentials[0];
         final String password = decodedCredentials[1];
-
+        LOGGER.info("Credentials:  email: {} , password: {}", email,password);
         Authentication auth = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(email, password)
         );
@@ -126,9 +128,9 @@ public class AuthFilter extends OncePerRequestFilter {
 
             final Collection<GrantedAuthority> authorities = new ArrayList<>();
             if (user.isBand())
-                authorities.add(new SimpleGrantedAuthority("BAND"));
+                authorities.add(new SimpleGrantedAuthority("ROLE_BAND"));
             else
-                authorities.add(new SimpleGrantedAuthority("ARTIST"));
+                authorities.add(new SimpleGrantedAuthority("ROLE_ARTIST"));
 
             return new UsernamePasswordAuthenticationToken
                     (user.getEmail(), user.getPassword(), authorities);

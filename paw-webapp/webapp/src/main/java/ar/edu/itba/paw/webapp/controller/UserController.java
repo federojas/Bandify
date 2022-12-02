@@ -14,6 +14,7 @@ import ar.edu.itba.paw.webapp.dto.SocialMediaDto;
 import ar.edu.itba.paw.webapp.dto.UserDto;
 import ar.edu.itba.paw.webapp.form.UserEditForm;
 import ar.edu.itba.paw.webapp.form.UserForm;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import javax.validation.Valid;
@@ -25,7 +26,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
+import org.slf4j.Logger;
 @Path("users")
 @Component
 public class UserController {
