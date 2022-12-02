@@ -40,6 +40,7 @@ import java.util.Collection;
 public class AuthFilter extends OncePerRequestFilter {
 
     private final AuthenticationManager authenticationManager;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthFilter.class);
     @Autowired
     private UserService userService;
@@ -71,12 +72,16 @@ public class AuthFilter extends OncePerRequestFilter {
         final String payload = receivedHeader.split(" ")[1].trim();
         Authentication auth;
 
-        if(receivedHeader.startsWith("Basic")) {
-            //TODO chequear refresh
-            auth = useBasicAuthentication(payload, httpServletResponse);
-        } else {
-            //TODO chequear login
-            auth = useBearerAuthentication(payload, httpServletResponse);
+        try {
+            if (receivedHeader.startsWith("Basic")) {
+                //TODO chequear refresh
+                auth = useBasicAuthentication(payload, httpServletResponse);
+            } else {
+                //TODO chequear login
+                auth = useBearerAuthentication(payload, httpServletResponse);
+            }
+        } catch (AuthenticationException e) {
+            //TODO AGREGAR UNAUTHORIZED O LO QUE SEA
         }
         SecurityContextHolder
                 .getContext()
