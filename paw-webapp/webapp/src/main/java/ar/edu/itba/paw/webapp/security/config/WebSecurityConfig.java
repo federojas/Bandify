@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -74,27 +75,28 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().headers()
                 .cacheControl().disable()
                 .and().authorizeRequests()
+//                .antMatchers( "/welcome","/register","/registerBand","/registerArtist","/verify",
+//                        "/resetPassword","/aboutUs","/newPassword","/login","/emailSent","/resetEmailSent").anonymous()
+//                .antMatchers("/apply", "/profile/applications","/editArtist","/success", "/invites", "/invites/{\\d+}", "/profile/bands").hasRole("ARTIST")
+//                .antMatchers("/newAudition", "/profile/auditions", "/profile/editAudition/{\\d+}", "/profile/closeAudition/{\\d+}","/editBand",
+//                        "/auditions/{\\d+}/applicants", "/auditions/{\\d+}/applicants/select/{\\d+}", "/profile/newMembership/{\\d+}", "/profile/bandMembers",
+//                        "/profile/editMembership/{\\d+}", "/user/{\\d+}/invite").hasRole("BAND")
+//                .antMatchers("/profile/**","/auditions/{\\d+}","/bandAuditions/{\\d+}", "/users/search", "/users", "/user/{\\d+}/bandMembers", "/user/{\\d+}/bands",
+//                        "/profile/deleteMembership/{\\d+}").authenticated()
+//                .antMatchers("/auditions","/auditions/search", "/", "/user/{\\d+}","/user/{\\d+}/profile-image").permitAll()
+//TODO REVISAR TODOS
+                .antMatchers(HttpMethod.GET, "/users").authenticated()
+                .antMatchers(HttpMethod.GET, "/users/{\\d+}/applications").hasRole("ARTIST")
+                .antMatchers(HttpMethod.GET, "/memberships",
+                        "/memberships/{\\d+}").authenticated() //TODO REVISAR CUAND VEAMOS EL ACCESO DESDE EL FRONT
+                .antMatchers(HttpMethod.GET, "/auditions/{\\d+}/applications",
+                        "/{auditionId}/applications/{\\d+}").hasRole("BAND")
+                .antMatchers(HttpMethod.PUT, "/users/{\\d+}").authenticated()
+                .antMatchers(HttpMethod.PUT, "/memberships/{\\d+}").hasRole("BAND")
+                .antMatchers(HttpMethod.POST, "/auditions").hasRole("BAND")
+                .antMatchers(HttpMethod.DELETE, "/memberships/{\\d+}").hasRole("BAND")
 
-//                // ---------------------- UserController ---------------------------
-//                .antMatchers(HttpMethod.POST,
-//                        "/users").anonymous()
-//                .antMatchers(HttpMethod.GET,
-//                        "/users",
-//                        "/users/{\\d+}",
-//                        "/users/{\\d+}/profile-image",
-//                        "/users/{\\d+}/applications",
-//                        "/users/{\\d+}/social-media",
-//                        "/users/{\\d+}/social-media/{\\d+}").hasAnyRole()
-//                .antMatchers(HttpMethod.PUT,
-//                        "/users").hasAnyRole()
-//                // -------------------------------------------------------------------
-//
-//
-//                // ----------------------- RoleController -----------------------------
-//
-//
-//                // --------------------------------------------------------------------
-                .antMatchers("/**").authenticated()
+                .antMatchers("/**").permitAll()
 
 
                 .and().addFilterBefore(authFilter,

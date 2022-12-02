@@ -175,9 +175,9 @@ public class UserServiceImpl implements UserService {
         final User user = getUserById(userId).orElseThrow(UserNotFoundException::new);
         final Collection<GrantedAuthority> authorities = new ArrayList<>();
         if(user.isBand())
-            authorities.add(new SimpleGrantedAuthority("ROLE_BAND"));
+            authorities.add(new SimpleGrantedAuthority("BAND"));
         else
-            authorities.add(new SimpleGrantedAuthority("ROLE_ARTIST"));
+            authorities.add(new SimpleGrantedAuthority("_ARTIST"));
         Authentication auth = new UsernamePasswordAuthenticationToken(user.getEmail(),user.getPassword(),authorities);
         SecurityContextHolder.getContext().setAuthentication(auth);
         LOGGER.debug("Autologin for user {}",userId);

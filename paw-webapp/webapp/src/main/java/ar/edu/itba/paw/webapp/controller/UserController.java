@@ -39,6 +39,9 @@ public class UserController {
     @Context
     private UriInfo uriInfo;
 
+    @Context
+    private SecurityContext securityContext;
+
     @POST
     @Consumes("application/vnd.user.v1+json")
     public Response createUser(@Valid UserForm form) {
@@ -54,10 +57,8 @@ public class UserController {
     @Path("/{id}")
     @Consumes("application/vnd.user.v1+json")
     public Response updateUser(@Valid UserEditForm form, @PathParam("id") final long id) {
-        //TODO SECURITY
-        //TODO FORM = NULL EXCEPTION?
-        final User user = userService.getUserById(id).orElseThrow(UserNotFoundException::new);
-
+        final User user = userService.findByEmail(securityContext.getUserPrincipal().getName()).orElseThrow(UserNotFoundException::new);
+        checkOwnership(user, id);
         userService.editUser(user.getId(), form.getName(), form.getSurname(), form.getDescription(),
                 form.getMusicGenres(), form.getLookingFor(), form.getProfileImage().getBytes(), form.getLocation());
         if(!user.isBand()) {
@@ -105,7 +106,7 @@ public class UserController {
         return response.build();
     }
 
-    // TODO: seguridad
+
     // TODO: las aplicaciones que da son por defecto las pendientes
     // le podes pasar para que te de las del estado que quieras, podemos dejarlo asi
     // o que por defecto te de las que sean de cualquier estado.
@@ -115,6 +116,9 @@ public class UserController {
     public Response getUserApplications(@PathParam("id") final long id,
                                         @QueryParam("state") @DefaultValue("PENDING") final String state,
                                         @QueryParam("page") @DefaultValue("1") final int page){
+
+        final User user = userService.findByEmail(securityContext.getUserPrincipal().getName()).orElseThrow(UserNotFoundException::new);
+        checkOwnership(user, id);
         final List<ApplicationDto> applicationDtos =
                 applicationService.getMyApplicationsFiltered(id,page, ApplicationState.valueOf(state))
                         .stream().map(application -> ApplicationDto.fromApplication(uriInfo,application))
@@ -154,6 +158,12 @@ public class UserController {
         return Response.ok(SocialMediaDto.fromSocialMedia(
                 uriInfo,socialMedia.stream().findFirst().orElseThrow(
                         SocialMediaNotFoundException::new))).build();
+    }
+
+    private void checkOwnership(User user, long userId) {
+        if (user.getId() != userId) {
+            throw new ForbiddenException();
+        }
     }
 
 }

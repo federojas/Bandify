@@ -126,9 +126,9 @@ public class AuthFilter extends OncePerRequestFilter {
 
             final Collection<GrantedAuthority> authorities = new ArrayList<>();
             if (user.isBand())
-                authorities.add(new SimpleGrantedAuthority("ROLE_BAND"));
+                authorities.add(new SimpleGrantedAuthority("BAND"));
             else
-                authorities.add(new SimpleGrantedAuthority("ROLE_ARTIST"));
+                authorities.add(new SimpleGrantedAuthority("ARTIST"));
 
             return new UsernamePasswordAuthenticationToken
                     (user.getEmail(), user.getPassword(), authorities);

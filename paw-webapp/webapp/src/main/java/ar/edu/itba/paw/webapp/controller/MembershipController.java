@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Path("memberships")
@@ -30,6 +31,9 @@ public class MembershipController {
 
     @Context
     private UriInfo uriInfo;
+
+    @Context
+    private SecurityContext securityContext;
 
     @GET
     @Path("/{id}")
@@ -97,6 +101,7 @@ public class MembershipController {
     @Path("/{id}")
     @Produces("application/vnd.membership.v1+json")
     public Response deleteMembership(@PathParam("id") final Long id) {
+        checkBandOwnership(id);
         if(!membershipService.getMembershipById(id).isPresent()) {
             throw new MembershipNotFoundException();
         }
@@ -112,6 +117,7 @@ public class MembershipController {
                                        @QueryParam("description") final String description,
                                        @QueryParam("roles") final List<String> roles,
                                        @QueryParam("state") final String state) {
+        checkBandOwnership(id);
         if(description == null && roles == null && state == null)
             throw new BadRequestException("Parameters 'description' 'roles' 'state' can not be all null");
         if((roles != null && !roles.isEmpty()) || description != null)
@@ -119,5 +125,10 @@ public class MembershipController {
         if(state != null)
             membershipService.changeState(id, Enum.valueOf(MembershipState.class, state));
         return Response.ok().build();
+    }
+
+    private void checkBandOwnership(long membershipId) {
+        final User band = userService.findByEmail(securityContext.getUserPrincipal().getName()).orElseThrow(UserNotFoundException::new);
+        
     }
 }
