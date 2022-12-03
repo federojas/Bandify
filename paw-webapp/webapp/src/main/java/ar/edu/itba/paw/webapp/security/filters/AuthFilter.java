@@ -62,21 +62,22 @@ public class AuthFilter extends OncePerRequestFilter {
         final String receivedHeader = httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION);
 
         if(receivedHeader == null || receivedHeader.isEmpty() ||
-                !(receivedHeader.startsWith("Bearer") || receivedHeader.startsWith("Basic"))) {
+                !(receivedHeader.startsWith("Bearer ") || receivedHeader.startsWith("Basic "))) {
             throw new InsufficientAuthenticationException("Empty authorization credentials.");
         }
 
-        String payload = receivedHeader.split(" ")[1];
-        if(payload == null)
+        String[] payload = receivedHeader.split(" ");
+        String token;
+        if(payload[1] == null)
             throw new InsufficientAuthenticationException("Empty authorization credentials.");
         else
-            payload = payload.trim();
+            token = payload[1].trim();
         Authentication auth;
 
         if (receivedHeader.startsWith("Basic "))
-            auth = useBasicAuthentication(payload, httpServletResponse);
+            auth = useBasicAuthentication(token, httpServletResponse);
         else
-            auth = useBearerAuthentication(payload, httpServletResponse);
+            auth = useBearerAuthentication(token, httpServletResponse);
 
         SecurityContextHolder
                 .getContext()
