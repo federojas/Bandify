@@ -4,6 +4,17 @@ export const AuditionsContainer = syled.div`
     display: flex;
     flex-direction: column;
     background-color: #F5F5F5;
+    align-items: center;
+    padding: 2rem 1rem;
+
+    h2 {
+        font-size: 3rem;
+        line-height: 1;
+        font-weight: 700;
+        padding: 1rem;
+        margin: 1rem;
+    }
+
 `;
 
 export const RelativeContainer = syled.div`
@@ -67,6 +78,27 @@ export const TitleContainer = syled.div`
     marginTop: 2rem;
     flex-direction: column;
     justify-content: space-between;
+
+    h1{
+        color: ${(props) => props.theme.white};
+    }
 `;
 
+export const Title = syled.h1`
+    color: ${(props) => props.theme.white};
+`;
+
+export const AuditionsBlackTitle = syled.h2`
+    color: ${(props) => props.theme.black};
+    font-size: xxx-large;
+    font-weight: bold;
+`;
+
+export const PostsContainer = syled.div`
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 0.75rem;
+    justify-content: space-around;
+`;
 

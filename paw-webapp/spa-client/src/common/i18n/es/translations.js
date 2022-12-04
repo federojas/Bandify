@@ -3,6 +3,11 @@ export const TRANSLATIONS_ES = {
     postCardButton: "Ver más",
     title: "carta de publicación",
   },
+  Auditions: {
+    title: "Audiciones",
+    discover: "Descubre audiciones",
+    latest: "Últimas audiciones",
+  },
   Profile: {
     alt: {
       img: "Foto de perfil",

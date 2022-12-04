@@ -3,6 +3,11 @@ export const TRANSLATIONS_EN = {
     postCardButton: "More",
     title: "Post card",
   },
+  Auditions: {
+    title: "Auditions",
+    discover: "Discover auditions",
+    latest: "Latest auditions",
+  },
   Profile: {
     alt: {
       img: "Profile Picture",

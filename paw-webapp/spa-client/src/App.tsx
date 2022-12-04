@@ -1,5 +1,6 @@
 import React from "react";
 import "./App.css";
+import { ThemeProvider } from "styled-components";
 import {
   BrowserRouter as Router,
   Route,
@@ -12,10 +13,16 @@ import SignUp from "./pages/SignUp";
 import MainLayout from "./components/layouts";
 import ForgotPassword from "./pages/ForgotPassword";
 import AuditionsPage from "./pages/Auditions/Auditions";
+
+const theme = {
+  colors: {
+    white: "#ffffff",
+  }
+}
 function App() {
   return (
 
-
+    <ThemeProvider theme={theme}>
     <Router basename={process.env.PUBLIC_URL}>
       <Routes>
         <Route path="/" element={<MainLayout />}>
@@ -32,6 +39,7 @@ function App() {
         {/* <Route path="/auditions" element={<AuditionsPage></AuditionsPage>} /> */}
       </Routes>
     </Router>
+    </ThemeProvider>
   );
 }
 
