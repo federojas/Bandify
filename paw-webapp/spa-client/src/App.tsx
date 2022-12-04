@@ -1,5 +1,4 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import {
   BrowserRouter as Router,
@@ -8,7 +7,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import Welcome from "./pages/Welcome";
-import SignIn from "./pages/SignIn";
+import LogIn from "./pages/LogIn";
 import SignUp from "./pages/SignUp";
 import MainLayout from "./components/layouts";
 import ForgotPassword from "./pages/ForgotPassword";
@@ -22,9 +21,9 @@ function App() {
         <Route path="/" element={<MainLayout />}>
           <Route index element={<Navigate to={"/welcome"} />} />
           <Route path="welcome" element={<Welcome />} />
+          <Route path="login" element={<LogIn />} />
         </Route>
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/login" element={<SignIn />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/" element={<MainLayout />}>
           <Route index element={<Navigate to={"/auditions"} />} />

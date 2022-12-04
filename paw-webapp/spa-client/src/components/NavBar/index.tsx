@@ -49,7 +49,7 @@ export default function NavBar() {
               {isLogged ? (
                 <Link to="/welcome">{t("NavBar.Profile")}</Link>
               ) : (
-                <Button variant="contained">Log in</Button>
+                <Button variant="contained" href="/login">Log in</Button>
               )}
             </MenuItem>
           </NavBarItemList>
