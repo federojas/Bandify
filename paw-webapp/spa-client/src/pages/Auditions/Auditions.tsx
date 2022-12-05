@@ -33,11 +33,14 @@ export default function AuditionsPage() {
         <AuditionsContainer>
           <AuditionsBlackTitle>{t("Auditions.latest")}</AuditionsBlackTitle>
           <PostsContainer>
-            <PostCard />
-            <PostCard />
-            <PostCard />
-            <PostCard />
-            <PostCard />
+            <PostCard
+              auditionTitle="Buscamos baterista"
+              bandName="Los totora"
+              location="Buenos Aires, Argentina"
+              roles={["Baterista"]}
+              genres={["Rock"]}
+            />
+
           </PostsContainer>        
           
         </AuditionsContainer>
