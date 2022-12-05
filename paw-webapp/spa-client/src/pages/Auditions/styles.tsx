@@ -3,7 +3,7 @@ import syled from 'styled-components';
 export const AuditionsContainer = syled.div`
     display: flex;
     flex-direction: column;
-    background-color: #F5F5F5;
+    background-color: #f3f3f6;
     align-items: center;
     padding: 2rem 1rem;
 
