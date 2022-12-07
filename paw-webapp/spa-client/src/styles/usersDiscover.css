@@ -1,11 +1,3 @@
-.users-discover {
-    background-image: url(../images/guitar-drums.jpg);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    opacity: 0.9;
-    position: relative;
-}
 
 .abs-container-users {
     position: absolute;
