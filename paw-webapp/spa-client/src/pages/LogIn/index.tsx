@@ -1,111 +1,111 @@
-import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { BandifyLogoImg } from '../../components/NavBar/styles';
-import BandifyLogo from '../../images/logo.png';
+import * as React from "react";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import Link from "@mui/material/Link";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { BandifyLogoImg } from "../../components/NavBar/styles";
+import BandifyLogo from "../../images/logo.png";
 
-function Copyright(props: any) {
+import "../../styles/login.css";
+import "../../styles/welcome.css";
+import "../../styles/forms.css";
+// alerts.css, forms.css
+import "../../styles/alerts.css";
+import "../../styles/forms.css";
+
+
+const LoginBox = () => {
   return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="http://pawserver.it.itba.edu.ar/paw-2022a-03/">
-        Bandify
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
-const theme = createTheme();
-
-export default function LogIn() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
-
-  return (
-    <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <BandifyLogoImg src={BandifyLogo}/>
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign in
-          </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-            <TextField
-              margin="normal"
+    <div className="login-box">
+      <div className="general-div" id="login">
+        <form action="/login" method="post">
+          <div className="form-group">
+            <label htmlFor="email" className="form-label">
+              Welcome.email
+            </label>
+            <input
+              type="text"
               required
-              fullWidth
+              className="form-input"
               id="email"
-              label="Email Address"
               name="email"
-              autoComplete="email"
-              autoFocus
+              placeholder="Welcome.email"
             />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
+            <p id="invalidMail" className="error" style={{ display: "none" }}>
+              Welcome.error.invalidMail
+            </p>
+          </div>
+          <div className="form-group">
+            <label htmlFor="password" className="form-label">
+              Welcome.password
+            </label>
+            <input
               type="password"
+              required
+              className="form-input"
               id="password"
-              autoComplete="current-password"
+              name="password"
+              placeholder="Welcome.password"
             />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
+          </div>
+          <p id="invalidPassword" className="error" style={{ display: "none" }}>
+            Welcome.error.invalidPassword
+          </p>
+          <div className="check-box">
+            <input
+              type="checkbox"
+              name="rememberMe"
+              id="rememberMe"
+              className="remember-me"
             />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Sign In
-            </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="/register" variant="body2">
-                  {"Don't have an account? Register"}
-                </Link>
-              </Grid>
-            </Grid>
-          </Box>
-        </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
-      </Container>
-    </ThemeProvider>
+            <label htmlFor="rememberMe">Welcome.rememberme</label>
+          </div>
+          <a href="/resetPassword">
+            <u className="login-reset-button">Welcome.resetButton</u>
+          </a>
+          <div className="errorDiv">
+            <p className="error">
+              {/* TODO param.error &&  */}
+              {<>Welcome.login.auth.failed</>}
+            </p>
+          </div>
+          <div className="loginButton">
+            {/* TODO onClick={() => loginFormCheck()} */}
+            <button type="submit" className="purple-hover-button">
+              Welcome.loginButton
+            </button>
+          </div>
+        </form>
+        <div className="notMemberYet">
+          <p>Welcome.notMemberYet</p>
+          &nbsp;&nbsp;
+          <b>
+            <a href="/register">
+              <u className="login-register-button">Welcome.registerButton</u>
+            </a>
+          </b>
+        </div>
+      </div>
+    </div>
   );
-}
+};
+
+const Login = () => {
+  return (
+    <main className="flex justify-center">
+      <div className="login-loginform">
+        <LoginBox />
+      </div>
+    </main>
+  );
+};
+
+export default Login;

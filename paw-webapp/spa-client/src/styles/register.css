@@ -1,0 +1,54 @@
+.register-content {
+    display: flex;
+    justify-content: center;
+    padding: 24px;
+}
+.color-register-button{
+    background-color: rgba(108, 12, 132, 0.69) !important;
+}
+.register-content {
+    display: flex;
+    justify-content: center;
+    padding: 24px;
+}
+
+.box {
+    background-color: #efefef;
+    opacity: 0.9;
+    width: 60%;
+    padding: 0.5rem 1.5rem;
+    border-color: #6c0c8436;
+    border-radius: 0.75rem;
+    border-width: 1px;
+    border-style: dotted;
+    font-size: 1.25rem;
+    line-height: 1.5rem;
+    font-weight: 600;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 12px;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.forms-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    font-size: 1.25rem;
+    font-weight: 500;
+}
+
+.forms-buttons > button {
+    margin: 1rem 2rem;
+    border-radius: 1rem;
+    border-width: 1px;
+    padding: 1rem 2.5rem;
+    background-color: #6c0c84;
+    color: white;
+}

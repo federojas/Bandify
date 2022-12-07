@@ -1,0 +1,48 @@
+.black-title {
+    font-size: xxx-large;
+    font-weight: bold;
+    color: black;
+}
+
+.users-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1rem;
+}
+
+.users-content > h2 {
+    font-size: 3rem;
+    line-height: 1;
+    font-weight: 700;
+    padding: 1rem;
+    margin: 1rem;
+}
+
+.meet-artists {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 0.75rem;
+    justify-content: space-around;
+}
+
+.pagination {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 0.75rem;
+    justify-content: space-around;
+}
+
+.pagination-next{
+    margin: 0 10px;
+    height: 40px;
+    max-height: 30px;
+    cursor: pointer;
+}
+
+.rotate{
+    transform: rotate(180deg);
+}

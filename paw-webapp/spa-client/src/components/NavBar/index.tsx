@@ -3,7 +3,8 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import BandifyLogo from "../../images/logo.png";
-import './navbar.css';
+import '../../styles/navbar.css'
+import '../../styles/profile.css'
 
 function Nav() {
   const { t } = useTranslation();

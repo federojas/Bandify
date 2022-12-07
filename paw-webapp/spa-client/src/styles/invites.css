@@ -1,0 +1,96 @@
+.manager-page {
+    display: flex;
+    flex-direction: row;
+    padding: 1rem;
+}
+
+.manager-items-container {
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%);
+    padding: 0.75rem 1.25rem;
+    margin: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 75%;
+    height: fit-content;
+}
+
+.pagination-invites {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 0.75rem;
+    justify-content: center;
+}
+
+.manager-items-title {
+    font-size: x-large;
+    font-weight: bold;
+    color: black;
+    word-break: break-all;
+    text-align: center;
+}
+
+.manager-items-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+}
+
+.manager-tabs {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 25%;
+}
+
+.manager-tab {
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%);
+    padding: 0.75rem 1.25rem;
+    margin: 1rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+    justify-content: space-between;
+}
+
+.manager-tab-selected {
+    background-color: #E0E0E0;
+    box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%);
+    padding: 0.75rem 1.25rem;
+    margin: 1rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+    justify-content: space-between;
+}
+
+.manager-tab-title-icon {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+}
+
+.icon-button__badge {
+    width: 25px;
+    height: 25px;
+    background: red;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    justify-self: end;
+}
+.no-invites {
+    font-weight: 500;
+    font-size: 20px;
+    word-break: break-word;
+}

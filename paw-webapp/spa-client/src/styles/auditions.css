@@ -1,0 +1,161 @@
+body {
+    /* gray-100 */
+    --tw-bg-opacity: 1;
+    background-color: rgb(243 244 246 / var(--tw-bg-opacity));
+}
+.auditions-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1rem;
+}
+.auditions-content > h2 {
+    font-size: 3rem;
+    line-height: 1;
+    font-weight: 700;
+    padding: 1rem;
+    margin: 1rem;
+}
+
+.black-title {
+    font-size: xxx-large;
+    font-weight: bold;
+    color: black;
+}
+.languages-buttons{
+    color: white; font-size: large;
+}
+.no-auditions{
+    width: 100%;
+    text-align: center;
+}
+.no-results{
+    width: 100%;
+    text-align: center;
+}
+.user-data{
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    padding: 0.75rem 1.25rem;
+    margin: 1rem;
+    width: 600px;
+    display: flex;
+    flex-direction: column;
+}
+
+.user-data-tabs {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin: 1rem;
+}
+
+.selected-tab {
+    font-weight: 700;
+    font-size: medium;
+}
+
+.user-data-applicants {
+    margin: 1rem;
+}
+
+hr.rounded {
+    border-top: 1px solid #bbb;
+    border-radius: 5px;
+}
+
+.posts {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 0.75rem;
+    justify-content: space-around;
+}
+
+#bandAuditions {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 0.75rem;
+    justify-content: space-around;
+    word-break: break-all;
+    text-align: center;
+}
+
+.pagination {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 0.75rem;
+    justify-content: space-around;
+}
+
+.pagination-next{
+    margin: 0 10px;
+    height: 40px;
+    max-height: 30px;
+    cursor: pointer;
+}
+
+.rotate{
+    transform: rotate(180deg);
+}
+
+.filter-applications {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.filter-applications-button {
+    padding: 0.5rem 1.25rem;
+    color: #ffffff;
+    font-weight: 500;
+    border-radius: 20px;
+    background-color: #6c0c84 !important;
+}
+
+.filter-applications-button:hover {
+    background-color: #0369a1 !important;
+}
+
+.filter-applications-form {
+    margin-top: 2rem;
+    margin-bottom: 3rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+.no-applications {
+    text-align: center;
+    margin: 1rem 0;
+    font-size: large;
+}
+
+.languages {
+    color: white;
+}
+
+.back-div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.back-icon {
+    width: 48px;
+}
+
+.applicants-container {
+    position: relative;
+    padding: 2rem 0;
+}
+
+.left-panel-abs {
+    position: absolute;
+    top: 15%;
+    left: 5%
+}

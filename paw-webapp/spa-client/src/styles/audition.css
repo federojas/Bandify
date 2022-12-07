@@ -1,0 +1,238 @@
+body {
+    display: flex;
+    flex-direction: column;
+    background-color: #f3f4f6;
+}
+.audition-content {
+    justify-content: center;
+    padding: 2rem 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.card-extern {
+    width: 50rem;
+    max-width: 60rem /* 768px */;
+}
+.card-header {
+    padding: 0.25rem 1.25rem;
+}
+.card-header > h3 {
+    font-size: 1.8rem;
+    line-height: 2rem;
+    font-weight: 600;
+}
+.card-body {
+    padding: 0.25rem 1.25rem;
+    font-size: 1.25rem;
+    line-height: 1.5rem;
+    font-weight: 300;
+}
+.even-columns {
+    display: flex;
+}
+.even-columns > * {
+    flex-basis: 100%;
+}
+.card-info {
+    padding: 0.5rem;
+    font-weight: 500;
+}
+
+li.info-item:not(:last-child) {
+    margin-bottom: 1rem;
+}
+.tag {
+    --tw-bg-opacity: 1;
+    background-color: rgb(
+            243 244 246 / var(--tw-bg-opacity)
+    ); /* gray-100 */
+    padding: 0.5rem;
+    margin: 0.5rem;
+    border-radius: 0.375rem;
+    justify-content: center;
+    width: fit-content;
+}
+.tag-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.description {
+    word-break: break-word;
+    white-space: normal;
+}
+.title {
+    word-break: break-word;
+    white-space: normal;
+}
+.back-anchor {
+    font-size: 1.5rem;
+    line-height: 1;
+    font-weight: 500;
+    padding: 1rem;
+    text-decoration: underline;
+    color: black;
+}
+
+.back-auditions-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.buttonry{
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.audition-btn {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.audition-delete-btn {
+    background-color: #b91c1c;
+    color: white;
+    line-height: 1.25rem;
+    display: flex;
+    font-weight: 500;
+    font-size: large;
+    height: 50px;
+    justify-content: space-evenly;
+    border-radius: 9999px;
+    padding: 10px;
+    width: 140px;
+}
+
+
+.audition-delete-btn:hover{
+    background-color: #ff3b3b;
+}
+
+.audition-edit-btn {
+    background-color: #6c0c84;
+    display: flex;
+    justify-content: space-evenly;
+    border-radius: 9999px;
+    padding: 10px;
+    height: 50px;
+    width: 140px;
+    font-weight: 500;
+    font-size: large;
+    color: white;
+    line-height: 1.25rem;
+
+}
+
+.audition-applicants-btn {
+    background-color: #375275;
+    display: flex;
+    justify-content: space-evenly;
+    border-radius: 9999px;
+    padding: 10px;
+    height: 50px;
+    width: 140px;
+    font-weight: 500;
+    font-size: large;
+    color: white;
+    line-height: 1.25rem;
+}
+
+.audition-applicants-btn:hover {
+    background-color: rgba(55, 82, 117, 0.6);
+}
+
+.audition-edit-btn:hover {
+    background-color: #0369a1;
+}
+
+.audition-icon {
+    max-width: 1.25rem;
+    max-height: 1.25rem;
+    margin-left: 8px;
+    color: white;
+}
+
+.audition-icon-remove {
+    max-width: 1.5rem;
+    max-height: 1.5rem;
+    margin-left: 6px;
+    color: white;
+}
+
+.invert {
+    filter: invert(100%);
+}
+.audition-profile {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.audition-profile-image{
+    min-height: 70px;
+    min-width: 70px;
+    height: 70px;
+    width: 70px;
+    object-fit: cover;
+    border-radius: 10000px;
+    border:2px solid black;
+}
+
+.audition-application{
+    margin-top: 10px;
+}
+
+.audition-band-name {
+    margin-left: 10px;
+    color: black;
+    font-size: 1.4rem;
+    font-weight: 700;
+    line-height: 2rem;
+    word-break: break-all;
+    max-width: 80%;
+}
+
+.applicants {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1.5rem;
+}
+
+.applicants-header {
+    font-size: xx-large;
+    text-align: center;
+    font-weight: 600;
+}
+
+.left-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 2.5rem 1rem;
+    justify-content: flex-start;
+}
+
+.right-panel {
+    padding: 2.5rem 1rem;
+}
+
+.back-icon {
+    width: 48px;
+}
+
+.back-div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+}
+
