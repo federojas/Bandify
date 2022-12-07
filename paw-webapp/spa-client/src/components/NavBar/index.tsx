@@ -3,20 +3,9 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import BandifyLogo from "../../images/logo.png";
+import './navbar.css';
 
-import "../../common/i18n/index";
-import {
-  NavBarContainer,
-  NavBarLogoSection,
-  NavBarBandifyLogo,
-  NavBarItemList,
-  NavBarItem,
-  Nav,
-  BandifyLogoImg,
-} from "./styles";
-import { Button, MenuItem } from "@mui/material";
-
-export default function NavBar() {
+function Nav() {
   const { t } = useTranslation();
   const [isLogged, setIsLogged] = useState<boolean>(false);
   const sections = [
@@ -29,32 +18,73 @@ export default function NavBar() {
   }
 
   return (
-    <Nav>
-      {/* <button onClick={login}>Clickeame para logear</button> */}
-      <NavBarContainer>
-        {/* TODO: NO SE QUE HACE ESTO <span id="langspan" style="display: none;"><spring:message code="app.lang"/></span> */}
+    <nav>
+      <div className="nav-container nav-div">
+        <a href="/" className="logo-section">
+          <img
+            src="/resources/images/logo.png"
+            className="bandify-logo"
+            alt="Bandify"
+          />
+          <span className="bandify-title">Bandify</span>
+        </a>
 
-        <NavBarLogoSection href="/">
-          <BandifyLogoImg src={BandifyLogo}/>
-          <NavBarBandifyLogo>{t("NavBar.bandify")}</NavBarBandifyLogo>
-        </NavBarLogoSection>
-        <div style={{ width: "full" }}>
-          <NavBarItemList>
-            {sections.map((section) => (
-              <MenuItem key={section.path}>
-                <Button variant="text" href={section.path}>{section.name}</Button>
-              </MenuItem>
-            ))}
-            <MenuItem>
-              {isLogged ? (
-                <Link to="/welcome">{t("NavBar.Profile")}</Link>
-              ) : (
-                <Button variant="contained" href="/login">Log in</Button>
-              )}
-            </MenuItem>
-          </NavBarItemList>
+        <div className="w-full md:block md:w-auto" id="mobile-menu">
+          <ul>
+            <li>
+              <a href="/auditions" className="block py-2 pr-4 pl-3 text-white rounded text-2xl">Auditions</a>
+            </li>
+            {/* isLogged && */}
+            {(
+              <li>
+                <a href="/users" className="block py-2 pr-4 pl-3 text-white rounded text-2xl">Users</a>
+              </li>
+            )}
+            {!isLogged && (
+              <>
+                <li>
+                  <a href="/aboutUs" className="block py-2 pr-4 pl-3 text-white rounded text-2xl">About Us</a>
+                </li>
+                {/* param.navItem !== 0 && param.navItem !== 5 && */}
+                { (
+                  <li>
+                    <div className="flex">
+                      <a href="/login" className="purple-login-button">Login</a>
+                    </div>
+                  </li>
+                )}
+              </>
+            )}
+            {isLogged && (
+              <>
+              {/* hasRole('BAND') && */}
+                { (
+                  <li>
+                    <a href="/newAudition" className="block py-2 pr-4 pl-3 text-white rounded text-2xl">Post</a>
+                  </li>
+                )}
+                {/* hasRole('ARTIST') && */}
+                { (
+                  <li>
+                    <a href="/profile/applications" className="block py-2 pr-4 pl-3 text-white rounded text-2xl">
+                      <img src="/resources/icons/manager.svg" className="profile-icon-img" alt="Manager" />
+                      Manager
+                    </a>
+                  </li>
+                )}
+                <li>
+                  <a href="/profile" className="block py-2 pr-4 pl-3 text-white rounded text-2xl">Profile</a>
+                </li>
+                <li>
+                  <a href="/logout" className="block py-2 pr-4 pl-3 text-white rounded text-2xl">Logout</a>
+                </li>
+              </>
+            )}
+          </ul>
         </div>
-      </NavBarContainer>
-    </Nav>
+      </div>
+    </nav>
   );
 }
+
+export default Nav;

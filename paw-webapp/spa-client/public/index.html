@@ -2,12 +2,13 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <meta
       name="description"
-      content="Web site created using create-react-app"
+      content="PAW webapp - Bandify"
     />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <!--
@@ -25,6 +26,23 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>Bandify</title>
+    <!-- Script tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type = "text/javascript" src = "https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Questrial"/>
+
+    <style>
+        body {
+            font-family: "Questrial", sans-serif;
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1 0 auto;
+        }
+    </style>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
