@@ -39,6 +39,7 @@ function App() {
                     name: "Dagos",
                     email: "agustin.dagostino@hotmail.com",
                     available: true,
+                    band: false,
                   }}
                 />
               }
