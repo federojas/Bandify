@@ -8,7 +8,7 @@ export const DiscoverBg = styled.div`
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    height: 100vh;
+    height: 90vh;
     opacity: 0.9;
     display: flex;
 `;
