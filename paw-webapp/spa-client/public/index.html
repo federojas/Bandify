@@ -2,14 +2,11 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="PAW webapp - Bandify"
-    />
+    <meta name="description" content="PAW webapp - Bandify" />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <!--
       manifest.json provides metadata used when your web app is installed on a
@@ -28,20 +25,43 @@
     <title>Bandify</title>
     <!-- Script tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script type = "text/javascript" src = "https://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Questrial"/>
+    <script
+      type="text/javascript"
+      src="https://code.jquery.com/jquery-2.1.1.min.js"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Questrial"
+    />
 
     <style>
-        body {
-            font-family: "Questrial", sans-serif;
-            display: flex;
-            min-height: 100vh;
-            flex-direction: column;
-        }
+      body {
+        font-family: "Questrial", sans-serif;
+        display: flex;
+        min-height: 100vh;
+        flex-direction: column;
+      }
 
-        main {
-            flex: 1 0 auto;
-        }
+      main {
+        flex: 1 0 auto;
+      }
+    </style>
+
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+    <link rel="stylesheet" href="../src/styles/form-materialize.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $("select").material_select();
+      });
+    </script>
+    <style>
+      .parallax-container {
+        height: 500px;
+      }
     </style>
   </head>
   <body>

@@ -15,12 +15,22 @@ import ForgotPassword from "./pages/ForgotPassword";
 import AuditionsPage from "./pages/Auditions/Auditions";
 import Profile from "./pages/Profile";
 import AboutUs from "./pages/AboutUs";
+import Discover from "./pages/Discover";
 
 const theme = {
   colors: {
     white: "#ffffff",
   },
 };
+
+const dagos = {
+  id: 1,
+  name: "Dagos",
+  email: "agustin.dagostino@hotmail.com",
+  available: true,
+  band: false,
+};
+
 function App() {
   return (
     <ThemeProvider theme={theme}>
@@ -31,21 +41,9 @@ function App() {
             <Route path="welcome" element={<Welcome />} />
             <Route path="login" element={<LogIn />} />
             <Route path="register" element={<Register isBand={false} />} />
-            <Route
-              path="profile"
-              element={
-                <Profile
-                  user={{
-                    id: 1,
-                    name: "Dagos",
-                    email: "agustin.dagostino@hotmail.com",
-                    available: true,
-                    band: false,
-                  }}
-                />
-              }
-            />
+            <Route path="profile" element={<Profile user={dagos} />} />
             <Route path="aboutUs" element={<AboutUs />} />
+            <Route path="users" element={<Discover />} />
           </Route>
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/" element={<MainLayout />}>
