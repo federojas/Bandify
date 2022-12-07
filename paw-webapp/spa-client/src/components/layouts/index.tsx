@@ -1,13 +1,13 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import Footer from "../Footer";
-import NavBar from "../NavBar";
+import Nav from "../NavBar";
 import { PageOrganizer, PageContainer } from "./styles";
 
 function MainLayout() {
   return (
     <PageOrganizer>
-      <NavBar/>
+      <Nav/>
       <PageContainer>
         <Outlet />
       </PageContainer>
