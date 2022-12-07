@@ -14,6 +14,7 @@ import MainLayout from "./components/layouts";
 import ForgotPassword from "./pages/ForgotPassword";
 import AuditionsPage from "./pages/Auditions/Auditions";
 import Profile from "./pages/Profile";
+import AboutUs from "./pages/AboutUs";
 
 const theme = {
   colors: {
@@ -44,6 +45,7 @@ function App() {
                 />
               }
             />
+            <Route path="aboutUs" element={<AboutUs />} />
           </Route>
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/" element={<MainLayout />}>
