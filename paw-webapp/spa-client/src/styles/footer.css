@@ -1,0 +1,14 @@
+.languages-buttons{
+    color: white; font-size: large;
+    margin: 0 10px;
+}
+footer.page-footer {
+    padding: 20px;
+    background-color: #1c041c;
+}
+footer.page-footer .footer-copyright {
+    color: rgba(255, 255, 255, 0.8);
+}
+a {
+    color: #039be5;
+}
