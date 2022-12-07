@@ -17,7 +17,6 @@ import BandifyLogo from "../../images/logo.png";
 import "../../styles/login.css";
 import "../../styles/welcome.css";
 import "../../styles/forms.css";
-// alerts.css, forms.css
 import "../../styles/alerts.css";
 import "../../styles/forms.css";
 
