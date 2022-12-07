@@ -7,6 +7,6 @@ export const PageOrganizer = styled.div`
   width: 100%;
 `;
 
-export const PageContainer = styled.div`
+export const PageContainer = styled.main`
 
 `;
