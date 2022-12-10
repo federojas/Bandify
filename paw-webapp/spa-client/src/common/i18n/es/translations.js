@@ -27,7 +27,7 @@ export const TRANSLATIONS_ES = {
     "rememberMe": "Recuérdame",
     "forgotPassword": "¿Olvidaste tu contraseña?",
     "login": "Iniciar sesión",
-    "notAMemberyet": "¿No eres miembro aún? Regístrate",
+    "notAMemberyet": "¿No eres miembro aún?",
     "register": "Registrarse"
   }
 };

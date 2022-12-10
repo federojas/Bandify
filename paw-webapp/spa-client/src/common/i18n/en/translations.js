@@ -27,7 +27,21 @@ export const TRANSLATIONS_EN = {
     "rememberMe": "Remember me",
     "forgotPassword": "Forgot password?",
     "login": "Log in",
-    "notAMemberyet": "Not a member yet? Sign up",
+    "notAMemberyet": "Not a member yet?",
     "register": "Register"
+  },
+  Register: {
+    header: "Register as a",
+    band: "Band",
+    artist: "Artist",
+    email: "Email *",
+    password: "Password *",
+    confirmPassword: "Confirm password *",
+    email_placeholder: "example@email.com",
+    password_placeholder: "********",
+    band_name: "Band name *",
+    artist_name: "Artist name *",
+    artist_surname: "Artist surname *",
+    button: "Register",
   }
 };

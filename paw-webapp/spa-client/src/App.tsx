@@ -16,6 +16,8 @@ import AuditionsPage from "./pages/Auditions/Auditions";
 import Profile from "./pages/Profile";
 import AboutUs from "./pages/AboutUs";
 import Discover from "./pages/Discover";
+import RegisterArtist from "./pages/RegisterArtist";
+import RegisterBand from "./pages/RegisterBand";
 
 const theme = {
   colors: {
@@ -40,10 +42,12 @@ function App() {
             <Route index element={<Navigate to={"/welcome"} />} />
             <Route path="welcome" element={<Welcome />} />
             <Route path="login" element={<LogIn />} />
-            <Route path="register" element={<Register isBand={false} />} />
+            <Route path="register" element={<Register />} />
             <Route path="profile" element={<Profile user={dagos} />} />
             <Route path="aboutUs" element={<AboutUs />} />
             <Route path="users" element={<Discover />} />
+            <Route path="registerBand" element={<RegisterBand />} />
+            <Route path="registerArtist" element={<RegisterArtist />} />
           </Route>
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/" element={<MainLayout />}>
