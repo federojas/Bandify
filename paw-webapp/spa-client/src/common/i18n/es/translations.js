@@ -21,4 +21,13 @@ export const TRANSLATIONS_ES = {
     AboutUs: "Sobre nosotros",
     Profile: "Perfil",
   },
+  Login : {
+    "email": "Email",
+    "password": "Password",
+    "rememberMe": "Recuérdame",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "login": "Iniciar sesión",
+    "notAMemberyet": "¿No eres miembro aún? Regístrate",
+    "register": "Registrarse"
+  }
 };

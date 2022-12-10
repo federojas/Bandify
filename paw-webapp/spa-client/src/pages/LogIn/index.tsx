@@ -1,63 +1,75 @@
 import * as React from "react";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { BandifyLogoImg } from "../../components/NavBar/styles";
-import BandifyLogo from "../../images/logo.png";
-
 import "../../styles/login.css";
 import "../../styles/welcome.css";
 import "../../styles/forms.css";
 import "../../styles/alerts.css";
 import "../../styles/forms.css";
+import { loginService } from "../../services";
+import { useForm } from 'react-hook-form';
+
+import { useTranslation } from "react-i18next";
+import "../../common/i18n/index";
+
+interface FormData {
+  email: string;
+  password: string;
+  rememberMe: boolean;
+}
+
 
 
 const LoginBox = () => {
+  const { t } = useTranslation();
+
+  const { register, handleSubmit, getValues } = useForm<FormData>();
+  let emailError = "";
+  let passwordError = "";
+
+  const onSubmit = (data: FormData) => {
+    const values = getValues();
+    // check for validation errors on the "email" and "password" fields
+    emailError = values.email ? "" : 'This field is required';
+    passwordError = values.password ? "" : 'This field is required';
+  
+    console.log(values);
+    // submit the form data, for example to an API
+    loginService.login(values.email, values.password).then((response) => {
+      console.log(response);
+    });
+  };
+
   return (
     <div className="login-box">
       <div className="general-div" id="login">
-        <form action="/login" method="post">
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="form-group">
             <label htmlFor="email" className="form-label">
-              Welcome.email
+              {t("Login.email")}
             </label>
             <input
               type="text"
               required
               className="form-input"
               id="email"
-              name="email"
-              placeholder="Welcome.email"
+              placeholder={t("Login.email")}
+              {...register("email", {})}
             />
-            <p id="invalidMail" className="error" style={{ display: "none" }}>
-              Welcome.error.invalidMail
-            </p>
+            {emailError && <span>This field is required</span>}
           </div>
           <div className="form-group">
             <label htmlFor="password" className="form-label">
-              Welcome.password
+            {t("Login.password")}
             </label>
             <input
               type="password"
               required
               className="form-input"
               id="password"
-              name="password"
-              placeholder="Welcome.password"
+              placeholder={t("Login.password")}
+              {...register("password", {})}            
             />
+            {passwordError && <span>This field is required</span>}
           </div>
-          <p id="invalidPassword" className="error" style={{ display: "none" }}>
-            Welcome.error.invalidPassword
-          </p>
           <div className="check-box">
             <input
               type="checkbox"
@@ -65,30 +77,29 @@ const LoginBox = () => {
               id="rememberMe"
               className="remember-me"
             />
-            <label htmlFor="rememberMe">Welcome.rememberme</label>
+            <label htmlFor="rememberMe">{t("Login.rememberMe")}</label>
           </div>
           <a href="/resetPassword">
-            <u className="login-reset-button">Welcome.resetButton</u>
+            <u className="login-reset-button">{t("Login.forgotPassword")}</u>
           </a>
-          <div className="errorDiv">
+          {/* <div className="errorDiv">
             <p className="error">
-              {/* TODO param.error &&  */}
+               TODO param.error &&  *
               {<>Welcome.login.auth.failed</>}
             </p>
-          </div>
+          </div> */}
           <div className="loginButton">
-            {/* TODO onClick={() => loginFormCheck()} */}
             <button type="submit" className="purple-hover-button">
-              Welcome.loginButton
+            {t("Login.login")}
             </button>
           </div>
         </form>
         <div className="notMemberYet">
-          <p>Welcome.notMemberYet</p>
+          <p>{t("Login.notAMemberyet")}</p>
           &nbsp;&nbsp;
           <b>
             <a href="/register">
-              <u className="login-register-button">Welcome.registerButton</u>
+              <u className="login-register-button">{t("Login.register")}</u>
             </a>
           </b>
         </div>
@@ -96,6 +107,7 @@ const LoginBox = () => {
     </div>
   );
 };
+
 
 const Login = () => {
   return (
