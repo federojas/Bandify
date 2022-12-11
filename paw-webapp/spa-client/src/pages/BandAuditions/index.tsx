@@ -4,16 +4,23 @@ import "../../styles/welcome.css";
 import "../../styles/auditions.css";
 import BandAuditionCard from "../../components/BandAuditionCard";
 import { Audition } from "../../types";
+import PostCard from "../../components/PostCard/PostCard";
 
-const BandAuditionsList = (props: {auditions: Audition[]}) => {
-  return <></>;
+const BandAuditionsList = (props: { auditions: Audition[] }) => {
+  return (
+  <>
+  {props.auditions.map((audition, index) => {
+    return <PostCard {...audition} />;
+    })}
+  </>
+  );
 };
 
-const MyAuditionsList = (props: {auditions: Audition[]}) => {
+const MyAuditionsList = (props: { auditions: Audition[] }) => {
   return (
     <>
       {props.auditions.map((audition, index) => {
-        return <BandAuditionCard {...audition}/>;
+        return <BandAuditionCard {...audition} />;
       })}
     </>
   );
@@ -22,7 +29,7 @@ const MyAuditionsList = (props: {auditions: Audition[]}) => {
 const BandAuditions = () => {
   const { t } = useTranslation();
 
-  const isPropietary = true;
+  const isPropietary = false;
   const username = "Dagos";
   let auditionList: Audition[] = [
     {

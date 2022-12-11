@@ -17,23 +17,16 @@ import {
 //i18 translations
 import { useTranslation } from "react-i18next";
 import "../../common/i18n/index";
+import { Audition } from "../../types";
 
-interface postcardProps {
-  auditionTitle: string;
-  bandName: string;
-  location: string;
-  roles: string[];
-  genres: string[];
 
-}
-
-export default function PostCard({
-  auditionTitle,
-  bandName,
+const PostCard: React.FC<Audition> = ({
+  title,
+  band,
   location,
   roles,
   genres,
-}: postcardProps) {
+}) => {
   const { t } = useTranslation();
 
   return (
@@ -61,7 +54,7 @@ export default function PostCard({
               alt={t("Profile.alt.img")}
               src="https://cdn-1.motorsport.com/images/amp/6O1P1km2/s1000/jos-verstappen-1.jpg"
             ></img>
-            <PostCardBandName> {bandName} </PostCardBandName>
+            <PostCardBandName> {band.name} </PostCardBandName>
           </PostCardProfile>
         </a>
 
@@ -69,7 +62,7 @@ export default function PostCard({
         <div style={{ marginLeft: "20px" }}>
           <div style={{ marginBottom: "1rem", overflow: "hidden !important" }}>
             <PostCardAuditionTitle>
-              <b>{auditionTitle}</b>
+              <b>{title}</b>
             </PostCardAuditionTitle>
           </div>
           {/* --------------------------------------------  */}
@@ -127,3 +120,5 @@ export default function PostCard({
     </>
   );
 }
+
+export default PostCard;

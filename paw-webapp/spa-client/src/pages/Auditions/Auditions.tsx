@@ -4,10 +4,24 @@ import PostCard from "../../components/PostCard/PostCard";
 import AuditionsParalax from "../../images/parallax3.png"
 import { useTranslation } from "react-i18next";
 import AuditionSearchBar from "../../components/AuditionSearchBar";
+import { Audition } from "../../types";
 
 
 export default function AuditionsPage() {
   const { t } = useTranslation();
+  const audition: Audition = {
+    band: {
+      name: "My Band",
+      id: 1,
+    },
+    id: 1,
+    creationDate: new Date(),
+    title: "My Band is looking for a drummer",
+    roles: ["Drummer"],
+    genres: ["Rock"],
+    location: "Buenos Aires",
+  };
+
   return (
     <>
       <head>
@@ -35,11 +49,7 @@ export default function AuditionsPage() {
           <AuditionsBlackTitle>{t("Auditions.latest")}</AuditionsBlackTitle>
           <PostsContainer>
             <PostCard
-              auditionTitle="Buscamos baterista"
-              bandName="Los totora"
-              location="Buenos Aires, Argentina"
-              roles={["Baterista"]}
-              genres={["Rock"]}
+              {...audition}
             />
 
           </PostsContainer>        

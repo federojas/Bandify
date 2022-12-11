@@ -75,11 +75,7 @@ const AuditionSearch = () => {
         )}
         {auditionList.auditionList.map((audition, index) => (
           <PostCard
-              auditionTitle={audition.title}
-              bandName={audition.band.name}
-              location={audition.location}
-              roles={audition.roles}
-              genres={audition.genres}
+              {...audition}
           />
         ))}
       </div>
