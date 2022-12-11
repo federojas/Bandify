@@ -1,2 +1,7 @@
 <?xml version="1.0"?>
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" version="1.1" width="512" height="512" x="0" y="0" viewBox="0 0 24 24" style="enable-background:new 0 0 512 512" xml:space="preserve"><g><path xmlns="http://www.w3.org/2000/svg" d="M21,1H11A3,3,0,0,0,8,4V14a5,5,0,1,0,2,4V4a1,1,0,0,1,1-1H21a1,1,0,0,1,1,1V14a5,5,0,1,0,2,4V4A3,3,0,0,0,21,1Z" fill="#000000" data-original="#000000"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" 
+version="1.1" width="512" height="512" x="0" y="0" viewBox="0 0 24 24" style="enable-background:new 0 0 512 512" xml:space="preserve">
+    <g>
+        <path xmlns="http://www.w3.org/2000/svg" d="M21,1H11A3,3,0,0,0,8,4V14a5,5,0,1,0,2,4V4a1,1,0,0,1,1-1H21a1,1,0,0,1,1,1V14a5,5,0,1,0,2,4V4A3,3,0,0,0,21,1Z" fill="#000000" data-original="#000000" />
+    </g>
+</svg>

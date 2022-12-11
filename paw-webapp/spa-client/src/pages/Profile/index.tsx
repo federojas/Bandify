@@ -132,7 +132,7 @@ const Profile: React.FC<Props> = ({ user }) => {
                         </a>
                       </li>
                       <li className="pt-2">
-                        <a href="/invites">
+                        <a href="/profile/invites">
                           <button className="auditions-btn hover: shadow-sm">
                             {t("Profile.invites")}
                           </button>
