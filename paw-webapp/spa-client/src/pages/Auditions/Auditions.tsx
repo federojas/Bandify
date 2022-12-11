@@ -3,6 +3,7 @@ import { AuditionsContainer, RelativeContainer, ParalaxContainer, ParalaxImage, 
 import PostCard from "../../components/PostCard/PostCard";
 import AuditionsParalax from "../../images/parallax3.png"
 import { useTranslation } from "react-i18next";
+import AuditionSearchBar from "../../components/AuditionSearchBar";
 
 
 export default function AuditionsPage() {
@@ -24,7 +25,7 @@ export default function AuditionsPage() {
             <TitleContainer>
               <Title>{t("Auditions.discover")}</Title>
               {/* TODO: NO ANDA EL THEMING DE STYLED COMPONENTS */}
-              {/* ACA VA LA SEARCHBAR COMPONENT */}
+              <AuditionSearchBar/>
             </TitleContainer>
 
           </SearchContainer>
