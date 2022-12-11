@@ -2,7 +2,8 @@ package ar.edu.itba.paw.model;
 
 public enum TokenType {
     VERIFY("verify"),
-    RESET("reset");
+    RESET("reset"),
+    REFRESH("refresh");
 
     private final String type;
 

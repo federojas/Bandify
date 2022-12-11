@@ -4,16 +4,12 @@ import ar.edu.itba.paw.model.*;
 import ar.edu.itba.paw.model.exceptions.DuplicateUserException;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.persistence.UserDao;
-import ar.edu.itba.paw.persistence.VerificationTokenDao;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -45,9 +41,6 @@ public class UserServiceTest {
 
     @Mock
     private LocationService locationService;
-
-    @Mock
-    private PasswordEncoder passwordEncoder;
 
     @InjectMocks
     private UserService userService = new UserServiceImpl();

@@ -8,11 +8,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-public class GenreServiceImpl implements GenreService{
+public class GenreServiceImpl implements GenreService {
 
     @Autowired
     private GenreDao genreDao;
@@ -20,6 +21,11 @@ public class GenreServiceImpl implements GenreService{
     @Override
     public Set<Genre> getAll() {
         return genreDao.getAll();
+    }
+
+    @Override
+    public Optional<Genre> getGenreById(Long id) {
+        return genreDao.getGenreById(id);
     }
 
     @Override

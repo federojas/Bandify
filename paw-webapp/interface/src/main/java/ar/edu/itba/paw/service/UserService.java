@@ -12,6 +12,8 @@ public interface UserService {
 
     User getArtistById(long id);
 
+    User getBandById(long id);
+
     User create(User.UserBuilder userBuilder);
 
     Optional<User> findByEmail(String email);
@@ -53,4 +55,9 @@ public interface UserService {
     List<User> filter(FilterOptions filter, int page);
 
     int getFilterTotalPages(FilterOptions filter);
+
+    VerificationToken getAuthRefreshToken(String email);
+
+    User getUserByRefreshToken(String payload);
+
 }

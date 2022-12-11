@@ -13,11 +13,16 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import javax.validation.constraints.Size;
 import java.util.*;
 
-public abstract class UserEditForm {
+public class UserEditForm {
 
     @NotBlank
     @Size(max = 50)
     private String name;
+
+    @Size(max = 50)
+    private String surname;
+
+    private boolean available;
 
     @Size(max = 500)
     private String description;
@@ -48,8 +53,6 @@ public abstract class UserEditForm {
     private String spotifyUrl;
     @URL(protocol = "https", host = "soundcloud.com")
     private String soundcloudUrl;
-
-    private boolean isBand;
 
     public CommonsMultipartFile getProfileImage() {
         return profileImage;
@@ -89,14 +92,6 @@ public abstract class UserEditForm {
 
     public void setLookingFor(List<String> lookingFor) {
         this.lookingFor = lookingFor;
-    }
-
-    public boolean isBand() {
-        return isBand;
-    }
-
-    public void setBand(boolean band) {
-        isBand = band;
     }
 
     public String getTwitterUrl() {
@@ -155,12 +150,27 @@ public abstract class UserEditForm {
         this.location = location;
     }
 
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public boolean getAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
+    }
+
     public void initialize(User user, List<String> musicGenres, List<String> bandRoles, Set<SocialMedia> socialMediaSet, String location) {
         this.setMusicGenres(musicGenres);
         this.setLookingFor(bandRoles);
         this.setDescription(user.getDescription());
         this.setName(user.getName());
-        this.setBand(user.isBand());
         this.setLocation(location);
         Optional<SocialMedia> twitter = socialMediaSet.stream().filter(socialMedia -> socialMedia.getType().equals(UrlType.TWITTER)).findFirst();
         twitter.ifPresent(socialMedia -> this.setTwitterUrl(socialMedia.getUrl()));

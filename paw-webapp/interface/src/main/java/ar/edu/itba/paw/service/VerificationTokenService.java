@@ -18,4 +18,6 @@ public interface VerificationTokenService {
 
     boolean isValid(String token);
 
+    Optional<VerificationToken> getRefreshToken(User user);
+
 }

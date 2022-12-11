@@ -9,9 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -39,10 +37,6 @@ public class ApplicationServiceTest {
 
     @Mock
     private AuthFacadeService authFacadeService;
-
-    @Mock
-    private MailingService mailingService;
-
 
     @InjectMocks
     private ApplicationService applicationService = new ApplicationServiceImpl();

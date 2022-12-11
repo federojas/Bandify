@@ -53,11 +53,20 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getArtistById(long id) {
-        Optional<User> artist = getUserById(id);
-        if(!artist.isPresent() || artist.get().isBand())
+        User artist = getUserById(id).orElseThrow(UserNotFoundException::new);
+        if(artist.isBand())
             throw new UserNotFoundException("User is a band");
         else
-            return artist.get();
+            return artist;
+    }
+
+    @Override
+    public User getBandById(long id) {
+        User band = getUserById(id).orElseThrow(UserNotFoundException::new);
+        if(!band.isBand())
+            throw new UserNotFoundException("User is an artist");
+        else
+            return band;
     }
 
     @Transactional
@@ -249,6 +258,34 @@ public class UserServiceImpl implements UserService {
     @Override
     public int getFilterTotalPages(FilterOptions filter) {
         return userDao.getTotalPages(filter);
+    }
+
+    @Transactional
+    @Override
+    public VerificationToken getAuthRefreshToken(String email) {
+        User user = userDao.findByEmail(email).orElseThrow(UserNotFoundException::new);
+
+        final Optional<VerificationToken> refreshTokenOpt = verificationTokenService.getRefreshToken(user);
+
+        if (refreshTokenOpt.isPresent()) {
+            verificationTokenService.deleteTokenByUserId(user.getId(), TokenType.REFRESH);
+        }
+
+        return verificationTokenService.generate(user, TokenType.REFRESH);
+    }
+
+    @Transactional
+    @Override
+    public User getUserByRefreshToken(String payload) {
+        Optional<VerificationToken> token = verificationTokenService.getToken(payload);
+        if(token.isPresent()) {
+            if(!token.get().isValid()) {
+                verificationTokenService.deleteTokenByUserId(token.get().getUser().getId(), TokenType.REFRESH);
+                return null;
+            }
+            return token.get().getUser();
+        }
+        return null;
     }
 
     private void checkPage(int page, int lastPage) {

@@ -89,7 +89,7 @@ public class AuditionServiceTest {
 
     @Test
     public void testCreateAudition() {
-        Audition retAud = auditionService.create(defaultAudBuilder);
+        auditionService.create(defaultAudBuilder);
         verify(auditionDao).create(defaultAudBuilder);
     }
 
