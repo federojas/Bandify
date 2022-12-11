@@ -21,6 +21,7 @@ import RegisterBand from "./pages/RegisterBand";
 import Audition from "./pages/Audition";
 import AuditionSearch from "./pages/AuditionSearch";
 import User from "./pages/User";
+import BandAuditions from "./pages/BandAuditions";
 
 const theme = {
   colors: {
@@ -56,12 +57,14 @@ function App() {
             <Route path="auditions" element={<AuditionsPage />} />
             <Route path="auditions/:id" element={<Audition />} />
             <Route path="auditions/search" element={<AuditionSearch />} />
-            {/* TODO */}
             <Route path="user/:id" element={<User user={dagos}/>} />
-            <Route path="bandAuditions/:id" element={<AuditionsPage />} />
+            {/* TODO */}
+            <Route path="bandAuditions/:id" element={<BandAuditions />} />
+            <Route path="profile/auditions" element={<BandAuditions />} />
+
             <Route path="profile/applications" element={<AuditionsPage />} />
             <Route path="profile/invites" element={<AuditionsPage />} />
-            <Route path="profile/auditions" element={<AuditionsPage />} />
+            <Route path="auditions/:id/applicants" element={<AuditionsPage />} />
             <Route path="profile/editBand" element={<AuditionsPage />} />
             <Route path="profile/editArtist" element={<AuditionsPage />} />
             <Route path="newAudition" element={<AuditionsPage />} />

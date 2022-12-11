@@ -17,9 +17,7 @@ type Audition = {
   id: number;
   title: string;
   description: string;
-  location: {
-    name: string;
-  };
+  location: string;
   lookingFor: Array<{
     name: string;
   }>;
@@ -143,7 +141,7 @@ function Card({ user, audition }: { user: User; audition: Audition }) {
                 <li className="info-item">
                   <b>Location</b>
                   <br />
-                  <div className="tag">{audition.location.name}</div>
+                  <div className="tag">{audition.location}</div>
                 </li>
               </ul>
             </div>
@@ -212,7 +210,7 @@ const AuditionCard = () => {
             id: 1,
             title: "Test",
             description: "Test",
-            location: { name: "Test" },
+            location: "Test",
             lookingFor: [{ name: "Test" }],
             musicGenres: [{ name: "Test" }],
             alreadyApplied: false,

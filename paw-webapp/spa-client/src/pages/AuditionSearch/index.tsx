@@ -14,9 +14,7 @@ type Audition = {
   title: string;
   roles: string[];
   genres: string[];
-  location: {
-    name: string;
-  };
+  location: string;
 };
 
 // type AuditionListPaginated = {
@@ -38,9 +36,8 @@ const AuditionSearch = () => {
         title: "My Band is looking for a drummer",
         roles: ['Drummer'],
         genres: ['Rock'],
-        location: {
-          name: "Buenos Aires",
-        },
+        location: "Buenos Aires",
+
       },
       {
         band: {
@@ -52,9 +49,8 @@ const AuditionSearch = () => {
         title: "My Band is looking for a guitarist",
         roles: ['Guitarist'],
         genres: ['Rock'],
-        location: {
-          name: "Buenos Aires",
-        },
+        location: "Buenos Aires",
+
       },
     ],
     currentPage: 1,
@@ -81,7 +77,7 @@ const AuditionSearch = () => {
           <PostCard
               auditionTitle={audition.title}
               bandName={audition.band.name}
-              location={audition.location.name}
+              location={audition.location}
               roles={audition.roles}
               genres={audition.genres}
           />
