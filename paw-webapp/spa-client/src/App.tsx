@@ -54,7 +54,6 @@ function App() {
             <Route path="auditions" element={<AuditionsPage />} />
             <Route path="auditions/:id" element={<Audition />} />
             {/* TODO */}
-            <Route path="hola" element={<AuditionSearch />} />
             <Route path="auditions/search" element={<AuditionSearch />} />
             <Route path="user/:id" element={<Profile user={dagos}/>} />
             <Route path="bandAuditions/:id" element={<AuditionsPage />} />
