@@ -1,6 +1,12 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import BackIcon from "../../assets/icons/back.svg";
+import "../../styles/welcome.css";
+import "../../styles/postCard.css";
+import "../../styles/audition.css";
+import "../../styles/forms.css";
+import "../../styles/modals.css";
+import "../../styles/alerts.css";
 
 type User = {
   id: number;
@@ -24,11 +30,7 @@ type Audition = {
   canBeAddedToBand: boolean;
 };
 
-
-const AuditionActions = (props: {
-    auditionId: number
-}) => {
-
+const AuditionActions = (props: { auditionId: number }) => {
   const share = () => {
     // TODO: Add code to share the audition
   };
@@ -43,28 +45,54 @@ const AuditionActions = (props: {
         <a className="audition-applicants-btn hover: shadow-sm">
           <button className="audition-btn" onClick={share}>
             Share
-            <img src="/resources/icons/copy.svg" className="audition-icon invert" alt="Share" />
+            <img
+              src="/resources/icons/copy.svg"
+              className="audition-icon invert"
+              alt="Share"
+            />
           </button>
         </a>
         {/* TODO: add isOwner && */}
-        { (
+        {
           <>
-            <a className="audition-applicants-btn hover: shadow-sm" href={`/auditions/${props.auditionId}/applicants`}>
+            <a
+              className="audition-applicants-btn hover: shadow-sm"
+              href={`/auditions/${props.auditionId}/applicants`}
+            >
               <button className="audition-btn" type="submit">
                 Applicants
-                <img src="/resources/icons/user.svg" className="audition-icon invert" alt="Applicants" />
+                <img
+                  src="/resources/icons/user.svg"
+                  className="audition-icon invert"
+                  alt="Applicants"
+                />
               </button>
             </a>
-            <a className="audition-edit-btn hover: shadow-sm" href={`/profile/editAudition/${props.auditionId}`}>
+            <a
+              className="audition-edit-btn hover: shadow-sm"
+              href={`/profile/editAudition/${props.auditionId}`}
+            >
               <button className="audition-btn" type="submit">
                 Edit
-                <img src="/resources/icons/edit-white-icon.svg" className="audition-icon" alt="Edit" />
+                <img
+                  src="/resources/icons/edit-white-icon.svg"
+                  className="audition-icon"
+                  alt="Edit"
+                />
               </button>
             </a>
             <a className="audition-delete-btn">
-              <button className="audition-btn" onClick={openConfirmation} type="submit">
+              <button
+                className="audition-btn"
+                onClick={openConfirmation}
+                type="submit"
+              >
                 Delete
-                <img src="/resources/icons/reject.svg" className="audition-icon-remove invert" alt="Delete" />
+                <img
+                  src="/resources/icons/reject.svg"
+                  className="audition-icon-remove invert"
+                  alt="Delete"
+                />
               </button>
             </a>
             {/* TODO: Add ConfirmationModal */}
@@ -76,7 +104,7 @@ const AuditionActions = (props: {
               action={`/profile/closeAudition/${props.auditionId}`}
             /> */}
           </>
-        )}
+        }
       </div>
     </div>
   );
@@ -176,11 +204,24 @@ function LeftPanel() {
 const AuditionCard = () => {
   return (
     <div className="flex flex-col">
-    <div className="auditions=content">
-      <LeftPanel />
-      <Card user={{ id: 1, name: "Test" }} audition={{ id: 1, title: "Test", description: "Test", location: { name: "Test" }, lookingFor: [{ name: "Test" }], musicGenres: [{ name: "Test" }], alreadyApplied: false, canBeAddedToBand: false }} />
-      <AuditionActions auditionId={1} />
-    </div></div>
+      <div className="auditions=content">
+        <LeftPanel />
+        <Card
+          user={{ id: 1, name: "Test" }}
+          audition={{
+            id: 1,
+            title: "Test",
+            description: "Test",
+            location: { name: "Test" },
+            lookingFor: [{ name: "Test" }],
+            musicGenres: [{ name: "Test" }],
+            alreadyApplied: false,
+            canBeAddedToBand: false,
+          }}
+        />
+        <AuditionActions auditionId={1} />
+      </div>
+    </div>
   );
 };
 
