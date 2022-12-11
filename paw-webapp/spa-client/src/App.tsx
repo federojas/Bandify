@@ -33,6 +33,7 @@ const dagos = {
   email: "agustin.dagostino@hotmail.com",
   available: true,
   band: false,
+  location: "CABA",
 };
 
 function App() {
@@ -53,8 +54,8 @@ function App() {
             <Route path="forgot-password" element={<ForgotPassword />} />
             <Route path="auditions" element={<AuditionsPage />} />
             <Route path="auditions/:id" element={<Audition />} />
-            {/* TODO */}
             <Route path="auditions/search" element={<AuditionSearch />} />
+            {/* TODO */}
             <Route path="user/:id" element={<Profile user={dagos}/>} />
             <Route path="bandAuditions/:id" element={<AuditionsPage />} />
             <Route path="profile/applications" element={<AuditionsPage />} />

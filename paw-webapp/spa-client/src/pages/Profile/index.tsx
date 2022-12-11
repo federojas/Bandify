@@ -1,5 +1,9 @@
 import React from "react";
 import "../../styles/profile.css";
+import UserIcon from '../../assets/icons/user.svg'
+import EditIcon from '../../assets/icons/edit-white-icon.svg'
+import AvailableCover from '../../assets/images/available.png'
+import { useTranslation } from "react-i18next";
 
 type Props = {
   user: {
@@ -10,6 +14,7 @@ type Props = {
     available?: boolean;
     description?: string;
     band: boolean;
+    location: string;
   };
   //   location?: {
   //     name: string;
@@ -32,6 +37,8 @@ type SocialMedia = {
 };
 
 const Profile: React.FC<Props> = ({ user }) => {
+  const { t } = useTranslation();
+
   const preferredGenres: Genre[] = [];
   const roles: Role[] = [];
   const socialMedia: SocialMedia[] = [];
@@ -49,17 +56,18 @@ const Profile: React.FC<Props> = ({ user }) => {
                   {/* Image */}
                   <div className="image overflow-hidden">
                     <div className="profile-image-container">
-                      {/* TODO  alt={img} */}
+                      {/* TODO path a imagen */}
                       <img
                         className="profileImage"
-                        src={`/user/${user.id}/profile-image`}
+                        src={'https://i.pinimg.com/originals/d3/e2/73/d3e273980e1e3df14c4a9b26e7d98d70.jpg'}
+                        alt="Profile"
                       />
                       {user.available && (
                         <>
-                          {/* TODO alt={available} */}
                           <img
                             className="top-image-big"
-                            src="/resources/images/available.png"
+                            src={AvailableCover}
+                            alt="Available"
                           />
                         </>
                       )}
@@ -72,28 +80,31 @@ const Profile: React.FC<Props> = ({ user }) => {
                       {user.surname && <>{user.surname}</>}
                     </h1>
                     {/* TODO location? */}
-                    {/* <div className="location">
-                      {location ? (
-                        <p>{location.name}</p>
+                    <div className="location">
+                      {user.location ? (
+                        <p>{user.location}</p>
                       ) : (
-                        <p> profile.emptyLocation </p>
+                        <p> {t("Profile.emptyLocation")} </p>
                       )}
-                    </div> */}
-                    {/* account-type-label-artist and account-type-label-band */}
+                    </div>
+                    {user.band ? (
+                      <span className="account-type-label-band">{t("Profile.band")}</span>
+                    ) : (
+                      <span className="account-type-label-artist">{t("Profile.artist")}</span>
+                    )
+                    }
                     <h1 className="email">{user.email}</h1>
                   </div>
                   {/* Edit button */}
                   <div className="edit-div">
                     <a href="/profile/editArtist">
                       <button className="edit-btn hover: shadow-sm">
-                        {/* profile.edit.alt */}
                         <img
-                          src="/resources/icons/edit-white-icon.svg"
-                          alt={"TODO alt"}
+                          src={EditIcon}
                           className="icon-img"
+                          alt="Profile"
                         />
-                        Edit profile TR
-                        {/* profile.editProfile */}
+                        {t("Profile.editProfile")}
                       </button>
                     </a>
                   </div>
@@ -104,7 +115,7 @@ const Profile: React.FC<Props> = ({ user }) => {
                       <li className="pt-2">
                         <a href="/profile/auditions">
                           <button className="auditions-btn hover: shadow-sm">
-                            Auditions TR
+                            {t("Profile.auditions")}
                           </button>
                         </a>
                       </li>
@@ -116,14 +127,14 @@ const Profile: React.FC<Props> = ({ user }) => {
                       <li className="pt-2">
                         <a href="/profile/applications">
                           <button className="auditions-btn hover: shadow-sm">
-                            My Applications
+                            {t("Profile.applications")}
                           </button>
                         </a>
                       </li>
                       <li className="pt-2">
                         <a href="/invites">
                           <button className="auditions-btn hover: shadow-sm">
-                            Invites
+                            {t("Profile.invites")}
                           </button>
                         </a>
                       </li>
@@ -137,9 +148,9 @@ const Profile: React.FC<Props> = ({ user }) => {
                 <div className="user-data">
                   <div className="about-section-heading">
                     <img
-                      src="/resources/icons/user.svg"
+                      src={UserIcon}
                       className="user-icon"
-                      alt={"TODO ALT"}
+                      alt="User"
                     />
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <span>About</span>
@@ -220,7 +231,7 @@ const Profile: React.FC<Props> = ({ user }) => {
                 <div className="user-data">
                   <div className="about-section-heading">
                     <span>
-                      <p>TR social media message here </p>
+                      <p>{t("Profile.socialMedia")}</p>
                     </span>
                   </div>
                   <div className="roles-div">
