@@ -48,13 +48,9 @@ function App() {
             <Route path="users" element={<Discover />} />
             <Route path="registerBand" element={<RegisterBand />} />
             <Route path="registerArtist" element={<RegisterArtist />} />
-          </Route>
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/" element={<MainLayout />}>
-            <Route index element={<Navigate to={"/auditions"} />} />
+            <Route path="forgot-password" element={<ForgotPassword />} />
             <Route path="auditions" element={<AuditionsPage />} />
-          </Route>
-          {/* <Route path="/auditions" element={<AuditionsPage></AuditionsPage>} /> */}
+          </Route>          
         </Routes>
       </Router>
     </ThemeProvider>
