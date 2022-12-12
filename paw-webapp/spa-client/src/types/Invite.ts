@@ -1,8 +1,8 @@
 type Invite = {
-  bandId: string;
+  bandId: number;
   bandName: string;
   inviteDescription: string;
-  membershipId: string;
+  membershipId: number;
   memberRoles: Array<{ name: string }>;
 };
 
