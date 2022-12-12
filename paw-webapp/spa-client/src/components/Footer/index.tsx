@@ -1,4 +1,3 @@
-import { FooterCopyright, Lang, PageFooter } from "./styles";
 import "../../styles/footer.css";
 
 export default function Footer() {

@@ -74,14 +74,14 @@ function App() {
                 path="auditions/:id/applicants"
                 element={<AuditionsPage />}
               />
+              <Route path="users/search" element={<Discover />} />
               <Route path="profile/editBand" element={<AuditionsPage />} />
               <Route path="profile/editArtist" element={<AuditionsPage />} />
               <Route path="newAudition" element={<AuditionsPage />} />
-              <Route path="users/search" element={<Discover />} />
             </Route>
           </Routes>
         </Router>
-        </AuthContextProvider>
+      </AuthContextProvider>
     </ThemeProvider>
   );
 }

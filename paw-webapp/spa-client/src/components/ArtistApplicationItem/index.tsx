@@ -10,6 +10,7 @@ const ArtistApplicationItem: React.FC<Application> = ({
   id,
 }) => {
   const auditionUrl = `/auditions/${id}`;
+  const { t } = useTranslation();
 
   if (isOpen) {
     return (

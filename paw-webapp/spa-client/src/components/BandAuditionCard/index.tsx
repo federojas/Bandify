@@ -14,7 +14,7 @@ const BandAuditionCard: React.FC<Audition> = ({
 }) => {
   const { t } = useTranslation();
 //   TODO: Traer pendingApplicantsCount desde el backend
-    const pendingApplicantsCount = 1;
+    // const pendingApplicantsCount = 1;
 
   return (
     <div className="band-post-card-container shadow-lg">
