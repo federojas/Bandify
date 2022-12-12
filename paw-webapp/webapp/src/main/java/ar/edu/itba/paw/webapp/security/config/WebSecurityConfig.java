@@ -64,17 +64,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BandifyAccessDeniedHandler();
     }
 
+    @Bean
+    public BandifyAuthenticationEntryPoint authenticationEntryPoint() {
+        return new BandifyAuthenticationEntryPoint();
+    }
+
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
-        CharacterEncodingFilter filter = new CharacterEncodingFilter();
-        filter.setEncoding("UTF-8");
-        filter.setForceEncoding(true);
         http
                 .cors().and().csrf().disable()
-                .exceptionHandling()
-                .authenticationEntryPoint(new BandifyAuthenticationEntryPoint())
-                .accessDeniedHandler(accessDeniedHandler()) //TODO 500 CUANDO PONES MAL LAS CREDENTIALS TOKENS ETC
-                .and().sessionManagement()
+                .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().headers()
                 .cacheControl().disable()
@@ -101,8 +100,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.DELETE, "/memberships/{\\d+}").hasRole("BAND")
 
                 .antMatchers("/**").permitAll()
+
+
                 .and().addFilterBefore(authFilter,
-                        FilterSecurityInterceptor.class); //TODO CHEQUEAR ESTO, SOTUYO DICE USERNAMEPASSWORDAUTHENTICACIONFILTER
+                        FilterSecurityInterceptor.class)
+                .exceptionHandling()
+                .authenticationEntryPoint(authenticationEntryPoint())
+                .accessDeniedHandler(accessDeniedHandler()); //TODO 500 CUANDO PONES MAL LAS CREDENTIALS TOKENS ETC
     }
 
 

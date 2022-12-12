@@ -9,10 +9,11 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -39,7 +40,7 @@ import java.util.Collection;
 public class AuthFilter extends OncePerRequestFilter {
 
     private final AuthenticationManager authenticationManager;
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuthFilter.class);
     @Autowired
     private UserService userService;
 
@@ -60,25 +61,23 @@ public class AuthFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
 
         final String receivedHeader = httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION);
-
+        //TODO REVISAR ESTOS CHEQUEOS, TAMBIEN FALTAN CHEQUEOS ABAJO
         if(receivedHeader == null || receivedHeader.isEmpty() ||
-                !(receivedHeader.startsWith("Bearer ") || receivedHeader.startsWith("Basic "))) {
-            throw new InsufficientAuthenticationException("Empty authorization credentials.");
+                !(receivedHeader.startsWith("Bearer") || receivedHeader.startsWith("Basic"))) {
+            filterChain.doFilter(httpServletRequest,httpServletResponse);
+            return; // TODO exception?
         }
 
-        String[] payload = receivedHeader.split(" ");
-        String token;
-        if(payload[1] == null)
-            throw new InsufficientAuthenticationException("Empty authorization credentials.");
-        else
-            token = payload[1].trim();
+        final String payload = receivedHeader.split(" ")[1].trim();
         Authentication auth;
 
-        if (receivedHeader.startsWith("Basic "))
-            auth = useBasicAuthentication(token, httpServletResponse);
-        else
-            auth = useBearerAuthentication(token, httpServletResponse);
-
+        if(receivedHeader.startsWith("Basic")) {
+            //TODO chequear refresh
+            auth = useBasicAuthentication(payload, httpServletResponse);
+        } else {
+            //TODO chequear login
+            auth = useBearerAuthentication(payload, httpServletResponse);
+        }
         SecurityContextHolder
                 .getContext()
                 .setAuthentication(auth);
@@ -94,15 +93,18 @@ public class AuthFilter extends OncePerRequestFilter {
         }
         final String email = decodedCredentials[0];
         final String password = decodedCredentials[1];
-
+        LOGGER.info("Credentials:  email: {} , password: {}", email,password);
         Authentication auth = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(email, password)
         );
 
         final User user = userService.findByEmail(auth.getName()).orElseThrow(UserNotFoundException::new);
 
+        //TODO CHECK EL PRIMER HEADER
         httpServletResponse.addHeader(JwtUtil.JWT_RESPONSE, JwtUtil.generateToken(user, appUrl, secretJWT));
         httpServletResponse.addHeader(JwtUtil.JWT_REFRESH_RESPONSE, userService.getAuthRefreshToken(user.getEmail()).getToken());
+
+        // TODO: CHECK REFRESH HEADER
 
         return auth;
     }
