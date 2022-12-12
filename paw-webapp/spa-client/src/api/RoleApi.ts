@@ -1,15 +1,14 @@
 import api from './api';
-import Genre from './types/Genre'
 
-const GenreApi = (() => {
-    const endpoint = '/genres';
+const RoleApi = (() => {
+    const endpoint = '/roles';
 
     interface Params {
         auditionId?: number;
         userId?: number;
     }
 
-    const getGenres = async (params : Params | undefined) => {
+    const getRoles = (params : Params | undefined) => {
         if (!params) {
             return api.get(endpoint);
         }
@@ -20,15 +19,15 @@ const GenreApi = (() => {
         }});
     }
 
-    const getGenreById = (id: number) => {
+    const getRoleById = (id: number) => {
         return api.get(`${endpoint}/${id}`);
     }
 
     return {
-        getGenres,
-        getGenreById
+        getRoles,
+        getRoleById
     }
 }
 )();
 
-export default GenreApi;
+export default RoleApi;
