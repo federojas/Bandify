@@ -55,9 +55,9 @@ const ProfileInvites = () => {
           <div className="manager-items-list">
             <div>
               <ul className="collapsible">
-                {invites.invites.map((invite, index) => {
+                {/* {invites.invites.map((invite, index) => {
                   <InviteItem {...invite}/>
-                })}
+                })} */}
               </ul>
             </div>
           </div>
