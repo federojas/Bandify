@@ -32,6 +32,8 @@ public class GenreController {
     private UriInfo uriInfo;
 
     // TODO: paginacion?
+    // TODO: si te mandan userId y auditionId aca es como que hace un OR, no debería ser un AND?
+    // lo mismo pasa en roles y locations.
     @GET
     @Produces("application/vnd.genre-list.v1+json")
     public Response genres(@QueryParam("user") final Long userId,

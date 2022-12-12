@@ -45,14 +45,13 @@ public class LocationController {
         }
         else {
             locations = new HashSet<>();
-            if (userId != null)
-                locations.add(LocationDto.fromLoc(uriInfo,
-                        userService.getUserById(userId)
-                                .orElseThrow(UserNotFoundException::new).getLocation()));
+            if (userId != null) {
+                Location loc = userService.getUserById(userId).orElseThrow(UserNotFoundException::new).getLocation();
+                if(loc != null) locations.add(LocationDto.fromLoc(uriInfo,loc));
+            }
             if (auditionId != null)
                 locations.add(LocationDto.fromLoc(uriInfo,
                         auditionService.getAuditionById(auditionId).getLocation()));
-
         }
 
         if(locations.isEmpty())
