@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -61,23 +62,27 @@ public class AuthFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
 
         final String receivedHeader = httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION);
-        //TODO REVISAR ESTOS CHEQUEOS, TAMBIEN FALTAN CHEQUEOS ABAJO
-        if(receivedHeader == null || receivedHeader.isEmpty() ||
-                !(receivedHeader.startsWith("Bearer") || receivedHeader.startsWith("Basic"))) {
+
+        if(receivedHeader == null || receivedHeader.isEmpty()){
             filterChain.doFilter(httpServletRequest,httpServletResponse);
-            return; // TODO exception?
+            return;
+        } else if(!receivedHeader.startsWith("Bearer ") && !receivedHeader.startsWith("Basic ")) {
+            throw new InsufficientAuthenticationException("Invalid authorization type.");
         }
 
-        final String payload = receivedHeader.split(" ")[1].trim();
+        String[] payload = receivedHeader.split(" ");
+        String token;
+        if(payload[1] == null)
+            throw new InsufficientAuthenticationException("Empty authorization credentials.");
+        else
+            token = payload[1].trim();
         Authentication auth;
 
-        if(receivedHeader.startsWith("Basic")) {
-            //TODO chequear refresh
-            auth = useBasicAuthentication(payload, httpServletResponse);
-        } else {
-            //TODO chequear login
-            auth = useBearerAuthentication(payload, httpServletResponse);
-        }
+        if (receivedHeader.startsWith("Basic "))
+            auth = useBasicAuthentication(token, httpServletResponse);
+        else
+            auth = useBearerAuthentication(token, httpServletResponse);
+
         SecurityContextHolder
                 .getContext()
                 .setAuthentication(auth);
