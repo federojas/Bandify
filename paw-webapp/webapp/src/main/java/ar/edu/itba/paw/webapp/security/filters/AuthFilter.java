@@ -63,10 +63,11 @@ public class AuthFilter extends OncePerRequestFilter {
 
         final String receivedHeader = httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION);
 
-        if(receivedHeader == null || receivedHeader.isEmpty()){
+        if(receivedHeader == null){
             filterChain.doFilter(httpServletRequest,httpServletResponse);
             return;
-        } else if(!receivedHeader.startsWith("Bearer ") && !receivedHeader.startsWith("Basic ")) {
+        } else if(receivedHeader.isEmpty() ||
+                (!receivedHeader.startsWith("Bearer ") && !receivedHeader.startsWith("Basic "))) {
             throw new InsufficientAuthenticationException("Invalid authorization type.");
         }
 
