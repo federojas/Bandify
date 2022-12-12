@@ -12,6 +12,7 @@ import ar.edu.itba.paw.webapp.controller.utils.PaginationLinkBuilder;
 import ar.edu.itba.paw.webapp.dto.ApplicationDto;
 import ar.edu.itba.paw.webapp.dto.SocialMediaDto;
 import ar.edu.itba.paw.webapp.dto.UserDto;
+import ar.edu.itba.paw.webapp.form.SocialMediaForm;
 import ar.edu.itba.paw.webapp.form.UserEditForm;
 import ar.edu.itba.paw.webapp.form.UserForm;
 import org.slf4j.LoggerFactory;
@@ -23,6 +24,7 @@ import javax.ws.rs.core.*;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URI;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -147,6 +149,16 @@ public class UserController {
         Response.ResponseBuilder responseBuilder =
                 Response.ok(new GenericEntity<Set<SocialMediaDto>>(socialMediaDtos){});
         return responseBuilder.build();
+    }
+
+    @PUT
+    @Path("/{id}/social-media")
+    @Consumes("application/vnd.social-media-list.v1+json")
+    public Response updateUserSocialMedia(@Valid SocialMediaForm form, @PathParam("id") final long id) {
+        final User user = userService.findByEmail(securityContext.getUserPrincipal().getName()).orElseThrow(UserNotFoundException::new);
+        checkOwnership(user, id);
+        userService.updateSocialMedia(user, form.getSocialMedia());
+        return getUserSocialMedia(id);
     }
 
     @GET

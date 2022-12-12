@@ -191,20 +191,20 @@ public class UserEditForm {
         soundcloud.ifPresent(socialMedia -> this.setSoundcloudUrl(socialMedia.getUrl()));
     }
 
-    public Set<MediaUrl> getSocialMedia() {
-        Set<MediaUrl> mediaUrls = new HashSet<>();
-        if(twitterUrl != null && !twitterUrl.equals(""))
-            mediaUrls.add(new MediaUrl(twitterUrl, UrlType.TWITTER));
-        if(instagramUrl != null && !instagramUrl.equals(""))
-            mediaUrls.add(new MediaUrl(instagramUrl, UrlType.INSTAGRAM));
-        if(facebookUrl != null && !facebookUrl.equals(""))
-            mediaUrls.add(new MediaUrl(facebookUrl, UrlType.FACEBOOK));
-        if(youtubeUrl != null && !youtubeUrl.equals(""))
-            mediaUrls.add(new MediaUrl(youtubeUrl, UrlType.YOUTUBE));
-        if(spotifyUrl != null && !spotifyUrl.equals(""))
-            mediaUrls.add(new MediaUrl(spotifyUrl, UrlType.SPOTIFY));
-        if(soundcloudUrl != null && !soundcloudUrl.equals(""))
-            mediaUrls.add(new MediaUrl(soundcloudUrl, UrlType.SOUNDCLOUD));
-        return mediaUrls;
-    }
+//    public Set<MediaUrl> getSocialMedia() {
+//        Set<MediaUrl> mediaUrls = new HashSet<>();
+//        if(twitterUrl != null && !twitterUrl.equals(""))
+//            mediaUrls.add(new MediaUrl(twitterUrl, UrlType.TWITTER));
+//        if(instagramUrl != null && !instagramUrl.equals(""))
+//            mediaUrls.add(new MediaUrl(instagramUrl, UrlType.INSTAGRAM));
+//        if(facebookUrl != null && !facebookUrl.equals(""))
+//            mediaUrls.add(new MediaUrl(facebookUrl, UrlType.FACEBOOK));
+//        if(youtubeUrl != null && !youtubeUrl.equals(""))
+//            mediaUrls.add(new MediaUrl(youtubeUrl, UrlType.YOUTUBE));
+//        if(spotifyUrl != null && !spotifyUrl.equals(""))
+//            mediaUrls.add(new MediaUrl(spotifyUrl, UrlType.SPOTIFY));
+//        if(soundcloudUrl != null && !soundcloudUrl.equals(""))
+//            mediaUrls.add(new MediaUrl(soundcloudUrl, UrlType.SOUNDCLOUD));
+//        return mediaUrls;
+//    }
 }
