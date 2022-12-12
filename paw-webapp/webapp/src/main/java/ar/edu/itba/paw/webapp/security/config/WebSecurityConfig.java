@@ -122,7 +122,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         cors.setAllowedOrigins(Collections.singletonList("*"));
         cors.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         cors.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
-        cors.setExposedHeaders(Arrays.asList("x-auth-token", "authorization", "X-Total-Pages",
+        cors.setExposedHeaders(Arrays.asList("X-JWT", "X-Refresh-Token", "X-Content-Type-Options", "X-XSS-Protection", "X-Frame-Options",
+                "authorization", "X-Total-Pages",
                 "Content-Disposition"));
         //TODO ESTO EN PRODUCCION VUELA !!!!!!!!!!!!!!!!!!!!!!!!
         //cors.addAllowedOrigin("http://localhost:9000/");

@@ -52,3 +52,6 @@ Thumbs.db
 *.jpb
 
 tailwind.config.js
+paw-webapp/spa-client/.env
+
+paw-webapp/spa-client/package-lock.json
