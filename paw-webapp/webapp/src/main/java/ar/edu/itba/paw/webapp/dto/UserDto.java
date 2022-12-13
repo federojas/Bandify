@@ -53,7 +53,8 @@ public class UserDto {
         final UriBuilder genreUriBuilder = uriInfo.getAbsolutePathBuilder()
                 .replacePath("genres");
         dto.genres = genreUriBuilder.clone()
-                .queryParam("user", String.valueOf(user.getId())).build();
+                .path("user")
+                .path(String.valueOf(user.getId())).build();
 
         final UriBuilder socialMediaUriBuilder = uriInfo.getAbsolutePathBuilder()
                 .replacePath("users").path(String.valueOf(user.getId()))
