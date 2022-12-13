@@ -11,7 +11,6 @@ import ar.edu.itba.paw.webapp.dto.GenreDto;
 import ar.edu.itba.paw.webapp.form.UserGenresForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
