@@ -6,24 +6,23 @@ import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
 
+// TODO: mostrar el mail solo en caso de que lo pida el usuario dueño
 public class UserDto {
 
     private Long id;
-    private String email;
     private String name;
     private String surname;
     private String description;
     private boolean isBand;
     private boolean isEnabled;
     private boolean available;
-    private byte[] image;
-
     private URI self;
     private URI location;
     private URI roles;
     private URI genres;
     private URI socialMedia;
     private URI applications;
+    private URI profileImage;
 
     public static UserDto fromUser(final UriInfo uriInfo, final User user) {
         if(user == null)
@@ -32,12 +31,10 @@ public class UserDto {
         dto.id = user.getId();
         dto.name = user.getName();
         dto.surname = user.getSurname();
-        dto.email = user.getEmail();
         dto.description = user.getDescription();
         dto.isBand = user.isBand();
         dto.isEnabled = user.isEnabled();
         dto.available = user.isAvailable();
-        dto.image = user.getProfileImage();
 
         final UriBuilder userUriBuilder = uriInfo.getAbsolutePathBuilder()
                 .replacePath("users").path(String.valueOf(user.getId()));
@@ -63,6 +60,11 @@ public class UserDto {
                 .path("social-media");
         dto.socialMedia = socialMediaUriBuilder.build();
 
+        final UriBuilder profileImageUriBuilder = uriInfo.getAbsolutePathBuilder()
+                .replacePath("users").path(String.valueOf(user.getId()))
+                .path("profile-image");
+        dto.profileImage = profileImageUriBuilder.build();
+
         final UriBuilder applicationsUriBuilder = uriInfo.getAbsolutePathBuilder()
                 .replacePath("users").path(String.valueOf(user.getId()))
                 .path("applications");
@@ -79,13 +81,6 @@ public class UserDto {
         this.id = id;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
     public String getName() {
         return name;
@@ -134,15 +129,6 @@ public class UserDto {
     public void setAvailable(boolean available) {
         this.available = available;
     }
-
-    public byte[] getImage() {
-        return image;
-    }
-
-    public void setImage(byte[] image) {
-        this.image = image;
-    }
-
     public URI getSelf() {
         return self;
     }
@@ -189,5 +175,13 @@ public class UserDto {
 
     public void setApplications(URI applications) {
         this.applications = applications;
+    }
+
+    public URI getProfileImage() {
+        return profileImage;
+    }
+
+    public void setProfileImage(URI profileImage) {
+        this.profileImage = profileImage;
     }
 }
