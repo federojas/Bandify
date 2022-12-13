@@ -16,6 +16,7 @@ import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.net.URI;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,7 +48,6 @@ public class AuditionController {
     @Context
     private SecurityContext securityContext;
 
-
     @POST
     @Consumes("application/vnd.audition.v1+json")
     public Response createAudition(@Valid AuditionForm auditionForm) {
@@ -61,6 +61,21 @@ public class AuditionController {
         final URI uri = uriInfo.getAbsolutePathBuilder()
                 .path(String.valueOf(audition.getId())).build();
         return Response.created(uri).build();
+    }
+
+    @PUT
+    @Path("/{id}")
+    public Response updateAudition(@Valid AuditionForm auditionForm,
+                                   @PathParam("id") final long auditionId) {
+        final User user = userService.findByEmail(securityContext.getUserPrincipal().getName()).orElseThrow(UserNotFoundException::new);
+        Audition.AuditionBuilder builder = new Audition.AuditionBuilder(auditionForm.getTitle(),
+                auditionForm.getDescription(), user, LocalDateTime.now());
+        builder.musicGenres(genreService.getGenresByNames(auditionForm.getMusicGenres()))
+               .lookingFor(roleService.getRolesByNames(auditionForm.getLookingFor()))
+               .location(locationService.getLocationByName(auditionForm.getLocation()).orElseThrow(LocationNotFoundException::new));
+
+        auditionService.editAuditionById(builder,auditionId);
+        return Response.ok().build();
     }
 
     @GET
@@ -140,5 +155,4 @@ public class AuditionController {
                 .orElseThrow(ApplicationNotFoundException::new);
         return Response.ok(ApplicationDto.fromApplication(uriInfo, application)).build();
     }
-
 }

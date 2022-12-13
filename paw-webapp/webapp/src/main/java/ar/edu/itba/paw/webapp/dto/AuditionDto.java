@@ -1,22 +1,25 @@
 package ar.edu.itba.paw.webapp.dto;
 
 import ar.edu.itba.paw.model.Audition;
+import ar.edu.itba.paw.model.Genre;
+import ar.edu.itba.paw.model.Role;
 
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class AuditionDto {
     private Long id;
     private String title;
     private String description;
     private LocalDateTime creationDate;
-
     private URI self;
-    private URI location;
-    private URI lookingFor;
-    private URI musicGenres;
+    private String location;
+    private List<String> lookingFor;
+    private List<String> musicGenres;
     private URI applications;
 
     public static AuditionDto fromAudition(final UriInfo uriInfo, final Audition audition) {
@@ -27,25 +30,13 @@ public class AuditionDto {
         auditionDto.title = audition.getTitle();
         auditionDto.description = audition.getDescription();
         auditionDto.creationDate = audition.getCreationDate();
+        auditionDto.location = audition.getLocation().getName();
+        auditionDto.musicGenres = audition.getMusicGenres().stream().map(Genre::getName).collect(Collectors.toList());
+        auditionDto.lookingFor = audition.getLookingFor().stream().map(Role::getName).collect(Collectors.toList());
 
         final UriBuilder selfUriBuilder = uriInfo.getAbsolutePathBuilder()
                 .replacePath("auditions").path(String.valueOf(audition.getId()));
         auditionDto.self = selfUriBuilder.build();
-
-        final UriBuilder locationUriBuilder = uriInfo.getAbsolutePathBuilder()
-                .replacePath("locations");
-        auditionDto.location = locationUriBuilder.clone()
-                .queryParam("audition", String.valueOf(audition.getId())).build();
-
-        final UriBuilder rolesUriBuilder = uriInfo.getAbsolutePathBuilder()
-                .replacePath("roles");
-        auditionDto.lookingFor = rolesUriBuilder.clone()
-                .queryParam("audition", String.valueOf(audition.getId())).build();
-
-        final UriBuilder genresUriBuilder = uriInfo.getAbsolutePathBuilder()
-                .replacePath("genres");
-        auditionDto.musicGenres = genresUriBuilder.clone()
-                .queryParam("audition", String.valueOf(audition.getId())).build();
 
         final UriBuilder applicationsUriBuilder = uriInfo.getAbsolutePathBuilder()
                 .replacePath("auditions").path(String.valueOf(audition.getId()))
@@ -94,27 +85,27 @@ public class AuditionDto {
         this.self = self;
     }
 
-    public URI getLocation() {
+    public String getLocation() {
         return location;
     }
 
-    public void setLocation(URI location) {
+    public void setLocation(String location) {
         this.location = location;
     }
 
-    public URI getLookingFor() {
+    public List<String> getLookingFor() {
         return lookingFor;
     }
 
-    public void setLookingFor(URI lookingFor) {
+    public void setLookingFor(List<String> lookingFor) {
         this.lookingFor = lookingFor;
     }
 
-    public URI getMusicGenres() {
+    public List<String> getMusicGenres() {
         return musicGenres;
     }
 
-    public void setMusicGenres(URI musicGenres) {
+    public void setMusicGenres(List<String> musicGenres) {
         this.musicGenres = musicGenres;
     }
 
