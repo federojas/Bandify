@@ -99,14 +99,12 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public User editUser(long userId, String name, String surname, String description, List<String> genresNames, List<String> rolesNames, byte[] image, String locationName) {
+    public User editUser(long userId, String name, String surname, String description, boolean isAvailable) {
         User user = getUserById(userId).orElseThrow(UserNotFoundException::new);
         user.editInfo(name, surname, description);
-        updateUserGenres(genresNames, user);
-        updateUserRoles(rolesNames, user);
-        updateUserLocation(locationName, user);
-        updateProfilePicture(user,image);
-
+        if(user.isBand()) {
+            user.setAvailable(isAvailable);
+        }
         return user;
     }
 

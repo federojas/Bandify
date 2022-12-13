@@ -23,7 +23,6 @@ import org.springframework.stereotype.Component;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -59,18 +58,14 @@ public class UserController {
     }
 
     //TODO REVISAR SI SE PUEDE PASAR EL CHECK OWNERSHIP AL SERVICIO
-    // TODO: PUT sin funcionar
+    // TODO: si soy banda tendria que aceptarme no mandar apellido ni available, pero
+    // TODO: en el caso de ser artista deberia pedirme los 4 atributos (name,surname,description,available)
     @PUT
     @Path("/{id}")
     public Response updateUser(@Valid UserEditForm form, @PathParam("id") final long id) {
         final User user = userService.findByEmail(securityContext.getUserPrincipal().getName()).orElseThrow(UserNotFoundException::new);
         checkOwnership(user, id);
-//        userService.editUser(user.getId(), form.getName(), form.getSurname(), form.getDescription(),
-//                form.getMusicGenres(), form.getLookingFor(), form.getProfileImage().getBytes(), form.getLocation());
-        if(!user.isBand()) {
-            userService.setAvailable(form.getAvailable(), user);
-        }
-
+        userService.editUser(user.getId(), form.getName(), form.getSurname(), form.getDescription(), form.getAvailable());
         return Response.ok().build();
     }
 

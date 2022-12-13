@@ -26,7 +26,7 @@ public interface UserService {
 
     void resendUserVerification(String email);
 
-    User editUser(long userId, String name, String surname, String description, List<String> genresNames, List<String> rolesNames, byte[] image, String locationName);
+    User editUser(long userId, String name, String surname, String description, boolean isAvailable);
 
     User updateUserLocation(String locationName, User user);
 
