@@ -108,14 +108,13 @@ public class UserServiceTest {
 
     @Test
     public void testEditUser() {
-        // TODO: esto editaba roles generos y esas cosas, hay que cambiarlo
         when(userDao.getUserById(1L)).thenReturn(Optional.ofNullable(USER));
         when(locationService.getLocationByName(EDIT_LOCATION)).thenReturn(Optional.of(new Location(1L, EDIT_LOCATION)));
         when(genreService.getGenresByNames(EDIT_GENRES)).thenReturn(EDIT_GENRES_SET);
         when(roleService.getRolesByNames(EDIT_ROLES)).thenReturn(EDIT_ROLES_SET);
 
 
-        User user = userService.editUser(1L, EDIT_NAME, EDIT_SURNAME, EDIT_DESCRIPTION, true);
+        User user = userService.editUser(1L, EDIT_NAME, EDIT_SURNAME, EDIT_DESCRIPTION, true, EDIT_ROLES, EDIT_GENRES, EDIT_LOCATION);
         assertNotNull(user);
         assertEquals(EDIT_NAME, user.getName());
         assertEquals(EDIT_SURNAME, user.getSurname());

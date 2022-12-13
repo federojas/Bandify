@@ -1,7 +1,6 @@
 package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.model.Role;
-import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.model.exceptions.MembershipNotFoundException;
 import ar.edu.itba.paw.model.exceptions.RoleNotFoundException;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
@@ -10,13 +9,10 @@ import ar.edu.itba.paw.service.MembershipService;
 import ar.edu.itba.paw.service.RoleService;
 import ar.edu.itba.paw.service.UserService;
 import ar.edu.itba.paw.webapp.dto.RoleDto;
-import ar.edu.itba.paw.webapp.form.UserRolesForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
-import java.net.URI;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -39,8 +35,6 @@ public class RoleController {
     @Context
     private UriInfo uriInfo;
 
-    @Context
-    private SecurityContext securityContext;
 
 
     // TODO: paginacion?
@@ -81,30 +75,6 @@ public class RoleController {
     public Response getById(@PathParam("id") final long id) {
         final Role role = roleService.getRoleById(id).orElseThrow(RoleNotFoundException::new);
         return Response.ok(RoleDto.fromRole(uriInfo, role)).build();
-    }
-
-    @GET
-    @Path("/user/{id}")
-    public Response getUserRoles(@PathParam("id") final long id) {
-        URI uri = uriInfo.getAbsolutePathBuilder()
-                .replacePath("roles").queryParam("user",id).build();
-        return Response.status(Response.Status.MOVED_PERMANENTLY).location(uri).build();
-    }
-
-    @PUT
-    @Path("/user/{id}")
-    public Response updateUserRoles(@Valid UserRolesForm form, @PathParam("id") final long id) {
-        final User user = userService.findByEmail(
-                securityContext.getUserPrincipal().getName()).orElseThrow(UserNotFoundException::new);
-        checkOwnership(user, id);
-        userService.updateUserRoles(form.getRoles(), user);
-        return Response.ok().build();
-    }
-
-    private void checkOwnership(User user, long userId) {
-        if (user.getId() != userId) {
-            throw new ForbiddenException();
-        }
     }
 
 }

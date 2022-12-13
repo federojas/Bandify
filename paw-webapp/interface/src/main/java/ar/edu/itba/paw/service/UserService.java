@@ -26,12 +26,12 @@ public interface UserService {
 
     void resendUserVerification(String email);
 
-    User editUser(long userId, String name, String surname, String description, boolean isAvailable);
+    User editUser(long userId, String name, String surname, String description, boolean isAvailable,
+                  List<String> roles, List<String> genres, String location);
 
     User updateUserLocation(String locationName, User user);
 
     Set<Role> getUserRoles(User user);
-
     Location getUserLocation(User user);
 
     User updateUserRoles(List<String> rolesNames, User user);
