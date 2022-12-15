@@ -1,5 +1,5 @@
 import LocationApi from "../../api/LocationApi";
-
+import AuditionApi from "../../api/AuditionApi";
 import api from "../../api/api";
 jest.mock("../../api/api");
 
