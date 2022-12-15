@@ -5,5 +5,6 @@ export default interface UserModel {
     name: string;
     surname: string;
     id: number;
+    token?: string;
 }
   

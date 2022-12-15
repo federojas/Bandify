@@ -2,25 +2,24 @@ import {useState} from "react";
 import React from "react";
 import jwtDecode, {JwtPayload} from "jwt-decode";
 import api from "../api/api";
+import UserModel from "../types/UserModel";
 
-type CustomJwtPayload = JwtPayload & { roles: string };
+type CustomJwtPayload = JwtPayload;
 
-interface Props {
-    children: React.ReactNode;
+interface AuthContextType {
+    isLoggedIn: boolean;
+    onLogout: (callback: VoidFunction) => void;
+    onLogin: (
+        authKey: string,
+        username: string | undefined,
+    ) => void;
+    authKey: string;
+    username: string;
 }
 
-const AuthContext = React.createContext({
-    isLoggedIn: false,
-    onLogout: () => {
-    },
-    onLogin: (authKey: string, username: string) => {
-    },
-    authKey: '',
-    username: '',
-    role: '',
-});
+const AuthContext = React.createContext<AuthContextType>(null!);
 
-export const AuthContextProvider = (props: Props) => {
+export const AuthContextProvider = ({children} : {children: React.ReactNode}) => {
     const isInLocalStorage = localStorage.hasOwnProperty("userJWT");
     const [isLoggedIn, setLoggedIn] = useState(isInLocalStorage || sessionStorage.hasOwnProperty("userJWT"));
     const token = isInLocalStorage ? (localStorage.getItem("userJWT") as string) : (sessionStorage.getItem("userJWT") as string)
@@ -28,7 +27,7 @@ export const AuthContextProvider = (props: Props) => {
     api.defaults.headers.common['Authorization'] = `Bearer ${(localStorage.getItem("userJWT") as string) ||(sessionStorage.getItem("userJWT") as string) || ''}`;
 
 
-    const [username, setUsername] = useState(() => {
+    const [username, setUsername] = useState<string>(() => {
         try {
             return jwtDecode<CustomJwtPayload>(token).sub;
         } catch (error) {
@@ -38,15 +37,15 @@ export const AuthContextProvider = (props: Props) => {
         }
     });
 
-    const [role, setRole] = useState(() => {
-        try {
-            return jwtDecode<CustomJwtPayload>(token).roles;
-        } catch (error) {
-            if (isLoggedIn) {
-                console.log(error);
-            }
-        }
-    });
+    // const [role, setRole] = useState(() => {
+    //     try {
+    //         return jwtDecode<CustomJwtPayload>(token).roles;
+    //     } catch (error) {
+    //         if (isLoggedIn) {
+    //             console.log(error);
+    //         }
+    //     }
+    // });
 
 
     const logoutHandler = () => {
@@ -73,9 +72,8 @@ export const AuthContextProvider = (props: Props) => {
             onLogout: logoutHandler,
             onLogin: loginHandler,
             authKey: authKey,
-            username: 'username',
-            role: 'role'
-        }}>{props.children}</AuthContext.Provider>
+            username: username,
+        }}>{children}</AuthContext.Provider>
 }
 
 export default AuthContext;
