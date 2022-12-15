@@ -9,23 +9,7 @@ const GenreApi = (() => {
     userId?: number;
   }
 
-  const getGenres = (params: Params | undefined) => {
-    if (!params) {
-      return api.get(endpoint).then((response) => {
-        const data = response.data;
-        const genres: Genre[] = Array.isArray(data)
-          ? data.map((genre: any) => {
-              return {
-                id: genre.id,
-                genreName: genre.genreName,
-                self: genre.self,
-              };
-            })
-          : [];
-        return Promise.resolve(genres);
-      });
-    }
-
+  const getGenres = (params: Params = {}) => {
     return api
       .get(endpoint, {
         params: {
@@ -35,7 +19,6 @@ const GenreApi = (() => {
       })
       .then((response) => {
         const data = response.data;
-
         const genres: Genre[] = Array.isArray(data)
           ? data.map((genre: any) => {
               return {
