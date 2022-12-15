@@ -10,4 +10,12 @@ type Audition = {
     self: string;
 }
 
-export default Audition;
+type AuditionInput = {
+    title: string;
+    description: string;
+    location: string;
+    musicGenres: string[];
+    lookingFor: string[];
+}
+
+export type { Audition, AuditionInput }

@@ -1,5 +1,5 @@
 import api from './api';
-import Audition from './types/Audition';
+import {Audition, AuditionInput} from './types/Audition';
 
 const AuditionApi = (() => {
     const endpoint = '/auditions';
@@ -60,14 +60,6 @@ const AuditionApi = (() => {
             return Promise.resolve(audition);
         });
     };
-
-    interface AuditionInput {
-        title: string;
-        description: string;
-        location: string;
-        musicGenres: string[];
-        lookingFor: string[];
-    }
 
     const createAudition = (input: AuditionInput) => {
         return api.post(endpoint, input).then((response) => {
