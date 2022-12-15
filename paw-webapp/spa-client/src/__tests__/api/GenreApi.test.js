@@ -19,7 +19,6 @@ describe("getGenres()", () => {
 
     // Call the getGenres() function
     const genres = await GenreApi.getGenres();
-
     // Verify that the genres were returned correctly
     expect(genres).toEqual(mockData);
   });
