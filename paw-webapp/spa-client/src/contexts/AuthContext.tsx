@@ -11,7 +11,7 @@ interface AuthContextType {
     onLogout: (callback: VoidFunction) => void;
     onLogin: (
         authKey: string,
-        username: string | undefined,
+        username: string,
     ) => void;
     authKey: string;
     username: string;
@@ -27,19 +27,9 @@ export const AuthContextProvider = ({children} : {children: React.ReactNode}) =>
     api.defaults.headers.common['Authorization'] = `Bearer ${(localStorage.getItem("userJWT") as string) ||(sessionStorage.getItem("userJWT") as string) || ''}`;
 
 
-    const [username, setUsername] = useState<string>(() => {
-        try {
-            return jwtDecode<CustomJwtPayload>(token).sub;
-        } catch (error) {
-            if (isLoggedIn) {
-                console.log(error);
-            }
-        }
-    });
-
-    // const [role, setRole] = useState(() => {
+    // const [username, setUsername] = useState<string>(() => {
     //     try {
-    //         return jwtDecode<CustomJwtPayload>(token).roles;
+    //         return jwtDecode<CustomJwtPayload>(token).sub;
     //     } catch (error) {
     //         if (isLoggedIn) {
     //             console.log(error);
@@ -47,14 +37,24 @@ export const AuthContextProvider = ({children} : {children: React.ReactNode}) =>
     //     }
     // });
 
+    // // const [role, setRole] = useState(() => {
+    // //     try {
+    // //         return jwtDecode<CustomJwtPayload>(token).roles;
+    // //     } catch (error) {
+    // //         if (isLoggedIn) {
+    // //             console.log(error);
+    // //         }
+    // //     }
+    // // });
+
 
     const logoutHandler = () => {
         localStorage.removeItem("userJWT");
         sessionStorage.removeItem("userJWT");
         setLoggedIn(false);
         setAuthKey('');
-        setUsername('');
-        setRole('');
+        // setUsername('');
+        // setRole('');
     }
 
 
@@ -71,8 +71,8 @@ export const AuthContextProvider = ({children} : {children: React.ReactNode}) =>
             isLoggedIn: isLoggedIn,
             onLogout: logoutHandler,
             onLogin: loginHandler,
-            authKey: authKey,
-            username: username,
+            authKey: 'authKey',
+            username: 'username',
         }}>{children}</AuthContext.Provider>
 }
 

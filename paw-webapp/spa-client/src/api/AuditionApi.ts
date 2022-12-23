@@ -9,7 +9,7 @@ const AuditionApi = (() => {
         userId?: number;
     }
 
-    const getAuditions = (params: Params = {}) => {
+    const getAuditions = async (params: Params = {}) => {
         return api
             .get(endpoint, {
                 params: {
@@ -38,7 +38,7 @@ const AuditionApi = (() => {
             });
     };
 
-    const getAuditionById = (id: number) => {
+    const getAuditionById = async (id: number) => {
         // Call the API to get the audition data
         return api.get(`${endpoint}/${id}`).then((response) => {
             // Extract the data for the audition from the response

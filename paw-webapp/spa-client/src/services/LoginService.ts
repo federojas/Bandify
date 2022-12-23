@@ -13,20 +13,20 @@ export class LoginService {
     const credentials = username + ":" + password;
     const hash = btoa(credentials);
 
-    api
-      .get(paths.USERS, {
-        headers: {
-          Authorization: "Basic " + hash,
-        },
-      })
-      .then((response) => {
-        console.log(response);
-        localStorage.setItem("userJWT", response.headers["x-jwt"] as any);
-        sessionStorage.setItem("userJWT", response.headers["x-jwt"] as any);
-      })
-      .catch((error) => {
-        console.error(error, "AA");
-      });
+    // api
+    //   .get(paths.USERS, {
+    //     headers: {
+    //       Authorization: "Basic " + hash,
+    //     },
+    //   })
+    //   .then((response) => {
+    //     console.log(response);
+    //     localStorage.setItem("userJWT", response.headers["x-jwt"] as any);
+    //     sessionStorage.setItem("userJWT", response.headers["x-jwt"] as any);
+    //   })
+    //   .catch((error) => {
+    //     console.error(error, "AA");
+    //   });
 
     
     return null;
