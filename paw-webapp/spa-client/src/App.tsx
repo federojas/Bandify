@@ -24,7 +24,7 @@ import User from "./pages/User";
 import BandAuditions from "./pages/BandAuditions";
 import ProfileApplications from "./pages/ProfileApplications";
 import ProfileInvites from "./pages/ProfileInvites";
-import { AuthContextProvider } from "./contexts/AuthContext";
+import ContextProviderWrapper from "./contexts/ContextProviderWrapper";
 
 const theme = {
   colors: {
@@ -43,46 +43,44 @@ const dagos = {
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <AuthContextProvider>
-        <Router basename={process.env.PUBLIC_URL}>
-          <Routes>
-            <Route path="/" element={<MainLayout />}>
-              <Route index element={<Navigate to={"/welcome"} />} />
-              <Route path="welcome" element={<Welcome />} />
-              <Route path="login" element={<LogIn />} />
-              <Route path="register" element={<Register />} />
-              <Route path="profile" element={<Profile user={dagos} />} />
-              <Route path="aboutUs" element={<AboutUs />} />
-              <Route path="users" element={<Discover />} />
-              <Route path="registerBand" element={<RegisterBand />} />
-              <Route path="registerArtist" element={<RegisterArtist />} />
-              <Route path="forgot-password" element={<ForgotPassword />} />
-              <Route path="auditions" element={<AuditionsPage />} />
-              <Route path="auditions/:id" element={<Audition />} />
-              <Route path="auditions/search" element={<AuditionSearch />} />
-              <Route path="user/:id" element={<User user={dagos} />} />
-              <Route path="bandAuditions/:id" element={<BandAuditions />} />
-              <Route path="profile/auditions" element={<BandAuditions />} />
-              {/* TODO */}
-              <Route
-                path="profile/applications"
-                element={<ProfileApplications />}
-              />
-              <Route path="profile/invites" element={<ProfileInvites />} />
-              <Route
-                path="auditions/:id/applicants"
-                element={<AuditionsPage />}
-              />
-              <Route path="users/search" element={<Discover />} />
-              <Route path="profile/editBand" element={<AuditionsPage />} />
-              <Route path="profile/editArtist" element={<AuditionsPage />} />
-              <Route path="newAudition" element={<AuditionsPage />} />
-            </Route>
-          </Routes>
-        </Router>
-      </AuthContextProvider>
-    </ThemeProvider>
+    <ContextProviderWrapper>
+      <Router basename={process.env.PUBLIC_URL}>
+        <Routes>
+          <Route path="/" element={<MainLayout />}>
+            <Route index element={<Navigate to={"/welcome"} />} />
+            <Route path="welcome" element={<Welcome />} />
+            <Route path="login" element={<LogIn />} />
+            <Route path="register" element={<Register />} />
+            <Route path="profile" element={<Profile user={dagos} />} />
+            <Route path="aboutUs" element={<AboutUs />} />
+            <Route path="users" element={<Discover />} />
+            <Route path="registerBand" element={<RegisterBand />} />
+            <Route path="registerArtist" element={<RegisterArtist />} />
+            <Route path="forgot-password" element={<ForgotPassword />} />
+            <Route path="auditions" element={<AuditionsPage />} />
+            <Route path="auditions/:id" element={<Audition />} />
+            <Route path="auditions/search" element={<AuditionSearch />} />
+            <Route path="user/:id" element={<User user={dagos} />} />
+            <Route path="bandAuditions/:id" element={<BandAuditions />} />
+            <Route path="profile/auditions" element={<BandAuditions />} />
+            {/* TODO */}
+            <Route
+              path="profile/applications"
+              element={<ProfileApplications />}
+            />
+            <Route path="profile/invites" element={<ProfileInvites />} />
+            <Route
+              path="auditions/:id/applicants"
+              element={<AuditionsPage />}
+            />
+            <Route path="users/search" element={<Discover />} />
+            <Route path="profile/editBand" element={<AuditionsPage />} />
+            <Route path="profile/editArtist" element={<AuditionsPage />} />
+            <Route path="newAudition" element={<AuditionsPage />} />
+          </Route>
+        </Routes>
+      </Router>
+    </ContextProviderWrapper>
   );
 }
 
