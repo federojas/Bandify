@@ -1,7 +1,18 @@
-
-import { AuditionsContainer, RelativeContainer, ParalaxContainer, ParalaxImage, Parallax, AbsoluteContainer, SearchContainer, TitleContainer, Title, AuditionsBlackTitle, PostsContainer  } from "./styles";
+import {
+  AuditionsContainer,
+  RelativeContainer,
+  ParalaxContainer,
+  ParalaxImage,
+  Parallax,
+  AbsoluteContainer,
+  SearchContainer,
+  TitleContainer,
+  Title,
+  AuditionsBlackTitle,
+  PostsContainer,
+} from "./styles";
 import PostCard from "../../components/PostCard/PostCard";
-import AuditionsParalax from "../../images/parallax3.png"
+import AuditionsParalax from "../../images/parallax3.png";
 import { useTranslation } from "react-i18next";
 import AuditionSearchBar from "../../components/AuditionSearchBar";
 import { Audition } from "../../types";
@@ -30,7 +41,7 @@ export default function AuditionsPage() {
       <RelativeContainer>
         <ParalaxContainer>
           <Parallax>
-             <ParalaxImage src={AuditionsParalax} />
+            <ParalaxImage src={AuditionsParalax} />
           </Parallax>
         </ParalaxContainer>
 
@@ -39,25 +50,18 @@ export default function AuditionsPage() {
             <TitleContainer>
               <Title>{t("Auditions.discover")}</Title>
               {/* TODO: NO ANDA EL THEMING DE STYLED COMPONENTS */}
-              <AuditionSearchBar/>
+              <AuditionSearchBar />
             </TitleContainer>
-
           </SearchContainer>
-          
         </AbsoluteContainer>
         <AuditionsContainer>
           <AuditionsBlackTitle>{t("Auditions.latest")}</AuditionsBlackTitle>
-          <PostsContainer>
-            <PostCard
-              {...audition}
-            />
-
-          </PostsContainer>        
           
+          <PostsContainer>
+            <PostCard {...audition} />
+          </PostsContainer>
         </AuditionsContainer>
-
       </RelativeContainer>
-     
     </>
   );
 }

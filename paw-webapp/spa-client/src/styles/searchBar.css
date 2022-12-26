@@ -108,6 +108,13 @@
     justify-content: left;
 }
 
+.auditionSearchBar-1 {
+    flex: 3;
+}
+
+.auditionSearchBar-2 {
+    flex: 1;
+}
 
 .filters {
     display: flex;
