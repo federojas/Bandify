@@ -7,6 +7,8 @@ import {
   Code,
   Link,
   FormErrorMessage,
+  Input,
+  Button,
 } from "@chakra-ui/react";
 import {
   Select,
@@ -16,71 +18,74 @@ import {
   GroupBase,
 } from "chakra-react-select";
 
-const locationOptions = [
-  {
-    label: "Location",
-    options: [
-      { value: "CABA", label: "CABA" },
-      { value: "Buenos Aires", label: "Buenos Aires" },
-      { value: "Rosario", label: "Rosario" },
-      { value: "Cordoba", label: "Cordoba" },
-      { value: "Mendoza", label: "Mendoza" },
-    ],
-  },
+const locationOptions: LocationGroup[] = [
+  { value: "CABA", label: "CABA" },
+  { value: "Buenos Aires", label: "Buenos Aires" },
+  { value: "Rosario", label: "Rosario" },
+  { value: "Cordoba", label: "Cordoba" },
+  { value: "Mendoza", label: "Mendoza" },
 ];
 
-const genreOptions = [
-  {
-    label: "Genre",
-    options: [
-      { value: "Rock", label: "Rock" },
-      { value: "Pop", label: "Pop" },
-      { value: "Jazz", label: "Jazz" },
-      { value: "Blues", label: "Blues" },
-      { value: "Folk", label: "Folk" },
-    ],
-  },
+const genreOptions: GenreGroup[] = [
+  { value: "Rock", label: "Rock" },
+  { value: "Pop", label: "Pop" },
+  { value: "Jazz", label: "Jazz" },
+  { value: "Blues", label: "Blues" },
+  { value: "Folk", label: "Folk" },
 ];
 
-const roleOptions = [
-  {
-    label: "Role",
-    options: [
-      { value: "Vocalista", label: "Vocalista" },
-      { value: "Guitarrista", label: "Guitarrista" },
-      { value: "Bajista", label: "Bajista" },
-      { value: "Baterista", label: "Baterista" },
-    ],
-  },
+const roleOptions: RoleGroup[] = [
+  { value: "Vocalista", label: "Vocalista" },
+  { value: "Guitarrista", label: "Guitarrista" },
+  { value: "Bajista", label: "Bajista" },
+  { value: "Baterista", label: "Baterista" },
 ];
 
 const orderByOptions = [
-  {
-    label: "Order by",
-    options: [
-      { value: "ASC", label: "Ascending" },
-      { value: "DESC", label: "Descending" },
-    ],
-  },
+  { value: "ASC", label: "Ascending" },
+  { value: "DESC", label: "Descending" },
 ];
 
-interface FlavorOrColorOption extends OptionBase {
+interface LocationGroup extends OptionBase {
   label: string;
   value: string;
-  color?: string;
-  rating?: string;
+}
+
+interface GenreGroup extends OptionBase {
+  label: string;
+  value: string;
+}
+
+interface RoleGroup extends OptionBase {
+  label: string;
+  value: string;
 }
 
 const AuditionSearchBar = () => {
-  const search = () => {
-    // TODO: Add code to search for auditions
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    // console.log(input, locations, genres, roles);
+    const query = input;
+    const locationsQuery = locations.map((location) => location.value);
+    const genresQuery = genres.map((genre) => genre.value);
+    const rolesQuery = roles.map((role) => role.value);
+    console.log(query, locationsQuery, genresQuery, rolesQuery);
+    const queryString = `query=${query}&locations=${locationsQuery}&genres=${genresQuery}&roles=${rolesQuery}`;
+    window.location.href = `/auditions/search?${queryString}`;
   };
+
+  const [input, setInput] = React.useState("");
+  const [locations, setLocations] = React.useState<LocationGroup[]>([]);
+  const [genres, setGenres] = React.useState<GenreGroup[]>([]);
+  const [roles, setRoles] = React.useState<RoleGroup[]>([]);
 
   return (
     <div className="search-general-div">
-      <form action="/auditions/search" method="get" className="searchForm">
-        <div className="searchBarAndOrderBy">
-          <div className="search auditionSearchBar-1">
+      <form onSubmit={handleSubmit}>
+        <FormControl p={2}>
+          {/* <form action="/auditions/search" method="get" className="searchForm"> */}
+          <div className="searchBarAndOrderBy">
+            {/* <div className="search auditionSearchBar-1">
             <input
               id="inputfield"
               type="text"
@@ -89,30 +94,42 @@ const AuditionSearchBar = () => {
               placeholder="Search"
               name="query"
             />
-          </div>
-          <div className="auditionSearchBar-2">
-          <Select
-            name="orderBy"
-            options={orderByOptions}
-            placeholder="Order by..."
-            size="md"
-            className="orderBy"
-            variant="filled"
-            
-          />
-          </div>
-          
-          {/* <div id="orderBy-filter" className="orderBy">
+          </div> */}
+            <div className="auditionSearchBar-1">
+              <FormLabel>Search</FormLabel>
+
+              <Input
+                type="text"
+                placeholder="Search"
+                name="query"
+                variant="filled"
+                onChange={(event) => {
+                  setInput(event.target.value);
+                }}
+              />
+            </div>
+            <div className="auditionSearchBar-2">
+              <FormLabel>Order by</FormLabel>
+              <Select
+                name="orderBy"
+                options={orderByOptions}
+                placeholder="Order by..."
+                size="md"
+                className="orderBy"
+                variant="filled"
+              />
+            </div>
+
+            {/* <div id="orderBy-filter" className="orderBy">
             <select name="order">
               <option value="DESC">Descending</option>
               <option value="ASC">Ascending</option>
             </select>
           </div> */}
-        </div>
-        
-        <FormControl p={2}>
+          </div>
+
           <FormLabel>Location</FormLabel>
-          <Select<FlavorOrColorOption, true, GroupBase<FlavorOrColorOption>>
+          <Select<LocationGroup, true, GroupBase<LocationGroup>>
             isMulti
             name="locations"
             options={locationOptions}
@@ -120,11 +137,13 @@ const AuditionSearchBar = () => {
             closeMenuOnSelect={false}
             variant="filled"
             tagVariant="solid"
+            onChange={(event) => {
+              setLocations(event.flatMap((e) => e));
+            }}
           />
-        </FormControl>
-        <FormControl p={2}>
+          
           <FormLabel>Genre</FormLabel>
-          <Select<FlavorOrColorOption, true, GroupBase<FlavorOrColorOption>>
+          <Select<GenreGroup, true, GroupBase<GenreGroup>>
             isMulti
             name="genres"
             options={genreOptions}
@@ -132,11 +151,12 @@ const AuditionSearchBar = () => {
             closeMenuOnSelect={false}
             variant="filled"
             tagVariant="solid"
+            onChange={(event) => {
+              setGenres(event.flatMap((e) => e));
+            }}
           />
-        </FormControl>
-        <FormControl p={2}>
           <FormLabel>Role</FormLabel>
-          <Select<FlavorOrColorOption, true, GroupBase<FlavorOrColorOption>>
+          <Select<RoleGroup, true, GroupBase<RoleGroup>>
             isMulti
             name="roles"
             options={roleOptions}
@@ -144,9 +164,12 @@ const AuditionSearchBar = () => {
             closeMenuOnSelect={false}
             variant="filled"
             tagVariant="solid"
+            onChange={(event) => {
+              setRoles(event.flatMap((e) => e));
+            }}
           />
-        </FormControl>
-        {/* <div className="filters">
+
+          {/* <div className="filters">
           <div className="filter-by">
             <b>
               <p>Filters</p>
@@ -183,12 +206,18 @@ const AuditionSearchBar = () => {
             </select>
           </div>
         </div> */}
-        <div className="search-button-container">
+          <Button colorScheme="blue" type="submit">
+            Search
+          </Button>
+          {/* <div className="search-button-container">
           <button className="search-button" onClick={search}>
             Search
           </button>
-        </div>
+        </div> */}
+        </FormControl>
       </form>
+
+      {/* </form> */}
     </div>
   );
 };
