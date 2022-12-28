@@ -10,7 +10,7 @@ import {
   SimpleGrid,
   useColorModeValue,
   Button,
-  Link
+  Link,
 } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import "../../styles/forms.css";
@@ -96,8 +96,9 @@ function RegisterCard(props: RegisterCardProps) {
         >
           {content}
         </chakra.p>
-        <Link href={url}><Button colorScheme={"blue"}>{urlTitle}</Button></Link>
-        
+        <Link href={url}>
+          <Button colorScheme={"blue"}>{urlTitle}</Button>
+        </Link>
       </Flex>
       <Avatar
         src={avatar}
@@ -161,7 +162,6 @@ const RegisterContent = () => {
       </Box>
     </Flex>
   );
-}
-
+};
 
 export default RegisterContent;

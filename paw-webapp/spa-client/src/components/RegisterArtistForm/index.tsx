@@ -4,6 +4,20 @@ import "../../js/register.js";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
+import {
+  Box,
+  Button,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  HStack,
+  Input,
+  InputGroup,
+  InputRightElement,
+  Stack,
+} from "@chakra-ui/react";
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 
 interface FormData {
   email: string;
@@ -15,6 +29,10 @@ interface FormData {
 
 const RegisterArtistForm = () => {
   const { t } = useTranslation();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordConfirmation, setShowPasswordConfirmation] =
+    useState(false);
+
   const {
     register,
     handleSubmit,
@@ -66,143 +84,92 @@ const RegisterArtistForm = () => {
   };
 
   return (
-    <div className="register-content">
-      <form onSubmit={handleSubmit(onSubmit)} className="box">
-        <div>
-          <label className="form-label" htmlFor="email">
-            {t("Register.email")}
-          </label>
-          {/* Message for register.form.emailplaceholder */}
-          {/* TODO placeholder={/* emailplaceholder } */}
-          <input
-            type="email"
-            maxLength={255}
-            // id="bandEmaill"
-            className="form-input"
-            // name="email"
-            {...register("email", registerArtistOptions.email)}
-            placeholder={t("Register.email_placeholder")}
-          />
-          {/* form errors for email */}
-          <p className="error" id="wrongMail">
+    <Box rounded={"lg"} boxShadow={"lg"} p={8}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Stack spacing={4}>
+          <HStack>
+            <Box>
+              <FormControl id="name" isRequired>
+                <FormLabel fontSize={16} fontWeight="bold">
+                  {t("Register.artist_name")}
+                </FormLabel>
+                <Input
+                  type="text"
+                  // maxLength={50}
+                  {...register("name", registerArtistOptions.name)}
+                />
+                {errors.name && (
+                  <FormErrorMessage>{errors.name.message}</FormErrorMessage>
+                )}
+              </FormControl>
+            </Box>
+            <Box>
+              <FormControl id="surname" isRequired>
+                <FormLabel fontSize={16} fontWeight="bold">
+                  {t("Register.artist_surname")}
+                </FormLabel>
+                <Input type="text" />
+              </FormControl>
+            </Box>
+          </HStack>
+          <FormControl id="email" isRequired>
+            <FormLabel fontSize={16} fontWeight="bold">
+              {t("Register.email")}
+            </FormLabel>
+            <Input
+              type="email"
+              maxLength={255}
+              {...register("email", registerArtistOptions.email)}
+            />
             {errors.email && <span>{errors.email.message}</span>}
-          </p>
-        </div>
+          </FormControl>
+          <FormControl id="password" isRequired>
+            <FormLabel fontSize={16} fontWeight="bold">
+              {t("Register.password")}
+            </FormLabel>
+            <InputGroup>
+              <Input type={showPassword ? "text" : "password"} />
+              <InputRightElement h={"full"}>
+                <Button
+                  variant={"ghost"}
+                  onClick={() =>
+                    setShowPassword((showPassword) => !showPassword)
+                  }
+                >
+                  {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                </Button>
+              </InputRightElement>
+            </InputGroup>
+          </FormControl>
+          <FormControl id="confirmPassword" isRequired>
+            <FormLabel fontSize={16} fontWeight="bold">
+              {t("Register.confirmPassword")}
+            </FormLabel>
+            <InputGroup>
+              <Input type={showPasswordConfirmation ? "text" : "password"} />
+              <InputRightElement h={"full"}>
+                <Button
+                  variant={"ghost"}
+                  onClick={() =>
+                    setShowPasswordConfirmation(
+                      (showPasswordConfirmation) => !showPasswordConfirmation
+                    )
+                  }
+                >
+                  {showPasswordConfirmation ? <ViewIcon /> : <ViewOffIcon />}
+                </Button>
+              </InputRightElement>
+            </InputGroup>
+          </FormControl>
 
-        <div>
-          <label className="form-label" htmlFor="password">
-            {t("Register.password")}
-          </label>
-          {/* Message for register.form.passwordplaceholder */}
-          {/* TODO placeholder={/* passwordplaceholder } */}
-          <input
-            id="password_band"
-            type="password"
-            maxLength={25}
-            placeholder={t("Register.password_placeholder")}
-            className="form-input"
-            // name="password"
-            {...register("password", registerArtistOptions.password)}
-            // onKeyUp={() => checkPasswordBand()}
-            // TODO: Check both passwords match
-          />
-          {/* form errors for password */}
-          <p className="error" id="emptyPass">
-            {errors.password && <span>{errors.password.message}</span>}
-            {/* Message for register.form.emptyPassword with arguments 8, 25 */}
-          </p>
-        </div>
-
-        <div>
-          <label className="form-label" htmlFor="passwordConfirmation">
-            {t("Register.confirmPassword")}
-          </label>
-          {/* Message for register.form.passwordplaceholder */}
-          {/* TODO placeholder={/* passwordplaceholder } */}
-          <input
-            id="confirm_password_band"
-            type="password"
-            maxLength={25}
-            placeholder={t("Register.password_placeholder")}
-            className="form-input"
-            // name="passwordConfirmation"
-            {...register("passwordConfirmation", registerArtistOptions.passwordConfirmation)}
-            // onKeyUp={() => checkPasswordArtist()}
-            // TODO: Check both passwords match
-          />
-          <p className="error" id="emptyPass">
-            {errors.passwordConfirmation && <span>{errors.passwordConfirmation.message}</span>}
-            {/* Message for register.form.emptyPassword with arguments 8, 25 */}
-          </p>
-          {/* form errors for passwordConfirmation */}
-          <span
-            id="match_message"
-            className="success"
-          >
-              {/* TODO: Message for matching passwords  */}
-            {/* Message for register.form.passwordmatch */}
-          </span>
-          <span
-            id="nonmatch_message"
-            className="error"
-          >
-            {/* {errors.pass} */}
-            {/* Message for register.form.passwordnomatch */}
-          </span>
-        </div>
-
-        <div>
-          <label className="form-label" htmlFor="name">
-            {t("Register.artist_name")}
-          </label>
-          {/* Message for register.form.nameplaceholder */}
-          {/* TODO placeholder={/* nameplaceholder } */}
-          <input
-            type="text"
-            maxLength={50}
-            placeholder={t("Register.artist_name")}
-            className="form-input"
-            id="artistName"
-            // name="name"
-            {...register("name", registerArtistOptions.name)}
-          />
-          {/* form errors for name */}
-          <p className="error" id="wrongName" style={{ display: "none" }}>
-            {/* Message for register.form.invalidName */}
-            {errors.name && <span>{errors.name.message}</span>}
-          </p>
-        </div>
-
-        <div>
-          <label className="form-label" htmlFor="name">
-            {t("Register.artist_surname")}
-          </label>
-          {/* Message for register.form.nameplaceholder */}
-          {/* TODO placeholder={/* nameplaceholder } */}
-          <input
-            type="text"
-            maxLength={50}
-            placeholder={t("Register.artist_surname")}
-            className="form-input"
-            id="artistSurname"
-            // name="name"
-            {...register("surname", registerArtistOptions.surname)}
-          />
-          {/* form errors for name */}
-          <p className="error" id="wrongName" style={{ display: "none" }}>
-            {/* Message for register.form.invalidName */}
-            {errors.surname && <span>{errors.surname.message}</span>}
-          </p>
-        </div>
-
-        {/* TODO onClick={() => registerbandCheck()} */}
-        <div className="end-button-div">
-          <button type="submit" value="submit" className="purple-button">
-            {t("Register.button")}
-          </button>
-        </div>
+          <div className="end-button-div">
+            <button type="submit" value="submit" className="purple-button">
+              {t("Register.button")}
+            </button>
+          </div>
+        </Stack>
       </form>
-    </div>
+    </Box>
   );
 };
 
