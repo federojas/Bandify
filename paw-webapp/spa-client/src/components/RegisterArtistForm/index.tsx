@@ -50,7 +50,7 @@ const RegisterArtistForm = () => {
     email: {
       required: "Email is required",
       maxLength: {
-        value: 2,
+        value: 254,
         message: "Email cannot be larger than 254 characters",
       },
       pattern: /^\S+@\S+$/i,
