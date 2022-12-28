@@ -16,6 +16,8 @@ import {
   InputGroup,
   InputRightElement,
   Stack,
+  Text,
+  Link,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 
@@ -48,7 +50,7 @@ const RegisterArtistForm = () => {
     email: {
       required: "Email is required",
       maxLength: {
-        value: 254,
+        value: 2,
         message: "Email cannot be larger than 254 characters",
       },
       pattern: /^\S+@\S+$/i,
@@ -66,6 +68,14 @@ const RegisterArtistForm = () => {
     },
     passwordConfirmation: {
       required: "Password confirmation is required",
+      minLength: {
+        value: 8,
+        message: "Password must be at least 8 characters",
+      },
+      maxLength: {
+        value: 25,
+        message: "Password cannot be larger than 25 characters",
+      },
     },
     name: {
       required: "Name is required",
@@ -89,7 +99,11 @@ const RegisterArtistForm = () => {
         <Stack spacing={4}>
           <HStack>
             <Box>
-              <FormControl id="name" isRequired>
+              <FormControl
+                id="name"
+                isRequired
+                isInvalid={Boolean(errors.name)}
+              >
                 <FormLabel fontSize={16} fontWeight="bold">
                   {t("Register.artist_name")}
                 </FormLabel>
@@ -98,21 +112,27 @@ const RegisterArtistForm = () => {
                   // maxLength={50}
                   {...register("name", registerArtistOptions.name)}
                 />
-                {errors.name && (
-                  <FormErrorMessage>{errors.name.message}</FormErrorMessage>
-                )}
+                <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
               </FormControl>
             </Box>
             <Box>
-              <FormControl id="surname" isRequired>
+              <FormControl
+                id="surname"
+                isRequired
+                isInvalid={Boolean(errors.surname)}
+              >
                 <FormLabel fontSize={16} fontWeight="bold">
                   {t("Register.artist_surname")}
                 </FormLabel>
-                <Input type="text" />
+                <Input
+                  type="text"
+                  {...register("surname", registerArtistOptions.surname)}
+                />
+                <FormErrorMessage>{errors.surname?.message}</FormErrorMessage>
               </FormControl>
             </Box>
           </HStack>
-          <FormControl id="email" isRequired>
+          <FormControl id="email" isRequired isInvalid={Boolean(errors.email)}>
             <FormLabel fontSize={16} fontWeight="bold">
               {t("Register.email")}
             </FormLabel>
@@ -121,14 +141,21 @@ const RegisterArtistForm = () => {
               maxLength={255}
               {...register("email", registerArtistOptions.email)}
             />
-            {errors.email && <span>{errors.email.message}</span>}
+            <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
           </FormControl>
-          <FormControl id="password" isRequired>
+          <FormControl
+            id="password"
+            isRequired
+            isInvalid={Boolean(errors.password)}
+          >
             <FormLabel fontSize={16} fontWeight="bold">
               {t("Register.password")}
             </FormLabel>
             <InputGroup>
-              <Input type={showPassword ? "text" : "password"} />
+              <Input
+                type={showPassword ? "text" : "password"}
+                {...register("password", registerArtistOptions.password)}
+              />
               <InputRightElement h={"full"}>
                 <Button
                   variant={"ghost"}
@@ -140,13 +167,24 @@ const RegisterArtistForm = () => {
                 </Button>
               </InputRightElement>
             </InputGroup>
+            <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
           </FormControl>
-          <FormControl id="confirmPassword" isRequired>
+          <FormControl
+            id="passwordConfirmation"
+            isRequired
+            isInvalid={Boolean(errors.passwordConfirmation)}
+          >
             <FormLabel fontSize={16} fontWeight="bold">
               {t("Register.confirmPassword")}
             </FormLabel>
             <InputGroup>
-              <Input type={showPasswordConfirmation ? "text" : "password"} />
+              <Input
+                type={showPasswordConfirmation ? "text" : "password"}
+                {...register(
+                  "passwordConfirmation",
+                  registerArtistOptions.passwordConfirmation
+                )}
+              />
               <InputRightElement h={"full"}>
                 <Button
                   variant={"ghost"}
@@ -160,13 +198,30 @@ const RegisterArtistForm = () => {
                 </Button>
               </InputRightElement>
             </InputGroup>
+            <FormErrorMessage>
+              {errors.passwordConfirmation?.message}
+            </FormErrorMessage>
           </FormControl>
 
-          <div className="end-button-div">
-            <button type="submit" value="submit" className="purple-button">
+          <Stack spacing={10} pt={2}>
+            <Button
+              type="submit"
+              loadingText="Submitting"
+              size="lg"
+              bg={"blue.400"}
+              color={"white"}
+              _hover={{
+                bg: "blue.500",
+              }}
+            >
               {t("Register.button")}
-            </button>
-          </div>
+            </Button>
+          </Stack>
+          <Stack pt={6}>
+            <Text align={"center"}>
+              Already a user? <Link color={"blue.400"}>Login</Link>
+            </Text>
+          </Stack>
         </Stack>
       </form>
     </Box>
