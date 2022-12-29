@@ -64,7 +64,7 @@ const BandAuditionCard: React.FC<Audition> = ({
                 <img
                   src={UserIcon}
                   className="audition-icon invert"
-                  alt="Applicants"
+                  alt={t("BandAuditions.applicants")}
                 />
               </button>
             </a>

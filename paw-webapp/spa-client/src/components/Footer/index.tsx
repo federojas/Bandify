@@ -1,13 +1,15 @@
+import { useTranslation } from "react-i18next";
 import "../../styles/footer.css";
 
 export default function Footer() {
+  const { t } = useTranslation();
   return (
     <footer className="page-footer">
       <div className="footer-copyright">
         <div className="flex flex-row justify-between px-10">
           © 2022 Copyright: Bandify
           <div>
-            <b>Contact us: </b>
+            <b>{t("Footer.contactUs")}: </b>
             <a href="mailto: bandifypaw@gmail.com">bandifypaw@gmail</a>
           </div>
           <div>

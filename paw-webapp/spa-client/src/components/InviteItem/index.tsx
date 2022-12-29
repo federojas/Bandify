@@ -14,6 +14,7 @@ const InviteItem: React.FC<Invite> = ({
   memberRoles,
   membershipId,
 }) => {
+  const { t } = useTranslation();
   return (
     <li>
       <div className="collapsible-header applicant-header">
@@ -42,7 +43,7 @@ const InviteItem: React.FC<Invite> = ({
               <img
                 src={UserIcon}
                 className="audition-icon invert"
-                alt="Applicants"
+                alt={t("ApplicationItem.applicantsAlt")}
               />
             </a>
           </div>
@@ -55,7 +56,7 @@ const InviteItem: React.FC<Invite> = ({
                 <button type="submit">
                   <img
                     src={SuccessIcon}
-                    alt="Accept"
+                    alt={t("ApplicationItem.acceptAlt")}
                     className="application-icon"
                   />
                 </button>
@@ -67,7 +68,7 @@ const InviteItem: React.FC<Invite> = ({
                 <button onClick={openConfirmation}>
                   <img
                     src={RejectIcon}
-                    alt="Reject"
+                    alt={t("ApplicationItem.rejectAlt")}
                     className="application-icon"
                   />
                 </button>

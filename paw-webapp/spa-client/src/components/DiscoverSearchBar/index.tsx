@@ -1,6 +1,7 @@
 import "../../styles/searchBar.css";
 import * as React from "react";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const SearchForm: React.FC = () => {
   const [query, setQuery] = useState<string>("");
@@ -18,7 +19,7 @@ const SearchForm: React.FC = () => {
 
     // perform search using the form values
   };
-
+  const { t } = useTranslation();
   return (
     <div className="search-general-div">
       <form
@@ -34,7 +35,7 @@ const SearchForm: React.FC = () => {
               type="text"
               maxLength={80}
               size={43}
-              placeholder="Search users"
+              placeholder={t("DiscoverSearchBar.searchUsers")}
               name="query"
               value={query}
               onChange={(event) => setQuery(event.target.value)}
@@ -44,7 +45,7 @@ const SearchForm: React.FC = () => {
         <div className="filters">
           <div className="filter-by">
             <b>
-              <p>Filters</p>
+              <p>{t("DiscoverSearchBar.filter")}</p>
             </b>
           </div>
           <div>
@@ -65,7 +66,7 @@ const SearchForm: React.FC = () => {
               }}
             >
               <option disabled selected>
-                Location
+              {t("DiscoverSearchBar.location")}
               </option>
               {locationList.map((location, index) => (
                 <option key={index} value={location}>
@@ -92,7 +93,7 @@ const SearchForm: React.FC = () => {
               }}
             >
               <option disabled selected>
-                Genres
+              {t("DiscoverSearchBar.genres")}
               </option>
               {genreList.map((genre, index) => (
                 <option key={index} value={genre}>
@@ -119,7 +120,7 @@ const SearchForm: React.FC = () => {
               }}
             >
               <option disabled selected>
-                Roles
+              {t("DiscoverSearchBar.roles")}
               </option>
               {roleList.map((role, index) => (
                 <option key={index} value={role}>
@@ -131,7 +132,7 @@ const SearchForm: React.FC = () => {
         </div>
         <div className="search-button-container">
           <button className="search-button" type="submit">
-            Search
+          {t("DiscoverSearchBar.search")}
           </button>
         </div>
       </form>
