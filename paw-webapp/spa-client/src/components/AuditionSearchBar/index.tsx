@@ -17,7 +17,10 @@ import {
   OptionBase,
   GroupBase,
 } from "chakra-react-select";
+import { useTranslation } from "react-i18next";
 
+
+//TODO: REVISAR SI HAY QUE TRANSLATEAR ESTOS O NO 
 const locationOptions: LocationGroup[] = [
   { value: "CABA", label: "CABA" },
   { value: "Buenos Aires", label: "Buenos Aires" },
@@ -78,6 +81,7 @@ const AuditionSearchBar = () => {
   const [locations, setLocations] = React.useState<LocationGroup[]>([]);
   const [genres, setGenres] = React.useState<GenreGroup[]>([]);
   const [roles, setRoles] = React.useState<RoleGroup[]>([]);
+  const { t } = useTranslation();
 
   return (
     <div className="search-general-div">
@@ -96,11 +100,11 @@ const AuditionSearchBar = () => {
             />
           </div> */}
             <div className="auditionSearchBar-1">
-              <FormLabel>Search</FormLabel>
+              <FormLabel>{t("AuditionSearchBar.search")}</FormLabel>
 
               <Input
                 type="text"
-                placeholder="Search"
+                placeholder={t("AuditionSearchBar.searchPlaceholder")}
                 name="query"
                 variant="filled"
                 onChange={(event) => {
@@ -109,11 +113,11 @@ const AuditionSearchBar = () => {
               />
             </div>
             <div className="auditionSearchBar-2">
-              <FormLabel>Order by</FormLabel>
+              <FormLabel>{t("AuditionSearchBar.orderByPlaceholder")}</FormLabel>
               <Select
                 name="orderBy"
                 options={orderByOptions}
-                placeholder="Order by..."
+                placeholder={t("AuditionSearchBar.orderByPlaceholder")}
                 size="md"
                 className="orderBy"
                 variant="filled"
@@ -128,12 +132,12 @@ const AuditionSearchBar = () => {
           </div> */}
           </div>
 
-          <FormLabel>Location</FormLabel>
+          <FormLabel>{t("AuditionSearchBar.location")}</FormLabel>
           <Select<LocationGroup, true, GroupBase<LocationGroup>>
             isMulti
             name="locations"
             options={locationOptions}
-            placeholder="Select a Location..."
+            placeholder={t("AuditionSearchBar.locationPlaceholder")}
             closeMenuOnSelect={false}
             variant="filled"
             tagVariant="solid"
@@ -142,12 +146,12 @@ const AuditionSearchBar = () => {
             }}
           />
           
-          <FormLabel>Genre</FormLabel>
+          <FormLabel>{t("AuditionSearchBar.genre")}</FormLabel>
           <Select<GenreGroup, true, GroupBase<GenreGroup>>
             isMulti
             name="genres"
             options={genreOptions}
-            placeholder="Select a Genre..."
+            placeholder={t("AuditionSearchBar.genrePlaceholder")}
             closeMenuOnSelect={false}
             variant="filled"
             tagVariant="solid"
@@ -155,12 +159,12 @@ const AuditionSearchBar = () => {
               setGenres(event.flatMap((e) => e));
             }}
           />
-          <FormLabel>Role</FormLabel>
+          <FormLabel>{t("AuditionSearchBar.role")}</FormLabel>
           <Select<RoleGroup, true, GroupBase<RoleGroup>>
             isMulti
             name="roles"
             options={roleOptions}
-            placeholder="Select a Role..."
+            placeholder={t("AuditionSearchBar.rolePlaceholder")}
             closeMenuOnSelect={false}
             variant="filled"
             tagVariant="solid"
@@ -207,7 +211,7 @@ const AuditionSearchBar = () => {
           </div>
         </div> */}
           <Button colorScheme="blue" type="submit">
-            Search
+          {t("AuditionSearchBar.search")}
           </Button>
           {/* <div className="search-button-container">
           <button className="search-button" onClick={search}>

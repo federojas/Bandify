@@ -43,5 +43,17 @@ export const TRANSLATIONS_EN = {
     artist_name: "Artist name",
     artist_surname: "Artist surname",
     button: "Register",
-  }
+  },
+  AuditionSearchBar: {
+    "search": "Search",
+    "searchPlaceholder": "Search...",
+    "orderBy": "Order by",
+    "orderByPlaceholder": "Order by...",
+    "location": "Location",
+    "locationPlaceholder": "Select a location...",
+    "genre": "Genre",
+    "genrePlaceholder": "Select a genre...",
+    "role": "Role",
+    "rolePlaceholder": "Select a role...",
+  },
 };

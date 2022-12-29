@@ -29,5 +29,12 @@ export const TRANSLATIONS_ES = {
     "login": "Iniciar sesión",
     "notAMemberyet": "¿No eres miembro aún?",
     "register": "Registrarse"
-  }
+  },
+  AuditionSearchBar: {
+    "search": "Buscar",
+    "orderBy": "Ordenar por",
+    "location": "Ubicación",
+    "genre": "Género",
+    "Role": "Rol",
+  },
 };
