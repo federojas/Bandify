@@ -12,7 +12,7 @@ import LogIn from "./pages/LogIn";
 import Register from "./pages/Register";
 import MainLayout from "./components/layouts";
 import ForgotPassword from "./pages/ForgotPassword";
-import AuditionsPage from "./pages/Auditions/Auditions";
+import AuditionsPage from "./pages/Auditions";
 import Profile from "./pages/Profile";
 import AboutUs from "./pages/AboutUs";
 import Discover from "./pages/Discover";

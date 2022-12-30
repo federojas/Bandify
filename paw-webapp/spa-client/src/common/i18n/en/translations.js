@@ -21,12 +21,12 @@ export const TRANSLATIONS_EN = {
     aboutUs: "About us",
     Profile: "Profile",
     discover: "Discover",
-    login: "Login",
+    login: "Log in",
     post: "Post",
     managerAlt: "Manager",
     profileAlt: "Profile",
     logoutAlt: "Logout",
-
+    register: "Register",
   },
   Login : {
     email: "Email",

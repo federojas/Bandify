@@ -1,20 +1,59 @@
 //i18 translations
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import BandifyLogo from "../../images/logo.png";
-import "../../styles/navbar.css";
+// import "../../styles/navbar.css";
 import "../../styles/profile.css";
 import ManagerIcon from "../../assets/icons/manager.svg";
 import LogoutIcon from "../../assets/icons/logout.svg";
 import ProfileIcon from "../../assets/icons/user.svg";
+import ToggleColorMode from "../ToggleColorMode";
+import { ReactNode } from "react";
+import {
+  Box,
+  Flex,
+  Avatar,
+  HStack,
+  Link,
+  IconButton,
+  Button,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  MenuDivider,
+  useDisclosure,
+  useColorModeValue,
+  Stack,
+  Image,
+} from "@chakra-ui/react";
+import { HamburgerIcon, CloseIcon, AddIcon } from "@chakra-ui/icons";
 
+const NavLink = ({ children, link }: { children: ReactNode; link: string }) => (
+  <Link
+    px={2}
+    py={1}
+    rounded={"md"}
+    _hover={{
+      textDecoration: "none",
+      bg: useColorModeValue("gray.200", "gray.700"),
+    }}
+    href={link}
+  >
+    {children}
+  </Link>
+);
 
 function Nav() {
   const { t } = useTranslation();
   const [isLogged, setIsLogged] = useState<boolean>(false);
   const sections = [
     { path: "/auditions", name: t("NavBar.auditions") },
+    { path: "/users", name: t("NavBar.discover") },
+    { path: "/aboutUs", name: t("NavBar.aboutUs") },
+    // { path: "/newAudition", name: t("NavBar.post") },
+
     // TODO: PONER BIEN LOS LINKS DESPUES
   ];
 
@@ -22,121 +61,236 @@ function Nav() {
     setIsLogged(!isLogged);
   }
 
-  return (
-    <nav>
-      <div className="nav-container nav-div">
-        <a href="/" className="logo-section">
-          <img
-            src={BandifyLogo}
-            className="bandify-logo"
-            alt="Bandify"
-          />
-          <span className="bandify-title">bandify</span>
-        </a>
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
-        <div className="w-full md:block md:w-auto" id="mobile-menu">
-          <ul>
-            <li>
-              <a
-                href="/auditions"
-                className="block py-2 pr-4 pl-3 text-white rounded text-2xl"
-              >
-                Auditions
+  return (
+    <>
+      <Box bg={useColorModeValue("gray.100", "gray.900")} px={4}>
+        <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
+          <IconButton
+            size={"md"}
+            width={10}
+            icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
+            aria-label={"Open Menu"}
+            display={{ md: "none" }}
+            onClick={isOpen ? onClose : onOpen}
+          />
+          <HStack spacing={8} alignItems={"center"}>
+            <Box>
+              <a href="/" className="logo-section">
+                <HStack>
+                  <Image src={BandifyLogo} w={8} alt="Bandify" />
+                  <span className="bandify-title">bandify</span>
+                </HStack>
               </a>
-            </li>
-            {/* isLogged && */}
-            {
-              <li>
-                <a
-                  href="/users"
-                  className="block py-2 pr-4 pl-3 text-white rounded text-2xl"
+            </Box>
+            <HStack
+              as={"nav"}
+              spacing={4}
+              display={{ base: "none", md: "flex" }}
+            >
+              {sections.map((link) => (
+                <NavLink key={link.name} link={link.path}>
+                  {link.name}
+                </NavLink>
+              ))}
+            </HStack>
+          </HStack>
+          <Flex alignItems={"center"}>
+            <ToggleColorMode />
+            {isLogged ? (
+              <>
+                <Button
+                  variant={"solid"}
+                  colorScheme={"teal"}
+                  size={"md"}
+                  mx={4}
+                  px={6}
+                  leftIcon={<AddIcon />}
                 >
-                  Discover
-                </a>
-              </li>
-            }
-            {!isLogged && (
-              <>
-                <li>
-                  <a
-                    href="/aboutUs"
-                    className="block py-2 pr-4 pl-3 text-white rounded text-2xl"
+                  {t("NavBar.post")}
+                </Button>
+                <Menu>
+                  <MenuButton
+                    as={Button}
+                    rounded={"full"}
+                    variant={"link"}
+                    cursor={"pointer"}
+                    minW={0}
                   >
-                    About Us
-                  </a>
-                </li>
-                {/* param.navItem !== 0 && param.navItem !== 5 && */}
-                {
-                  <li>
-                    <div className="flex">
-                      <a href="/login" className="purple-login-button">
-                        Login
-                      </a>
-                    </div>
-                  </li>
-                }
+                    <Avatar
+                      size={"sm"}
+                      src={
+                        "https://i.pinimg.com/originals/d3/e2/73/d3e273980e1e3df14c4a9b26e7d98d70.jpg"
+                      }
+                    />
+                  </MenuButton>
+                  <MenuList>
+                    <MenuItem as="a" href="/profile">
+                      {t("NavBar.profileAlt")}
+                    </MenuItem>
+                    <MenuDivider />
+                    <MenuItem>{t("NavBar.logoutAlt")}</MenuItem>
+                  </MenuList>
+                </Menu>
               </>
+            ) : (
+              <Stack
+              flex={{ base: 1, md: 0 }}
+              justify={"flex-end"}
+              direction={"row"}
+              spacing={6}>
+                <Button
+                  as={"a"}
+                  fontSize={"sm"}
+                  fontWeight={400}
+                  variant={"link"}
+                  href={"/login"}
+                >
+                  {t("NavBar.login")}
+                </Button>
+                <Button
+                  display={{ base: "none", md: "inline-flex" }}
+                  fontSize={"sm"}
+                  fontWeight={600}
+                  color={"white"}
+                  bg={"pink.400"}
+                  _hover={{
+                    bg: "pink.300",
+                  }}
+                  as={"a"}
+                  href={"/register"}
+                >
+                  {t("NavBar.register")}
+                </Button>
+              </Stack>
             )}
-            {/* TODO isLogged && */}
-            {
-              <>
-                {/* hasRole('BAND') && */}
-                {
-                  <li>
-                    <a
-                      href="/newAudition"
-                      className="block py-2 pr-4 pl-3 text-white rounded text-2xl"
-                    >
-                      Post
-                    </a>
-                  </li>
-                  // TODO: Add "Manager" con distinto href
-                }
-                {/* hasRole('ARTIST') && */}
-                {
-                  <li>
-                    <a
-                      href="/profile/applications"
-                      className="block py-2 pr-4 pl-3 text-white rounded text-2xl"
-                    >
-                      <img
-                        src={ManagerIcon}
-                        className="profile-icon-img"
-                        alt="Manager"
-                      />{" "}
-                    </a>
-                  </li>
-                }
-                <li>
-                  <a
-                    href="/profile"
-                    className="block py-2 pr-4 pl-3 text-white rounded text-2xl"
-                  >
-                    <img
-                      src={ProfileIcon}
-                      className="profile-icon-img"
-                      alt="Profile"
-                    />
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/logout"
-                    className="block py-2 pr-4 pl-3 text-white rounded text-2xl"
-                  >
-                    <img
-                      src={LogoutIcon}
-                      className="profile-icon-img"
-                      alt="Logout"
-                    />
-                  </a>
-                </li>
-              </>
-            }
-          </ul>
-        </div>
-      </div>
-    </nav>
+          </Flex>
+        </Flex>
+        {isOpen ? (
+          <Box pb={4} display={{ md: "none" }}>
+            <Stack as={"nav"} spacing={4}>
+              {sections.map((link) => (
+                <NavLink key={link.name} link={link.path}>
+                  {link.name}
+                </NavLink>
+              ))}
+            </Stack>
+          </Box>
+        ) : null}
+      </Box>
+    </>
+    // <nav>
+    //   <div className="nav-container nav-div">
+    //     <a href="/" className="logo-section">
+    //       <img src={BandifyLogo} className="bandify-logo" alt="Bandify" />
+    //       <span className="bandify-title">bandify</span>
+    //     </a>
+
+    //     <div className="w-full md:block md:w-auto" id="mobile-menu">
+    //       <ul>
+    //         <ToggleColorMode />
+    //         <li>
+    //           <a
+    //             href="/auditions"
+    //             className="block py-2 pr-4 pl-3 text-white rounded text-2xl"
+    //           >
+    //             Auditions
+    //           </a>
+    //         </li>
+    //         {/* isLogged && */}
+    //         {
+    //           <li>
+    //             <a
+    //               href="/users"
+    //               className="block py-2 pr-4 pl-3 text-white rounded text-2xl"
+    //             >
+    //               Discover
+    //             </a>
+    //           </li>
+    //         }
+    //         {!isLogged && (
+    //           <>
+    //             <li>
+    //               <a
+    //                 href="/aboutUs"
+    //                 className="block py-2 pr-4 pl-3 text-white rounded text-2xl"
+    //               >
+    //                 About Us
+    //               </a>
+    //             </li>
+    //             {/* param.navItem !== 0 && param.navItem !== 5 && */}
+    //             {
+    //               <li>
+    //                 <div className="flex">
+    //                   <a href="/login" className="purple-login-button">
+    //                     Login
+    //                   </a>
+    //                 </div>
+    //               </li>
+    //             }
+    //           </>
+    //         )}
+    //         {/* TODO isLogged && */}
+    //         {
+    //           <>
+    //             {/* hasRole('BAND') && */}
+    //             {
+    //               <li>
+    //                 <a
+    //                   href="/newAudition"
+    //                   className="block py-2 pr-4 pl-3 text-white rounded text-2xl"
+    //                 >
+    //                   Post
+    //                 </a>
+    //               </li>
+    //               // TODO: Add "Manager" con distinto href
+    //             }
+    //             {/* hasRole('ARTIST') && */}
+    //             {
+    //               <li>
+    //                 <a
+    //                   href="/profile/applications"
+    //                   className="block py-2 pr-4 pl-3 text-white rounded text-2xl"
+    //                 >
+    //                   <img
+    //                     src={ManagerIcon}
+    //                     className="profile-icon-img"
+    //                     alt="Manager"
+    //                   />{" "}
+    //                 </a>
+    //               </li>
+    //             }
+    //             <li>
+    //               <a
+    //                 href="/profile"
+    //                 className="block py-2 pr-4 pl-3 text-white rounded text-2xl"
+    //               >
+    //                 <img
+    //                   src={ProfileIcon}
+    //                   className="profile-icon-img"
+    //                   alt="Profile"
+    //                 />
+    //               </a>
+    //             </li>
+    //             <li>
+    //               <a
+    //                 href="/logout"
+    //                 className="block py-2 pr-4 pl-3 text-white rounded text-2xl"
+    //               >
+    //                 <img
+    //                   src={LogoutIcon}
+    //                   className="profile-icon-img"
+    //                   alt="Logout"
+    //                 />
+    //               </a>
+    //             </li>
+    //           </>
+    //         }
+    //       </ul>
+    //     </div>
+    //   </div>
+    // </nav>
   );
 }
 

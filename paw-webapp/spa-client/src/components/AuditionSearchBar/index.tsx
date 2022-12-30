@@ -9,6 +9,8 @@ import {
   FormErrorMessage,
   Input,
   Button,
+  Box,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import {
   Select,
@@ -19,8 +21,7 @@ import {
 } from "chakra-react-select";
 import { useTranslation } from "react-i18next";
 
-
-//TODO: REVISAR SI HAY QUE TRANSLATEAR ESTOS O NO 
+//TODO: REVISAR SI HAY QUE TRANSLATEAR ESTOS O NO
 const locationOptions: LocationGroup[] = [
   { value: "CABA", label: "CABA" },
   { value: "Buenos Aires", label: "Buenos Aires" },
@@ -84,21 +85,15 @@ const AuditionSearchBar = () => {
   const { t } = useTranslation();
 
   return (
-    <div className="search-general-div">
+    <Box
+      bgColor={useColorModeValue("gray.100", "gray.900")}
+      rounded="lg"
+      p={5}
+      boxShadow="xl"
+    >
       <form onSubmit={handleSubmit}>
         <FormControl p={2}>
-          {/* <form action="/auditions/search" method="get" className="searchForm"> */}
           <div className="searchBarAndOrderBy">
-            {/* <div className="search auditionSearchBar-1">
-            <input
-              id="inputfield"
-              type="text"
-              maxLength={80}
-              size={43}
-              placeholder="Search"
-              name="query"
-            />
-          </div> */}
             <div className="auditionSearchBar-1">
               <FormLabel>{t("AuditionSearchBar.search")}</FormLabel>
 
@@ -123,13 +118,6 @@ const AuditionSearchBar = () => {
                 variant="filled"
               />
             </div>
-
-            {/* <div id="orderBy-filter" className="orderBy">
-            <select name="order">
-              <option value="DESC">Descending</option>
-              <option value="ASC">Ascending</option>
-            </select>
-          </div> */}
           </div>
 
           <FormLabel>{t("AuditionSearchBar.location")}</FormLabel>
@@ -145,7 +133,7 @@ const AuditionSearchBar = () => {
               setLocations(event.flatMap((e) => e));
             }}
           />
-          
+
           <FormLabel>{t("AuditionSearchBar.genre")}</FormLabel>
           <Select<GenreGroup, true, GroupBase<GenreGroup>>
             isMulti
@@ -173,56 +161,12 @@ const AuditionSearchBar = () => {
             }}
           />
 
-          {/* <div className="filters">
-          <div className="filter-by">
-            <b>
-              <p>Filters</p>
-            </b>
-          </div>
-          <div>
-            <select id="location-filter" multiple name="location">
-              <option disabled>Location</option>
-              {locationList.map((location, index) => (
-                <option key={index} value={location}>
-                  {location}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <select id="genre-filter" multiple name="genre">
-              <option disabled>Genres</option>
-              {genreList.map((genre, index) => (
-                <option key={index} value={genre}>
-                  {genre}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <select id="role-filter" multiple name="role">
-              <option disabled>Roles</option>
-              {roleList.map((role, index) => (
-                <option key={index} value={role}>
-                  {role}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div> */}
-          <Button colorScheme="blue" type="submit">
-          {t("AuditionSearchBar.search")}
+          <Button colorScheme="blue" type="submit" marginTop={6}>
+            {t("AuditionSearchBar.search")}
           </Button>
-          {/* <div className="search-button-container">
-          <button className="search-button" onClick={search}>
-            Search
-          </button>
-        </div> */}
         </FormControl>
       </form>
-
-      {/* </form> */}
-    </div>
+    </Box>
   );
 };
 
