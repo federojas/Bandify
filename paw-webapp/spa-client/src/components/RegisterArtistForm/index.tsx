@@ -18,6 +18,7 @@ import {
   Stack,
   Text,
   Link,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 
@@ -94,7 +95,10 @@ const RegisterArtistForm = () => {
   };
 
   return (
-    <Box rounded={"lg"} boxShadow={"lg"} p={8}>
+    <Box rounded={"lg"} boxShadow={"lg"} p={8} 
+    bg={useColorModeValue("gray.100", "gray.900")}
+  
+  >
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={4}>
           <HStack>

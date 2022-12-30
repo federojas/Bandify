@@ -64,122 +64,117 @@ function Nav() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <>
-      <Box bg={useColorModeValue("gray.100", "gray.900")} px={4}>
-        <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
-          <IconButton
-            size={"md"}
-            width={10}
-            icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
-            aria-label={"Open Menu"}
-            display={{ md: "none" }}
-            onClick={isOpen ? onClose : onOpen}
-          />
-          <HStack spacing={8} alignItems={"center"}>
-            <Box>
-              <a href="/" className="logo-section">
-                <HStack>
-                  <Image src={BandifyLogo} w={8} alt="Bandify" />
-                  <span className="bandify-title">bandify</span>
-                </HStack>
-              </a>
-            </Box>
-            <HStack
-              as={"nav"}
-              spacing={4}
-              display={{ base: "none", md: "flex" }}
-            >
-              {sections.map((link) => (
-                <NavLink key={link.name} link={link.path}>
-                  {link.name}
-                </NavLink>
-              ))}
-            </HStack>
+    <Box bg={useColorModeValue("gray.100", "gray.900")} px={4}>
+      <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
+        <IconButton
+          size={"md"}
+          width={10}
+          icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
+          aria-label={"Open Menu"}
+          display={{ md: "none" }}
+          onClick={isOpen ? onClose : onOpen}
+        />
+        <HStack spacing={8} alignItems={"center"}>
+          <Box>
+            <a href="/" className="logo-section">
+              <HStack>
+                <Image src={BandifyLogo} w={8} alt="Bandify" />
+                <span className="bandify-title">bandify</span>
+              </HStack>
+            </a>
+          </Box>
+          <HStack as={"nav"} spacing={4} display={{ base: "none", md: "flex" }}>
+            {sections.map((link) => (
+              <NavLink key={link.name} link={link.path}>
+                {link.name}
+              </NavLink>
+            ))}
           </HStack>
-          <Flex alignItems={"center"}>
-            <ToggleColorMode />
-            {isLogged ? (
-              <>
-                <Button
-                  variant={"solid"}
-                  colorScheme={"teal"}
-                  size={"md"}
-                  mx={4}
-                  px={6}
-                  leftIcon={<AddIcon />}
+        </HStack>
+        <Flex alignItems={"center"}>
+          <ToggleColorMode />
+          {isLogged ? (
+            <>
+              <Button
+                variant={"solid"}
+                colorScheme={"teal"}
+                size={"md"}
+                mx={4}
+                px={6}
+                leftIcon={<AddIcon />}
+              >
+                {t("NavBar.post")}
+              </Button>
+              <Menu>
+                <MenuButton
+                  as={Button}
+                  rounded={"full"}
+                  variant={"link"}
+                  cursor={"pointer"}
+                  minW={0}
                 >
-                  {t("NavBar.post")}
-                </Button>
-                <Menu>
-                  <MenuButton
-                    as={Button}
-                    rounded={"full"}
-                    variant={"link"}
-                    cursor={"pointer"}
-                    minW={0}
-                  >
-                    <Avatar
-                      size={"sm"}
-                      src={
-                        "https://i.pinimg.com/originals/d3/e2/73/d3e273980e1e3df14c4a9b26e7d98d70.jpg"
-                      }
-                    />
-                  </MenuButton>
-                  <MenuList>
-                    <MenuItem as="a" href="/profile">
-                      {t("NavBar.profileAlt")}
-                    </MenuItem>
-                    <MenuDivider />
-                    <MenuItem>{t("NavBar.logoutAlt")}</MenuItem>
-                  </MenuList>
-                </Menu>
-              </>
-            ) : (
-              <Stack
+                  <Avatar
+                    size={"sm"}
+                    src={
+                      "https://i.pinimg.com/originals/d3/e2/73/d3e273980e1e3df14c4a9b26e7d98d70.jpg"
+                    }
+                  />
+                </MenuButton>
+                <MenuList>
+                  <MenuItem as="a" href="/profile">
+                    {t("NavBar.profileAlt")}
+                  </MenuItem>
+                  <MenuDivider />
+                  <MenuItem>{t("NavBar.logoutAlt")}</MenuItem>
+                </MenuList>
+              </Menu>
+            </>
+          ) : (
+            <Stack
               flex={{ base: 1, md: 0 }}
               justify={"flex-end"}
               direction={"row"}
-              spacing={6}>
-                <Button
-                  as={"a"}
-                  fontSize={"sm"}
-                  fontWeight={400}
-                  variant={"link"}
-                  href={"/login"}
-                >
-                  {t("NavBar.login")}
-                </Button>
-                <Button
-                  display={{ base: "none", md: "inline-flex" }}
-                  fontSize={"sm"}
-                  fontWeight={600}
-                  color={"white"}
-                  bg={"pink.400"}
-                  _hover={{
-                    bg: "pink.300",
-                  }}
-                  as={"a"}
-                  href={"/register"}
-                >
-                  {t("NavBar.register")}
-                </Button>
-              </Stack>
-            )}
-          </Flex>
-        </Flex>
-        {isOpen ? (
-          <Box pb={4} display={{ md: "none" }}>
-            <Stack as={"nav"} spacing={4}>
-              {sections.map((link) => (
-                <NavLink key={link.name} link={link.path}>
-                  {link.name}
-                </NavLink>
-              ))}
+              spacing={6}
+            >
+              <Button
+                as={"a"}
+                fontSize={"sm"}
+                fontWeight={400}
+                variant={"link"}
+                href={"/login"}
+              >
+                {t("NavBar.login")}
+              </Button>
+              <Button
+                display={{ base: "none", md: "inline-flex" }}
+                fontSize={"sm"}
+                fontWeight={600}
+                color={"white"}
+                bg={"blue.400"}
+                _hover={{
+                  bg: "blue.300",
+                }}
+                as={"a"}
+                href={"/register"}
+              >
+                {t("NavBar.register")}
+              </Button>
             </Stack>
-          </Box>
-        ) : null}
-      </Box>
-    </>
+          )}
+        </Flex>
+      </Flex>
+      {isOpen ? (
+        <Box pb={4} display={{ md: "none" }}>
+          <Stack as={"nav"} spacing={4}>
+            {sections.map((link) => (
+              <NavLink key={link.name} link={link.path}>
+                {link.name}
+              </NavLink>
+            ))}
+          </Stack>
+        </Box>
+      ) : null}
+    </Box>
     // <nav>
     //   <div className="nav-container nav-div">
     //     <a href="/" className="logo-section">

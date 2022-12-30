@@ -7,7 +7,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
-import "../../styles/footer.css";
+// import "../../styles/footer.css";
 
 export default function Footer() {
   const { t, i18n } = useTranslation();

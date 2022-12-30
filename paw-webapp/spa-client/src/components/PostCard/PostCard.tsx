@@ -49,7 +49,7 @@ const PostCard: React.FC<Audition> = ({
   return (
     <Card maxW="md" margin={5} boxShadow={'2xl'}>
       <CardHeader>
-        <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
+        <Flex as='a' href={'#'} flex="1" gap="4" alignItems="center" flexWrap="wrap">
           <Avatar
             name={band.name}
             src="https://i.pinimg.com/originals/d3/e2/73/d3e273980e1e3df14c4a9b26e7d98d70.jpg"

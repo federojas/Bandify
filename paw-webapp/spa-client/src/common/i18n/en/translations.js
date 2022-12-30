@@ -35,7 +35,8 @@ export const TRANSLATIONS_EN = {
     forgotPassword: "Forgot password?",
     login: "Log in",
     notAMemberyet: "Not a member yet?",
-    register: "Register"
+    register: "Register",
+    title: "Log in to your account"
   },
   Register: {
     header: "Register as a",
