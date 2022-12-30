@@ -13,22 +13,22 @@ export default function AuditionsPage() {
     },
     id: 1,
     creationDate: new Date(),
-    title: "My Band is looking for a drummer",
-    roles: ["Drummer"],
+    title: "My Band is looking for a drummer ",
+    roles: ["Drummer", "Guitarist", "Bassist", "Singer"],
     genres: ["Rock"],
     location: "Buenos Aires",
   };
 
   return (
     <>
-      <Center flexDirection="column">
-        <VStack spacing={5} marginTop={10}>
+      <Center marginY={10} flexDirection="column">
+        <VStack spacing={5} >
           <Heading fontSize={40}>Search for Auditions 🎸</Heading>
           <AuditionSearchBar />
         </VStack>
       </Center>
-      <Divider marginY={10} />
-      <VStack alignItems={"center"} spacing={10}>
+      <Divider />
+      <VStack marginY={10} alignItems={"center"} spacing={4}>
         <Heading>{t("Auditions.latest")}</Heading>
 
         <Flex

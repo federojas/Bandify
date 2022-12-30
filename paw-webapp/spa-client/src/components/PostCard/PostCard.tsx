@@ -30,9 +30,11 @@ import {
   Divider,
   Flex,
   Heading,
+  HStack,
   IconButton,
   Image,
   Stack,
+  Tag,
   Text,
 } from "@chakra-ui/react";
 const PostCard: React.FC<Audition> = ({
@@ -45,26 +47,54 @@ const PostCard: React.FC<Audition> = ({
   const { t } = useTranslation();
 
   return (
-    <Card maxW="sm">
+    <Card maxW="md" margin={5} boxShadow={'2xl'}>
       <CardHeader>
         <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
-          <Avatar name={band.name} src='https://i.pinimg.com/originals/d3/e2/73/d3e273980e1e3df14c4a9b26e7d98d70.jpg' />
+          <Avatar
+            name={band.name}
+            src="https://i.pinimg.com/originals/d3/e2/73/d3e273980e1e3df14c4a9b26e7d98d70.jpg"
+          />
 
           <Box>
             <Heading size="sm">{band.name}</Heading>
-            <Text fontSize='smaller'>{location}</Text>
+            <Text fontSize="smaller">{location}</Text>
           </Box>
         </Flex>
       </CardHeader>
       <CardBody>
         <Stack spacing="3">
           <Heading size="md">{title}</Heading>
-          
+          <HStack spacing="2">
+            {roles.map((role) => (
+              <Tag
+                as="a"
+                href={"#"}
+                size={"md"}
+                variant="solid"
+                colorScheme="teal"
+              >
+                {role}
+              </Tag>
+            ))}
+          </HStack>
+          <HStack spacing="2">
+            {genres.map((genre) => (
+              <Tag
+                as="a"
+                href={"#"}
+                size={"md"}
+                variant="solid"
+                colorScheme="cyan"
+              >
+                {genre}
+              </Tag>
+            ))}
+          </HStack>
         </Stack>
       </CardBody>
       <Divider />
       <CardFooter>
-        <ButtonGroup >
+        <ButtonGroup>
           <Button variant="solid" colorScheme="blue">
             More
           </Button>
