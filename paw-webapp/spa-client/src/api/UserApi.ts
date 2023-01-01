@@ -5,18 +5,13 @@ const UserApi = (() => {
   const endpoint = "/users";
 
   const createNewUser = (user: UserCreateInput) => {
-    console.log("🚀 ~ file: UserApi.ts:8 ~ createNewUser ~ user", user)
-    
     return api
       .post(endpoint, user)
       .then((response) => {
-        console.log("🚀 ~ file: UserApi.ts:11 ~ .then ~ response", response)
-      
         return true;
       })
       .catch((error) => {
-        console.log("🚀 ~ file: UserApi.ts:16 ~ createNewUser ~ error", error)
-        // console.log(error.response.data);
+        console.log(error);
         return false;
       });
   };
@@ -87,63 +82,85 @@ const UserApi = (() => {
   }
 
   const getUsers = (params: GetUserParams = {}) => {
-    return api.get(endpoint, { params: { ...params } }).then((response) => {
+    return api
+      .get(endpoint, { params: { ...params } })
+      .then((response) => {
         const data = response.data;
-        const users: User[] = Array.isArray(data) ? data.map((user) => {
-            return {...user}
-        }) : [];
-    }).catch((error) => {
+        const users: User[] = Array.isArray(data)
+          ? data.map((user) => {
+              return { ...user };
+            })
+          : [];
+      })
+      .catch((error) => {
         console.log(error.response.data);
         return null;
-    });
+      });
   };
 
   const getUserApplications = (id: number) => {
-    return api.get(`${endpoint}/${id}/applications`).then((response) => {
+    return api
+      .get(`${endpoint}/${id}/applications`)
+      .then((response) => {
         const data = response.data;
         // TODO: Falta crear el Type Application
-        const applications = Array.isArray(data) ? data.map((application) => {
-            return {...application}
-        }) : [];
-    }).catch((error) => {
+        const applications = Array.isArray(data)
+          ? data.map((application) => {
+              return { ...application };
+            })
+          : [];
+      })
+      .catch((error) => {
         console.log(error.response.data);
         return null;
-    });
+      });
   };
 
   const getUserSocialMediaList = (id: number) => {
-    return api.get(`${endpoint}/${id}/social-media`).then((response) => {
+    return api
+      .get(`${endpoint}/${id}/social-media`)
+      .then((response) => {
         const data = response.data;
         // TODO
-    }).catch((error) => {
+      })
+      .catch((error) => {
         console.log(error.response.data);
         return null;
-    });
-  }
+      });
+  };
 
   type UpdateUserSocialMediaInput = {
     twitterUrl: string;
     spotifyUrl: string;
-  }
+  };
 
-  const updateUserSocialMedia = (id: number, input: UpdateUserSocialMediaInput) => {
-    return api.put(`${endpoint}/${id}/social-media`, input).then((response) => {
+  const updateUserSocialMedia = (
+    id: number,
+    input: UpdateUserSocialMediaInput
+  ) => {
+    return api
+      .put(`${endpoint}/${id}/social-media`, input)
+      .then((response) => {
         return true;
-    }).catch((error) => {
+      })
+      .catch((error) => {
         console.log(error.response.data);
         return false;
-    });
-  }
+      });
+  };
 
   const getSocialMediaById = (id: number, socialMediaId: number) => {
-    return api.get(`${endpoint}/${id}/social-media/${socialMediaId}`).then((response) => {
+    return api
+      .get(`${endpoint}/${id}/social-media/${socialMediaId}`)
+      .then((response) => {
         const data = response.data;
         // TODO
-    }).catch((error) => {
+      })
+      .catch((error) => {
         console.log(error.response.data);
         return null;
-    });
-  }
+      });
+  };
 
   return {
     createNewUser,
@@ -156,8 +173,7 @@ const UserApi = (() => {
     getUserSocialMediaList,
     updateUserSocialMedia,
     getSocialMediaById,
-  }
-
+  };
 })();
 
 export default UserApi;
