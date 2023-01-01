@@ -20,10 +20,12 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CharacterEncodingFilter;
 
 
 import java.util.Arrays;
@@ -69,10 +71,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
+        CharacterEncodingFilter filter = new CharacterEncodingFilter();
+        filter.setEncoding("UTF-8");
+        filter.setForceEncoding(true);
         http
                 .cors().and().csrf().disable()
-                .sessionManagement()
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .exceptionHandling()
+                .authenticationEntryPoint(new BandifyAuthenticationEntryPoint())
+                .accessDeniedHandler(accessDeniedHandler()) //TODO 500 CUANDO PONES MAL LAS CREDENTIALS TOKENS ETC
+                .and().sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().headers()
                 .cacheControl().disable()
                 .and().authorizeRequests()
@@ -98,13 +106,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.DELETE, "/memberships/{\\d+}").hasRole("BAND")
 
                 .antMatchers("/**").permitAll()
-
-
                 .and().addFilterBefore(authFilter,
-                        UsernamePasswordAuthenticationFilter.class)
-                .exceptionHandling()
-                    .authenticationEntryPoint(authenticationEntryPoint())
-                    .accessDeniedHandler(accessDeniedHandler()); //TODO 500 CUANDO PONES MAL LAS CREDENTIALS TOKENS ETC
+                        FilterSecurityInterceptor.class); //TODO CHEQUEAR ESTO, SOTUYO DICE USERNAMEPASSWORDAUTHENTICACIONFILTER
     }
 
 

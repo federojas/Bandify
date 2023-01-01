@@ -16,7 +16,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Documented
 public @interface NotDuplicatedEmail {
 
-    String message() default "Email already exists";
+    String message() default "Specified email already in use";
 
     Class<?>[] groups() default {};
 

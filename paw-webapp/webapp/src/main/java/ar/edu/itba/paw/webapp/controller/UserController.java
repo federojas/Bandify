@@ -12,21 +12,24 @@ import ar.edu.itba.paw.webapp.controller.utils.PaginationLinkBuilder;
 import ar.edu.itba.paw.webapp.dto.ApplicationDto;
 import ar.edu.itba.paw.webapp.dto.SocialMediaDto;
 import ar.edu.itba.paw.webapp.dto.UserDto;
+import ar.edu.itba.paw.webapp.form.SocialMediaForm;
 import ar.edu.itba.paw.webapp.form.UserEditForm;
 import ar.edu.itba.paw.webapp.form.UserForm;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.io.IOUtils;
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
+import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import org.slf4j.Logger;
+
 @Path("users")
 @Component
 public class UserController {
@@ -55,18 +58,16 @@ public class UserController {
     }
 
     //TODO REVISAR SI SE PUEDE PASAR EL CHECK OWNERSHIP AL SERVICIO
-    // TODO: PUT sin funcionar
+    // TODO: si soy banda tendria que aceptarme no mandar apellido ni available, pero
+    // TODO: en el caso de ser artista deberia pedirme los 4 atributos (name,surname,description,available)
+    // TODO: mas la lista de generos roles y location
     @PUT
     @Path("/{id}")
     public Response updateUser(@Valid UserEditForm form, @PathParam("id") final long id) {
         final User user = userService.findByEmail(securityContext.getUserPrincipal().getName()).orElseThrow(UserNotFoundException::new);
         checkOwnership(user, id);
-        userService.editUser(user.getId(), form.getName(), form.getSurname(), form.getDescription(),
-                form.getMusicGenres(), form.getLookingFor(), form.getProfileImage().getBytes(), form.getLocation());
-        if(!user.isBand()) {
-            userService.setAvailable(form.getAvailable(), user);
-        }
-
+        userService.editUser(user.getId(), form.getName(), form.getSurname(), form.getDescription(), form.getAvailable(),
+                form.getRoles(), form.getGenres(), form.getLocation());
         return Response.ok().build();
     }
 
@@ -81,8 +82,21 @@ public class UserController {
 
     @GET
     @Path("/{id}/profile-image")
+    @Produces({MediaType.MULTIPART_FORM_DATA})
     public Response getUserProfileImage(@PathParam("id") final long id) throws IOException {
-        return Response.ok(new ByteArrayInputStream(userService.getProfilePicture(id))).build();
+        return Response.ok(userService.getProfilePicture(id)).build();
+    }
+
+    @PUT
+    @Path("/{id}/profile-image")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public Response updateUserProfileImage(@PathParam("id") final long id,
+                                           @FormDataParam("image") InputStream image, //TODO IMAGE TYPE Y SIZE
+                                           @FormDataParam("image")FormDataContentDisposition imageMetaData) throws IOException {
+        userService.updateProfilePicture(
+                userService.getUserById(id).orElseThrow(UserNotFoundException::new),
+                IOUtils.toByteArray(image));
+        return Response.ok().build();
     }
 
 
@@ -147,6 +161,16 @@ public class UserController {
         Response.ResponseBuilder responseBuilder =
                 Response.ok(new GenericEntity<Set<SocialMediaDto>>(socialMediaDtos){});
         return responseBuilder.build();
+    }
+
+    @PUT
+    @Path("/{id}/social-media")
+    @Consumes("application/vnd.social-media-list.v1+json")
+    public Response updateUserSocialMedia(@Valid SocialMediaForm form, @PathParam("id") final long id) {
+        final User user = userService.findByEmail(securityContext.getUserPrincipal().getName()).orElseThrow(UserNotFoundException::new);
+        checkOwnership(user, id);
+        userService.updateSocialMedia(user, form.getSocialMedia());
+        return Response.ok().build();
     }
 
     @GET

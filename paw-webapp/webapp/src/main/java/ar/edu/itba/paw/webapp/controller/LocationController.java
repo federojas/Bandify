@@ -9,7 +9,6 @@ import ar.edu.itba.paw.service.UserService;
 import ar.edu.itba.paw.webapp.dto.LocationDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.util.HashSet;
@@ -45,14 +44,13 @@ public class LocationController {
         }
         else {
             locations = new HashSet<>();
-            if (userId != null)
-                locations.add(LocationDto.fromLoc(uriInfo,
-                        userService.getUserById(userId)
-                                .orElseThrow(UserNotFoundException::new).getLocation()));
+            if (userId != null) {
+                Location loc = userService.getUserById(userId).orElseThrow(UserNotFoundException::new).getLocation();
+                if(loc != null) locations.add(LocationDto.fromLoc(uriInfo,loc));
+            }
             if (auditionId != null)
                 locations.add(LocationDto.fromLoc(uriInfo,
                         auditionService.getAuditionById(auditionId).getLocation()));
-
         }
 
         if(locations.isEmpty())
@@ -69,6 +67,7 @@ public class LocationController {
         final Location location = locationService.getLocationById(id).orElseThrow(LocationNotFoundException::new);
         return Response.ok(LocationDto.fromLoc(uriInfo, location)).build();
     }
+
 }
 
 
