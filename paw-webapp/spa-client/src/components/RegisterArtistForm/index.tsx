@@ -21,6 +21,8 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import { UserCreateInput } from "../../api/types/User";
+import UserService from "../../services/UserService";
 
 interface FormData {
   email: string;
@@ -43,8 +45,13 @@ const RegisterArtistForm = () => {
     formState: { errors },
   } = useForm<FormData>();
 
-  const onSubmit = (data: FormData) => {
-    console.log(data);
+  const onSubmit = async (data: FormData) => {
+
+    const newUser: UserCreateInput = {...data, band: false}
+    
+    
+    const res = await UserService.createNewUser(newUser);
+    console.log("🚀 ~ file: index.tsx:54 ~ onSubmit ~ res", res)
   };
 
   const registerArtistOptions = {

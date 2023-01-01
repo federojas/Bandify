@@ -36,7 +36,7 @@ function Home() {
         <Text color={"gray.500"} maxW={"3xl"} fontSize={'2xl'}>
           Join bands... or create your own!
         </Text>
-        <Stack spacing={6} direction={"row"}>
+        <Stack spacing={6} direction={"row"} >
           <Button
             rounded={"full"}
             px={6}

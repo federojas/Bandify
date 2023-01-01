@@ -5,13 +5,18 @@ const UserApi = (() => {
   const endpoint = "/users";
 
   const createNewUser = (user: UserCreateInput) => {
+    console.log("🚀 ~ file: UserApi.ts:8 ~ createNewUser ~ user", user)
+    
     return api
       .post(endpoint, user)
       .then((response) => {
+        console.log("🚀 ~ file: UserApi.ts:11 ~ .then ~ response", response)
+      
         return true;
       })
       .catch((error) => {
-        console.log(error.response.data);
+        console.log("🚀 ~ file: UserApi.ts:16 ~ createNewUser ~ error", error)
+        // console.log(error.response.data);
         return false;
       });
   };
@@ -154,3 +159,5 @@ const UserApi = (() => {
   }
 
 })();
+
+export default UserApi;
