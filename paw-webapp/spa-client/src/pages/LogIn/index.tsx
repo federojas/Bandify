@@ -34,6 +34,9 @@ const LoginBox = () => {
   const { t } = useTranslation();
   const [rememberMe, setRememberMe] = React.useState(false);
 
+  const debug = () =>
+    console.log("🚀 ~ file: index.tsx:36 ~ LoginBox ~ rememberMe", rememberMe);
+
   const {
     register,
     handleSubmit,
@@ -66,9 +69,9 @@ const LoginBox = () => {
       maxLength: {
         value: 25,
         message: "Password cannot be larger than 25 characters",
-      }
-    }
-  }
+      },
+    },
+  };
 
   return (
     <Flex
@@ -77,7 +80,7 @@ const LoginBox = () => {
       justify={"center"}
       bg={useColorModeValue("gray.50", "gray.800")}
     >
-      <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6} minW={"50vw"}>
+      <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6} minW={"40vw"}>
         <Stack align={"center"}>
           <Heading fontSize={"4xl"}>{t("Login.title")} ✌️</Heading>
         </Stack>
@@ -89,14 +92,28 @@ const LoginBox = () => {
         >
           <form onSubmit={handleSubmit(onSubmit)}>
             <Stack spacing={4}>
-              <FormControl id="email" isRequired isInvalid={Boolean(errors.email)}>
+              <FormControl
+                id="email"
+                isRequired
+                isInvalid={Boolean(errors.email)}
+              >
                 <FormLabel>{t("Login.email")}</FormLabel>
-                <Input type="email" {...register("email", loginValidations.email)}/>
+                <Input
+                  type="email"
+                  {...register("email", loginValidations.email)}
+                />
                 <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
               </FormControl>
-              <FormControl id="password" isRequired isInvalid={Boolean(errors.password)}>
+              <FormControl
+                id="password"
+                isRequired
+                isInvalid={Boolean(errors.password)}
+              >
                 <FormLabel>{t("Login.password")}</FormLabel>
-                <Input type="password" {...register("password", loginValidations.password)}/>
+                <Input
+                  type="password"
+                  {...register("password", loginValidations.password)}
+                />
                 <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
               </FormControl>
               <Stack spacing={10}>
@@ -107,11 +124,17 @@ const LoginBox = () => {
                 >
                   <Checkbox
                     isChecked={rememberMe}
-                    onChange={() => setRememberMe(!rememberMe)}
+                    onChange={() => {
+                      setRememberMe(!rememberMe);
+                      debug();
+                      console.log("hola")
+                    }}
                   >
                     {t("Login.rememberMe")}
                   </Checkbox>
-                  <Link color={"blue.400"} href={'/forgot-password'}>{t("Login.forgotPassword")}</Link>
+                  <Link color={"blue.400"} href={"/forgot-password"}>
+                    {t("Login.forgotPassword")}
+                  </Link>
                 </Stack>
                 <Button
                   bg={"blue.400"}
