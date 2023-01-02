@@ -58,12 +58,13 @@ const RegisterArtistForm = () => {
       rounded={"lg"}
       boxShadow={"lg"}
       p={8}
+      w={'xl'}
       bg={useColorModeValue("gray.100", "gray.900")}
     >
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={4}>
           <HStack>
-            <Box>
+            <Box flex={1}>
               <FormControl
                 id="name"
                 isRequired
@@ -80,7 +81,7 @@ const RegisterArtistForm = () => {
                 <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
               </FormControl>
             </Box>
-            <Box>
+            <Box flex={1}>
               <FormControl
                 id="surname"
                 isRequired

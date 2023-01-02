@@ -54,6 +54,7 @@ const RegisterBandForm = () => {
       rounded={"lg"}
       boxShadow={"lg"}
       p={8}
+      w={'xl'}
       bg={useColorModeValue("gray.100", "gray.900")}
     >
       <form onSubmit={handleSubmit(onSubmit)}>

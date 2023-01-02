@@ -14,7 +14,7 @@ export default function AuditionsPage() {
     id: 1,
     creationDate: new Date(),
     title: "My Band is looking for a drummer ",
-    roles: ["Drummer", "Guitarist", "Bassist", "Singer"],
+    roles: ["Drummer", "Guitarist", "Bassist", "Singer", "Keyboardist"],
     genres: ["Rock"],
     location: "Buenos Aires",
   };

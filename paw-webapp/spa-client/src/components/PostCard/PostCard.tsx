@@ -66,12 +66,12 @@ const PostCard: React.FC<Audition> = ({
       <CardBody>
         <Stack spacing="3">
           <Heading size="md">{title}</Heading>
-          <HStack spacing="2">
+          <HStack spacing="2" wrap={'wrap'}>
             {roles.map((role) => (
               <RoleTag role={role} />
             ))}
           </HStack>
-          <HStack spacing="2">
+          <HStack spacing="2" wrap={'wrap'}>
             {genres.map((genre) => (
               <GenreTag genre={genre} />
             ))}
