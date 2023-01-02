@@ -96,6 +96,7 @@ function RegisterCard(props: RegisterCardProps) {
         >
           {content}
         </chakra.p>
+        {/* TODO: CHusmear aca el underlined */}
         <Link href={url}>
           <Button colorScheme={"blue"}>{urlTitle}</Button>
         </Link>

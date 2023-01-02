@@ -4,13 +4,14 @@ import api from "./api";
 const UserApi = (() => {
   const endpoint = "/users";
 
-  const createNewUser = (user: UserCreateInput) => {
+  const createNewUser = async (user: UserCreateInput) => {
     return api
       .post(endpoint, user)
       .then((response) => {
         return true;
       })
       .catch((error) => {
+        
         console.log(error);
         return false;
       });

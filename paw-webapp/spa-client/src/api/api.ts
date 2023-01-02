@@ -5,9 +5,8 @@ const instance = axios.create({
     headers: {
         'Content-Type': 'application/vnd.user.v1+json',
         'Accept': 'application/json',
+        'Authorization': null,
     },
 });
-
-delete instance.defaults.headers.common['Authorization'];
 
 export default instance;
