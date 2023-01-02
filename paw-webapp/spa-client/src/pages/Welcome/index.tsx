@@ -48,9 +48,7 @@ function Home() {
           >
             Get started
           </Button>
-          <Button rounded={"full"} px={6} as='a' href={'/aboutUs'}>
-            Learn more
-          </Button>
+          
         </Stack>
         {/* <Center>
           <Image src={WelcomeGuitar} />

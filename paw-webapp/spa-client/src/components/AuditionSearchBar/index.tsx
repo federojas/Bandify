@@ -11,6 +11,9 @@ import {
   Button,
   Box,
   useColorModeValue,
+  HStack,
+  VStack,
+  Flex,
 } from "@chakra-ui/react";
 import {
   Select,
@@ -20,6 +23,7 @@ import {
   GroupBase,
 } from "chakra-react-select";
 import { useTranslation } from "react-i18next";
+import { Search2Icon, SearchIcon } from "@chakra-ui/icons";
 
 //TODO: REVISAR SI HAY QUE TRANSLATEAR ESTOS O NO
 const locationOptions: LocationGroup[] = [
@@ -92,7 +96,7 @@ const AuditionSearchBar = () => {
       boxShadow="xl"
     >
       <form onSubmit={handleSubmit}>
-        <FormControl p={2}>
+        <VStack w={"full"} p={2} spacing={4}>
           <div className="searchBarAndOrderBy">
             <div className="auditionSearchBar-1">
               <FormLabel>{t("AuditionSearchBar.search")}</FormLabel>
@@ -120,51 +124,68 @@ const AuditionSearchBar = () => {
             </div>
           </div>
 
-          <FormLabel>{t("AuditionSearchBar.location")}</FormLabel>
-          <Select<LocationGroup, true, GroupBase<LocationGroup>>
-            isMulti
-            name="locations"
-            options={locationOptions}
-            placeholder={t("AuditionSearchBar.locationPlaceholder")}
-            closeMenuOnSelect={false}
-            variant="filled"
-            tagVariant="solid"
-            onChange={(event) => {
-              setLocations(event.flatMap((e) => e));
-            }}
-          />
+          <Container>
+            <FormLabel>{t("AuditionSearchBar.location")}</FormLabel>
+            <Select<LocationGroup, true, GroupBase<LocationGroup>>
+              isMulti
+              name="locations"
+              options={locationOptions}
+              placeholder={t("AuditionSearchBar.locationPlaceholder")}
+              closeMenuOnSelect={false}
+              variant="filled"
+              tagVariant="solid"
+              onChange={(event) => {
+                setLocations(event.flatMap((e) => e));
+              }}
+            />
+          </Container>
 
-          <FormLabel>{t("AuditionSearchBar.genre")}</FormLabel>
-          <Select<GenreGroup, true, GroupBase<GenreGroup>>
-            isMulti
-            name="genres"
-            options={genreOptions}
-            placeholder={t("AuditionSearchBar.genrePlaceholder")}
-            closeMenuOnSelect={false}
-            variant="filled"
-            tagVariant="solid"
-            onChange={(event) => {
-              setGenres(event.flatMap((e) => e));
-            }}
-          />
-          <FormLabel>{t("AuditionSearchBar.role")}</FormLabel>
-          <Select<RoleGroup, true, GroupBase<RoleGroup>>
-            isMulti
-            name="roles"
-            options={roleOptions}
-            placeholder={t("AuditionSearchBar.rolePlaceholder")}
-            closeMenuOnSelect={false}
-            variant="filled"
-            tagVariant="solid"
-            onChange={(event) => {
-              setRoles(event.flatMap((e) => e));
-            }}
-          />
+          <Container>
+            <FormLabel>{t("AuditionSearchBar.genre")}</FormLabel>
+            <Select<GenreGroup, true, GroupBase<GenreGroup>>
+              isMulti
+              name="genres"
+              options={genreOptions}
+              placeholder={t("AuditionSearchBar.genrePlaceholder")}
+              closeMenuOnSelect={false}
+              variant="filled"
+              tagVariant="solid"
+              onChange={(event) => {
+                setGenres(event.flatMap((e) => e));
+              }}
+            />
+          </Container>
+          <Container>
+            <FormLabel>{t("AuditionSearchBar.role")}</FormLabel>
+            <Select<RoleGroup, true, GroupBase<RoleGroup>>
+              isMulti
+              name="roles"
+              options={roleOptions}
+              placeholder={t("AuditionSearchBar.rolePlaceholder")}
+              closeMenuOnSelect={false}
+              variant="filled"
+              tagVariant="solid"
+              onChange={(event) => {
+                setRoles(event.flatMap((e) => e));
+              }}
+            />
+          </Container>
 
-          <Button colorScheme="blue" type="submit" marginTop={6}>
-            {t("AuditionSearchBar.search")}
-          </Button>
-        </FormControl>
+          <Container>
+            <HStack justifyContent={"center"}>
+              <Button
+                leftIcon={<SearchIcon />}
+                w={"35%"}
+                colorScheme="blue"
+                type="submit"
+                marginTop={6}
+                alignSelf={"center"}
+              >
+                {t("AuditionSearchBar.search")}
+              </Button>
+            </HStack>
+          </Container>
+        </VStack>
       </form>
     </Box>
   );
