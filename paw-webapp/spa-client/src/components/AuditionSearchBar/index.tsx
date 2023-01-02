@@ -14,6 +14,7 @@ import {
   HStack,
   VStack,
   Flex,
+  Text,
 } from "@chakra-ui/react";
 import {
   Select,
@@ -86,6 +87,7 @@ const AuditionSearchBar = () => {
   const [locations, setLocations] = React.useState<LocationGroup[]>([]);
   const [genres, setGenres] = React.useState<GenreGroup[]>([]);
   const [roles, setRoles] = React.useState<RoleGroup[]>([]);
+  const [filters, setFilters] = React.useState(false);
   const { t } = useTranslation();
 
   return (
@@ -96,7 +98,7 @@ const AuditionSearchBar = () => {
       boxShadow="xl"
     >
       <form onSubmit={handleSubmit}>
-        <VStack w={"full"} p={2} spacing={4}>
+        <VStack w={"full"} p={2} spacing={3}>
           <div className="searchBarAndOrderBy">
             <div className="auditionSearchBar-1">
               <FormLabel>{t("AuditionSearchBar.search")}</FormLabel>
@@ -123,53 +125,63 @@ const AuditionSearchBar = () => {
               />
             </div>
           </div>
+          <Text 
+           as='u'
+            cursor='pointer'
+            color={useColorModeValue("blue.500", "blue.200")}
+            alignSelf='flex-start'
+          onClick={() => setFilters(!filters)}>Filters</Text>
 
-          <Container>
-            <FormLabel>{t("AuditionSearchBar.location")}</FormLabel>
-            <Select<LocationGroup, true, GroupBase<LocationGroup>>
-              isMulti
-              name="locations"
-              options={locationOptions}
-              placeholder={t("AuditionSearchBar.locationPlaceholder")}
-              closeMenuOnSelect={false}
-              variant="filled"
-              tagVariant="solid"
-              onChange={(event) => {
-                setLocations(event.flatMap((e) => e));
-              }}
-            />
-          </Container>
+          {filters && (
+            <>
+              <Container>
+                <FormLabel>{t("AuditionSearchBar.location")}</FormLabel>
+                <Select<LocationGroup, true, GroupBase<LocationGroup>>
+                  isMulti
+                  name="locations"
+                  options={locationOptions}
+                  placeholder={t("AuditionSearchBar.locationPlaceholder")}
+                  closeMenuOnSelect={false}
+                  variant="filled"
+                  tagVariant="solid"
+                  onChange={(event) => {
+                    setLocations(event.flatMap((e) => e));
+                  }}
+                />
+              </Container>
 
-          <Container>
-            <FormLabel>{t("AuditionSearchBar.genre")}</FormLabel>
-            <Select<GenreGroup, true, GroupBase<GenreGroup>>
-              isMulti
-              name="genres"
-              options={genreOptions}
-              placeholder={t("AuditionSearchBar.genrePlaceholder")}
-              closeMenuOnSelect={false}
-              variant="filled"
-              tagVariant="solid"
-              onChange={(event) => {
-                setGenres(event.flatMap((e) => e));
-              }}
-            />
-          </Container>
-          <Container>
-            <FormLabel>{t("AuditionSearchBar.role")}</FormLabel>
-            <Select<RoleGroup, true, GroupBase<RoleGroup>>
-              isMulti
-              name="roles"
-              options={roleOptions}
-              placeholder={t("AuditionSearchBar.rolePlaceholder")}
-              closeMenuOnSelect={false}
-              variant="filled"
-              tagVariant="solid"
-              onChange={(event) => {
-                setRoles(event.flatMap((e) => e));
-              }}
-            />
-          </Container>
+              <Container>
+                <FormLabel>{t("AuditionSearchBar.genre")}</FormLabel>
+                <Select<GenreGroup, true, GroupBase<GenreGroup>>
+                  isMulti
+                  name="genres"
+                  options={genreOptions}
+                  placeholder={t("AuditionSearchBar.genrePlaceholder")}
+                  closeMenuOnSelect={false}
+                  variant="filled"
+                  tagVariant="solid"
+                  onChange={(event) => {
+                    setGenres(event.flatMap((e) => e));
+                  }}
+                />
+              </Container>
+              <Container>
+                <FormLabel>{t("AuditionSearchBar.role")}</FormLabel>
+                <Select<RoleGroup, true, GroupBase<RoleGroup>>
+                  isMulti
+                  name="roles"
+                  options={roleOptions}
+                  placeholder={t("AuditionSearchBar.rolePlaceholder")}
+                  closeMenuOnSelect={false}
+                  variant="filled"
+                  tagVariant="solid"
+                  onChange={(event) => {
+                    setRoles(event.flatMap((e) => e));
+                  }}
+                />
+              </Container>
+            </>
+          )}
 
           <Container>
             <HStack justifyContent={"center"}>
