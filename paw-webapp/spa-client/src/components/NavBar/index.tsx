@@ -1,5 +1,5 @@
 //i18 translations
-import { useState } from "react";
+import { ReactElement, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import BandifyLogo from "../../images/logo.png";
@@ -29,28 +29,46 @@ import {
   Image,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon, AddIcon } from "@chakra-ui/icons";
+import {FiMusic, FiUsers} from 'react-icons/fi'
 
-const NavLink = ({ children, link }: { children: ReactNode; link: string }) => (
-  <Link
-    px={2}
+const NavLink = ({
+  children,
+  link,
+  icon,
+}: {
+  children: ReactNode;
+  link: string;
+  icon: ReactElement;
+}) => {
+
+  const location = useLocation();
+  const toHighlight = location.pathname === link;
+
+  return (
+  <Button
+    as="a"
+    px={3}
     py={1}
     rounded={"md"}
+    variant={toHighlight ? 'solid' : 'ghost'}
     _hover={{
       textDecoration: "none",
       bg: useColorModeValue("gray.200", "gray.700"),
     }}
     href={link}
+    leftIcon={icon}
   >
     {children}
-  </Link>
-);
+  </Button>
+  );
+};
 
 function Nav() {
   const { t } = useTranslation();
   const [isLogged, setIsLogged] = useState<boolean>(false);
   const sections = [
-    { path: "/auditions", name: t("NavBar.auditions") },
-    { path: "/users", name: t("NavBar.discover") },
+    { path: "/auditions", name: t("NavBar.auditions"), icon: <FiMusic /> },
+    { path: "/users", name: t("NavBar.discover"), icon: <FiUsers /> },
     // { path: "/newAudition", name: t("NavBar.post") },
 
     // TODO: PONER BIEN LOS LINKS DESPUES
@@ -84,7 +102,7 @@ function Nav() {
           </Box>
           <HStack as={"nav"} spacing={4} display={{ base: "none", md: "flex" }}>
             {sections.map((link) => (
-              <NavLink key={link.name} link={link.path}>
+              <NavLink key={link.name} link={link.path} icon={link.icon}>
                 {link.name}
               </NavLink>
             ))}
@@ -166,7 +184,7 @@ function Nav() {
         <Box pb={4} display={{ md: "none" }}>
           <Stack as={"nav"} spacing={4}>
             {sections.map((link) => (
-              <NavLink key={link.name} link={link.path}>
+              <NavLink key={link.name} link={link.path} icon={link.icon}>
                 {link.name}
               </NavLink>
             ))}
