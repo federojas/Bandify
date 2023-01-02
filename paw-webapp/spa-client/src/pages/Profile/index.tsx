@@ -6,6 +6,8 @@ import AvailableCover from "../../assets/images/available.png";
 import { useTranslation } from "react-i18next";
 import {
   Box,
+  Button,
+  Center,
   Container,
   Divider,
   Grid,
@@ -24,6 +26,14 @@ import BandTag from "../../components/Tags/BandTag";
 import { ImLocation } from "react-icons/im";
 import GenreTag from "../../components/Tags/GenreTag";
 import RoleTag from "../../components/Tags/RoleTag";
+import {
+  FaFacebook,
+  FaInstagram,
+  FaTwitter,
+  FaYoutube,
+  FaSoundcloud,
+  FaSpotify,
+} from "react-icons/fa";
 
 type Props = {
   user: {
@@ -156,7 +166,7 @@ const Profile: React.FC<Props> = ({ user }) => {
                 <>{t("Profile.noFavoriteGenres")}</>
               )}
             </VStack>
-            <Divider marginY={6}/>
+            <Divider marginY={6} />
             <VStack spacing={4} justifyItems="start">
               <Heading fontSize={"2xl"} fontWeight={500}>
                 {t("Profile.roles")}
@@ -171,7 +181,6 @@ const Profile: React.FC<Props> = ({ user }) => {
                 <>{t("Profile.noRoles")}</>
               )}
             </VStack>
-
           </GridItem>
           <GridItem
             w={"full"}
@@ -180,7 +189,40 @@ const Profile: React.FC<Props> = ({ user }) => {
             rounded={"lg"}
             boxShadow={"lg"}
             p={6}
-          ></GridItem>
+          >
+            <VStack spacing={4} justifyItems="start">
+              <Heading fontSize={"2xl"} fontWeight={500}>
+                {t("Profile.socialMedia")}
+              </Heading>
+              <HStack wrap={"wrap"}>
+                <Button colorScheme={"facebook"} as="a" href={"#"}>
+                  <FaFacebook />
+                </Button>
+                {/* Add Twitter, Instagram, Youtube, Soundcloud and Spotify */}
+                <Button colorScheme={"twitter"} as="a" href={"#"}>
+                  <FaTwitter />
+                </Button>
+                <Button colorScheme={'orange'} as="a" href={"#"}>
+                  <FaInstagram />
+                </Button>
+                <Button colorScheme={"red"} as="a" href={"#"}>
+                  <FaYoutube />
+                </Button>
+                <Button colorScheme={"orange"} as="a" href={"#"}>
+                  <FaSoundcloud />
+                </Button>
+                <Button colorScheme={"yellow"} as="a" href={"#"}>
+                  <FaSpotify />
+                </Button>
+              </HStack>
+            </VStack>
+            <Divider marginY={6} />
+            <VStack spacing={4} justifyItems="start">
+              <Heading fontSize={"2xl"} fontWeight={500}>
+                {t("Profile.playsIn")}
+              </Heading>
+            </VStack>
+          </GridItem>
         </Grid>
       </Stack>
     </Container>

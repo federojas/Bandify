@@ -16,6 +16,11 @@ export const TRANSLATIONS_EN = {
     noFavoriteGenres: "No favorite genres",
     roles: "My skills",
     noRoles: "No skills",
+    socialMedia: "Social media",
+    noSocialMedia: "No social media",
+    playsIn: "Plays in",
+    noPlaysIn: "No bands",
+    noDescription: "No description",
   },
   NavBar: {
     title: "navbar",
