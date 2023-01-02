@@ -51,7 +51,6 @@ function Nav() {
   const sections = [
     { path: "/auditions", name: t("NavBar.auditions") },
     { path: "/users", name: t("NavBar.discover") },
-    { path: "/aboutUs", name: t("NavBar.aboutUs") },
     // { path: "/newAudition", name: t("NavBar.post") },
 
     // TODO: PONER BIEN LOS LINKS DESPUES

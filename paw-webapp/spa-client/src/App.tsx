@@ -14,7 +14,6 @@ import MainLayout from "./components/layouts";
 import ForgotPassword from "./pages/ForgotPassword";
 import AuditionsPage from "./pages/Auditions";
 import Profile from "./pages/Profile";
-import AboutUs from "./pages/AboutUs";
 import Discover from "./pages/Discover";
 import RegisterArtist from "./pages/RegisterArtist";
 import RegisterBand from "./pages/RegisterBand";
@@ -24,7 +23,6 @@ import User from "./pages/User";
 import BandAuditions from "./pages/BandAuditions";
 import ProfileApplications from "./pages/ProfileApplications";
 import ProfileInvites from "./pages/ProfileInvites";
-import ContextProviderWrapper from "./contexts/ContextProviderWrapper";
 
 const dagos = {
   id: 1,
@@ -34,7 +32,6 @@ const dagos = {
   band: false,
   location: "CABA",
   description: "Soy un artista",
-
 };
 
 function App() {
@@ -49,7 +46,6 @@ function App() {
           <Route path="registerBand" element={<RegisterBand />} />
           <Route path="registerArtist" element={<RegisterArtist />} />
           <Route path="profile" element={<Profile user={dagos} />} />
-          <Route path="aboutUs" element={<AboutUs />} />
           <Route path="users" element={<Discover />} />
           <Route path="forgot-password" element={<ForgotPassword />} />
           <Route path="auditions" element={<AuditionsPage />} />
