@@ -129,7 +129,7 @@ const Profile: React.FC<Props> = ({ user }) => {
                 }}
               />
             </Box>
-            <Heading fontSize={"3xl"} fontWeight={500}>
+            <Heading fontSize={"3xl"} fontWeight={700}>
               {user.name}
               {user.surname && <>{user.surname}</>}
             </Heading>

@@ -26,12 +26,6 @@ import ProfileApplications from "./pages/ProfileApplications";
 import ProfileInvites from "./pages/ProfileInvites";
 import ContextProviderWrapper from "./contexts/ContextProviderWrapper";
 
-const theme = {
-  colors: {
-    white: "#ffffff",
-  },
-};
-
 const dagos = {
   id: 1,
   name: "Leonardo D'Agostino",
@@ -40,7 +34,7 @@ const dagos = {
   band: false,
   location: "CABA",
   description: "Soy un artista",
-  
+
 };
 
 function App() {

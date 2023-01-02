@@ -4,7 +4,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { ChakraProvider, ColorModeScript, extendTheme, type ThemeConfig } from "@chakra-ui/react";
-
+import '@fontsource/poppins'
 import './common/i18n/index'
 
 const root = ReactDOM.createRoot(
@@ -16,7 +16,12 @@ const config: ThemeConfig = {
   useSystemColorMode: false,
 }
 
-const theme = extendTheme({ config });
+const fonts = {
+  heading: `'Poppins', sans-serif`,
+  body: `'Poppins', sans-serif`,
+}
+
+const theme = extendTheme({ config, fonts });
 
 root.render(
   <React.StrictMode>
