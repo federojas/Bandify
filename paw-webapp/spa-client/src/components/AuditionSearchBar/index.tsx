@@ -24,7 +24,7 @@ import {
   GroupBase,
 } from "chakra-react-select";
 import { useTranslation } from "react-i18next";
-import { Search2Icon, SearchIcon } from "@chakra-ui/icons";
+import { SearchIcon } from "@chakra-ui/icons";
 
 //TODO: REVISAR SI HAY QUE TRANSLATEAR ESTOS O NO
 const locationOptions: LocationGroup[] = [
