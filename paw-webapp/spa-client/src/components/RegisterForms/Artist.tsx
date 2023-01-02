@@ -23,6 +23,7 @@ import {
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { UserCreateInput } from "../../api/types/User";
 import UserService from "../../services/UserService";
+import registerOptions from "./validations";
 
 interface FormData {
   email: string;
@@ -46,66 +47,19 @@ const RegisterArtistForm = () => {
   } = useForm<FormData>();
 
   const onSubmit = async (data: FormData) => {
+    const newUser: UserCreateInput = { ...data, band: false };
 
-    const newUser: UserCreateInput = {...data, band: false}
-    
-    
     const res = await UserService.createNewUser(newUser);
-    console.log("🚀 ~ file: index.tsx:54 ~ onSubmit ~ res", res)
-  };
-
-  const registerArtistOptions = {
-    email: {
-      required: "Email is required",
-      maxLength: {
-        value: 254,
-        message: "Email cannot be larger than 254 characters",
-      },
-      pattern: /^\S+@\S+$/i,
-    },
-    password: {
-      required: "Password is required",
-      minLength: {
-        value: 8,
-        message: "Password must be at least 8 characters",
-      },
-      maxLength: {
-        value: 25,
-        message: "Password cannot be larger than 25 characters",
-      },
-    },
-    passwordConfirmation: {
-      required: "Password confirmation is required",
-      minLength: {
-        value: 8,
-        message: "Password must be at least 8 characters",
-      },
-      maxLength: {
-        value: 25,
-        message: "Password cannot be larger than 25 characters",
-      },
-    },
-    name: {
-      required: "Name is required",
-      maxLength: {
-        value: 50,
-        message: "Name cannot be larger than 50 characters",
-      },
-    },
-    surname: {
-      required: "Surname is required",
-      maxLength: {
-        value: 50,
-        message: "Surname cannot be larger than 50 characters",
-      },
-    },
+    console.log("🚀 ~ file: index.tsx:54 ~ onSubmit ~ res", res);
   };
 
   return (
-    <Box rounded={"lg"} boxShadow={"lg"} p={8} 
-    bg={useColorModeValue("gray.100", "gray.900")}
-  
-  >
+    <Box
+      rounded={"lg"}
+      boxShadow={"lg"}
+      p={8}
+      bg={useColorModeValue("gray.100", "gray.900")}
+    >
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={4}>
           <HStack>
@@ -121,7 +75,7 @@ const RegisterArtistForm = () => {
                 <Input
                   type="text"
                   // maxLength={50}
-                  {...register("name", registerArtistOptions.name)}
+                  {...register("name", registerOptions.name)}
                 />
                 <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
               </FormControl>
@@ -137,7 +91,7 @@ const RegisterArtistForm = () => {
                 </FormLabel>
                 <Input
                   type="text"
-                  {...register("surname", registerArtistOptions.surname)}
+                  {...register("surname", registerOptions.surname)}
                 />
                 <FormErrorMessage>{errors.surname?.message}</FormErrorMessage>
               </FormControl>
@@ -150,7 +104,7 @@ const RegisterArtistForm = () => {
             <Input
               type="email"
               maxLength={255}
-              {...register("email", registerArtistOptions.email)}
+              {...register("email", registerOptions.email)}
             />
             <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
           </FormControl>
@@ -165,7 +119,7 @@ const RegisterArtistForm = () => {
             <InputGroup>
               <Input
                 type={showPassword ? "text" : "password"}
-                {...register("password", registerArtistOptions.password)}
+                {...register("password", registerOptions.password)}
               />
               <InputRightElement h={"full"}>
                 <Button
@@ -193,7 +147,7 @@ const RegisterArtistForm = () => {
                 type={showPasswordConfirmation ? "text" : "password"}
                 {...register(
                   "passwordConfirmation",
-                  registerArtistOptions.passwordConfirmation
+                  registerOptions.passwordConfirmation
                 )}
               />
               <InputRightElement h={"full"}>
@@ -230,7 +184,10 @@ const RegisterArtistForm = () => {
           </Stack>
           <Stack pt={6}>
             <Text align={"center"}>
-              Already a user? <Link color={"blue.400"} href={'/login'}>Login</Link>
+              Already a user?{" "}
+              <Link color={"blue.400"} href={"/login"}>
+                Login
+              </Link>
             </Text>
           </Stack>
         </Stack>

@@ -1,5 +1,5 @@
 import { Flex, Heading, Stack, Text } from "@chakra-ui/react";
-import RegisterArtistForm from "../../components/RegisterArtistForm";
+import RegisterArtistForm from "../../components/RegisterForms/Artist";
 
 const RegisterArtist = () => {
   return (
