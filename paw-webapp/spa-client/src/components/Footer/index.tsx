@@ -16,6 +16,8 @@ export default function Footer() {
     i18n.changeLanguage(language);
   };
 
+  const currentYear = new Date().getFullYear();
+
   return (
     <Box
       bg={useColorModeValue("gray.100", "gray.900")}
@@ -30,10 +32,10 @@ export default function Footer() {
         justify={{ base: "center", md: "space-between" }}
         align={{ base: "center", md: "center" }}
       >
-        <Text>© 2022 Copyright: Bandify</Text>
+        <Text>© {currentYear} Copyright: Bandify</Text>
         <Text>
           <b>{t("Footer.contactUs")}: </b>
-          <a href="mailto: bandifypaw@gmail.com">bandifypaw@gmail</a>
+          <a href="mailto: bandifypaw@gmail.com">bandifypaw@gmail.com</a>
         </Text>
         <Stack direction={"row"} spacing={6}>
           <Button onClick={() => handleLanguageChange('es')}>ES</Button>
