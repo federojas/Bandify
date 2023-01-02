@@ -34,11 +34,13 @@ const theme = {
 
 const dagos = {
   id: 1,
-  name: "Dagos",
+  name: "Leonardo D'Agostino",
   email: "agustin.dagostino@hotmail.com",
   available: true,
   band: false,
   location: "CABA",
+  description: "Soy un artista",
+  
 };
 
 function App() {
@@ -50,11 +52,11 @@ function App() {
           <Route path="welcome" element={<Welcome />} />
           <Route path="login" element={<LogIn />} />
           <Route path="register" element={<Register />} />
+          <Route path="registerBand" element={<RegisterBand />} />
+          <Route path="registerArtist" element={<RegisterArtist />} />
           <Route path="profile" element={<Profile user={dagos} />} />
           <Route path="aboutUs" element={<AboutUs />} />
           <Route path="users" element={<Discover />} />
-          <Route path="registerBand" element={<RegisterBand />} />
-          <Route path="registerArtist" element={<RegisterArtist />} />
           <Route path="forgot-password" element={<ForgotPassword />} />
           <Route path="auditions" element={<AuditionsPage />} />
           <Route path="auditions/:id" element={<Audition />} />

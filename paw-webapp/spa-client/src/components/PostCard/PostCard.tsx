@@ -37,6 +37,8 @@ import {
   Tag,
   Text,
 } from "@chakra-ui/react";
+import GenreTag from "../Tags/GenreTag";
+import RoleTag from "../Tags/RoleTag";
 const PostCard: React.FC<Audition> = ({
   title,
   band,
@@ -66,28 +68,12 @@ const PostCard: React.FC<Audition> = ({
           <Heading size="md">{title}</Heading>
           <HStack spacing="2">
             {roles.map((role) => (
-              <Tag
-                as="a"
-                href={"#"}
-                size={"md"}
-                variant="solid"
-                colorScheme="teal"
-              >
-                {role}
-              </Tag>
+              <RoleTag role={role} />
             ))}
           </HStack>
           <HStack spacing="2">
             {genres.map((genre) => (
-              <Tag
-                as="a"
-                href={"#"}
-                size={"md"}
-                variant="solid"
-                colorScheme="cyan"
-              >
-                {genre}
-              </Tag>
+              <GenreTag genre={genre} />
             ))}
           </HStack>
         </Stack>

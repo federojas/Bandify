@@ -12,6 +12,10 @@ export const TRANSLATIONS_EN = {
     alt: {
       img: "Profile Picture",
     },
+    favoriteGenres: "Favorite genres",
+    noFavoriteGenres: "No favorite genres",
+    roles: "My skills",
+    noRoles: "No skills",
   },
   NavBar: {
     title: "navbar",
