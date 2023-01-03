@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.webapp.dto;
 
 import ar.edu.itba.paw.model.Genre;
+import ar.edu.itba.paw.model.Location;
 import ar.edu.itba.paw.model.Role;
 import ar.edu.itba.paw.model.User;
 
@@ -40,7 +41,9 @@ public class UserDto {
         dto.available = user.isAvailable();
         dto.genres = user.getUserGenres().stream().map(Genre::getName).collect(Collectors.toList());
         dto.roles = user.getUserRoles().stream().map(Role::getName).collect(Collectors.toList());
-        dto.location = user.getLocation().getName();
+        Location loc = user.getLocation();
+        dto.location = loc == null ? null : loc.getName();
+
 
         final UriBuilder userUriBuilder = uriInfo.getAbsolutePathBuilder()
                 .replacePath("users").path(String.valueOf(user.getId()));

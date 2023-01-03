@@ -22,7 +22,10 @@ import {
   Text,
   useColorModeValue,
   FormErrorMessage,
+  InputGroup,
+  InputRightElement,
 } from "@chakra-ui/react";
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 
 interface FormData {
   email: string;
@@ -33,6 +36,7 @@ interface FormData {
 const LoginBox = () => {
   const { t } = useTranslation();
   const [rememberMe, setRememberMe] = React.useState(false);
+  const [showPassword, setShowPassword] = React.useState(false);
 
   const debug = () =>
     console.log("🚀 ~ file: index.tsx:36 ~ LoginBox ~ rememberMe", rememberMe);
@@ -43,12 +47,11 @@ const LoginBox = () => {
     formState: { errors },
   } = useForm<FormData>();
 
-  const onSubmit = (data: FormData) => {
-    console.log(data);
+  const onSubmit = async (data: FormData) => {
+    console.log("🚀 ~ file: index.tsx:47 ~ onSubmit ~ data", data);
     // submit the form data, for example to an API
-    // loginService.login(values.email, values.password).then((response) => {
-    //   console.log(response);
-    // });
+    const response = await loginService.login(data.email, data.password)
+    console.log("🚀 ~ file: index.tsx:49 ~ onSubmit ~ response", response)
   };
 
   const loginValidations = {
@@ -109,10 +112,22 @@ const LoginBox = () => {
                 isInvalid={Boolean(errors.password)}
               >
                 <FormLabel>{t("Login.password")}</FormLabel>
-                <Input
-                  type="password"
-                  {...register("password", loginValidations.password)}
-                />
+                <InputGroup>
+                  <Input
+                    type={showPassword ? "text" : "password"}
+                    {...register("password", loginValidations.password)}
+                  />
+                  <InputRightElement h={"full"}>
+                    <Button
+                      variant={"ghost"}
+                      onClick={() =>
+                        setShowPassword((showPassword) => !showPassword)
+                      }
+                    >
+                      {showPassword ? <ViewIcon /> : <ViewOffIcon/>}
+                    </Button>
+                  </InputRightElement>
+                </InputGroup>
                 <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
               </FormControl>
               <Stack spacing={10}>
@@ -126,7 +141,7 @@ const LoginBox = () => {
                     onChange={() => {
                       setRememberMe(!rememberMe);
                       debug();
-                      console.log("hola")
+                      console.log("hola");
                     }}
                   >
                     {t("Login.rememberMe")}
