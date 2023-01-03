@@ -59,6 +59,7 @@ export const AuthContextProvider = ({children} : {children: React.ReactNode}) =>
 
 
     const loginHandler = (authKey: string, username: string) => {
+        console.log("🚀 ~ ENTRE ACA file: AuthContext.tsx:81 ~ loginHandler ~ authKey", authKey)
         setAuthKey(authKey);
         // setUsername(username);
         // setRole(jwtDecode<CustomJwtPayload>(authKey).authorization)
