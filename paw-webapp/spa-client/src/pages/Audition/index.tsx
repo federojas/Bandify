@@ -9,6 +9,7 @@ import "../../styles/modals.css";
 import "../../styles/alerts.css";
 import {
   Avatar,
+  Button,
   Card,
   CardBody,
   CardHeader,
@@ -24,8 +25,11 @@ import { BsInfoCircle } from "react-icons/bs";
 import { ImLocation } from "react-icons/im";
 import { BiBullseye } from "react-icons/bi";
 import RoleTag from "../../components/Tags/RoleTag";
-import { FiMusic } from "react-icons/fi";
+import { FiMusic, FiShare2, FiUsers } from "react-icons/fi";
+import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
+
 import GenreTag from "../../components/Tags/GenreTag";
+
 type User = {
   id: number;
   name: string;
@@ -57,8 +61,8 @@ const AuditionTest = {
   },
   id: 1,
   creationDate: new Date(),
-  title: "My Band is looking for a drummer",
-  description: "We are looking for a drummer",
+  title: "My Band is looking for a drummer and a singer for a rock band",
+  description: "We are looking for a drummer and a singer for a rock band in Buenos Aires city.",
   lookingFor: [
     { name: "Drummer" },
     { name: "Guitarist" },
@@ -81,73 +85,12 @@ const AuditionActions = (props: { auditionId: number }) => {
   };
 
   return (
-    <div className="right-panel">
-      <div className="buttonry">
-        <a className="audition-applicants-btn hover: shadow-sm">
-          <button className="audition-btn" onClick={share}>
-            Share
-            <img
-              src="/resources/icons/copy.svg"
-              className="audition-icon invert"
-              alt="Share"
-            />
-          </button>
-        </a>
-        {/* TODO: add isOwner && */}
-        {
-          <>
-            <a
-              className="audition-applicants-btn hover: shadow-sm"
-              href={`/auditions/${props.auditionId}/applicants`}
-            >
-              <button className="audition-btn" type="submit">
-                Applicants
-                <img
-                  src="/resources/icons/user.svg"
-                  className="audition-icon invert"
-                  alt="Applicants"
-                />
-              </button>
-            </a>
-            <a
-              className="audition-edit-btn hover: shadow-sm"
-              href={`/profile/editAudition/${props.auditionId}`}
-            >
-              <button className="audition-btn" type="submit">
-                Edit
-                <img
-                  src="/resources/icons/edit-white-icon.svg"
-                  className="audition-icon"
-                  alt="Edit"
-                />
-              </button>
-            </a>
-            <a className="audition-delete-btn">
-              <button
-                className="audition-btn"
-                onClick={openConfirmation}
-                type="submit"
-              >
-                Delete
-                <img
-                  src="/resources/icons/reject.svg"
-                  className="audition-icon-remove invert"
-                  alt="Delete"
-                />
-              </button>
-            </a>
-            {/* TODO: Add ConfirmationModal */}
-            {/* <ConfirmationModal
-              modalTitle="Delete Confirmation"
-              isDelete={true}
-              modalHeading="Delete Audition"
-              confirmationQuestion="Are you sure you want to delete this audition?"
-              action={`/profile/closeAudition/${props.auditionId}`}
-            /> */}
-          </>
-        }
-      </div>
-    </div>
+    <VStack>
+      <Button leftIcon={<FiShare2/>} w={'44'} colorScheme='blue'>Share</Button>
+      <Button leftIcon={<FiUsers/>} w={'44'} colorScheme='green'>Applicants</Button>
+      <Button leftIcon={<AiOutlineEdit/>} w={'44'} colorScheme='teal'>Edit</Button>
+      <Button leftIcon={<AiOutlineDelete/>} w={'44'} colorScheme='red'>Delete</Button>
+    </VStack>
   );
 };
 
