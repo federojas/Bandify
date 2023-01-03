@@ -24,15 +24,7 @@ import BandAuditions from "./pages/BandAuditions";
 import ProfileApplications from "./pages/ProfileApplications";
 import ProfileInvites from "./pages/ProfileInvites";
 
-const dagos = {
-  id: 1,
-  name: "Leonardo D'Agostino",
-  email: "agustin.dagostino@hotmail.com",
-  available: true,
-  band: false,
-  location: "CABA",
-  description: "Soy un artista",
-};
+
 
 function App() {
   return (
@@ -45,13 +37,13 @@ function App() {
           <Route path="register" element={<Register />} />
           <Route path="registerBand" element={<RegisterBand />} />
           <Route path="registerArtist" element={<RegisterArtist />} />
-          <Route path="profile" element={<Profile user={dagos} />} />
+          <Route path="profile" element={<Profile />} />
           <Route path="users" element={<Discover />} />
           <Route path="forgot-password" element={<ForgotPassword />} />
           <Route path="auditions" element={<AuditionsPage />} />
           <Route path="auditions/:id" element={<Audition />} />
           <Route path="auditions/search" element={<AuditionSearch />} />
-          <Route path="user/:id" element={<User user={dagos} />} />
+          {/* <Route path="user/:id" element={<User user={dagos} />} /> */}
           <Route path="bandAuditions/:id" element={<BandAuditions />} />
           <Route path="profile/auditions" element={<BandAuditions />} />
           {/* TODO */}

@@ -63,9 +63,18 @@ type SocialMedia = {
   url: string;
 };
 
-const Profile: React.FC<Props> = ({ user }) => {
+const Profile = () => {
   const { t } = useTranslation();
-
+  const user = {
+    id: 1,
+    name: "Leonardo",
+    surname: "D'Agostino",
+    email: "agustin.dagostino@hotmail.com",
+    available: true,
+    band: false,
+    location: "CABA",
+    description: "Soy un artista",
+  };
   const favoriteGenres: Genre[] = [
     { name: "Rock" },
     { name: "Metal" },
@@ -130,7 +139,7 @@ const Profile: React.FC<Props> = ({ user }) => {
               />
             </Box>
             <Heading fontSize={"3xl"} fontWeight={700}>
-              {user.name}
+              {user.name}{" "}
               {user.surname && <>{user.surname}</>}
             </Heading>
             {user.band ? <BandTag /> : <ArtistTag />}
@@ -202,7 +211,7 @@ const Profile: React.FC<Props> = ({ user }) => {
                 <Button colorScheme={"twitter"} as="a" href={"#"}>
                   <FaTwitter />
                 </Button>
-                <Button colorScheme={'orange'} as="a" href={"#"}>
+                <Button colorScheme={"orange"} as="a" href={"#"}>
                   <FaInstagram />
                 </Button>
                 <Button colorScheme={"red"} as="a" href={"#"}>
