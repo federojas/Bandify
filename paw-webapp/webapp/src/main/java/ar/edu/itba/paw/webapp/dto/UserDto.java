@@ -18,7 +18,6 @@ public class UserDto {
     private String surname;
     private String description;
     private boolean isBand;
-    private boolean isEnabled;
     private boolean available;
     private URI self;
     private List<String> genres;
@@ -27,6 +26,7 @@ public class UserDto {
     private URI socialMedia;
     private URI applications;
     private URI profileImage;
+    private URI status;
 
     public static UserDto fromUser(final UriInfo uriInfo, final User user) {
         if(user == null)
@@ -37,7 +37,6 @@ public class UserDto {
         dto.surname = user.getSurname();
         dto.description = user.getDescription();
         dto.isBand = user.isBand();
-        dto.isEnabled = user.isEnabled();
         dto.available = user.isAvailable();
         dto.genres = user.getUserGenres().stream().map(Genre::getName).collect(Collectors.toList());
         dto.roles = user.getUserRoles().stream().map(Role::getName).collect(Collectors.toList());
@@ -63,6 +62,11 @@ public class UserDto {
                 .replacePath("users").path(String.valueOf(user.getId()))
                 .path("applications");
         dto.applications = applicationsUriBuilder.build();
+
+        final UriBuilder statusUriBuilder = uriInfo.getAbsolutePathBuilder()
+                .replacePath("users").path(String.valueOf(user.getId()))
+                .path("status");
+        dto.status = statusUriBuilder.build();
 
         return dto;
     }
@@ -106,14 +110,6 @@ public class UserDto {
 
     public void setBand(boolean band) {
         isBand = band;
-    }
-
-    public boolean isEnabled() {
-        return isEnabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        isEnabled = enabled;
     }
 
     public boolean isAvailable() {
@@ -177,5 +173,13 @@ public class UserDto {
 
     public void setRoles(List<String> roles) {
         this.roles = roles;
+    }
+
+    public URI getStatus() {
+        return status;
+    }
+
+    public void setStatus(URI status) {
+        this.status = status;
     }
 }

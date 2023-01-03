@@ -12,6 +12,7 @@ import ar.edu.itba.paw.webapp.controller.utils.PaginationLinkBuilder;
 import ar.edu.itba.paw.webapp.dto.ApplicationDto;
 import ar.edu.itba.paw.webapp.dto.SocialMediaDto;
 import ar.edu.itba.paw.webapp.dto.UserDto;
+import ar.edu.itba.paw.webapp.dto.UserStatusDto;
 import ar.edu.itba.paw.webapp.form.SocialMediaForm;
 import ar.edu.itba.paw.webapp.form.UserEditForm;
 import ar.edu.itba.paw.webapp.form.UserForm;
@@ -184,6 +185,14 @@ public class UserController {
         return Response.ok(SocialMediaDto.fromSocialMedia(
                 uriInfo,socialMedia.stream().findFirst().orElseThrow(
                         SocialMediaNotFoundException::new))).build();
+    }
+
+    @GET
+    @Path("/{id}/status")
+    @Produces("application/vnd.status.v1+json")
+    public Response getUserStatus(@PathParam("id") final long id) {
+        final User user = userService.getUserById(id).orElseThrow(UserNotFoundException::new);
+        return Response.ok(UserStatusDto.fromUser(uriInfo, user.isEnabled(),id)).build();
     }
 
     private void checkOwnership(User user, long userId) {
