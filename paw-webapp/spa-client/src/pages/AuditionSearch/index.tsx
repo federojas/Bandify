@@ -1,8 +1,9 @@
 import "../../styles/welcome.css";
 import "../../styles/auditions.css";
-import NextIcon from '../../assets/icons/page-next.png';
+import NextIcon from "../../assets/icons/page-next.png";
 import PostCard from "../../components/PostCard/PostCard";
 import AuditionSearchBar from "../../components/AuditionSearchBar";
+import { Center, Divider, Flex, Heading, VStack } from "@chakra-ui/react";
 
 type Audition = {
   band: {
@@ -34,10 +35,9 @@ const AuditionSearch = () => {
         id: 1,
         creationDate: new Date(),
         title: "My Band is looking for a drummer",
-        roles: ['Drummer'],
-        genres: ['Rock'],
+        roles: ["Drummer"],
+        genres: ["Rock"],
         location: "Buenos Aires",
-
       },
       {
         band: {
@@ -47,10 +47,9 @@ const AuditionSearch = () => {
         id: 2,
         creationDate: new Date(),
         title: "My Band is looking for a guitarist",
-        roles: ['Guitarist'],
-        genres: ['Rock'],
+        roles: ["Guitarist"],
+        genres: ["Rock"],
         location: "Buenos Aires",
-
       },
     ],
     currentPage: 1,
@@ -62,23 +61,29 @@ const AuditionSearch = () => {
   };
 
   return (
-    <div className="auditions-content">
-      <h2 className="black-title">Search</h2>
+    <>
+      <Center marginY={10} flexDirection="column">
+        <VStack spacing={5}>
+          <Heading>Results</Heading>
 
-      <AuditionSearchBar />
-
-      <div className="posts">
+          <AuditionSearchBar />
+        </VStack>
+      </Center>
+      <Flex
+        direction={"row"}
+        wrap={"wrap"}
+        margin={2}
+        justifyContent={"space-around"}
+      >
         {auditionList.auditionList.length === 0 && (
           <b>
             <p className="no-results">No results found</p>
           </b>
         )}
         {auditionList.auditionList.map((audition, index) => (
-          <PostCard
-              {...audition}
-          />
+          <PostCard {...audition} />
         ))}
-      </div>
+      </Flex>
       <div className="pagination">
         {auditionList.currentPage > 1 && (
           <a onClick={() => getPaginationURL(auditionList.currentPage - 1)}>
@@ -98,7 +103,7 @@ const AuditionSearch = () => {
           </a>
         )}
       </div>
-    </div>
+    </>
   );
 };
 

@@ -139,9 +139,9 @@ const AuditionCard = ({
           </HStack>
           <HStack spacing={4}>
             <BiBullseye />
-            <HStack wrap={"wrap"}>
+            <HStack wrap={'wrap'}>
               {audition.lookingFor.map((item, index) => (
-                <RoleTag role={item.name} key={index} marginY={0} />
+                <RoleTag role={item.name} key={index} />
               ))}
             </HStack>
           </HStack>
@@ -149,7 +149,7 @@ const AuditionCard = ({
             <FiMusic />
             <HStack wrap={"wrap"}>
               {audition.musicGenres.map((item, index) => (
-                <GenreTag genre={item.name} key={index} marginY={0} />
+                <GenreTag genre={item.name} key={index}/>
               ))}
             </HStack>
           </HStack>

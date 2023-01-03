@@ -39,6 +39,8 @@ import {
 } from "@chakra-ui/react";
 import GenreTag from "../Tags/GenreTag";
 import RoleTag from "../Tags/RoleTag";
+import { BiBullseye } from "react-icons/bi";
+import { FiMusic } from "react-icons/fi";
 const PostCard: React.FC<Audition> = ({
   title,
   band,
@@ -49,9 +51,16 @@ const PostCard: React.FC<Audition> = ({
   const { t } = useTranslation();
 
   return (
-    <Card maxW="md" margin={5} boxShadow={'2xl'}>
+    <Card maxW="md" margin={5} boxShadow={"2xl"} w={"2xl"}>
       <CardHeader>
-        <Flex as='a' href={'#'} flex="1" gap="4" alignItems="center" flexWrap="wrap">
+        <Flex
+          as="a"
+          href={"#"}
+          flex="1"
+          gap="4"
+          alignItems="center"
+          flexWrap="wrap"
+        >
           <Avatar
             name={band.name}
             src="https://i.pinimg.com/originals/d3/e2/73/d3e273980e1e3df14c4a9b26e7d98d70.jpg"
@@ -66,15 +75,21 @@ const PostCard: React.FC<Audition> = ({
       <CardBody>
         <Stack spacing="3">
           <Heading size="md">{title}</Heading>
-          <HStack spacing="2" wrap={'wrap'}>
-            {roles.map((role) => (
-              <RoleTag role={role} />
-            ))}
+          <HStack spacing={4}>
+            <BiBullseye />
+            <HStack spacing="2" wrap={"wrap"}>
+              {roles.map((role) => (
+                <RoleTag role={role} />
+              ))}
+            </HStack>
           </HStack>
-          <HStack spacing="2" wrap={'wrap'}>
-            {genres.map((genre) => (
-              <GenreTag genre={genre} />
-            ))}
+          <HStack spacing={4}>
+            <FiMusic />
+            <HStack spacing="2" wrap={"wrap"}>
+              {genres.map((genre) => (
+                <GenreTag genre={genre} />
+              ))}
+            </HStack>
           </HStack>
         </Stack>
       </CardBody>

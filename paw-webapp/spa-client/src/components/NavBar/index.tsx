@@ -42,7 +42,7 @@ const NavLink = ({
 }) => {
 
   const location = useLocation();
-  const toHighlight = location.pathname === link;
+  const toHighlight = location.pathname.startsWith(link);
 
   return (
   <Button
