@@ -7,7 +7,25 @@ import "../../styles/audition.css";
 import "../../styles/forms.css";
 import "../../styles/modals.css";
 import "../../styles/alerts.css";
+import {
+  Avatar,
+  Card,
+  CardBody,
+  CardHeader,
+  Center,
+  Flex,
+  Heading,
+  HStack,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 
+import { BsInfoCircle } from "react-icons/bs";
+import { ImLocation } from "react-icons/im";
+import { BiBullseye } from "react-icons/bi";
+import RoleTag from "../../components/Tags/RoleTag";
+import { FiMusic } from "react-icons/fi";
+import GenreTag from "../../components/Tags/GenreTag";
 type User = {
   id: number;
   name: string;
@@ -26,6 +44,31 @@ type Audition = {
   }>;
   alreadyApplied: boolean;
   canBeAddedToBand: boolean;
+  band: {
+    id: number;
+    name: string;
+  };
+};
+
+const AuditionTest = {
+  band: {
+    name: "My Band",
+    id: 1,
+  },
+  id: 1,
+  creationDate: new Date(),
+  title: "My Band is looking for a drummer",
+  description: "We are looking for a drummer",
+  lookingFor: [
+    { name: "Drummer" },
+    { name: "Guitarist" },
+    { name: "Bassist" },
+    { name: "Singer" },
+  ],
+  musicGenres: [{ name: "Rock" }],
+  location: "Buenos Aires",
+  alreadyApplied: false,
+  canBeAddedToBand: false,
 };
 
 const AuditionActions = (props: { auditionId: number }) => {
@@ -108,119 +151,82 @@ const AuditionActions = (props: { auditionId: number }) => {
   );
 };
 
-function Card({ user, audition }: { user: User; audition: Audition }) {
+const AuditionCard = ({
+  user,
+  audition,
+}: {
+  user: User;
+  audition: Audition;
+}) => {
   return (
-    <div className="card-extern">
-      <div className="card-content">
-        <a href={`/user/${user.id}`}>
-          <div className="audition-profile">
-            <div className="image overflow-hidden">
-              <img
-                className="audition-profile-image"
-                src={`/user/${user.id}/profile-image`}
-                alt="Profile"
-              />
-            </div>
-            <h1 className="audition-band-name">{user.name}</h1>
-          </div>
-        </a>
-        <div className="card-header">
-          <h3 className="title">{audition.title}</h3>
-        </div>
-        <div className="card-body">
-          <div className="even-columns">
-            <div className="card-info">
-              <ul>
-                <li className="info-item">
-                  <b>About</b>
-                  <br />
-                  <p className="description">
-                    &nbsp;&nbsp;{audition.description}
-                  </p>
-                </li>
-                <li className="info-item">
-                  <b>Location</b>
-                  <br />
-                  <div className="tag">{audition.location}</div>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div className="card-info">
-            <ul>
-              <li className="info-item">
-                <b>Desired</b>
-                <br />
-                <div className="tag-list">
-                  {audition.lookingFor.map((item, index) => (
-                    <span key={index} className="roles-span">
-                      {item.name}
-                    </span>
-                  ))}
-                </div>
-              </li>
-              <li className="info-item">
-                <b>Genres</b>
-                <br />
-                <div className="tag-list">
-                  {audition.musicGenres.map((item, index) => (
-                    <span key={index} className="genre-span">
-                      {item.name}
-                    </span>
-                  ))}
-                </div>
-              </li>
-            </ul>
-          </div>
-        </div>
-        {/* TODO: Agregar el formulario para artistas */}
-      </div>
-    </div>
-  );
-}
+    <Card
+      maxW={"3xl"}
+      w={"2xl"}
+      margin={5}
+      p={5}
+      boxShadow={"xl"}
+      rounded={"xl"}
+    >
+      <CardHeader>
+        <Flex
+          as="a"
+          href={`/user/${audition.band.id}`}
+          flex="1"
+          gap="4"
+          alignItems="center"
+          flexWrap="wrap"
+        >
+          <Avatar
+            name={audition.band.name}
+            src={`/user/${user.id}/profile-image`}
+          />
+          <Heading size={"lg"}>{audition.band.name}</Heading>
+        </Flex>
+      </CardHeader>
+      <CardBody>
+        <VStack spacing={8} alignItems={"start"}>
+          <Heading size={"lg"}>{audition.title}</Heading>
+          <HStack spacing={4}>
+            <BsInfoCircle />
+            <Text fontSize={"lg"}>{audition.description}</Text>
+          </HStack>
+          <HStack spacing={4}>
+            <ImLocation />
+            <Text fontSize={"lg"}>{audition.location}</Text>
+          </HStack>
+          <HStack spacing={4}>
+            <BiBullseye />
+            <HStack wrap={"wrap"}>
+              {audition.lookingFor.map((item, index) => (
+                <RoleTag role={item.name} key={index} marginY={0} />
+              ))}
+            </HStack>
+          </HStack>
+          <HStack spacing={4}>
+            <FiMusic />
+            <HStack wrap={"wrap"}>
+              {audition.musicGenres.map((item, index) => (
+                <GenreTag genre={item.name} key={index} marginY={0} />
+              ))}
+            </HStack>
+          </HStack>
+        </VStack>
+      </CardBody>
 
-function LeftPanel() {
-  let navigate = useNavigate();
-
-  return (
-    <div className="left-panel">
-      <a
-        className="back-anchor"
-        onClick={() => {
-          navigate(-1);
-        }}
-        style={{ cursor: "pointer" }}
-      >
-        <div className="back-div">
-          <img src={BackIcon} alt="Back" className="back-icon" />
-        </div>
-      </a>
-    </div>
-  );
-}
-
-const AuditionCard = () => {
-  return (
-    <div className="flex flex-col">
-      <div className="auditions=content">
-        <LeftPanel />
-        <Card
-          user={{ id: 1, name: "Test" }}
-          audition={{
-            id: 1,
-            title: "Test",
-            description: "Test",
-            location: "Test",
-            lookingFor: [{ name: "Test" }],
-            musicGenres: [{ name: "Test" }],
-            alreadyApplied: false,
-            canBeAddedToBand: false,
-          }}
-        />
-        <AuditionActions auditionId={1} />
-      </div>
-    </div>
+      {/* TODO: Agregar el formulario para artistas */}
+    </Card>
   );
 };
 
-export default AuditionCard;
+const AuditionView = () => {
+  return (
+    <Center>
+      <HStack minH={"80vh"}>
+        <AuditionCard user={{ id: 1, name: "Test" }} audition={AuditionTest} />
+        <AuditionActions auditionId={1} />
+      </HStack>
+    </Center>
+  );
+};
+
+export default AuditionView;

@@ -1,11 +1,11 @@
 import { Tag } from "@chakra-ui/react";
 
-const GenreTag = ({ genre }: { genre: string }) => {
+const GenreTag = ({ genre, marginY = 2 }: { genre: string, marginY?: number }) => {
   return (
     <Tag
       as="a"
       href={"#"}
-      marginY={2}
+      marginY={marginY}
       size={"lg"}
       variant="solid"
       colorScheme="cyan"
