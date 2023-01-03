@@ -8,6 +8,7 @@ import { loginService } from "../../services";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import "../../common/i18n/index";
+import AuthContext from "../../contexts/AuthContext";
 import {
   Flex,
   Box,
@@ -37,6 +38,14 @@ const LoginBox = () => {
   const { t } = useTranslation();
   const [rememberMe, setRememberMe] = React.useState(false);
   const [showPassword, setShowPassword] = React.useState(false);
+  const authContext = React.useContext(AuthContext);
+
+  React.useEffect(() => {
+    if (authContext.isLoggedIn) {
+        console.log("🚀 ~ file: index.tsx:36 ~ LoginBox ~ rememberMe", rememberMe);
+    }
+}, [ authContext.isLoggedIn]);
+
 
   const debug = () =>
     console.log("🚀 ~ file: index.tsx:36 ~ LoginBox ~ rememberMe", rememberMe);
@@ -50,8 +59,10 @@ const LoginBox = () => {
   const onSubmit = async (data: FormData) => {
     console.log("🚀 ~ file: index.tsx:47 ~ onSubmit ~ data", data);
     // submit the form data, for example to an API
-    const response = await loginService.login(data.email, data.password)
+    const response = await loginService.login(data.email, data.password);
     console.log("🚀 ~ file: index.tsx:49 ~ onSubmit ~ response", response)
+    const key='123'; //todo: get key from response
+    authContext.onLogin(key, data.email);
   };
 
   const loginValidations = {
