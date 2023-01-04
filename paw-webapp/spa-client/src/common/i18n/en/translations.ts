@@ -49,6 +49,8 @@ export const TRANSLATIONS_EN = {
     title: "Log in to your account"
   },
   Register: {
+    title: "Register your band or artist for free!", 
+    subtitle: "Get to know new artists and bands, and get discovered!",
     header: "Register as a",
     band: "Band",
     artist: "Artist",
@@ -108,4 +110,32 @@ export const TRANSLATIONS_EN = {
     acceptAlt: "Accept",
     rejectAlt: "Reject",
   },
+  AuditionsSearch: {
+    results: "Results",
+    noResults: "No results found",
+  },
+  Pagination: {
+    page: "page",
+    of: "of",
+  },
+  Discover: {
+    discover: "Find bands and artists!",
+  },
+  ProfileApplications: {
+    pending: "Pending",
+    accepted: "Accepted",
+    rejected: "Rejected",
+    noApplications: "No applications",
+  },
+  RegisterArtist: {
+    signup: "Registrate como artista",
+    as: "as an",
+    artist: "Artist",
+  },
+  RegisterBand: {
+    signup: "Registrate como banda",
+    as: "as a",
+    band: "Band",
+  },
 };
+

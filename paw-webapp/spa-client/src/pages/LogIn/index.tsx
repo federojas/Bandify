@@ -152,7 +152,6 @@ const LoginBox = () => {
                     onChange={() => {
                       setRememberMe(!rememberMe);
                       debug();
-                      console.log("hola");
                     }}
                   >
                     {t("Login.rememberMe")}

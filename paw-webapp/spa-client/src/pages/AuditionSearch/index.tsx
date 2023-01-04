@@ -4,6 +4,7 @@ import NextIcon from "../../assets/icons/page-next.png";
 import PostCard from "../../components/PostCard/PostCard";
 import AuditionSearchBar from "../../components/AuditionSearchBar";
 import { Center, Divider, Flex, Heading, VStack } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
 
 type Audition = {
   band: {
@@ -55,7 +56,7 @@ const AuditionSearch = () => {
     currentPage: 1,
     totalPages: 1,
   };
-
+  const { t } = useTranslation();
   const getPaginationURL = (page: number) => {
     // TODO: Add code to get pagination URL
   };
@@ -64,7 +65,7 @@ const AuditionSearch = () => {
     <>
       <Center marginY={10} flexDirection="column">
         <VStack spacing={5}>
-          <Heading>Results</Heading>
+          <Heading>{t("AuditionsSearch.results")}</Heading>
 
           <AuditionSearchBar />
         </VStack>
@@ -77,7 +78,7 @@ const AuditionSearch = () => {
       >
         {auditionList.auditionList.length === 0 && (
           <b>
-            <p className="no-results">No results found</p>
+            <p className="no-results">{t("AuditionsSearch.noResults")}</p>
           </b>
         )}
         {auditionList.auditionList.map((audition, index) => (
@@ -95,7 +96,7 @@ const AuditionSearch = () => {
           </a>
         )}
         <b>
-          Page {auditionList.currentPage} of {auditionList.totalPages}
+          {t("Pagination.page")} {auditionList.currentPage} {t("Pagination.of")} {auditionList.totalPages}
         </b>
         {auditionList.currentPage < auditionList.totalPages && (
           <a onClick={() => getPaginationURL(auditionList.currentPage + 1)}>

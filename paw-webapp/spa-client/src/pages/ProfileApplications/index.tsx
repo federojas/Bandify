@@ -47,9 +47,9 @@ const ProfileApplications = () => {
       <div className="auditions-content">
         <div className="user-data">
           <div className="user-data-tabs">
-            <a href={pendingUrl} id="pending">Pending</a>
-            <a href={acceptedUrl} id="accepted">Accepted</a>
-            <a href={rejectedUrl} id="rejected">Rejected</a>
+            <a href={pendingUrl} id="pending">{t("ProfileApplications.pending")}</a>
+            <a href={acceptedUrl} id="accepted">{t("ProfileApplications.accepted")}</a>
+            <a href={rejectedUrl} id="rejected">{t("ProfileApplications.rejected")}</a>
           </div>
           <hr className="rounded" />
           <div className="user-data-applicants">
@@ -62,7 +62,7 @@ const ProfileApplications = () => {
             )}
             {artistApplications.length === 0 && (
               <p className="no-applications">
-                No applications
+                {t("ProfileApplications.noApplications")}
               </p>
             )}
           </div>

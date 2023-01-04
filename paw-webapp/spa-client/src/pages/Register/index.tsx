@@ -131,7 +131,7 @@ const RegisterContent = () => {
           fontWeight={"bold"}
           color={useColorModeValue("gray.700", "gray.50")}
         >
-          Register your band or artist for free!
+          {t("Register.title")}
         </chakra.h1>
         <chakra.h2
           margin={"auto"}
@@ -140,7 +140,7 @@ const RegisterContent = () => {
           fontWeight={"medium"}
           color={useColorModeValue("gray.500", "gray.400")}
         >
-          Get to know new artists and bands, and get discovered!
+          {t("Register.subtitle")}
         </chakra.h2>
       </Box>
       <SimpleGrid

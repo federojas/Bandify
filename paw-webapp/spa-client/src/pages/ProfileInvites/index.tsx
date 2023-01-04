@@ -77,7 +77,7 @@ const ProfileInvites = () => {
             </>
           )}
           <b>
-            Page {invites.currentPage} of {invites.lastPage}
+            {t("Pagination.page")} {invites.currentPage} {t("Pagination.of")} {invites.lastPage}
           </b>
           {invites.currentPage < invites.lastPage && (
             <>

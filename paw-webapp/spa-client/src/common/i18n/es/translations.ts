@@ -28,8 +28,11 @@ export const TRANSLATIONS_ES = {
     managerAlt: "Manager",
     profileAlt: "Perfil",
     logoutAlt: "Cerrar sesión",
+    register: "Registrarse",
   },
   Register: {
+    title: "¡Registrate como banda o artista gratis!", 
+    subtitle: "¡Conoce nuevos artistas y bandas, y se descubierto!",
     header: "Registrarse como",
     band: "Banda",
     artist: "Artista",
@@ -94,5 +97,32 @@ export const TRANSLATIONS_ES = {
     applicantsAlt: "Aplicantes",
     acceptAlt: "Aceptar",
     rejectAlt: "Rechazar",
+  },
+  AuditionsSearch: {
+    results: "Resultados",
+    noResults: "No se encontraron resultados",
+  },
+  Pagination: {
+    page: "Página",
+    of: "de",
+  },
+  Discover: {
+    discover: "¡Encuentra bandas y artistas!",
+  }, 
+  ProfileApplications: {
+    pending: "Pendientes",
+    accepted: "Aceptadas",
+    rejected: "Rechazadas",
+    noApplications: "No hay aplicaciones",
+  },
+  RegisterArtist: {
+    signup: "Registrate",
+    as: "como un",
+    artist: "Artista",
+  },
+  RegisterBand: {
+    signup: "Registrate",
+    as: "como una",
+    band: "Banda",
   },
 };
