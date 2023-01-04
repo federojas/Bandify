@@ -7,6 +7,7 @@ export const TRANSLATIONS_EN = {
     title: "Auditions",
     discover: "Discover auditions",
     latest: "Latest auditions",
+    header:"Search for Auditions 🎸",
   },
   Profile: {
     alt: {

@@ -23,7 +23,7 @@ export default function AuditionsPage() {
     <>
       <Center marginY={10} flexDirection="column">
         <VStack spacing={5} >
-          <Heading fontSize={40}>Search for Auditions 🎸</Heading>
+          <Heading fontSize={40}>{t("Auditions.header")}</Heading>
           <AuditionSearchBar />
         </VStack>
       </Center>

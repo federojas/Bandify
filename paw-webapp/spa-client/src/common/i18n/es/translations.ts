@@ -7,6 +7,8 @@ export const TRANSLATIONS_ES = {
     title: "Audiciones",
     discover: "Descubre audiciones",
     latest: "Últimas audiciones",
+    header:"Buscar A  udiciones 🎸",
+
   },
   Profile: {
     alt: {
@@ -60,35 +62,37 @@ export const TRANSLATIONS_ES = {
     }
   },
   Login : {
-    "email": "Email",
-    "password": "Password",
-    "rememberMe": "Recuérdame",
-    "forgotPassword": "¿Olvidaste tu contraseña?",
-    "login": "Iniciar sesión",
-    "notAMemberyet": "¿No eres miembro aún?",
-    "register": "Registrarse"
+    email: "Email",
+    password: "Password",
+    rememberMe: "Recuérdame",
+    forgotPassword: "¿Olvidaste tu contraseña?",
+    login: "Iniciar sesión",
+    notAMemberyet: "¿No eres miembro aún?",
+    register: "Registrarse"
   },
   AuditionSearchBar: {
-    "search": "Buscar",
-    "orderBy": "Ordenar por",
-    "location": "Ubicación",
-    "genre": "Género",
-    "Role": "Rol",
+    search: "Buscar",
+    searchPlaceholder: "Buscar audiciones",
+    orderByPlaceholder: "Ordenar",
+    orderBy: "Ordenar por",
+    location: "Ubicación",
+    genre: "Género",
+    Role: "Rol",
   },
   SearchForm: {
-    "searchUsers": "Buscar usuarios",
-    "filter": "Filtrar",
-    "location": "Ubicación",
-    "genres": "Géneros",
-    "roles": "Roles",
-    "search": "Buscar",
+    searchUsers: "Buscar usuarios",
+    filter: "Filtrar",
+    location: "Ubicación",
+    genres: "Géneros",
+    roles: "Roles",
+    search: "Buscar",
   },
   Footer: {
-    "contactUs": "Contáctanos",
+    contactUs: "Contáctanos",
   },
   InviteItem: {
-    "applicantsAlt": "Aplicantes",
-    "acceptAlt": "Aceptar",
-    "rejectAlt": "Rechazar",
+    applicantsAlt: "Aplicantes",
+    acceptAlt: "Aceptar",
+    rejectAlt: "Rechazar",
   },
 };
