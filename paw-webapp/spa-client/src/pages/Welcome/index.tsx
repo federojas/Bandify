@@ -11,10 +11,11 @@ import {
   Image,
   Center
 } from "@chakra-ui/react";
-
+import { useTranslation } from "react-i18next";
 import WelcomeGuitar from '../../images/welcome-guitar.png';
 
 function Home() {
+  const { t } = useTranslation();
   return (
     <Container maxW={"5xl"}>
       <Stack
@@ -28,13 +29,13 @@ function Home() {
           fontSize={{ base: "3xl", sm: "4xl", md: "6xl" }}
           lineHeight={"110%"}
         >
-          Connect with nearby{" "}
+          {t("Welcome.connect")}
           <Text as={"span"} color={"blue.400"}>
-            bands & artists
+            {t("Welcome.bandsArtists")}
           </Text>
         </Heading>
         <Text color={"gray.500"} maxW={"3xl"} fontSize={'2xl'}>
-          Join bands... or create your own!
+          {t("Welcome.join")}
         </Text>
         <Stack spacing={6} direction={"row"} >
           <Button
@@ -46,7 +47,7 @@ function Home() {
             as='a'
             href={'/register'}
           >
-            Get started
+            {t("Welcome.getStarted")}
           </Button>
           
         </Stack>

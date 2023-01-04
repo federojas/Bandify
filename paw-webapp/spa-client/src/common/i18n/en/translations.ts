@@ -150,5 +150,11 @@ export const TRANSLATIONS_EN = {
     profileBandNoRoles: "This band has not provided any roles.",
     profileArtistNoRoles: "This artist has not provided any roles.",
   },
+  Welcome: {
+    connect: "Connect with nearby ",
+    bandsArtists: "bands & artists",
+    join: "Join bands... or create your own!",
+    getStarted: "Get started",
+  },
 };
 

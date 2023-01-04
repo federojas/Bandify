@@ -138,4 +138,10 @@ export const TRANSLATIONS_ES = {
     profileBandNoRoles: "Esta banda no tiene roles.",
     profileArtistNoRoles: "Este artista no tiene roles.",
   },
+  Welcome: {
+    connect: "Conectate con ",
+    bandsArtists: "bandas y artistas",
+    join: "¡Únete a una banda... o crea una!",
+    getStarted: "Comenzar",
+  },
 };
