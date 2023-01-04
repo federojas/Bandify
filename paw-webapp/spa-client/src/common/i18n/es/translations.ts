@@ -125,4 +125,17 @@ export const TRANSLATIONS_ES = {
     as: "como una",
     band: "Banda",
   },
+  User: {
+    about: "Acerca de",
+    noBandBio: "Esta banda no tiene biografía.",
+    noArtistBio: "Este artista no tiene biografía.",
+    profileBandGenres: "Géneros de la banda",
+    profileArtistGenres: "Géneros del artista",
+    profileBandRoles: "Roles de la banda",
+    profileArtistRoles: "Roles del artista",
+    profileBandNoGenres: "Esta banda no tiene géneros.",
+    profileArtistNoGenres: "Este artista no tiene géneros.",
+    profileBandNoRoles: "Esta banda no tiene roles.",
+    profileArtistNoRoles: "Este artista no tiene roles.",
+  },
 };

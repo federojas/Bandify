@@ -111,20 +111,20 @@ const User: React.FC<Props> = ({ user }) => {
                       alt="User"
                     />
                     &nbsp;&nbsp;&nbsp;&nbsp;
-                    <span>About</span>
+                    <span>{t("User.about")}</span>
                   </div>
                   <div>
                     {user.description == null ? (
                       user.band ? (
-                        <p>This band has not provided a biography.</p>
+                        <p>{t("User.noBandBio")}</p> //todo: check if this is alright
                       ) : (
-                        <p>This user has not provided a biography.</p>
+                        <p>{t("User.noArtistBio")}</p>
                       )
                     ) : user.description.length === 0 ? (
                       user.band ? (
-                        <p>This band has not provided a biography.</p>
+                        <p>{t("User.noBandBio")}</p> //todo: check if this is alright
                       ) : (
-                        <p>This user has not provided a biography.</p>
+                        <p>{t("User.noArtistBio")}</p>
                       )
                     ) : (
                       <p className="description">{user.description}</p>
@@ -136,18 +136,18 @@ const User: React.FC<Props> = ({ user }) => {
                   <div className="about-section-heading">
                     <span>
                       {user.band ? (
-                        <p>Profile Band Genres</p>
+                        <p>{t("User.profileBandGenres")}</p>
                       ) : (
-                        <p>Profile User Genres</p>
+                        <p>{t("User.profileArtistGenres")}</p>
                       )}
                     </span>
                   </div>
                   <div className="genres-div">
                     {preferredGenres.length === 0 ? (
                       user.band ? (
-                        <p>Profile Band No Genres</p>
+                        <p>{t("User.profileBandNoGenres")}</p>
                       ) : (
-                        <p>Profile Artist No Genres</p>
+                        <p>{t("User.profileArtistNoGenres")}</p>
                       )
                     ) : (
                       <>
@@ -163,18 +163,18 @@ const User: React.FC<Props> = ({ user }) => {
                   <div className="about-section-heading">
                     <span>
                       {user.band ? (
-                        <p>Profile Band Roles</p>
+                        <p>{t("User.profileBandRoles")}</p>
                       ) : (
-                        <p>Profile User Roles</p>
+                        <p>{t("User.profileArtistRoles")}</p>
                       )}
                     </span>
                   </div>
                   <div className="roles-div">
                     {roles.length === 0 ? (
                       user.band ? (
-                        <p>Profile Band No Roles</p>
+                        <p>{t("User.profileBandNoRoles")}</p>
                       ) : (
-                        <p>Profile Artist No Roles</p>
+                        <p>{t("User.profileArtistNoRoles")}</p>
                       )
                     ) : (
                       <>

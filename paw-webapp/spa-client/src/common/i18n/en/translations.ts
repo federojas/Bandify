@@ -137,5 +137,18 @@ export const TRANSLATIONS_EN = {
     as: "as a",
     band: "Band",
   },
+  User: {
+    about: "About",
+    noBandBio: "This band has not provided a biography.",
+    noArtistBio: "This artist has not provided a biography.",
+    profileBandGenres: "Profile band genres",
+    profileArtistGenres: "Profile artist genres",
+    profileBandRoles: "Profile band roles",
+    profileArtistRoles: "Profile artist roles",
+    profileBandNoGenres: "This band has not provided any genres.",
+    profileArtistNoGenres: "This artist has not provided any genres.",
+    profileBandNoRoles: "This band has not provided any roles.",
+    profileArtistNoRoles: "This artist has not provided any roles.",
+  },
 };
 
