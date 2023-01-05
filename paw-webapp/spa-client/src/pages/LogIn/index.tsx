@@ -41,11 +41,12 @@ const LoginBox = () => {
   const authContext = React.useContext(AuthContext);
 
   React.useEffect(() => {
-    if (authContext.isLoggedIn) {
-        console.log("🚀 ~ file: index.tsx:36 ~ LoginBox ~ rememberMe", rememberMe);
+    if (authContext.isAuthenticated) {
+      console.log(
+        "tamo chelo, el usuario esta autenticado, redireccionando a home"
+      );
     }
-}, [ authContext.isLoggedIn]);
-
+  }, [authContext.isAuthenticated]);
 
   const debug = () =>
     console.log("🚀 ~ file: index.tsx:36 ~ LoginBox ~ rememberMe", rememberMe);
@@ -57,12 +58,7 @@ const LoginBox = () => {
   } = useForm<FormData>();
 
   const onSubmit = async (data: FormData) => {
-    console.log("🚀 ~ file: index.tsx:47 ~ onSubmit ~ data", data);
-    // submit the form data, for example to an API
-    const response = await loginService.login(data.email, data.password);
-    console.log("🚀 ~ file: index.tsx:49 ~ onSubmit ~ response", response)
-    const key='123'; //todo: get key from response
-    authContext.onLogin(key, data.email);
+    await authContext.login(data.email, data.password);
   };
 
   const loginValidations = {
@@ -135,7 +131,7 @@ const LoginBox = () => {
                         setShowPassword((showPassword) => !showPassword)
                       }
                     >
-                      {showPassword ? <ViewIcon /> : <ViewOffIcon/>}
+                      {showPassword ? <ViewIcon /> : <ViewOffIcon />}
                     </Button>
                   </InputRightElement>
                 </InputGroup>

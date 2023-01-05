@@ -9,28 +9,21 @@ export class LoginService {
     const credentials = username + ":" + password;
     const hash = btoa(credentials);
 
-    api
-      .get(paths.USERS, {
+    try {
+      const response = await api.get(paths.USERS, {
         headers: {
           'Authorization': "Basic " + hash,
           'Accept': 'application/vnd.user-list.v1+json'
         }
-      })
-      .then((response) => {
-        console.log(
-          "🚀 ~ file: LoginService.ts:19 ~ LoginService ~ .then ~ response",
-          response
-        );
-        localStorage.setItem("userJWT", response.headers["x-jwt"] as any);
-        sessionStorage.setItem("userJWT", response.headers["x-jwt"] as any);
-        return true;
-      })
-      .catch((error) => {
-        console.log(
-          "🚀 ~ file: LoginService.ts:25 ~ LoginService ~ login ~ error",
-          error
-        );
-        return false;
       });
+      console.log("🚀 ~ file: LoginService.ts:19 ~ LoginService ~ login ~ response", response)
+      
+      localStorage.setItem("jwt", response.headers["x-jwt"] as string);
+      sessionStorage.setItem("jwt", response.headers["x-jwt"] as string);
+      return response.headers;
+    } catch (error) {
+      console.log("🚀 ~ file: LoginService.ts:25 ~ LoginService ~ login ~ error", error)
+    }
+    
   }
 }
