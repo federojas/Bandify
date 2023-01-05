@@ -195,6 +195,13 @@ public class UserController {
         return Response.ok(UserStatusDto.fromUser(uriInfo, user.isEnabled(),id)).build();
     }
 
+    @PUT
+    @Path("/{id}/status")
+    public Response updateUserStatus(@PathParam("id") final long id) {
+        final User user = userService.getUserById(id).orElseThrow(UserNotFoundException::new);
+        return Response.ok(UserStatusDto.fromUser(uriInfo, user.isEnabled(),id)).build();
+    }
+
     private void checkOwnership(User user, long userId) {
         if (user.getId() != userId) {
             throw new ForbiddenException();
