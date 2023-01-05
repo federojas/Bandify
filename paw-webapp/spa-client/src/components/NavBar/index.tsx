@@ -29,8 +29,9 @@ import {
   Image,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon, AddIcon } from "@chakra-ui/icons";
-import {FiMusic, FiUsers} from 'react-icons/fi'
-
+import { FiMusic, FiUsers } from "react-icons/fi";
+import AuthContext from "../../contexts/AuthContext";
+import { useContext } from "react";
 const NavLink = ({
   children,
   link,
@@ -40,32 +41,31 @@ const NavLink = ({
   link: string;
   icon: ReactElement;
 }) => {
-
   const location = useLocation();
   const toHighlight = location.pathname.startsWith(link);
 
   return (
-  <Button
-    as="a"
-    px={3}
-    py={1}
-    rounded={"md"}
-    variant={toHighlight ? 'solid' : 'ghost'}
-    _hover={{
-      textDecoration: "none",
-      bg: useColorModeValue("gray.200", "gray.700"),
-    }}
-    href={link}
-    leftIcon={icon}
-  >
-    {children}
-  </Button>
+    <Button
+      as="a"
+      px={3}
+      py={1}
+      rounded={"md"}
+      variant={toHighlight ? "solid" : "ghost"}
+      _hover={{
+        textDecoration: "none",
+        bg: useColorModeValue("gray.200", "gray.700"),
+      }}
+      href={link}
+      leftIcon={icon}
+    >
+      {children}
+    </Button>
   );
 };
 
 function Nav() {
   const { t } = useTranslation();
-  const [isLogged, setIsLogged] = useState<boolean>(false);
+  const { isAuthenticated, logout } = useContext(AuthContext);
   const sections = [
     { path: "/auditions", name: t("NavBar.auditions"), icon: <FiMusic /> },
     { path: "/users", name: t("NavBar.discover"), icon: <FiUsers /> },
@@ -73,10 +73,6 @@ function Nav() {
 
     // TODO: PONER BIEN LOS LINKS DESPUES
   ];
-
-  function login() {
-    setIsLogged(!isLogged);
-  }
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -110,7 +106,7 @@ function Nav() {
         </HStack>
         <Flex alignItems={"center"}>
           <ToggleColorMode />
-          {isLogged ? (
+          {isAuthenticated ? (
             <>
               <Button
                 variant={"solid"}
@@ -142,7 +138,7 @@ function Nav() {
                     {t("NavBar.profileAlt")}
                   </MenuItem>
                   <MenuDivider />
-                  <MenuItem>{t("NavBar.logoutAlt")}</MenuItem>
+                  <MenuItem onClick={() => logout()}>{t("NavBar.logoutAlt")}</MenuItem>
                 </MenuList>
               </Menu>
             </>
