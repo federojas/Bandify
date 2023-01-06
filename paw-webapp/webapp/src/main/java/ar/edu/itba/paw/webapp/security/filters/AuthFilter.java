@@ -88,10 +88,11 @@ public class AuthFilter extends OncePerRequestFilter {
 
         if (receivedHeader.startsWith("Basic ")) {
             if (httpServletRequest.getMethod().equals("PUT")
-                    && httpServletRequest.getRequestURI().endsWith("status")) {
+                    && (httpServletRequest.getRequestURI().endsWith("status")
+                    || httpServletRequest.getRequestURI().endsWith("password"))) {
                 String nonce = new String(Base64.getDecoder().decode(token), StandardCharsets.UTF_8).split(":")[1];
                 try {
-                    verificationTokenService.isValid(token);
+                    verificationTokenService.isValid(nonce);
                 } catch (InvalidTokenException e) {
                     throw new InsufficientAuthenticationException("Invalid token.");
                 }

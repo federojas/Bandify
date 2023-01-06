@@ -13,17 +13,12 @@ import ar.edu.itba.paw.webapp.dto.ApplicationDto;
 import ar.edu.itba.paw.webapp.dto.SocialMediaDto;
 import ar.edu.itba.paw.webapp.dto.UserDto;
 import ar.edu.itba.paw.webapp.dto.UserStatusDto;
-import ar.edu.itba.paw.webapp.form.SocialMediaForm;
-import ar.edu.itba.paw.webapp.form.UserEditForm;
-import ar.edu.itba.paw.webapp.form.UserForm;
-import ar.edu.itba.paw.webapp.form.UserStatusForm;
+import ar.edu.itba.paw.webapp.form.*;
 import org.apache.commons.io.IOUtils;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestHeader;
 
 import javax.validation.Valid;
 import javax.ws.rs.*;
@@ -216,11 +211,32 @@ public class UserController {
         final User user = userService.findByEmail(securityContext.getUserPrincipal().getName()).orElseThrow(UserNotFoundException::new);
         checkOwnership(user, id);
         String token = new String(Base64.getDecoder().decode(payload[1].trim()), StandardCharsets.UTF_8).split(":")[1];
-        System.out.println("MIRA ACA: " + token);
         userService.verifyUser(token);
         return Response.ok().build();
     }
 
+    @POST
+    @Path("/{id}/password")
+    public Response generateUserPassword(@Valid ResetPasswordForm form,
+                                     @PathParam("id") final long id) {
+        final User user = userService.findByEmail(form.getEmail()).orElseThrow(UserNotFoundException::new);
+        checkOwnership(user, id);
+        userService.sendResetEmail(user.getEmail()); //TODO aca por ahi mejor pasar el user directo? pasa que los services deberian validar
+        return Response.ok().build();
+    }
+
+    @PUT
+    @Path("/{id}/password")
+    public Response updateUserPassword(@Valid NewPasswordForm form,
+                                     @PathParam("id") final long id,
+                                     @HeaderParam(HttpHeaders.AUTHORIZATION) String authHeader) {
+        String[] payload = authHeader.split(" ");
+        final User user = userService.findByEmail(securityContext.getUserPrincipal().getName()).orElseThrow(UserNotFoundException::new);
+        checkOwnership(user, id);
+        String token = new String(Base64.getDecoder().decode(payload[1].trim()), StandardCharsets.UTF_8).split(":")[1];
+        userService.changePassword(token, form.getNewPassword());
+        return Response.ok().build();
+    }
 
 
     private void checkOwnership(User user, long userId) {

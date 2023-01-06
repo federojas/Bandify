@@ -17,7 +17,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Documented
 public @interface UserExists {
 
-    String message() default "User doesn't exists";
+    String message() default "User doesn't exist";
 
     Class<?>[] groups() default {};
 
