@@ -50,6 +50,7 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
         return t.get().getUser().getId();
     }
 
+    // TODO: no entiendo por que aca borra el token de tipo RESET
     @Transactional
     @Override
     public boolean isValid(String token) {

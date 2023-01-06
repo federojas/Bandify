@@ -1,8 +1,11 @@
 package ar.edu.itba.paw.webapp.security.filters;
 
 import ar.edu.itba.paw.model.User;
+import ar.edu.itba.paw.model.VerificationToken;
+import ar.edu.itba.paw.model.exceptions.InvalidTokenException;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.service.UserService;
+import ar.edu.itba.paw.service.VerificationTokenService;
 import ar.edu.itba.paw.webapp.security.exceptions.UnauthorizedException;
 import ar.edu.itba.paw.webapp.security.utils.JwtUtil;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -53,6 +56,9 @@ public class AuthFilter extends OncePerRequestFilter {
     private String secretJWT;
 
     @Autowired
+    private VerificationTokenService verificationTokenService;
+
+    @Autowired
     public AuthFilter(final AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
     }
@@ -64,31 +70,41 @@ public class AuthFilter extends OncePerRequestFilter {
 
         final String receivedHeader = httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION);
 
-        if(receivedHeader == null){
-            filterChain.doFilter(httpServletRequest,httpServletResponse);
+        if (receivedHeader == null) {
+            filterChain.doFilter(httpServletRequest, httpServletResponse);
             return;
-        } else if(receivedHeader.isEmpty() ||
+        } else if (receivedHeader.isEmpty() ||
                 (!receivedHeader.startsWith("Bearer ") && !receivedHeader.startsWith("Basic "))) {
             throw new InsufficientAuthenticationException("Invalid authorization type.");
         }
 
         String[] payload = receivedHeader.split(" ");
         String token;
-        if(payload[1] == null)
+        if (payload[1] == null)
             throw new InsufficientAuthenticationException("Empty authorization credentials.");
         else
             token = payload[1].trim();
         Authentication auth;
 
-        if (receivedHeader.startsWith("Basic "))
-            auth = useBasicAuthentication(token, httpServletResponse);
-        else
+        if (receivedHeader.startsWith("Basic ")) {
+            if (httpServletRequest.getMethod().equals("PUT")
+                    && httpServletRequest.getRequestURI().endsWith("status")) {
+                String nonce = new String(Base64.getDecoder().decode(token), StandardCharsets.UTF_8).split(":")[1];
+                try {
+                    verificationTokenService.isValid(token);
+                } catch (InvalidTokenException e) {
+                    throw new InsufficientAuthenticationException("Invalid token.");
+                }
+                auth = useNonceAuthentication(nonce, httpServletResponse);
+            } else
+                auth = useBasicAuthentication(token, httpServletResponse);
+        } else
             auth = useBearerAuthentication(token, httpServletResponse);
 
         SecurityContextHolder
                 .getContext()
                 .setAuthentication(auth);
-        filterChain.doFilter(httpServletRequest,httpServletResponse);
+        filterChain.doFilter(httpServletRequest, httpServletResponse);
     }
 
     private Authentication useBasicAuthentication(String payload,
@@ -100,7 +116,7 @@ public class AuthFilter extends OncePerRequestFilter {
         }
         final String email = decodedCredentials[0];
         final String password = decodedCredentials[1];
-        LOGGER.info("Credentials:  email: {} , password: {}", email,password);
+        LOGGER.info("Credentials:  email: {} , password: {}", email, password);
         Authentication auth = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(email, password)
         );
@@ -122,7 +138,7 @@ public class AuthFilter extends OncePerRequestFilter {
         UserDetails userDetails;
         try {
             userDetails = JwtUtil.validateToken(payload, secretJWT);
-        } catch(MalformedJwtException  e) {
+        } catch (MalformedJwtException e) {
 
             final User user = userService.getUserByRefreshToken(payload);
 
@@ -150,5 +166,12 @@ public class AuthFilter extends OncePerRequestFilter {
                 userDetails.getPassword(),
                 userDetails.getAuthorities()
         );
+    }
+
+    private Authentication useNonceAuthentication(final String nonce,
+                                                  final HttpServletResponse httpServletResponse) throws AuthenticationException {
+        VerificationToken token = verificationTokenService.getToken(nonce).orElseThrow(InvalidTokenException::new);
+        final User user = token.getUser();
+        return new UsernamePasswordAuthenticationToken(user.getEmail(),user.getPassword(),null);
     }
 }

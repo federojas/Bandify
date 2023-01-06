@@ -16,17 +16,23 @@ import ar.edu.itba.paw.webapp.dto.UserStatusDto;
 import ar.edu.itba.paw.webapp.form.SocialMediaForm;
 import ar.edu.itba.paw.webapp.form.UserEditForm;
 import ar.edu.itba.paw.webapp.form.UserForm;
+import ar.edu.itba.paw.webapp.form.UserStatusForm;
 import org.apache.commons.io.IOUtils;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestHeader;
+
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -195,12 +201,26 @@ public class UserController {
         return Response.ok(UserStatusDto.fromUser(uriInfo, user.isEnabled(),id)).build();
     }
 
+    //  TODO: Al form le puse un enum validator para estar seguros de que mandaron
+    //  TODO: un enum valido, en este caso solo esta NOT_VERIFIED y VERIFIED
+    //  TODO: pero en realidad nunca estoy revisando cual status mandaron
+    //  TODO: quizas podriamos cambiar el metodo verifyUser de userService por updateUserStatus
+
     @PUT
     @Path("/{id}/status")
-    public Response updateUserStatus(@PathParam("id") final long id) {
-        final User user = userService.getUserById(id).orElseThrow(UserNotFoundException::new);
-        return Response.ok(UserStatusDto.fromUser(uriInfo, user.isEnabled(),id)).build();
+    public Response updateUserStatus(@Valid UserStatusForm form,
+                                     @PathParam("id") final long id,
+                                     @HeaderParam(HttpHeaders.AUTHORIZATION) String authHeader) {
+        String[] payload = authHeader.split(" ");
+        final User user = userService.findByEmail(securityContext.getUserPrincipal().getName()).orElseThrow(UserNotFoundException::new);
+        checkOwnership(user, id);
+        String token = new String(Base64.getDecoder().decode(payload[1].trim()), StandardCharsets.UTF_8).split(":")[1];
+        System.out.println("MIRA ACA: " + token);
+        userService.verifyUser(token);
+        return Response.ok().build();
     }
+
+
 
     private void checkOwnership(User user, long userId) {
         if (user.getId() != userId) {
