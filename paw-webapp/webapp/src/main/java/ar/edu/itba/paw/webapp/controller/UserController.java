@@ -197,7 +197,8 @@ public class UserController {
     @Path("/{id}/status")
     @Produces("application/vnd.status.v1+json")
     public Response getUserStatus(@PathParam("id") final long id) {
-        final User user = userService.getUserById(id).orElseThrow(UserNotFoundException::new);
+        final User user = userService.findByEmail(securityContext.getUserPrincipal().getName()).orElseThrow(UserNotFoundException::new);
+        checkOwnership(user, id);
         return Response.ok(UserStatusDto.fromUser(uriInfo, user.isEnabled(),id)).build();
     }
 
