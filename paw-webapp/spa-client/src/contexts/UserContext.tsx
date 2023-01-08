@@ -1,5 +1,14 @@
 import React from 'react';
 
+interface User {
+    band: boolean;
+    email: string;
+    available: boolean;
+    name: string;
+    surname?: string;
+    id: number;
+}
+
 interface UserContextType {
     user: null;
 }

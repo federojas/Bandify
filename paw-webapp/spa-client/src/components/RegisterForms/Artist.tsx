@@ -22,7 +22,7 @@ import {
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { UserCreateInput } from "../../api/types/User";
-import UserService from "../../services/UserService";
+import { userService } from "../../services";
 import registerOptions from "./validations";
 
 interface FormData {
@@ -49,7 +49,7 @@ const RegisterArtistForm = () => {
   const onSubmit = async (data: FormData) => {
     const newUser: UserCreateInput = { ...data, band: false };
 
-    const res = await UserService.createNewUser(newUser);
+    const res = await userService.createNewUser(newUser);
     console.log("🚀 ~ file: index.tsx:54 ~ onSubmit ~ res", res);
   };
 

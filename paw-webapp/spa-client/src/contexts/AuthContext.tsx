@@ -5,15 +5,16 @@ import api from "../api/api";
 import UserModel from "../types/UserModel";
 import { loginService } from "../services";
 
-type CustomJwtPayload = JwtPayload & {'roles': string}
+type CustomJwtPayload = JwtPayload & { roles: string, userUrl: string };
 
 export interface AuthContextValue {
   isAuthenticated: boolean;
   logout: () => void;
   login: (username: string, password: string) => Promise<void>;
   jwt?: string;
-  username?: string | undefined;
+  email?: string | undefined;
   role?: string | undefined;
+  userId?: number | undefined;
 }
 
 const AuthContext = React.createContext<AuthContextValue>({
@@ -29,8 +30,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     jwtInLocalStorage || jwtInSessionStorage
   );
   const [jwt, setJwt] = useState<string>();
-  const [username, setUsername] = useState<string>();
+  const [email, setEmail] = useState<string>();
   const [role, setRole] = useState<string>();
+  const [userId, setUserId] = useState<number>();
 
   const login = async (username: string, password: string) => {
     try {
@@ -38,8 +40,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       if (res && res["x-jwt"]) {
         setJwt(res["x-jwt"]);
         setIsAuthenticated(true);
-        setUsername(jwtDecode<CustomJwtPayload>(res["x-jwt"]).sub);
+        setEmail(jwtDecode<CustomJwtPayload>(res["x-jwt"]).sub);
         setRole(jwtDecode<CustomJwtPayload>(res["x-jwt"]).roles);
+        const id = jwtDecode<CustomJwtPayload>(res["x-jwt"]).userUrl.split("/").pop();
+        if (id) setUserId(parseInt(id));
         api.defaults.headers.common["Authorization"] = `Bearer ${jwt}`;
       }
     } catch (error) {
@@ -52,12 +56,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     sessionStorage.removeItem("jwt");
     setIsAuthenticated(false);
     setJwt(undefined);
-    setUsername(undefined);
+    setEmail(undefined);
     setRole(undefined);
+    setUserId(undefined);
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, logout, login, jwt, username, role }}>
+    <AuthContext.Provider
+      value={{ isAuthenticated, logout, login, jwt, email, role, userId }}
+    >
       {children}
     </AuthContext.Provider>
   );

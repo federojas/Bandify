@@ -1,8 +1,8 @@
 import { UserApi } from "../api";
 import { UserCreateInput } from "../api/types/User";
 
-class UserService {
-    public static async createNewUser(user: UserCreateInput) {
+export class UserService {
+    public async createNewUser(user: UserCreateInput) {
         return await UserApi.createNewUser(user);
         // const res = await fetch("http://localhost:8080/users", {
         //     method: "POST",
@@ -16,7 +16,9 @@ class UserService {
         // const data =  await res.json();
         // console.log("🚀 ~ file: UserService.ts:18 ~ UserService ~ createNewUser ~ data", data)
         // return data;
-    } 
+    }
+    
+    public async getUserByEmail(email: string) {
+        // return await UserApi.getUserByEmail(email);
+    }
 }
-
-export default UserService;
