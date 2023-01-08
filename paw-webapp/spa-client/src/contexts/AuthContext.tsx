@@ -44,6 +44,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const logout = () => {
+    localStorage.removeItem("jwt");
+    sessionStorage.removeItem("jwt");
     setIsAuthenticated(false);
     setJwt(undefined);
   };
