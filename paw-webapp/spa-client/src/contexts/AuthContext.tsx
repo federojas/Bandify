@@ -5,15 +5,15 @@ import api from "../api/api";
 import UserModel from "../types/UserModel";
 import { loginService } from "../services";
 
-type CustomJwtPayload = JwtPayload;
+type CustomJwtPayload = JwtPayload & {'roles': string}
 
 export interface AuthContextValue {
   isAuthenticated: boolean;
   logout: () => void;
   login: (username: string, password: string) => Promise<void>;
   jwt?: string;
-  username?: string;
-  role?: string;
+  username?: string | undefined;
+  role?: string | undefined;
 }
 
 const AuthContext = React.createContext<AuthContextValue>({
@@ -29,13 +29,17 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     jwtInLocalStorage || jwtInSessionStorage
   );
   const [jwt, setJwt] = useState<string>();
+  const [username, setUsername] = useState<string>();
+  const [role, setRole] = useState<string>();
 
   const login = async (username: string, password: string) => {
     try {
       const res = await loginService.login(username, password);
-      if (res) {
+      if (res && res["x-jwt"]) {
         setJwt(res["x-jwt"]);
         setIsAuthenticated(true);
+        setUsername(jwtDecode<CustomJwtPayload>(res["x-jwt"]).sub);
+        setRole(jwtDecode<CustomJwtPayload>(res["x-jwt"]).roles);
         api.defaults.headers.common["Authorization"] = `Bearer ${jwt}`;
       }
     } catch (error) {
@@ -48,10 +52,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     sessionStorage.removeItem("jwt");
     setIsAuthenticated(false);
     setJwt(undefined);
+    setUsername(undefined);
+    setRole(undefined);
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, logout, login, jwt }}>
+    <AuthContext.Provider value={{ isAuthenticated, logout, login, jwt, username, role }}>
       {children}
     </AuthContext.Provider>
   );
