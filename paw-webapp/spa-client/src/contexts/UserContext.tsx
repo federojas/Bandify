@@ -1,28 +1,41 @@
-import React from 'react';
-
-interface User {
-    band: boolean;
-    email: string;
-    available: boolean;
-    name: string;
-    surname?: string;
-    id: number;
-}
-
+import React from "react";
+import { User } from "../api/types/User";
+import AuthContext from "./AuthContext";
+import { useEffect } from "react";
+import { userService } from "../services";
 interface UserContextType {
-    user: null;
+  user?: User;
 }
 
-const UserContext = React.createContext<UserContextType>(null!);
+const UserContext = React.createContext<UserContextType>({});
 
-export const UserContextProvider = ({children} : {children: React.ReactNode}) => {
-    const [user, setUser] = React.useState(null);
+export const UserContextProvider = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
+  const [user, setUser] = React.useState<User | undefined>(undefined);
+  const authContext = React.useContext(AuthContext);
 
-    return (
-        <UserContext.Provider value={{user}}>
-            {children}
-        </UserContext.Provider>
-    );
-}
+  async function getUser() {
+    try {
+      if (authContext.userId) {
+        const data = await userService.getUserById(authContext.userId);
+        if (data) setUser(data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  if (authContext.isAuthenticated) {
+    console.log("Por llamar al usuario");
+    getUser();
+  }
+
+  return (
+    <UserContext.Provider value={{ user }}>{children}</UserContext.Provider>
+  );
+};
 
 export default UserContext;

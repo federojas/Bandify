@@ -1,5 +1,6 @@
 import { UserCreateInput, UserUpdateInput, User } from "./types/User";
 import api from "./api";
+import { AxiosResponse } from "axios";
 
 const UserApi = (() => {
   const endpoint = "/users";
@@ -28,25 +29,33 @@ const UserApi = (() => {
       });
   };
 
-  const getUserById = (id: number) => {
-    return api.get(`${endpoint}/${id}`).then((response) => {
-      const data = response.data;
-      const user: User = {
-        // applications: data.applications,
-        // available: data.available,
-        // band: data.band,
-        // email: data.email,
-        // enabled: data.enabled,
-        // genres: data.genres,
-        // id: data.id,
-        // location: data.location,
-        // name: data.name,
-        // roles: data.roles,
-        // self: data.self,
-        // socialMedia: data.socialMedia,
-        ...data,
-      };
-    });
+  const getUserById = async (id: number): Promise<User> => {
+    try {
+      const response: AxiosResponse<User> = await api.get<User>(`${endpoint}/${id}`);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      throw new Error("Error getting user by id");
+    }
+
+    // return api.get(`${endpoint}/${id}`).then((response) => {
+    //   const data = response.data;
+    //   const user: User = {
+    //     // applications: data.applications,
+    //     // available: data.available,
+    //     // band: data.band,
+    //     // email: data.email,
+    //     // enabled: data.enabled,
+    //     // genres: data.genres,
+    //     // id: data.id,
+    //     // location: data.location,
+    //     // name: data.name,
+    //     // roles: data.roles,
+    //     // self: data.self,
+    //     // socialMedia: data.socialMedia,
+    //     ...data,
+    //   };
+    // });
   };
 
   const getProfileImageByUserId = (id: number) => {

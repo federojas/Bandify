@@ -29,7 +29,7 @@ type User = {
     roles: string;
     self: string;
     socialMedia: string;
-}
+};
 
 // TODO: campos para banda ?
 
