@@ -10,7 +10,6 @@ const genreApi = new GenreApi();
 const locationApi = new LocationApi();
 const auditionApi = new AuditionApi();
 
-
 export {
   roleApi,
   userApi,

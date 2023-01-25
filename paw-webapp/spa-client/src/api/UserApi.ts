@@ -18,9 +18,16 @@ type UpdateUserSocialMediaInput = {
 class UserApi {
   private endpoint: string = "/users";
 
+  private config = {
+      headers: {
+          'Accept': 'application/vnd.user.v1+json',
+          'Content-Type': 'application/vnd.user.v1+json'
+      }
+  }
+
   public createNewUser = async (user: UserCreateInput) => {
     return api
-      .post(this.endpoint, user)
+      .post(this.endpoint, user, this.config)
       .then((response) => {
         return true;
       })

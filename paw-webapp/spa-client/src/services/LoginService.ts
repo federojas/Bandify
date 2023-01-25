@@ -1,6 +1,6 @@
 import { paths } from "../common/constants";
 // import { checkError } from "../scripts/ErrorChecker";
-import { ErrorResponse, Result, UserModel } from "../models";
+import { User } from "../models";
 // import { setCookie } from "../scripts/cookies";
 import api from "../api/api";
 

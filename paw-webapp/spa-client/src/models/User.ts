@@ -1,4 +1,4 @@
-export default interface UserModel {
+export default interface User {
     band: boolean;
     email: string;
     available: boolean;
