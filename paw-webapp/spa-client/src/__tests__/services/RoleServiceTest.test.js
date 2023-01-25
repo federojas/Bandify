@@ -10,7 +10,7 @@ describe("getRoles()", () => {
     });
 });
 
-describe("getRoles()", () => {
+describe("getRoleById()", () => {
     it("should return a role", async () => {
 
         const role = await roleService.getRoleById(2);

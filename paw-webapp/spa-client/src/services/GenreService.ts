@@ -12,7 +12,7 @@ export class GenreService {
     }
 
 
-    public async getRoleById(id : number): Promise<Genre | undefined> {
+    public async getGenreById(id : number): Promise<Genre | undefined> {
         try {
             const current = await genreApi.getGenreById(id);
             return {id:current.id, name:current.genreName} as Genre;
