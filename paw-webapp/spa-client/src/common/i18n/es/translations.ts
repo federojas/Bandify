@@ -8,12 +8,20 @@ export const TRANSLATIONS_ES = {
     discover: "Descubre audiciones",
     latest: "Últimas audiciones",
     header:"Buscar A  udiciones 🎸",
-
   },
   Profile: {
     alt: {
       img: "Foto de perfil",
     },
+    favoriteGenres: "Géneros favoritos",
+    noFavoriteGenres: "No hay géneros favoritos",
+    roles: "Mis roles",
+    noRoles: "No hay roles",
+    socialMedia: "Redes sociales",
+    noSocialMedia: "No hay redes sociales",
+    playsIn: "Toca en",
+    noPlaysIn: "No hay bandas",
+    noDescription: "No hay descripción",
   },
   NavBar: {
     title: "Barra de navegación",
@@ -29,6 +37,16 @@ export const TRANSLATIONS_ES = {
     profileAlt: "Perfil",
     logoutAlt: "Cerrar sesión",
     register: "Registrarse",
+  },
+  Login : {
+    email: "Email",
+    password: "Password",
+    rememberMe: "Recuérdame",
+    forgotPassword: "¿Olvidaste tu contraseña?",
+    login: "Iniciar sesión",
+    notAMemberyet: "¿No eres miembro aún?",
+    register: "Registrarse",
+    title: "Inicia sesión en tu cuenta",
   },
   Register: {
     title: "¡Registrate como banda o artista gratis!", 
@@ -64,23 +82,17 @@ export const TRANSLATIONS_ES = {
       password: "La contraseña debe tener al menos 8 caracteres",
     }
   },
-  Login : {
-    email: "Email",
-    password: "Password",
-    rememberMe: "Recuérdame",
-    forgotPassword: "¿Olvidaste tu contraseña?",
-    login: "Iniciar sesión",
-    notAMemberyet: "¿No eres miembro aún?",
-    register: "Registrarse"
-  },
   AuditionSearchBar: {
     search: "Buscar",
     searchPlaceholder: "Buscar audiciones",
-    orderByPlaceholder: "Ordenar",
     orderBy: "Ordenar por",
+    orderByPlaceholder: "Ordenar",
     location: "Ubicación",
+    locationPlaceholder: "Ubicación",
     genre: "Género",
+    genrePlaceholder: "Género",
     Role: "Rol",
+    rolePlaceholder: "Rol",
   },
   SearchForm: {
     searchUsers: "Buscar usuarios",
@@ -92,6 +104,14 @@ export const TRANSLATIONS_ES = {
   },
   Footer: {
     contactUs: "Contáctanos",
+  },
+  DiscoverSearchBar: {
+    searchUsers: "Buscar usuarios",
+    filter: "Filtrar",
+    location: "Ubicación",
+    genres: "Generos",
+    roles: "Roles",
+    search: "Buscar",
   },
   InviteItem: {
     applicantsAlt: "Aplicantes",

@@ -94,8 +94,8 @@ export const TRANSLATIONS_EN = {
     role: "Role",
     rolePlaceholder: "Select a role...",
   },
-  DiscoverSearchBar: {
-    searchUsers: "search users",
+  SearchForm: {
+    searchUsers: "Search users",
     filter: "Filter",
     location: "Location",
     genres: "Genres",
@@ -104,6 +104,14 @@ export const TRANSLATIONS_EN = {
   },
   Footer: {
     contactUs: "Contact us",
+  },
+  DiscoverSearchBar: {
+    searchUsers: "search users",
+    filter: "Filter",
+    location: "Location",
+    genres: "Genres",
+    roles: "Roles",
+    search: "Search",
   },
   InviteItem: {
     applicantsAlt: "Applicants",
