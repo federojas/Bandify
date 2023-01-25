@@ -1,2 +1,7 @@
-export {default as UserApi} from './UserApi';
-export {default as LocationApi} from './LocationApi';
+import RoleApi from './RoleApi'
+
+const roleApi = new RoleApi();
+
+export {
+  roleApi
+}

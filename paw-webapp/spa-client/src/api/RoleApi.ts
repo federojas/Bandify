@@ -1,17 +1,17 @@
 import api from "./api";
 import Role from "./types/Role";
 
-const RoleApi = (() => {
-  const endpoint = "/roles";
+interface Params {
+  auditionId?: number;
+  userId?: number;
+}
 
-  interface Params {
-    auditionId?: number;
-    userId?: number;
-  }
+class RoleApi  {
+  private endpoint: string = "/roles";
 
-  const getRoles = (params: Params = {}) => {
+  public getRoles = async (params: Params = {}) => {
     return api
-      .get(endpoint, {
+      .get(this.endpoint, {
         params: {
           audition: params.auditionId,
           user: params.userId,
@@ -32,8 +32,8 @@ const RoleApi = (() => {
       });
   };
 
-  const getRoleById = (id: number) => {
-    return api.get(`${endpoint}/${id}`).then((response) => {
+  public getRoleById = async (id: number) => {
+    return api.get(`${this.endpoint}/${id}`).then((response) => {
         const data = response.data;
         const role: Role = {
             id: data.id,
@@ -45,10 +45,6 @@ const RoleApi = (() => {
     });
   };
 
-  return {
-    getRoles,
-    getRoleById,
-  };
-})();
+};
 
 export default RoleApi;
