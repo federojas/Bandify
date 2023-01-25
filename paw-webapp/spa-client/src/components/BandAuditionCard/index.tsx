@@ -2,7 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import UserIcon from "../../assets/icons/user.svg";
 import InfoIcon from "../../assets/icons/info.png";
-import {Audition} from "../../types";
+import {Audition} from "../../models";
 
 
 

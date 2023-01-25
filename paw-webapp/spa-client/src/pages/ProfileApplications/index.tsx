@@ -4,7 +4,7 @@ import '../../styles/applicants.css';
 import '../../styles/invites.css';
 import { useTranslation } from "react-i18next";
 import ManagerTabs from '../../components/ManagerTabs';
-import { Application } from '../../types'
+import { Application } from '../../models'
 import ArtistApplicationItem from '../../components/ArtistApplicationItem';
 
 const ProfileApplications = () => {

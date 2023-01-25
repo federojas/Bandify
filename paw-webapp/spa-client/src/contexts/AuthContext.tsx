@@ -2,7 +2,7 @@ import { useState } from "react";
 import React from "react";
 import jwtDecode, { JwtPayload } from "jwt-decode";
 import api from "../api/api";
-import UserModel from "../types/UserModel";
+import UserModel from "../models/UserModel";
 import { loginService } from "../services";
 
 type CustomJwtPayload = JwtPayload & { roles: string; userUrl: string };

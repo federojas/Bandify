@@ -1,6 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Application } from "../../types";
+import { Application } from "../../models";
 import "../../styles/artistApplication.css";
 
 const ArtistApplicationItem: React.FC<Application> = ({

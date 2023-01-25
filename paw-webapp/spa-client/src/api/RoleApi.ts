@@ -9,13 +9,19 @@ interface Params {
 class RoleApi  {
   private endpoint: string = "/roles";
 
+  private config = {
+      headers: {
+          'Accept': 'application/vnd.role-list.v1+json'
+      }
+  }
+
   public getRoles = async (params: Params = {}) => {
     return api
       .get(this.endpoint, {
         params: {
           audition: params.auditionId,
           user: params.userId,
-        },
+        }, ...this.config
       })
       .then((response) => {
         const data = response.data;

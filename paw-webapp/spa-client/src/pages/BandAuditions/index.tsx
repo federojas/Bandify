@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import "../../styles/welcome.css";
 import "../../styles/auditions.css";
 import BandAuditionCard from "../../components/BandAuditionCard";
-import { Audition } from "../../types";
+import { Audition } from "../../models";
 import PostCard from "../../components/PostCard/PostCard";
 
 const BandAuditionsList = (props: { auditions: Audition[] }) => {

@@ -1,4 +1,4 @@
-type Audition = {
+export default interface Audition {
   band: {
     name: string;
     id: number;
@@ -10,5 +10,3 @@ type Audition = {
   genres: string[];
   location: string;
 };
-
-export default Audition;

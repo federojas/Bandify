@@ -10,7 +10,7 @@ import "../../styles/invites.css";
 import NextIcon from '../../assets/icons/page-next.png';
 import InviteItem from "../../components/InviteItem";
 
-import { Invite } from "../../types";
+import { Invite } from "../../models";
 
 const ProfileInvites = () => {
   const { t } = useTranslation();

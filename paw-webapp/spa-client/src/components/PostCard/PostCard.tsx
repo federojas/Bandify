@@ -17,7 +17,7 @@ import {
 //i18 translations
 import { useTranslation } from "react-i18next";
 import "../../common/i18n/index";
-import { Audition } from "../../types";
+import { Audition } from "../../models";
 import {
   Avatar,
   Box,

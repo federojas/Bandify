@@ -1,6 +1,6 @@
 import React from "react";
 import "../../styles/applicationItem.css";
-import { Invite } from "../../types";
+import { Invite } from "../../models";
 import { useTranslation } from "react-i18next";
 import RejectIcon from '../../assets/icons/reject.svg';
 import SuccessIcon from '../../assets/icons/success.svg';
