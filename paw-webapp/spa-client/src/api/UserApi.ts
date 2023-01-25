@@ -2,12 +2,25 @@ import { UserCreateInput, UserUpdateInput, User } from "./types/User";
 import api from "./api";
 import { AxiosResponse } from "axios";
 
-const UserApi = (() => {
-  const endpoint = "/users";
+interface GetUserParams {
+  page?: number;
+  query?: string;
+  genre?: string;
+  role?: string;
+  location?: string;
+}
 
-  const createNewUser = async (user: UserCreateInput) => {
+type UpdateUserSocialMediaInput = {
+  twitterUrl: string;
+  spotifyUrl: string;
+};
+
+class UserApi {
+  private endpoint: string = "/users";
+
+  public createNewUser = async (user: UserCreateInput) => {
     return api
-      .post(endpoint, user)
+      .post(this.endpoint, user)
       .then((response) => {
         return true;
       })
@@ -17,9 +30,9 @@ const UserApi = (() => {
       });
   };
 
-  const updateUser = (id: number, user: UserUpdateInput) => {
+  public updateUser = async (id: number, user: UserUpdateInput) => {
     return api
-      .put(`${endpoint}/${id}`, user)
+      .put(`${this.endpoint}/${id}`, user)
       .then((response) => {
         return true;
       })
@@ -29,16 +42,16 @@ const UserApi = (() => {
       });
   };
 
-  const getUserById = async (id: number): Promise<User> => {
+  public getUserById = async (id: number): Promise<User> => {
     try {
-      const response: AxiosResponse<User> = await api.get<User>(`${endpoint}/${id}`);
+      const response: AxiosResponse<User> = await api.get<User>(`${this.endpoint}/${id}`);
       return response.data;
     } catch (error) {
       console.log(error);
       throw new Error("Error getting user by id");
     }
 
-    // return api.get(`${endpoint}/${id}`).then((response) => {
+    // return api.get(`${this.endpoint}/${id}`).then((response) => {
     //   const data = response.data;
     //   const user: User = {
     //     // applications: data.applications,
@@ -58,9 +71,9 @@ const UserApi = (() => {
     // });
   };
 
-  const getProfileImageByUserId = (id: number) => {
+  public getProfileImageByUserId = async (id: number) => {
     return api
-      .get(`${endpoint}/${id}/profile-image`)
+      .get(`${this.endpoint}/${id}/profile-image`)
       .then((response) => {
         return response.data;
       })
@@ -70,9 +83,9 @@ const UserApi = (() => {
       });
   };
 
-  const updateProfileImage = (id: number, image: File) => {
+  public updateProfileImage = async (id: number, image: File) => {
     return api
-      .get(`${endpoint}/${id}/profile-image`)
+      .get(`${this.endpoint}/${id}/profile-image`)
       .then((response) => {
         return true;
       })
@@ -82,17 +95,10 @@ const UserApi = (() => {
       });
   };
 
-  interface GetUserParams {
-    page?: number;
-    query?: string;
-    genre?: string;
-    role?: string;
-    location?: string;
-  }
 
-  const getUsers = (params: GetUserParams = {}) => {
+  public getUsers = async (params: GetUserParams = {}) => {
     return api
-      .get(endpoint, { params: { ...params } })
+      .get(this.endpoint, { params: { ...params } })
       .then((response) => {
         const data = response.data;
         const users: User[] = Array.isArray(data)
@@ -107,9 +113,9 @@ const UserApi = (() => {
       });
   };
 
-  const getUserApplications = (id: number) => {
+  public getUserApplications = async (id: number) => {
     return api
-      .get(`${endpoint}/${id}/applications`)
+      .get(`${this.endpoint}/${id}/applications`)
       .then((response) => {
         const data = response.data;
         // TODO: Falta crear el Type Application
@@ -125,9 +131,9 @@ const UserApi = (() => {
       });
   };
 
-  const getUserSocialMediaList = (id: number) => {
+  public getUserSocialMediaList = async (id: number) => {
     return api
-      .get(`${endpoint}/${id}/social-media`)
+      .get(`${this.endpoint}/${id}/social-media`)
       .then((response) => {
         const data = response.data;
         // TODO
@@ -138,17 +144,14 @@ const UserApi = (() => {
       });
   };
 
-  type UpdateUserSocialMediaInput = {
-    twitterUrl: string;
-    spotifyUrl: string;
-  };
 
-  const updateUserSocialMedia = (
+
+  public updateUserSocialMedia = async (
     id: number,
     input: UpdateUserSocialMediaInput
   ) => {
     return api
-      .put(`${endpoint}/${id}/social-media`, input)
+      .put(`${this.endpoint}/${id}/social-media`, input)
       .then((response) => {
         return true;
       })
@@ -158,9 +161,9 @@ const UserApi = (() => {
       });
   };
 
-  const getSocialMediaById = (id: number, socialMediaId: number) => {
+  public getSocialMediaById = async (id: number, socialMediaId: number) => {
     return api
-      .get(`${endpoint}/${id}/social-media/${socialMediaId}`)
+      .get(`${this.endpoint}/${id}/social-media/${socialMediaId}`)
       .then((response) => {
         const data = response.data;
         // TODO
@@ -171,18 +174,6 @@ const UserApi = (() => {
       });
   };
 
-  return {
-    createNewUser,
-    updateUser,
-    getUserById,
-    getProfileImageByUserId,
-    updateProfileImage,
-    getUsers,
-    getUserApplications,
-    getUserSocialMediaList,
-    updateUserSocialMedia,
-    getSocialMediaById,
-  };
-})();
+};
 
 export default UserApi;

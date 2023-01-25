@@ -1,17 +1,19 @@
 import api from "./api";
 import Genre from "./types/Genre";
 
-const GenreApi = (() => {
-  const endpoint = "/genres";
 
-  interface Params {
-    auditionId?: number;
-    userId?: number;
-  }
 
-  const getGenres = (params: Params = {}) => {
+interface Params {
+  auditionId?: number;
+  userId?: number;
+}
+
+class GenreApi {
+  private endpoint: string = "/genres";
+
+  public getGenres = async (params: Params = {}) => {
     return api
-      .get(endpoint, {
+      .get(this.endpoint , {
         params: {
           audition: params.auditionId,
           user: params.userId,
@@ -32,9 +34,9 @@ const GenreApi = (() => {
       });
   };
 
-  const getGenreById = (id: number) => {
+  public getGenreById = async (id: number) => {
     // Call the API to get the genre data
-    return api.get(`${endpoint}/${id}`).then((response) => {
+    return api.get(`${this.endpoint }/${id}`).then((response) => {
       // Extract the data for the genre from the response
       const data = response.data;
       // Create a new object with the structure of a Genre object
@@ -48,11 +50,6 @@ const GenreApi = (() => {
       return Promise.resolve(genre);
     });
   };
-
-  return {
-    getGenres,
-    getGenreById,
-  };
-})();
+};
 
 export default GenreApi;

@@ -1,17 +1,17 @@
 import api from './api';
 import {Audition, AuditionInput} from './types/Audition';
 
-const AuditionApi = (() => {
-    const endpoint = '/auditions';
+interface Params {
+    auditionId?: number;
+    userId?: number;
+}
 
-    interface Params {
-        auditionId?: number;
-        userId?: number;
-    }
+class AuditionApi {
+    private endpoint: string = '/auditions';
 
-    const getAuditions = async (params: Params = {}) => {
+    public getAuditions = async (params: Params = {}) => {
         return api
-            .get(endpoint, {
+            .get(this.endpoint, {
                 params: {
                     audition: params.auditionId,
                     user: params.userId,
@@ -38,9 +38,9 @@ const AuditionApi = (() => {
             });
     };
 
-    const getAuditionById = async (id: number) => {
+    public getAuditionById = async (id: number) => {
         // Call the API to get the audition data
-        return api.get(`${endpoint}/${id}`).then((response) => {
+        return api.get(`${this.endpoint}/${id}`).then((response) => {
             // Extract the data for the audition from the response
             const data = response.data;
             // Create a new object with the structure of a Audition object
@@ -61,8 +61,8 @@ const AuditionApi = (() => {
         });
     };
 
-    const createAudition = (input: AuditionInput) => {
-        return api.post(endpoint, input).then((response) => {
+    public createAudition = async (input: AuditionInput) => {
+        return api.post(this.endpoint, input).then((response) => {
             console.log(response);
 
             return null;
@@ -73,8 +73,8 @@ const AuditionApi = (() => {
         });
     }
 
-    const editAudition = (id: number, input: AuditionInput) => {
-        return api.put(`${endpoint}/${id}`, input).then((response) => {
+    public editAudition = async (id: number, input: AuditionInput) => {
+        return api.put(`${this.endpoint}/${id}`, input).then((response) => {
             console.log(response);
 
             return null;
@@ -85,12 +85,6 @@ const AuditionApi = (() => {
         });
     }
 
-    return {
-        createAudition,
-        editAudition,
-        getAuditions,
-        getAuditionById,
-    };
-})();
+};
 
 export default AuditionApi;

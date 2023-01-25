@@ -1,17 +1,17 @@
 import api from "./api";
 import Location from "./types/Location";
 
-const LocationApi = (() => {
-  const endpoint = "/locations";
-
-  interface Params {
+interface Params {
     auditionId?: number;
     userId?: number;
-  }
+}
 
-  const getLocations = (params: Params = {}) => {
+class LocationApi {
+  private endpoint: string = "/locations";
+
+  public getLocations = async (params: Params = {}) => {
     return api
-      .get(endpoint, {
+      .get(this.endpoint, {
         params: {
           audition: params.auditionId,
           user: params.userId,
@@ -32,8 +32,8 @@ const LocationApi = (() => {
       });
   };
 
-  const getLocationById = (id: number) => {
-    return api.get(`${endpoint}/${id}`).then((response) => {
+  public getLocationById = async (id: number) => {
+    return api.get(`${this.endpoint}/${id}`).then((response) => {
         const data = response.data;
         const location: Location = {
             id: data.id,
@@ -44,11 +44,6 @@ const LocationApi = (() => {
         return Promise.resolve(location);
     });
   };
-
-  return {
-    getLocations,
-    getLocationById,
-  };
-})();
+};
 
 export default LocationApi;

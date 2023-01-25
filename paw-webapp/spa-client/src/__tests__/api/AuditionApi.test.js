@@ -1,7 +1,7 @@
-import AuditionApi from "../../api/AuditionApi";
+import {auditionApi} from "../../api";
 
-// import api from "../../api/api";
-// jest.mock("../../api/api");
+//TODO: TESTS
+
 
 describe("createAudition()", () => {
     it("should call api.post() with the correct parameters", async () => {
@@ -13,7 +13,6 @@ describe("createAudition()", () => {
             lookingFor: ["Test Audition Looking For"],
         }     
 
-        await AuditionApi.createAudition(audition);
-
+        await auditionApi.createAudition(audition);
     });
 })
