@@ -21,6 +21,7 @@ public class AuditionDto {
     private List<String> lookingFor;
     private List<String> musicGenres;
     private URI applications;
+    private URI owner;
 
     public static AuditionDto fromAudition(final UriInfo uriInfo, final Audition audition) {
         if(audition == null)
@@ -42,6 +43,10 @@ public class AuditionDto {
                 .replacePath("auditions").path(String.valueOf(audition.getId()))
                 .path("applications");
         auditionDto.applications = applicationsUriBuilder.clone().build();
+
+        final UriBuilder ownerUriBuilder = uriInfo.getAbsolutePathBuilder()
+                .replacePath("users").path(String.valueOf(audition.getBand().getId()));
+        auditionDto.owner = ownerUriBuilder.clone().build();
         return auditionDto;
     }
 
@@ -115,5 +120,13 @@ public class AuditionDto {
 
     public void setApplications(URI applications) {
         this.applications = applications;
+    }
+
+    public URI getOwner() {
+        return owner;
+    }
+
+    public void setOwner(URI owner) {
+        this.owner = owner;
     }
 }

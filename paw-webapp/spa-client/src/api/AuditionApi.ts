@@ -9,12 +9,16 @@ interface Params {
 class AuditionApi {
     private endpoint: string = '/auditions';
 
-    public getAuditions = async (params: Params = {}) => {
+    public getAuditions = async (page: number, query?: string, roles?: string[], genres?: string[], locations?: string[], bandId?: number) => {
         return api
             .get(this.endpoint, {
                 params: {
-                    audition: params.auditionId,
-                    user: params.userId,
+                    page: page,
+                    query: query,
+                    genre: genres,
+                    role: roles,
+                    location: locations,
+                    bandId: bandId
                 },
             })
             .then((response) => {
@@ -31,6 +35,7 @@ class AuditionApi {
                               musicGenres: audition.musicGenres,
                               applications: audition.applications,
                               self: audition.self,
+                              owner: audition.owner
                           };
                       })
                     : [];
@@ -54,6 +59,7 @@ class AuditionApi {
                 musicGenres: data.musicGenres,
                 applications: data.applications,
                 self: data.self,
+                owner: data.owner
             };
 
             // Return a new promise that resolves with the audition object
@@ -85,6 +91,6 @@ class AuditionApi {
         });
     }
 
-};
+}
 
 export default AuditionApi;
