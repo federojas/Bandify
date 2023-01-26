@@ -4,6 +4,7 @@ import ar.edu.itba.paw.model.Membership;
 import ar.edu.itba.paw.model.MembershipState;
 import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.model.exceptions.MembershipNotFoundException;
+import ar.edu.itba.paw.model.exceptions.NotABandException;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.service.MembershipService;
 import ar.edu.itba.paw.service.RoleService;
@@ -98,15 +99,14 @@ public class MembershipController {
 //    }
 
 
-    //TODO AL ARTISTA COMO LO ENCAJAMOS, CON QUERY PARAM, FORM ???
     @POST
     @Consumes(value = {MediaType.APPLICATION_JSON, })
-    public Response createMembershipInvite(@Valid MembershipForm form, @QueryParam("artistId") final Long artistId) {
+    public Response createMembershipInvite(@Valid MembershipForm form, @QueryParam("user") final Long artistId) {
         User band =  userService.findByEmail(securityContext.getUserPrincipal().getName())
                 .orElseThrow(UserNotFoundException::new);
         if(!band.isBand())
-            throw new UserNotFoundException("User is not a band");
-        
+            throw new NotABandException();
+
         Membership membership = new Membership.Builder(userService.getArtistById(artistId), band)
                 .description(form.getDescription())
                 .roles(roleService.getRolesByNames(form.getRoles())).build();

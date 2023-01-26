@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService {
     public User getArtistById(long id) {
         User artist = getUserById(id).orElseThrow(UserNotFoundException::new);
         if(artist.isBand())
-            throw new UserNotFoundException("User is a band");
+            throw new NotAnArtistException();
         else
             return artist;
     }
@@ -64,7 +64,7 @@ public class UserServiceImpl implements UserService {
     public User getBandById(long id) {
         User band = getUserById(id).orElseThrow(UserNotFoundException::new);
         if(!band.isBand())
-            throw new UserNotFoundException("User is an artist");
+            throw new NotABandException();
         else
             return band;
     }
