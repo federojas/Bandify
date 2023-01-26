@@ -1,13 +1,14 @@
 type Audition = {
     applications: string;
-    creationDate: string;
+    creationDate: Date;
     description: string;
     id: number;
     location: string;
-    lookingFor: string;
-    musicGenres: string;
+    lookingFor: string[];
+    musicGenres: string[];
     title: string;
     self: string;
+    owner: string;
 }
 
 type AuditionInput = {

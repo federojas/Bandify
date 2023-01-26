@@ -1,12 +1,11 @@
 export default interface Audition {
-  band: {
-    name: string;
-    id: number;
-  };
   id: number;
   creationDate: Date;
   title: string;
-  roles: string[];
-  genres: string[];
+  lookingFor: string[];
+  musicGenres: string[];
   location: string;
+  description: string;
+  applications: string;
+  owner: string;
 };
