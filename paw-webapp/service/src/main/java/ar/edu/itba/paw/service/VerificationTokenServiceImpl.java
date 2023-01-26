@@ -50,6 +50,8 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
         return t.get().getUser().getId();
     }
 
+    // TODO: no entiendo por que aca borra el token de tipo RESET
+    // TODO: Porque si no es valido lo volamos
     @Transactional
     @Override
     public boolean isValid(String token) {
@@ -61,7 +63,7 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
 
         if(!t.get().isValid()) {
             LOGGER.warn("Given token is expired");
-            deleteTokenByUserId(t.get().getUser().getId(), TokenType.RESET);
+            deleteTokenByUserId(t.get().getUser().getId(), t.get().getType());
             throw new InvalidTokenException();
         }
 

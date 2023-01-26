@@ -6,6 +6,8 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
+
+//TODO MANDAS TOKEN SIN BASE64 TIRA ILLEGAL PERO CON 500 VER
 @Provider
 public class IllegalArgumentExceptionMapper implements ExceptionMapper<IllegalArgumentException> {
 

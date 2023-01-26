@@ -14,5 +14,4 @@ public enum TokenType {
     public String getType() {
         return type;
     }
-
 }

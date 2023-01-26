@@ -69,6 +69,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BandifyAuthenticationEntryPoint();
     }
 
+    //TODO application/json en content type tira 415 de tomcat
+    //TODO http://localhost:6060///status tira 500 no deberia ser bad request o not found?
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         CharacterEncodingFilter filter = new CharacterEncodingFilter();
@@ -95,6 +97,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/auditions","/auditions/search", "/", "/user/{\\d+}","/user/{\\d+}/profile-image").permitAll()
 //TODO REVISAR TODOS
                 .antMatchers(HttpMethod.GET, "/users").authenticated()
+                .antMatchers(HttpMethod.PUT, "/users/{\\d+}/status").authenticated()
+                .antMatchers(HttpMethod.GET, "/users/{\\d+}/status").authenticated()
+                .antMatchers(HttpMethod.PUT, "/users/{\\d+}/password").authenticated()
                 .antMatchers(HttpMethod.GET, "/users/{\\d+}/applications").hasRole("ARTIST")
                 .antMatchers(HttpMethod.GET, "/memberships",
                         "/memberships/{\\d+}").authenticated() //TODO REVISAR CUAND VEAMOS EL ACCESO DESDE EL FRONT
