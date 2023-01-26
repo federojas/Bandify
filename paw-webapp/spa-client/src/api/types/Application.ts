@@ -1,8 +1,11 @@
-export default interface Application {
+type Application = {
     id: number;
+    state: string;
     creationDate: Date;
     message: string;
+    self: string;
     audition: string;
     applicant: string;
-    state: string;
 }
+
+export type { Application }
