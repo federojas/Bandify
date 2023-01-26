@@ -27,6 +27,7 @@ import {
   InputRightElement,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import { useNavigate } from "react-router-dom";
 
 interface FormData {
   email: string;
@@ -39,6 +40,7 @@ const LoginBox = () => {
   const [rememberMe, setRememberMe] = React.useState(false);
   const [showPassword, setShowPassword] = React.useState(false);
   const authContext = React.useContext(AuthContext);
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     if (authContext.isAuthenticated) {
@@ -48,9 +50,6 @@ const LoginBox = () => {
     }
   }, [authContext.isAuthenticated]);
 
-  const debug = () =>
-    console.log("🚀 ~ file: index.tsx:36 ~ LoginBox ~ rememberMe", rememberMe);
-
   const {
     register,
     handleSubmit,
@@ -58,7 +57,8 @@ const LoginBox = () => {
   } = useForm<FormData>();
 
   const onSubmit = async (data: FormData) => {
-    await authContext.login(data.email, data.password);
+    await authContext.login(data.email, data.password, rememberMe);
+    navigate('/');
   };
 
   const loginValidations = {
@@ -147,7 +147,6 @@ const LoginBox = () => {
                     isChecked={rememberMe}
                     onChange={() => {
                       setRememberMe(!rememberMe);
-                      debug();
                     }}
                   >
                     {t("Login.rememberMe")}

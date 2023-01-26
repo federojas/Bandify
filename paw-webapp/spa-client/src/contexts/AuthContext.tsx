@@ -10,7 +10,7 @@ type CustomJwtPayload = JwtPayload & { roles: string; userUrl: string };
 export interface AuthContextValue {
   isAuthenticated: boolean;
   logout: () => void;
-  login: (username: string, password: string) => Promise<void>;
+  login: (username: string, password: string, rememberMe: boolean) => Promise<void>;
   jwt?: string | undefined;
   email?: string | undefined;
   role?: string | undefined;
@@ -61,9 +61,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }
     
   );
-  const login = async (username: string, password: string) => {
+  const login = async (username: string, password: string, rememberMe: boolean) => {
     try {
-      const res = await loginService.login(username, password);
+      const res = await loginService.login(username, password, rememberMe);
       if (res && res["x-jwt"]) {
         setJwt(res["x-jwt"] as string);
         setIsAuthenticated(true);

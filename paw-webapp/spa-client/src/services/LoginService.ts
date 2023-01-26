@@ -5,7 +5,7 @@ import { User } from "../models";
 import api from "../api/api";
 
 export class LoginService {
-  public async login(username: string, password: string) {
+  public async login(username: string, password: string, rememberMe: boolean) {
     const credentials = username + ":" + password;
     const hash = btoa(credentials);
 
@@ -16,9 +16,8 @@ export class LoginService {
           'Accept': 'application/vnd.user-list.v1+json'
         }
       });
-      console.log("🚀 ~ file: LoginService.ts:19 ~ LoginService ~ login ~ response", response)
-      
-      localStorage.setItem("jwt", response.headers["x-jwt"] as string);
+
+      if (rememberMe) localStorage.setItem("jwt", response.headers["x-jwt"] as string);
       sessionStorage.setItem("jwt", response.headers["x-jwt"] as string);
       return response.headers;
     } catch (error) {
