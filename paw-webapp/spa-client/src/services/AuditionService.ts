@@ -1,5 +1,5 @@
 import {auditionApi} from "../api";
-import {Audition, Role} from "../models";
+import {Audition, Application} from "../models";
 
 export class AuditionService {
     public async getAuditionById(id : number): Promise<Audition | undefined>{
@@ -40,6 +40,38 @@ export class AuditionService {
                 applications:a.applications,
                 owner:a.owner
             }; return aud });
+        } catch (error) {
+            console.log("error audition");
+        }
+    }
+
+    public async getApplication(auditionId : number, applicationId: number): Promise<Application | undefined>{
+        try {
+            const response = await auditionApi.getApplication(auditionId, applicationId);
+            return {
+                id: response.id,
+                creationDate: response.creationDate,
+                message: response.message,
+                audition: response.audition,
+                applicant: response.applicant,
+                state: response.state
+            } as Application;
+        } catch (error) {
+            console.log("error audition");
+        }
+    }
+
+    public async getAuditionApplications(auditionId : number, page: number, state: string): Promise<Application[] | undefined>{
+        try {
+            const response = await auditionApi.getApplications(auditionId, page, state);
+            return response.map(a => { const app: Application = {
+                id: a.id,
+                creationDate: a.creationDate,
+                message: a.message,
+                audition: a.audition,
+                applicant: a.applicant,
+                state: a.state
+            }; return app });
         } catch (error) {
             console.log("error audition");
         }
