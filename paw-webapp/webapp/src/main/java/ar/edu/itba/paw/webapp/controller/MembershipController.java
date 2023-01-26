@@ -6,15 +6,19 @@ import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.model.exceptions.MembershipNotFoundException;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.service.MembershipService;
+import ar.edu.itba.paw.service.RoleService;
 import ar.edu.itba.paw.service.UserService;
 import ar.edu.itba.paw.webapp.controller.utils.PaginationLinkBuilder;
 import ar.edu.itba.paw.webapp.dto.MembershipDto;
+import ar.edu.itba.paw.webapp.form.MembershipForm;
 import ar.edu.itba.paw.webapp.security.exceptions.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
+import java.net.URI;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -28,6 +32,9 @@ public class MembershipController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RoleService roleService;
 
     @Context
     private UriInfo uriInfo;
@@ -89,13 +96,25 @@ public class MembershipController {
 //        }
 //        return Response.ok(new GenericEntity<List<MembershipDto>>(memberships) {}).build();
 //    }
-// TODO FALTAN LOS POST
-//    @POST
-//    @Consumes(value = {MediaType.APPLICATION_JSON, })
-//    public Response createMembershipInvite(@Valid MembershipForm form) {
-//        Membership.Builder builder = new Membership.Builder()
-//                .description(form.getDescription()).roles(form.getRoles());
-//    }
+
+
+    //TODO AL ARTISTA COMO LO ENCAJAMOS, CON QUERY PARAM, FORM ???
+    @POST
+    @Consumes(value = {MediaType.APPLICATION_JSON, })
+    public Response createMembershipInvite(@Valid MembershipForm form, @QueryParam("artistId") final Long artistId) {
+        User band =  userService.findByEmail(securityContext.getUserPrincipal().getName())
+                .orElseThrow(UserNotFoundException::new);
+        if(!band.isBand())
+            throw new UserNotFoundException("User is not a band");
+        
+        Membership membership = new Membership.Builder(userService.getArtistById(artistId), band)
+                .description(form.getDescription())
+                .roles(roleService.getRolesByNames(form.getRoles())).build();
+
+        final URI uri = uriInfo.getAbsolutePathBuilder()
+                .path(String.valueOf(membership.getId())).build();
+        return Response.created(uri).build();
+    }
 
     @DELETE
     @Path("/{id}")

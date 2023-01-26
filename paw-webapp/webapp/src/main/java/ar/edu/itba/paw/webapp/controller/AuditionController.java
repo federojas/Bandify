@@ -155,4 +155,6 @@ public class AuditionController {
                 .orElseThrow(ApplicationNotFoundException::new);
         return Response.ok(ApplicationDto.fromApplication(uriInfo, application)).build();
     }
+
+    //TODO POST APPLICATION?
 }
