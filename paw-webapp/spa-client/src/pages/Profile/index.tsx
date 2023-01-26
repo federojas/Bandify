@@ -34,6 +34,7 @@ import {
   FaSoundcloud,
   FaSpotify,
 } from "react-icons/fa";
+import AuthContext from "../../contexts/AuthContext";
 
 type Props = {
   user: {
@@ -65,11 +66,12 @@ type SocialMedia = {
 
 const Profile = () => {
   const { t } = useTranslation();
+  const authContext = React.useContext(AuthContext);
   const user = {
     id: 1,
-    name: "Leonardo",
+    name: authContext.email,
     surname: "D'Agostino",
-    email: "agustin.dagostino@hotmail.com",
+    email: authContext.email,
     available: true,
     band: false,
     location: "CABA",

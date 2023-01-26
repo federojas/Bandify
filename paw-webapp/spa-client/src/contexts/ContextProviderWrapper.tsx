@@ -8,7 +8,7 @@ interface Props {
 const ContextProviderWrapper = (props: Props) => {
   return (
     <AuthProvider>
-      <UserContextProvider>{props.children}</UserContextProvider>
+      {props.children}
     </AuthProvider>
   );
 };

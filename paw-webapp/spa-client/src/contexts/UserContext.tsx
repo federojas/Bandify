@@ -28,10 +28,12 @@ export const UserContextProvider = ({
     }
   }
 
+  /*
   if (authContext.isAuthenticated) {
     console.log("Por llamar al usuario");
     getUser();
   }
+  */
 
   return (
     <UserContext.Provider value={{ user }}>{children}</UserContext.Provider>
