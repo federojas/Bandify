@@ -31,7 +31,13 @@ type User = {
     socialMedia: string;
 };
 
+type UserSocialMedia = {
+    id: number;
+    twitterUrl: string;
+    spotifyUrl: string;
+    user: string;
+}
 // TODO: campos para banda ?
 
 
-export type { UserCreateInput, UserUpdateInput, User }
+export type { UserCreateInput, UserUpdateInput, User, UserSocialMedia }

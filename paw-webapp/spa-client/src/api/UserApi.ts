@@ -1,4 +1,5 @@
 import { UserCreateInput, UserUpdateInput, User } from "./types/User";
+import { Application } from "../api/types/Application";
 import api from "./api";
 import { AxiosResponse } from "axios";
 
@@ -113,6 +114,7 @@ class UserApi {
               return { ...user };
             })
           : [];
+          return users;
       })
       .catch((error) => {
         console.log(error.response.data);
@@ -126,11 +128,12 @@ class UserApi {
       .then((response) => {
         const data = response.data;
         // TODO: Falta crear el Type Application
-        const applications = Array.isArray(data)
+        const applications: Application[] = Array.isArray(data)
           ? data.map((application) => {
               return { ...application };
             })
           : [];
+        return applications; //todo: return applications no se si ta bien, tampoco se si hace falta mapearlo aca
       })
       .catch((error) => {
         console.log(error.response.data);
@@ -138,20 +141,14 @@ class UserApi {
       });
   };
 
+  public getSocialMediaById = async (id: number, socialMediaId: number) => {
+    return api.get(`${this.endpoint}/${id}/social-media/${socialMediaId}`)
+  };
+  
   public getUserSocialMediaList = async (id: number) => {
-    return api
-      .get(`${this.endpoint}/${id}/social-media`)
-      .then((response) => {
-        const data = response.data;
-        // TODO
-      })
-      .catch((error) => {
-        console.log(error.response.data);
-        return null;
-      });
+    return api.get(`${this.endpoint}/${id}/social-media`); //TODO: falta mapear? 
+      
   };
-
-
 
   public updateUserSocialMedia = async (
     id: number,
@@ -168,18 +165,7 @@ class UserApi {
       });
   };
 
-  public getSocialMediaById = async (id: number, socialMediaId: number) => {
-    return api
-      .get(`${this.endpoint}/${id}/social-media/${socialMediaId}`)
-      .then((response) => {
-        const data = response.data;
-        // TODO
-      })
-      .catch((error) => {
-        console.log(error.response.data);
-        return null;
-      });
-  };
+  
 
 };
 
