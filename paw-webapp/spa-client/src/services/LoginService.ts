@@ -3,6 +3,7 @@ import { paths } from "../common/constants";
 import { User } from "../models";
 // import { setCookie } from "../scripts/cookies";
 import api from "../api/api";
+import {ErrorService} from "./ErrorService";
 
 export class LoginService {
   public async login(username: string, password: string, rememberMe: boolean) {
@@ -21,8 +22,7 @@ export class LoginService {
       sessionStorage.setItem("jwt", response.headers["x-jwt"] as string);
       return response.headers;
     } catch (error) {
-      console.log("🚀 ~ file: LoginService.ts:25 ~ LoginService ~ login ~ error", error)
+        return ErrorService.returnApiError(error);
     }
-    
   }
 }
