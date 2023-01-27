@@ -1,11 +1,11 @@
 import { NavigateFunction } from "react-router-dom";
 import ApiResult from "../api/types/ApiResult";
 
-export function serviceCall<T>(
+export async function serviceCall<T>(
     promise: Promise<ApiResult<T>>,
     navigate: NavigateFunction,
     setter: (data: T) => void,
-): void {
+): Promise<ApiResult<T>> {
     promise
         .then((response: ApiResult<T>) => {
             if (response.hasFailed()) {
@@ -19,4 +19,5 @@ export function serviceCall<T>(
             }
         })
         .catch(() => navigate("/error?code=500"))
+    return promise;
 }
