@@ -23,40 +23,41 @@ import User from "./pages/User";
 import BandAuditions from "./pages/BandAuditions";
 import ProfileApplications from "./pages/ProfileApplications";
 import ProfileInvites from "./pages/ProfileInvites";
-
+import { PrivateRoute } from "./PrivateRoute";
+import { AnonymousRoute } from "./AnonymousRoute";
+import Login from "./pages/LogIn";
 
 
 function App() {
+  // TODO: revisar las paginas anonimas, comunes a todos o privadas
+  // TODO: por ejemplo, la welcome page tiene sentido que la puedan ver todos?
   return (
     <Router basename={process.env.PUBLIC_URL}>
       <Routes>
         <Route path="/" element={<MainLayout />}>
           <Route index element={<Navigate to={"/welcome"} />} />
           <Route path="welcome" element={<Welcome />} />
-          <Route path="login" element={<LogIn />} />
-          <Route path="register" element={<Register />} />
-          <Route path="registerBand" element={<RegisterBand />} />
-          <Route path="registerArtist" element={<RegisterArtist />} />
-          <Route path="profile" element={<Profile />} />
+          <Route path="login" element={<AnonymousRoute component={Login} />} />
+          <Route path="register" element={<AnonymousRoute component={Register} />} />
+          <Route path="registerBand" element={<AnonymousRoute component={RegisterBand} />} />
+          <Route path="registerArtist" element={<AnonymousRoute component={RegisterArtist} />} />
+          <Route path="profile" element={<PrivateRoute component={Profile} roles={["ARTIST", "BAND"]} />} />
           <Route path="users" element={<Discover />} />
           <Route path="forgot-password" element={<ForgotPassword />} />
           <Route path="auditions" element={<AuditionsPage />} />
-          <Route path="auditions/:id" element={<Audition />} />
+          <Route path="auditions/:id" element={<PrivateRoute component={Audition} roles={["ARTIST", "BAND"]} />} />
           <Route path="auditions/search" element={<AuditionSearch />} />
           {/* <Route path="user/:id" element={<User user={dagos} />} /> */}
           <Route path="bandAuditions/:id" element={<BandAuditions />} />
-          <Route path="profile/auditions" element={<BandAuditions />} />
-          {/* TODO */}
-          <Route
-            path="profile/applications"
-            element={<ProfileApplications />}
-          />
-          <Route path="profile/invites" element={<ProfileInvites />} />
-          <Route path="auditions/:id/applicants" element={<AuditionsPage />} />
+          <Route path="profile/auditions" element={<PrivateRoute component={BandAuditions} roles={["BAND"]} />} />
+          {/* TODO: falta hacer los components de todo esto */}
+          <Route path="profile/applications" element={<PrivateRoute component={ProfileApplications} roles={["ARTIST"]} />} />
+          <Route path="profile/invites" element={<PrivateRoute component={ProfileInvites} roles={["ARTIST"]} />} />
+          <Route path="auditions/:id/applicants" element={<PrivateRoute component={AuditionsPage} roles={["BAND"]} />} />
           <Route path="users/search" element={<Discover />} />
-          <Route path="profile/editBand" element={<AuditionsPage />} />
-          <Route path="profile/editArtist" element={<AuditionsPage />} />
-          <Route path="newAudition" element={<AuditionsPage />} />
+          <Route path="profile/editBand"element={<PrivateRoute component={Profile} roles={["BAND"]} />} />
+          <Route path="profile/editArtist" element={<PrivateRoute component={Profile} roles={["ARTIST"]} />} />
+          <Route path="newAudition" element={<PrivateRoute component={AuditionsPage} roles={["BAND"]} />} />
         </Route>
       </Routes>
     </Router>
