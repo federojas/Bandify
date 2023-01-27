@@ -14,10 +14,12 @@ export const PrivateRoute: React.FC<Props> = ({ component: RouteComponent, roles
 
 const { isAuthenticated, role } = useContext(AuthContext);
 if (isAuthenticated && roles.includes(role as string)) {
+    // TODO: reemplazar por navigate
     return <RouteComponent />
 }
 
 if (isAuthenticated && !roles.includes(role as string)) {
+    // TODO: reemplazar por navigate
     return <AccessDenied />
 }
 
