@@ -1,23 +1,28 @@
 import {roleApi} from "../api";
 import {Role} from "../models";
+import ApiResult from "../api/types/ApiResult";
+import {ErrorService} from "./ErrorService";
 
 export class RoleService {
-    public async getRoles(): Promise<Role[] | undefined>{
+    public async getRoles(): Promise<ApiResult<Role[]>>{
         try {
             const response = await roleApi.getRoles();
-            return response.map(r => { const role: Role = {id: r.id, name: r.roleName}; return role });
-        } catch (error) {
-            console.log("error roles");
+            return new ApiResult(
+                response.map(r => { const role: Role = {id: r.id, name: r.roleName}; return role }),
+                false,
+                null as any);
+        } catch (error: any) {
+            return ErrorService.returnApiError(error);
         }
     }
 
 
-    public async getRoleById(id : number): Promise<Role | undefined> {
+    public async getRoleById(id : number):  Promise<ApiResult<Role>> {
         try {
             const current = await roleApi.getRoleById(id);
-            return {id:current.id, name:current.roleName} as Role;
-        } catch (error) {
-            console.log("error roles");
+            return new ApiResult( {id:current.id, name:current.roleName} as Role, false, null as any);
+        } catch (error: any) {
+            return ErrorService.returnApiError(error);
         }
     }
 }

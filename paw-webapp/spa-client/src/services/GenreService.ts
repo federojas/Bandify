@@ -1,7 +1,7 @@
 import { genreApi } from "../api";
 import ApiResult from "../api/types/ApiResult";
-import ErrorResponse from "../api/types/ErrorResponse";
 import { Genre } from "../models";
+import {ErrorService} from "./ErrorService";
 
 export class GenreService {
     public async getGenres(): Promise<ApiResult<Genre[]>> {
@@ -12,9 +12,7 @@ export class GenreService {
                 false,
                 null as any);
         } catch (error: any) {
-            return new ApiResult(null as any,
-                true, new ErrorResponse(error.response.data.status, error.response.data.title,
-                    error.response.data.path, error.response.data.message));
+            return ErrorService.returnApiError(error);
         }
     }
 
@@ -27,9 +25,7 @@ export class GenreService {
                 null as any
             );
         } catch (error: any) {
-            return new ApiResult(null as any,
-                true, new ErrorResponse(error.response.data.status, error.response.data.title,
-                    error.response.data.path, error.response.data.message));
+            return ErrorService.returnApiError(error);
         }
     }
 }
