@@ -1,9 +1,9 @@
 import ErrorResponse from "./ErrorResponse";
 
 export default class ApiResult<T> {
-    private readonly data: T;
-    private readonly error: ErrorResponse;
-    private readonly failed: boolean;
+    private data: T;
+    private error: ErrorResponse;
+    private failed: boolean;
   
     public constructor(data: T, failed: boolean, error: ErrorResponse) {
       this.data = data;
