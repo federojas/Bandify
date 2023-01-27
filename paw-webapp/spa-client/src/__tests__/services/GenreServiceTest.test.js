@@ -13,7 +13,7 @@ describe("getGenres()", () => {
 describe("getGenreById()", () => {
     it("should return a genre", async () => {
 
-        const genre = await genreService.getGenreById(2);
+        const genre = await genreService.getGenreById(123123);
         console.log(genre);
     });
 });
