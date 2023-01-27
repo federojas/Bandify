@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
+import java.lang.reflect.Member;
 import java.net.URI;
 import java.util.List;
 import java.util.Objects;
@@ -62,18 +63,25 @@ public class MembershipController {
 //        return Response.ok(MembershipDto.fromMembership(uriInfo, membership)).build();
 //    }
 
+    //TODO ANALIZAR SI SIRVE ESTO DEL PREVIEW O VUELA
     @GET
     @Produces("application/vnd.membership-list.v1+json")
     public Response getUserMemberships(@QueryParam("user") final Long userId,
                                        @QueryParam("state") @DefaultValue("PENDING") final String state,
-                                       @QueryParam("page") @DefaultValue("1") final int page) {
+                                       @QueryParam("page") @DefaultValue("1") final int page,
+                                       @QueryParam("preview") @DefaultValue("true") final Boolean preview) {
         if(userId == null)
             throw new BadRequestException("Parameter 'user' is required");
         final User user = userService.getUserById(userId).orElseThrow(UserNotFoundException::new);
-        final List<MembershipDto> memberships = membershipService.getUserMemberships(user,
-                        Enum.valueOf(MembershipState.class, state), page)
-                .stream().map(m -> MembershipDto.fromMembership(uriInfo, m))
-                .collect(Collectors.toList());
+        final List<MembershipDto> memberships;
+        final List<Membership> membershipsAux;
+        if(preview)
+            membershipsAux = membershipService.getUserMembershipsPreview(user);
+        else
+            membershipsAux = membershipService.getUserMemberships(user, Enum.valueOf(MembershipState.class, state), page);
+
+        memberships = membershipsAux.stream().map(m -> MembershipDto.fromMembership(uriInfo, m))
+                    .collect(Collectors.toList());
 
         if(memberships.isEmpty()) {
             return Response.noContent().build();
@@ -82,22 +90,6 @@ public class MembershipController {
         PaginationLinkBuilder.getResponsePaginationLinks(response, uriInfo, page,  membershipService.getTotalUserMembershipsPages(user, Enum.valueOf(MembershipState.class, state)));
         return response.build();
     }
-
-    //TODO VUELA? O COMBINAMOS?
-//    @GET
-//    @Produces(value = { MediaType.APPLICATION_JSON, })
-//    public Response getUserMembershipsPreview(@QueryParam("user") final Long userId) {
-//        final User user = userService.getUserById(userId).orElseThrow(UserNotFoundException::new);
-//        final List<MembershipDto> memberships = membershipService.getUserMembershipsPreview(user)
-//                .stream().map(m -> MembershipDto.fromMembership(uriInfo, m))
-//                .collect(Collectors.toList());
-//
-//        if(memberships.isEmpty()) {
-//            return Response.noContent().build();
-//        }
-//        return Response.ok(new GenericEntity<List<MembershipDto>>(memberships) {}).build();
-//    }
-
 
     @POST
     @Consumes(value = {MediaType.APPLICATION_JSON, })
