@@ -27,7 +27,7 @@ export class AuditionService {
         }
     }
 
-    public async getAuditions(page : number,
+    public async getAuditions(page? : number,
                               query?: string,
                               roles?: string[],
                               genres?: string[],
@@ -75,7 +75,7 @@ export class AuditionService {
         }
     }
 
-    public async getAuditionApplications(auditionId : number, page: number, state: string): Promise<ApiResult<Application[]>>{
+    public async getAuditionApplications(auditionId : number, page?: number, state?: string): Promise<ApiResult<Application[]>>{
         try {
             const response = await auditionApi.getApplications(auditionId, page, state);
             return new ApiResult(

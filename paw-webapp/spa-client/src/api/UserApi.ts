@@ -32,10 +32,6 @@ class UserApi {
       .then((response) => {
         return true;
       })
-      .catch((error) => {
-        console.log(error);
-        return false;
-      });
   };
 
   public updateUser = async (id: number, user: UserUpdateInput) => {
@@ -44,10 +40,6 @@ class UserApi {
       .then((response) => {
         return true;
       })
-      .catch((error) => {
-        console.log(error.response.data);
-        return false;
-      });
   };
 
   public getUserById = async (id: number): Promise<User> => {
@@ -85,10 +77,6 @@ class UserApi {
       .then((response) => {
         return response.data;
       })
-      .catch((error) => {
-        console.log(error.response.data);
-        return null;
-      });
   };
 
   public updateProfileImage = async (id: number, image: File) => {
@@ -97,16 +85,18 @@ class UserApi {
       .then((response) => {
         return true;
       })
-      .catch((error) => {
-        console.log(error.response.data);
-        return false;
-      });
   };
 
 
-  public getUsers = async (params: GetUserParams = {}) => {
+  public getUsers = async (page?: number, query?: string, genre?: string[], role?: string[], location?: string[]) => {
     return api
-      .get(this.endpoint, { params: { ...params } })
+      .get(this.endpoint, { params: {
+          page: page,
+          query: query,
+          genre: genre,
+          role: role,
+          location: location
+      } })
       .then((response) => {
         const data = response.data;
         const users: User[] = Array.isArray(data)
@@ -116,10 +106,6 @@ class UserApi {
           : [];
           return users;
       })
-      .catch((error) => {
-        console.log(error.response.data);
-        return null;
-      });
   };
 
   public getUserApplications = async (id: number) => {
@@ -135,10 +121,6 @@ class UserApi {
           : [];
         return applications; //todo: return applications no se si ta bien, tampoco se si hace falta mapearlo aca
       })
-      .catch((error) => {
-        console.log(error.response.data);
-        return null;
-      });
   };
 
   public getSocialMediaById = async (id: number, socialMediaId: number) => {
@@ -159,10 +141,6 @@ class UserApi {
       .then((response) => {
         return true;
       })
-      .catch((error) => {
-        console.log(error.response.data);
-        return false;
-      });
   };
 
   

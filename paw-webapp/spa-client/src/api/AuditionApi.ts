@@ -10,7 +10,7 @@ interface Params {
 class AuditionApi {
     private endpoint: string = '/auditions';
 
-    public getAuditions = async (page: number, query?: string, roles?: string[], genres?: string[], locations?: string[], bandId?: number) => {
+    public getAuditions = async (page?: number, query?: string, roles?: string[], genres?: string[], locations?: string[], bandId?: number) => {
         return api
             .get(this.endpoint, {
                 params: {
@@ -89,7 +89,7 @@ class AuditionApi {
         });
     };
 
-    public getApplications = async (auditionId: number, page: number, state: string) => {
+    public getApplications = async (auditionId: number, page?: number, state?: string) => {
         return api.get(`${this.endpoint}/${auditionId}/applications`, {
             params: {
                 page: page,

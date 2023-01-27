@@ -20,16 +20,21 @@ type User = {
     applications: string;
     available: boolean;
     band: boolean;
-    email: string;
+    description: string;
+    // email: string; TODO ESTO NO SE MUESTRA
     enabled: boolean;
-    genres: string;
+    genres: string[];
     id: number;
     location: string;
     name: string;
-    roles: string;
+    roles: string[];
     self: string;
     socialMedia: string;
+    profileImage: string;
+    surname: string;
 };
+
+
 
 type UserSocialMedia = {
     id: number;
