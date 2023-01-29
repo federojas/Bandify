@@ -28,6 +28,7 @@ import {
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
+import { serviceCall } from "../../services/ServiceManager";
 
 interface FormData {
   email: string;
@@ -39,6 +40,7 @@ const LoginBox = () => {
   const { t } = useTranslation();
   const [rememberMe, setRememberMe] = React.useState(false);
   const [showPassword, setShowPassword] = React.useState(false);
+  const [invalidCredentials, setInvalidCredentials] = React.useState(false);
   const authContext = React.useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -56,10 +58,24 @@ const LoginBox = () => {
     formState: { errors },
   } = useForm<FormData>();
 
-  const onSubmit = async (data: FormData) => {
-    await authContext.login(data.email, data.password, rememberMe);
-    navigate('/');
-  };
+  const onSubmit = handleSubmit(async ({email, password, rememberMe}) => {
+    setInvalidCredentials(false);
+    serviceCall(
+      loginService.login(email,password, rememberMe), 
+      navigate,
+      (response) => {
+        //todo: algo que hacer aca?
+      }
+      ).then((response) => { 
+        console.log(response)
+        if(response.hasFailed()){
+          console.log("hola, fallo") //todo: mostrar mensaje de error
+        } else {
+          navigate("/auditions");
+        } 
+    })
+    });
+    
 
   const loginValidations = {
     email: {
@@ -99,7 +115,7 @@ const LoginBox = () => {
           boxShadow={"lg"}
           p={8}
         >
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={onSubmit}>
             <Stack spacing={4}>
               <FormControl
                 id="email"
