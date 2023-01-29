@@ -5,19 +5,23 @@ import PostCard from "../../components/PostCard/PostCard";
 import AuditionSearchBar from "../../components/SearchBars/AuditionSearchBar";
 import { Center, Divider, Flex, Heading, VStack } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
-
-type Audition = {
-  band: {
-    name: string;
-    id: number;
-  };
-  id: number;
-  creationDate: Date;
-  title: string;
-  roles: string[];
-  genres: string[];
-  location: string;
-};
+import { useEffect, useState } from "react";
+import { serviceCall } from "../../services/ServiceManager";
+import { useNavigate } from "react-router-dom";
+import { auditionService } from "../../services";
+import { Audition } from "../../models";
+// type Audition = {
+//   band: {
+//     name: string;
+//     id: number;
+//   };
+//   id: number;
+//   creationDate: Date;
+//   title: string;
+//   roles: string[];
+//   genres: string[];
+//   location: string;
+// };
 
 // type AuditionListPaginated = {
 //   auditionList: Audition[];
@@ -26,40 +30,23 @@ type Audition = {
 // };
 
 const AuditionSearch = () => {
-  const auditionList = {
-    auditionList: [
-      {
-        band: {
-          name: "My Band",
-          id: 1,
-        },
-        id: 1,
-        creationDate: new Date(),
-        title: "My Band is looking for a drummer",
-        roles: ["Drummer"],
-        genres: ["Rock"],
-        location: "Buenos Aires",
-      },
-      {
-        band: {
-          name: "My Band",
-          id: 1,
-        },
-        id: 2,
-        creationDate: new Date(),
-        title: "My Band is looking for a guitarist",
-        roles: ["Guitarist"],
-        genres: ["Rock"],
-        location: "Buenos Aires",
-      },
-    ],
-    currentPage: 1,
-    totalPages: 1,
-  };
   const { t } = useTranslation();
   const getPaginationURL = (page: number) => {
     // TODO: Add code to get pagination URL
   };
+  const navigate = useNavigate();
+  const [auditions, setAuditions] = useState<Audition[]>([]);
+ 
+  useEffect(() => {
+    serviceCall(
+      auditionService.getAuditions(),
+      navigate,
+      (response) => {
+        console.log("🚀 ~ file: index.tsx:20 ~ useEffect ~ response", response)
+        setAuditions(response)
+      }
+    )
+  }, [])
 
   return (
     <>
@@ -76,16 +63,16 @@ const AuditionSearch = () => {
         margin={2}
         justifyContent={"space-around"}
       >
-        {auditionList.auditionList.length === 0 && (
+        {auditions.length === 0 && (
           <b>
             <p className="no-results">{t("AuditionsSearch.noResults")}</p>
           </b>
         )}
-        {auditionList.auditionList.map((audition, index) => (
+        {auditions.map((audition, index) => (
           <PostCard {...audition} />
         ))}
       </Flex>
-      <div className="pagination">
+      {/* <div className="pagination">
         {auditionList.currentPage > 1 && (
           <a onClick={() => getPaginationURL(auditionList.currentPage - 1)}>
             <img
@@ -103,7 +90,7 @@ const AuditionSearch = () => {
             <img src={NextIcon} alt="next" className="pagination-next" />
           </a>
         )}
-      </div>
+      </div> */}
     </>
   );
 };

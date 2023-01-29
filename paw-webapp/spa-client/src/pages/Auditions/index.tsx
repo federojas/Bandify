@@ -3,21 +3,39 @@ import { useTranslation } from "react-i18next";
 import AuditionSearchBar from "../../components/SearchBars/AuditionSearchBar";
 import { Audition } from "../../models";
 import { Center, Divider, Flex, Heading, VStack } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { serviceCall } from "../../services/ServiceManager";
+import { auditionService } from "../../services";
+import { useNavigate } from "react-router-dom";
 
 export default function AuditionsPage() {
   const { t } = useTranslation();
-  const audition: Audition = {
-    band: {
-      name: "My Band",
-      id: 1,
-    },
-    id: 1,
-    creationDate: new Date(),
-    title: "My Band is looking for a drummer ",
-    roles: ["Drummer", "Guitarist", "Bassist", "Singer", "Keyboardist"],
-    genres: ["Rock"],
-    location: "Buenos Aires",
-  };
+  const navigate = useNavigate();
+  const [auditions, setAuditions] = useState<Audition[]>([]);
+ 
+  useEffect(() => {
+    serviceCall(
+      auditionService.getAuditions(),
+      navigate,
+      (response) => {
+        console.log("🚀 ~ file: index.tsx:20 ~ useEffect ~ response", response)
+        setAuditions(response)
+      }
+    )
+  }, [])
+
+  // const audition: Audition = {
+  //   band: {
+  //     name: "My Band",
+  //     id: 1,
+  //   },
+  //   id: 1,
+  //   creationDate: new Date(),
+  //   title: "My Band is looking for a drummer ",
+  //   roles: ["Drummer", "Guitarist", "Bassist", "Singer", "Keyboardist"],
+  //   genres: ["Rock"],
+  //   location: "Buenos Aires",
+  // };
 
   return (
     <>
@@ -37,10 +55,10 @@ export default function AuditionsPage() {
           margin={2}
           justifyContent={"space-around"}
         >
-          <PostCard {...audition} />
-          <PostCard {...audition} />
-          <PostCard {...audition} />
-          <PostCard {...audition} />
+          {auditions.length > 0 ? auditions.map((audition) => (
+            <PostCard {...audition} />
+          )) : <Heading>No auditions found</Heading>  
+          }
         </Flex>
       </VStack>
     </>

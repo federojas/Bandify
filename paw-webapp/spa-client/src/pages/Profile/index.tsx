@@ -217,7 +217,7 @@ const Profile = () => {
               {user.roles.length > 0 ? (
                 <HStack wrap={"wrap"}>
                   {user.roles.map((role) => (
-                    <RoleTag role={role.name} />
+                    <RoleTag role={role} />
                   ))}
                 </HStack>
               ) : (

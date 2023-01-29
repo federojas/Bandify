@@ -43,10 +43,10 @@ import { BiBullseye } from "react-icons/bi";
 import { FiMusic } from "react-icons/fi";
 const PostCard: React.FC<Audition> = ({
   title,
-  band,
+  owner,
   location,
-  roles,
-  genres,
+  lookingFor,
+  musicGenres,
 }) => {
   const { t } = useTranslation();
 
@@ -62,12 +62,12 @@ const PostCard: React.FC<Audition> = ({
           flexWrap="wrap"
         >
           <Avatar
-            name={band.name}
+            name={owner}
             src="https://i.pinimg.com/originals/d3/e2/73/d3e273980e1e3df14c4a9b26e7d98d70.jpg"
           />
 
           <Box>
-            <Heading size="sm">{band.name}</Heading>
+            <Heading size="sm">{owner}</Heading>
             <Text fontSize="smaller">{location}</Text>
           </Box>
         </Flex>
@@ -78,7 +78,7 @@ const PostCard: React.FC<Audition> = ({
           <HStack spacing={4}>
             <BiBullseye />
             <HStack spacing="2" wrap={"wrap"}>
-              {roles.map((role) => (
+              {lookingFor.map((role) => (
                 <RoleTag role={role} />
               ))}
             </HStack>
@@ -86,7 +86,7 @@ const PostCard: React.FC<Audition> = ({
           <HStack spacing={4}>
             <FiMusic />
             <HStack spacing="2" wrap={"wrap"}>
-              {genres.map((genre) => (
+              {musicGenres.map((genre) => (
                 <GenreTag genre={genre} />
               ))}
             </HStack>
