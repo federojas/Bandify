@@ -19,8 +19,8 @@ export class LoginService {
         }
       });
 
-      if (rememberMe) localStorage.setItem("jwt", response.headers["x-jwt"] as string);
-      sessionStorage.setItem("jwt", response.headers["x-jwt"] as string);
+      // if (rememberMe) localStorage.setItem("jwt", response.headers["x-jwt"] as string);
+      // sessionStorage.setItem("jwt", response.headers["x-jwt"] as string);
       return new ApiResult(response, false, null as any);
     } catch (error) {
         return ErrorService.returnApiError(error);

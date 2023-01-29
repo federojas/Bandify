@@ -10,7 +10,7 @@ type CustomJwtPayload = JwtPayload & { roles: string; userUrl: string };
 export interface AuthContextValue {
   isAuthenticated: boolean;
   logout: () => void;
-  login: (username: string, password: string, rememberMe: boolean) => Promise<void>;
+  login: (rememberMe: boolean, token: string) => Promise<void>;
   jwt?: string | undefined;
   email?: string | undefined;
   role?: string | undefined;
@@ -61,20 +61,25 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }
     
   );
-  const login = async (username: string, password: string, rememberMe: boolean) => {
+  const login = async (rememberMe: boolean, token: string) => {
     try {
-      const res = await loginService.login(username, password, rememberMe);
-      if (res && res["x-jwt"]) {
-        setJwt(res["x-jwt"] as string);
-        setIsAuthenticated(true);
-        setEmail(jwtDecode<CustomJwtPayload>(res["x-jwt"] as string).sub);
-        setRole(jwtDecode<CustomJwtPayload>(res["x-jwt"] as string).roles);
-        const id = jwtDecode<CustomJwtPayload>(res["x-jwt"] as string)
-          .userUrl.split("/")
-          .pop();
-        if (id) setUserId(parseInt(id));
-        api.defaults.headers.common["Authorization"] = `Bearer ${jwt}`;
+      setJwt(token);
+      setIsAuthenticated(true);
+      setEmail(jwtDecode<CustomJwtPayload>(token).sub);
+      setRole(jwtDecode<CustomJwtPayload>(token as string).roles);
+      const id = jwtDecode<CustomJwtPayload>(token)
+        .userUrl.split("/")
+        .pop();
+      if (id) setUserId(parseInt(id));
+      api.defaults.headers.common["Authorization"] = `Bearer ${jwt}`;
+
+      if (rememberMe) { 
+        console.log("remember me")
+        localStorage.setItem("jwt", token);
       }
+      sessionStorage.setItem("jwt", token);
+      console.log("login success");
+
     } catch (error) {
       console.log(error);
     }

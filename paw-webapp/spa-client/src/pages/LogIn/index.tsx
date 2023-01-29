@@ -27,8 +27,9 @@ import {
   InputRightElement,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { serviceCall } from "../../services/ServiceManager";
+import { AxiosHeaders, AxiosResponse } from "axios";
 
 interface FormData {
   email: string;
@@ -43,6 +44,9 @@ const LoginBox = () => {
   const [invalidCredentials, setInvalidCredentials] = React.useState(false);
   const authContext = React.useContext(AuthContext);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  let from = location.state?.from?.pathname || "/auditions";
 
   React.useEffect(() => {
     if (authContext.isAuthenticated) {
@@ -71,7 +75,10 @@ const LoginBox = () => {
         if(response.hasFailed()){
           console.log("hola, fallo") //todo: mostrar mensaje de error
         } else {
-          navigate("/auditions");
+          const headers:any = response.getData().headers 
+         
+          if(response) authContext.login(rememberMe,  headers['x-jwt'] ) 
+          navigate(from, { replace: true });
         } 
     })
     });
