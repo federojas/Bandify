@@ -49,8 +49,8 @@ const RegisterArtistForm = () => {
   const onSubmit = async (data: FormData) => {
     const newUser: UserCreateInput = { ...data, band: false };
 
-    const res = await userService.createNewUser(newUser);
-    console.log("🚀 ~ file: index.tsx:54 ~ onSubmit ~ res", res);
+    // const res = await userService.createNewUser(newUser);
+    // console.log("🚀 ~ file: index.tsx:54 ~ onSubmit ~ res", res);
   };
 
   return (

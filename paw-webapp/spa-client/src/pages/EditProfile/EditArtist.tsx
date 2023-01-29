@@ -239,7 +239,7 @@ const EditArtist = () => {
                 </Flex>
               </FormControl>
 
-              <FormControl>
+              {/* <FormControl>
                 <FormLabel>{t("AuditionSearchBar.location")}</FormLabel>
                 <Select<LocationGroup, false, GroupBase<LocationGroup>>
                   name="locations"
@@ -253,7 +253,7 @@ const EditArtist = () => {
                     setLocation(loc);
                   }}
                 />
-              </FormControl>
+              </FormControl> */}
 
               <FormControl>
                 <FormLabel>{t("AuditionSearchBar.genre")}</FormLabel>
