@@ -62,27 +62,33 @@ const LoginBox = () => {
     formState: { errors },
   } = useForm<FormData>();
 
-  const onSubmit = handleSubmit(async ({email, password, rememberMe}) => {
+  const onSubmit = async (data: FormData) => {
+    const { email, password } = data;
+    console.log("🚀 ~ file: index.tsx:67 ~ onSubmit ~ data", data)
+    console.log("🚀 ~ file: index.tsx:66 ~ onSubmit ~ email", email)
+    console.log("🚀 ~ file: index.tsx:66 ~ onSubmit ~ password", password)
+    console.log("🚀 ~ file: index.tsx:66 ~ onSubmit ~ rememberMe", rememberMe)
     setInvalidCredentials(false);
     serviceCall(
-      loginService.login(email,password, rememberMe), 
+      loginService.login(email, password, rememberMe),
       navigate,
       (response) => {
         //todo: algo que hacer aca?
       }
-      ).then((response) => { 
-        console.log(response)
-        if(response.hasFailed()){
-          console.log("hola, fallo") //todo: mostrar mensaje de error
-        } else {
-          const headers:any = response.getData().headers 
-         
-          if(response) authContext.login(rememberMe,  headers['x-jwt'] ) 
-          navigate(from, { replace: true });
-        } 
+    ).then((response) => {
+      console.log(response)
+      if (response.hasFailed()) {
+        console.log("hola, fallo") //todo: mostrar mensaje de error
+      } else {
+        const headers: any = response.getData().headers
+
+        console.log("🚀 ~ file: index.tsx:82 ~ ).then ~ rememberMe", rememberMe)
+        if (response) authContext.login(rememberMe, headers['x-jwt'])
+        navigate(from, { replace: true });
+      }
     })
-    });
-    
+  };
+
 
   const loginValidations = {
     email: {
@@ -122,7 +128,7 @@ const LoginBox = () => {
           boxShadow={"lg"}
           p={8}
         >
-          <form onSubmit={onSubmit}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <Stack spacing={4}>
               <FormControl
                 id="email"
@@ -169,6 +175,7 @@ const LoginBox = () => {
                   <Checkbox
                     isChecked={rememberMe}
                     onChange={() => {
+                      console.log("changing remember me ", rememberMe)
                       setRememberMe(!rememberMe);
                     }}
                   >

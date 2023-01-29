@@ -25,15 +25,24 @@ const AuthContext = React.createContext<AuthContextValue>({
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const jwtInLocalStorage = localStorage.hasOwnProperty("jwt");
+  console.log("🚀 ~ file: AuthContext.tsx:28 ~ AuthProvider ~ jwtInLocalStorage", jwtInLocalStorage)
   const jwtInSessionStorage = sessionStorage.hasOwnProperty("jwt");
+  console.log("🚀 ~ file: AuthContext.tsx:30 ~ AuthProvider ~ jwtInSessionStorage", jwtInSessionStorage)
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(
     jwtInLocalStorage || jwtInSessionStorage
   );
+
+  
+
   const token = jwtInLocalStorage
     ? (localStorage.getItem("jwt") as string)
     : (sessionStorage.getItem("jwt") as string);
-  const [jwt, setJwt] = useState<string | undefined>(token);
-  const [email, setEmail] = useState<string | undefined>( () => {
+    const [jwt, setJwt] = useState<string | undefined>(token);
+    
+    console.log("🚀 ~ file: AuthContext.tsx:39 ~ AuthProvider ~ localStorage.getItem(jwt)", localStorage.getItem("jwt"))
+    console.log("🚀 ~ file: AuthContext.tsx:40 ~ AuthProvider ~ sessionStorage", sessionStorage.getItem("jwt"))
+  
+    const [email, setEmail] = useState<string | undefined>( () => {
       try {
         return jwtDecode<CustomJwtPayload>(jwt as string).sub as string
       } catch (error) {
