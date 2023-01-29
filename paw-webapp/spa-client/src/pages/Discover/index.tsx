@@ -1,7 +1,7 @@
 import { Center, Flex, Heading, VStack } from "@chakra-ui/react";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import SearchForm from "../../components/DiscoverSearchBar";
+import SearchForm from "../../components/SearchBars/DiscoverSearchBar";
 import "../../styles/usersDiscover.css";
 import { DiscoverBg } from "./styles";
 

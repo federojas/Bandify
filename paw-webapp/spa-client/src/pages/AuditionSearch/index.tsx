@@ -2,7 +2,7 @@ import "../../styles/welcome.css";
 import "../../styles/auditions.css";
 import NextIcon from "../../assets/icons/page-next.png";
 import PostCard from "../../components/PostCard/PostCard";
-import AuditionSearchBar from "../../components/AuditionSearchBar";
+import AuditionSearchBar from "../../components/SearchBars/AuditionSearchBar";
 import { Center, Divider, Flex, Heading, VStack } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 

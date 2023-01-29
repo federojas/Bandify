@@ -26,45 +26,11 @@ import {
   GroupBase,
 } from "chakra-react-select";
 import { SearchIcon } from "@chakra-ui/icons";
-
-//TODO: REVISAR SI HAY QUE TRANSLATEAR ESTOS O NO
-const locationOptions: LocationGroup[] = [
-  { value: "CABA", label: "CABA" },
-  { value: "Buenos Aires", label: "Buenos Aires" },
-  { value: "Rosario", label: "Rosario" },
-  { value: "Cordoba", label: "Cordoba" },
-  { value: "Mendoza", label: "Mendoza" },
-];
-
-const genreOptions: GenreGroup[] = [
-  { value: "Rock", label: "Rock" },
-  { value: "Pop", label: "Pop" },
-  { value: "Jazz", label: "Jazz" },
-  { value: "Blues", label: "Blues" },
-  { value: "Folk", label: "Folk" },
-];
-
-const roleOptions: RoleGroup[] = [
-  { value: "Vocalista", label: "Vocalista" },
-  { value: "Guitarrista", label: "Guitarrista" },
-  { value: "Bajista", label: "Bajista" },
-  { value: "Baterista", label: "Baterista" },
-];
-
-interface LocationGroup extends OptionBase {
-  label: string;
-  value: string;
-}
-
-interface GenreGroup extends OptionBase {
-  label: string;
-  value: string;
-}
-
-interface RoleGroup extends OptionBase {
-  label: string;
-  value: string;
-}
+import { useNavigate } from "react-router-dom";
+import { serviceCall } from "../../services/ServiceManager";
+import { genreService, roleService, locationService } from "../../services";
+import { useEffect } from "react";
+import { LocationGroup, GenreGroup, RoleGroup } from "./EntitiesGroups";
 
 const SearchForm: React.FC = () => {
   const [input, setInput] = React.useState("");
@@ -79,6 +45,46 @@ const SearchForm: React.FC = () => {
     // perform search using the form values
   };
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const [locationOptions, setLocationOptions] = React.useState<LocationGroup[]>([]);
+  const [genreOptions, setGenreOptions] = React.useState<GenreGroup[]>([]);
+  const [roleOptions, setRoleOptions] = React.useState<RoleGroup[]>([]);
+
+  useEffect(() => {
+    serviceCall(
+      genreService.getGenres(),
+      navigate,
+      (genres) => {
+        const genreAux: GenreGroup[] = genres.map((genre) => {
+          return { value: genre.name, label: genre.name };
+        });
+        setGenreOptions(genreAux);
+      }
+
+    )
+
+    serviceCall(
+      roleService.getRoles(),
+      navigate,
+      (roles) => {
+        const roleAux: RoleGroup[] = roles.map((role) => {
+          return { value: role.name, label: role.name };
+        });
+        setRoleOptions(roleAux);
+      }
+    )
+
+    serviceCall(
+      locationService.getLocations(),
+      navigate,
+      (locations) => {
+        const locationAux: LocationGroup[] = locations.map((location) => {
+          return { value: location.name, label: location.name };
+        });
+        setLocationOptions(locationAux);
+      }
+    )
+  }, []);
 
   return (
     <Box

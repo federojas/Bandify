@@ -1,6 +1,6 @@
 import PostCard from "../../components/PostCard/PostCard";
 import { useTranslation } from "react-i18next";
-import AuditionSearchBar from "../../components/AuditionSearchBar";
+import AuditionSearchBar from "../../components/SearchBars/AuditionSearchBar";
 import { Audition } from "../../models";
 import { Center, Divider, Flex, Heading, VStack } from "@chakra-ui/react";
 

@@ -28,6 +28,7 @@ import { SearchIcon } from "@chakra-ui/icons";
 import { serviceCall } from "../../services/ServiceManager";
 import { genreService, roleService, locationService } from "../../services";
 import { useNavigate } from "react-router-dom";
+import { LocationGroup, GenreGroup, RoleGroup } from "./EntitiesGroups";
 
 //TODO: REVISAR SI HAY QUE TRANSLATEAR ESTOS O NO
 // TODO: Translate these
@@ -37,20 +38,6 @@ const orderByOptions = [
 ];
 
 // TODO: Move these to another folder
-interface LocationGroup extends OptionBase {
-  label: string;
-  value: string;
-}
-
-interface GenreGroup extends OptionBase {
-  label: string;
-  value: string;
-}
-
-interface RoleGroup extends OptionBase {
-  label: string;
-  value: string;
-}
 
 const AuditionSearchBar = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
