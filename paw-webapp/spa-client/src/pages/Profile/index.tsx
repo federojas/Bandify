@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../../styles/profile.css";
 import UserIcon from "../../assets/icons/user.svg";
 import EditIcon from "../../assets/icons/edit-white-icon.svg";
@@ -35,6 +35,10 @@ import {
   FaSpotify,
 } from "react-icons/fa";
 import AuthContext from "../../contexts/AuthContext";
+import { serviceCall } from "../../services/ServiceManager";
+import { userService } from "../../services";
+import { useNavigate } from "react-router-dom";
+import { User } from "../../models";
 
 type Props = {
   user: {
@@ -67,16 +71,32 @@ type SocialMedia = {
 const Profile = () => {
   const { t } = useTranslation();
   const authContext = React.useContext(AuthContext);
-  const user = {
-    id: 1,
-    name: authContext.email,
-    surname: "D'Agostino",
-    email: authContext.email,
-    available: true,
-    band: false,
-    location: "CABA",
-    description: "Soy un artista",
-  };
+  const { userId } = authContext
+  const navigate = useNavigate();
+  const [user, setUser] = React.useState<User>();
+
+  useEffect(() => {
+    serviceCall(
+      userService.getUserById(userId!),
+      navigate,
+      (response: any) => {
+        setUser(response);
+        console.log(response);
+        // console.log(user)
+      }
+    )
+  }, [])
+
+  // const user = {
+  //   id: 1,
+  //   name: authContext.email,
+  //   surname: "D'Agostino",
+  //   email: authContext.email,
+  //   available: true,
+  //   band: false,
+  //   location: "CABA",
+  //   description: "Soy un artista",
+  // };
   const favoriteGenres: Genre[] = [
     { name: "Rock" },
     { name: "Metal" },
@@ -95,6 +115,14 @@ const Profile = () => {
     { name: "Pianista" },
   ];
   const socialMedia: SocialMedia[] = [];
+
+  if (!user) {
+    return (
+      <Center>
+        <Text>Cargando...</Text>
+      </Center>
+    );
+  }
 
   return (
     <Container maxW={"5xl"} px={"0"} py={8}>
@@ -126,6 +154,7 @@ const Profile = () => {
               display="flex"
               alignItems="center"
             >
+              {/* TODO: Profile image from user.profileImage */}
               <Image
                 src="https://temacalcos.com.ar/wp-content/uploads/2022/12/SCALONETA-VS-CROACIA-57.jpg"
                 alt="Profile Picture"
@@ -148,10 +177,13 @@ const Profile = () => {
             <Text color={"gray.500"} fontSize={"xl"}>
               {user.description}
             </Text>
-            <HStack>
-              <ImLocation />
-              <Text color={"gray.500"}> {user.location}</Text>
-            </HStack>
+            {
+              user.location &&
+              <HStack>
+                <ImLocation />
+                <Text color={"gray.500"}> {user.location}</Text>
+              </HStack>
+            }
           </VStack>
         </Box>
         <Grid templateColumns={"repeat(5,1fr)"} gap={4}>
@@ -167,10 +199,10 @@ const Profile = () => {
               <Heading fontSize={"2xl"} fontWeight={500}>
                 {t("Profile.favoriteGenres")}
               </Heading>
-              {favoriteGenres.length > 0 ? (
+              {user.genres.length > 0 ? (
                 <HStack wrap={"wrap"}>
-                  {favoriteGenres.map((genre) => (
-                    <GenreTag genre={genre.name} />
+                  {user.genres.map((genre) => (
+                    <GenreTag genre={genre} />
                   ))}
                 </HStack>
               ) : (
@@ -182,9 +214,9 @@ const Profile = () => {
               <Heading fontSize={"2xl"} fontWeight={500}>
                 {t("Profile.roles")}
               </Heading>
-              {roles.length > 0 ? (
+              {user.roles.length > 0 ? (
                 <HStack wrap={"wrap"}>
-                  {roles.map((role) => (
+                  {user.roles.map((role) => (
                     <RoleTag role={role.name} />
                   ))}
                 </HStack>
@@ -205,6 +237,7 @@ const Profile = () => {
               <Heading fontSize={"2xl"} fontWeight={500}>
                 {t("Profile.socialMedia")}
               </Heading>
+              {/* TODO: socialMedia from user.socialMedia */}
               <HStack wrap={"wrap"}>
                 <Button colorScheme={"facebook"} as="a" href={"#"}>
                   <FaFacebook />

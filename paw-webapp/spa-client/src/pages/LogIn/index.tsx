@@ -46,7 +46,8 @@ const LoginBox = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  let from = location.state?.from?.pathname || "/auditions";
+  // location.state?.from?.pathname || 
+  let from = "/auditions";
 
   React.useEffect(() => {
     if (authContext.isAuthenticated) {
@@ -64,10 +65,6 @@ const LoginBox = () => {
 
   const onSubmit = async (data: FormData) => {
     const { email, password } = data;
-    console.log("🚀 ~ file: index.tsx:67 ~ onSubmit ~ data", data)
-    console.log("🚀 ~ file: index.tsx:66 ~ onSubmit ~ email", email)
-    console.log("🚀 ~ file: index.tsx:66 ~ onSubmit ~ password", password)
-    console.log("🚀 ~ file: index.tsx:66 ~ onSubmit ~ rememberMe", rememberMe)
     setInvalidCredentials(false);
     serviceCall(
       loginService.login(email, password, rememberMe),
@@ -82,7 +79,6 @@ const LoginBox = () => {
       } else {
         const headers: any = response.getData().headers
 
-        console.log("🚀 ~ file: index.tsx:82 ~ ).then ~ rememberMe", rememberMe)
         if (response) authContext.login(rememberMe, headers['x-jwt'])
         navigate(from, { replace: true });
       }

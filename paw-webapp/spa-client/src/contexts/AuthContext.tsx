@@ -19,56 +19,55 @@ export interface AuthContextValue {
 
 const AuthContext = React.createContext<AuthContextValue>({
   isAuthenticated: false,
-  logout: () => {},
-  login: async () => {},
+  logout: () => { },
+  login: async () => { },
 });
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const jwtInLocalStorage = localStorage.hasOwnProperty("jwt");
-  console.log("🚀 ~ file: AuthContext.tsx:28 ~ AuthProvider ~ jwtInLocalStorage", jwtInLocalStorage)
   const jwtInSessionStorage = sessionStorage.hasOwnProperty("jwt");
-  console.log("🚀 ~ file: AuthContext.tsx:30 ~ AuthProvider ~ jwtInSessionStorage", jwtInSessionStorage)
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(
     jwtInLocalStorage || jwtInSessionStorage
   );
 
-  
 
   const token = jwtInLocalStorage
     ? (localStorage.getItem("jwt") as string)
     : (sessionStorage.getItem("jwt") as string);
-    const [jwt, setJwt] = useState<string | undefined>(token);
-    
-    console.log("🚀 ~ file: AuthContext.tsx:39 ~ AuthProvider ~ localStorage.getItem(jwt)", localStorage.getItem("jwt"))
-    console.log("🚀 ~ file: AuthContext.tsx:40 ~ AuthProvider ~ sessionStorage", sessionStorage.getItem("jwt"))
-  
-    const [email, setEmail] = useState<string | undefined>( () => {
-      try {
-        return jwtDecode<CustomJwtPayload>(jwt as string).sub as string
-      } catch (error) {
+  const [jwt, setJwt] = useState<string | undefined>(token);
+  if (jwt) api.defaults.headers.common["Authorization"] = `Bearer ${jwt}`;
+
+
+  const [email, setEmail] = useState<string | undefined>(() => {
+    try {
+      return jwtDecode<CustomJwtPayload>(jwt as string).sub as string
+    } catch (error) {
+      if (isAuthenticated)
         console.log(error);
-      }
     }
-  );
-  const [role, setRole] = useState<string | undefined>( () => {
-      try {
-        return  jwtDecode<CustomJwtPayload>(jwt as string).roles as string
-      } catch(error) {
-        console.log(error);
-      }
   }
-   
   );
-  const [userId, setUserId] = useState<number | undefined>( () => {
-      try {
-        return parseInt(jwtDecode<CustomJwtPayload>(jwt as string)
+  const [role, setRole] = useState<string | undefined>(() => {
+    try {
+      return jwtDecode<CustomJwtPayload>(jwt as string).roles as string
+    } catch (error) {
+      if (isAuthenticated)
+        console.log(error);
+    }
+  }
+
+  );
+  const [userId, setUserId] = useState<number | undefined>(() => {
+    try {
+      return parseInt(jwtDecode<CustomJwtPayload>(jwt as string)
         .userUrl.split("/")
         .pop() as string)
-      } catch(error) {
+    } catch (error) {
+      if (isAuthenticated)
         console.log(error);
-      }
+    }
   }
-    
+
   );
   const login = async (rememberMe: boolean, token: string) => {
     try {
@@ -82,12 +81,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       if (id) setUserId(parseInt(id));
       api.defaults.headers.common["Authorization"] = `Bearer ${jwt}`;
 
-      if (rememberMe) { 
-        console.log("remember me")
+      if (rememberMe) {
         localStorage.setItem("jwt", token);
       }
       sessionStorage.setItem("jwt", token);
-      console.log("login success");
 
     } catch (error) {
       console.log(error);
