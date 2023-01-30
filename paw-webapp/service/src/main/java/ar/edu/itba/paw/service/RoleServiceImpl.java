@@ -28,6 +28,7 @@ public class RoleServiceImpl implements RoleService {
         return roleDao.getRoleById(id);
     }
 
+    // TODO: deberia lanzar otra excepcion que sirva para 400 Bad Request
     @Override
     public Set<Role> getRolesByNames(List<String> rolesNames) {
         if(rolesNames == null)

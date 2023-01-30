@@ -13,7 +13,7 @@ public interface ApplicationService {
 
     List<Application> getAuditionApplicationsByState(long auditionId, ApplicationState state);
 
-    boolean apply(long auditionId, User user, String message);
+    Application apply(long auditionId, User user, String message);
 
     Application accept(long auditionId, long applicantId);
 

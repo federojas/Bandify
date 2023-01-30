@@ -9,6 +9,7 @@ import ar.edu.itba.paw.service.*;
 import ar.edu.itba.paw.webapp.controller.utils.PaginationLinkBuilder;
 import ar.edu.itba.paw.webapp.dto.ApplicationDto;
 import ar.edu.itba.paw.webapp.dto.AuditionDto;
+import ar.edu.itba.paw.webapp.form.ApplicationForm;
 import ar.edu.itba.paw.webapp.form.AuditionForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -156,5 +157,21 @@ public class AuditionController {
         return Response.ok(ApplicationDto.fromApplication(uriInfo, application)).build();
     }
 
-    //TODO POST APPLICATION?
+
+    @POST
+    @Path("/{auditionId}/applications")
+    @Consumes("application/vnd.application.v1+json")
+    public Response createApplication(@PathParam("auditionId") final long auditionId,
+                                      @Valid ApplicationForm applicationForm) {
+        Application application = applicationService.apply(
+                auditionId,
+                userService.findByEmail(
+                        securityContext.getUserPrincipal().getName())
+                        .orElseThrow(UserNotFoundException::new),
+                applicationForm.getMessage()
+        );
+        final URI uri = uriInfo.getAbsolutePathBuilder()
+                .path(String.valueOf(application.getId())).build();
+        return Response.created(uri).build();
+    }
 }

@@ -3,6 +3,8 @@ package ar.edu.itba.paw.service;
 import ar.edu.itba.paw.model.*;
 import ar.edu.itba.paw.model.exceptions.AuditionNotOwnedException;
 import ar.edu.itba.paw.model.exceptions.PageNotFoundException;
+import ar.edu.itba.paw.model.exceptions.UserAlreadyAppliedToAuditionException;
+import ar.edu.itba.paw.model.exceptions.UserAlreadyInBandException;
 import ar.edu.itba.paw.persistence.ApplicationDao;
 import org.junit.Assert;
 import org.junit.Test;
@@ -37,6 +39,9 @@ public class ApplicationServiceTest {
 
     @Mock
     private AuthFacadeService authFacadeService;
+
+    @Mock
+    private MailingService mailingService;
 
     @InjectMocks
     private ApplicationService applicationService = new ApplicationServiceImpl();
@@ -114,24 +119,23 @@ public class ApplicationServiceTest {
         assertTrue(list.containsAll(new ArrayList<>(Collections.singletonList(REJECTED_APP))));
     }
 
-    @Test
+    @Test(expected = UserAlreadyAppliedToAuditionException.class)
     public void testApplyWithUserWhoAlreadyAppliedThisAudition() {
         long auditionId = 1;
-        when(applicationDao.findApplication(auditionId, USER_ALREADY_APPLIED.getId())).thenReturn(Optional.of(PENDING_APP));
-        boolean applied = applicationService.apply(auditionId, USER_ALREADY_APPLIED,"message");
-        Assert.assertFalse(applied);
+        when(applicationDao.findApplication(auditionId, USER_ALREADY_APPLIED.getId())).thenThrow(UserAlreadyAppliedToAuditionException.class);
+        applicationService.apply(auditionId, USER_ALREADY_APPLIED,"message");
+        Assert.fail("Should have thrown UserAlreadyAppliedToAuditionException");
     }
 
-    @Test
+    @Test(expected = UserAlreadyInBandException.class)
     public void testApplyWithUserWhoIsAlreadyInBand() {
         long auditionId = 1;
-        when(applicationDao.findApplication(auditionId, USER_NOT_APPLIED.getId())).thenReturn(Optional.empty());
+        when(applicationDao.findApplication(auditionId, USER_NOT_APPLIED.getId())).thenThrow(UserAlreadyInBandException.class);
         when(auditionService.getAuditionById(auditionId)).thenReturn(AUDITION);
         when(userService.getUserById(AUDITION.getBand().getId())).thenReturn(Optional.of(BAND));
         when(membershipService.isInBand(BAND, USER_NOT_APPLIED)).thenReturn(true);
-
-        boolean applied = applicationService.apply(auditionId, USER_NOT_APPLIED,"message");
-        Assert.assertFalse(applied);
+        applicationService.apply(auditionId, USER_NOT_APPLIED,"message");
+        Assert.fail("Should have thrown UserAlreadyInBandException");
     }
 
     @Test
@@ -141,10 +145,7 @@ public class ApplicationServiceTest {
         when(auditionService.getAuditionById(auditionId)).thenReturn(AUDITION);
         when(userService.getUserById(AUDITION.getBand().getId())).thenReturn(Optional.of(BAND));
         when(membershipService.isInBand(BAND, USER_NOT_APPLIED)).thenReturn(false);
-
-
-        boolean applied = applicationService.apply(auditionId, USER_NOT_APPLIED,"message");
-        assertTrue(applied);
+        applicationService.apply(auditionId, USER_NOT_APPLIED,"message");
     }
 
     @Test

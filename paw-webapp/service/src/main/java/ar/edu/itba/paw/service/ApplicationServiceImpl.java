@@ -54,27 +54,28 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Transactional
     @Override
-    public boolean apply(long auditionId, User user, String message) {
+    public Application apply(long auditionId, User user, String message) {
+        if(user.isBand()) throw new BandCannotApplyException();
         if(applicationDao.findApplication(auditionId,user.getId()).isPresent()) {
             LOGGER.info("User {} already applied to audition {}",user.getId(),auditionId);
-            return false;
+            throw new UserAlreadyAppliedToAuditionException();
         }
 
         Audition aud = auditionService.getAuditionById(auditionId);
         User band = userService.getUserById(aud.getBand().getId()).orElseThrow(UserNotFoundException::new);
         if(membershipService.isInBand(band, user)) {
             LOGGER.info("User {} already in band ",user.getId());
-            return false;
+            throw new UserAlreadyInBandException();
         }
 
-        applicationDao.createApplication(new Application.ApplicationBuilder(auditionService.
+        Application toReturn = applicationDao.createApplication(new Application.ApplicationBuilder(auditionService.
                 getAuditionById(auditionId),user,ApplicationState.PENDING, LocalDateTime.now(), message));
         String bandEmail = band.getEmail();
         Locale locale = LocaleContextHolder.getLocale();
         LocaleContextHolder.setLocale(locale, true);
         LOGGER.debug("User {} applied to audition {}",user.getId(),auditionId);
         mailingService.sendApplicationEmail(user, bandEmail, message, locale);
-        return true;
+        return toReturn;
     }
 
     @Transactional
