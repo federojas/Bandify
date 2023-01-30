@@ -1,6 +1,7 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import BackIcon from "../../assets/icons/back.svg";
+import { Audition } from "../../models";
 import "../../styles/welcome.css";
 import "../../styles/postCard.css";
 import "../../styles/audition.css";
@@ -27,32 +28,36 @@ import { BiBullseye } from "react-icons/bi";
 import RoleTag from "../../components/Tags/RoleTag";
 import { FiMusic, FiShare2, FiUsers } from "react-icons/fi";
 import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
-
+import { useTranslation } from "react-i18next";
 import GenreTag from "../../components/Tags/GenreTag";
+import { serviceCall } from "../../services/ServiceManager";
+import { auditionService } from "../../services";
 
+
+//TODO: QUE HACER CON EL USER???
 type User = {
   id: number;
   name: string;
 };
 
-type Audition = {
-  id: number;
-  title: string;
-  description: string;
-  location: string;
-  lookingFor: Array<{
-    name: string;
-  }>;
-  musicGenres: Array<{
-    name: string;
-  }>;
-  alreadyApplied: boolean;
-  canBeAddedToBand: boolean;
-  band: {
-    id: number;
-    name: string;
-  };
-};
+// type Audition = {
+//   id: number;
+//   title: string;
+//   description: string;
+//   location: string;
+//   lookingFor: Array<{
+//     name: string;
+//   }>;
+//   musicGenres: Array<{
+//     name: string;
+//   }>;
+//   alreadyApplied: boolean;
+//   canBeAddedToBand: boolean;
+//   band: {
+//     id: number;
+//     name: string;
+//   };
+// };
 
 const AuditionTest = {
   band: {
@@ -83,13 +88,15 @@ const AuditionActions = (props: { auditionId: number }) => {
   const openConfirmation = () => {
     // TODO: Add code to open the confirmation modal
   };
+  const { t } = useTranslation();
 
   return (
     <VStack>
-      <Button leftIcon={<FiShare2/>} w={'44'} colorScheme='blue'>Share</Button>
-      <Button leftIcon={<FiUsers/>} w={'44'} colorScheme='green'>Applicants</Button>
-      <Button leftIcon={<AiOutlineEdit/>} w={'44'} colorScheme='teal'>Edit</Button>
-      <Button leftIcon={<AiOutlineDelete/>} w={'44'} colorScheme='red'>Delete</Button>
+      {/* TODO: LA FOOT NAV NO CAMBIA EL IDIOMA DE ESTAS COSAS */}
+      <Button leftIcon={<FiShare2/>} w={'44'} colorScheme='blue'>{t("Audition.share")} </Button>
+      <Button leftIcon={<FiUsers/>} w={'44'} colorScheme='green'>{t("Audition.applicants")}</Button>
+      <Button leftIcon={<AiOutlineEdit/>} w={'44'} colorScheme='teal'>{t("Audition.edit")}</Button>
+      <Button leftIcon={<AiOutlineDelete/>} w={'44'} colorScheme='red'>{t("Audition.delete")}</Button>
     </VStack>
   );
 };
@@ -101,6 +108,7 @@ const AuditionCard = ({
   user: User;
   audition: Audition;
 }) => {
+  
   return (
     <Card
       maxW={"3xl"}
@@ -113,17 +121,18 @@ const AuditionCard = ({
       <CardHeader>
         <Flex
           as="a"
-          href={`/user/${audition.band.id}`}
+          href={`/user/`}//todo: cambiar por el id de la banda
           flex="1"
           gap="4"
           alignItems="center"
           flexWrap="wrap"
         >
           <Avatar
-            name={audition.band.name}
-            src={`/user/${user.id}/profile-image`}
+            name='pep' //todo: name
+            src={`/user/[e[/profile-image`} //todo: user
           />
-          <Heading size={"lg"}>{audition.band.name}</Heading>
+          {/* todo: EL OWNER ES LA URL */}
+          <Heading size={"lg"}>{audition.owner}</Heading> 
         </Flex>
       </CardHeader>
       <CardBody>
@@ -141,7 +150,7 @@ const AuditionCard = ({
             <BiBullseye />
             <HStack wrap={'wrap'}>
               {audition.lookingFor.map((item, index) => (
-                <RoleTag role={item.name} key={index} />
+                <RoleTag role={item} key={index} />
               ))}
             </HStack>
           </HStack>
@@ -149,7 +158,7 @@ const AuditionCard = ({
             <FiMusic />
             <HStack wrap={"wrap"}>
               {audition.musicGenres.map((item, index) => (
-                <GenreTag genre={item.name} key={index}/>
+                <GenreTag genre={item} key={index}/>
               ))}
             </HStack>
           </HStack>
@@ -162,10 +171,29 @@ const AuditionCard = ({
 };
 
 const AuditionView = () => {
+  const params = useParams()
+  const navigate = useNavigate();
+  const [audition, setAudition] = useState<Audition>();
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    serviceCall(
+      auditionService.getAuditionById(parseInt(params.id as string)),
+      navigate,
+      (response) => { 
+        console.log(response);   
+        if(response) setAudition(response);
+        setIsLoading(false);
+        console.log("audition", audition)
+      },
+    )
+  }, []
+  )
+
+
   return (
     <Center>
-      <HStack minH={"80vh"}>
-        <AuditionCard user={{ id: 1, name: "Test" }} audition={AuditionTest} />
+      <HStack minH={"80vh"}>  
+        {isLoading ? <span className="loader"></span> : <AuditionCard user={{ id: 1, name: "Test" }} audition={audition!} />}        
         <AuditionActions auditionId={1} />
       </HStack>
     </Center>

@@ -164,4 +164,10 @@ export const TRANSLATIONS_ES = {
     join: "¡Únete a una banda... o crea una!",
     getStarted: "Comenzar",
   },
+  Audition: {
+    share: "Compartir",
+    applicants: "Aplicantes",
+    edit: "Editar",
+    delete: "Eliminar",
+  }
 };

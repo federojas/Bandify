@@ -164,5 +164,11 @@ export const TRANSLATIONS_EN = {
     join: "Join bands... or create your own!",
     getStarted: "Get started",
   },
+  Audition: {
+    share: "Share",
+    applicants: "Applicants",
+    edit: "Edit",
+    delete: "Delete",
+  }
 };
 
