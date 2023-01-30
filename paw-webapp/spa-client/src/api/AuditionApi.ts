@@ -1,6 +1,7 @@
 import api from './api';
 import {Audition, AuditionInput} from './types/Audition';
 import {Application} from './types/Application';
+import { m } from 'framer-motion';
 
 interface Params {
     auditionId?: number;
@@ -15,6 +16,13 @@ class AuditionApi {
         headers: {
             'Authorization': 'Basic YmFuZGFAbWFpbC5jb206MTIzNDU2Nzg=',
             'Content-Type': 'application/vnd.audition.v1+json'
+        }
+    }
+    // TODO: Mejorar
+    private applicationConfig = {
+        headers: {
+            'Authorization': 'Basic c3NhbmRyaW5pMkBtYWlsLmNvbToxMjM0NTY3OA==',
+            'Content-Type': 'application/vnd.application.v1+json'
         }
     }
 
@@ -135,6 +143,13 @@ class AuditionApi {
         }).catch((error) => {
             console.log(error.response.data);
             return false;
+        });
+    }
+
+    public apply = async(auditionId:number, message: string) => {
+        return api.post(`${this.endpoint}/${auditionId}/applications`,
+        {message: message},this.applicationConfig).then((response) => {
+            return Promise.resolve(response);
         });
     }
 

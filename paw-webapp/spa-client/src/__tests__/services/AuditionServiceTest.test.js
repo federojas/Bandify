@@ -18,6 +18,7 @@ describe("getAuditions()", () => {
     });
 });
 
+
 describe("createAudition()", () => {
     it("should return new audition", async () => {
         const postResponse = await auditionService.createAudition(
@@ -29,5 +30,13 @@ describe("createAudition()", () => {
                 lookingFor: ["Bassist"]
             }
         )
+    });
+});
+
+
+describe("apply()", () => {
+    it("should return new application", async () => {
+        const postResponse = await auditionService.apply(2,"mi aplicacion desde ts")
+        console.log(postResponse);
     });
 });
