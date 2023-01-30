@@ -2,6 +2,8 @@ export const TRANSLATIONS_ES = {
   PostCard: {
     postCardButton: "Ver más",
     title: "carta de publicación",
+    more: "Ver más",
+    share: "Compartir",
   },
   Auditions: {
     title: "Audiciones",

@@ -41,12 +41,14 @@ import GenreTag from "../Tags/GenreTag";
 import RoleTag from "../Tags/RoleTag";
 import { BiBullseye } from "react-icons/bi";
 import { FiMusic } from "react-icons/fi";
+import { Link } from "react-router-dom";
 const PostCard: React.FC<Audition> = ({
   title,
   owner,
   location,
   lookingFor,
   musicGenres,
+  id,
 }) => {
   const { t } = useTranslation();
 
@@ -96,11 +98,13 @@ const PostCard: React.FC<Audition> = ({
       <Divider />
       <CardFooter>
         <ButtonGroup>
-          <Button variant="solid" colorScheme="blue">
-            More
-          </Button>
+          <Link to={id.toString()}>
+            <Button variant="solid" colorScheme="blue">
+              {t("PostCard.more")}
+            </Button> 
+          </Link>
           <Button variant="ghost" colorScheme="blue">
-            Share
+            {t("PostCard.share")}
           </Button>
         </ButtonGroup>
       </CardFooter>
