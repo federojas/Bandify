@@ -3,6 +3,8 @@ package ar.edu.itba.paw.webapp.controller;
 import ar.edu.itba.paw.model.*;
 import ar.edu.itba.paw.model.Application;
 import ar.edu.itba.paw.model.exceptions.ApplicationNotFoundException;
+import ar.edu.itba.paw.model.exceptions.InvalidApplicationStateException;
+import ar.edu.itba.paw.model.exceptions.NotABandException;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.service.*;
 import ar.edu.itba.paw.webapp.controller.utils.PaginationLinkBuilder;
@@ -18,6 +20,7 @@ import javax.ws.rs.core.*;
 import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Path("auditions")
@@ -171,5 +174,34 @@ public class AuditionController {
         final URI uri = uriInfo.getAbsolutePathBuilder()
                 .path(String.valueOf(application.getId())).build();
         return Response.created(uri).build();
+    }
+
+    //TODO: closeApplicationByAuditionId revisar CLOSE
+    @PUT
+    @Path("/{auditionId}/applications/{id}")
+    @Consumes("application/vnd.application.v1+json")
+    public Response changeApplicationStatus(@PathParam("auditionId") final long auditionId,
+                                            @PathParam("id") final long applicationId,
+                                            @QueryParam("state") final String state) {
+        Application app = applicationService.getApplicationById(auditionId, applicationId)
+                .orElseThrow(ApplicationNotFoundException::new);
+
+        if(Objects.equals(state, ApplicationState.CLOSED.getState()))
+            applicationService.closeApplications(auditionId, app.getApplicant().getId());
+        else if(app.getState().equals(ApplicationState.PENDING)) {
+            if (Objects.equals(state, ApplicationState.ACCEPTED.getState()))
+                applicationService.accept(auditionId, app.getApplicant().getId());
+            else if (Objects.equals(state, ApplicationState.REJECTED.getState()))
+                applicationService.reject(auditionId, app.getApplicant().getId());
+        } else if(app.getState().equals(ApplicationState.ACCEPTED) &&
+                Objects.equals(state, ApplicationState.SELECTED.getState())) {
+                User band = userService.findByEmail(securityContext.getUserPrincipal().getName()).orElseThrow(UserNotFoundException::new);
+                if(!band.isBand())
+                    throw new NotABandException();
+                applicationService.select(auditionId, band, app.getApplicant().getId());
+        } else {
+            throw new InvalidApplicationStateException();
+        }
+        return Response.ok().build();
     }
 }

@@ -19,7 +19,7 @@ public interface ApplicationService {
 
     Application reject(long auditionId, long applicantId);
 
-    Application select(long auditionId, long bandId, long applicantId);
+    Application select(long auditionId, User band, long applicantId);
 
     List<Application> getMyApplications(long applicantId, int page);
 

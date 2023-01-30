@@ -124,7 +124,7 @@ public class MembershipServiceImpl implements MembershipService {
             LOGGER.info("User {} already in band ", builder.getArtist().getId());
             return false;
         }
-        applicationService.select(auditionId, builder.getBand().getId(), builder.getArtist().getId());
+        applicationService.select(auditionId, builder.getBand(), builder.getArtist().getId());
         createMembership(builder.state(MembershipState.ACCEPTED));
         Locale locale = LocaleContextHolder.getLocale();
         LocaleContextHolder.setLocale(locale, true);

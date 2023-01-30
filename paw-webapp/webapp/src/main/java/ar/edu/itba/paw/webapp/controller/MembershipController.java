@@ -12,7 +12,7 @@ import ar.edu.itba.paw.service.UserService;
 import ar.edu.itba.paw.webapp.controller.utils.PaginationLinkBuilder;
 import ar.edu.itba.paw.webapp.dto.MembershipDto;
 import ar.edu.itba.paw.webapp.form.MembershipForm;
-import ar.edu.itba.paw.webapp.security.exceptions.BadRequestException;
+import ar.edu.itba.paw.webapp.security.exceptions.BandifyBadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -69,7 +69,7 @@ public class MembershipController {
                                        @QueryParam("page") @DefaultValue("1") final int page,
                                        @QueryParam("preview") @DefaultValue("true") final Boolean preview) {
         if(userId == null)
-            throw new BadRequestException("Parameter 'user' is required");
+            throw new BandifyBadRequestException("Parameter 'user' is required");
         final User user = userService.getUserById(userId).orElseThrow(UserNotFoundException::new);
         final List<MembershipDto> memberships;
         final List<Membership> membershipsAux;
@@ -128,7 +128,7 @@ public class MembershipController {
                                        @QueryParam("state") final String state) {
         checkBandOwnership(id);
         if(description == null && roles == null && state == null)
-            throw new BadRequestException("Parameters 'description' 'roles' 'state' can not be all null");
+            throw new BandifyBadRequestException("Parameters 'description' 'roles' 'state' can not be all null");
         if((roles != null && !roles.isEmpty()) || description != null)
             membershipService.editMembershipById(description, roles, id);
         if(state != null)

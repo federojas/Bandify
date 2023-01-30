@@ -96,11 +96,11 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Transactional
     @Override
-    public Application select(long auditionId, long bandId, long applicantId) {
+    public Application select(long auditionId, User band, long applicantId) {
         LOGGER.debug("User {} has been selected for the audition {}",applicantId, auditionId);
         checkIds(auditionId, applicantId);
         Application toReturn = setApplicationState(auditionId,applicantId,ApplicationState.SELECTED);
-        closeApplications(bandId,applicantId);
+        closeApplications(band.getId(), applicantId);
         return toReturn;
     }
 
