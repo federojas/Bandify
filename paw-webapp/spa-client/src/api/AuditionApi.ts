@@ -10,6 +10,14 @@ interface Params {
 class AuditionApi {
     private endpoint: string = '/auditions';
 
+    //debug
+    private config = {
+        headers: {
+            'Authorization': 'Basic YmFuZGFAbWFpbC5jb206MTIzNDU2Nzg=',
+            'Content-Type': 'application/vnd.audition.v1+json'
+        }
+    }
+
     public getAuditions = async (page?: number, query?: string, roles?: string[], genres?: string[], locations?: string[], bandId?: number) => {
         return api
             .get(this.endpoint, {
@@ -115,16 +123,13 @@ class AuditionApi {
     };
 
     public createAudition = async (input: AuditionInput) => {
-        return api.post(this.endpoint, input).then((response) => {
-            return true;
-        }).catch((error) => {
-            console.log(error.response.data);
-            return false;
+        return api.post(this.endpoint, input, this.config).then((response) => {
+            return Promise.resolve(response);
         });
     }
 
     public editAudition = async (id: number, input: AuditionInput) => {
-        return api.put(`${this.endpoint}/${id}`, input).then((response) => {
+        return api.put(`${this.endpoint}/${id}`, input, this.config).then((response) => {
             console.log(response);
             return true;
         }).catch((error) => {

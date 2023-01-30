@@ -17,3 +17,17 @@ describe("getAuditions()", () => {
         console.log(aud);
     });
 });
+
+describe("createAudition()", () => {
+    it("should return new audition", async () => {
+        const postResponse = await auditionService.createAudition(
+            {
+                title: "new audition",
+                description: "la descripcion de la nueva audition",
+                location: "CABA",
+                musicGenres: ["Rock", "Hip Hop"],
+                lookingFor: ["Bassist"]
+            }
+        )
+    });
+});

@@ -2,6 +2,8 @@ import {auditionApi} from "../api";
 import {Audition, Application} from "../models";
 import {ErrorService} from "./ErrorService";
 import ApiResult from "../api/types/ApiResult";
+import { AuditionInput } from "../api/types/Audition";
+import PostResponse from "../api/types/PostResponse";
 
 export class AuditionService {
     public async getAuditionById(id : number): Promise<ApiResult<Audition>>{
@@ -91,6 +93,23 @@ export class AuditionService {
                 null as any
             );
         } catch (error) {
+            return ErrorService.returnApiError(error);
+        }
+    }
+
+    public async createAudition(auditionInput: AuditionInput) :Promise<ApiResult<PostResponse>>{
+        try {
+            const postResponse = await auditionApi.createAudition(auditionInput);
+            const url:string = postResponse.headers["location"];
+            const id:number = parseInt(url.slice(-1));
+            const data:PostResponse = {url: url, id: id};
+            console.log(data); //debug
+            return new ApiResult(
+                data,
+                false,
+                null as any
+            );
+        } catch(error) {
             return ErrorService.returnApiError(error);
         }
     }
