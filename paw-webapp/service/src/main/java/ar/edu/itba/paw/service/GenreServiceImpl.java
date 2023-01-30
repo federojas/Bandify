@@ -2,6 +2,7 @@ package ar.edu.itba.paw.service;
 
 import ar.edu.itba.paw.model.Genre;
 import ar.edu.itba.paw.model.exceptions.GenreNotFoundException;
+import ar.edu.itba.paw.model.exceptions.InvalidGenreException;
 import ar.edu.itba.paw.persistence.GenreDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,7 +38,7 @@ public class GenreServiceImpl implements GenreService {
         List<String> genres = genreDao.getAll().stream().map(Genre::getName).collect(Collectors.toList());
 
         if(!genres.containsAll(genresNames))
-            throw new GenreNotFoundException();
+            throw new InvalidGenreException();
 
         return genreDao.getGenresByNames(genresNames);
     }

@@ -9,7 +9,7 @@ import java.util.Set;
 public interface LocationService {
     List<Location> getAll();
 
-    Optional<Location> getLocationByName(String name);
+    Location getLocationByName(String name);
 
     Set<Location> getLocationsByNames(List<String> locations);
 

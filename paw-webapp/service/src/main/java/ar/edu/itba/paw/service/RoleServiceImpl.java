@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.service;
 
 import ar.edu.itba.paw.model.Role;
+import ar.edu.itba.paw.model.exceptions.InvalidRoleException;
 import ar.edu.itba.paw.model.exceptions.RoleNotFoundException;
 import ar.edu.itba.paw.persistence.RoleDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,6 @@ public class RoleServiceImpl implements RoleService {
         return roleDao.getRoleById(id);
     }
 
-    // TODO: deberia lanzar otra excepcion que sirva para 400 Bad Request
     @Override
     public Set<Role> getRolesByNames(List<String> rolesNames) {
         if(rolesNames == null)
@@ -36,7 +36,7 @@ public class RoleServiceImpl implements RoleService {
         List<String> roles = roleDao.getAll().stream().map(Role::getName).collect(Collectors.toList());
 
         if(!roles.containsAll(rolesNames))
-            throw new RoleNotFoundException();
+            throw new InvalidRoleException();
 
         return roleDao.getRolesByNames(rolesNames);
     }

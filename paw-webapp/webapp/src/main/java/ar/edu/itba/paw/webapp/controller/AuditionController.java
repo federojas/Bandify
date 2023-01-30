@@ -3,7 +3,6 @@ package ar.edu.itba.paw.webapp.controller;
 import ar.edu.itba.paw.model.*;
 import ar.edu.itba.paw.model.Application;
 import ar.edu.itba.paw.model.exceptions.ApplicationNotFoundException;
-import ar.edu.itba.paw.model.exceptions.LocationNotFoundException;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.service.*;
 import ar.edu.itba.paw.webapp.controller.utils.PaginationLinkBuilder;
@@ -57,8 +56,7 @@ public class AuditionController {
                         ).orElseThrow(UserNotFoundException::new))
                 .lookingFor(roleService.getRolesByNames(auditionForm.getLookingFor()))
                 .musicGenres(genreService.getGenresByNames(auditionForm.getMusicGenres()))
-                .location(locationService.getLocationByName(auditionForm.getLocation())
-                        .orElseThrow(LocationNotFoundException::new)));
+                .location(locationService.getLocationByName(auditionForm.getLocation())));
         final URI uri = uriInfo.getAbsolutePathBuilder()
                 .path(String.valueOf(audition.getId())).build();
         return Response.created(uri).build();
@@ -73,7 +71,7 @@ public class AuditionController {
                 auditionForm.getDescription(), user, LocalDateTime.now());
         builder.musicGenres(genreService.getGenresByNames(auditionForm.getMusicGenres()))
                .lookingFor(roleService.getRolesByNames(auditionForm.getLookingFor()))
-               .location(locationService.getLocationByName(auditionForm.getLocation()).orElseThrow(LocationNotFoundException::new));
+               .location(locationService.getLocationByName(auditionForm.getLocation()));
 
         auditionService.editAuditionById(builder,auditionId);
         return Response.ok().build();
