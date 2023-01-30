@@ -23,6 +23,8 @@ public class AuditionDto {
     private URI applications;
     private URI owner;
 
+    private boolean isOpen;
+
     public static AuditionDto fromAudition(final UriInfo uriInfo, final Audition audition) {
         if(audition == null)
             return null;
@@ -34,6 +36,7 @@ public class AuditionDto {
         auditionDto.location = audition.getLocation().getName();
         auditionDto.musicGenres = audition.getMusicGenres().stream().map(Genre::getName).collect(Collectors.toList());
         auditionDto.lookingFor = audition.getLookingFor().stream().map(Role::getName).collect(Collectors.toList());
+        auditionDto.isOpen = audition.isOpen();
 
         final UriBuilder selfUriBuilder = uriInfo.getAbsolutePathBuilder()
                 .replacePath("auditions").path(String.valueOf(audition.getId()));
@@ -128,5 +131,13 @@ public class AuditionDto {
 
     public void setOwner(URI owner) {
         this.owner = owner;
+    }
+
+    public boolean getIsOpen() {
+        return isOpen;
+    }
+
+    public void setIsOpen(boolean open) {
+        isOpen = open;
     }
 }
