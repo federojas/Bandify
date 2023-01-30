@@ -55,7 +55,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Transactional
     @Override
     public Application apply(long auditionId, User user, String message) {
-        if(user.isBand()) throw new BandCannotApplyException();
+        if(user.isBand()) throw new BandsCannotApplyException();
         if(applicationDao.findApplication(auditionId,user.getId()).isPresent()) {
             LOGGER.info("User {} already applied to audition {}",user.getId(),auditionId);
             throw new UserAlreadyAppliedToAuditionException();
