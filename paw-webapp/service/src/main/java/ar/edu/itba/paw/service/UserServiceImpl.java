@@ -120,7 +120,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public User updateUserLocation(String locationName, User user) {
-        Location location = locationService.getLocationByName(locationName).orElseThrow(LocationNotFoundException::new);
+        Location location = locationService.getLocationByName(locationName);
         user.setLocation(location);
         return user;
     }

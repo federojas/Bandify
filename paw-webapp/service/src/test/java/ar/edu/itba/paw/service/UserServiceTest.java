@@ -109,7 +109,7 @@ public class UserServiceTest {
     @Test
     public void testEditUser() {
         when(userDao.getUserById(1L)).thenReturn(Optional.ofNullable(USER));
-        when(locationService.getLocationByName(EDIT_LOCATION)).thenReturn(Optional.of(new Location(1L, EDIT_LOCATION)));
+        when(locationService.getLocationByName(EDIT_LOCATION)).thenReturn((new Location(1L, EDIT_LOCATION)));
         when(genreService.getGenresByNames(EDIT_GENRES)).thenReturn(EDIT_GENRES_SET);
         when(roleService.getRolesByNames(EDIT_ROLES)).thenReturn(EDIT_ROLES_SET);
 
@@ -123,7 +123,7 @@ public class UserServiceTest {
 
     @Test
     public void testUpdateUserLocation() {
-        when(locationService.getLocationByName(EDIT_LOCATION)).thenReturn(Optional.of(new Location(1L, EDIT_LOCATION)));
+        when(locationService.getLocationByName(EDIT_LOCATION)).thenReturn(new Location(1L, EDIT_LOCATION));
 
         User user = userService.updateUserLocation(EDIT_LOCATION, USER);
         assertNotNull(user);
