@@ -2,6 +2,8 @@ import api from './api';
 import {Audition, AuditionInput} from './types/Audition';
 import {Application} from './types/Application';
 import { m } from 'framer-motion';
+import AuthContext from '../contexts/AuthContext';
+import { useContext } from 'react';
 
 interface Params {
     auditionId?: number;
@@ -25,6 +27,13 @@ class AuditionApi {
             'Content-Type': 'application/vnd.application.v1+json'
         }
     }
+
+    // private bearerConfig = {
+    //     headers: {
+    //       'Authorization': 'Bearer ' + this.context.jwt,
+    //       'Content-Type': 'application/vnd.audition.v1+json'
+    //     }
+    // }
 
     public getAuditions = async (page?: number, query?: string, roles?: string[], genres?: string[], locations?: string[], bandId?: number) => {
         return api

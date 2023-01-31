@@ -30,13 +30,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     jwtInLocalStorage || jwtInSessionStorage
   );
 
-
   const token = jwtInLocalStorage
     ? (localStorage.getItem("jwt") as string)
     : (sessionStorage.getItem("jwt") as string);
   const [jwt, setJwt] = useState<string | undefined>(token);
-  if (jwt) api.defaults.headers.common["Authorization"] = `Bearer ${jwt}`;
-
+  
+  if (jwt) api.defaults.headers.common.Authorization = `Bearer ${jwt}`;
+    
+  console.log("🚀 ~ file: AuthContext.tsx:42 ~ AuthProvider ~ api.defaults.headers.common.Authorization", api.defaults.headers.common.Authorization)
 
   const [email, setEmail] = useState<string | undefined>(() => {
     try {

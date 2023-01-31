@@ -27,6 +27,7 @@ import { PrivateRoute } from "./PrivateRoute";
 import { AnonymousRoute } from "./AnonymousRoute";
 import Login from "./pages/LogIn";
 import EditArtist from "./pages/EditProfile/EditArtist";
+import NewAudition from "./pages/Audition/NewAudition";
 
 
 function App() {
@@ -48,17 +49,18 @@ function App() {
           <Route path="auditions" element={<AuditionsPage />} />
           <Route path="auditions/:id" element={<PrivateRoute component={Audition} roles={["ARTIST", "BAND"]} />} />
           <Route path="auditions/search" element={<AuditionSearch />} />
+          {/* TODO: falta hacer los components de todo esto */}
           {/* <Route path="user/:id" element={<User user={dagos} />} /> */}
           {/* <Route path="bandAuditions/:id" element={<BandAuditions />} /> */}
           {/* <Route path="profile/auditions" element={<PrivateRoute component={BandAuditions} roles={["BAND"]} />} /> */}
-          {/* TODO: falta hacer los components de todo esto */}
           {/* <Route path="profile/applications" element={<PrivateRoute component={ProfileApplications} roles={["ARTIST"]} />} /> */}
+          <Route path="profile/editArtist" element={<PrivateRoute component={EditArtist} roles={["ARTIST"]} />} />
+          <Route path="profile/editBand"element={<PrivateRoute component={Profile} roles={["BAND"]} />} />
+          {/* TODO: Eliminar ARTIST en newAudition */}
+          <Route path="newAudition" element={<PrivateRoute component={NewAudition} roles={["BAND", "ARTIST"]} />} />
           <Route path="profile/invites" element={<PrivateRoute component={ProfileInvites} roles={["ARTIST"]} />} />
           <Route path="auditions/:id/applicants" element={<PrivateRoute component={AuditionsPage} roles={["BAND"]} />} />
           <Route path="users/search" element={<Discover />} />
-          <Route path="profile/editBand"element={<PrivateRoute component={Profile} roles={["BAND"]} />} />
-          <Route path="profile/editArtist" element={<PrivateRoute component={EditArtist} roles={["ARTIST"]} />} />
-          <Route path="newAudition" element={<PrivateRoute component={AuditionsPage} roles={["BAND"]} />} />
         </Route>
       </Routes>
     </Router>
