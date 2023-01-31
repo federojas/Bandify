@@ -19,7 +19,7 @@
 <main class="flex flex-col justify-center">
     <h1 class="reset-pwd-header"><spring:message code="resetPassword.instructions" /></h1>
     <c:url value="/resetPassword" var="resetUrl"/>
-    <%--@elvariable id="resetPasswordForm" type="ar.edu.itba.paw.webapp.form.ResetPasswordForm"--%>
+    <%--@elvariable id="resetPasswordForm" type="ar.edu.itba.paw.webapp.form.SendTokenToEmailForm"--%>
     <div class="email-reset-password-box">
         <form:form
                 modelAttribute="resetPasswordForm"

@@ -88,6 +88,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public void resendUserVerification(String email) {
         User user = findByEmail(email).orElseThrow(UserNotFoundException::new);
+        if(user.isEnabled())
+            throw new UserAlreadyVerifiedException();
         verificationTokenService.deleteTokenByUserId(user.getId(), TokenType.VERIFY);
 
         VerificationToken token = verificationTokenService.generate(user, TokenType.VERIFY);

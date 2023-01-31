@@ -4,7 +4,7 @@ import ar.edu.itba.paw.webapp.form.constraints.annotations.UserExists;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
-public class ResetPasswordForm {
+public class SendTokenToEmailForm {
 
     @Email
     @NotBlank

@@ -19,6 +19,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.thymeleaf.spring4.SpringTemplateEngine;
@@ -28,6 +29,7 @@ import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
+import javax.validation.ValidatorFactory;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -148,6 +150,11 @@ public class WebConfig {
         }
         factoryBean.setJpaProperties(properties);
         return factoryBean;
+    }
+
+    @Bean
+    public ValidatorFactory validatorFactory() {
+        return new LocalValidatorFactoryBean();
     }
 
     //TODO revisar esto vs clase Settings

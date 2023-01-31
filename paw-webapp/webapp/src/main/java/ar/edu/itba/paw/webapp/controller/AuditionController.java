@@ -194,7 +194,6 @@ public class AuditionController {
                                             @QueryParam("state") final String state) {
         Application app = applicationService.getApplicationById(auditionId, applicationId)
                 .orElseThrow(ApplicationNotFoundException::new);
-
         if(Objects.equals(state, ApplicationState.CLOSED.getState()))
             applicationService.closeApplications(auditionId, app.getApplicant().getId());
         else if(app.getState().equals(ApplicationState.PENDING)) {
@@ -204,7 +203,8 @@ public class AuditionController {
                 applicationService.reject(auditionId, app.getApplicant().getId());
         } else if(app.getState().equals(ApplicationState.ACCEPTED) &&
                 Objects.equals(state, ApplicationState.SELECTED.getState())) {
-                User band = userService.findByEmail(securityContext.getUserPrincipal().getName()).orElseThrow(UserNotFoundException::new);
+                User band = userService.findByEmail(securityContext.getUserPrincipal().getName())
+                        .orElseThrow(UserNotFoundException::new);
                 if(!band.isBand())
                     throw new NotABandException();
                 applicationService.select(auditionId, band, app.getApplicant().getId());

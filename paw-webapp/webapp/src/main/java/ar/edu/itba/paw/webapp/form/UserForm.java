@@ -17,10 +17,11 @@ public class UserForm {
     @NotDuplicatedEmail
     private String email;
 
+    @NotBlank
     @Size(min = 8, max = 25)
     private String password;
 
-    @NotNull
+    @NotBlank
     @Size(min = 8, max = 25)
     private String passwordConfirmation;
 
@@ -30,6 +31,8 @@ public class UserForm {
 
     @Size(max = 50)
     private String surname;
+
+    @NotNull
     private boolean band;
 
     public String getEmail() {

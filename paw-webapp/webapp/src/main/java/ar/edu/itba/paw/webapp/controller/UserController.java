@@ -20,8 +20,9 @@ import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.validation.Valid;
+import javax.validation.*;
 import javax.ws.rs.*;
+import javax.ws.rs.Path;
 import javax.ws.rs.core.*;
 import java.io.IOException;
 import java.io.InputStream;
@@ -42,15 +43,27 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private ValidatorFactory validatorFactory;
+
     @Context
     private UriInfo uriInfo;
 
     @Context
     private SecurityContext securityContext;
+
     @POST
     @Consumes("application/vnd.user.v1+json")
-    public Response createUser(@Valid UserForm form) {
-        System.out.println("El boolean: " + form.getBand());
+    public Response createUser(UserForm form,
+                               @QueryParam("email") final String email) {
+        if(email != null) {
+            userService.resendUserVerification(email);
+            return Response.ok().build();
+        }
+        Validator validator = validatorFactory.getValidator();
+        Set<ConstraintViolation<UserForm>> violations = validator.validate(form);
+        if(!violations.isEmpty())
+            throw new ConstraintViolationException(violations);
         User.UserBuilder builder = new User.UserBuilder(form.getEmail(), form.getPassword(),
                 form.getName(), form.getBand(), false).surname(form.getSurname());
         final User user = userService.create(builder);
@@ -204,6 +217,7 @@ public class UserController {
 
     @PUT
     @Path("/{id}/status")
+    @Consumes("application/vnd.status.v1+json")
     public Response updateUserStatus(@Valid UserStatusForm form,
                                      @PathParam("id") final long id,
                                      @HeaderParam(HttpHeaders.AUTHORIZATION) String authHeader) {
@@ -217,7 +231,8 @@ public class UserController {
 
     @POST
     @Path("/{id}/password")
-    public Response generateUserPassword(@Valid ResetPasswordForm form,
+    @Consumes("application/vnd.password.v1+json")
+    public Response generateUserPassword(@Valid SendTokenToEmailForm form,
                                      @PathParam("id") final long id) {
         final User user = userService.findByEmail(form.getEmail()).orElseThrow(UserNotFoundException::new);
         checkOwnership(user, id);
@@ -227,6 +242,7 @@ public class UserController {
 
     @PUT
     @Path("/{id}/password")
+    @Consumes("application/vnd.password.v1+json")
     public Response updateUserPassword(@Valid NewPasswordForm form,
                                      @PathParam("id") final long id,
                                      @HeaderParam(HttpHeaders.AUTHORIZATION) String authHeader) {
