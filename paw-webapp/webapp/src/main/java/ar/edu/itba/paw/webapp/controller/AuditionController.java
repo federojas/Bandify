@@ -80,6 +80,14 @@ public class AuditionController {
         return Response.ok().build();
     }
 
+    @DELETE
+    @Path("/{id}")
+    public Response deleteAudition(@PathParam("id") final long auditionId) {
+        applicationService.closeApplicationsByAuditionId(auditionId);
+        auditionService.closeAuditionById(auditionId);
+        return Response.noContent().build();
+    }
+
     @GET
     @Produces("application/vnd.audition-list.v1+json")
     public Response getAuditions(@QueryParam("page") @DefaultValue("1") final int page,
@@ -176,7 +184,8 @@ public class AuditionController {
         return Response.created(uri).build();
     }
 
-    //TODO: closeApplicationByAuditionId revisar CLOSE
+    //TODO: si un artista fue elegido en una audicion creo que se usa CLOSE para cerrar aplicaciones
+    // adicionales que tiene en otras audiciones de la misma banda
     @PUT
     @Path("/{auditionId}/applications/{id}")
     @Consumes("application/vnd.application.v1+json")

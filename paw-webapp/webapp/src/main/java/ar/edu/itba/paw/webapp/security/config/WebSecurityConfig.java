@@ -69,7 +69,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BandifyAuthenticationEntryPoint();
     }
 
-    //TODO application/json en content type tira 415 de tomcat
     //TODO http://localhost:6060///status tira 500 no deberia ser bad request o not found?
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
@@ -97,18 +96,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/auditions","/auditions/search", "/", "/user/{\\d+}","/user/{\\d+}/profile-image").permitAll()
 //TODO REVISAR TODOS
                 .antMatchers(HttpMethod.GET, "/users").authenticated()
+                .antMatchers(HttpMethod.PUT, "/users/{\\d+}").authenticated()
                 .antMatchers(HttpMethod.PUT, "/users/{\\d+}/status").authenticated()
                 .antMatchers(HttpMethod.GET, "/users/{\\d+}/status").authenticated()
                 .antMatchers(HttpMethod.PUT, "/users/{\\d+}/password").authenticated()
                 .antMatchers(HttpMethod.GET, "/users/{\\d+}/applications").hasRole("ARTIST")
                 .antMatchers(HttpMethod.GET, "/memberships",
                         "/memberships/{\\d+}").authenticated() //TODO REVISAR CUAND VEAMOS EL ACCESO DESDE EL FRONT
+                .antMatchers(HttpMethod.DELETE, "/memberships/{\\d+}").hasRole("BAND")
+                .antMatchers(HttpMethod.PUT, "/memberships/{\\d+}").hasRole("BAND")
                 .antMatchers(HttpMethod.GET, "/auditions/{\\d+}/applications",
                         "/{auditionId}/applications/{\\d+}").hasRole("BAND")
-                .antMatchers(HttpMethod.PUT, "/users/{\\d+}").authenticated()
-                .antMatchers(HttpMethod.PUT, "/memberships/{\\d+}").hasRole("BAND")
+                .antMatchers(HttpMethod.PUT, "/auditions/{\\d+}/applications/{\\d+}").hasRole("BAND")
                 .antMatchers(HttpMethod.POST, "/auditions").hasRole("BAND")
-                .antMatchers(HttpMethod.DELETE, "/memberships/{\\d+}").hasRole("BAND")
+                .antMatchers(HttpMethod.POST, "/auditions/{\\d+}/applications").hasRole("ARTIST")
+                .antMatchers(HttpMethod.DELETE, "/auditions/{\\d+}").hasRole("BAND")
 
                 .antMatchers("/**").permitAll()
                 .and().addFilterBefore(authFilter,
