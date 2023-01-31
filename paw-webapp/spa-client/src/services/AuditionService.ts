@@ -109,6 +109,7 @@ export class AuditionService {
                 null as any
             );
         } catch(error) {
+            console.log(error);
             return ErrorService.returnApiError(error);
         }
     }

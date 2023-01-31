@@ -7,4 +7,9 @@ const instance = axios.create({
     },
 });
 
+export const axiosPrivate = axios.create({
+    baseURL: 'http://localhost:6060',
+    timeout: 5000,
+});
+
 export default instance;

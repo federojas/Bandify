@@ -79,7 +79,7 @@ const LoginBox = () => {
       } else {
         const headers: any = response.getData().headers
 
-        if (response) authContext.login(rememberMe, headers['x-jwt'])
+        if (response) authContext.login(rememberMe, headers['x-jwt'], headers['x-refresh-token'])
         navigate(from, { replace: true });
       }
     })

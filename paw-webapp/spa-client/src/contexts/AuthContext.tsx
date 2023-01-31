@@ -10,17 +10,22 @@ type CustomJwtPayload = JwtPayload & { roles: string; userUrl: string };
 export interface AuthContextValue {
   isAuthenticated: boolean;
   logout: () => void;
-  login: (rememberMe: boolean, token: string) => Promise<void>;
+  login: (rememberMe: boolean, token: string, refreshToken: string) => Promise<void>;
   jwt?: string | undefined;
+  refreshToken?: string | undefined;
   email?: string | undefined;
   role?: string | undefined;
   userId?: number | undefined;
+  setJwt: React.Dispatch<React.SetStateAction<string | undefined>>;
+  setRefreshToken: React.Dispatch<React.SetStateAction<string | undefined>>;
 }
 
 const AuthContext = React.createContext<AuthContextValue>({
   isAuthenticated: false,
   logout: () => { },
   login: async () => { },
+  setJwt: () => { },
+  setRefreshToken: () => {}
 });
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
@@ -34,7 +39,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     ? (localStorage.getItem("jwt") as string)
     : (sessionStorage.getItem("jwt") as string);
   const [jwt, setJwt] = useState<string | undefined>(token);
-  
+  const refresh_Token = localStorage.getItem("jwt") as string;
+  const [refreshToken, setRefreshToken] = useState<string | undefined>(refresh_Token)
   if (jwt) api.defaults.headers.common.Authorization = `Bearer ${jwt}`;
     
   console.log("🚀 ~ file: AuthContext.tsx:42 ~ AuthProvider ~ api.defaults.headers.common.Authorization", api.defaults.headers.common.Authorization)
@@ -70,9 +76,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   );
-  const login = async (rememberMe: boolean, token: string) => {
+  const login = async (rememberMe: boolean, token: string, refreshToken: string) => {
     try {
       setJwt(token);
+      setRefreshToken(refreshToken);
       setIsAuthenticated(true);
       setEmail(jwtDecode<CustomJwtPayload>(token).sub);
       setRole(jwtDecode<CustomJwtPayload>(token as string).roles);
@@ -80,12 +87,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         .userUrl.split("/")
         .pop();
       if (id) setUserId(parseInt(id));
-      api.defaults.headers.common["Authorization"] = `Bearer ${jwt}`;
-
+      // TODO: sessionStorage no esta manteniendose al cambiar de TAB
       if (rememberMe) {
         localStorage.setItem("jwt", token);
+        localStorage.setItem("refresh", refreshToken);
       }
       sessionStorage.setItem("jwt", token);
+      
 
     } catch (error) {
       console.log(error);
@@ -104,7 +112,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, logout, login, jwt, email, role, userId }}
+      value={{ isAuthenticated, logout, login, jwt, email, role, userId, refreshToken, setJwt, setRefreshToken }}
     >
       {children}
     </AuthContext.Provider>

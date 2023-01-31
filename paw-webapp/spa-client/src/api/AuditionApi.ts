@@ -4,6 +4,7 @@ import {Application} from './types/Application';
 import { m } from 'framer-motion';
 import AuthContext from '../contexts/AuthContext';
 import { useContext } from 'react';
+import useAxiosPrivate from './hooks/useAxiosPrivate';
 
 interface Params {
     auditionId?: number;
@@ -16,7 +17,6 @@ class AuditionApi {
     //debug
     private config = {
         headers: {
-            'Authorization': 'Basic YmFuZGFAbWFpbC5jb206MTIzNDU2Nzg=',
             'Content-Type': 'application/vnd.audition.v1+json'
         }
     }
@@ -140,7 +140,8 @@ class AuditionApi {
     };
 
     public createAudition = async (input: AuditionInput) => {
-        return api.post(this.endpoint, input, this.config).then((response) => {
+        const axiosPrivate = useAxiosPrivate();
+        return axiosPrivate.post(this.endpoint, input, this.config).then((response) => {
             return Promise.resolve(response);
         });
     }
