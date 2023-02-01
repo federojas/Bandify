@@ -39,7 +39,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     ? (localStorage.getItem("jwt") as string)
     : (sessionStorage.getItem("jwt") as string);
   const [jwt, setJwt] = useState<string | undefined>(token);
-  const refresh_Token = localStorage.getItem("jwt") as string;
+  const refresh_Token = localStorage.getItem("refresh") as string;
   const [refreshToken, setRefreshToken] = useState<string | undefined>(refresh_Token)
   if (jwt) api.defaults.headers.common.Authorization = `Bearer ${jwt}`;
     
@@ -103,8 +103,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const logout = () => {
     localStorage.removeItem("jwt");
     sessionStorage.removeItem("jwt");
+    localStorage.removeItem("refresh");
     setIsAuthenticated(false);
     setJwt(undefined);
+    setRefreshToken(undefined);
     setEmail(undefined);
     setRole(undefined);
     setUserId(undefined);

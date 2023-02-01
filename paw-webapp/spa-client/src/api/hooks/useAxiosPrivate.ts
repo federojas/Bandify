@@ -1,9 +1,11 @@
 import { axiosPrivate } from "../api";
 import { useEffect } from "react";
 import useAuth from "./useAuth";
+import React from "react";
+import AuthContext from "../../contexts/AuthContext";
 
 const useAxiosPrivate = () => {
-    const auth = useAuth();
+    const auth = React.useContext(AuthContext);
 
     useEffect(() => {
 
@@ -23,11 +25,13 @@ const useAxiosPrivate = () => {
                 if (error?.response?.status === 401 && !prevRequest?.sent) {
                     // Reintentar la request con refreshToken
                     // y guardar los tokens nuevos
+                    console.log("La request fallo con un 401, ahora voy a usar refresh");
+                    console.log(auth?.refreshToken);
                     prevRequest.sent = true;
                     prevRequest.headers['Authorization'] = `Bearer ${auth?.refreshToken}`;
                     const response = await axiosPrivate(prevRequest);
-                    auth?.setJwt(response.headers["x-jwt"]);
-                    auth?.setRefreshToken(response.headers["x-refresh-token"]);
+                    auth?.login(true, response.headers["x-jwt"], response.headers["x-refresh-token"]);
+                    console.log("mi nuevo refresh:", auth?.refreshToken);
                     return response;
                 }
                 return Promise.reject(error);
