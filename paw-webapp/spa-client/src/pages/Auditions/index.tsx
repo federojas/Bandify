@@ -14,6 +14,7 @@ export default function AuditionsPage() {
   const navigate = useNavigate();
   const [auditions, setAuditions] = useState<Audition[]>([]);
   const auditionService = useAuditionService();
+  
   const location = useLocation();
   useEffect(() => {
     serviceCall(
