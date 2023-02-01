@@ -3,7 +3,7 @@ type UserCreateInput = {
     password: string;
     passwordConfirmation: string;
     name: string;
-    surname: string;
+    surname?: string;
     band: boolean;
 }
 

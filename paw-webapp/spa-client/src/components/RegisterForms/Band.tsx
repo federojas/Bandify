@@ -23,6 +23,9 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import registerOptions from "./validations";
+import { serviceCall } from "../../services/ServiceManager";
+import { useUserService } from "../../contexts/UserService";
+import { useNavigate } from "react-router-dom";
 
 interface FormData {
   email: string;
@@ -34,9 +37,9 @@ interface FormData {
 const RegisterBandForm = () => {
   const { t } = useTranslation();
   const [showPassword, setShowPassword] = useState(false);
-  const [showPasswordConfirmation, setShowPasswordConfirmation] =
-    useState(false);
-
+  const [showPasswordConfirmation, setShowPasswordConfirmation] =useState(false);
+  const userService = useUserService()
+  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
@@ -45,8 +48,18 @@ const RegisterBandForm = () => {
   } = useForm<FormData>();
 
   const onSubmit = async (data: FormData) => {
-    // const newUser: UserCreateInput = { ...data, band: false };
-    // const res = await UserService.createNewUser(newUser);
+    const newUser: UserCreateInput = { ...data, band: true};
+    serviceCall(
+      userService.createUser(newUser),
+      navigate
+    ).then((response) => {
+      if (response.hasFailed()) {
+        console.log("hola, fallo") //todo: error message
+      } else {
+        navigate('/auditions', {replace: true}) //todo: redirect a auditions?
+      }
+    })
+    
   };
 
   return (
