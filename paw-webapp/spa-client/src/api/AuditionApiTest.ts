@@ -1,9 +1,5 @@
-import api from './api';
 import {Audition, AuditionInput} from './types/Audition';
 import {Application} from './types/Application';
-import { m } from 'framer-motion';
-import AuthContext from '../contexts/AuthContext';
-import { useContext } from 'react';
 // import useAxiosPrivate from './hooks/useAxiosPrivate';
 import { AxiosInstance } from 'axios';
 
@@ -30,7 +26,6 @@ class AuditionApi {
     // TODO: Mejorar
     private applicationConfig = {
         headers: {
-            'Authorization': 'Basic c3NhbmRyaW5pMkBtYWlsLmNvbToxMjM0NTY3OA==',
             'Content-Type': 'application/vnd.application.v1+json'
         }
     }
