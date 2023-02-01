@@ -27,7 +27,6 @@ class UserApi {
 
     private config = {
         headers: {
-            'Accept': 'application/vnd.user.v1+json',
             'Content-Type': 'application/vnd.user.v1+json'
         }
     }

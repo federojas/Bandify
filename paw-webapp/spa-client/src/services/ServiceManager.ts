@@ -5,7 +5,7 @@ import { Location } from "react-router-dom";
 export async function serviceCall<T>(
     promise: Promise<ApiResult<T>>,
     navigate: NavigateFunction,
-    setter: (data: T) => void,
+    setter?: (data: T) => void,
     location?: Location,
     
 ): Promise<ApiResult<T>> {
@@ -20,7 +20,8 @@ export async function serviceCall<T>(
                     navigate('/login', { state: { from: location }, replace: true });
                 }
             } else {
-                setter(response.getData());
+                if(setter)
+                    setter(response.getData());
             }
         })
         .catch(() => navigate("/error?code=500"))

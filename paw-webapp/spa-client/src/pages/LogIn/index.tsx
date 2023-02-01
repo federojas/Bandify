@@ -68,10 +68,7 @@ const LoginBox = () => {
     setInvalidCredentials(false);
     serviceCall(
       loginService.login(email, password, rememberMe),
-      navigate,
-      (response) => {
-        //todo: algo que hacer aca?
-      }
+      navigate
     ).then((response) => {
       console.log(response)
       if (response.hasFailed()) {

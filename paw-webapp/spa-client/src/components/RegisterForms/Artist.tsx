@@ -27,6 +27,7 @@ import registerOptions from "./validations";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useUserService } from "../../contexts/UserService";
 import { serviceCall } from "../../services/ServiceManager";
+import { useAuditionService } from "../../contexts/AuditionService";
  
 interface FormData {
   email: string;
@@ -36,11 +37,13 @@ interface FormData {
   surname: string;
 }
 
-const RegisterArtistForm = () => {
+export default function RegisterArtistForm (){
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   const userService = useUserService();
+  console.log("esto se ejecuta?" + useUserService());
+  console.log("y esto? " + useAuditionService());
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirmation, setShowPasswordConfirmation] =
     useState(false);
@@ -56,7 +59,7 @@ const RegisterArtistForm = () => {
     const newUser: UserCreateInput = { ...data, band: false };
     console.log("hello there: "+ JSON.stringify(newUser));
     serviceCall(
-      userService.getUsers(),
+      userService.createUser(newUser),
       navigate,
       (response) => {
         console.log("response:"+response)
@@ -213,4 +216,3 @@ const RegisterArtistForm = () => {
   );
 };
 
-export default RegisterArtistForm;
