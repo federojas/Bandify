@@ -17,6 +17,8 @@ type UpdateUserSocialMediaInput = {
 };
 
 class UserApi {
+  // TODO: Revisar todos los metodos, algunos estan mal.
+  
   private endpoint: string = "/users";
 
   private config = {
@@ -50,25 +52,6 @@ class UserApi {
       console.log(error);
       throw new Error("Error getting user by id");
     }
-
-    // return api.get(`${this.endpoint}/${id}`).then((response) => {
-    //   const data = response.data;
-    //   const user: User = {
-    //     // applications: data.applications,
-    //     // available: data.available,
-    //     // band: data.band,
-    //     // email: data.email,
-    //     // enabled: data.enabled,
-    //     // genres: data.genres,
-    //     // id: data.id,
-    //     // location: data.location,
-    //     // name: data.name,
-    //     // roles: data.roles,
-    //     // self: data.self,
-    //     // socialMedia: data.socialMedia,
-    //     ...data,
-    //   };
-    // });
   };
 
   public getProfileImageByUserId = async (id: number) => {
@@ -113,13 +96,12 @@ class UserApi {
       .get(`${this.endpoint}/${id}/applications`)
       .then((response) => {
         const data = response.data;
-        // TODO: Falta crear el Type Application
         const applications: Application[] = Array.isArray(data)
           ? data.map((application) => {
               return { ...application };
             })
           : [];
-        return applications; //todo: return applications no se si ta bien, tampoco se si hace falta mapearlo aca
+        return applications;
       })
   };
 
@@ -128,7 +110,7 @@ class UserApi {
   };
   
   public getUserSocialMediaList = async (id: number) => {
-    return api.get(`${this.endpoint}/${id}/social-media`); //TODO: falta mapear? 
+    return api.get(`${this.endpoint}/${id}/social-media`); 
       
   };
 

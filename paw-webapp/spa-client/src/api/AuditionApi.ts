@@ -14,13 +14,13 @@ interface Params {
 class AuditionApi {
     private endpoint: string = '/auditions';
 
-    //debug
+    // TODO: revisar si estan bien todos estos custom mime types y definir los que faltan
     private config = {
         headers: {
             'Content-Type': 'application/vnd.audition.v1+json'
         }
     }
-    // TODO: Mejorar
+    
     private applicationConfig = {
         headers: {
             'Content-Type': 'application/vnd.application.v1+json'

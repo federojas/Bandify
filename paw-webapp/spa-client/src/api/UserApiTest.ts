@@ -121,13 +121,12 @@ class UserApi {
             .get(`${this.endpoint}/${id}/applications`)
             .then((response) => {
                 const data = response.data;
-                // TODO: Falta crear el Type Application
                 const applications: Application[] = Array.isArray(data)
                     ? data.map((application) => {
                         return { ...application };
                     })
                     : [];
-                return applications; //todo: return applications no se si ta bien, tampoco se si hace falta mapearlo aca
+                return applications;
             })
     };
 

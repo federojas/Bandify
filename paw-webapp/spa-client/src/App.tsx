@@ -56,8 +56,7 @@ function App() {
           {/* <Route path="profile/applications" element={<PrivateRoute component={ProfileApplications} roles={["ARTIST"]} />} /> */}
           <Route path="profile/editArtist" element={<PrivateRoute component={EditArtist} roles={["ARTIST"]} />} />
           <Route path="profile/editBand"element={<PrivateRoute component={Profile} roles={["BAND"]} />} />
-          {/* TODO: Eliminar ARTIST en newAudition */}
-          <Route path="newAudition" element={<PrivateRoute component={NewAudition} roles={["BAND", "ARTIST"]} />} />
+          <Route path="newAudition" element={<PrivateRoute component={NewAudition} roles={["BAND"]} />} />
           <Route path="profile/invites" element={<PrivateRoute component={ProfileInvites} roles={["ARTIST"]} />} />
           <Route path="auditions/:id/applicants" element={<PrivateRoute component={AuditionsPage} roles={["BAND"]} />} />
           <Route path="users/search" element={<Discover />} />
