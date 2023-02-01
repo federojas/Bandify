@@ -3,16 +3,18 @@ import { useTranslation } from "react-i18next";
 import AuditionSearchBar from "../../components/SearchBars/AuditionSearchBar";
 import { Audition } from "../../models";
 import { Center, Divider, Flex, Heading, VStack } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { serviceCall } from "../../services/ServiceManager";
-import { auditionService } from "../../services";
+// import { auditionService } from "../../services";
 import { useNavigate } from "react-router-dom";
+import { useAuditionService } from "../../contexts/AuditionService";
 
 export default function AuditionsPage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [auditions, setAuditions] = useState<Audition[]>([]);
- 
+  const auditionService = useAuditionService();
+
   useEffect(() => {
     serviceCall(
       auditionService.getAuditions(),

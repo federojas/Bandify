@@ -1,4 +1,5 @@
 import React from "react";
+import { AuditionServiceProvider } from "./AuditionService";
 import { AuthProvider } from "./AuthContext";
 interface Props {
   children: React.ReactNode;
@@ -7,7 +8,9 @@ interface Props {
 const ContextProviderWrapper = (props: Props) => {
   return (
     <AuthProvider>
-      {props.children}
+      <AuditionServiceProvider>
+        {props.children}
+      </AuditionServiceProvider>
     </AuthProvider>
   );
 };

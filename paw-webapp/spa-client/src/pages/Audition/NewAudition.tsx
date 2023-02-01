@@ -12,11 +12,12 @@ import {
   GroupBase,
 } from "chakra-react-select";
 import { LocationGroup, GenreGroup, RoleGroup } from "./EntitiesGroups";
-import { genreService, roleService, locationService, auditionService } from "../../services";
+import { genreService, roleService, locationService } from "../../services";
 import { useEffect, useState } from "react";
 import { serviceCall } from "../../services/ServiceManager";
 import { useNavigate } from "react-router-dom";
 import { AuditionInput } from "../../api/types/Audition"
+import { useAuditionService } from "../../contexts/AuditionService";
 
 interface FormData {
   title: string;
@@ -38,6 +39,8 @@ const NewAudition = () => {
   const [location, setLocation] = useState<LocationGroup>({ label: "Buenos Aires", value: "Buenos Aires" });
   const [genres, setGenres] = useState<GenreGroup[]>([]);
   const [roles, setRoles] = useState<RoleGroup[]>([]);
+
+  const auditionService = useAuditionService();
 
   useEffect(() => {
     serviceCall(

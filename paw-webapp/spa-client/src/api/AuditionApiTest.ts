@@ -5,6 +5,7 @@ import { m } from 'framer-motion';
 import AuthContext from '../contexts/AuthContext';
 import { useContext } from 'react';
 // import useAxiosPrivate from './hooks/useAxiosPrivate';
+import { AxiosInstance } from 'axios';
 
 interface Params {
     auditionId?: number;
@@ -12,6 +13,12 @@ interface Params {
 }
 
 class AuditionApi {
+    private axiosPrivate: AxiosInstance;
+
+    constructor(axiosPrivate: AxiosInstance) {
+      this.axiosPrivate = axiosPrivate;
+    }
+
     private endpoint: string = '/auditions';
 
     //debug
@@ -36,7 +43,7 @@ class AuditionApi {
     // }
 
     public getAuditions = async (page?: number, query?: string, roles?: string[], genres?: string[], locations?: string[], bandId?: number) => {
-        return api
+        return this.axiosPrivate
             .get(this.endpoint, {
                 params: {
                     page: page,
@@ -70,8 +77,8 @@ class AuditionApi {
     };
 
     public getAuditionById = async (id: number) => {
-        // Call the API to get the audition data
-        return api.get(`${this.endpoint}/${id}`).then((response) => {
+        // Call the this.axiosPrivate to get the audition data
+        return this.axiosPrivate.get(`${this.endpoint}/${id}`).then((response) => {
             // Extract the data for the audition from the response
             const data = response.data;
             // Create a new object with the structure of a Audition object
@@ -94,7 +101,7 @@ class AuditionApi {
     };
 
     public getApplication = async (auditionId: number, applicationId: number) => {
-        return api.get(`${this.endpoint}/${auditionId}/applications/${applicationId}`)
+        return this.axiosPrivate.get(`${this.endpoint}/${auditionId}/applications/${applicationId}`)
             .then((response) => {
             // Extract the data for the audition from the response
             const data = response.data;
@@ -115,7 +122,7 @@ class AuditionApi {
     };
 
     public getApplications = async (auditionId: number, page?: number, state?: string) => {
-        return api.get(`${this.endpoint}/${auditionId}/applications`, {
+        return this.axiosPrivate.get(`${this.endpoint}/${auditionId}/applications`, {
             params: {
                 page: page,
                 state: state
@@ -141,13 +148,13 @@ class AuditionApi {
 
     public createAudition = async (input: AuditionInput) => {
         // const axiosPrivate = useAxiosPrivate();
-        return api.post(this.endpoint, input, this.config).then((response) => {
+        return this.axiosPrivate.post(this.endpoint, input, this.config).then((response) => {
             return Promise.resolve(response);
         });
     }
 
     public editAudition = async (id: number, input: AuditionInput) => {
-        return api.put(`${this.endpoint}/${id}`, input, this.config).then((response) => {
+        return this.axiosPrivate.put(`${this.endpoint}/${id}`, input, this.config).then((response) => {
             console.log(response);
             return true;
         }).catch((error) => {
@@ -157,7 +164,7 @@ class AuditionApi {
     }
 
     public apply = async(auditionId:number, message: string) => {
-        return api.post(`${this.endpoint}/${auditionId}/applications`,
+        return this.axiosPrivate.post(`${this.endpoint}/${auditionId}/applications`,
         {message: message},this.applicationConfig).then((response) => {
             return Promise.resolve(response);
         });
