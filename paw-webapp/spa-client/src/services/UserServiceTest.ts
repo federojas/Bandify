@@ -13,7 +13,6 @@ export default class UserService {
     }
 
     public async createUser(input: UserCreateInput): Promise<ApiResult<User>> {
-        console.log("entre")
         try {
             const current = await this.userApi.createNewUser(input);
             return new ApiResult(

@@ -42,8 +42,6 @@ export default function RegisterArtistForm (){
   const navigate = useNavigate();
   const location = useLocation();
   const userService = useUserService();
-  console.log("esto se ejecuta?" + useUserService());
-  console.log("y esto? " + useAuditionService());
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirmation, setShowPasswordConfirmation] =
     useState(false);
@@ -57,15 +55,15 @@ export default function RegisterArtistForm (){
 
   const onSubmit = async (data: FormData) => {
     const newUser: UserCreateInput = { ...data, band: false };
-    console.log("hello there: "+ JSON.stringify(newUser));
     serviceCall(
       userService.createUser(newUser),
-      navigate,
-      (response) => {
-        console.log("response:"+response)
-      }
+      navigate
      ).then((response) => {
-      console.log("response:"+response);
+      if (response.hasFailed()) {
+        console.log("hola, fallo") //todo: error message
+      } else {
+        navigate('/auditions', {replace: true}) //todo: redirect a auditions?
+      }
      }
       ).catch((error) => { console.log("error:"+error) });
     // const res = await userService.createNewUser(newUser);
