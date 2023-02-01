@@ -6,7 +6,7 @@ import { Center, Divider, Flex, Heading, VStack } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
 import { serviceCall } from "../../services/ServiceManager";
 // import { auditionService } from "../../services";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAuditionService } from "../../contexts/AuditionService";
 
 export default function AuditionsPage() {
@@ -14,7 +14,7 @@ export default function AuditionsPage() {
   const navigate = useNavigate();
   const [auditions, setAuditions] = useState<Audition[]>([]);
   const auditionService = useAuditionService();
-
+  const location = useLocation();
   useEffect(() => {
     serviceCall(
       auditionService.getAuditions(),
@@ -22,9 +22,10 @@ export default function AuditionsPage() {
       (response) => {
         console.log("🚀 ~ file: index.tsx:20 ~ useEffect ~ response", response)
         setAuditions(response)
-      }
+      },
+      location
     )
-  }, [])
+  }, [navigate, auditionService])
 
   // const audition: Audition = {
   //   band: {

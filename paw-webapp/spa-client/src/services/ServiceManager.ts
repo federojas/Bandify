@@ -1,10 +1,13 @@
 import { NavigateFunction } from "react-router-dom";
 import ApiResult from "../api/types/ApiResult";
+import { Location } from "react-router-dom";
 
 export async function serviceCall<T>(
     promise: Promise<ApiResult<T>>,
     navigate: NavigateFunction,
     setter: (data: T) => void,
+    location?: Location,
+    
 ): Promise<ApiResult<T>> {
     promise
         .then((response: ApiResult<T>) => {
@@ -13,6 +16,8 @@ export async function serviceCall<T>(
                 // TODO: que pasa con el 401? 
                 if (status === 404 || status === 403 || status === 500) {
                     navigate(`/error?code=${response.getError().status}`);
+                } else if(status === 401) {
+                    navigate('/login', { state: { from: location }, replace: true });
                 }
             } else {
                 setter(response.getData());

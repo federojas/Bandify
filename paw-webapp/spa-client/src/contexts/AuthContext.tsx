@@ -5,7 +5,7 @@ import api from "../api/api";
 import User from "../models/User";
 import { loginService } from "../services";
 
-type CustomJwtPayload = JwtPayload & { roles: string; userUrl: string };
+type CustomJwtPayload = JwtPayload & { roles: string; userUrl: string; exp: number };
 
 export interface AuthContextValue {
   isAuthenticated: boolean;
@@ -32,7 +32,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const jwtInLocalStorage = localStorage.hasOwnProperty("jwt");
   const jwtInSessionStorage = sessionStorage.hasOwnProperty("jwt");
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(
-    jwtInLocalStorage || jwtInSessionStorage
+    (jwtInLocalStorage || jwtInSessionStorage) 
   );
 
   const token = jwtInLocalStorage
