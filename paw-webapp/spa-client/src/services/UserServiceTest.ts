@@ -1,4 +1,5 @@
 import ApiResult from "../api/types/ApiResult";
+import { UserCreateInput } from "../api/types/User";
 import UserApiTest from "../api/UserApiTest";
 import {User} from "../models";
 import {ErrorService} from "./ErrorService";
@@ -9,6 +10,20 @@ export default class UserService {
 
     constructor(userApi: UserApiTest) {
         this.userApi = userApi;
+    }
+
+    public async createUser(input: UserCreateInput): Promise<ApiResult<User>> {
+        console.log("entre")
+        try {
+            const current = await this.userApi.createNewUser(input);
+            return new ApiResult(
+                {} as User,
+                false,
+                null as any
+            );
+        } catch (error: any) {
+            return ErrorService.returnApiError(error);
+        }
     }
 
     public async getUserById(id: number): Promise<ApiResult<User>> {

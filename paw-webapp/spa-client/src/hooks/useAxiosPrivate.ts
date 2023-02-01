@@ -8,9 +8,9 @@ const useAxiosPrivate = () => {
   
   const requestIntercept = axiosPrivate.interceptors.request.use(
     config => {
-    
-      if (auth?.isAuthenticated && !config.headers['Authorization']) {
-        config.headers['Authorization'] = `Bearer ${auth?.jwt}`;
+      config.headers = config.headers || {};
+      if (auth?.isAuthenticated && !(config.headers as any)['Authorization']) {
+        (config.headers as any) = `Bearer ${auth?.jwt}`;
       }
 
       return config;
@@ -27,7 +27,7 @@ const useAxiosPrivate = () => {
         prevRequest.sent = true;
         prevRequest.headers['Authorization'] = `Bearer ${auth?.refreshToken}`;
         const response = await axiosPrivate(prevRequest);
-        auth?.login(true, response.headers["x-jwt"], response.headers["x-refresh-token"]);
+        auth?.login(true, (response.headers["x-jwt"] as any), (response.headers["x-refresh-token"] as any));
         return response;
       }
       return Promise.reject(error);

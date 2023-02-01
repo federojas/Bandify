@@ -24,7 +24,10 @@ import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { UserCreateInput } from "../../api/types/User";
 import { userService } from "../../services";
 import registerOptions from "./validations";
-
+import { useLocation, useNavigate } from "react-router-dom";
+import { useUserService } from "../../contexts/UserService";
+import { serviceCall } from "../../services/ServiceManager";
+ 
 interface FormData {
   email: string;
   password: string;
@@ -35,6 +38,9 @@ interface FormData {
 
 const RegisterArtistForm = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const userService = useUserService();
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirmation, setShowPasswordConfirmation] =
     useState(false);
@@ -48,7 +54,17 @@ const RegisterArtistForm = () => {
 
   const onSubmit = async (data: FormData) => {
     const newUser: UserCreateInput = { ...data, band: false };
-
+    console.log("hello there: "+ JSON.stringify(newUser));
+    serviceCall(
+      userService.getUsers(),
+      navigate,
+      (response) => {
+        console.log("response:"+response)
+      }
+     ).then((response) => {
+      console.log("response:"+response);
+     }
+      ).catch((error) => { console.log("error:"+error) });
     // const res = await userService.createNewUser(newUser);
     // console.log("🚀 ~ file: index.tsx:54 ~ onSubmit ~ res", res);
   };
