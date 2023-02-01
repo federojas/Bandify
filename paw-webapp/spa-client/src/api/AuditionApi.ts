@@ -23,7 +23,6 @@ class AuditionApi {
     // TODO: Mejorar
     private applicationConfig = {
         headers: {
-            'Authorization': 'Basic c3NhbmRyaW5pMkBtYWlsLmNvbToxMjM0NTY3OA==',
             'Content-Type': 'application/vnd.application.v1+json'
         }
     }

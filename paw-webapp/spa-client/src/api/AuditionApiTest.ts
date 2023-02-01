@@ -30,13 +30,6 @@ class AuditionApi {
         }
     }
 
-    // private bearerConfig = {
-    //     headers: {
-    //       'Authorization': 'Bearer ' + this.context.jwt,
-    //       'Content-Type': 'application/vnd.audition.v1+json'
-    //     }
-    // }
-
     public getAuditions = async (page?: number, query?: string, roles?: string[], genres?: string[], locations?: string[], bandId?: number) => {
         return this.axiosPrivate
             .get(this.endpoint, {
