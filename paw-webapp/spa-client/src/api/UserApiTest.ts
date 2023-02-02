@@ -1,6 +1,8 @@
 import { UserCreateInput, UserUpdateInput, User } from "./types/User";
 import { Application } from "../api/types/Application";
 import { AxiosInstance, AxiosResponse } from "axios";
+import {parseLinkHeader} from "@web3-storage/parse-link-header";
+import PagedContent from "./types/PagedContent";
 
 interface GetUserParams {
   page?: number;
@@ -105,10 +107,32 @@ class UserApi {
                 const data = response.data;
                 const users: User[] = Array.isArray(data)
                     ? data.map((user : any) => {
-                        return { ...user };
+                        return {
+                            applications: user.applications,
+                            available: user.available,
+                            band: user.band,
+                            enabled: user.enabled,
+                            genres: user.genres,
+                            id: user.id,
+                            location: user.location,
+                            name: user.name,
+                            roles: user.roles,
+                            self: user.self,
+                            socialMedia: user.socialMedia,
+                            profileImage: user.profileImage,
+                            surname: user.surname,
+                            description: user.description
+                        };
                     })
                     : [];
-                return users;
+                let maxPage = 1;
+                let parsed;
+                if(response.headers) {
+                    parsed = parseLinkHeader(response.headers.link);
+                    if(parsed)
+                        maxPage = parseInt(parsed.last.page);
+                }
+                return Promise.resolve(new PagedContent(users, maxPage));
             })
     };
 

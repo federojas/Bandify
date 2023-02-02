@@ -1,5 +1,5 @@
 //i18 translations
-import { ReactElement, useState } from "react";
+import React, {ReactElement, useEffect, useState} from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import BandifyLogo from "../../images/logo.png";
@@ -32,6 +32,9 @@ import { HamburgerIcon, CloseIcon, AddIcon } from "@chakra-ui/icons";
 import { FiMusic, FiUsers } from "react-icons/fi";
 import AuthContext from "../../contexts/AuthContext";
 import { useContext } from "react";
+import {serviceCall} from "../../services/ServiceManager";
+import {useUserService} from "../../contexts/UserService";
+
 const NavLink = ({
   children,
   link,
@@ -65,8 +68,11 @@ const NavLink = ({
 
 function Nav() {
   const { t } = useTranslation();
-  const { isAuthenticated, logout, role } = useContext(AuthContext);
-  const isBand = role === "BAND"
+  const { isAuthenticated, logout, role, userId } = useContext(AuthContext);
+  const isBand = role === "BAND";
+  const navigate = useNavigate();
+  const userService = useUserService();
+  const [userImg, setUserImg] = useState<string | undefined>(undefined);
   const sections = [
     { path: "/auditions", name: t("NavBar.auditions"), icon: <FiMusic /> },
     { path: "/users", name: t("NavBar.discover"), icon: <FiUsers /> },
@@ -74,6 +80,20 @@ function Nav() {
 
     // TODO: PONER BIEN LOS LINKS DESPUES
   ];
+
+  useEffect(() => {
+    if(userId) {
+      serviceCall(
+          userService.getProfileImageByUserId(userId),
+          navigate,
+          (response) => {
+            setUserImg(
+                response
+            )
+          },
+      )
+    }
+  }, [userId, navigate])
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -134,9 +154,7 @@ function Nav() {
                 >
                   <Avatar
                     size={"sm"}
-                    src={
-                      "https://i.pinimg.com/originals/d3/e2/73/d3e273980e1e3df14c4a9b26e7d98d70.jpg"
-                    }
+                    src={`data:image/png;base64,${userImg}`}
                   />
                 </MenuButton>
                 <MenuList>

@@ -3,6 +3,7 @@ import { UserCreateInput } from "../api/types/User";
 import UserApiTest from "../api/UserApiTest";
 import { User } from "../models";
 import { ErrorService } from "./ErrorService";
+import PagedContent from "../api/types/PagedContent";
 
 export default class UserService {
 
@@ -51,11 +52,11 @@ export default class UserService {
     }
   }
 
-  public async getUsers(page?: number, query?: string, genre?: string[], role?: string[], location?: string[]): Promise<ApiResult<User[]>> {
+  public async getUsers(page?: number, query?: string, genre?: string[], role?: string[], location?: string[]): Promise<ApiResult<PagedContent<User[]>>> {
     try {
       const current = await this.userApi.getUsers(page, query, genre, role, location);
-      return new ApiResult(
-        current.map(u => {
+      return new ApiResult( new PagedContent(
+        current.getContent().map(u => {
           const user: User = {
             applications: u.applications,
             available: u.available,
@@ -70,7 +71,7 @@ export default class UserService {
             socialMedia: u.socialMedia,
             surname: u.surname
           }; return user
-        }),
+        }), current.getMaxPage()),
         false,
         null as any
       );
