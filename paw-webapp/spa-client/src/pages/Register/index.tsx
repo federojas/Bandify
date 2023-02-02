@@ -17,23 +17,7 @@ import "../../styles/forms.css";
 import "../../styles/register.css";
 import "../../js/alerts.js";
 
-const registers = [
-  {
-    content:
-      "By being an artist, you can apply to band's auditions and get a chance to be part of a band.",
-    avatar: ArtistRegisterAvatar,
-    url: "/registerArtist",
-    title: "Register as an Artist",
-    urlTitle: "I'm an artist",
-  },
-  {
-    content: "By being a band, you can create auditions and find new members.",
-    avatar: BandRegisterAvatar,
-    url: "/registerBand",
-    title: "Register as a Band",
-    urlTitle: "I'm a band",
-  },
-];
+
 
 const backgrounds = [
   `url("data:image/svg+xml, %3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'560\' height=\'185\' viewBox=\'0 0 560 185\' fill=\'none\'%3E%3Cellipse cx=\'102.633\' cy=\'61.0737\' rx=\'102.633\' ry=\'61.0737\' fill=\'%23ED64A6\' /%3E%3Cellipse cx=\'399.573\' cy=\'123.926\' rx=\'102.633\' ry=\'61.0737\' fill=\'%23F56565\' /%3E%3Cellipse cx=\'366.192\' cy=\'73.2292\' rx=\'193.808\' ry=\'73.2292\' fill=\'%2338B2AC\' /%3E%3Cellipse cx=\'222.705\' cy=\'110.585\' rx=\'193.808\' ry=\'73.2292\' fill=\'%23ED8936\' /%3E%3C/svg%3E")`,
@@ -114,7 +98,22 @@ function RegisterCard(props: RegisterCardProps) {
 
 const RegisterContent = () => {
   const { t } = useTranslation();
-
+  const registers = [
+    {
+      content: t("Register.Artist.content"),
+      avatar: ArtistRegisterAvatar,
+      url: "/registerArtist",
+      title: t("Register.Artist.title"),
+      urlTitle: t("Register.Artist.urlTitle"),
+    },
+    {
+      content: t("Register.Band.content"),
+      avatar: BandRegisterAvatar,
+      url: "/registerBand",
+      title: t("Register.Band.title"),
+      urlTitle: t("Register.Band.urlTitle"),
+    },
+  ];
   return (
     <Flex
       textAlign={"center"}

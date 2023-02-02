@@ -24,7 +24,7 @@ import {
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { UserCreateInput } from "../../api/types/User";
 import { userService } from "../../services";
-import registerOptions from "./validations";
+import {registerOptions, registerOptionsES} from "./validations";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useUserService } from "../../contexts/UserService";
 import { serviceCall } from "../../services/ServiceManager";
@@ -37,6 +37,8 @@ interface FormData {
   name: string;
   surname: string;
 }
+const options = localStorage.getItem('i18nextLng') === 'es' ? registerOptionsES : registerOptions;
+
 
 export default function RegisterArtistForm (){
   const { t } = useTranslation();
@@ -208,9 +210,9 @@ export default function RegisterArtistForm (){
           </Stack>
           <Stack pt={6}>
             <Text align={"center"}>
-              Already a user?{" "}
+              {t("Register.alreadyUser")}{" "}
               <Link color={"blue.400"} href={"/login"}>
-                Login
+                {t("Register.login")}
               </Link>
             </Text>
           </Stack>
