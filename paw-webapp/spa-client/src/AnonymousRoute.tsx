@@ -16,7 +16,7 @@ const { isAuthenticated } = useContext(AuthContext);
 // TODO: solo chequea si tiene tokens (pero pueden estar expirados), ademas solo chequea
 // TODO: el jwt, cuando en realidad deberia fijarse por el refresh que es el mas importante
 
-if (true) {
+if (!isAuthenticated) {
     return <RouteComponent />
 }
 

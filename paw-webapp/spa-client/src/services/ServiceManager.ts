@@ -13,7 +13,6 @@ export async function serviceCall<T>(
         .then((response: ApiResult<T>) => {
             if (response.hasFailed()) {
                 const status: number = response.getError().status;
-                // TODO: que pasa con el 401? 
                 if (status === 404 || status === 403 || status === 500) {
                     navigate(`/error?code=${response.getError().status}`);
                 } else if(status === 401) {
