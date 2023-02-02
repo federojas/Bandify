@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "../../styles/profile.css";
 import UserIcon from "../../assets/icons/user.svg";
 import EditIcon from "../../assets/icons/edit-white-icon.svg";
@@ -36,9 +36,10 @@ import {
 } from "react-icons/fa";
 import AuthContext from "../../contexts/AuthContext";
 import { serviceCall } from "../../services/ServiceManager";
-import { userService } from "../../services";
+// import { userService } from "../../services";
 import { useNavigate } from "react-router-dom";
 import { User } from "../../models";
+import { useUserService } from "../../contexts/UserService";
 
 type Props = {
   user: {
@@ -74,6 +75,9 @@ const Profile = () => {
   const { userId } = authContext
   const navigate = useNavigate();
   const [user, setUser] = React.useState<User>();
+  const [userImg, setUserImg] = useState<string | undefined>(undefined)
+  const [isLoadingImg, setIsLoadingImg] = useState(false)
+  const userService = useUserService();
 
   useEffect(() => {
     serviceCall(
@@ -81,11 +85,29 @@ const Profile = () => {
       navigate,
       (response: any) => {
         setUser(response);
-        console.log(response);
-        // console.log(user)
       }
     )
+
+
   }, [])
+
+  // useEffect(() => {
+  //   setIsLoadingImg(true)
+  //   if (user) {
+  //     serviceCall(
+  //       userService.getProfileImageByUserId(2),
+  //       navigate,
+  //       (img: Blob) => {
+  //         const url = URL.createObjectURL(img)
+  //         console.log(url)
+  //         // setUserImg(
+  //         //   URL.createObjectURL(img)
+  //         // )
+  //       }
+  //     )
+  //   }
+  // }, [])
+
 
   // const user = {
   //   id: 1,
@@ -132,62 +154,45 @@ const Profile = () => {
           w={"full"}
           // bg={useColorModeValue("gray.100", "gray.900")}
           bg="gray.100"
-          _dark={{bg:"gray.900"}}
+          _dark={{ bg: "gray.900" }}
           rounded={"lg"}
           boxShadow={"lg"}
           p={6}
         >
-          <VStack align={"center"} spacing={4}>
-            <Box
-              bg="#edf3f8"
+          <HStack gap={'8'}>
+            <Image
+              src={userImg ? userImg : "https://temacalcos.com.ar/wp-content/uploads/2022/12/SCALONETA-VS-CROACIA-57.jpg"}
+              alt="Profile Picture"
+              borderRadius="full"
+              boxSize="150px"
+              shadow="lg"
+              border="5px solid"
+              borderColor="gray.800"
               _dark={{
-                bg: "#3e3e3e",
+                borderColor: "gray.200",
               }}
-              style={{
-                backgroundImage:
-                  "url(https://9cover.com/images/ccovers/1465148347guitar-music-creative.jpg)",
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-                backgroundRepeat: "no-repeat",
-              }}
-              height="100%"
-              width="100%"
-              borderRadius="lg"
-              p={8}
-              display="flex"
-              alignItems="center"
-            >
+            />
+            <VStack align={"left"} spacing={4}>
+
               {/* TODO: Profile image from user.profileImage */}
-              <Image
-                src="https://temacalcos.com.ar/wp-content/uploads/2022/12/SCALONETA-VS-CROACIA-57.jpg"
-                alt="Profile Picture"
-                borderRadius="full"
-                boxSize="150px"
-                shadow="lg"
-                border="5px solid"
-                mb={-20}
-                borderColor="gray.800"
-                _dark={{
-                  borderColor: "gray.200",
-                }}
-              />
-            </Box>
-            <Heading fontSize={"3xl"} fontWeight={700}>
-              {user.name}{" "}
-              {user.surname && <>{user.surname}</>}
-            </Heading>
-            {user.band ? <BandTag /> : <ArtistTag />}
-            <Text color={"gray.500"} fontSize={"xl"}>
-              {user.description}
-            </Text>
-            {
-              user.location &&
-              <HStack>
-                <ImLocation />
-                <Text color={"gray.500"}> {user.location}</Text>
-              </HStack>
-            }
-          </VStack>
+
+              <Heading fontSize={"3xl"} fontWeight={700}>
+                {user.name}{" "}
+                {user.surname && <>{user.surname}</>}
+              </Heading>
+              {user.band ? <BandTag /> : <ArtistTag />}
+              <Text color={"gray.500"} fontSize={"xl"}>
+                {user.description}
+              </Text>
+              {
+                user.location &&
+                <HStack>
+                  <ImLocation />
+                  <Text color={"gray.500"}> {user.location}</Text>
+                </HStack>
+              }
+            </VStack>
+          </HStack>
         </Box>
         <Grid templateColumns={"repeat(5,1fr)"} gap={4}>
           <GridItem
@@ -195,7 +200,7 @@ const Profile = () => {
             colSpan={2}
             // bg={useColorModeValue("gray.100", "gray.900")}
             bg="gray.100"
-            _dark={{bg:"gray.900"}}
+            _dark={{ bg: "gray.900" }}
             rounded={"lg"}
             boxShadow={"lg"}
             p={6}
@@ -235,7 +240,7 @@ const Profile = () => {
             colSpan={3}
             // bg={useColorModeValue("gray.100", "gray.900")}
             bg="gray.100"
-            _dark={{bg:"gray.900"}}
+            _dark={{ bg: "gray.900" }}
             rounded={"lg"}
             boxShadow={"lg"}
             p={6}
