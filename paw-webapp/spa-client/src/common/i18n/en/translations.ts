@@ -122,7 +122,7 @@ export const TRANSLATIONS_EN = {
     contactUs: "Contact us",
   },
   DiscoverSearchBar: {
-    searchUsers: "search users",
+    searchUsers: "Search users",
     filter: "Filter",
     location: "Location",
     genres: "Genres",
@@ -147,6 +147,8 @@ export const TRANSLATIONS_EN = {
   },
   Discover: {
     discover: "Find bands and artists!",
+    results: "Results",
+
   },
   ProfileApplications: {
     pending: "Pending",

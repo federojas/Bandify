@@ -42,11 +42,10 @@ const orderByOptions = [
 const AuditionSearchBar = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // console.log(input, locations, genres, roles);
     const query = input;
-    const locationsQuery = locations.map((location) => location.value);
-    const genresQuery = genres.map((genre) => genre.value);
-    const rolesQuery = roles.map((role) => role.value);
+    const locationsQuery = locations.map((location) => location.value).join('&location=');
+    const genresQuery = genres.map((genre) => genre.value).join('&genre=');
+    const rolesQuery = roles.map((role) => role.value).join('&role=');
     const queryString = `query=${query}&location=${locationsQuery}&genre=${genresQuery}&role=${rolesQuery}`;
     window.location.href = `/auditions/search?${queryString}`;
   };

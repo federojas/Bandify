@@ -9,7 +9,7 @@ export const TRANSLATIONS_ES = {
     title: "Audiciones",
     discover: "Descubre audiciones",
     latest: "Últimas audiciones",
-    header:"Buscar A  udiciones 🎸",
+    header:"Buscar Audiciones 🎸",
   },
   Profile: {
     alt: {
@@ -147,6 +147,7 @@ export const TRANSLATIONS_ES = {
   },
   Discover: {
     discover: "¡Encuentra bandas y artistas!",
+    results: "Resultados",
   }, 
   ProfileApplications: {
     pending: "Pendientes",

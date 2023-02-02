@@ -39,11 +39,14 @@ const SearchForm: React.FC = () => {
   const [roles, setRoles] = React.useState<RoleGroup[]>([]);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    // prevent form submission
     event.preventDefault();
-
-    // perform search using the form values
-  };
+    const query = input;
+    const locationsQuery = locations.map((location) => location.value).join('&location=');
+    const genresQuery = genres.map((genre) => genre.value).join('&genre=');
+    const rolesQuery = roles.map((role) => role.value).join('&role=');
+    const queryString = `query=${query}&location=${locationsQuery}&genre=${genresQuery}&role=${rolesQuery}`;
+    window.location.href = `/users/search?${queryString}`;
+};
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [locationOptions, setLocationOptions] = React.useState<LocationGroup[]>([]);
@@ -97,7 +100,7 @@ const SearchForm: React.FC = () => {
       <form onSubmit={handleSubmit}>
         <VStack w={"full"} p={2} spacing={3}>
           <Container>
-            <FormLabel>{t("AuditionSearchBar.search")}</FormLabel>
+            <FormLabel>{t("DiscoverSearchBar.searchUsers")}</FormLabel>
 
             <Input
               type="text"

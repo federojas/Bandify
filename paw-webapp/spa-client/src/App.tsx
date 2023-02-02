@@ -28,6 +28,7 @@ import { AnonymousRoute } from "./AnonymousRoute";
 import Login from "./pages/LogIn";
 import EditArtist from "./pages/EditProfile/EditArtist";
 import NewAudition from "./pages/Audition/NewAudition";
+import UsersSearch from "./pages/UsersSearch/UsersSearch";
 
 
 function App() {
@@ -49,6 +50,7 @@ function App() {
           <Route path="auditions" element={<AuditionsPage />} />
           <Route path="auditions/:id" element={<PrivateRoute component={Audition} roles={["ARTIST", "BAND"]} />} />
           <Route path="auditions/search" element={<AuditionSearch />} />
+          <Route path="users/search" element={<UsersSearch />} />
           {/* TODO: falta hacer los components de todo esto */}
           {/* <Route path="user/:id" element={<User user={dagos} />} /> */}
           {/* <Route path="bandAuditions/:id" element={<BandAuditions />} /> */}
@@ -59,7 +61,6 @@ function App() {
           <Route path="newAudition" element={<PrivateRoute component={NewAudition} roles={["BAND"]} />} />
           <Route path="profile/invites" element={<PrivateRoute component={ProfileInvites} roles={["ARTIST"]} />} />
           <Route path="auditions/:id/applicants" element={<PrivateRoute component={AuditionsPage} roles={["BAND"]} />} />
-          <Route path="users/search" element={<Discover />} />
         </Route>
       </Routes>
     </Router>
