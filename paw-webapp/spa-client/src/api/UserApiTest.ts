@@ -93,27 +93,30 @@ class UserApi {
   };
 
 
-  public getUsers = async (page?: number, query?: string, genre?: string[], role?: string[], location?: string[]) => {
-    return this.axiosPrivate
-      .get(this.endpoint, {
-        params: {
-          page: page,
-          query: query,
-          genre: genre,
-          role: role,
-          location: location
-        }
-      })
-      .then((response) => {
-        const data = response.data;
-        const users: User[] = Array.isArray(data)
-          ? data.map((user) => {
-            return { ...user };
-          })
-          : [];
-        return users;
-      })
-  };
+    public getUsers = async (page?: number, query?: string, genre?: string[], role?: string[], location?: string[]) => {
+        return this.axiosPrivate
+            .get(this.endpoint, {
+                params: {
+                    page: page,
+                    query: query,
+                    genre: genre,
+                    role: role,
+                    location: location
+                },
+                paramsSerializer: {
+                    indexes: null
+                }
+            })
+            .then((response) => {
+                const data = response.data;
+                const users: User[] = Array.isArray(data)
+                    ? data.map((user : any) => {
+                        return { ...user };
+                    })
+                    : [];
+                return users;
+            })
+    };
 
   public getUserApplications = async (id: number) => {
     return this.axiosPrivate

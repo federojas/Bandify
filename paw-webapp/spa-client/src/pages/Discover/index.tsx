@@ -3,7 +3,6 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import SearchForm from "../../components/SearchBars/DiscoverSearchBar";
 import "../../styles/usersDiscover.css";
-import { DiscoverBg } from "./styles";
 
 const Discover = () => {
   const { t } = useTranslation()

@@ -21,7 +21,6 @@ type User = {
     available: boolean;
     band: boolean;
     description: string;
-    // email: string; TODO ESTO NO SE MUESTRA
     enabled: boolean;
     genres: string[];
     id: number;
