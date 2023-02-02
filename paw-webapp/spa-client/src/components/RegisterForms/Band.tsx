@@ -182,9 +182,9 @@ const RegisterBandForm = () => {
           </Stack>
           <Stack pt={6}>
             <Text align={"center"}>
-              Already a user?{" "}
+              {t("Register.alreadyUser")}{" "}
               <Link color={"blue.400"} href={"/login"}>
-                Login
+              {t("Register.login")}
               </Link>
             </Text>
           </Stack>

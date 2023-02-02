@@ -87,6 +87,16 @@ export const TRANSLATIONS_EN = {
     },
     error: "Error",
     alreadyRegistered: "This email is already registered",
+    Band:{
+      content: "By being a band, you can create auditions and find new members.",
+      title: "Register as a Band!",
+      urlTitle: "I'm a band",
+    },
+    Artist:{
+      content: "By being an artist, you can apply to auditions and find new bands.",
+      title: "Register as an Artist!",
+      urlTitle: "I'm an artist",
+    },
   },
   AuditionSearchBar: {
     search: "Search",
