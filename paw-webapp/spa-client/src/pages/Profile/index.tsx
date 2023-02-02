@@ -119,7 +119,7 @@ const Profile = () => {
           <HStack gap={'8'}>
             {}
             <Image
-              src={`data:image/png;base64,${userImg}`}
+              src={`data:image/png;base64,${userImg}`} //TODO: revisar posible mejora a link
               alt="Profile Picture"
               borderRadius="full"
               boxSize="150px"
@@ -131,9 +131,6 @@ const Profile = () => {
               }}
             />
             <VStack align={"left"} spacing={4}>
-
-              {/* TODO: Profile image from user.profileImage */}
-
               <Heading fontSize={"3xl"} fontWeight={700}>
                 {user?.name}{" "}
                 {user?.surname && <>{user?.surname}</>}

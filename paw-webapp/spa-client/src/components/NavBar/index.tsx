@@ -154,7 +154,7 @@ function Nav() {
                 >
                   <Avatar
                     size={"sm"}
-                    src={`data:image/png;base64,${userImg}`}
+                    src={`data:image/png;base64,${userImg}`} //TODO: revisar posible mejora a link
                   />
                 </MenuButton>
                 <MenuList>
