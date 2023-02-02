@@ -36,7 +36,6 @@ import {
 } from "react-icons/fa";
 import AuthContext from "../../contexts/AuthContext";
 import { serviceCall } from "../../services/ServiceManager";
-// import { userService } from "../../services";
 import { useNavigate } from "react-router-dom";
 import { User } from "../../models";
 import { useUserService } from "../../contexts/UserService";
@@ -76,7 +75,6 @@ const Profile = () => {
   const navigate = useNavigate();
   const [user, setUser] = React.useState<User>();
   const [userImg, setUserImg] = useState<string | undefined>(undefined)
-  const [isLoadingImg, setIsLoadingImg] = useState(false)
   const userService = useUserService();
 
   useEffect(() => {
@@ -91,61 +89,20 @@ const Profile = () => {
 
   }, [])
 
-  // useEffect(() => {
-  //   setIsLoadingImg(true)
-  //   if (user) {
-  //     serviceCall(
-  //       userService.getProfileImageByUserId(2),
-  //       navigate,
-  //       (img: Blob) => {
-  //         const url = URL.createObjectURL(img)
-  //         console.log(url)
-  //         // setUserImg(
-  //         //   URL.createObjectURL(img)
-  //         // )
-  //       }
-  //     )
-  //   }
-  // }, [])
+  useEffect(() => {
+    if(user) {
+      serviceCall(
+          userService.getProfileImageByUserId(user.id),
+          navigate,
+          (response) => {
+            setUserImg(
+                response
+            )
+          },
+      )
+    }
+  }, [user, navigate])
 
-
-  // const user = {
-  //   id: 1,
-  //   name: authContext.email,
-  //   surname: "D'Agostino",
-  //   email: authContext.email,
-  //   available: true,
-  //   band: false,
-  //   location: "CABA",
-  //   description: "Soy un artista",
-  // };
-  const favoriteGenres: Genre[] = [
-    { name: "Rock" },
-    { name: "Metal" },
-    { name: "Pop" },
-    { name: "Jazz" },
-    { name: "Blues" },
-    { name: "Folk" },
-    { name: "Reggae" },
-  ];
-  const roles: Role[] = [
-    { name: "Guitarrista" },
-    { name: "Bajista" },
-    { name: "Baterista" },
-    { name: "Vocalista" },
-    { name: "Teclista" },
-    { name: "Pianista" },
-  ];
-  const socialMedia: SocialMedia[] = [];
-
-  if (!user) {
-    return (
-      <Center>
-        <Text>Cargando...</Text>
-        {/* TODO: SACAR ESTE CARGANDO ASQUEROSO */}
-      </Center>
-    );
-  }
 
   return (
     <Container maxW={"5xl"} px={"0"} py={8}>
@@ -160,8 +117,9 @@ const Profile = () => {
           p={6}
         >
           <HStack gap={'8'}>
+            {}
             <Image
-              src={userImg ? userImg : "https://temacalcos.com.ar/wp-content/uploads/2022/12/SCALONETA-VS-CROACIA-57.jpg"}
+              src={`data:image/png;base64,${userImg}`}
               alt="Profile Picture"
               borderRadius="full"
               boxSize="150px"
@@ -177,18 +135,18 @@ const Profile = () => {
               {/* TODO: Profile image from user.profileImage */}
 
               <Heading fontSize={"3xl"} fontWeight={700}>
-                {user.name}{" "}
-                {user.surname && <>{user.surname}</>}
+                {user?.name}{" "}
+                {user?.surname && <>{user?.surname}</>}
               </Heading>
-              {user.band ? <BandTag /> : <ArtistTag />}
+              {user?.band ? <BandTag /> : <ArtistTag />}
               <Text color={"gray.500"} fontSize={"xl"}>
-                {user.description}
+                {user?.description}
               </Text>
               {
-                user.location &&
+                user?.location &&
                 <HStack>
                   <ImLocation />
-                  <Text color={"gray.500"}> {user.location}</Text>
+                  <Text color={"gray.500"}> {user?.location}</Text>
                 </HStack>
               }
             </VStack>
@@ -209,9 +167,9 @@ const Profile = () => {
               <Heading fontSize={"2xl"} fontWeight={500}>
                 {t("Profile.favoriteGenres")}
               </Heading>
-              {user.genres.length > 0 ? (
+              {user?.genres && user?.genres.length > 0 ? (
                 <HStack wrap={"wrap"}>
-                  {user.genres.map((genre) => (
+                  {user?.genres.map((genre) => (
                     <GenreTag genre={genre} />
                   ))}
                 </HStack>
@@ -224,9 +182,9 @@ const Profile = () => {
               <Heading fontSize={"2xl"} fontWeight={500}>
                 {t("Profile.roles")}
               </Heading>
-              {user.roles.length > 0 ? (
+              {user?.roles && user?.roles.length > 0 ? (
                 <HStack wrap={"wrap"}>
-                  {user.roles.map((role) => (
+                  {user?.roles.map((role) => (
                     <RoleTag role={role} />
                   ))}
                 </HStack>

@@ -10,7 +10,6 @@ import {
     PaginationArrow,
     PaginationWrapper,
 } from "../../components/Pagination/pagination";
-// import { auditionService } from "../../services";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import { useAuditionService } from "../../contexts/AuditionService";
 

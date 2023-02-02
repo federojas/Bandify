@@ -39,7 +39,6 @@ export default class UserService {
           id: current.id,
           location: current.location,
           name: current.name,
-          profileImage: current.profileImage,
           roles: current.roles,
           socialMedia: current.socialMedia,
           surname: current.surname
@@ -67,7 +66,6 @@ export default class UserService {
             id: u.id,
             location: u.location,
             name: u.name,
-            profileImage: u.profileImage,
             roles: u.roles,
             socialMedia: u.socialMedia,
             surname: u.surname
@@ -81,11 +79,11 @@ export default class UserService {
     }
   }
 
-  public async getProfileImageByUserId(id: number): Promise<ApiResult<Blob>> {
+  public async getProfileImageByUserId(id: number): Promise<ApiResult<string>> {
     try {
       const image = await this.userApi.getProfileImageByUserId(id);
       return new ApiResult(
-        image as Blob,
+        image as string,
         false,
         null as any)
     } catch (error: any) {

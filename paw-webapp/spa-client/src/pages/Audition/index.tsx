@@ -59,27 +59,6 @@ type User = {
 //   };
 // };
 
-const AuditionTest = {
-  band: {
-    name: "My Band",
-    id: 1,
-  },
-  id: 1,
-  creationDate: new Date(),
-  title: "My Band is looking for a drummer and a singer for a rock band",
-  description: "We are looking for a drummer and a singer for a rock band in Buenos Aires city.",
-  lookingFor: [
-    { name: "Drummer" },
-    { name: "Guitarist" },
-    { name: "Bassist" },
-    { name: "Singer" },
-  ],
-  musicGenres: [{ name: "Rock" }],
-  location: "Buenos Aires",
-  alreadyApplied: false,
-  canBeAddedToBand: false,
-};
-
 const AuditionActions = (props: { auditionId: number }) => {
   const share = () => {
     // TODO: Add code to share the audition

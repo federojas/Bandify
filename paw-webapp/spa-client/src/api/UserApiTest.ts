@@ -48,32 +48,26 @@ class UserApi {
   };
 
   public getUserById = async (id: number): Promise<User> => {
-    try {
-      const response: AxiosResponse<User> = await this.axiosPrivate.get<User>(`${this.endpoint}/${id}`);
-      return response.data;
-    } catch (error) {
-      console.log(error);
-      throw new Error("Error getting user by id");
-    }
-
-    // return api.get(`${this.endpoint}/${id}`).then((response) => {
-    //   const data = response.data;
-    //   const user: User = {
-    //     // applications: data.applications,
-    //     // available: data.available,
-    //     // band: data.band,
-    //     // email: data.email,
-    //     // enabled: data.enabled,
-    //     // genres: data.genres,
-    //     // id: data.id,
-    //     // location: data.location,
-    //     // name: data.name,
-    //     // roles: data.roles,
-    //     // self: data.self,
-    //     // socialMedia: data.socialMedia,
-    //     ...data,
-    //   };
-    // });
+    return this.axiosPrivate.get(`${this.endpoint}/${id}`).then((response) => {
+      const data = response.data;
+      const user: User = {
+        applications: data.applications,
+        available: data.available,
+        band: data.band,
+        enabled: data.enabled,
+        genres: data.genres,
+        id: data.id,
+        location: data.location,
+        name: data.name,
+        roles: data.roles,
+        self: data.self,
+        socialMedia: data.socialMedia,
+        profileImage: data.profileImage,
+        surname: data.surname,
+        description: data.description
+      };
+        return Promise.resolve(user);
+    });
   };
 
   public getProfileImageByUserId = async (id: number) => {

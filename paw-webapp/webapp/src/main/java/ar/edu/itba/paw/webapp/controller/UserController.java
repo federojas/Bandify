@@ -99,7 +99,7 @@ public class UserController {
     @Path("/{id}/profile-image")
     @Produces({MediaType.MULTIPART_FORM_DATA})
     public Response getUserProfileImage(@PathParam("id") final long id) throws IOException {
-        return Response.ok(userService.getProfilePicture(id)).build();
+        return Response.ok(Base64.getEncoder().encodeToString(userService.getProfilePicture(id))).build();
     }
 
     @PUT

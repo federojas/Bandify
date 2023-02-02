@@ -19,7 +19,6 @@ export class UserService {
                     id: current.id,
                     location: current.location,
                     name: current.name,
-                    profileImage: current.profileImage,
                     roles: current.roles,
                     socialMedia: current.socialMedia,
                     surname: current.surname
@@ -46,7 +45,6 @@ export class UserService {
                     id: u.id,
                     location: u.location,
                     name: u.name,
-                    profileImage: u.profileImage,
                     roles: u.roles,
                     socialMedia: u.socialMedia,
                     surname: u.surname
