@@ -84,7 +84,9 @@ export const TRANSLATIONS_ES = {
     },
     MinLenght:{
       password: "La contraseña debe tener al menos 8 caracteres",
-    }
+    },
+    error: "Error",
+    alreadyRegistered: "El email ya se encuentra registrado",
   },
   AuditionSearchBar: {
     search: "Buscar",
