@@ -49,6 +49,8 @@ export const TRANSLATIONS_ES = {
     notAMemberyet: "¿No eres miembro aún?",
     register: "Registrarse",
     title: "Inicia sesión en tu cuenta",
+    invalidCredentials: "credenciales inválidas",
+    error: "Error",
   },
   Register: {
     title: "¡Registrate como banda o artista gratis!", 

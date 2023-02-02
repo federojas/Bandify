@@ -120,6 +120,7 @@ const Profile = () => {
     return (
       <Center>
         <Text>Cargando...</Text>
+        {/* TODO: SACAR ESTE CARGANDO ASQUEROSO */}
       </Center>
     );
   }

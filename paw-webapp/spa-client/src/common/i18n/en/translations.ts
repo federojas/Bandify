@@ -48,7 +48,9 @@ export const TRANSLATIONS_EN = {
     login: "Log in",
     notAMemberyet: "Not a member yet?",
     register: "Register",
-    title: "Log in to your account"
+    title: "Log in to your account",
+    invalidCredentials: "Invalid credentials",
+    error: "Error",
   },
   Register: {
     title: "Register your band or artist for free!", 

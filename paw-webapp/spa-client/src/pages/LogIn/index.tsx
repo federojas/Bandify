@@ -25,6 +25,7 @@ import {
   FormErrorMessage,
   InputGroup,
   InputRightElement,
+  useToast,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -45,7 +46,7 @@ const LoginBox = () => {
   const authContext = React.useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
-
+  const toast = useToast();
   // location.state?.from?.pathname || 
   let from = "/auditions";
 
@@ -72,7 +73,12 @@ const LoginBox = () => {
     ).then((response) => {
       console.log(response)
       if (response.hasFailed()) {
-        console.log("hola, fallo") //todo: mostrar mensaje de error
+        toast({
+          title: t("Login.error"),
+          status: "error",
+          description: t("Login.invalidCredentials"),
+          isClosable: true,
+        });
       } else {
         const headers: any = response.getData().headers
 
