@@ -8,7 +8,6 @@ export default interface User {
     id: number,
     location: string,
     name: string,
-    profileImage: string,
     roles: string[],
     socialMedia: string,
     surname: string

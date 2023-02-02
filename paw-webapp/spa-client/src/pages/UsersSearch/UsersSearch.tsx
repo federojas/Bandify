@@ -26,7 +26,7 @@ const UsersSearch = () => {
       navigate,
       (response) => {
         console.log(response)
-        setUsers(response ? response : []);
+        setUsers(response ? response.getContent() : []);
         setMaxPage(1); //TODO revisar esto
       },
       location

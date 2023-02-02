@@ -19,7 +19,6 @@ const ProfileCard: React.FC<User> = ({
   location,
   genres,
   roles,
-  profileImage,
   id,
   description
 }) => {
