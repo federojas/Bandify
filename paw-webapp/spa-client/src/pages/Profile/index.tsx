@@ -129,7 +129,9 @@ const Profile = () => {
       <Stack spacing={4}>
         <Box
           w={"full"}
-          bg={useColorModeValue("gray.100", "gray.900")}
+          // bg={useColorModeValue("gray.100", "gray.900")}
+          bg="gray.100"
+          _dark={{bg:"gray.900"}}
           rounded={"lg"}
           boxShadow={"lg"}
           p={6}
@@ -190,7 +192,9 @@ const Profile = () => {
           <GridItem
             w={"full"}
             colSpan={2}
-            bg={useColorModeValue("gray.100", "gray.900")}
+            // bg={useColorModeValue("gray.100", "gray.900")}
+            bg="gray.100"
+            _dark={{bg:"gray.900"}}
             rounded={"lg"}
             boxShadow={"lg"}
             p={6}
@@ -228,7 +232,9 @@ const Profile = () => {
           <GridItem
             w={"full"}
             colSpan={3}
-            bg={useColorModeValue("gray.100", "gray.900")}
+            // bg={useColorModeValue("gray.100", "gray.900")}
+            bg="gray.100"
+            _dark={{bg:"gray.900"}}
             rounded={"lg"}
             boxShadow={"lg"}
             p={6}
