@@ -3,10 +3,15 @@ import { useTranslation } from "react-i18next";
 import AuditionSearchBar from "../../components/SearchBars/AuditionSearchBar";
 import { Audition } from "../../models";
 import { Center, Divider, Flex, Heading, VStack } from "@chakra-ui/react";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { serviceCall } from "../../services/ServiceManager";
+import { usePagination} from "../../hooks/usePagination";
+import {
+    PaginationArrow,
+    PaginationWrapper,
+} from "../../components/Pagination/pagination";
 // import { auditionService } from "../../services";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 import { useAuditionService } from "../../contexts/AuditionService";
 
 export default function AuditionsPage() {
@@ -14,32 +19,21 @@ export default function AuditionsPage() {
   const navigate = useNavigate();
   const [auditions, setAuditions] = useState<Audition[]>([]);
   const auditionService = useAuditionService();
-  
+  const [currentPage] = usePagination();
+  const [maxPage, setMaxPage] = useState(1);
+
   const location = useLocation();
   useEffect(() => {
     serviceCall(
-      auditionService.getAuditions(),
+      auditionService.getAuditions(currentPage),
       navigate,
       (response) => {
-        console.log("🚀 ~ file: index.tsx:20 ~ useEffect ~ response", response)
-        setAuditions(response)
+        setAuditions(response ? response.getContent() : []);
+        setMaxPage(response ? response.getMaxPage() : 1); //TODO revisar esto
       },
       location
     )
-  }, [navigate, auditionService])
-
-  // const audition: Audition = {
-  //   band: {
-  //     name: "My Band",
-  //     id: 1,
-  //   },
-  //   id: 1,
-  //   creationDate: new Date(),
-  //   title: "My Band is looking for a drummer ",
-  //   roles: ["Drummer", "Guitarist", "Bassist", "Singer", "Keyboardist"],
-  //   genres: ["Rock"],
-  //   location: "Buenos Aires",
-  // };
+  }, [currentPage, navigate, auditionService])
 
   return (
     <>
@@ -65,6 +59,37 @@ export default function AuditionsPage() {
           }
         </Flex>
       </VStack>
+    <PaginationWrapper>
+        {currentPage > 1 && (
+            <Link
+                to={`/auditions?page=${
+                    currentPage - 1
+                }`}
+            >
+                <PaginationArrow
+                    xRotated={true}
+                    src="../../images/page-next.png"
+                    alt={t("Pagination.alt.beforePage")}
+                />
+            </Link>
+        )}
+        {t("Pagination.message", {
+            currentPage: currentPage,
+            maxPage: maxPage,
+        })}
+        {currentPage < maxPage && (
+            <Link
+                to={`/auditions?page=${
+                    currentPage + 1
+                }`}
+            >
+                <PaginationArrow
+                    src="../../images/page-next.png"
+                    alt={t("Pagination.alt.nextPage")}
+                />
+            </Link>
+        )}
+    </PaginationWrapper>
     </>
   );
 }

@@ -5,6 +5,7 @@ import ApiResult from "../api/types/ApiResult";
 import { AuditionInput } from "../api/types/Audition";
 import PostResponse from "../api/types/PostResponse";
 import AuditionApiTest from "../api/AuditionApiTest";
+import PagedContent from "../api/types/PagedContent";
 
 export default class AuditionService {
   private auditionApi: AuditionApiTest;
@@ -41,25 +42,53 @@ export default class AuditionService {
     roles?: string[],
     genres?: string[],
     locations?: string[],
-    bandId?: number): Promise<ApiResult<Audition[]>> {
+    order?: string,
+    ): Promise<ApiResult<PagedContent<Audition[]>>> {
     try {
-      const response = await this.auditionApi.getAuditions(page, query, roles, genres, locations, bandId);
-      return new ApiResult(
-        response.map(a => {
-          const aud: Audition = {
-            id: a.id,
-            title: a.title,
-            description: a.description,
-            creationDate: a.creationDate,
-            location: a.location,
-            lookingFor: a.lookingFor,
-            musicGenres: a.musicGenres,
-            applications: a.applications,
-            owner: a.owner
-          }; return aud
-        }),
+      const response = await this.auditionApi.getAuditions(page, query, roles, genres, locations, order);
+      return new ApiResult( new PagedContent(
+          response.getContent().map(a => {
+            const aud: Audition = {
+              id: a.id,
+              title: a.title,
+              description: a.description,
+              creationDate: a.creationDate,
+              location: a.location,
+              lookingFor: a.lookingFor,
+              musicGenres: a.musicGenres,
+              applications: a.applications,
+              owner: a.owner
+            }; return aud
+          }), response.getMaxPage()),
         false,
         null as any
+      );
+    } catch (error) {
+      return ErrorService.returnApiError(error);
+    }
+  }
+
+  public async getAuditionsByBandId(page?: number,
+                            bandId?: number,
+  ): Promise<ApiResult<PagedContent<Audition[]>>> {
+    try {
+      const response = await this.auditionApi.getAuditionsByBandId(page, bandId);
+      return new ApiResult( new PagedContent(
+              response.getContent().map(a => {
+                const aud: Audition = {
+                  id: a.id,
+                  title: a.title,
+                  description: a.description,
+                  creationDate: a.creationDate,
+                  location: a.location,
+                  lookingFor: a.lookingFor,
+                  musicGenres: a.musicGenres,
+                  applications: a.applications,
+                  owner: a.owner
+                }; return aud
+              }), response.getMaxPage()),
+          false,
+          null as any
       );
     } catch (error) {
       return ErrorService.returnApiError(error);

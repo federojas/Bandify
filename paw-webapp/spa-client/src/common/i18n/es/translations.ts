@@ -127,8 +127,11 @@ export const TRANSLATIONS_ES = {
     noResults: "No se encontraron resultados",
   },
   Pagination: {
-    page: "Página",
-    of: "de",
+    message: "Página {{currentPage}} de {{maxPage}}",
+    alt: {
+      nextPage: "Página siguiente",
+      beforePage: "Página anterior",
+    },
   },
   Discover: {
     discover: "¡Encuentra bandas y artistas!",

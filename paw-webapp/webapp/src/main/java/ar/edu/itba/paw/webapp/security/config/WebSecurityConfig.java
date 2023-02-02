@@ -134,7 +134,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         cors.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
         cors.setExposedHeaders(Arrays.asList("X-JWT", "X-Refresh-Token", "X-Content-Type-Options", "X-XSS-Protection", "X-Frame-Options",
                 "authorization", "Location",
-                "Content-Disposition"));
+                "Content-Disposition", "Link"));
         //TODO ESTO EN PRODUCCION VUELA !!!!!!!!!!!!!!!!!!!!!!!!
         //cors.addAllowedOrigin("http://localhost:9000/");
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

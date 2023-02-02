@@ -95,6 +95,7 @@ public class AuditionController {
                                  @QueryParam("genre") final List<String> genres,
                                  @QueryParam("role") final List<String> roles,
                                  @QueryParam("location")  final List<String> locations,
+                                 @QueryParam("order") @DefaultValue("DESC") final String order,
                                  @QueryParam("bandId") final Long bandId) {
         List<AuditionDto> auditionDtos;
         int lastPage;
@@ -109,7 +110,8 @@ public class AuditionController {
                     withGenres(genres)
                     .withRoles(roles)
                     .withLocations(locations)
-                    .withTitle(query).build();
+                    .withTitle(query)
+                    .withOrder(order).build();
             auditionDtos = auditionService.filter(filter,page).stream()
                     .map(audition -> AuditionDto.fromAudition(uriInfo,audition))
                     .collect(Collectors.toList());

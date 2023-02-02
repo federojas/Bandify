@@ -47,8 +47,7 @@ const AuditionSearchBar = () => {
     const locationsQuery = locations.map((location) => location.value);
     const genresQuery = genres.map((genre) => genre.value);
     const rolesQuery = roles.map((role) => role.value);
-    console.log(query, locationsQuery, genresQuery, rolesQuery);
-    const queryString = `query=${query}&locations=${locationsQuery}&genres=${genresQuery}&roles=${rolesQuery}`;
+    const queryString = `query=${query}&location=${locationsQuery}&genre=${genresQuery}&role=${rolesQuery}`;
     window.location.href = `/auditions/search?${queryString}`;
   };
 

@@ -2,6 +2,9 @@ import {Audition, AuditionInput} from './types/Audition';
 import {Application} from './types/Application';
 // import useAxiosPrivate from './hooks/useAxiosPrivate';
 import { AxiosInstance } from 'axios';
+import PagedContent from "./types/PagedContent";
+import {parseLinkHeader} from '@web3-storage/parse-link-header'
+import qs from 'qs';
 
 interface Params {
     auditionId?: number;
@@ -30,17 +33,26 @@ class AuditionApi {
         }
     }
 
-    public getAuditions = async (page?: number, query?: string, roles?: string[], genres?: string[], locations?: string[], bandId?: number) => {
+    //TODO: codigo repetido
+    public getAuditions = async (page?: number, query?: string, roles?: string[], genres?: string[], locations?: string[], order?: string) => {
+        // const params = [
+        //     ...(roles || []).map(role => `role=${encodeURIComponent(role)}`),
+        //     ...(genres || []).map(genre => `genre=${encodeURIComponent(genre)}`),
+        //     ...(locations || []).map(location => `location=${encodeURIComponent(location)}`),
+        // ].join("&");
         return this.axiosPrivate
             .get(this.endpoint, {
                 params: {
                     page: page,
                     query: query,
-                    genre: genres,
                     role: roles,
+                    genre: genres,
                     location: locations,
-                    bandId: bandId
+                    order: order
                 },
+                paramsSerializer: {
+                    indexes: null
+                }
             })
             .then((response) => {
                 const data = response.data;
@@ -60,7 +72,51 @@ class AuditionApi {
                           };
                       })
                     : [];
-                return Promise.resolve(auditions);
+                let maxPage = 1;
+                let parsed;
+                if(response.headers) {
+                    parsed = parseLinkHeader(response.headers.link);
+                    if(parsed)
+                        maxPage = parseInt(parsed.last.page);
+                }
+                return Promise.resolve(new PagedContent(auditions, maxPage));
+            });
+    };
+
+    public getAuditionsByBandId = async (page?: number, bandId?: number) => {
+        return this.axiosPrivate
+            .get(this.endpoint, {
+                params: {
+                    page: page,
+                    bandId: bandId,
+                },
+            })
+            .then((response) => {
+                const data = response.data;
+                const auditions: Audition[] = Array.isArray(data)
+                    ? data.map((audition: any) => {
+                        return {
+                            id: audition.id,
+                            title: audition.title,
+                            description: audition.description,
+                            creationDate: audition.creationDate,
+                            location: audition.location,
+                            lookingFor: audition.lookingFor,
+                            musicGenres: audition.musicGenres,
+                            applications: audition.applications,
+                            self: audition.self,
+                            owner: audition.owner
+                        };
+                    })
+                    : [];
+                let maxPage = 1;
+                let parsed;
+                if(response.headers) {
+                    parsed = parseLinkHeader(response.headers.link);
+                    if(parsed)
+                        maxPage = parseInt(parsed.last.page);
+                }
+                return Promise.resolve(new PagedContent(auditions, maxPage));
             });
     };
 
