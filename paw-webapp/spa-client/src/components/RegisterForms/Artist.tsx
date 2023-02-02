@@ -19,6 +19,7 @@ import {
   Text,
   Link,
   useColorModeValue,
+  useToast,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { UserCreateInput } from "../../api/types/User";
@@ -52,7 +53,7 @@ export default function RegisterArtistForm (){
     setError,
     formState: { errors },
   } = useForm<FormData>();
-
+  const toast = useToast()
   const onSubmit = async (data: FormData) => {
     const newUser: UserCreateInput = { ...data, band: false };
     serviceCall(
@@ -60,7 +61,12 @@ export default function RegisterArtistForm (){
       navigate
      ).then((response) => {
       if (response.hasFailed()) {
-        console.log("hola, fallo") //todo: error message
+        toast({
+          title: t("Register.error"),
+          status: "error",
+          description: t("Register.alreadyRegistered"),
+          isClosable: true,
+        });
       } else {
         navigate('/auditions', {replace: true}) //todo: redirect a auditions?
       }

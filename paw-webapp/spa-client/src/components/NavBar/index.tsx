@@ -65,7 +65,8 @@ const NavLink = ({
 
 function Nav() {
   const { t } = useTranslation();
-  const { isAuthenticated, logout } = useContext(AuthContext);
+  const { isAuthenticated, logout, role } = useContext(AuthContext);
+  const isBand = role === "BAND"
   const sections = [
     { path: "/auditions", name: t("NavBar.auditions"), icon: <FiMusic /> },
     { path: "/users", name: t("NavBar.discover"), icon: <FiUsers /> },
@@ -108,16 +109,21 @@ function Nav() {
           <ToggleColorMode />
           {isAuthenticated ? (
             <>
-              <Button
-                variant={"solid"}
-                colorScheme={"teal"}
-                size={"md"}
-                mx={4}
-                px={6}
-                leftIcon={<AddIcon />}
-              >
-                {t("NavBar.post")}
-              </Button>
+              {
+                isBand &&
+                <Button
+                  as='a'
+                  variant={"solid"}
+                  colorScheme={"teal"}
+                  size={"md"}
+                  mx={4}
+                  px={6}
+                  leftIcon={<AddIcon />}
+                  href={'/newAudition'}
+                >
+                  {t("NavBar.post")}
+                </Button>
+              }
               <Menu>
                 <MenuButton
                   as={Button}
