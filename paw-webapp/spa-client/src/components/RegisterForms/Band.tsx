@@ -23,7 +23,8 @@ import {
   useColorModeValue,
   useToast,
 } from "@chakra-ui/react";
-import registerOptions from "./validations";
+
+
 import { serviceCall } from "../../services/ServiceManager";
 import { useUserService } from "../../contexts/UserService";
 import { useNavigate } from "react-router-dom";
@@ -34,6 +35,9 @@ interface FormData {
   passwordConfirmation: string;
   name: string;
 }
+
+import {registerOptions, registerOptionsES} from "./validations";
+const options = localStorage.getItem('i18nextLng') === 'es' ? registerOptionsES : registerOptions;
 
 const RegisterBandForm = () => {
   const { t } = useTranslation();
@@ -86,7 +90,7 @@ const RegisterBandForm = () => {
             <Input
               type="text"
               // maxLength={50}
-              {...register("name", registerOptions.name)}
+              {...register("name", options.name)}
             />
             <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
           </FormControl>
@@ -98,7 +102,7 @@ const RegisterBandForm = () => {
             <Input
               type="email"
               maxLength={255}
-              {...register("email", registerOptions.email)}
+              {...register("email", options.email)}
             />
             <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
           </FormControl>
@@ -113,7 +117,7 @@ const RegisterBandForm = () => {
             <InputGroup>
               <Input
                 type={showPassword ? "text" : "password"}
-                {...register("password", registerOptions.password)}
+                {...register("password", options.password)}
               />
               <InputRightElement h={"full"}>
                 <Button
@@ -141,7 +145,7 @@ const RegisterBandForm = () => {
                 type={showPasswordConfirmation ? "text" : "password"}
                 {...register(
                   "passwordConfirmation",
-                  registerOptions.passwordConfirmation
+                  options.passwordConfirmation
                 )}
               />
               <InputRightElement h={"full"}>
