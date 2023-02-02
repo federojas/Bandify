@@ -24,6 +24,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 
+import {registerOptions, registerOptionsES} from "./validations";
 
 import { serviceCall } from "../../services/ServiceManager";
 import { useUserService } from "../../contexts/UserService";
@@ -36,7 +37,6 @@ interface FormData {
   name: string;
 }
 
-import {registerOptions, registerOptionsES} from "./validations";
 const options = localStorage.getItem('i18nextLng') === 'es' ? registerOptionsES : registerOptions;
 
 const RegisterBandForm = () => {
