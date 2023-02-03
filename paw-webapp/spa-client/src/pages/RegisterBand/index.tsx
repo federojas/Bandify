@@ -11,9 +11,6 @@ const RegisterBand = () => {
           <Heading fontSize={"4xl"} textAlign={"center"}>
             {t("RegisterBand.signup")}
           </Heading>
-          <Text fontSize={"lg"} color={"gray.600"}>
-            {t("RegisterBand.as")} <Text as="u">{t("RegisterBand.band")}</Text>
-          </Text>
         </Stack>
         <RegisterBandForm />
       </Stack>

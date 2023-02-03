@@ -26,9 +26,12 @@ import {
 import { useTranslation } from "react-i18next";
 import { SearchIcon } from "@chakra-ui/icons";
 import { serviceCall } from "../../services/ServiceManager";
-import { genreService, roleService, locationService } from "../../services";
+import {useRoleService} from "../../contexts/RoleService";
+import {useGenreService} from "../../contexts/GenreService";
+import {useLocationService} from "../../contexts/LocationService";
 import {useLocation, useNavigate} from "react-router-dom";
 import { LocationGroup, GenreGroup, RoleGroup } from "./EntitiesGroups";
+import {getQueryOrDefault, getQueryOrDefaultArray, useQuery} from "../../hooks/useQuery";
 
 // TODO: Move these to another folder
 const AuditionSearchBar = () => {
@@ -57,6 +60,7 @@ const AuditionSearchBar = () => {
     );
   };
 
+  const query = useQuery();
   const [input, setInput] = React.useState("");
   const [order, setOrder] = React.useState("");
   const [locations, setLocations] = React.useState<LocationGroup[]>([]);
@@ -66,6 +70,9 @@ const AuditionSearchBar = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
+  const genreService = useGenreService();
+  const roleService = useRoleService();
+  const locationService = useLocationService();
   const [locationOptions, setLocationOptions] = React.useState<LocationGroup[]>([]);
   const [genreOptions, setGenreOptions] = React.useState<GenreGroup[]>([]);
   const [roleOptions, setRoleOptions] = React.useState<RoleGroup[]>([]);
@@ -109,7 +116,7 @@ const AuditionSearchBar = () => {
         setLocationOptions(locationAux);
       }
     )
-  }, []);
+  }, [locationService, navigate, genreService, roleService]);
 
   return (
     <Box

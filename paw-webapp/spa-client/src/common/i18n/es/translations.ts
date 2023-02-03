@@ -160,14 +160,10 @@ export const TRANSLATIONS_ES = {
     noApplications: "No hay aplicaciones",
   },
   RegisterArtist: {
-    signup: "Registrate",
-    as: "como un",
-    artist: "Artista",
+    signup: "Registrate como un Artista",
   },
   RegisterBand: {
-    signup: "Registrate",
-    as: "como una",
-    band: "Banda",
+    signup: "Registrate como una Banda",
   },
   User: {
     about: "Acerca de",
