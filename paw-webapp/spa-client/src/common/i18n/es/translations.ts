@@ -148,6 +148,7 @@ export const TRANSLATIONS_ES = {
   Discover: {
     discover: "¡Encuentra bandas y artistas!",
     results: "Resultados",
+    noResults: "No se encontraron resultados para su búsqueda"
   }, 
   ProfileApplications: {
     pending: "Pendientes",

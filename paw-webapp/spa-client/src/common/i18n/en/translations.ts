@@ -148,7 +148,7 @@ export const TRANSLATIONS_EN = {
   Discover: {
     discover: "Find bands and artists!",
     results: "Results",
-
+    noResults: "No results found"
   },
   ProfileApplications: {
     pending: "Pending",

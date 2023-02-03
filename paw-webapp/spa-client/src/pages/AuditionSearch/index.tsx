@@ -6,12 +6,13 @@ import { Center, Divider, Flex, Heading, VStack } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { serviceCall } from "../../services/ServiceManager";
-import {Link, useNavigate} from "react-router-dom";
+import {useNavigate, useLocation} from "react-router-dom";
 import { Audition } from "../../models";
 import {PaginationArrow, PaginationWrapper} from "../../components/Pagination/pagination";
 import {usePagination} from "../../hooks/usePagination";
 import {useAuditionService} from "../../contexts/AuditionService";
 import {getQueryOrDefault, getQueryOrDefaultArray, useQuery} from "../../hooks/useQuery";
+import React from "react";
 // type Audition = {
 //   band: {
 //     name: string;
@@ -34,6 +35,7 @@ import {getQueryOrDefault, getQueryOrDefaultArray, useQuery} from "../../hooks/u
 const AuditionSearch = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const location = useLocation();
   const auditionService = useAuditionService();
   const [auditions, setAuditions] = useState<Audition[]>([]);
   const [currentPage] = usePagination();
@@ -44,7 +46,7 @@ const AuditionSearch = () => {
   const genres = getQueryOrDefaultArray(query, "genre");
   const locations = getQueryOrDefaultArray(query, "location");
   const order = getQueryOrDefault(query, "order", "");
- 
+
   useEffect(() => {
     serviceCall(
       auditionService.getAuditions(currentPage, searchTerms, roles, genres, locations, order),
@@ -80,35 +82,48 @@ const AuditionSearch = () => {
           <PostCard {...audition} />
         ))}
       </Flex>
+        {/*TODO: ver si se puede hacer componente*/}
         <PaginationWrapper>
             {currentPage > 1 && (
-                <Link
-                    to={`/auditions?page=${
-                        currentPage - 1
-                    }`}
+                <button
+                    onClick={() => {
+                        let searchParams = new URLSearchParams(location.search);
+                        searchParams.set('page', (currentPage - 1).toString());
+                        navigate( {
+                            pathname: location.pathname,
+                            search: searchParams.toString()
+                        });
+                    }}
+                    style={{ background: "none", border: "none" }}
                 >
                     <PaginationArrow
                         xRotated={true}
                         src="../../images/page-next.png"
                         alt={t("Pagination.alt.beforePage")}
                     />
-                </Link>
+                </button>
             )}
             {t("Pagination.message", {
                 currentPage: currentPage,
                 maxPage: maxPage,
             })}
             {currentPage < maxPage && (
-                <Link
-                    to={`/auditions?page=${
-                        currentPage + 1
-                    }`}
+                <button
+                    onClick={() => {
+                        let searchParams = new URLSearchParams(location.search);
+                        searchParams.set('page', (currentPage + 1).toString());
+                        navigate( {
+                            pathname: location.pathname,
+                            search: searchParams.toString()
+                        });
+                    }}
+                    style={{ background: "none", border: "none" }}
                 >
                     <PaginationArrow
                         src="../../images/page-next.png"
                         alt={t("Pagination.alt.nextPage")}
                     />
-                </Link>
+                </button>
             )}
         </PaginationWrapper>
     </>

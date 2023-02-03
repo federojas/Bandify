@@ -10,7 +10,7 @@ import SearchForm from "../../components/SearchBars/DiscoverSearchBar";
 import { PaginationArrow, PaginationWrapper } from "../../components/Pagination/pagination";
 import ProfileCard from "../../components/ProfileCard/ProfileCard";
 
-const UsersSearch = () => {
+const Index = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [users, setUsers] = useState<User[]>([]);
@@ -53,41 +53,58 @@ const UsersSearch = () => {
         >
           {users.length > 0 ? users.map((user) => (
             <ProfileCard {...user}/>
-          )) : <Heading>No auditions found</Heading>
+          )) : <b>
+                    <p className="no-results">{t("Discover.noResults")}</p>
+                </b>
           }
         </Flex>
       </VStack>
-      <PaginationWrapper>
+        {/*TODO: ver si se puede hacer componente*/}
+        <PaginationWrapper>
         {currentPage > 1 && (
-          <Link
-            to={`/auditions?page=${currentPage - 1
-              }`}
+          <button
+              onClick={() => {
+                  let searchParams = new URLSearchParams(location.search);
+                  searchParams.set('page', (currentPage - 1).toString());
+                  navigate( {
+                      pathname: location.pathname,
+                      search: searchParams.toString()
+                  });
+              }}
+              style={{ background: "none", border: "none" }}
           >
             <PaginationArrow
               xRotated={true}
               src="../../images/page-next.png"
               alt={t("Pagination.alt.beforePage")}
             />
-          </Link>
+          </button>
         )}
         {t("Pagination.message", {
           currentPage: currentPage,
           maxPage: maxPage,
         })}
         {currentPage < maxPage && (
-          <Link
-            to={`/auditions?page=${currentPage + 1
-              }`}
+          <button
+              onClick={() => {
+                  let searchParams = new URLSearchParams(location.search);
+                  searchParams.set('page', (currentPage + 1).toString());
+                  navigate( {
+                      pathname: location.pathname,
+                      search: searchParams.toString()
+                  });
+              }}
+              style={{ background: "none", border: "none" }}
           >
             <PaginationArrow
               src="../../images/page-next.png"
               alt={t("Pagination.alt.nextPage")}
             />
-          </Link>
+          </button>
         )}
       </PaginationWrapper>
     </>
   );
 }
 
-export default UsersSearch
+export default Index

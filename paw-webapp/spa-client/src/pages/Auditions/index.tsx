@@ -58,35 +58,48 @@ export default function AuditionsPage() {
           }
         </Flex>
       </VStack>
-    <PaginationWrapper>
+        {/*TODO: ver si se puede hacer componente*/}
+        <PaginationWrapper>
         {currentPage > 1 && (
-            <Link
-                to={`/auditions?page=${
-                    currentPage - 1
-                }`}
+            <button
+                onClick={() => {
+                    let searchParams = new URLSearchParams(location.search);
+                    searchParams.set('page', (currentPage - 1).toString());
+                    navigate( {
+                        pathname: location.pathname,
+                        search: searchParams.toString()
+                    });
+                }}
+                style={{ background: "none", border: "none" }}
             >
                 <PaginationArrow
                     xRotated={true}
                     src="../../images/page-next.png"
                     alt={t("Pagination.alt.beforePage")}
                 />
-            </Link>
+            </button>
         )}
         {t("Pagination.message", {
             currentPage: currentPage,
             maxPage: maxPage,
         })}
         {currentPage < maxPage && (
-            <Link
-                to={`/auditions?page=${
-                    currentPage + 1
-                }`}
+            <button
+                onClick={() => {
+                    let searchParams = new URLSearchParams(location.search);
+                    searchParams.set('page', (currentPage + 1).toString());
+                    navigate( {
+                        pathname: location.pathname,
+                        search: searchParams.toString()
+                    });
+                }}
+                style={{ background: "none", border: "none" }}
             >
                 <PaginationArrow
                     src="../../images/page-next.png"
                     alt={t("Pagination.alt.nextPage")}
                 />
-            </Link>
+            </button>
         )}
     </PaginationWrapper>
     </>
