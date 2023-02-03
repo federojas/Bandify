@@ -63,6 +63,7 @@ const PostCard: React.FC<Audition> = ({
   const [userId, setUserId] = useState(0)
   const date = dayjs(creationDate).format('DD/MM/YYYY')
   const [userImg, setUserImg] = useState<string | undefined>(undefined);
+  const urlLocation = useLocation();
 
   useEffect(() => {
     serviceCall(
@@ -144,9 +145,12 @@ const PostCard: React.FC<Audition> = ({
               {t("PostCard.more")}
             </Button> 
           </Link>
-          <Button variant="ghost" colorScheme="blue">
-            {t("PostCard.share")}
-          </Button>
+              <Button variant="ghost" colorScheme="blue">
+                <button
+                    onClick={() => {navigator.clipboard.writeText( window.location.href + "/" + id.toString())}}>
+                {t("PostCard.share")}
+                </button>
+              </Button>
         </ButtonGroup>
       </CardFooter>
     </Card>

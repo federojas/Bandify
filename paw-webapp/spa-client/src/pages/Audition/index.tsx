@@ -69,7 +69,12 @@ const AuditionActions = (props: { auditionId: number }) => {
 
   return (
     <VStack>
-      <Button leftIcon={<FiShare2/>} w={'44'} colorScheme='blue'>{t("Audition.share")} </Button>
+      <Button leftIcon={<FiShare2/>} w={'44'} colorScheme='blue'>
+        <button
+            onClick={() => {navigator.clipboard.writeText( window.location.href )}}>
+          {t("Audition.share")}
+        </button>
+      </Button>
       <Button leftIcon={<FiUsers/>} w={'44'} colorScheme='green'>{t("Audition.applicants")}</Button>
       <Button leftIcon={<AiOutlineEdit/>} w={'44'} colorScheme='teal'>{t("Audition.edit")}</Button>
       <Button leftIcon={<AiOutlineDelete/>} w={'44'} colorScheme='red'>{t("Audition.delete")}</Button>
