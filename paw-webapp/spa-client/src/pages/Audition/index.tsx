@@ -206,8 +206,9 @@ const AuditionView = () => {
   return (
     <Center>
       <HStack minH={"80vh"}>  
-        {isLoading ? <span className="loader"></span> : <AuditionCard user={user!} audition={audition!} userImg={userImg!} />}
-        {isLoading ? <span className="loader"></span> : <AuditionActions auditionId={audition!.id} />}
+        {isLoading ? <span className="loader"></span> :
+            (<AuditionCard user={user!} audition={audition!} userImg={userImg!} /> &&
+            <AuditionActions auditionId={audition!.id} />)}
       </HStack>
     </Center>
   );
