@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @Repository
 public class UserJpaDao implements UserDao {
 
-    private static final int PAGE_SIZE = 9;
+    private static final int PAGE_SIZE = 8;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserJpaDao.class);
 

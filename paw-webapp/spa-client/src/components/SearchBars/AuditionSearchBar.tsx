@@ -27,27 +27,31 @@ import { useTranslation } from "react-i18next";
 import { SearchIcon } from "@chakra-ui/icons";
 import { serviceCall } from "../../services/ServiceManager";
 import { genreService, roleService, locationService } from "../../services";
-import { useNavigate } from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import { LocationGroup, GenreGroup, RoleGroup } from "./EntitiesGroups";
 
-//TODO: REVISAR SI HAY QUE TRANSLATEAR ESTOS O NO
-// TODO: Translate these
-const orderByOptions = [
-  { value: "ASC", label: "Ascending" },
-  { value: "DESC", label: "Descending" },
-];
-
 // TODO: Move these to another folder
-
 const AuditionSearchBar = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const query = input;
-    const locationsQuery = locations.map((location) => location.value).join('&location=');
-    const genresQuery = genres.map((genre) => genre.value).join('&genre=');
-    const rolesQuery = roles.map((role) => role.value).join('&role=');
-    const queryString = `query=${query}&location=${locationsQuery}&genre=${genresQuery}&role=${rolesQuery}`;
-    window.location.href = `/auditions/search?${queryString}`;
+    let searchParams = new URLSearchParams(location.search);
+    searchParams.delete('location');
+    searchParams.delete('genre');
+    searchParams.delete('role');
+    searchParams.delete('query');
+    if(input && input.length > 0)
+      searchParams.set('query', input);
+    if(locations && locations.length > 0)
+      locations.map((location) => searchParams.append('location', location.value));
+    if(genres && genres.length > 0)
+      genres.map((genre) => searchParams.append('genre', genre.value));
+    if(roles && roles.length > 0)
+      roles.map((role) => searchParams.append('role', role.value));
+    navigate( {
+          pathname: "/auditions/search",
+          search: searchParams.toString(),
+        }
+    );
   };
 
   const [input, setInput] = React.useState("");
@@ -57,10 +61,15 @@ const AuditionSearchBar = () => {
   const [filters, setFilters] = React.useState(false);
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const location = useLocation();
   const [locationOptions, setLocationOptions] = React.useState<LocationGroup[]>([]);
   const [genreOptions, setGenreOptions] = React.useState<GenreGroup[]>([]);
   const [roleOptions, setRoleOptions] = React.useState<RoleGroup[]>([]);
 
+  const orderByOptions = [
+    { value: "ASC", label: t("AuditionSearchBar.asc") },
+    { value: "DESC", label: t("AuditionSearchBar.desc")},
+  ];
 
   useEffect(() => {
     serviceCall(
