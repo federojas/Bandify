@@ -170,12 +170,11 @@ const AuditionView = () => {
       navigate,
       (response) => {  
         if(response) {
-          setAudition(response);
+          setAudition(response)
         }
       },
     );
-  }, [auditionService, navigate]
-  )
+  }, [params.id, navigate]);
 
 
   useEffect(() => {
@@ -200,15 +199,17 @@ const AuditionView = () => {
               },
           )
         }
-      }, [userService, navigate]
+      }, [audition]
   )
 
   return (
     <Center>
       <HStack minH={"80vh"}>  
         {isLoading ? <span className="loader"></span> :
-            (<AuditionCard user={user!} audition={audition!} userImg={userImg!} /> &&
-            <AuditionActions auditionId={audition!.id} />)}
+            (<>
+            <AuditionCard user={user!} audition={audition!} userImg={userImg!} />
+            <AuditionActions auditionId={audition!.id} />
+            </>)}
       </HStack>
     </Center>
   );
