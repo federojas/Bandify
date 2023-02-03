@@ -15,4 +15,17 @@ const RoleTag = ({ role, size = 'lg', marginY = 2 }: { role: string, size?: stri
   );
 };
 
+export const RoleCount = ({ count, size = 'lg', marginY = 2 }: { count: number, size?: string, marginY?: number }) => {
+  return (
+    <Tag
+      marginY={marginY}
+      size={size}
+      variant="solid"
+      colorScheme="teal"
+    >
+      +{count}
+    </Tag>
+  );
+};
+
 export default RoleTag;

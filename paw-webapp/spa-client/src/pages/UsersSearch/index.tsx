@@ -52,26 +52,26 @@ const Index = () => {
           justifyContent={"space-around"}
         >
           {users.length > 0 ? users.map((user) => (
-            <ProfileCard {...user}/>
+            <ProfileCard {...user} />
           )) : <b>
-                    <p className="no-results">{t("Discover.noResults")}</p>
-                </b>
+            <p className="no-results">{t("Discover.noResults")}</p>
+          </b>
           }
         </Flex>
       </VStack>
-        {/*TODO: ver si se puede hacer componente*/}
-        <PaginationWrapper>
+      {/*TODO: ver si se puede hacer componente*/}
+      <PaginationWrapper>
         {currentPage > 1 && (
           <button
-              onClick={() => {
-                  let searchParams = new URLSearchParams(location.search);
-                  searchParams.set('page', (currentPage - 1).toString());
-                  navigate( {
-                      pathname: location.pathname,
-                      search: searchParams.toString()
-                  });
-              }}
-              style={{ background: "none", border: "none" }}
+            onClick={() => {
+              let searchParams = new URLSearchParams(location.search);
+              searchParams.set('page', (currentPage - 1).toString());
+              navigate({
+                pathname: location.pathname,
+                search: searchParams.toString()
+              });
+            }}
+            style={{ background: "none", border: "none" }}
           >
             <PaginationArrow
               xRotated={true}
@@ -86,15 +86,15 @@ const Index = () => {
         })}
         {currentPage < maxPage && (
           <button
-              onClick={() => {
-                  let searchParams = new URLSearchParams(location.search);
-                  searchParams.set('page', (currentPage + 1).toString());
-                  navigate( {
-                      pathname: location.pathname,
-                      search: searchParams.toString()
-                  });
-              }}
-              style={{ background: "none", border: "none" }}
+            onClick={() => {
+              let searchParams = new URLSearchParams(location.search);
+              searchParams.set('page', (currentPage + 1).toString());
+              navigate({
+                pathname: location.pathname,
+                search: searchParams.toString()
+              });
+            }}
+            style={{ background: "none", border: "none" }}
           >
             <PaginationArrow
               src="../../images/page-next.png"

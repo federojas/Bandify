@@ -4,13 +4,25 @@ import {
   Center,
   Flex,
   Heading,
+  HStack,
   Image,
   Link,
   Stack,
   Text,
   useColorModeValue,
 } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { BiBullseye } from 'react-icons/bi';
+import { FiMusic } from 'react-icons/fi';
+import { useNavigate } from 'react-router-dom';
+import { useUserService } from '../../contexts/UserService';
 import { User } from '../../models';
+import { serviceCall } from '../../services/ServiceManager';
+import ArtistTag from '../Tags/ArtistTag';
+import BandTag from '../Tags/BandTag';
+import GenreTag, { GenreCount } from '../Tags/GenreTag';
+import RoleTag, { RoleCount } from '../Tags/RoleTag';
 
 const ProfileCard: React.FC<User> = ({
   name,
@@ -22,6 +34,35 @@ const ProfileCard: React.FC<User> = ({
   id,
   description
 }) => {
+
+  const { t } = useTranslation();
+
+  const [showMore, setShowMore] = useState(false);
+
+  const filteredRoles = showMore ? roles : roles.slice(0, 1);
+  const roleCount = roles.length - filteredRoles.length;
+
+  const filteredGenres = showMore ? genres : genres.slice(0, 1);
+  const genreCount = genres.length - filteredGenres.length;
+  const [userImg, setUserImg] = useState<string | undefined>(undefined)
+  const userService = useUserService();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (id) {
+      serviceCall(
+        userService.getProfileImageByUserId(id),
+        navigate,
+        (response) => {
+          setUserImg(
+            response
+          )
+        },
+      )
+    }
+  }, [id, navigate])
+
+
   return (
     <Center py={6}>
       <Stack
@@ -33,15 +74,22 @@ const ProfileCard: React.FC<User> = ({
         bg={useColorModeValue('white', 'gray.900')}
         boxShadow={'2xl'}
         padding={4}>
-        <Flex flex={1} bg="blue.200">
+        <Center flex={1}>
           <Image
-            objectFit="cover"
-            boxSize="100%"
-            src="https://i.pinimg.com/originals/d3/e2/73/d3e273980e1e3df14c4a9b26e7d98d70.jpg"
+            src={`data:image/png;base64,${userImg}`} //TODO: revisar posible mejora a link
+            alt="Profile Picture"
+            borderRadius="full"
+            boxSize="150px"
+            shadow="lg"
+            border="5px solid"
+            borderColor="gray.800"
+            _dark={{
+              borderColor: "grayu.200",
+            }}
           />
-        </Flex>
+        </Center>
         <Stack
-          flex={1}
+          flex={2}
           flexDirection="column"
           justifyContent="center"
           alignItems="center"
@@ -50,55 +98,47 @@ const ProfileCard: React.FC<User> = ({
           <Heading fontSize={'2xl'} fontFamily={'body'}>
             {name} {' '} {surname}
           </Heading>
-          
-          <Text
-            textAlign={'center'}
-            color={useColorModeValue('gray.700', 'gray.400')}
-            px={3}>
-            {description}
-          </Text>
-          <Stack align={'center'} justify={'center'} direction={'row'} mt={6}>
-            <Badge
-              px={2}
-              py={1}
-              bg={useColorModeValue('gray.50', 'gray.800')}
-              fontWeight={'400'}>
-              #art
-            </Badge>
-            <Badge
-              px={2}
-              py={1}
-              bg={useColorModeValue('gray.50', 'gray.800')}
-              fontWeight={'400'}>
-              #photography
-            </Badge>
-            <Badge
-              px={2}
-              py={1}
-              bg={useColorModeValue('gray.50', 'gray.800')}
-              fontWeight={'400'}>
-              #music
-            </Badge>
-          </Stack>
+
+          {
+            band ? <BandTag /> : <ArtistTag />
+          }
+
+          {roles.length > 0 && <HStack spacing={4}>
+            <BiBullseye />
+            <HStack spacing="2" wrap="nowrap" style={{ maxWidth: "100%" }}>
+              {filteredRoles.map((role) => (
+                <RoleTag role={role} />
+              ))}
+              {roleCount > 0 && (
+                <RoleCount count={roleCount} />
+              )}
+            </HStack>
+          </HStack>}
+          {genres.length > 0 && <HStack spacing={4}>
+            <FiMusic />
+            <HStack spacing="2" wrap="nowrap" style={{ maxWidth: "100%" }}>
+              {filteredGenres.map((genre) => (
+                <GenreTag genre={genre} />
+              ))}
+              {genreCount > 0 && (
+                <GenreCount count={genreCount} />
+              )}
+            </HStack>
+          </HStack>}
+
 
           <Stack
+            flex={'flex'}
             width={'100%'}
             mt={'2rem'}
             direction={'row'}
             padding={2}
-            justifyContent={'space-between'}
+            justifyContent={'center'}
             alignItems={'center'}>
             <Button
-              flex={1}
-              fontSize={'sm'}
-              rounded={'full'}
-              _focus={{
-                bg: 'gray.200',
-              }}>
-              Message
-            </Button>
-            <Button
-              flex={1}
+              as='a'
+              href={`/users/${id}`}
+              flexBasis={'50%'}
               fontSize={'sm'}
               rounded={'full'}
               bg={'blue.400'}
@@ -112,8 +152,9 @@ const ProfileCard: React.FC<User> = ({
               _focus={{
                 bg: 'blue.500',
               }}>
-              Follow
+              {t("ProfileCard.Profile")}
             </Button>
+
           </Stack>
         </Stack>
       </Stack>

@@ -190,6 +190,10 @@ export const TRANSLATIONS_EN = {
     edit: "Edit",
     delete: "Delete",
     apply: "Apply",
+  },
+  ProfileCard: {
+    Auditions: "Auditions",
+    Profile: "Profile",
   }
 };
 
