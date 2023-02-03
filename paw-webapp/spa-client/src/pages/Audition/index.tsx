@@ -33,8 +33,8 @@ import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
 import { useTranslation } from "react-i18next";
 import GenreTag from "../../components/Tags/GenreTag";
 import { serviceCall } from "../../services/ServiceManager";
-import { auditionService } from "../../services";
 import { useUserService } from "../../contexts/UserService";
+import {useAuditionService} from "../../contexts/AuditionService";
 
 
 //TODO: QUE HACER CON EL USER???
@@ -167,6 +167,7 @@ const AuditionView = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [userName, setUsername] = useState("");
   const userService = useUserService();
+  const auditionService = useAuditionService();
   useEffect(() => {
     serviceCall(
       auditionService.getAuditionById(parseInt(params.id as string)),

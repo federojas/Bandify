@@ -7,5 +7,5 @@ export default interface Audition {
   location: string;
   description: string;
   applications: string;
-  owner: string;
+  ownerId: number;
 };

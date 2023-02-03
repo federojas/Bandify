@@ -26,7 +26,7 @@ import {
   GroupBase,
 } from "chakra-react-select";
 import { SearchIcon } from "@chakra-ui/icons";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { serviceCall } from "../../services/ServiceManager";
 import { genreService, roleService, locationService } from "../../services";
 import { useEffect } from "react";
@@ -40,15 +40,28 @@ const SearchForm: React.FC = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const query = input;
-    const locationsQuery = locations.map((location) => location.value).join('&location=');
-    const genresQuery = genres.map((genre) => genre.value).join('&genre=');
-    const rolesQuery = roles.map((role) => role.value).join('&role=');
-    const queryString = `query=${query}&location=${locationsQuery}&genre=${genresQuery}&role=${rolesQuery}`;
-    window.location.href = `/users/search?${queryString}`;
+    let searchParams = new URLSearchParams(location.search);
+    searchParams.delete('location');
+    searchParams.delete('genre');
+    searchParams.delete('role');
+    searchParams.delete('query');
+    if(input && input.length > 0)
+      searchParams.set('query', input);
+    if(locations && locations.length > 0)
+      locations.map((location) => searchParams.append('location', location.value));
+    if(genres && genres.length > 0)
+      genres.map((genre) => searchParams.append('genre', genre.value));
+    if(roles && roles.length > 0)
+      roles.map((role) => searchParams.append('role', role.value));
+    navigate( {
+          pathname: "/users/search",
+          search: searchParams.toString(),
+        }
+    );
 };
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const location = useLocation();
   const [locationOptions, setLocationOptions] = React.useState<LocationGroup[]>([]);
   const [genreOptions, setGenreOptions] = React.useState<GenreGroup[]>([]);
   const [roleOptions, setRoleOptions] = React.useState<RoleGroup[]>([]);
