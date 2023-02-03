@@ -108,8 +108,10 @@ export const TRANSLATIONS_ES = {
     locationPlaceholder: "Ubicación",
     genre: "Género",
     genrePlaceholder: "Género",
-    Role: "Rol",
+    role: "Rol",
     rolePlaceholder: "Rol",
+    asc: "Más antiguos",
+    desc: "Más recientes"
   },
   SearchForm: {
     searchUsers: "Buscar usuarios",

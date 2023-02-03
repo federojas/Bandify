@@ -110,6 +110,8 @@ export const TRANSLATIONS_EN = {
     genrePlaceholder: "Select a genre...",
     role: "Role",
     rolePlaceholder: "Select a role...",
+    asc: "Oldest",
+    desc: "Newest"
   },
   SearchForm: {
     searchUsers: "Search users",
