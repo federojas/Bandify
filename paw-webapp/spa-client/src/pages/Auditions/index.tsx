@@ -54,7 +54,7 @@ export default function AuditionsPage() {
         >
           {auditions.length > 0 ? auditions.map((audition) => (
             <PostCard {...audition} />
-          )) : <Heading>No auditions found</Heading>  
+          )) : <Heading>{t("Auditions.noFound")}</Heading>  
           }
         </Flex>
       </VStack>

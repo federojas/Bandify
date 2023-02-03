@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import BackIcon from "../../assets/icons/back.svg";
+import dayjs from 'dayjs';
 import { Audition } from "../../models";
 import "../../styles/welcome.css";
 import "../../styles/postCard.css";
@@ -25,6 +26,7 @@ import {
 import { BsInfoCircle } from "react-icons/bs";
 import { ImLocation } from "react-icons/im";
 import { BiBullseye } from "react-icons/bi";
+import { FiCalendar } from "react-icons/fi";
 import RoleTag from "../../components/Tags/RoleTag";
 import { FiMusic, FiShare2, FiUsers } from "react-icons/fi";
 import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
@@ -32,6 +34,7 @@ import { useTranslation } from "react-i18next";
 import GenreTag from "../../components/Tags/GenreTag";
 import { serviceCall } from "../../services/ServiceManager";
 import { auditionService } from "../../services";
+import { useUserService } from "../../contexts/UserService";
 
 
 //TODO: QUE HACER CON EL USER???
@@ -58,6 +61,8 @@ type User = {
 //     name: string;
 //   };
 // };
+
+
 
 const AuditionActions = (props: { auditionId: number }) => {
   const share = () => {
@@ -87,7 +92,7 @@ const AuditionCard = ({
   user: User;
   audition: Audition;
 }) => {
-  
+  const date =dayjs(audition.creationDate).format('DD/MM/YYYY')
   return (
     <Card
       maxW={"3xl"}
@@ -111,12 +116,18 @@ const AuditionCard = ({
             src={`/user/[e[/profile-image`} //todo: user
           />
           {/* todo: EL OWNER ES LA URL */}
-          <Heading size={"lg"}>{audition.owner}</Heading> 
+          <Heading size={"lg"}>{user.name}</Heading> 
         </Flex>
       </CardHeader>
       <CardBody>
         <VStack spacing={8} alignItems={"start"}>
           <Heading size={"lg"}>{audition.title}</Heading>
+          <HStack spacing={4}>
+            <FiCalendar />
+            <HStack wrap={'wrap'}>
+              <Text>{date}</Text>
+            </HStack>
+          </HStack>
           <HStack spacing={4}>
             <BsInfoCircle />
             <Text fontSize={"lg"}>{audition.description}</Text>
@@ -154,25 +165,35 @@ const AuditionView = () => {
   const navigate = useNavigate();
   const [audition, setAudition] = useState<Audition>();
   const [isLoading, setIsLoading] = useState(true);
+  const [userName, setUsername] = useState("");
+  const userService = useUserService();
   useEffect(() => {
     serviceCall(
       auditionService.getAuditionById(parseInt(params.id as string)),
       navigate,
-      (response) => { 
-        console.log(response);   
+      (response) => {  
         if(response) setAudition(response);
         setIsLoading(false);
-        console.log("audition", audition)
       },
     )
   }, []
   )
 
+  useEffect(()=>{
+    serviceCall(
+      userService.getUserById(parseInt(params!.id!)),
+      navigate,
+      (response) => {
+        setUsername(response.name);
+      }
+    )
+  },[]);
+
 
   return (
     <Center>
       <HStack minH={"80vh"}>  
-        {isLoading ? <span className="loader"></span> : <AuditionCard user={{ id: 1, name: "Test" }} audition={audition!} />}        
+        {isLoading ? <span className="loader"></span> : <AuditionCard user={{ id: 1, name: userName }} audition={audition!} />}        
         <AuditionActions auditionId={1} />
       </HStack>
     </Center>

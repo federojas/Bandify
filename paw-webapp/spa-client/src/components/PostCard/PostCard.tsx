@@ -18,6 +18,8 @@ import {
 import { useTranslation } from "react-i18next";
 import "../../common/i18n/index";
 import { Audition } from "../../models";
+import { FiCalendar } from "react-icons/fi";
+import dayjs from 'dayjs';
 import {
   Avatar,
   Box,
@@ -41,7 +43,10 @@ import GenreTag from "../Tags/GenreTag";
 import RoleTag from "../Tags/RoleTag";
 import { BiBullseye } from "react-icons/bi";
 import { FiMusic } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { serviceCall } from "../../services/ServiceManager";
+import { useUserService } from "../../contexts/UserService";
 const PostCard: React.FC<Audition> = ({
   title,
   owner,
@@ -49,8 +54,23 @@ const PostCard: React.FC<Audition> = ({
   lookingFor,
   musicGenres,
   id,
+  creationDate,
 }) => {
   const { t } = useTranslation();
+  const userService = useUserService();
+  const navigate = useNavigate();
+  const [userName, setUsername] = useState("")
+  const date = dayjs(creationDate).format('DD/MM/YYYY')
+
+  useEffect(() => {
+    serviceCall(
+      userService.getUserById(id),
+      navigate,
+      (response) => {
+        setUsername(response.name);
+      }
+    ),location
+  },[])
 
   return (
     <Card maxW="md" margin={5} boxShadow={"2xl"} w={"2xl"}>
@@ -65,11 +85,10 @@ const PostCard: React.FC<Audition> = ({
         >
           <Avatar
             name={owner}
-            src="https://i.pinimg.com/originals/d3/e2/73/d3e273980e1e3df14c4a9b26e7d98d70.jpg"
+            src="https://i.pinimg.com/originals/d3/e2/73/d3e273980e1e3df14c4a9b26e7d98d70.jpg" //todo: image
           />
-
           <Box>
-            <Heading size="sm">{owner}</Heading>
+            <Heading size="sm">{userName}</Heading>
             <Text fontSize="smaller">{location}</Text>
           </Box>
         </Flex>
@@ -77,6 +96,12 @@ const PostCard: React.FC<Audition> = ({
       <CardBody>
         <Stack spacing="3">
           <Heading size="md">{title}</Heading>
+          <HStack spacing={4}>
+            <FiCalendar />
+            <HStack wrap={'wrap'}>
+              <Text>{date}</Text>
+            </HStack>
+          </HStack>
           <HStack spacing={4}>
             <BiBullseye />
             <HStack spacing="2" wrap={"wrap"}>

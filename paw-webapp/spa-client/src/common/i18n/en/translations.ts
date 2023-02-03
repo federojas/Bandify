@@ -10,6 +10,7 @@ export const TRANSLATIONS_EN = {
     discover: "Discover auditions",
     latest: "Latest auditions",
     header:"Search for Auditions 🎸",
+    noFound: "No auditions found"
   },
   Profile: {
     alt: {
