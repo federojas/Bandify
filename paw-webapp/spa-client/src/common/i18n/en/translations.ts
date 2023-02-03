@@ -201,6 +201,10 @@ export const TRANSLATIONS_EN = {
   Modal: {
     close: "Close",
     confirm: "Accept"
+  },
+  ProfileCard: {
+    Auditions: "Auditions",
+    Profile: "Profile",
   }
 };
 

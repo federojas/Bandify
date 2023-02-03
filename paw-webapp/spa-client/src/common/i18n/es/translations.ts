@@ -191,6 +191,10 @@ export const TRANSLATIONS_ES = {
     edit: "Editar",
     delete: "Eliminar",
     apply: "Aplicar",
+  },
+  ProfileCard: {
+    Auditions: "Audiciones",
+    Profile: "Perfil",
     deleteSuccess: "¡Audición removida exitosamente!",
     deleteError: "¡Oops, ocurrio un error!",
     deleteConfirm: "¿Seguro que quieres eliminar esta audición?"

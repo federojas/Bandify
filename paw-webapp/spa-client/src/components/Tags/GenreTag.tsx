@@ -15,4 +15,17 @@ const GenreTag = ({ genre, marginY = 2 }: { genre: string, marginY?: number }) =
   );
 };
 
+export const GenreCount = ({ count, marginY = 2 }: { count: number, marginY?: number }) => {
+  return (
+    <Tag
+      marginY={marginY}
+      size={"lg"}
+      variant="solid"
+      colorScheme="cyan"
+    >
+      +{count}
+    </Tag>
+  );
+};
+
 export default GenreTag;
