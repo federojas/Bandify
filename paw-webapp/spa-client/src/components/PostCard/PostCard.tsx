@@ -60,6 +60,7 @@ const PostCard: React.FC<Audition> = ({
   const userService = useUserService();
   const navigate = useNavigate();
   const [userName, setUsername] = useState("")
+  const [userId, setUserId] = useState(0)
   const date = dayjs(creationDate).format('DD/MM/YYYY')
   const [userImg, setUserImg] = useState<string | undefined>(undefined);
 
@@ -69,6 +70,7 @@ const PostCard: React.FC<Audition> = ({
       navigate,
       (response) => {
         setUsername(response.name);
+        setUserId(response.id);
       }
     )
   },[])
@@ -92,7 +94,7 @@ const PostCard: React.FC<Audition> = ({
       <CardHeader>
         <Flex
           as="a"
-          href={"#"}
+          href={"/users/"+userId.toString()}
           flex="1"
           gap="4"
           alignItems="center"

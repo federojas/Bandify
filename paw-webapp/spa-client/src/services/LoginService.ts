@@ -11,8 +11,6 @@ export class LoginService {
     const credentials = username + ":" + password;
     const hash = btoa(credentials);
 
-    console.log("ejecute el login");
-
     try {
       const response = await api.get(paths.USERS, {
         headers: {

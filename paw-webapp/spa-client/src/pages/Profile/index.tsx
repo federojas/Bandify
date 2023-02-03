@@ -85,8 +85,6 @@ const Profile = () => {
         setUser(response);
       }
     )
-
-
   }, [])
 
   useEffect(() => {
