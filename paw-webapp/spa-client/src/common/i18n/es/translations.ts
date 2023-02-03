@@ -189,5 +189,6 @@ export const TRANSLATIONS_ES = {
     applicants: "Aplicantes",
     edit: "Editar",
     delete: "Eliminar",
+    apply: "Aplicar",
   }
 };

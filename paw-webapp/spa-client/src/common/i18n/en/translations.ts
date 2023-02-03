@@ -189,6 +189,7 @@ export const TRANSLATIONS_EN = {
     applicants: "Applicants",
     edit: "Edit",
     delete: "Delete",
+    apply: "Apply",
   }
 };
 

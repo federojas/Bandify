@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import BackIcon from "../../assets/icons/back.svg";
 import dayjs from 'dayjs';
@@ -35,6 +35,7 @@ import GenreTag from "../../components/Tags/GenreTag";
 import { serviceCall } from "../../services/ServiceManager";
 import { useUserService } from "../../contexts/UserService";
 import {useAuditionService} from "../../contexts/AuditionService";
+import AuthContext from "../../contexts/AuthContext";
 
 // type Audition = {
 //   id: number;
@@ -57,7 +58,8 @@ import {useAuditionService} from "../../contexts/AuditionService";
 
 
 
-const AuditionActions = (props: { auditionId: number }) => {
+const AuditionActions = (props: { auditionId: number, isOwner:boolean, currentUser:User|undefined}) => {
+  const isBand = props.currentUser?.band;
   const share = () => {
     // TODO: Add code to share the audition
   };
@@ -75,9 +77,17 @@ const AuditionActions = (props: { auditionId: number }) => {
           {t("Audition.share")}
         </button>
       </Button>
-      <Button leftIcon={<FiUsers/>} w={'44'} colorScheme='green'>{t("Audition.applicants")}</Button>
-      <Button leftIcon={<AiOutlineEdit/>} w={'44'} colorScheme='teal'>{t("Audition.edit")}</Button>
-      <Button leftIcon={<AiOutlineDelete/>} w={'44'} colorScheme='red'>{t("Audition.delete")}</Button>
+      {props.isOwner ?
+       <>
+        <Button leftIcon={<FiUsers/>} w={'44'} colorScheme='green'>{t("Audition.applicants")}</Button>
+        <Button leftIcon={<AiOutlineEdit/>} w={'44'} colorScheme='teal'>{t("Audition.edit")}</Button>
+        <Button leftIcon={<AiOutlineDelete/>} w={'44'} colorScheme='red'>{t("Audition.delete")}</Button></> 
+        :
+        <>
+        {isBand ?  <></> : <Button leftIcon={<FiUsers/>} w={'44'} colorScheme='green'>{t("Audition.apply")}</Button>}
+        
+        </>
+      }
     </VStack>
   );
 };
@@ -167,8 +177,10 @@ const AuditionView = () => {
   const [userImg, setUserImg] = useState<string | undefined>(undefined)
   const userService = useUserService();
   const auditionService = useAuditionService();
-  const [user, setUser] = React.useState<User>();
-
+  const [ownerUser, setOwnerUser] = React.useState<User>();
+  const [currentUser, setCurrentUser] = React.useState<User>();
+  const [isOwner, setIsOwner] = useState(false);
+  const {userId} = useContext(AuthContext);
   useEffect(() => {
     serviceCall(
       auditionService.getAuditionById(parseInt(params.id as string)),
@@ -188,23 +200,30 @@ const AuditionView = () => {
               userService.getProfileImageByUserId(audition.ownerId),
               navigate,
               (response) => {
-                setUserImg(
-                    response
-                )
+                setUserImg(response)
               },
-          )
+          );
+          if(userId){
+            serviceCall(
+              userService.getUserById(userId),
+              navigate,
+              (response) => {
+                setCurrentUser(response)
+              }
+           );
+          }
           serviceCall(
               userService.getUserById(audition.ownerId),
               navigate,
               (response) => {
-                setUser(
-                    response
-                )
+                setOwnerUser(response)
+                setIsOwner(currentUser?.id === audition.ownerId ? true : false);
                 setIsLoading(false);
               },
-          )
+          );
+  
         }
-      }, [audition]
+      }, [audition, isOwner, navigate, userId, currentUser]
   )
 
   return (
@@ -212,8 +231,8 @@ const AuditionView = () => {
       <HStack minH={"80vh"}>  
         {isLoading ? <span className="loader"></span> :
             (<>
-            <AuditionCard user={user!} audition={audition!} userImg={userImg!} />
-            <AuditionActions auditionId={audition!.id} />
+            <AuditionCard user={ownerUser!} audition={audition!} userImg={userImg!} />
+            <AuditionActions auditionId={audition!.id} isOwner={isOwner} currentUser={currentUser} />
             </>)}
       </HStack>
     </Center>

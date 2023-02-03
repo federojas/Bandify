@@ -8,8 +8,8 @@ const useAxiosPrivate = () => {
 
   const requestIntercept = axiosPrivate.interceptors.request.use(
     config => {
-      if (auth?.isAuthenticated && config.headers && !config.headers['Authorization']) {
-        config.headers['Authorization'] = `Bearer ${auth?.jwt}`;
+      if (auth?.isAuthenticated && config.headers && !(config.headers as any)['Authorization']) {
+        (config.headers as any)['Authorization'] = `Bearer ${auth?.jwt}`;
       }
 
       return config;
