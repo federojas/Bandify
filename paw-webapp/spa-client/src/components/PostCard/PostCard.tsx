@@ -44,12 +44,12 @@ import RoleTag from "../Tags/RoleTag";
 import { BiBullseye } from "react-icons/bi";
 import { FiMusic } from "react-icons/fi";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { serviceCall } from "../../services/ServiceManager";
 import { useUserService } from "../../contexts/UserService";
 const PostCard: React.FC<Audition> = ({
   title,
-  owner,
+  ownerId,
   location,
   lookingFor,
   musicGenres,
@@ -61,16 +61,31 @@ const PostCard: React.FC<Audition> = ({
   const navigate = useNavigate();
   const [userName, setUsername] = useState("")
   const date = dayjs(creationDate).format('DD/MM/YYYY')
+  const [userImg, setUserImg] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     serviceCall(
-      userService.getUserById(id),
+      userService.getUserById(ownerId),
       navigate,
       (response) => {
         setUsername(response.name);
       }
-    ),location
+    )
   },[])
+
+  useEffect(() => {
+    if(ownerId) {
+      serviceCall(
+          userService.getProfileImageByUserId(ownerId),
+          navigate,
+          (response) => {
+            setUserImg(
+                response
+            )
+          },
+      )
+    }
+  }, [ownerId, navigate])
 
   return (
     <Card maxW="md" margin={5} boxShadow={"2xl"} w={"2xl"}>
@@ -84,11 +99,10 @@ const PostCard: React.FC<Audition> = ({
           flexWrap="wrap"
         >
           <Avatar
-            name={owner}
-            src="https://i.pinimg.com/originals/d3/e2/73/d3e273980e1e3df14c4a9b26e7d98d70.jpg" //todo: image
+              src={`data:image/png;base64,${userImg}`} //TODO: revisar posible mejora a link
           />
           <Box>
-            <Heading size="sm">{userName}</Heading>
+            <Heading size="sm">{userName}</Heading> {/*TODO: poner text overflow*/}
             <Text fontSize="smaller">{location}</Text>
           </Box>
         </Flex>
@@ -123,7 +137,7 @@ const PostCard: React.FC<Audition> = ({
       <Divider />
       <CardFooter>
         <ButtonGroup>
-          <Link to={id.toString()}>
+          <Link to={"/auditions/"+id.toString()}>
             <Button variant="solid" colorScheme="blue">
               {t("PostCard.more")}
             </Button> 

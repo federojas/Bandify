@@ -27,7 +27,7 @@ export default class AuditionService {
           lookingFor: response.lookingFor,
           musicGenres: response.musicGenres,
           applications: response.applications,
-          owner: response.owner
+          ownerId: parseInt(response.owner.split('/')[response.owner.split('/').length - 1])
         } as Audition,
         false,
         null as any
@@ -57,7 +57,7 @@ export default class AuditionService {
               lookingFor: a.lookingFor,
               musicGenres: a.musicGenres,
               applications: a.applications,
-              owner: a.owner
+              ownerId: parseInt(a.owner.split('/')[a.owner.split('/').length - 1])
             }; return aud
           }), response.getMaxPage()),
         false,
@@ -84,7 +84,7 @@ export default class AuditionService {
                   lookingFor: a.lookingFor,
                   musicGenres: a.musicGenres,
                   applications: a.applications,
-                  owner: a.owner
+                  ownerId: parseInt(a.owner.split('/')[a.owner.split('/').length - 1])
                 }; return aud
               }), response.getMaxPage()),
           false,

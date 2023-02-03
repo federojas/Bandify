@@ -39,8 +39,11 @@ const AuditionSearchBar = () => {
     searchParams.delete('genre');
     searchParams.delete('role');
     searchParams.delete('query');
+    searchParams.delete('order');
     if(input && input.length > 0)
       searchParams.set('query', input);
+    if(order && order.length > 0)
+      searchParams.set('order', order);
     if(locations && locations.length > 0)
       locations.map((location) => searchParams.append('location', location.value));
     if(genres && genres.length > 0)
@@ -55,6 +58,7 @@ const AuditionSearchBar = () => {
   };
 
   const [input, setInput] = React.useState("");
+  const [order, setOrder] = React.useState("");
   const [locations, setLocations] = React.useState<LocationGroup[]>([]);
   const [genres, setGenres] = React.useState<GenreGroup[]>([]);
   const [roles, setRoles] = React.useState<RoleGroup[]>([]);
@@ -114,7 +118,7 @@ const AuditionSearchBar = () => {
       p={5}
       boxShadow="xl"
     >
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} >
         <VStack w={"full"} p={2} spacing={3}>
           <div className="searchBarAndOrderBy">
             <div className="auditionSearchBar-1">
@@ -126,19 +130,23 @@ const AuditionSearchBar = () => {
                 name="query"
                 variant="filled"
                 onChange={(event) => {
-                  setInput(event.target.value);
+                    setInput(event.target.value);
                 }}
               />
             </div>
             <div className="auditionSearchBar-2">
               <FormLabel>{t("AuditionSearchBar.orderByPlaceholder")}</FormLabel>
               <Select
-                name="orderBy"
+                name="order"
                 options={orderByOptions}
                 placeholder={t("AuditionSearchBar.orderByPlaceholder")}
                 size="md"
                 className="orderBy"
                 variant="filled"
+                onChange={(selection) => {
+                  if(selection)
+                    setOrder(selection.value.toString());
+                }}
               />
             </div>
           </div>
@@ -155,14 +163,14 @@ const AuditionSearchBar = () => {
                 <FormLabel>{t("AuditionSearchBar.location")}</FormLabel>
                 <Select<LocationGroup, true, GroupBase<LocationGroup>>
                   isMulti
-                  name="locations"
+                  name="location"
                   options={locationOptions}
                   placeholder={t("AuditionSearchBar.locationPlaceholder")}
                   closeMenuOnSelect={false}
                   variant="filled"
                   tagVariant="solid"
                   onChange={(event) => {
-                    setLocations(event.flatMap((e) => e));
+                      setLocations(event.flatMap((e) => e));
                   }}
                 />
               </Container>
@@ -171,14 +179,14 @@ const AuditionSearchBar = () => {
                 <FormLabel>{t("AuditionSearchBar.genre")}</FormLabel>
                 <Select<GenreGroup, true, GroupBase<GenreGroup>>
                   isMulti
-                  name="genres"
+                  name="genre"
                   options={genreOptions}
                   placeholder={t("AuditionSearchBar.genrePlaceholder")}
                   closeMenuOnSelect={false}
                   variant="filled"
                   tagVariant="solid"
                   onChange={(event) => {
-                    setGenres(event.flatMap((e) => e));
+                      setGenres(event.flatMap((e) => e));
                   }}
                 />
               </Container>
@@ -186,14 +194,14 @@ const AuditionSearchBar = () => {
                 <FormLabel>{t("AuditionSearchBar.role")}</FormLabel>
                 <Select<RoleGroup, true, GroupBase<RoleGroup>>
                   isMulti
-                  name="roles"
+                  name="role"
                   options={roleOptions}
                   placeholder={t("AuditionSearchBar.rolePlaceholder")}
                   closeMenuOnSelect={false}
                   variant="filled"
                   tagVariant="solid"
                   onChange={(event) => {
-                    setRoles(event.flatMap((e) => e));
+                      setRoles(event.flatMap((e) => e));
                   }}
                 />
               </Container>
