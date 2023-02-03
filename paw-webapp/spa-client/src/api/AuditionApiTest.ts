@@ -214,6 +214,13 @@ class AuditionApi {
         });
     }
 
+    public deleteAuditionById = async(auditionId:number) => {
+        return this.axiosPrivate.delete(`${this.endpoint}/${auditionId}`,this.applicationConfig)
+            .then((response) => {
+            return Promise.resolve(response);
+        });
+    }
+
 }
 
 export default AuditionApi;

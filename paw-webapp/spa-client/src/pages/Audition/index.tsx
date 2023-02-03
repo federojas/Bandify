@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import BackIcon from "../../assets/icons/back.svg";
 import dayjs from 'dayjs';
 import {Audition, User} from "../../models";
 import "../../styles/welcome.css";
@@ -10,17 +9,25 @@ import "../../styles/forms.css";
 import "../../styles/modals.css";
 import "../../styles/alerts.css";
 import {
-  Avatar,
-  Button,
-  Card,
-  CardBody,
-  CardHeader,
-  Center,
-  Flex,
-  Heading,
-  HStack,
-  Text,
-  VStack,
+    Avatar,
+    Button,
+    Card,
+    CardBody,
+    CardHeader,
+    Center,
+    Flex,
+    Heading,
+    HStack,
+    Text, useToast,
+    VStack,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
+    ModalCloseButton,
+    useDisclosure,
 } from "@chakra-ui/react";
 
 import { BsInfoCircle } from "react-icons/bs";
@@ -37,43 +44,78 @@ import { useUserService } from "../../contexts/UserService";
 import {useAuditionService} from "../../contexts/AuditionService";
 import AuthContext from "../../contexts/AuthContext";
 
-// type Audition = {
-//   id: number;
-//   title: string;
-//   description: string;
-//   location: string;
-//   lookingFor: Array<{
-//     name: string;
-//   }>;
-//   musicGenres: Array<{
-//     name: string;
-//   }>;
-//   alreadyApplied: boolean;
-//   canBeAddedToBand: boolean;
-//   band: {
-//     id: number;
-//     name: string;
-//   };
-// };
-
-
-
 const AuditionActions = (props: { auditionId: number, isOwner:boolean, currentUser:User|undefined}) => {
   const isBand = props.currentUser?.band;
-  const share = () => {
-    // TODO: Add code to share the audition
-  };
-
-  const openConfirmation = () => {
-    // TODO: Add code to open the confirmation modal
-  };
   const { t } = useTranslation();
+  const auditionService = useAuditionService();
+  const toast = useToast();
+  const navigate = useNavigate();
+
+function DeleteModal() {
+    const { isOpen, onClose, onOpen} = useDisclosure();
+
+    return (
+        <>
+            <Button leftIcon={<AiOutlineDelete/>} w={'44'} colorScheme='red' onClick={onOpen}>
+                {t("Audition.delete")}
+            </Button>
+            <Modal isOpen={isOpen} onClose={onClose}>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>{t("Audition.deleteConfirm")}</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalFooter>
+                        <Button colorScheme='blue' mr={3} onClick={onClose}>
+                            {t("Modal.close")}
+                        </Button>
+                        <Button variant='ghost' onClick={handleDelete}>{t("Modal.confirm")}</Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
+        </>
+    )
+}
+
+  function handleDelete() {
+    //TODO analizar uso de deleteResponse
+    let deleteRespone = auditionService
+        .deleteAuditionById(props.auditionId)
+        .then(() => {
+            toast({
+                title: t("Register.success"),
+                status: "success",
+                description: t("Audition.deleteSuccess"),
+                isClosable: true,
+            });
+        })
+        .catch(() =>
+            toast({
+                title: t("Register.error"),
+                status: "error",
+                description: t("Audition.deleteError"),
+                isClosable: true,
+            })
+        )
+      navigate(-1);
+  }
+
 
   return (
     <VStack>
       <Button leftIcon={<FiShare2/>} w={'44'} colorScheme='blue'>
         <button
-            onClick={() => {navigator.clipboard.writeText( window.location.href )}}>
+            onClick={() =>
+            {
+                navigator.clipboard.writeText( window.location.href );
+                toast({
+                    title: t("Register.success"),
+                    status: "success",
+                    description: t("Clipboard.message"),
+                    isClosable: true,
+                });
+            }
+
+        }>
           {t("Audition.share")}
         </button>
       </Button>
@@ -81,11 +123,12 @@ const AuditionActions = (props: { auditionId: number, isOwner:boolean, currentUs
        <>
         <Button leftIcon={<FiUsers/>} w={'44'} colorScheme='green'>{t("Audition.applicants")}</Button>
         <Button leftIcon={<AiOutlineEdit/>} w={'44'} colorScheme='teal'>{t("Audition.edit")}</Button>
-        <Button leftIcon={<AiOutlineDelete/>} w={'44'} colorScheme='red'>{t("Audition.delete")}</Button></> 
+        <DeleteModal/>
+        </>
         :
         <>
         {isBand ?  <></> : <Button leftIcon={<FiUsers/>} w={'44'} colorScheme='green'>{t("Audition.apply")}</Button>}
-        
+        {/*AGREGAR !hasApplied */}
         </>
       }
     </VStack>

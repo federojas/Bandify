@@ -37,7 +37,7 @@ import {
   Image,
   Stack,
   Tag,
-  Text,
+  Text, useToast,
 } from "@chakra-ui/react";
 import GenreTag from "../Tags/GenreTag";
 import RoleTag from "../Tags/RoleTag";
@@ -64,6 +64,7 @@ const PostCard: React.FC<Audition> = ({
   const date = dayjs(creationDate).format('DD/MM/YYYY')
   const [userImg, setUserImg] = useState<string | undefined>(undefined);
   const urlLocation = useLocation();
+  const toast = useToast();
 
   useEffect(() => {
     serviceCall(
@@ -147,7 +148,17 @@ const PostCard: React.FC<Audition> = ({
           </Link>
               <Button variant="ghost" colorScheme="blue">
                 <button
-                    onClick={() => {navigator.clipboard.writeText( window.location.href + "/" + id.toString())}}>
+                    onClick={() => {
+                      navigator.clipboard.writeText( window.location.href + "/" + id.toString())
+                      toast({
+                        title: t("Register.success"),
+                        status: "success",
+                        description: t("Clipboard.message"),
+                        isClosable: true,
+                      });
+                    }
+
+                }>
                 {t("PostCard.share")}
                 </button>
               </Button>

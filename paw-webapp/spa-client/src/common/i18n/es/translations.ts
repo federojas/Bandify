@@ -87,6 +87,7 @@ export const TRANSLATIONS_ES = {
       password: "La contraseña debe tener al menos 8 caracteres",
     },
     error: "Error",
+    success: "Éxito",
     alreadyRegistered: "El email ya se encuentra registrado",
     Band:{
       content: "Siendo una banda podrás crear audiciones, postear en el muro, y ser descubierto por otros artistas y bandas.",
@@ -190,5 +191,15 @@ export const TRANSLATIONS_ES = {
     edit: "Editar",
     delete: "Eliminar",
     apply: "Aplicar",
+    deleteSuccess: "¡Audición removida exitosamente!",
+    deleteError: "¡Oops, ocurrio un error!",
+    deleteConfirm: "¿Seguro que quieres eliminar esta audición?"
+  },
+  Clipboard: {
+    message: "¡Link copiado al portapapeles!",
+  },
+  Modal: {
+    close: "Cerrar",
+    confirm: "Aceptar"
   }
 };

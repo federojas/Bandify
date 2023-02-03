@@ -6,6 +6,7 @@ import { AuditionInput } from "../api/types/Audition";
 import PostResponse from "../api/types/PostResponse";
 import AuditionApiTest from "../api/AuditionApiTest";
 import PagedContent from "../api/types/PagedContent";
+import DeleteResponse from "../api/types/DeleteResponse";
 
 export default class AuditionService {
   private auditionApi: AuditionApiTest;
@@ -166,6 +167,23 @@ export default class AuditionService {
         data,
         false,
         null as any
+      );
+    } catch (error) {
+      return ErrorService.returnApiError(error);
+    }
+  }
+
+  public async deleteAuditionById(auditionId: number): Promise<ApiResult<DeleteResponse>> {
+    try {
+      const deleteResponse = await this.auditionApi.deleteAuditionById(auditionId);
+      const url: string = deleteResponse.headers!.location!;
+      const tokens = url.split('/')
+      const id: number = parseInt(tokens[tokens.length-1]);
+      const data: DeleteResponse = { url: url, id: id };
+      return new ApiResult(
+          data,
+          false,
+          null as any
       );
     } catch (error) {
       return ErrorService.returnApiError(error);

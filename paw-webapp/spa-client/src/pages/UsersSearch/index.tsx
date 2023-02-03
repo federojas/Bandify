@@ -25,9 +25,8 @@ const Index = () => {
       userService.getUsers(currentPage),
       navigate,
       (response) => {
-        console.log(response)
         setUsers(response ? response.getContent() : []);
-        setMaxPage(1); //TODO revisar esto
+        setMaxPage(response ? response.getMaxPage() : 1); ; //TODO revisar esto
       },
       location
     )

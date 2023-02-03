@@ -87,6 +87,7 @@ export const TRANSLATIONS_EN = {
       password: "Password must be at least 8 characters long",
     },
     error: "Error",
+    success: "Success",
     alreadyRegistered: "This email is already registered",
     Band:{
       content: "By being a band, you can create auditions and find new members.",
@@ -189,7 +190,17 @@ export const TRANSLATIONS_EN = {
     applicants: "Applicants",
     edit: "Edit",
     delete: "Delete",
+    deleteSuccess: "Audition removed successfully!",
+    deleteError: "Oops, an error occurred!",
     apply: "Apply",
+    deleteConfirm: "Are you sure you want to remove this audition?"
+  },
+  Clipboard: {
+    message: "Link copied to clipboard!",
+  },
+  Modal: {
+    close: "Close",
+    confirm: "Accept"
   }
 };
 

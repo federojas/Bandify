@@ -11,6 +11,10 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import { User } from '../../models';
+import {useEffect, useState} from "react";
+import {serviceCall} from "../../services/ServiceManager";
+import {useUserService} from "../../contexts/UserService";
+import {useNavigate} from "react-router-dom";
 
 const ProfileCard: React.FC<User> = ({
   name,
@@ -22,6 +26,24 @@ const ProfileCard: React.FC<User> = ({
   id,
   description
 }) => {
+
+  const navigate = useNavigate();
+  const userService = useUserService();
+  const [userImg, setUserImg] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    if(id) {
+      serviceCall(
+          userService.getProfileImageByUserId(id),
+          navigate,
+          (response) => {
+            setUserImg(
+                response
+            )
+          },
+      )
+    }
+  }, [id, navigate])
   return (
     <Center py={6}>
       <Stack
@@ -37,7 +59,7 @@ const ProfileCard: React.FC<User> = ({
           <Image
             objectFit="cover"
             boxSize="100%"
-            src="https://i.pinimg.com/originals/d3/e2/73/d3e273980e1e3df14c4a9b26e7d98d70.jpg"
+            src={`data:image/png;base64,${userImg}`} //TODO: revisar posible mejora a link
           />
         </Flex>
         <Stack
@@ -51,12 +73,6 @@ const ProfileCard: React.FC<User> = ({
             {name} {' '} {surname}
           </Heading>
           
-          <Text
-            textAlign={'center'}
-            color={useColorModeValue('gray.700', 'gray.400')}
-            px={3}>
-            {description}
-          </Text>
           <Stack align={'center'} justify={'center'} direction={'row'} mt={6}>
             <Badge
               px={2}
