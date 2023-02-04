@@ -2,7 +2,19 @@ import "../../styles/welcome.css";
 import "../../styles/auditions.css";
 import PostCard from "../../components/PostCard/PostCard";
 import AuditionSearchBar from "../../components/SearchBars/AuditionSearchBar";
-import { Center, Divider, Flex, Heading, VStack } from "@chakra-ui/react";
+import {
+    Box, Button,
+    Center,
+    Container,
+    Divider,
+    Flex,
+    FormLabel,
+    Heading, HStack,
+    Input,
+    Text,
+    useColorModeValue,
+    VStack
+} from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { serviceCall } from "../../services/ServiceManager";
@@ -13,6 +25,9 @@ import {usePagination} from "../../hooks/usePagination";
 import {useAuditionService} from "../../contexts/AuditionService";
 import {getQueryOrDefault, getQueryOrDefaultArray, useQuery} from "../../hooks/useQuery";
 import React from "react";
+import {GenreGroup, LocationGroup, RoleGroup} from "../../components/SearchBars/EntitiesGroups";
+import {GroupBase, Select} from "chakra-react-select";
+import {SearchIcon} from "@chakra-ui/icons";
 // type Audition = {
 //   band: {
 //     name: string;
@@ -41,11 +56,14 @@ const AuditionSearch = () => {
   const [currentPage] = usePagination();
   const [maxPage, setMaxPage] = useState(1);
   const query = useQuery();
-  const [searchTerms] = React.useState<string>(getQueryOrDefault(query, "query", ""));
-  const [roles] = React.useState<string[]>(getQueryOrDefaultArray(query, "role"));
-  const [genres] = React.useState<string[]>(getQueryOrDefaultArray(query, "genre"));
-  const [locations] = React.useState<string[]>(getQueryOrDefaultArray(query, "location"));
-  const [order] = React.useState<string>(getQueryOrDefault(query, "order", ""));
+  const [searchTerms, setSearchTerms] = React.useState<string>(getQueryOrDefault(query, "query", ""));
+  const [roles, setRoles] = React.useState<string[]>(getQueryOrDefaultArray(query, "role"));
+  const [genres, setGenres] = React.useState<string[]>(getQueryOrDefaultArray(query, "genre"));
+  const [locations, setLocations] = React.useState<string[]>(getQueryOrDefaultArray(query, "location"));
+  const [order, setOrder] = React.useState<string>(getQueryOrDefault(query, "order", ""));
+  const [locationOptions, setLocationOptions] = React.useState<LocationGroup[]>([]);
+  const [genreOptions, setGenreOptions] = React.useState<GenreGroup[]>([]);
+  const [roleOptions, setRoleOptions] = React.useState<RoleGroup[]>([]);
 
   useEffect(() => {
     serviceCall(
@@ -57,14 +75,12 @@ const AuditionSearch = () => {
       }
     )
   }, [currentPage, searchTerms, roles, genres, locations, order])
-
   return (
     <>
       <Center marginY={10} flexDirection="column">
         <VStack spacing={5}>
           <Heading>{t("AuditionsSearch.results")}</Heading>
-
-          <AuditionSearchBar />
+            <AuditionSearchBar/>
         </VStack>
       </Center>
       <Flex

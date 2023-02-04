@@ -43,6 +43,7 @@ const AuditionSearchBar = () => {
     searchParams.delete('role');
     searchParams.delete('query');
     searchParams.delete('order');
+    searchParams.delete('page');
     if(input && input.length > 0)
       searchParams.set('query', input);
     if(order && order.value.length > 0)

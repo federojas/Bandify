@@ -36,7 +36,7 @@ const Index = () => {
       },
       location
     )
-  }, [currentPage, navigate, userService, searchTerms, genres, roles, locations])
+  }, [currentPage, userService, searchTerms, genres, roles, locations])
 
   return (
     <>

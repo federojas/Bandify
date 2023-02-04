@@ -44,6 +44,7 @@ const DiscoverSearchBar: React.FC = () => {
     searchParams.delete('genre');
     searchParams.delete('role');
     searchParams.delete('query');
+    searchParams.delete('page');
     if(input && input.length > 0)
       searchParams.set('query', input);
     if(locations && locations.length > 0)
@@ -130,6 +131,7 @@ const DiscoverSearchBar: React.FC = () => {
               placeholder={t("AuditionSearchBar.searchPlaceholder")}
               name="query"
               variant="filled"
+              defaultValue={input}
               onChange={(event) => {
                 setInput(event.target.value);
               }}
@@ -147,6 +149,7 @@ const DiscoverSearchBar: React.FC = () => {
                 closeMenuOnSelect={false}
                 variant="filled"
                 tagVariant="solid"
+                defaultValue={locations}
                 onChange={(event) => {
                   setLocations(event.flatMap((e) => e));
                 }}
@@ -163,6 +166,7 @@ const DiscoverSearchBar: React.FC = () => {
                 closeMenuOnSelect={false}
                 variant="filled"
                 tagVariant="solid"
+                defaultValue={genres}
                 onChange={(event) => {
                   setGenres(event.flatMap((e) => e));
                 }}
@@ -178,6 +182,7 @@ const DiscoverSearchBar: React.FC = () => {
                 closeMenuOnSelect={false}
                 variant="filled"
                 tagVariant="solid"
+                defaultValue={roles}
                 onChange={(event) => {
                   setRoles(event.flatMap((e) => e));
                 }}
