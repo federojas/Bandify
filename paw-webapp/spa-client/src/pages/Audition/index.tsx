@@ -147,19 +147,17 @@ const AuditionActions = (props: { auditionId: number, isOwner: boolean, currentU
 
   return (
     <VStack>
-      <Button leftIcon={<FiShare2 />} w={'44'} colorScheme='blue'>
-        <button
-          onClick={() => {
-            navigator.clipboard.writeText(window.location.href);
-            toast({
-              title: t("Register.success"),
-              status: "success",
-              description: t("Clipboard.message"),
-              isClosable: true,
-            })
-          }}>
-          {t("Audition.share")}
-        </button>
+      <Button leftIcon={<FiShare2 />} w={'44'} colorScheme='blue' onClick={() => {
+        navigator.clipboard.writeText(window.location.href);
+        toast({
+          title: t("Register.success"),
+          status: "success",
+          description: t("Clipboard.message"),
+          isClosable: true,
+        })
+      }}>
+
+        {t("Audition.share")}
       </Button>
       {props.isOwner ?
         <>
