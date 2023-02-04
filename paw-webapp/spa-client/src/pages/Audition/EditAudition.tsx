@@ -22,7 +22,7 @@ import {
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { FaUser } from "react-icons/fa";
-import newAuditionOptions from "./validations"
+import { newAuditionOptions } from "./validations";
 
 import {
   Select,

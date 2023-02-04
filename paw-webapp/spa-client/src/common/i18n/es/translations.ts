@@ -196,6 +196,14 @@ export const TRANSLATIONS_ES = {
     deleteError: "¡Oops, ocurrio un error!",
     apply: "Aplicar",
     deleteConfirm: "¿Seguro que quieres cerrar esta audición? Esta acción no puede deshacerse.",
+    Modal: {
+      title: "Aplicar a audición",
+      message: "Dejale un mensaje a la banda",
+      apply: "Aplicar",
+      cancel: "Cancelar", 
+      placeHolder: "Max. 300 caracteres", 
+    },
+    applyError: "¡Ups, ocurrio un error!",
   },
   ProfileCard: {
     Profile: "Perfil",

@@ -180,6 +180,14 @@ export const TRANSLATIONS_EN = {
     deleteError: "Oops, an error occurred!",
     apply: "Apply",
     deleteConfirm: "Are you sure you want to close this audition? This action can not be undone.",
+    Modal: {
+      title: "Apply to audition",
+      message: "Leave a message to the band",
+      apply: "Apply",
+      cancel: "Cancel",
+      placeHolder: "Max. 300 characters", 
+    },
+    applyError: "Oops, an error occurred!",
   },
   Clipboard: {
     message: "Link copied to clipboard!",

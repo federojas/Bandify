@@ -15,4 +15,14 @@ const newAuditionOptions = {
   },
 };
 
-export default newAuditionOptions;
+const applyAuditionOptions = {
+  message: {
+    required: "Message is required",
+    maxLength: {
+      value: 300,
+      message: "Message cannot be larger than 300 characters",
+    },
+  },
+};
+
+export {newAuditionOptions, applyAuditionOptions};
