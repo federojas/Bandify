@@ -25,27 +25,6 @@ import { usePagination } from "../../hooks/usePagination";
 import { useAuditionService } from "../../contexts/AuditionService";
 import { getQueryOrDefault, getQueryOrDefaultArray, useQuery } from "../../hooks/useQuery";
 import React from "react";
-import { GenreGroup, LocationGroup, RoleGroup } from "../../components/SearchBars/EntitiesGroups";
-import { GroupBase, Select } from "chakra-react-select";
-import { SearchIcon } from "@chakra-ui/icons";
-// type Audition = {
-//   band: {
-//     name: string;
-//     id: number;
-//   };
-//   id: number;
-//   creationDate: Date;
-//   title: string;
-//   roles: string[];
-//   genres: string[];
-//   location: string;
-// };
-
-// type AuditionListPaginated = {
-//   auditionList: Audition[];
-//   currentPage: number;
-//   totalPages: number;
-// };
 
 interface SearchParams {
   searchTerms?: string;

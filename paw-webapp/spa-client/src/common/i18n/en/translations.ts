@@ -113,6 +113,7 @@ export const TRANSLATIONS_EN = {
   },
   DiscoverSearchBar: {
     searchUsers: "Search users",
+    searchPlaceholder: "Search users",
     filter: "Filter",
     location: "Location",
     genres: "Genres",

@@ -129,6 +129,7 @@ export const TRANSLATIONS_ES = {
   },
   DiscoverSearchBar: {
     searchUsers: "Buscar usuarios",
+    searchPlaceholder: "Buscar usuarios",
     filter: "Filtrar",
     location: "Ubicación",
     genres: "Generos",

@@ -44,7 +44,7 @@ interface DiscoverSearchBarProps {
   onSubmit?: (searchParams: SearchParams) => void;
 }
 
-const DiscoverSearchBar: React.FC = ({ onSubmit = () => {} }: DiscoverSearchBarProps) => {
+const DiscoverSearchBar = ({ onSubmit = () => {} }: DiscoverSearchBarProps) => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -144,7 +144,7 @@ const DiscoverSearchBar: React.FC = ({ onSubmit = () => {} }: DiscoverSearchBarP
 
             <Input
               type="text"
-              placeholder={t("AuditionSearchBar.searchPlaceholder")}
+              placeholder={t("DiscoverSearchBar.searchPlaceholder")}
               name="query"
               variant="filled"
               defaultValue={input}
