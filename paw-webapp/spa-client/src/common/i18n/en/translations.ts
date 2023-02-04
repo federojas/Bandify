@@ -98,7 +98,7 @@ export const TRANSLATIONS_EN = {
     role: "Role",
     rolePlaceholder: "Select a role...",
     asc: "Oldest",
-    desc: "Newest"
+    desc: "Newest",
   },
   SearchForm: {
     searchUsers: "Search users",

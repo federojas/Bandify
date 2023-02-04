@@ -9,17 +9,27 @@ import "../../styles/forms.css";
 import "../../styles/modals.css";
 import "../../styles/alerts.css";
 import {
-    Avatar,
-    Button,
-    Card,
-    CardBody,
-    CardHeader,
-    Center,
-    Flex,
-    Heading,
-    HStack,
-    Text, useToast,
-    VStack,
+  Avatar,
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  Center,
+  Flex,
+  FormControl,
+  FormLabel,
+  Heading,
+  HStack,
+  Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Text, useDisclosure, useToast,
+  VStack,
 } from "@chakra-ui/react";
 
 import { BsInfoCircle } from "react-icons/bs";
@@ -37,6 +47,52 @@ import { useAuditionService } from "../../contexts/AuditionService";
 import AuthContext from "../../contexts/AuthContext";
 import swal from 'sweetalert';
 
+const ApplyButton = () => {
+  const { t } = useTranslation();
+  const { isOpen, onOpen, onClose } = useDisclosure()
+
+  const initialRef = React.useRef(null)
+  const finalRef = React.useRef(null)
+
+  return (
+    <>
+      <Button leftIcon={<FiUsers />} w={'44'} colorScheme='green' onClick={onOpen}>{t("Audition.apply")}</Button>
+
+
+      <Modal
+        initialFocusRef={initialRef}
+        finalFocusRef={finalRef}
+        isOpen={isOpen}
+        onClose={onClose}
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Create your account</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={6}>
+            <FormControl>
+              <FormLabel>First name</FormLabel>
+              <Input ref={initialRef} placeholder='First name' />
+            </FormControl>
+
+            <FormControl mt={4}>
+              <FormLabel>Last name</FormLabel>
+              <Input placeholder='Last name' />
+            </FormControl>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme='blue' mr={3}>
+              Save
+            </Button>
+            <Button onClick={onClose}>Cancel</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
+  )
+}
+
 const AuditionActions = (props: { auditionId: number, isOwner: boolean, currentUser: User | undefined }) => {
   const isBand = props.currentUser?.band;
   const { t } = useTranslation();
@@ -53,62 +109,65 @@ const AuditionActions = (props: { auditionId: number, isOwner: boolean, currentU
       text: t("Audition.deleteConfirm"),
       icon: "warning",
       buttons: {
-          cancel: t("Button.cancel"),
-          willDelete: t("Button.confirm")
+        cancel: t("Button.cancel"),
+        willDelete: t("Button.confirm")
       },
       dangerMode: true,
     })
-    .then((willDelete) => {
-      if (willDelete) {
-        serviceCall(auditionService.deleteAuditionById(props.auditionId), navigate, () => { }).then((response) => { 
-          if(response.hasFailed()){
+      .then((willDelete) => {
+        if (willDelete) {
+          serviceCall(auditionService.deleteAuditionById(props.auditionId), navigate, () => { }).then((response) => {
+            if (response.hasFailed()) {
               toast({
-                  title: t("Register.error"),
-                  status: "error",
-                  description: t("Audition.deleteError"),
-                  isClosable: true,
+                title: t("Register.error"),
+                status: "error",
+                description: t("Audition.deleteError"),
+                isClosable: true,
               })
-          } else {
+            } else {
               toast({
-                  title: t("Register.success"),
-                  status: "success",
-                  description: t("Audition.deleteSuccess"),
-                  isClosable: true,
+                title: t("Register.success"),
+                status: "success",
+                description: t("Audition.deleteSuccess"),
+                isClosable: true,
               })
               navigate("/auditions");
-          }
-         });
-      } 
-    });
-    
+            }
+          });
+        }
+      });
+
   }
 
-    const onEdit = () => {
-      navigate("/auditions/" + props.auditionId + "/edit");
-    }
+  const onEdit = () => {
+    navigate("/auditions/" + props.auditionId + "/edit");
+  }
+
+
 
   return (
     <VStack>
       <Button leftIcon={<FiShare2 />} w={'44'} colorScheme='blue'>
         <button
           onClick={() => {
-              navigator.clipboard.writeText(window.location.href);
-              toast({
-                  title: t("Register.success"),
-                  status: "success",
-                  description: t("Clipboard.message"),
-                  isClosable: true,
-              })
+            navigator.clipboard.writeText(window.location.href);
+            toast({
+              title: t("Register.success"),
+              status: "success",
+              description: t("Clipboard.message"),
+              isClosable: true,
+            })
           }}>
           {t("Audition.share")}
         </button>
       </Button>
       {props.isOwner ?
-       <>
-        <Button leftIcon={<FiUsers/>} w={'44'} colorScheme='green'>{t("Audition.applicants")}</Button>
-        <Button leftIcon={<AiOutlineEdit/>} w={'44'} colorScheme='teal' onClick={onEdit}>{t("Audition.edit")}</Button>
-        <Button leftIcon={<AiOutlineDelete/>} w={'44'} colorScheme='red' onClick={onDelete}>{t("Audition.delete")}</Button>
-        
+        <>
+          <Button leftIcon={<FiUsers />} w={'44'} colorScheme='green'>{t("Audition.applicants")}</Button>
+
+          <Button leftIcon={<AiOutlineEdit />} w={'44'} colorScheme='teal' onClick={onEdit}>{t("Audition.edit")}</Button>
+          <Button leftIcon={<AiOutlineDelete />} w={'44'} colorScheme='red' onClick={onDelete}>{t("Audition.delete")}</Button>
+
         </>
         :
         <>
@@ -187,6 +246,8 @@ const AuditionCard = ({
               ))}
             </HStack>
           </HStack>
+          <ApplyButton />
+
         </VStack>
       </CardBody>
 
@@ -216,49 +277,49 @@ const AuditionView = () => {
           setAudition(response)
         }
       },
-      );
-    }, [params.id, navigate]);
-    
-    
+    );
+  }, [params.id, navigate]);
+
+
   useEffect(() => {
-    if(audition) {
-          serviceCall(
-              userService.getProfileImageByUserId(audition.ownerId),
-              navigate,
-              (response) => {
-                setUserImg(response)
-              },
-          );
-          if(userId){
-            serviceCall(
-              userService.getUserById(userId),
-              navigate,
-              (response) => {
-                setCurrentUser(response)
-              }
-           );
+    if (audition) {
+      serviceCall(
+        userService.getProfileImageByUserId(audition.ownerId),
+        navigate,
+        (response) => {
+          setUserImg(response)
+        },
+      );
+      if (userId) {
+        serviceCall(
+          userService.getUserById(userId),
+          navigate,
+          (response) => {
+            setCurrentUser(response)
           }
-          serviceCall(
-              userService.getUserById(audition.ownerId),
-              navigate,
-              (response) => {
-                setOwnerUser(response)
-                setIsLoading(false);
-              },
-          );
-  
-        }
-      }, [audition, navigate, userId]
+        );
+      }
+      serviceCall(
+        userService.getUserById(audition.ownerId),
+        navigate,
+        (response) => {
+          setOwnerUser(response)
+          setIsLoading(false);
+        },
+      );
+
+    }
+  }, [audition, navigate, userId]
   )
 
   useEffect(() => {
-    if(currentUser && audition) {
+    if (currentUser && audition) {
       setIsOwner(currentUser?.id === audition.ownerId ? true : false);
     }
   }, [audition, currentUser])
 
   useEffect(() => {
-    if(ownerUser) {
+    if (ownerUser) {
       setIsLoading(false);
     }
   }, [ownerUser])
