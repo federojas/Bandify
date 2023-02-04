@@ -219,7 +219,9 @@ export const TRANSLATIONS_ES = {
     chooseFile: "Elegir archivo",
     availableTrue: "Sí",
     availableFalse: "No",
-    available: "Filtro en búsqueda de banda:"
+    available: "Filtro en búsqueda de banda:",
+    title: "Editar perfil",
+    subtitle: "Modifica los datos de tu perfil"
   },
   Button: {
     cancel: "Cancelar",

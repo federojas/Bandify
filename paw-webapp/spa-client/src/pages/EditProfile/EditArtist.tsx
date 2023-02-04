@@ -102,12 +102,33 @@ const EditArtist = () => {
           md: "grid",
         }}
         columns={{
-          md: 1,
+          md: 3,
         }}
         spacing={{
           md: 6,
         }}
       >
+        <GridItem
+            colSpan={{
+              md: 1,
+            }}
+        >
+          <Box px={[4, 0]}>
+            <Heading fontSize={'x-large'} fontWeight="bold" lineHeight="6">
+              {t("Edit.title")}
+            </Heading>
+            <Text
+                mt={1}
+                fontSize="lg"
+                color="gray.600"
+                _dark={{
+                  color: "gray.400",
+                }}
+            >
+              {t("Edit.subtitle")}
+            </Text>
+          </Box>
+        </GridItem>
         <GridItem
           mt={[5, null, 0]}
           colSpan={{
