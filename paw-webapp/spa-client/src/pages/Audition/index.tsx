@@ -9,31 +9,17 @@ import "../../styles/forms.css";
 import "../../styles/modals.css";
 import "../../styles/alerts.css";
 import {
-  Avatar,
-  Button,
-  Card,
-  CardBody,
-  CardHeader,
-  Center,
-  Flex,
-  Heading,
-  HStack,
-  Text, useToast,
-  VStack,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  useDisclosure,
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
+    Avatar,
+    Button,
+    Card,
+    CardBody,
+    CardHeader,
+    Center,
+    Flex,
+    Heading,
+    HStack,
+    Text,
+    VStack,
 } from "@chakra-ui/react";
 
 import { BsInfoCircle } from "react-icons/bs";
@@ -49,19 +35,49 @@ import { serviceCall } from "../../services/ServiceManager";
 import { useUserService } from "../../contexts/UserService";
 import { useAuditionService } from "../../contexts/AuditionService";
 import AuthContext from "../../contexts/AuthContext";
+import swal from 'sweetalert';
+
 
 
 const AuditionActions = (props: { auditionId: number, isOwner: boolean, currentUser: User | undefined }) => {
   const isBand = props.currentUser?.band;
   const { t } = useTranslation();
-  const auditionService = useAuditionService();
-  // const toast = useToast();
+  const navigate = useNavigate();
   const share = () => {
     // TODO: Add code to share the audition
   };
-  const navigate = useNavigate();
-  const handleEditClick = () => {
-    navigate(`/auditions/${props.auditionId}/edit`);
+  const auditionService = useAuditionService();
+
+  const onDelete = () => {
+    swal({
+      title: t("Audition.delete"),
+      text: t("Audition.deleteConfirm"),
+      icon: "warning",
+      buttons: (true as any),
+      dangerMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        serviceCall(auditionService.deleteAuditionById(props.auditionId), navigate, () => { }).then((response) => { 
+          console.log(response)
+          if(response.hasFailed()){
+            swal({
+              title: "",
+              text: t("Audition.deleteError"),
+              icon: "error",
+            });
+            
+          } else {
+            swal({
+              title: "",
+              text: t("Audition.deleteSuccess"),
+              icon: "success",
+            }).then(() => { /*navigate('/auditions') */});
+          }
+         });
+      } 
+    });
+    
   }
 
   return (
@@ -73,9 +89,11 @@ const AuditionActions = (props: { auditionId: number, isOwner: boolean, currentU
         </button>
       </Button>
       {props.isOwner ?
-        <>
-          <Button leftIcon={<FiUsers />} w={'44'} colorScheme='green'>{t("Audition.applicants")}</Button>
-          <Button onClick={handleEditClick} leftIcon={<AiOutlineEdit />} w={'44'} colorScheme='teal'>{t("Audition.edit")}</Button>
+       <>
+        <Button leftIcon={<FiUsers/>} w={'44'} colorScheme='green'>{t("Audition.applicants")}</Button>
+        <Button leftIcon={<AiOutlineEdit/>} w={'44'} colorScheme='teal'>{t("Audition.edit")}</Button>
+        <Button leftIcon={<AiOutlineDelete/>} w={'44'} colorScheme='red' onClick={onDelete}>{t("Audition.edit")}</Button>
+        
         </>
         :
         <>
@@ -86,8 +104,6 @@ const AuditionActions = (props: { auditionId: number, isOwner: boolean, currentU
     </VStack>
   );
 };
-
-
 
 const AuditionCard = ({
   user,
@@ -185,50 +201,49 @@ const AuditionView = () => {
           setAudition(response)
         }
       },
-    );
-  }, [params.id, navigate]);
-
-
+      );
+    }, [params.id, navigate]);
+    
+    
   useEffect(() => {
-    console.log("entre");
-    if (audition) {
-      serviceCall(
-        userService.getProfileImageByUserId(audition.ownerId),
-        navigate,
-        (response) => {
-          setUserImg(response)
-        },
-      );
-      if (userId) {
-        serviceCall(
-          userService.getUserById(userId),
-          navigate,
-          (response) => {
-            setCurrentUser(response)
+    if(audition) {
+          serviceCall(
+              userService.getProfileImageByUserId(audition.ownerId),
+              navigate,
+              (response) => {
+                setUserImg(response)
+              },
+          );
+          if(userId){
+            serviceCall(
+              userService.getUserById(userId),
+              navigate,
+              (response) => {
+                setCurrentUser(response)
+              }
+           );
           }
-        );
-      }
-      serviceCall(
-        userService.getUserById(audition.ownerId),
-        navigate,
-        (response) => {
-          setOwnerUser(response)
-          setIsLoading(false);
-        },
-      );
-
-    }
-  }, [audition, navigate, userId]
+          serviceCall(
+              userService.getUserById(audition.ownerId),
+              navigate,
+              (response) => {
+                setOwnerUser(response)
+                setIsLoading(false);
+              },
+          );
+  
+        }
+      }, [audition, navigate, userId]
   )
 
   useEffect(() => {
-    if (currentUser && audition) {
+    if(currentUser && audition) {
       setIsOwner(currentUser?.id === audition.ownerId ? true : false);
     }
   }, [audition, currentUser])
 
   useEffect(() => {
-    if (ownerUser) {
+    if(ownerUser) {
       setIsLoading(false);
     }
   }, [ownerUser])

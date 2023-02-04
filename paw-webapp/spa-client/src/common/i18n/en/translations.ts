@@ -179,7 +179,7 @@ export const TRANSLATIONS_EN = {
     deleteSuccess: "Audition removed successfully!",
     deleteError: "Oops, an error occurred!",
     apply: "Apply",
-    deleteConfirm: "Are you sure you want to remove this audition?"
+    deleteConfirm: "Are you sure you want to remove this audition? this action cannot be undone.",
   },
   Clipboard: {
     message: "Link copied to clipboard!",
