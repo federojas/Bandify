@@ -214,7 +214,12 @@ export const TRANSLATIONS_EN = {
     surname: "Surname",
     roleArtist: "My skills",
     genreArtist: "Favorite genres",
-    location: "Location"
+    location: "Location",
+    picture: "Change profile picture",
+    chooseFile: "Choose File",
+    availableTrue: "Yes",
+    availableFalse: "No",
+    available: "Looking for band filter:"
   },
   Button: {
     cancel: "Cancel",

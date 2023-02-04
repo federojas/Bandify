@@ -12,7 +12,7 @@ import {
 } from "chakra-react-select";
 import { LocationGroup, GenreGroup, RoleGroup } from "./EntitiesGroups";
 import {genreService, roleService, locationService, userService} from "../../services";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { serviceCall } from "../../services/ServiceManager";
 import { useNavigate } from "react-router-dom";
 
@@ -34,6 +34,12 @@ const EditArtist = () => {
   const [location, setLocation] = useState<LocationGroup>();
   const [genres, setGenres] = useState<GenreGroup[]>([]);
   const [roles, setRoles] = useState<RoleGroup[]>([]);
+  const [available, setAvailable] = React.useState("");
+
+  const availableOptions = [
+    { value: true, label: t("Edit.availableTrue") },
+    { value: false, label: t("Edit.availableFalse")},
+  ];
 
   useEffect(() => {
     serviceCall(
@@ -177,19 +183,20 @@ const EditArtist = () => {
                 <FormLabel
                   fontSize={16} fontWeight="bold"
                 >
-                  Photo
+                  {t("Edit.picture")}
                 </FormLabel>
                 <Flex alignItems="center" mt={1}>
                   <Avatar
-                    boxSize={20}
+                    boxSize={40}
                     fontSize={16} fontWeight="bold"
                     bg={useColorModeValue("gray.100", "gray.900")}
                     icon={
                       // TODO: Add image if  user has one
                       <Icon
                         as={FaUser}
-                        boxSize={16}
-                        mt={3}
+                        boxSize={40}
+                        mt={30}
+                        mb={30}
                         rounded="full"
                         bg={useColorModeValue("gray.100", "gray.900")}
                       />
@@ -205,12 +212,26 @@ const EditArtist = () => {
                       shadow: "none",
                     }}
                   >
-                    Change
+                    {t("Edit.chooseFile")}
                   </Button>
                 </Flex>
               </FormControl>
+              <FormControl>
+                <FormLabel fontSize={16} fontWeight="bold">{t("Edit.available")}</FormLabel>
+                <Select
+                    name="available"
+                    options={availableOptions}
+                    closeMenuOnSelect={false}
+                    variant="filled"
+                    tagVariant="solid"
+                    onChange={(selection) => {
+                      if(selection)
+                        setAvailable(selection.value.toString());
+                    }}
+                />
+              </FormControl>
 
-              {/*<FormControl>*/}
+              {/*<FormControl isRequired>*/}
               {/*  <FormLabel>{t("Edit.location")}</FormLabel>*/}
               {/*  <Select<LocationGroup, false, GroupBase<LocationGroup>>*/}
               {/*    name="locations"*/}
@@ -226,7 +247,7 @@ const EditArtist = () => {
               {/*</FormControl>*/}
 
               <FormControl>
-                <FormLabel>{t("Edit.genreArtist")}</FormLabel>
+                <FormLabel fontSize={16} fontWeight="bold" >{t("Edit.genreArtist")}</FormLabel>
                 <Select<GenreGroup, true, GroupBase<GenreGroup>>
                   isMulti
                   name="genres"
@@ -241,7 +262,7 @@ const EditArtist = () => {
                 />
               </FormControl>
               <FormControl>
-                <FormLabel>{t("Edit.roleArtist")}</FormLabel>
+                <FormLabel fontSize={16} fontWeight="bold" >{t("Edit.roleArtist")}</FormLabel>
                 <Select<RoleGroup, true, GroupBase<RoleGroup>>
                   isMulti
                   name="roles"

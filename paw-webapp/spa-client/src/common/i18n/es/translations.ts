@@ -214,7 +214,12 @@ export const TRANSLATIONS_ES = {
     surname: "Apellido",
     roleArtist: "Mis habilidades",
     genreArtist: "Géneros favoritos",
-    location: "Ubicación"
+    location: "Ubicación",
+    picture: "Cambiar foto de perfil",
+    chooseFile: "Elegir archivo",
+    availableTrue: "Sí",
+    availableFalse: "No",
+    available: "Filtro en búsqueda de banda:"
   },
   Button: {
     cancel: "Cancelar",
