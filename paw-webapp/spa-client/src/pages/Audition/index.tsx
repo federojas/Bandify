@@ -9,24 +9,31 @@ import "../../styles/forms.css";
 import "../../styles/modals.css";
 import "../../styles/alerts.css";
 import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
-  Avatar,
-  Button,
-  Card,
-  CardBody,
-  CardHeader,
-  Center,
-  Flex,
-  Heading,
-  HStack,
-  Text,
-  useDisclosure,
-  VStack,
+    Avatar,
+    Button,
+    Card,
+    CardBody,
+    CardHeader,
+    Center,
+    Flex,
+    Heading,
+    HStack,
+    Text, useToast,
+    VStack,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
+    ModalCloseButton,
+    useDisclosure,
+    AlertDialog,
+    AlertDialogBody,
+    AlertDialogContent,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogOverlay,
 } from "@chakra-ui/react";
 
 import { BsInfoCircle } from "react-icons/bs";
@@ -43,45 +50,6 @@ import { useUserService } from "../../contexts/UserService";
 import { useAuditionService } from "../../contexts/AuditionService";
 import AuthContext from "../../contexts/AuthContext";
 
-
-// function DeleteDialogButton() {
-//   const { t } = useTranslation();
-//   const { isOpen, onOpen, onClose } = useDisclosure()
-//   const cancelRef = useRef()
-
-//   return (
-//     <>
-//       <Button leftIcon={<AiOutlineDelete />} w={'44'} colorScheme='red' onClick={onOpen}>{t("Audition.delete")}</Button>
-
-//       <AlertDialog
-//         isOpen={isOpen}
-//         leastDestructiveRef={cancelRef}
-//         onClose={onClose}
-//       >
-//         <AlertDialogOverlay>
-//           <AlertDialogContent>
-//             <AlertDialogHeader fontSize='lg' fontWeight='bold'>
-//               Delete Customer
-//             </AlertDialogHeader>
-
-//             <AlertDialogBody>
-//               Are you sure? You can't undo this action afterwards.
-//             </AlertDialogBody>
-
-//             <AlertDialogFooter>
-//               <Button ref={cancelRef} onClick={onClose}>
-//                 Cancel
-//               </Button>
-//               <Button colorScheme='red' onClick={onClose} ml={3}>
-//                 Delete
-//               </Button>
-//             </AlertDialogFooter>
-//           </AlertDialogContent>
-//         </AlertDialogOverlay>
-//       </AlertDialog>
-//     </>
-//   )
-// }
 
 const AuditionActions = (props: { auditionId: number, isOwner: boolean, currentUser: User | undefined }) => {
   const isBand = props.currentUser?.band;
@@ -103,9 +71,10 @@ const AuditionActions = (props: { auditionId: number, isOwner: boolean, currentU
         </button>
       </Button>
       {props.isOwner ?
-        <>
-          <Button leftIcon={<FiUsers />} w={'44'} colorScheme='green'>{t("Audition.applicants")}</Button>
-          <Button leftIcon={<AiOutlineEdit />} w={'44'} colorScheme='teal'>{t("Audition.edit")}</Button></>
+       <>
+        <Button leftIcon={<FiUsers/>} w={'44'} colorScheme='green'>{t("Audition.applicants")}</Button>
+        <Button leftIcon={<AiOutlineEdit/>} w={'44'} colorScheme='teal'>{t("Audition.edit")}</Button>
+        </>
         :
         <>
           {isBand ? <></> : <Button leftIcon={<FiUsers />} w={'44'} colorScheme='green'>{t("Audition.apply")}</Button>}
@@ -214,41 +183,53 @@ const AuditionView = () => {
           setAudition(response)
         }
       },
-    );
-  }, [params.id, navigate]);
-
+      );
+    }, [params.id, navigate]);
+    
+    
+  useEffect(() => {
+    console.log("entre");
+    if(audition) {
+          serviceCall(
+              userService.getProfileImageByUserId(audition.ownerId),
+              navigate,
+              (response) => {
+                setUserImg(response)
+              },
+          );
+          if(userId){
+            serviceCall(
+              userService.getUserById(userId),
+              navigate,
+              (response) => {
+                setCurrentUser(response)
+              }
+           );
+          }
+          serviceCall(
+              userService.getUserById(audition.ownerId),
+              navigate,
+              (response) => {
+                setOwnerUser(response)
+                setIsLoading(false);
+              },
+          );
+  
+        }
+      }, [audition, navigate, userId]
+  )
 
   useEffect(() => {
-    if (audition) {
-      serviceCall(
-        userService.getProfileImageByUserId(audition.ownerId),
-        navigate,
-        (response) => {
-          setUserImg(response)
-        },
-      );
-      if (userId) {
-        serviceCall(
-          userService.getUserById(userId),
-          navigate,
-          (response) => {
-            setCurrentUser(response)
-          }
-        );
-      }
-      serviceCall(
-        userService.getUserById(audition.ownerId),
-        navigate,
-        (response) => {
-          setOwnerUser(response)
-          setIsOwner(currentUser?.id === audition.ownerId ? true : false);
-          setIsLoading(false);
-        },
-      );
-
+    if(currentUser && audition) {
+      setIsOwner(currentUser?.id === audition.ownerId ? true : false);
     }
-  }, [audition, isOwner, navigate, userId, currentUser]
-  )
+  }, [audition, currentUser])
+
+  useEffect(() => {
+    if(ownerUser) {
+      setIsLoading(false);
+    }
+  }, [ownerUser])
 
   return (
     <Center>
