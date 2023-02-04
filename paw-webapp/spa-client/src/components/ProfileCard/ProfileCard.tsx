@@ -23,10 +23,6 @@ import ArtistTag from '../Tags/ArtistTag';
 import BandTag from '../Tags/BandTag';
 import GenreTag, { GenreCount } from '../Tags/GenreTag';
 import RoleTag, { RoleCount } from '../Tags/RoleTag';
-import {useEffect, useState} from "react";
-import {serviceCall} from "../../services/ServiceManager";
-import {useUserService} from "../../contexts/UserService";
-import {useNavigate} from "react-router-dom";
 
 const ProfileCard: React.FC<User> = ({
   name,
@@ -67,24 +63,6 @@ const ProfileCard: React.FC<User> = ({
   }, [id, navigate])
 
 
-
-  const navigate = useNavigate();
-  const userService = useUserService();
-  const [userImg, setUserImg] = useState<string | undefined>(undefined);
-
-  useEffect(() => {
-    if(id) {
-      serviceCall(
-          userService.getProfileImageByUserId(id),
-          navigate,
-          (response) => {
-            setUserImg(
-                response
-            )
-          },
-      )
-    }
-  }, [id, navigate])
   return (
     <Center py={6}>
       <Stack
@@ -98,9 +76,6 @@ const ProfileCard: React.FC<User> = ({
         padding={4}>
         <Center flex={1}>
           <Image
-            objectFit="cover"
-            boxSize="100%"
-            src={`data:image/png;base64,${userImg}`} //TODO: revisar posible mejora a link
             src={`data:image/png;base64,${userImg}`} //TODO: revisar posible mejora a link
             alt="Profile Picture"
             borderRadius="full"
@@ -121,7 +96,7 @@ const ProfileCard: React.FC<User> = ({
           p={1}
           pt={2}>
           <Heading fontSize={'2xl'} fontFamily={'body'}>
-            {name} {surname? ' ' + surname : ''}
+            {name} {' '} {surname}
           </Heading>
 
           {
