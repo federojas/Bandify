@@ -224,5 +224,17 @@ export const TRANSLATIONS_ES = {
   Button: {
     cancel: "Cancelar",
     save: "Guardar"
+  },
+  EditAudition: {
+    title: "Editar audición",
+    subtitle: "Modifica los datos de tu audición",
+    auditionTitle: "Titulo de la audición",
+    auditionDescription: "Descripción de la audición",
+    auditionDescriptionHelper: "Describe la audición, la experiencia que buscas, etc.",
+    auditionLocation: "Ubicación de la audición",
+    auditionGenre: "Géneros deseados",
+    auditionRole: "Roles que buscas",
+    save: "Guardar",
+    cancel: "Cancelar",
   }
 };

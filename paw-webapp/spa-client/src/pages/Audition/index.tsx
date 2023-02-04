@@ -9,31 +9,31 @@ import "../../styles/forms.css";
 import "../../styles/modals.css";
 import "../../styles/alerts.css";
 import {
-    Avatar,
-    Button,
-    Card,
-    CardBody,
-    CardHeader,
-    Center,
-    Flex,
-    Heading,
-    HStack,
-    Text, useToast,
-    VStack,
-    Modal,
-    ModalOverlay,
-    ModalContent,
-    ModalHeader,
-    ModalFooter,
-    ModalBody,
-    ModalCloseButton,
-    useDisclosure,
-    AlertDialog,
-    AlertDialogBody,
-    AlertDialogContent,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogOverlay,
+  Avatar,
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  Center,
+  Flex,
+  Heading,
+  HStack,
+  Text, useToast,
+  VStack,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogOverlay,
 } from "@chakra-ui/react";
 
 import { BsInfoCircle } from "react-icons/bs";
@@ -56,11 +56,13 @@ const AuditionActions = (props: { auditionId: number, isOwner: boolean, currentU
   const { t } = useTranslation();
   const auditionService = useAuditionService();
   // const toast = useToast();
-  const navigate = useNavigate();  
   const share = () => {
     // TODO: Add code to share the audition
   };
-
+  const navigate = useNavigate();
+  const handleEditClick = () => {
+    navigate(`/auditions/${props.auditionId}/edit`);
+  }
 
   return (
     <VStack>
@@ -71,9 +73,9 @@ const AuditionActions = (props: { auditionId: number, isOwner: boolean, currentU
         </button>
       </Button>
       {props.isOwner ?
-       <>
-        <Button leftIcon={<FiUsers/>} w={'44'} colorScheme='green'>{t("Audition.applicants")}</Button>
-        <Button leftIcon={<AiOutlineEdit/>} w={'44'} colorScheme='teal'>{t("Audition.edit")}</Button>
+        <>
+          <Button leftIcon={<FiUsers />} w={'44'} colorScheme='green'>{t("Audition.applicants")}</Button>
+          <Button onClick={handleEditClick} leftIcon={<AiOutlineEdit />} w={'44'} colorScheme='teal'>{t("Audition.edit")}</Button>
         </>
         :
         <>
@@ -183,50 +185,50 @@ const AuditionView = () => {
           setAudition(response)
         }
       },
-      );
-    }, [params.id, navigate]);
-    
-    
+    );
+  }, [params.id, navigate]);
+
+
   useEffect(() => {
     console.log("entre");
-    if(audition) {
-          serviceCall(
-              userService.getProfileImageByUserId(audition.ownerId),
-              navigate,
-              (response) => {
-                setUserImg(response)
-              },
-          );
-          if(userId){
-            serviceCall(
-              userService.getUserById(userId),
-              navigate,
-              (response) => {
-                setCurrentUser(response)
-              }
-           );
+    if (audition) {
+      serviceCall(
+        userService.getProfileImageByUserId(audition.ownerId),
+        navigate,
+        (response) => {
+          setUserImg(response)
+        },
+      );
+      if (userId) {
+        serviceCall(
+          userService.getUserById(userId),
+          navigate,
+          (response) => {
+            setCurrentUser(response)
           }
-          serviceCall(
-              userService.getUserById(audition.ownerId),
-              navigate,
-              (response) => {
-                setOwnerUser(response)
-                setIsLoading(false);
-              },
-          );
-  
-        }
-      }, [audition, navigate, userId]
+        );
+      }
+      serviceCall(
+        userService.getUserById(audition.ownerId),
+        navigate,
+        (response) => {
+          setOwnerUser(response)
+          setIsLoading(false);
+        },
+      );
+
+    }
+  }, [audition, navigate, userId]
   )
 
   useEffect(() => {
-    if(currentUser && audition) {
+    if (currentUser && audition) {
       setIsOwner(currentUser?.id === audition.ownerId ? true : false);
     }
   }, [audition, currentUser])
 
   useEffect(() => {
-    if(ownerUser) {
+    if (ownerUser) {
       setIsLoading(false);
     }
   }, [ownerUser])
