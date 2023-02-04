@@ -38,6 +38,7 @@ import { serviceCall } from "../../services/ServiceManager";
 import {useNavigate, useParams} from "react-router-dom";
 import { AuditionInput } from "../../api/types/Audition"
 import { useAuditionService } from "../../contexts/AuditionService";
+import {Audition} from "../../models";
 
 interface FormData {
   title: string;
@@ -51,16 +52,17 @@ interface FormData {
 const EditAudition = () => {
   const { t } = useTranslation()
 
+  const [audition, setAudition] = useState<Audition>();
   const [locationOptions, setLocationOptions] = useState<LocationGroup[]>([]);
   const [genreOptions, setGenreOptions] = useState<GenreGroup[]>([]);
   const [roleOptions, setRoleOptions] = useState<RoleGroup[]>([]);
   const toast = useToast();
   const navigate = useNavigate();
   const {id} = useParams();
-  console.log(id)
-  const [location, setLocation] = useState<LocationGroup>({ label: "Buenos Aires", value: "Buenos Aires" });
+  const [location, setLocation] = useState<LocationGroup>();
   const [genres, setGenres] = useState<GenreGroup[]>([]);
   const [roles, setRoles] = useState<RoleGroup[]>([]);
+
 
   const auditionService = useAuditionService();
 
@@ -99,6 +101,16 @@ const EditAudition = () => {
       }
     )
   }, []);
+
+  useEffect(() => {
+    serviceCall(
+        auditionService.getAuditionById(Number(id)),
+        navigate,
+        (audition) => {
+          setAudition(audition)
+        }
+    )
+  }, [auditionService]);
 
 
   const {
@@ -145,19 +157,6 @@ const EditAudition = () => {
   const onCancel = () => {
     navigate(-1);
   };
-
-  // EditAudition: {
-  //   title: "Edit audition",
-  //   subtitle: "Edit your audition",
-  //   auditionTitle: "Audition title",
-  //   auditionDescription: "Audition description",
-  //   auditionDescriptionHelper: "Describe the audition, the experience you are looking for, etc.",
-  //   auditionLocation: "Audition location",
-  //   auditionGenre: "Desired genres",
-  //   auditionRole: "Roles you are looking for",
-  //   save: "Save",
-  //   cancel: "Cancel",
-  // }
 
   return <Box
     rounded={"lg"}
@@ -233,7 +232,8 @@ const EditAudition = () => {
                 </FormLabel>
                 <Input
                   type="text"
-                  // maxLength={50}
+                  maxLength={50}
+                  defaultValue={audition?.title}
                   {...register("title", newAuditionOptions.title)}
                 />
                 <FormErrorMessage>{errors.title?.message}</FormErrorMessage>
@@ -252,6 +252,8 @@ const EditAudition = () => {
                   mt={1}
                   rows={3}
                   shadow="sm"
+                  maxLength={300}
+                  defaultValue={audition?.description}
                   {...register("description", newAuditionOptions.description)}
                 />
                 <FormErrorMessage>{errors.description?.message}</FormErrorMessage>
@@ -264,6 +266,7 @@ const EditAudition = () => {
                 <FormLabel>{t("AuditionSearchBar.location")}</FormLabel>
                 <Select<LocationGroup, false, GroupBase<LocationGroup>>
                   name="locations"
+                  isRequired
                   options={locationOptions}
                   placeholder={t("AuditionSearchBar.locationPlaceholder")}
                   closeMenuOnSelect={true}
@@ -280,6 +283,7 @@ const EditAudition = () => {
                 <FormLabel>{t("EditAudition.genre")}</FormLabel>
                 <Select<GenreGroup, true, GroupBase<GenreGroup>>
                   isMulti
+                  isRequired
                   name="genres"
                   options={genreOptions}
                   placeholder={t("AuditionSearchBar.genrePlaceholder")}
@@ -296,6 +300,7 @@ const EditAudition = () => {
                 <Select<RoleGroup, true, GroupBase<RoleGroup>>
                   isMulti
                   name="roles"
+                  isRequired
                   options={roleOptions}
                   placeholder={t("AuditionSearchBar.rolePlaceholder")}
                   closeMenuOnSelect={false}
@@ -356,9 +361,6 @@ const EditAudition = () => {
       </SimpleGrid>
 
     </Box>
-
-
-
   </Box>;
 }
 

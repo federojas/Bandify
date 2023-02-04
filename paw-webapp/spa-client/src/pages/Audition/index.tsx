@@ -89,9 +89,6 @@ const ApplyButton = ({auditionId} : {auditionId: number})  => {
 
   return (
     <>
-      <Button leftIcon={<FiUsers />} w={'44'} colorScheme='green' onClick={onOpen}>{t("Audition.apply")}</Button>
-
-
       <Modal
         initialFocusRef={initialRef}
         finalFocusRef={finalRef}
@@ -108,7 +105,8 @@ const ApplyButton = ({auditionId} : {auditionId: number})  => {
                 <FormLabel>{t("Audition.Modal.message")}</FormLabel>
                 <Textarea 
                   // ref={initialRef}
-                  placeholder={t("Audition.Modal.placeHolder")} 
+                  placeholder={t("Audition.Modal.placeHolder")}
+                  maxLength={300}
                   {...register("description", applyAuditionOptions.message)}
                   />
               </FormControl>
@@ -219,6 +217,7 @@ const AuditionCard = ({
   userImg: string;
 }) => {
   const date = dayjs(audition.creationDate).format('DD/MM/YYYY')
+  const { userId } = useContext(AuthContext);
   return (
     <Card
       maxW={"3xl"}
@@ -231,7 +230,7 @@ const AuditionCard = ({
       <CardHeader>
         <Flex
           as="a"
-          href={`/user/`}//todo: cambiar por el id de la banda
+          href={userId === audition.ownerId ? "/profile": "/user/"+audition.ownerId}
           flex="1"
           gap="4"
           alignItems="center"

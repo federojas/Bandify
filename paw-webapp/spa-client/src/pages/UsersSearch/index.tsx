@@ -11,6 +11,13 @@ import ProfileCard from "../../components/ProfileCard/ProfileCard";
 import {getQueryOrDefault, getQueryOrDefaultArray, useQuery} from "../../hooks/useQuery";
 import DiscoverSearchBar from "../../components/SearchBars/DiscoverSearchBar";
 
+interface SearchParams {
+    searchTerms?: string;
+    roles?: string[];
+    genres?: string[];
+    locations?: string[];
+}
+
 const Index = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -21,10 +28,18 @@ const Index = () => {
   const [maxPage, setMaxPage] = useState(1);
   const location = useLocation();
   const userService = useUserService();
-  const [searchTerms] = React.useState<string>(getQueryOrDefault(query, "query", ""));
-  const [roles] = React.useState<string[]>(getQueryOrDefaultArray(query, "role"));
-  const [genres] = React.useState<string[]>(getQueryOrDefaultArray(query, "genre"));
-  const [locations] = React.useState<string[]>(getQueryOrDefaultArray(query, "location"));
+  const [searchTerms, setSearchTerms] = React.useState<string>(getQueryOrDefault(query, "query", ""));
+  const [roles, setRoles] = React.useState<string[]>(getQueryOrDefaultArray(query, "role"));
+  const [genres, setGenres] = React.useState<string[]>(getQueryOrDefaultArray(query, "genre"));
+  const [locations, setLocations] = React.useState<string[]>(getQueryOrDefaultArray(query, "location"));
+
+  const handleSubmit = (searchParams: SearchParams) => {
+    // update state with new search parameters
+    setSearchTerms(searchParams.searchTerms || searchTerms);
+    setRoles(searchParams.roles || roles);
+    setGenres(searchParams.genres || genres);
+    setLocations(searchParams.locations || locations);
+  };
 
   useEffect(() => {
     serviceCall(
@@ -43,7 +58,7 @@ const Index = () => {
       <Center marginY={10} flexDirection="column">
         <VStack spacing={5} >
           <Heading fontSize={40}>{t("Discover.discover")}</Heading>
-          <DiscoverSearchBar />
+          <DiscoverSearchBar onSubmit={handleSubmit} />
         </VStack>
       </Center>
       <Divider />

@@ -44,9 +44,10 @@ import RoleTag from "../Tags/RoleTag";
 import { BiBullseye } from "react-icons/bi";
 import { FiMusic } from "react-icons/fi";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import React, {useContext, useEffect, useState} from "react";
 import { serviceCall } from "../../services/ServiceManager";
 import { useUserService } from "../../contexts/UserService";
+import AuthContext from "../../contexts/AuthContext";
 const PostCard: React.FC<Audition> = ({
   title,
   ownerId,
@@ -60,11 +61,12 @@ const PostCard: React.FC<Audition> = ({
   const userService = useUserService();
   const navigate = useNavigate();
   const [userName, setUsername] = useState("")
-  const [userId, setUserId] = useState(0)
+  const [bandId, setBandId] = useState(0)
   const date = dayjs(creationDate).format('DD/MM/YYYY')
   const [userImg, setUserImg] = useState<string | undefined>(undefined);
   const urlLocation = useLocation();
   const toast = useToast();
+  const { userId } = useContext(AuthContext);
 
   useEffect(() => {
     serviceCall(
@@ -72,7 +74,7 @@ const PostCard: React.FC<Audition> = ({
       navigate,
       (response) => {
         setUsername(response.name);
-        setUserId(response.id);
+        setBandId(response.id);
       }
     )
   },[])
@@ -96,7 +98,7 @@ const PostCard: React.FC<Audition> = ({
       <CardHeader>
         <Flex
           as="a"
-          href={"/users/"+userId.toString()}
+          href={userId  === ownerId ? "/profile" : "/users/"+bandId.toString()}
           flex="1"
           gap="4"
           alignItems="center"

@@ -69,9 +69,6 @@ const AuditionSearch = () => {
   const [genres, setGenres] = React.useState<string[]>(getQueryOrDefaultArray(query, "genre"));
   const [locations, setLocations] = React.useState<string[]>(getQueryOrDefaultArray(query, "location"));
   const [order, setOrder] = React.useState<string>(getQueryOrDefault(query, "order", ""));
-  const [locationOptions, setLocationOptions] = React.useState<LocationGroup[]>([]);
-  const [genreOptions, setGenreOptions] = React.useState<GenreGroup[]>([]);
-  const [roleOptions, setRoleOptions] = React.useState<RoleGroup[]>([]);
 
   const handleSubmit = (searchParams: SearchParams) => {
     // update state with new search parameters

@@ -34,8 +34,17 @@ import {getQueryOrDefault, getQueryOrDefaultArray, useQuery} from "../../hooks/u
 import {useGenreService} from "../../contexts/GenreService";
 import {useRoleService} from "../../contexts/RoleService";
 import {useLocationService} from "../../contexts/LocationService";
+interface SearchParams {
+  searchTerms?: string;
+  roles?: string[];
+  genres?: string[];
+  locations?: string[];
+}
+interface DiscoverSearchBarProps {
+  onSubmit?: (searchParams: SearchParams) => void;
+}
 
-const DiscoverSearchBar: React.FC = () => {
+const DiscoverSearchBar: React.FC = ({ onSubmit = () => {} }: DiscoverSearchBarProps) => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -58,6 +67,13 @@ const DiscoverSearchBar: React.FC = () => {
           search: searchParams.toString(),
         }
     );
+    const searchParameters = {
+      searchTerms: input,
+      roles: roles.map((role) => role.value),
+      genres: genres.map((genre) => genre.value),
+      locations: locations.map((location) => location.value),
+    };
+    onSubmit && onSubmit(searchParameters);
 };
 
   const { t } = useTranslation();
