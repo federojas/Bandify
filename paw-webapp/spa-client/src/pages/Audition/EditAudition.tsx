@@ -47,6 +47,7 @@ interface FormData {
   roles: string[];
 }
 
+
 const EditAudition = () => {
   const { t } = useTranslation()
 
@@ -55,8 +56,8 @@ const EditAudition = () => {
   const [roleOptions, setRoleOptions] = useState<RoleGroup[]>([]);
   const toast = useToast();
   const navigate = useNavigate();
-  const params = useParams();
-
+  const {id} = useParams();
+  console.log(id)
   const [location, setLocation] = useState<LocationGroup>({ label: "Buenos Aires", value: "Buenos Aires" });
   const [genres, setGenres] = useState<GenreGroup[]>([]);
   const [roles, setRoles] = useState<RoleGroup[]>([]);
@@ -117,7 +118,7 @@ const EditAudition = () => {
     }
 
     serviceCall(
-      auditionService.updateAudition(params.id, auditionInput),
+      auditionService.updateAudition(Number(id), auditionInput),
       navigate,
       () => {
       }
