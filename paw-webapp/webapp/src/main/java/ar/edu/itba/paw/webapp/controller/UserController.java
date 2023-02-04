@@ -95,6 +95,7 @@ public class UserController {
         return Response.ok(UserDto.fromUser(uriInfo, user)).build();
     }
 
+    //TODO: si estamos sobrados no usar base 64 y tratar de usar blob con byte arrau, reduce datos en red
     @GET
     @Path("/{id}/profile-image")
     @Produces({MediaType.MULTIPART_FORM_DATA})

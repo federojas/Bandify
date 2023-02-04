@@ -175,11 +175,11 @@ export const TRANSLATIONS_EN = {
     share: "Share",
     applicants: "Applicants",
     edit: "Edit",
-    delete: "Delete",
-    deleteSuccess: "Audition removed successfully!",
+    delete: "Close",
+    deleteSuccess: "Audition closed successfully!",
     deleteError: "Oops, an error occurred!",
     apply: "Apply",
-    deleteConfirm: "Are you sure you want to remove this audition? this action cannot be undone.",
+    deleteConfirm: "Are you sure you want to close this audition? This action can not be undone.",
   },
   Clipboard: {
     message: "Link copied to clipboard!",
@@ -225,7 +225,8 @@ export const TRANSLATIONS_EN = {
   },
   Button: {
     cancel: "Cancel",
-    save: "Save"
+    save: "Save",
+    confirm: "Confirm"
   },
   EditAudition: {
     title: "Edit audition",
@@ -238,6 +239,10 @@ export const TRANSLATIONS_EN = {
     auditionRole: "Roles you are looking for",
     save: "Save",
     cancel: "Cancel",
+    genre: "Genre/s",
+    role: "Role/s",
+    error: "Could not edit audition.",
+    success:"¡Audition successfully modified!"
   }
 };
 

@@ -18,7 +18,7 @@ import {
     Flex,
     Heading,
     HStack,
-    Text,
+    Text, useToast,
     VStack,
 } from "@chakra-ui/react";
 
@@ -37,12 +37,11 @@ import { useAuditionService } from "../../contexts/AuditionService";
 import AuthContext from "../../contexts/AuthContext";
 import swal from 'sweetalert';
 
-
-
 const AuditionActions = (props: { auditionId: number, isOwner: boolean, currentUser: User | undefined }) => {
   const isBand = props.currentUser?.band;
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const toast = useToast();
   const share = () => {
     // TODO: Add code to share the audition
   };
@@ -53,26 +52,30 @@ const AuditionActions = (props: { auditionId: number, isOwner: boolean, currentU
       title: t("Audition.delete"),
       text: t("Audition.deleteConfirm"),
       icon: "warning",
-      buttons: (true as any),
+      buttons: {
+          cancel: t("Button.cancel"),
+          willDelete: t("Button.confirm")
+      },
       dangerMode: true,
     })
     .then((willDelete) => {
       if (willDelete) {
         serviceCall(auditionService.deleteAuditionById(props.auditionId), navigate, () => { }).then((response) => { 
-          console.log(response)
           if(response.hasFailed()){
-            swal({
-              title: "",
-              text: t("Audition.deleteError"),
-              icon: "error",
-            });
-            
+              toast({
+                  title: t("Register.error"),
+                  status: "error",
+                  description: t("Audition.deleteError"),
+                  isClosable: true,
+              })
           } else {
-            swal({
-              title: "",
-              text: t("Audition.deleteSuccess"),
-              icon: "success",
-            }).then(() => { /*navigate('/auditions') */});
+              toast({
+                  title: t("Register.success"),
+                  status: "success",
+                  description: t("Audition.deleteSuccess"),
+                  isClosable: true,
+              })
+              navigate("/auditions");
           }
          });
       } 
@@ -80,19 +83,31 @@ const AuditionActions = (props: { auditionId: number, isOwner: boolean, currentU
     
   }
 
+    const onEdit = () => {
+      navigate("/auditions/" + props.auditionId + "/edit");
+    }
+
   return (
     <VStack>
       <Button leftIcon={<FiShare2 />} w={'44'} colorScheme='blue'>
         <button
-          onClick={() => { navigator.clipboard.writeText(window.location.href) }}>
+          onClick={() => {
+              navigator.clipboard.writeText(window.location.href);
+              toast({
+                  title: t("Register.success"),
+                  status: "success",
+                  description: t("Clipboard.message"),
+                  isClosable: true,
+              })
+          }}>
           {t("Audition.share")}
         </button>
       </Button>
       {props.isOwner ?
        <>
         <Button leftIcon={<FiUsers/>} w={'44'} colorScheme='green'>{t("Audition.applicants")}</Button>
-        <Button leftIcon={<AiOutlineEdit/>} w={'44'} colorScheme='teal'>{t("Audition.edit")}</Button>
-        <Button leftIcon={<AiOutlineDelete/>} w={'44'} colorScheme='red' onClick={onDelete}>{t("Audition.edit")}</Button>
+        <Button leftIcon={<AiOutlineEdit/>} w={'44'} colorScheme='teal' onClick={onEdit}>{t("Audition.edit")}</Button>
+        <Button leftIcon={<AiOutlineDelete/>} w={'44'} colorScheme='red' onClick={onDelete}>{t("Audition.delete")}</Button>
         
         </>
         :

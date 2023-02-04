@@ -7,6 +7,7 @@ import PostResponse from "../api/types/PostResponse";
 import AuditionApiTest from "../api/AuditionApiTest";
 import PagedContent from "../api/types/PagedContent";
 import DeleteResponse from "../api/types/DeleteResponse";
+import PutResponse from "../api/types/PutResponse";
 
 export default class AuditionService {
   private auditionApi: AuditionApiTest;
@@ -151,7 +152,23 @@ export default class AuditionService {
         null as any
       );
     } catch (error) {
-      console.log(error);
+      return ErrorService.returnApiError(error);
+    }
+  }
+
+  public async updateAudition(auditionId: number, auditionInput: AuditionInput): Promise<ApiResult<PutResponse>> {
+    try {
+      const putResponse = await this.auditionApi.editAudition(auditionId, auditionInput);
+      const url: string = putResponse.headers!.location!;
+      const tokens = url.split('/')
+      const id: number = parseInt(tokens[tokens.length-1]);
+      const data: PutResponse = { url: url, id: id };
+      return new ApiResult(
+          data,
+          false,
+          null as any
+      );
+    } catch (error) {
       return ErrorService.returnApiError(error);
     }
   }

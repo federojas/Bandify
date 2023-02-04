@@ -17,4 +17,9 @@ interface RoleGroup extends OptionBase {
   value: string;
 }
 
-export type {  LocationGroup, GenreGroup, RoleGroup }
+interface OrderGroup extends OptionBase {
+  label: string;
+  value: string;
+}
+
+export type {  LocationGroup, GenreGroup, RoleGroup, OrderGroup }

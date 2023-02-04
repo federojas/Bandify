@@ -41,11 +41,11 @@ const AuditionSearch = () => {
   const [currentPage] = usePagination();
   const [maxPage, setMaxPage] = useState(1);
   const query = useQuery();
-  const searchTerms = getQueryOrDefault(query, "query", "");
-  const roles = getQueryOrDefaultArray(query, "role");
-  const genres = getQueryOrDefaultArray(query, "genre");
-  const locations = getQueryOrDefaultArray(query, "location");
-  const order = getQueryOrDefault(query, "order", "");
+  const [searchTerms] = React.useState<string>(getQueryOrDefault(query, "query", ""));
+  const [roles] = React.useState<string[]>(getQueryOrDefaultArray(query, "role"));
+  const [genres] = React.useState<string[]>(getQueryOrDefaultArray(query, "genre"));
+  const [locations] = React.useState<string[]>(getQueryOrDefaultArray(query, "location"));
+  const [order] = React.useState<string>(getQueryOrDefault(query, "order", ""));
 
   useEffect(() => {
     serviceCall(
@@ -56,7 +56,7 @@ const AuditionSearch = () => {
         setMaxPage(response ? response.getMaxPage() : 1); //TODO revisar esto
       }
     )
-  }, [currentPage])
+  }, [currentPage, searchTerms, roles, genres, locations, order])
 
   return (
     <>

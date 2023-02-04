@@ -28,15 +28,14 @@ import {
 import { SearchIcon } from "@chakra-ui/icons";
 import { useNavigate, useLocation } from "react-router-dom";
 import { serviceCall } from "../../services/ServiceManager";
-import { genreService, roleService, locationService } from "../../services";
 import { useEffect } from "react";
 import { LocationGroup, GenreGroup, RoleGroup } from "./EntitiesGroups";
+import {getQueryOrDefault, getQueryOrDefaultArray, useQuery} from "../../hooks/useQuery";
+import {useGenreService} from "../../contexts/GenreService";
+import {useRoleService} from "../../contexts/RoleService";
+import {useLocationService} from "../../contexts/LocationService";
 
-const SearchForm: React.FC = () => {
-  const [input, setInput] = React.useState("");
-  const [locations, setLocations] = React.useState<LocationGroup[]>([]);
-  const [genres, setGenres] = React.useState<GenreGroup[]>([]);
-  const [roles, setRoles] = React.useState<RoleGroup[]>([]);
+const DiscoverSearchBar: React.FC = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -59,12 +58,23 @@ const SearchForm: React.FC = () => {
         }
     );
 };
+
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   const [locationOptions, setLocationOptions] = React.useState<LocationGroup[]>([]);
   const [genreOptions, setGenreOptions] = React.useState<GenreGroup[]>([]);
   const [roleOptions, setRoleOptions] = React.useState<RoleGroup[]>([]);
+  const [filters, setFilters] = React.useState(false);
+  const genreService = useGenreService();
+  const roleService = useRoleService();
+  const locationService = useLocationService();
+  const query = useQuery();
+  const [input, setInput] = React.useState<string>(getQueryOrDefault(query, "query", ""));
+  const [locations, setLocations] = React.useState<LocationGroup[]>(getQueryOrDefaultArray(query, "location").map(l => { return { value: l, label: l }} ));
+  const [genres, setGenres] = React.useState<GenreGroup[]>(getQueryOrDefaultArray(query, "genre").map(g => { return { value: g, label: g }} ));
+  const [roles, setRoles] = React.useState<RoleGroup[]>(getQueryOrDefaultArray(query, "role").map(r => { return { value: r, label: r }} ));
+
 
   useEffect(() => {
     serviceCall(
@@ -311,4 +321,4 @@ const SearchForm: React.FC = () => {
   );
 };
 
-export default SearchForm;
+export default DiscoverSearchBar;

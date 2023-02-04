@@ -199,11 +199,7 @@ class AuditionApi {
 
     public editAudition = async (id: number, input: AuditionInput) => {
         return this.axiosPrivate.put(`${this.endpoint}/${id}`, input, this.config).then((response) => {
-            console.log(response);
-            return true;
-        }).catch((error) => {
-            console.log(error.response.data);
-            return false;
+            return Promise.resolve(response);
         });
     }
 

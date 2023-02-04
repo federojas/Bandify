@@ -1,4 +1,24 @@
-import { Avatar, Box, Button, Flex, FormControl, FormErrorMessage, FormHelperText, FormLabel, GridItem, Heading, HStack, Input, SimpleGrid, Stack, Text, Textarea, useColorModeValue, Icon } from "@chakra-ui/react";
+import {
+  Avatar,
+  Box,
+  Button,
+  Flex,
+  FormControl,
+  FormErrorMessage,
+  FormHelperText,
+  FormLabel,
+  GridItem,
+  Heading,
+  HStack,
+  Input,
+  SimpleGrid,
+  Stack,
+  Text,
+  Textarea,
+  useColorModeValue,
+  Icon,
+  useToast
+} from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { FaUser } from "react-icons/fa";
@@ -15,7 +35,7 @@ import { LocationGroup, GenreGroup, RoleGroup } from "./EntitiesGroups";
 import { genreService, roleService, locationService } from "../../services";
 import { useEffect, useState } from "react";
 import { serviceCall } from "../../services/ServiceManager";
-import { useNavigate } from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import { AuditionInput } from "../../api/types/Audition"
 import { useAuditionService } from "../../contexts/AuditionService";
 
@@ -33,8 +53,9 @@ const EditAudition = () => {
   const [locationOptions, setLocationOptions] = useState<LocationGroup[]>([]);
   const [genreOptions, setGenreOptions] = useState<GenreGroup[]>([]);
   const [roleOptions, setRoleOptions] = useState<RoleGroup[]>([]);
-
+  const toast = useToast();
   const navigate = useNavigate();
+  const params = useParams();
 
   const [location, setLocation] = useState<LocationGroup>({ label: "Buenos Aires", value: "Buenos Aires" });
   const [genres, setGenres] = useState<GenreGroup[]>([]);
@@ -87,8 +108,6 @@ const EditAudition = () => {
 
 
   const onSubmit = async (data: FormData) => {
-    console.log("Posting audition")
-
     const auditionInput: AuditionInput = {
       title: data.title,
       description: data.description,
@@ -97,21 +116,33 @@ const EditAudition = () => {
       lookingFor: roles.map((role) => role.value),
     }
 
-    console.log(auditionInput)
-
     serviceCall(
-      auditionService.createAudition(auditionInput),
+      auditionService.updateAudition(params.id, auditionInput),
       navigate,
-      (response) => {
-        console.log(response)
+      () => {
       }
-    ).then((r) => {
-      if (r.hasFailed()) {
-        console.log("Failed")
+    ).then((response) => {
+      if(response.hasFailed()){
+        toast({
+          title: t("Register.error"),
+          status: "error",
+          description: t("EditAudition.error"),
+          isClosable: true,
+        })
       } else {
-        console.log("Success")
+        toast({
+          title: t("Register.success"),
+          status: "success",
+          description: t("EditAudition.success"),
+          isClosable: true,
+        })
+        navigate("/auditions");
       }
     })
+  };
+
+  const onCancel = () => {
+    navigate(-1);
   };
 
   // EditAudition: {
@@ -245,7 +276,7 @@ const EditAudition = () => {
               </FormControl> */}
 
               <FormControl>
-                <FormLabel>{t("AuditionSearchBar.genre")}</FormLabel>
+                <FormLabel>{t("EditAudition.genre")}</FormLabel>
                 <Select<GenreGroup, true, GroupBase<GenreGroup>>
                   isMulti
                   name="genres"
@@ -260,7 +291,7 @@ const EditAudition = () => {
                 />
               </FormControl>
               <FormControl>
-                <FormLabel>{t("AuditionSearchBar.role")}</FormLabel>
+                <FormLabel>{t("EditAudition.role")}</FormLabel>
                 <Select<RoleGroup, true, GroupBase<RoleGroup>>
                   isMulti
                   name="roles"
@@ -301,7 +332,6 @@ const EditAudition = () => {
                 }}
                 fontWeight="md"
                 mr={4}
-
               >
                 {t("EditAudition.save")}
               </Button>
@@ -315,6 +345,7 @@ const EditAudition = () => {
                   shadow: "",
                 }}
                 fontWeight="md"
+                onClick={onCancel}
               >
                 {t("EditAudition.cancel")}
               </Button>

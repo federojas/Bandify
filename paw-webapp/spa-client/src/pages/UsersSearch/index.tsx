@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useUserService } from "../../contexts/UserService";
@@ -6,23 +6,29 @@ import { usePagination } from "../../hooks/usePagination";
 import { User } from "../../models";
 import { serviceCall } from "../../services/ServiceManager";
 import { Center, Divider, Flex, Heading, VStack } from "@chakra-ui/react";
-import SearchForm from "../../components/SearchBars/DiscoverSearchBar";
 import { PaginationArrow, PaginationWrapper } from "../../components/Pagination/pagination";
 import ProfileCard from "../../components/ProfileCard/ProfileCard";
+import {getQueryOrDefault, getQueryOrDefaultArray, useQuery} from "../../hooks/useQuery";
+import DiscoverSearchBar from "../../components/SearchBars/DiscoverSearchBar";
 
 const Index = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [users, setUsers] = useState<User[]>([]);
+  const query = useQuery();
 
   const [currentPage] = usePagination();
   const [maxPage, setMaxPage] = useState(1);
   const location = useLocation();
   const userService = useUserService();
+  const [searchTerms] = React.useState<string>(getQueryOrDefault(query, "query", ""));
+  const [roles] = React.useState<string[]>(getQueryOrDefaultArray(query, "role"));
+  const [genres] = React.useState<string[]>(getQueryOrDefaultArray(query, "genre"));
+  const [locations] = React.useState<string[]>(getQueryOrDefaultArray(query, "location"));
 
   useEffect(() => {
     serviceCall(
-      userService.getUsers(currentPage),
+      userService.getUsers(currentPage, searchTerms, genres, roles, locations),
       navigate,
       (response) => {
         setUsers(response ? response.getContent() : []);
@@ -30,14 +36,14 @@ const Index = () => {
       },
       location
     )
-  }, [currentPage, navigate, userService])
+  }, [currentPage, navigate, userService, searchTerms, genres, roles, locations])
 
   return (
     <>
       <Center marginY={10} flexDirection="column">
         <VStack spacing={5} >
           <Heading fontSize={40}>{t("Discover.discover")}</Heading>
-          <SearchForm />
+          <DiscoverSearchBar />
         </VStack>
       </Center>
       <Divider />

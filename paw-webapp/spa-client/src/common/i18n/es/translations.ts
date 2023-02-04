@@ -191,11 +191,11 @@ export const TRANSLATIONS_ES = {
     share: "Compartir",
     applicants: "Aplicantes",
     edit: "Editar",
-    delete: "Eliminar",
-    deleteSuccess: "¡Audición removida exitosamente!",
+    delete: "Cerrar",
+    deleteSuccess: "¡Audición cerrada exitosamente!",
     deleteError: "¡Oops, ocurrio un error!",
     apply: "Aplicar",
-    deleteConfirm: "¿Seguro que quieres eliminar esta audición? esta acción no se puede deshacer.",
+    deleteConfirm: "¿Seguro que quieres cerrar esta audición? Esta acción no puede deshacerse.",
   },
   ProfileCard: {
     Profile: "Perfil",
@@ -226,7 +226,8 @@ export const TRANSLATIONS_ES = {
   },
   Button: {
     cancel: "Cancelar",
-    save: "Guardar"
+    save: "Guardar",
+    confirm: "Confirmar"
   },
   EditAudition: {
     title: "Editar audición",
@@ -239,5 +240,9 @@ export const TRANSLATIONS_ES = {
     auditionRole: "Roles que buscas",
     save: "Guardar",
     cancel: "Cancelar",
+    genre: "Género/s",
+    role: "Role/es",
+    error: "No se pudo editar la audición.",
+    success:"¡Audición editada con éxito!"
   }
 };

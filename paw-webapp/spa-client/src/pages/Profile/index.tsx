@@ -160,7 +160,7 @@ const Profile = () => {
           >
             <VStack spacing={4} justifyItems="start">
               <Heading fontSize={"2xl"} fontWeight={500}>
-                { user?.band ?  t("Profile.genresBand") : t("Profile.favoriteGenres")}
+                {t("Profile.favoriteGenres")}
               </Heading>
               {user?.genres && user?.genres.length > 0 ? (
                 <HStack wrap={"wrap"}>
@@ -175,7 +175,7 @@ const Profile = () => {
             <Divider marginY={6} />
             <VStack spacing={4} justifyItems="start">
               <Heading fontSize={"2xl"} fontWeight={500}>
-                { user?.band ?  t("Profile.rolesBand") : t("Profile.rolesArtist")}
+                {t("Profile.roles")}
               </Heading>
               {user?.roles && user?.roles.length > 0 ? (
                 <HStack wrap={"wrap"}>

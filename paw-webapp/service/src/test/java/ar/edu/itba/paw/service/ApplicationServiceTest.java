@@ -235,6 +235,7 @@ public class ApplicationServiceTest {
         assertTrue(closedApps);
     }
 
+    //TODO: descomentar
 //    @Test
 //    public void testSelect() {
 //        long auditionId = 1;
