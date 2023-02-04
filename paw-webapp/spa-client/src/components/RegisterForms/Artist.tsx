@@ -23,12 +23,10 @@ import {
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { UserCreateInput } from "../../api/types/User";
-import { userService } from "../../services";
 import {registerOptions, registerOptionsES} from "./validations";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useUserService } from "../../contexts/UserService";
 import { serviceCall } from "../../services/ServiceManager";
-import { useAuditionService } from "../../contexts/AuditionService";
  
 interface FormData {
   email: string;
@@ -74,8 +72,6 @@ export default function RegisterArtistForm (){
       }
      }
       ).catch((error) => { console.log("error:"+error) });
-    // const res = await userService.createNewUser(newUser);
-    // console.log("🚀 ~ file: index.tsx:54 ~ onSubmit ~ res", res);
   };
 
   return (

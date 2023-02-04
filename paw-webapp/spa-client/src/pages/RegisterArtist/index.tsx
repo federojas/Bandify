@@ -11,9 +11,6 @@ const RegisterArtist = () => {
             <Heading fontSize={'4xl'} textAlign={'center'}>
               {t("RegisterArtist.signup")}
             </Heading>
-            <Text fontSize={'lg'} color={'gray.600'}>
-              {t("RegisterArtist.as")} <Text as='u'>{t("RegisterArtist.artist")}</Text>  
-            </Text>
           </Stack>
       <RegisterArtistForm />
       </Stack>
