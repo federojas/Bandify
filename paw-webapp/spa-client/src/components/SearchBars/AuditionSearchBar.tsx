@@ -26,15 +26,25 @@ import {
 import { useTranslation } from "react-i18next";
 import { SearchIcon } from "@chakra-ui/icons";
 import { serviceCall } from "../../services/ServiceManager";
-import {useRoleService} from "../../contexts/RoleService";
-import {useGenreService} from "../../contexts/GenreService";
-import {useLocationService} from "../../contexts/LocationService";
-import {useLocation, useNavigate} from "react-router-dom";
-import {LocationGroup, GenreGroup, RoleGroup, OrderGroup} from "./EntitiesGroups";
-import {getQueryOrDefault, getQueryOrDefaultArray, useQuery} from "../../hooks/useQuery";
+import { useRoleService } from "../../contexts/RoleService";
+import { useGenreService } from "../../contexts/GenreService";
+import { useLocationService } from "../../contexts/LocationService";
+import { useLocation, useNavigate } from "react-router-dom";
+import { LocationGroup, GenreGroup, RoleGroup, OrderGroup } from "./EntitiesGroups";
+import { getQueryOrDefault, getQueryOrDefaultArray, useQuery } from "../../hooks/useQuery";
+interface SearchParams {
+  searchTerms?: string;
+  roles?: string[];
+  genres?: string[];
+  locations?: string[];
+  order?: string;
+}
+interface AuditionSearchBarProps {
+  onSubmit?: (searchParams: SearchParams) => void;
+}
 
 // TODO: Move these to another folder
-const AuditionSearchBar = () => {
+const AuditionSearchBar = ({ onSubmit = () => {} }: AuditionSearchBarProps) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     let searchParams = new URLSearchParams(location.search);
@@ -44,30 +54,38 @@ const AuditionSearchBar = () => {
     searchParams.delete('query');
     searchParams.delete('order');
     searchParams.delete('page');
-    if(input && input.length > 0)
+    if (input && input.length > 0)
       searchParams.set('query', input);
-    if(order && order.value.length > 0)
+    if (order && order.value.length > 0)
       searchParams.set('order', order.value);
-    if(locations && locations.length > 0)
+    if (locations && locations.length > 0)
       locations.map((location) => searchParams.append('location', location.value));
-    if(genres && genres.length > 0)
+    if (genres && genres.length > 0)
       genres.map((genre) => searchParams.append('genre', genre.value));
-    if(roles && roles.length > 0)
+    if (roles && roles.length > 0)
       roles.map((role) => searchParams.append('role', role.value));
-    navigate( {
-          pathname: "/auditions/search",
-          search: searchParams.toString(),
-        }
+    navigate({
+      pathname: "/auditions/search",
+      search: searchParams.toString(),
+    }
     );
+    const searchParameters = {
+      searchTerms: input,
+      order: order.value,
+      roles: roles.map((role) => role.value),
+      genres: genres.map((genre) => genre.value),
+      locations: locations.map((location) => location.value),
+    };
+    onSubmit && onSubmit(searchParameters);
   };
 
   const { t } = useTranslation();
   const query = useQuery();
   const [input, setInput] = React.useState<string>(getQueryOrDefault(query, "query", ""));
-  const [order, setOrder] = React.useState<OrderGroup>(() => {  return getQueryOrDefault(query, "order", "") === "" ? {value: "DESC", label: t("AuditionSearchBar.desc")} : { value: "ASC", label: t("AuditionSearchBar.asc") }});
-  const [locations, setLocations] = React.useState<LocationGroup[]>(getQueryOrDefaultArray(query, "location").map(l => { return { value: l, label: l }} ));
-  const [genres, setGenres] = React.useState<GenreGroup[]>(getQueryOrDefaultArray(query, "genre").map(g => { return { value: g, label: g }} ));
-  const [roles, setRoles] = React.useState<RoleGroup[]>(getQueryOrDefaultArray(query, "role").map(r => { return { value: r, label: r }} ));
+  const [order, setOrder] = React.useState<OrderGroup>(() => { return getQueryOrDefault(query, "order", "") === "" ? { value: "DESC", label: t("AuditionSearchBar.desc") } : { value: "ASC", label: t("AuditionSearchBar.asc") } });
+  const [locations, setLocations] = React.useState<LocationGroup[]>(getQueryOrDefaultArray(query, "location").map(l => { return { value: l, label: l } }));
+  const [genres, setGenres] = React.useState<GenreGroup[]>(getQueryOrDefaultArray(query, "genre").map(g => { return { value: g, label: g } }));
+  const [roles, setRoles] = React.useState<RoleGroup[]>(getQueryOrDefaultArray(query, "role").map(r => { return { value: r, label: r } }));
   const [filters, setFilters] = React.useState(false);
   const navigate = useNavigate();
   const location = useLocation();
@@ -80,7 +98,7 @@ const AuditionSearchBar = () => {
 
   const orderByOptions = [
     { value: "ASC", label: t("AuditionSearchBar.asc") },
-    { value: "DESC", label: t("AuditionSearchBar.desc")},
+    { value: "DESC", label: t("AuditionSearchBar.desc") },
   ];
 
   useEffect(() => {
@@ -138,7 +156,7 @@ const AuditionSearchBar = () => {
                 variant="filled"
                 defaultValue={input}
                 onChange={(event) => {
-                    setInput(event.target.value);
+                  setInput(event.target.value);
                 }}
               />
             </div>
@@ -153,7 +171,7 @@ const AuditionSearchBar = () => {
                 variant="filled"
                 defaultValue={order}
                 onChange={(selection) => {
-                  if(selection)
+                  if (selection)
                     setOrder(selection);
                 }}
               />
@@ -180,7 +198,7 @@ const AuditionSearchBar = () => {
                   tagVariant="solid"
                   defaultValue={locations}
                   onChange={(event) => {
-                      setLocations(event.flatMap((e) => e));
+                    setLocations(event.flatMap((e) => e));
                   }}
                 />
               </Container>
@@ -197,7 +215,7 @@ const AuditionSearchBar = () => {
                   tagVariant="solid"
                   defaultValue={genres}
                   onChange={(event) => {
-                      setGenres(event.flatMap((e) => e));
+                    setGenres(event.flatMap((e) => e));
                   }}
                 />
               </Container>
@@ -213,7 +231,7 @@ const AuditionSearchBar = () => {
                   tagVariant="solid"
                   defaultValue={roles}
                   onChange={(event) => {
-                      setRoles(event.flatMap((e) => e));
+                    setRoles(event.flatMap((e) => e));
                   }}
                 />
               </Container>
