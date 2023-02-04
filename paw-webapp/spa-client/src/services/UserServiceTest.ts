@@ -1,5 +1,5 @@
 import ApiResult from "../api/types/ApiResult";
-import { UserCreateInput } from "../api/types/User";
+import {UserCreateInput, UserUpdateInput} from "../api/types/User";
 import UserApiTest from "../api/UserApiTest";
 import { User } from "../models";
 import { ErrorService } from "./ErrorService";
@@ -25,6 +25,19 @@ export default class UserService {
       return ErrorService.returnApiError(error);
     }
   }
+
+    public async updateUser(userId: number, input: UserUpdateInput): Promise<ApiResult<User>> {
+        try {
+            const current = await this.userApi.updateUser(userId, input);
+            return new ApiResult(
+                {} as User,
+                false,
+                null as any
+            );
+        } catch (error: any) {
+            return ErrorService.returnApiError(error);
+        }
+    }
 
   public async getUserById(id: number): Promise<ApiResult<User>> {
     try {

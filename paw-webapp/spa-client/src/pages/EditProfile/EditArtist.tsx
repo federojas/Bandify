@@ -11,7 +11,7 @@ import {
   GroupBase,
 } from "chakra-react-select";
 import { LocationGroup, GenreGroup, RoleGroup } from "./EntitiesGroups";
-import { genreService, roleService, locationService } from "../../services";
+import {genreService, roleService, locationService, userService} from "../../services";
 import { useEffect, useState } from "react";
 import { serviceCall } from "../../services/ServiceManager";
 import { useNavigate } from "react-router-dom";
@@ -80,7 +80,7 @@ const EditArtist = () => {
 
 
   const onSubmit = async (data: FormData) => {
-    console.log("Editing artist")
+
   };
 
   return <Box
@@ -96,34 +96,12 @@ const EditArtist = () => {
           md: "grid",
         }}
         columns={{
-          md: 3,
+          md: 1,
         }}
         spacing={{
           md: 6,
         }}
       >
-        <GridItem
-          colSpan={{
-            md: 1,
-          }}
-        >
-          <Box px={[4, 0]}>
-            <Heading fontSize="lg" fontWeight="md" lineHeight="6">
-              Profile
-            </Heading>
-            <Text
-              mt={1}
-              fontSize="sm"
-              color="gray.600"
-              _dark={{
-                color: "gray.400",
-              }}
-            >
-              This information will be displayed publicly so be careful what you
-              share.
-            </Text>
-          </Box>
-        </GridItem>
         <GridItem
           mt={[5, null, 0]}
           colSpan={{
@@ -131,9 +109,7 @@ const EditArtist = () => {
           }}
         >
           <form
-
             onSubmit={handleSubmit(onSubmit)}
-
           >
             <Stack
               bg={useColorModeValue("gray.100", "gray.900")}
@@ -156,7 +132,7 @@ const EditArtist = () => {
                     isInvalid={Boolean(errors.name)}
                   >
                     <FormLabel fontSize={16} fontWeight="bold">
-                      {t("Register.artist_name")}
+                      {t("Edit.name")}
                     </FormLabel>
                     <Input
                       type="text"
@@ -173,7 +149,7 @@ const EditArtist = () => {
                     isInvalid={Boolean(errors.surname)}
                   >
                     <FormLabel fontSize={16} fontWeight="bold">
-                      {t("Register.artist_surname")}
+                      {t("Edit.surname")}
                     </FormLabel>
                     <Input
                       type="text"
@@ -187,7 +163,7 @@ const EditArtist = () => {
                 <FormLabel
                   fontSize={16} fontWeight="bold"
                 >
-                  Description
+                  {t("Edit.description")}
                 </FormLabel>
                 <Textarea
                   mt={1}
@@ -195,16 +171,11 @@ const EditArtist = () => {
                   shadow="sm"
 
                 />
-                <FormHelperText>
-                  Brief description for your profile
-                </FormHelperText>
               </FormControl>
 
               <FormControl>
                 <FormLabel
                   fontSize={16} fontWeight="bold"
-
-
                 >
                   Photo
                 </FormLabel>
@@ -239,24 +210,23 @@ const EditArtist = () => {
                 </Flex>
               </FormControl>
 
-              {/* <FormControl>
-                <FormLabel>{t("AuditionSearchBar.location")}</FormLabel>
-                <Select<LocationGroup, false, GroupBase<LocationGroup>>
-                  name="locations"
-                  options={locationOptions}
-                  placeholder={t("AuditionSearchBar.locationPlaceholder")}
-                  closeMenuOnSelect={true}
-                  variant="filled"
-                  tagVariant="solid"
-                  onChange={(loc) => {
-
-                    setLocation(loc);
-                  }}
-                />
-              </FormControl> */}
+              {/*<FormControl>*/}
+              {/*  <FormLabel>{t("Edit.location")}</FormLabel>*/}
+              {/*  <Select<LocationGroup, false, GroupBase<LocationGroup>>*/}
+              {/*    name="locations"*/}
+              {/*    options={locationOptions}*/}
+              {/*    placeholder={t("AuditionSearchBar.locationPlaceholder")}*/}
+              {/*    closeMenuOnSelect={true}*/}
+              {/*    variant="filled"*/}
+              {/*    tagVariant="solid"*/}
+              {/*    onChange={(loc) => {*/}
+              {/*      setLocation(loc);*/}
+              {/*    }}*/}
+              {/*  />*/}
+              {/*</FormControl>*/}
 
               <FormControl>
-                <FormLabel>{t("AuditionSearchBar.genre")}</FormLabel>
+                <FormLabel>{t("Edit.genreArtist")}</FormLabel>
                 <Select<GenreGroup, true, GroupBase<GenreGroup>>
                   isMulti
                   name="genres"
@@ -271,7 +241,7 @@ const EditArtist = () => {
                 />
               </FormControl>
               <FormControl>
-                <FormLabel>{t("AuditionSearchBar.role")}</FormLabel>
+                <FormLabel>{t("Edit.roleArtist")}</FormLabel>
                 <Select<RoleGroup, true, GroupBase<RoleGroup>>
                   isMulti
                   name="roles"
@@ -393,6 +363,7 @@ const EditArtist = () => {
             >
               <Button
                 type="submit"
+                mr={4}
                 bg={"blue.400"}
                 color={"white"}
                 _hover={{
@@ -403,7 +374,20 @@ const EditArtist = () => {
                 }}
                 fontWeight="md"
               >
-                Save
+                {t("Button.save")}
+              </Button>
+              <Button
+                  bg={"gray.400"}
+                  color={"white"}
+                  _hover={{
+                    bg: "gray.500",
+                  }}
+                  _focus={{
+                    shadow: "",
+                  }}
+                  fontWeight="md"
+              >
+                {t("Button.cancel")}
               </Button>
             </Box>
           </form>

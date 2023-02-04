@@ -12,20 +12,6 @@ export const TRANSLATIONS_EN = {
     header:"Search for Auditions 🎸",
     noFound: "No auditions found"
   },
-  Profile: {
-    alt: {
-      img: "Profile Picture",
-    },
-    favoriteGenres: "Favorite genres",
-    noFavoriteGenres: "No favorite genres",
-    roles: "My skills",
-    noRoles: "No skills",
-    socialMedia: "Social media",
-    noSocialMedia: "No social media",
-    playsIn: "Plays in",
-    noPlaysIn: "No bands",
-    noDescription: "No description",
-  },
   NavBar: {
     title: "navbar",
     logo: "Bandify logo",
@@ -205,6 +191,34 @@ export const TRANSLATIONS_EN = {
   ProfileCard: {
     Auditions: "Auditions",
     Profile: "Profile",
+  },
+  Profile: {
+    alt: {
+      img: "Profile Picture",
+    },
+    favoriteGenres: "Favorite genres",
+    noFavoriteGenres: "No favorite genres",
+    genresBand: "Band genres",
+    rolesArtist: "My skills",
+    rolesBand: "Band roles",
+    noRoles: "No skills",
+    socialMedia: "Social media",
+    noSocialMedia: "No social media",
+    playsIn: "Plays in",
+    noPlaysIn: "No bands",
+    noDescription: "No description",
+  },
+  Edit: {
+    name: "Name",
+    description: "Description",
+    surname: "Surname",
+    roleArtist: "My skills",
+    genreArtist: "Favorite genres",
+    location: "Location"
+  },
+  Button: {
+    cancel: "Cancel",
+    save: "Save"
   }
 };
 

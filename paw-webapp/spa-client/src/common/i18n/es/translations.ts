@@ -18,7 +18,9 @@ export const TRANSLATIONS_ES = {
     },
     favoriteGenres: "Géneros favoritos",
     noFavoriteGenres: "No hay géneros favoritos",
-    roles: "Mis roles",
+    genresBand: "Géneros de la banda",
+    rolesArtist: "Mis roles",
+    rolesBand: "Roles de la banda",
     noRoles: "No hay roles",
     socialMedia: "Redes sociales",
     noSocialMedia: "No hay redes sociales",
@@ -205,5 +207,17 @@ export const TRANSLATIONS_ES = {
   Modal: {
     close: "Cerrar",
     confirm: "Aceptar"
+  },
+  Edit: {
+    name: "Nombre",
+    description: "Descripción",
+    surname: "Apellido",
+    roleArtist: "Mis habilidades",
+    genreArtist: "Géneros favoritos",
+    location: "Ubicación"
+  },
+  Button: {
+    cancel: "Cancelar",
+    save: "Guardar"
   }
 };

@@ -14,6 +14,7 @@ type UserUpdateInput = {
     location: string;
     genres: string[];
     roles: string[];
+    available: boolean;
 }
 
 type User = {
