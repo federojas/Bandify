@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import dayjs from 'dayjs';
-import {Audition, User} from "../../models";
+import { Audition, User } from "../../models";
 import "../../styles/welcome.css";
 import "../../styles/postCard.css";
 import "../../styles/audition.css";
@@ -9,25 +9,24 @@ import "../../styles/forms.css";
 import "../../styles/modals.css";
 import "../../styles/alerts.css";
 import {
-    Avatar,
-    Button,
-    Card,
-    CardBody,
-    CardHeader,
-    Center,
-    Flex,
-    Heading,
-    HStack,
-    Text, useToast,
-    VStack,
-    Modal,
-    ModalOverlay,
-    ModalContent,
-    ModalHeader,
-    ModalFooter,
-    ModalBody,
-    ModalCloseButton,
-    useDisclosure,
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogOverlay,
+  Avatar,
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  Center,
+  Flex,
+  Heading,
+  HStack,
+  Text,
+  useDisclosure,
+  VStack,
 } from "@chakra-ui/react";
 
 import { BsInfoCircle } from "react-icons/bs";
@@ -41,7 +40,7 @@ import { useTranslation } from "react-i18next";
 import GenreTag from "../../components/Tags/GenreTag";
 import { serviceCall } from "../../services/ServiceManager";
 import { useUserService } from "../../contexts/UserService";
-import {useAuditionService} from "../../contexts/AuditionService";
+import { useAuditionService } from "../../contexts/AuditionService";
 import AuthContext from "../../contexts/AuthContext";
 
 const AuditionActions = (props: { auditionId: number, isOwner:boolean, currentUser:User|undefined}) => {
@@ -51,84 +50,68 @@ const AuditionActions = (props: { auditionId: number, isOwner:boolean, currentUs
   const toast = useToast();
   const navigate = useNavigate();
 
-function DeleteModal() {
-    const { isOpen, onClose, onOpen} = useDisclosure();
+function DeleteDialogButton() {
+  const {t} = useTranslation();
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const cancelRef = useRef()
 
-    return (
-        <>
-            <Button leftIcon={<AiOutlineDelete/>} w={'44'} colorScheme='red' onClick={onOpen}>
-                {t("Audition.delete")}
-            </Button>
-            <Modal isOpen={isOpen} onClose={onClose}>
-                <ModalOverlay />
-                <ModalContent>
-                    <ModalHeader>{t("Audition.deleteConfirm")}</ModalHeader>
-                    <ModalCloseButton />
-                    <ModalFooter>
-                        <Button colorScheme='blue' mr={3} onClick={onClose}>
-                            {t("Modal.close")}
-                        </Button>
-                        <Button variant='ghost' onClick={handleDelete}>{t("Modal.confirm")}</Button>
-                    </ModalFooter>
-                </ModalContent>
-            </Modal>
-        </>
-    )
+  return (
+    <>
+      <Button leftIcon={<AiOutlineDelete />} w={'44'} colorScheme='red' onClick={onOpen}>{t("Audition.delete")}</Button>
+
+      <AlertDialog
+        isOpen={isOpen}
+        leastDestructiveRef={cancelRef}
+        onClose={onClose}
+      >
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+              Delete Customer
+            </AlertDialogHeader>
+
+            <AlertDialogBody>
+              Are you sure? You can't undo this action afterwards.
+            </AlertDialogBody>
+
+            <AlertDialogFooter>
+              <Button ref={cancelRef} onClick={onClose}>
+                Cancel
+              </Button>
+              <Button colorScheme='red' onClick={onClose} ml={3}>
+                Delete
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
+    </>
+  )
 }
 
-  function handleDelete() {
-    //TODO analizar uso de deleteResponse
-    let deleteRespone = auditionService
-        .deleteAuditionById(props.auditionId)
-        .then(() => {
-            toast({
-                title: t("Register.success"),
-                status: "success",
-                description: t("Audition.deleteSuccess"),
-                isClosable: true,
-            });
-        })
-        .catch(() =>
-            toast({
-                title: t("Register.error"),
-                status: "error",
-                description: t("Audition.deleteError"),
-                isClosable: true,
-            })
-        )
-      navigate(-1);
-  }
+const AuditionActions = (props: { auditionId: number, isOwner: boolean, currentUser: User | undefined }) => {
+  const isBand = props.currentUser?.band;
+  const share = () => {
+    // TODO: Add code to share the audition
+  };
 
 
   return (
     <VStack>
-      <Button leftIcon={<FiShare2/>} w={'44'} colorScheme='blue'>
+      <Button leftIcon={<FiShare2 />} w={'44'} colorScheme='blue'>
         <button
-            onClick={() =>
-            {
-                navigator.clipboard.writeText( window.location.href );
-                toast({
-                    title: t("Register.success"),
-                    status: "success",
-                    description: t("Clipboard.message"),
-                    isClosable: true,
-                });
-            }
-
-        }>
+          onClick={() => { navigator.clipboard.writeText(window.location.href) }}>
           {t("Audition.share")}
         </button>
       </Button>
       {props.isOwner ?
-       <>
-        <Button leftIcon={<FiUsers/>} w={'44'} colorScheme='green'>{t("Audition.applicants")}</Button>
-        <Button leftIcon={<AiOutlineEdit/>} w={'44'} colorScheme='teal'>{t("Audition.edit")}</Button>
-        <DeleteModal/>
-        </>
+        <>
+          <Button leftIcon={<FiUsers />} w={'44'} colorScheme='green'>{t("Audition.applicants")}</Button>
+          <Button leftIcon={<AiOutlineEdit />} w={'44'} colorScheme='teal'>{t("Audition.edit")}</Button></>
         :
         <>
-        {isBand ?  <></> : <Button leftIcon={<FiUsers/>} w={'44'} colorScheme='green'>{t("Audition.apply")}</Button>}
-        {/*AGREGAR !hasApplied */}
+          {isBand ? <></> : <Button leftIcon={<FiUsers />} w={'44'} colorScheme='green'>{t("Audition.apply")}</Button>}
+
         </>
       }
     </VStack>
@@ -146,7 +129,7 @@ const AuditionCard = ({
   audition: Audition;
   userImg: string;
 }) => {
-  const date =dayjs(audition.creationDate).format('DD/MM/YYYY')
+  const date = dayjs(audition.creationDate).format('DD/MM/YYYY')
   return (
     <Card
       maxW={"3xl"}
@@ -168,7 +151,7 @@ const AuditionCard = ({
           <Avatar
             src={`data:image/png;base64,${userImg}`}
           />
-          <Heading size={"lg"}>{user.name}</Heading> 
+          <Heading size={"lg"}>{user.name}</Heading>
         </Flex>
       </CardHeader>
       <CardBody>
@@ -200,7 +183,7 @@ const AuditionCard = ({
             <FiMusic />
             <HStack wrap={"wrap"}>
               {audition.musicGenres.map((item, index) => (
-                <GenreTag genre={item} key={index}/>
+                <GenreTag genre={item} key={index} />
               ))}
             </HStack>
           </HStack>
@@ -223,13 +206,13 @@ const AuditionView = () => {
   const [ownerUser, setOwnerUser] = React.useState<User>();
   const [currentUser, setCurrentUser] = React.useState<User>();
   const [isOwner, setIsOwner] = useState(false);
-  const {userId} = useContext(AuthContext);
+  const { userId } = useContext(AuthContext);
   useEffect(() => {
     serviceCall(
       auditionService.getAuditionById(parseInt(params.id as string)),
       navigate,
-      (response) => {  
-        if(response) {
+      (response) => {
+        if (response) {
           setAudition(response)
         }
       },
@@ -238,45 +221,45 @@ const AuditionView = () => {
 
 
   useEffect(() => {
-    if(audition) {
-          serviceCall(
-              userService.getProfileImageByUserId(audition.ownerId),
-              navigate,
-              (response) => {
-                setUserImg(response)
-              },
-          );
-          if(userId){
-            serviceCall(
-              userService.getUserById(userId),
-              navigate,
-              (response) => {
-                setCurrentUser(response)
-              }
-           );
+    if (audition) {
+      serviceCall(
+        userService.getProfileImageByUserId(audition.ownerId),
+        navigate,
+        (response) => {
+          setUserImg(response)
+        },
+      );
+      if (userId) {
+        serviceCall(
+          userService.getUserById(userId),
+          navigate,
+          (response) => {
+            setCurrentUser(response)
           }
-          serviceCall(
-              userService.getUserById(audition.ownerId),
-              navigate,
-              (response) => {
-                setOwnerUser(response)
-                setIsOwner(currentUser?.id === audition.ownerId ? true : false);
-                setIsLoading(false);
-              },
-          );
-  
-        }
-      }, [audition, isOwner, navigate, userId, currentUser]
+        );
+      }
+      serviceCall(
+        userService.getUserById(audition.ownerId),
+        navigate,
+        (response) => {
+          setOwnerUser(response)
+          setIsOwner(currentUser?.id === audition.ownerId ? true : false);
+          setIsLoading(false);
+        },
+      );
+
+    }
+  }, [audition, isOwner, navigate, userId, currentUser]
   )
 
   return (
     <Center>
-      <HStack minH={"80vh"}>  
+      <HStack minH={"80vh"}>
         {isLoading ? <span className="loader"></span> :
-            (<>
+          (<>
             <AuditionCard user={ownerUser!} audition={audition!} userImg={userImg!} />
             <AuditionActions auditionId={audition!.id} isOwner={isOwner} currentUser={currentUser} />
-            </>)}
+          </>)}
       </HStack>
     </Center>
   );

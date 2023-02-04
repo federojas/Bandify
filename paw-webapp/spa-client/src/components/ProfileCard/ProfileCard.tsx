@@ -121,7 +121,7 @@ const ProfileCard: React.FC<User> = ({
           p={1}
           pt={2}>
           <Heading fontSize={'2xl'} fontFamily={'body'}>
-            {name} {' '} {surname}
+            {name} {surname? ' ' + surname : ''}
           </Heading>
 
           {
