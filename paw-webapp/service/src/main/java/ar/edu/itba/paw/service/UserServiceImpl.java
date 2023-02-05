@@ -105,7 +105,7 @@ public class UserServiceImpl implements UserService {
                          List<String> roles, List<String> genres, String location) {
         User user = getUserById(userId).orElseThrow(UserNotFoundException::new);
         user.editInfo(name, surname, description);
-        if(user.isBand()) {
+        if(!user.isBand()) {
             user.setAvailable(isAvailable);
         }
         updateUserLocation(location, user);

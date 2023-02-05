@@ -298,7 +298,8 @@ export const TRANSLATIONS_EN = {
   },
   Alts: {
     profilePicture: "Profile picture",
-    bandify: "Bandify logo"
+    bandify: "Bandify logo",
+    available: "Available filter"
   },
   MyAuditions: {
     title: "My auditions",

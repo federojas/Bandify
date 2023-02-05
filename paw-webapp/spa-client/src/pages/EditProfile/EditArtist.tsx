@@ -18,7 +18,7 @@ import {
     useColorModeValue,
     Icon,
     Center,
-    useToast
+    useToast, Image
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -75,9 +75,10 @@ const EditArtist = () => {
   const bg27 = useColorModeValue("gray.200", "gray.700");
   const toast = useToast();
   const options = localStorage.getItem('i18nextLng') === 'es' ? editOptionsES : editOptions;
+  const filterAvailable = require(`../../images/available.png`);
 
 
-    const onCancel = () => {
+  const onCancel = () => {
     navigate(-1);
   };
 
@@ -336,13 +337,30 @@ const EditArtist = () => {
                   {t("Edit.picture")}
                 </FormLabel>
                 <Flex alignItems="center" mt={1}>
+                    <Flex>
                   <Avatar
                     boxSize={40}
                     fontSize={16} fontWeight="bold"
                     bg={bg19}
                     mr={5}
+                    borderColor="gray.800"
+                    _dark={{
+                        borderColor: "gray.200",
+                        backgroundColor: "white"
+                    }}
                     src={`data:image/png;base64,${userImg}`} //TODO ALT Y MEJORA
                   />
+                    {user?.available ? <Image
+                        src={filterAvailable}
+                        alt={t("Alts.available")}
+                        boxSize="150px"
+                        ml={0.7}
+                        mt={1.4}
+                        borderRadius="full"
+                        position={"absolute"}
+                        /> : <></>
+                    }
+                    </Flex>
                     {/*<input*/}
                     {/*    type='file'*/}
                     {/*    accept='image/png, image/jpeg'*/}

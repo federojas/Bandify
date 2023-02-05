@@ -52,6 +52,7 @@ const Profile = () => {
   const userService = useUserService();
   const [isLoading, setIsLoading] = useState(true);
   const { userId } = useContext(AuthContext);
+  const filterAvailable = require(`../../images/available.png`);
 
 
   useEffect(() => {
@@ -90,20 +91,32 @@ const Profile = () => {
             <Flex justify={'space-between'}>
               { }
               <HStack gap={'8'}>
-                <Image
-                  src={`data:image/png;base64,${userImg}`} //TODO: revisar posible mejora a link
-                  alt={t("Alts.profilePicture")}
-                  borderRadius="full"
-                  boxSize="150px"
-                  objectFit={'cover'}
-                  shadow="lg"
-                  border="5px solid"
-                  borderColor="gray.800"
-                  _dark={{
-                    borderColor: "gray.200",
-                    backgroundColor: "white"
-                  }}
-                />
+                <Flex>
+                  <Image
+                    src={`data:image/png;base64,${userImg}`} //TODO: revisar posible mejora a link
+                    alt={t("Alts.profilePicture")}
+                    borderRadius="full"
+                    boxSize="150px"
+                    objectFit={'cover'}
+                    shadow="lg"
+                    border="5px solid"
+                    borderColor="gray.800"
+                    _dark={{
+                      borderColor: "gray.200",
+                      backgroundColor: "white"
+                    }}
+                  />
+                  {user?.available ? <Image
+                    src={filterAvailable}
+                    alt={t("Alts.available")}
+                    boxSize="140px"
+                    ml={1}
+                    mt={1.5}
+                    borderRadius="full"
+                    position={"absolute"}
+                    />: <></>
+                }
+                </Flex>
                 <VStack align={"left"} spacing={4}>
                   <Box maxW={'lg'}>
                     <Heading fontSize={"3xl"} fontWeight={700}>

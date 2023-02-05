@@ -12,7 +12,7 @@ import {
   Text,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import { useTranslation } from 'react-i18next';
 import { BiBullseye } from 'react-icons/bi';
 import { FiMusic } from 'react-icons/fi';
@@ -24,6 +24,7 @@ import ArtistTag from '../Tags/ArtistTag';
 import BandTag from '../Tags/BandTag';
 import GenreTag, { GenreCount } from '../Tags/GenreTag';
 import RoleTag, { RoleCount } from '../Tags/RoleTag';
+import AuthContext from "../../contexts/AuthContext";
 
 const ProfileCard: React.FC<User> = ({
   name,
@@ -33,6 +34,7 @@ const ProfileCard: React.FC<User> = ({
   genres,
   roles,
   id,
+  available,
   description
 }) => {
 
@@ -48,6 +50,8 @@ const ProfileCard: React.FC<User> = ({
   const [userImg, setUserImg] = useState<string | undefined>(undefined)
   const userService = useUserService();
   const navigate = useNavigate();
+  const filterAvailable = require(`../../images/available.png`);
+  const { userId } = useContext(AuthContext);
 
   useEffect(() => {
     if (id) {
@@ -76,19 +80,32 @@ const ProfileCard: React.FC<User> = ({
         boxShadow={'2xl'}
         padding={4}>
         <Center flex={1}>
-          <Image
-            src={`data:image/png;base64,${userImg}`} //TODO: revisar posible mejora a link
-            alt={t("Alts.profilePicture")}
-            borderRadius="full"
-            boxSize="150px"
-            objectFit={'cover'}
-            shadow="lg"
-            border="5px solid"
-            borderColor="gray.800"
-            _dark={{
-              borderColor: "grayu.200",
-            }}
-          />
+          <Flex>
+            <Image
+              src={`data:image/png;base64,${userImg}`} //TODO: revisar posible mejora a link
+              alt={t("Alts.profilePicture")}
+              borderRadius="full"
+              boxSize="150px"
+              objectFit={'cover'}
+              shadow="lg"
+              border="5px solid"
+              borderColor="gray.800"
+              _dark={{
+                borderColor: "gray.200",
+                backgroundColor: "white"
+              }}
+            />
+            {available ? <Image
+                src={filterAvailable}
+                alt={t("Alts.available")}
+                boxSize="143px"
+                ml={1}
+                mt={1.4}
+                borderRadius="full"
+                position={"absolute"}
+            /> : <></>
+            }
+          </Flex>
         </Center>
         <Stack
           flex={2}
@@ -140,7 +157,7 @@ const ProfileCard: React.FC<User> = ({
             alignItems={'center'}>
             <Button
               as='a'
-              href={`/users/${id}`}
+              href={id === userId ? "/profile" : `/users/${id}`}
               flexBasis={'50%'}
               fontSize={'sm'}
               rounded={'full'}
