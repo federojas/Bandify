@@ -156,7 +156,7 @@ const AuditionCard = ({
       <CardHeader>
         <Flex
           as="a"
-          href={userId === audition.ownerId ? "/profile": "/user/"+audition.ownerId}
+          href={userId === audition.ownerId ? "/profile" : "/user/" + audition.ownerId}
           flex="1"
           gap="4"
           alignItems="center"
@@ -169,42 +169,43 @@ const AuditionCard = ({
         </Flex>
       </CardHeader>
       <CardBody>
-        <Flex flexWrap="wrap" justifyContent="space-between">
-        <VStack className="ellipsis-overflow" spacing={8} alignItems={"start"}>
-          <Heading size={"lg"}>{audition.title}</Heading>
-          <HStack spacing={4}>
-            <FiCalendar/>
-            <HStack wrap={'wrap'}>
-              <Text>{date}</Text>
+        <Flex justifyContent="space-between">
+          <VStack spacing={8} alignItems={"start"}>
+            <Box maxW={'xl'}>
+              <Heading size={"lg"}>{audition.title}</Heading></Box>
+            <HStack spacing={4}>
+              <FiCalendar />
+              <HStack wrap={'wrap'}>
+                <Text>{date}</Text>
+              </HStack>
             </HStack>
-          </HStack>
-          <HStack spacing={4}>
-            <Box>
-              <BsInfoCircle  style={{width:"100% !important"}}/>
-            </Box>
-            <Text fontSize={"lg"}>{audition.description}</Text>
-          </HStack>
-          <HStack spacing={4}>
-            <ImLocation />
-            <Text fontSize={"lg"}>{audition.location}</Text>
-          </HStack>
-          <HStack spacing={4}>
-            <BiBullseye />
-            <HStack wrap={'wrap'}>
-              {audition.lookingFor.map((item, index) => (
-                <RoleTag role={item} key={index} />
-              ))}
+            <HStack spacing={4}>
+                <BsInfoCircle style={{ width: "100% !important" }} />
+              <Box maxW={'xl'}>
+                <Text fontSize={"lg"}>{audition.description}</Text>
+              </Box>
             </HStack>
-          </HStack>
-          <HStack spacing={4}>
-            <FiMusic />
-            <HStack wrap={"wrap"}>
-              {audition.musicGenres.map((item, index) => (
-                <GenreTag genre={item} key={index} />
-              ))}
+            <HStack spacing={4}>
+              <ImLocation />
+              <Text fontSize={"lg"}>{audition.location}</Text>
             </HStack>
-          </HStack>
-        </VStack>
+            <HStack spacing={4}>
+              <BiBullseye />
+              <HStack wrap={'wrap'}>
+                {audition.lookingFor.map((item, index) => (
+                  <RoleTag role={item} key={index} />
+                ))}
+              </HStack>
+            </HStack>
+            <HStack spacing={4}>
+              <FiMusic />
+              <HStack wrap={"wrap"}>
+                {audition.musicGenres.map((item, index) => (
+                  <GenreTag genre={item} key={index} />
+                ))}
+              </HStack>
+            </HStack>
+          </VStack>
         </Flex>
       </CardBody>
 

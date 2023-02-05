@@ -112,7 +112,7 @@ const PostCard: React.FC<Audition> = ({
       </CardHeader>
       <CardBody>
         <Stack spacing="3">
-          <Heading size="md">{title}</Heading>
+          <Heading size="md" noOfLines={1}>{title}</Heading>
           <HStack spacing={4}>
             <FiCalendar />
             <HStack wrap={'wrap'}>
