@@ -48,6 +48,7 @@ function App() {
           <Route path="registerArtist" element={<AnonymousRoute component={RegisterArtist} />} />
           <Route path="profile" element={<PrivateRoute component={Profile} roles={["ARTIST", "BAND"]} />} />
           <Route path="users" element={<Discover />} />
+          <Route path="users/:id" element={<User />} />
           <Route path="forgot-password" element={<ForgotPassword />} />
           <Route path="auditions" element={<AuditionsPage />} />
           <Route path="auditions/:id" element={<PrivateRoute component={Audition} roles={["ARTIST", "BAND"]} />} />
