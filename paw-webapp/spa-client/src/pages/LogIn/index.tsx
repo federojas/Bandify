@@ -35,12 +35,10 @@ import { AxiosHeaders, AxiosResponse } from "axios";
 interface FormData {
   email: string;
   password: string;
-  rememberMe: boolean;
 }
 
 const LoginBox = () => {
   const { t } = useTranslation();
-  const [rememberMe, setRememberMe] = React.useState(false);
   const [showPassword, setShowPassword] = React.useState(false);
   const [invalidCredentials, setInvalidCredentials] = React.useState(false);
   const authContext = React.useContext(AuthContext);
@@ -68,7 +66,7 @@ const LoginBox = () => {
     const { email, password } = data;
     setInvalidCredentials(false);
     serviceCall(
-      loginService.login(email, password, rememberMe),
+      loginService.login(email, password),
       navigate
     ).then((response) => {
       console.log(response)
@@ -82,7 +80,7 @@ const LoginBox = () => {
       } else {
         const headers: any = response.getData().headers
 
-        if (response) authContext.login(rememberMe, headers['x-jwt'], headers['x-refresh-token'])
+        if (response) authContext.login(headers['x-jwt'], headers['x-refresh-token'])
         navigate(from, { replace: true });
       }
     })
@@ -171,15 +169,6 @@ const LoginBox = () => {
                   align={"start"}
                   justify={"space-between"}
                 >
-                  <Checkbox
-                    isChecked={rememberMe}
-                    onChange={() => {
-                      console.log("changing remember me ", rememberMe)
-                      setRememberMe(!rememberMe);
-                    }}
-                  >
-                    {t("Login.rememberMe")}
-                  </Checkbox>
                   <Link color={"blue.400"} href={"/forgot-password"}>
                     {t("Login.forgotPassword")}
                   </Link>

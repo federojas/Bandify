@@ -162,7 +162,7 @@ function Nav() {
                     {t("NavBar.profileAlt")}
                   </MenuItem>
                   <MenuDivider />
-                  <MenuItem onClick={() => logout()}>{t("NavBar.logoutAlt")}</MenuItem>
+                  <MenuItem onClick={() => { logout(); navigate('/welcome'); }}>{t("NavBar.logoutAlt")}</MenuItem>
                 </MenuList>
               </Menu>
             </>

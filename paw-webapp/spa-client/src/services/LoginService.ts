@@ -7,7 +7,7 @@ import ApiResult from "../api/types/ApiResult";
 import { AxiosResponse } from "axios";
 
 export class LoginService {
-  public async login(username: string, password: string, rememberMe: boolean): Promise<ApiResult<AxiosResponse>> {
+  public async login(username: string, password: string): Promise<ApiResult<AxiosResponse>> {
     const credentials = username + ":" + password;
     const hash = btoa(credentials);
 

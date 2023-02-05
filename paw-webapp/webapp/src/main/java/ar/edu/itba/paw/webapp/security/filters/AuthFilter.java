@@ -148,7 +148,6 @@ public class AuthFilter extends OncePerRequestFilter {
             }
 
             httpServletResponse.addHeader(JwtUtil.JWT_RESPONSE, JwtUtil.generateToken(user, appUrl, secretJWT));
-            httpServletResponse.addHeader(JwtUtil.JWT_REFRESH_RESPONSE, userService.getAuthRefreshToken(user.getEmail()).getToken());
 
             final Collection<GrantedAuthority> authorities = new ArrayList<>();
             if (user.isBand())

@@ -23,11 +23,11 @@ const useAxiosPrivate = () => {
       // TODO: el 401 puede venir de Bad Credentials cuando la request es de login, hay que revisar eso.
       if (error?.response?.status === 401 && !prevRequest?.sent) {
         prevRequest.sent = true;
-        prevRequest.headers['Authorization'] = `Bearer ${auth?.refreshToken}`;
+        prevRequest.headers['Authorization'] = `Bearer ${localStorage.getItem("refresh")}`;
 
         const response = axiosPrivate(prevRequest).then((response) => {
-          if (response.headers && response.headers["x-jwt"] && response.headers["x-refresh-token"])
-            auth?.login(true, response.headers["x-jwt"], response.headers["x-refresh-token"]);
+          if (response.headers && response.headers["x-jwt"])
+          auth?.login(response.headers["x-jwt"]);
           return response;
         }).catch((error) => {
           if (error?.response?.status === 401) {

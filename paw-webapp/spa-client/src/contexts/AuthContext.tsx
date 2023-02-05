@@ -10,7 +10,7 @@ type CustomJwtPayload = JwtPayload & { roles: string; userUrl: string; exp: numb
 export interface AuthContextValue {
   isAuthenticated: boolean;
   logout: () => void;
-  login: (rememberMe: boolean, token: string, refreshToken: string) => Promise<void>;
+  login: (token: string, refreshToken?: string) => Promise<void>;
   jwt?: string | undefined;
   refreshToken?: string | undefined;
   email?: string | undefined;
@@ -30,20 +30,14 @@ const AuthContext = React.createContext<AuthContextValue>({
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const jwtInLocalStorage = localStorage.hasOwnProperty("jwt");
-  const jwtInSessionStorage = sessionStorage.hasOwnProperty("jwt");
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(
-    (jwtInLocalStorage || jwtInSessionStorage) 
+    jwtInLocalStorage 
   );
 
-  const token = jwtInLocalStorage
-    ? (localStorage.getItem("jwt") as string)
-    : (sessionStorage.getItem("jwt") as string);
+  const token = localStorage.getItem("jwt") as string;
   const [jwt, setJwt] = useState<string | undefined>(token);
   const refresh_Token = localStorage.getItem("refresh") as string;
   const [refreshToken, setRefreshToken] = useState<string | undefined>(refresh_Token)
-  if (jwt) api.defaults.headers.common.Authorization = `Bearer ${jwt}`;
-    
-  console.log("🚀 ~ file: AuthContext.tsx:42 ~ AuthProvider ~ api.defaults.headers.common.Authorization", api.defaults.headers.common.Authorization)
 
   const [email, setEmail] = useState<string | undefined>(() => {
     try {
@@ -76,7 +70,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   );
-  const login = async (rememberMe: boolean, token: string, refreshToken: string) => {
+  const login = async (token: string, refreshToken?: string) => {
     try {
       setJwt(token);
       setRefreshToken(refreshToken);
@@ -87,13 +81,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         .userUrl.split("/")
         .pop();
       if (id) setUserId(parseInt(id));
-      // TODO: sessionStorage no esta manteniendose al cambiar de TAB
-      if (rememberMe) {
-        localStorage.setItem("jwt", token);
+      localStorage.setItem("jwt", token);
+      if(refreshToken)
         localStorage.setItem("refresh", refreshToken);
-      }
-      sessionStorage.setItem("jwt", token);
-      
 
     } catch (error) {
       console.log(error);
@@ -102,7 +92,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const logout = () => {
     localStorage.removeItem("jwt");
-    sessionStorage.removeItem("jwt");
     localStorage.removeItem("refresh");
     setIsAuthenticated(false);
     setJwt(undefined);
