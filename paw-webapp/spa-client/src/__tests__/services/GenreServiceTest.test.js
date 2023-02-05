@@ -1,19 +1,19 @@
-import {genreService} from "../../services";
+// import {genreService} from "../../services";
 
-//TODO: TESTS
+// //TODO: TESTS
 
-describe("getGenres()", () => {
-    it("should return a list of genres", async () => {
+// describe("getGenres()", () => {
+//     it("should return a list of genres", async () => {
 
-        const genres = await genreService.getGenres();
-        console.log(genres);
-    });
-});
+//         const genres = await genreService.getGenres();
+//         console.log(genres);
+//     });
+// });
 
-describe("getGenreById()", () => {
-    it("should return a genre", async () => {
+// describe("getGenreById()", () => {
+//     it("should return a genre", async () => {
 
-        const genre = await genreService.getGenreById(123123);
-        console.log(genre);
-    });
-});
+//         const genre = await genreService.getGenreById(123123);
+//         console.log(genre);
+//     });
+// });

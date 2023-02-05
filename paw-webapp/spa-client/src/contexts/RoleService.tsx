@@ -1,9 +1,9 @@
 import { createContext, useContext } from "react";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
-import RoleServiceTest from "../services/RoleServiceTest";
+import RoleService from "../services/RoleService";
 import RoleApiTest from "../api/RoleApiTest";
 
-const RoleServiceContext = createContext<RoleServiceTest>(null!);
+const RoleServiceContext = createContext<RoleService>(null!);
 
 export const useRoleService = () => useContext(RoleServiceContext);
 
@@ -11,7 +11,7 @@ export const RoleServiceProvider = ( { children }: { children: React.ReactNode }
     const axiosPrivate = useAxiosPrivate();
 
     const roleApi = new RoleApiTest(axiosPrivate);
-    const roleService = new RoleServiceTest(roleApi);
+    const roleService = new RoleService(roleApi);
 
     return (
         <RoleServiceContext.Provider value={roleService} >

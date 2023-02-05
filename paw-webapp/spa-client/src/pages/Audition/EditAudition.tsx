@@ -33,7 +33,9 @@ import {
   GroupBase,
 } from "chakra-react-select";
 import { LocationGroup, GenreGroup, RoleGroup } from "./EntitiesGroups";
-import { genreService, roleService, locationService } from "../../services";
+import { useRoleService } from "../../contexts/RoleService";
+import { useLocationService } from "../../contexts/LocationService";
+import { useGenreService } from "../../contexts/GenreService";
 import React, { useEffect, useState } from "react";
 import { serviceCall } from "../../services/ServiceManager";
 import {useNavigate, useParams} from "react-router-dom";
@@ -68,7 +70,10 @@ const EditAudition = () => {
 
 
   const auditionService = useAuditionService();
-
+  const roleService = useRoleService();
+  const locationService = useLocationService();
+  const genreService = useGenreService();
+  
   useEffect(() => {
     serviceCall(
       genreService.getGenres(),

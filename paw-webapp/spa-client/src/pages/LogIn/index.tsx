@@ -30,7 +30,6 @@ import {
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { useNavigate, useLocation } from "react-router-dom";
 import { serviceCall } from "../../services/ServiceManager";
-import { AxiosHeaders, AxiosResponse } from "axios";
 
 interface FormData {
   email: string;

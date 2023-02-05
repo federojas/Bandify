@@ -1,9 +1,9 @@
 import { createContext, useContext } from "react";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
-import LocationServiceTest from "../services/LocationServiceTest";
+import LocationService from "../services/LocationService";
 import LocationApiTest from "../api/LocationApiTest";
 
-const LocationServiceContext = createContext<LocationServiceTest>(null!);
+const LocationServiceContext = createContext<LocationService>(null!);
 
 export const useLocationService = () => useContext(LocationServiceContext);
 
@@ -11,7 +11,7 @@ export const LocationServiceProvider = ( { children }: { children: React.ReactNo
     const axiosPrivate = useAxiosPrivate();
 
     const locationApi = new LocationApiTest(axiosPrivate);
-    const locationService = new LocationServiceTest(locationApi);
+    const locationService = new LocationService(locationApi);
 
     return (
         <LocationServiceContext.Provider value={locationService} >

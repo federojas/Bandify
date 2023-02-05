@@ -1,9 +1,9 @@
 import { createContext, useContext } from "react";
 import useAxiosPrivate from "../hooks/useAxiosPrivate"
-import AuditionServiceTest from "../services/AuditionServiceTest";
+import AuditionService from "../services/AuditionService";
 import AuditionApiTest from "../api/AuditionApiTest";
 
-const AuditionServiceContext = createContext<AuditionServiceTest>(null!);
+const AuditionServiceContext = createContext<AuditionService>(null!);
 
 export const useAuditionService = () => useContext(AuditionServiceContext);
 
@@ -11,7 +11,7 @@ export const AuditionServiceProvider = ({ children }: { children: React.ReactNod
   const axiosPrivate = useAxiosPrivate();
 
   const auditionApi = new AuditionApiTest(axiosPrivate);
-  const auditionService = new AuditionServiceTest(auditionApi);
+  const auditionService = new AuditionService(auditionApi);
 
   return (
     <AuditionServiceContext.Provider value={auditionService} >

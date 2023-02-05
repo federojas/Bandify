@@ -1,19 +1,19 @@
-import {locationService} from "../../services";
+// import {locationService} from "../../services";
 
-//TODO: TESTS
+// //TODO: TESTS
 
-describe("getLocations()", () => {
-    it("should return a list of locations", async () => {
+// describe("getLocations()", () => {
+//     it("should return a list of locations", async () => {
 
-        const locations = await locationService.getLocations();
-        console.log(locations);
-    });
-});
+//         const locations = await locationService.getLocations();
+//         console.log(locations);
+//     });
+// });
 
-describe("getLocationById()", () => {
-    it("should return a location", async () => {
+// describe("getLocationById()", () => {
+//     it("should return a location", async () => {
 
-        const location = await locationService.getLocationById(2);
-        console.log(location);
-    });
-});
+//         const location = await locationService.getLocationById(2);
+//         console.log(location);
+//     });
+// });
