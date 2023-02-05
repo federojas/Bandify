@@ -236,7 +236,8 @@ export const TRANSLATIONS_ES = {
   Button: {
     cancel: "Cancelar",
     save: "Guardar",
-    confirm: "Confirmar"
+    confirm: "Confirmar",
+    post: "Publicar"
   },
   EditAudition: {
     title: "Editar audición",
@@ -255,9 +256,12 @@ export const TRANSLATIONS_ES = {
     error: "No se pudo editar la audición.",
     success:"¡Audición editada con éxito!",
     genrePlaceholder: "Selecciona entre 1 y 5 géneros",
-    rolePlaceHolder: "Selecciona entre 1 y 5 roles",
+    rolePlaceholder: "Selecciona entre 1 y 5 roles",
     titlePlaceholder: "Máximo 50 caracteres",
-    descriptionPlaceHolder: "Máximo 300 caracteres",
+    descriptionPlaceholder: "Máximo 300 caracteres",
+    descriptionHelp: "Descripción breve de su audición",
+    newAuditionDescription: "¿Buscas artistas para tu banda?",
+    newAudition: "Crea una nueva audición"
   },
     "Invites": "Invitaciones",
   Hub: {
