@@ -266,7 +266,7 @@ const EditAudition = () => {
                   mt={1}
                   rows={3}
                   shadow="sm"
-                  placeholder={t("EditAudition.descriptionPlaceHolder")}
+                  placeholder={t("EditAudition.descriptionPlaceholder")}
                   maxLength={300}
                   defaultValue={audition?.description}
                   {...register("description", options.description)}
@@ -316,7 +316,7 @@ const EditAudition = () => {
                   name="roles"
                   isRequired
                   options={roleOptions}
-                  placeholder={t("EditAudition.rolePlaceHolder")}
+                  placeholder={t("EditAudition.rolePlaceholder")}
                   closeMenuOnSelect={false}
                   variant="filled"
                   tagVariant="solid"
