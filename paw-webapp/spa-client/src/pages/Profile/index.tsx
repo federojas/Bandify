@@ -1,5 +1,6 @@
 import React, {useContext, useEffect, useState} from "react";
 import "../../styles/profile.css";
+import "../../styles/postCard.css";
 import UserIcon from "../../assets/icons/user.svg";
 import EditIcon from "../../assets/icons/edit-white-icon.svg";
 import AvailableCover from "../../assets/images/available.png";
@@ -98,7 +99,7 @@ const Profile = () => {
                 borderColor: "gray.200",
               }}
             />
-            <VStack align={"left"} spacing={4}>
+            <VStack align={"left"} spacing={4} className="ellipsis-overflow">
               <Heading fontSize={"3xl"} fontWeight={700}>
                 {user?.name}{" "}
                 {user?.surname && <>{user?.surname}</>}
