@@ -298,6 +298,8 @@ export const TRANSLATIONS_ES = {
     bandify: "Bandify logo"
   },
   MyAuditions: {
-    title: "Mis audiciones"
+    title: "Mis audiciones",
+    applicants: "Aplicantes",
+    moreInfo: "Ver más"
   }
 };
