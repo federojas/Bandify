@@ -51,7 +51,7 @@ const LoginBox = () => {
     if (authContext.isAuthenticated) {
       console.log(
         "tamo chelo, el usuario esta autenticado, redireccionando a home"
-      );
+      );//todo: ?????
     }
   }, [authContext.isAuthenticated]);
 
@@ -80,7 +80,8 @@ const LoginBox = () => {
         const headers: any = response.getData().headers
 
         if (response) authContext.login(headers['x-jwt'], headers['x-refresh-token'])
-        navigate(from, { replace: true });
+        // navigate(from, { replace: true });
+        navigate(-1);
       }
     })
   };
