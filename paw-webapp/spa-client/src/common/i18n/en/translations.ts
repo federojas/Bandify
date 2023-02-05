@@ -85,6 +85,7 @@ export const TRANSLATIONS_EN = {
       title: "Register as an Artist!",
       urlTitle: "I'm an artist",
     },
+    passwordsDontMatch: "Passwords don't match",
   },
   AuditionSearchBar: {
     search: "Search",

@@ -55,6 +55,13 @@ export default function RegisterArtistForm (){
   } = useForm<FormData>();
   const toast = useToast()
   const onSubmit = async (data: FormData) => {
+    if(data.password !== data.passwordConfirmation){
+      setError("passwordConfirmation", {
+        type: "manual",
+        message: t("Register.passwordsDontMatch"),
+      });
+      return;
+    }
     const newUser: UserCreateInput = { ...data, band: false };
     serviceCall(
       userService.createUser(newUser),

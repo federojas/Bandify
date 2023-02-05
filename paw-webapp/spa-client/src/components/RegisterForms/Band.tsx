@@ -54,6 +54,13 @@ const RegisterBandForm = () => {
   const toast = useToast()
 
   const onSubmit = async (data: FormData) => {
+    if(data.password !== data.passwordConfirmation){
+      setError("passwordConfirmation", {
+        type: "manual",
+        message: t("Register.passwordsDontMatch"),
+      });
+      return;
+    }
     const newUser: UserCreateInput = { ...data, band: true};
     serviceCall(
       userService.createUser(newUser),

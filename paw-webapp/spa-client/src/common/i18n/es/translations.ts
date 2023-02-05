@@ -101,6 +101,7 @@ export const TRANSLATIONS_ES = {
       title: "¡Registrate como artista!",
       urlTitle: "Soy un artista",
     },
+    passwordsDontMatch: "Las contraseñas no coinciden",
   },
   AuditionSearchBar: {
     search: "Buscar",
