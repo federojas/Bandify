@@ -129,8 +129,6 @@ const EditAudition = () => {
 
 
   const onSubmit = async (data: FormData) => {
-    console.log(data)
-    console.log(location?.value)
     const auditionInput: AuditionInput = {
       title: data.title,
       description: data.description,

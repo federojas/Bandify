@@ -36,7 +36,7 @@ const NewAudition = () => {
 
   const navigate = useNavigate();
 
-  const [location, setLocation] = useState<LocationGroup>({ label: "Buenos Aires", value: "Buenos Aires" });
+  const [location, setLocation] = useState<LocationGroup>();
   const [genres, setGenres] = useState<GenreGroup[]>([]);
   const [roles, setRoles] = useState<RoleGroup[]>([]);
 
@@ -96,7 +96,7 @@ const NewAudition = () => {
     const auditionInput: AuditionInput = {
       title: data.title,
       description: data.description,
-      location: location.value,
+      location: location!.value,
       musicGenres: genres.map((genre) => genre.value),
       lookingFor: roles.map((role) => role.value),
     }
@@ -222,8 +222,8 @@ const NewAudition = () => {
                 </FormHelperText>
               </FormControl>
 
-              {/* <FormControl isRequired>
-                <FormLabel fontSize={16} fontWeight="bold">{t("AuditionSearchBar.location")}</FormLabel>
+              <FormControl isRequired>
+                <FormLabel fontSize={16} fontWeight="bold">{t("EditAudition.location")}</FormLabel>
                 <Select<LocationGroup, false, GroupBase<LocationGroup>>
                   name="locations"
                   options={locationOptions}
@@ -232,11 +232,10 @@ const NewAudition = () => {
                   variant="filled"
                   tagVariant="solid"
                   onChange={(loc) => {
-
-                    setLocation(loc);
+                    setLocation(loc!);
                   }}
                 />
-              </FormControl> */}
+              </FormControl>
 
               <FormControl isRequired>
                 <FormLabel fontSize={16} fontWeight="bold">{t("AuditionSearchBar.genre")}</FormLabel>
