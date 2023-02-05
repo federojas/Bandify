@@ -148,6 +148,19 @@ const EditArtist = () => {
     )
   }, [userService]);
 
+    const handlePicture = (image: Blob) => {
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(image)
+        fileReader.onload = () => {
+            if(fileReader.result) {
+                let base64Img = fileReader.result as string
+                setUserImg(base64Img.split(",").pop());
+            }
+        }
+        fileReader.onerror = (error) => {
+        }
+    };
+
 
   const {
     register,
@@ -350,7 +363,7 @@ const EditArtist = () => {
                     }}
                     src={`data:image/png;base64,${userImg}`} //TODO ALT Y MEJORA
                   />
-                    {user?.available ? <Image
+                    {available!.value ? <Image
                         src={filterAvailable}
                         alt={t("Alts.available")}
                         boxSize="150px"
@@ -367,6 +380,10 @@ const EditArtist = () => {
                                 variant="unstyled"
                                 type="file"
                                 accept='image/png, image/jpeg'
+                                onInput={(event) => {
+                                    if(event.currentTarget.files)
+                                        handlePicture(event.currentTarget.files[0]);
+                                }}
                                 {...register('image',  {
                                     validate: {
                                         size: (image) =>

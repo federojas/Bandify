@@ -75,6 +75,19 @@ const EditBand = () => {
     const options = localStorage.getItem('i18nextLng') === 'es' ? editOptionsES : editOptions;
     const toast = useToast();
 
+    const handlePicture = (image: Blob) => {
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(image)
+        fileReader.onload = () => {
+            if(fileReader.result) {
+                let base64Img = fileReader.result as string
+                setUserImg(base64Img.split(",").pop());
+            }
+        }
+        fileReader.onerror = (error) => {
+        }
+    };
+
     const onCancel = () => {
         navigate(-1);
     };
@@ -323,6 +336,10 @@ const EditBand = () => {
                                                         variant="unstyled"
                                                         type="file"
                                                         accept='image/png, image/jpeg'
+                                                        onInput={(event) => {
+                                                            if(event.currentTarget.files)
+                                                                handlePicture(event.currentTarget.files[0]);
+                                                        }}
                                                         {...register('image',  {
                                                             validate: {
                                                                 size: (image) =>
