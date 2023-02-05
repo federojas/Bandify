@@ -53,7 +53,7 @@ const Profile = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { userId } = useContext(AuthContext);
   const filterAvailable = require(`../../images/available.png`);
-
+  const bg = useColorModeValue("white", "gray.900") 
 
   useEffect(() => {
     serviceCall(
@@ -82,8 +82,7 @@ const Profile = () => {
           <Box
             w={"full"}
             // bg={useColorModeValue("gray.100", "gray.900")}
-            bg="gray.100"
-            _dark={{ bg: "gray.900" }}
+            bg={bg}
             rounded={"lg"}
             boxShadow={"lg"}
             p={6}
@@ -114,8 +113,8 @@ const Profile = () => {
                     mt={1.5}
                     borderRadius="full"
                     position={"absolute"}
-                    /> : <></>
-                }
+                  /> : <></>
+                  }
                 </Flex>
                 <VStack align={"left"} spacing={4}>
                   <Box maxW={'lg'}>
@@ -152,13 +151,13 @@ const Profile = () => {
                     {t("Hub.Invites")}
                   </Button>
                 </>
-                :
-                <>
-                  <Button leftIcon={<FiMusic />} w={'44'} colorScheme={'cyan'} onClick={() => { navigate('/profile/auditions') }}>
-                    {t("MyAuditions.title")}
-                  </Button>
-                </>  
-              }
+                  :
+                  <>
+                    <Button leftIcon={<FiMusic />} w={'44'} colorScheme={'cyan'} onClick={() => { navigate('/profile/auditions') }}>
+                      {t("MyAuditions.title")}
+                    </Button>
+                  </>
+                }
               </VStack>
             </Flex>
           </Box>
@@ -167,9 +166,7 @@ const Profile = () => {
             <GridItem
               w={"full"}
               colSpan={2}
-              // bg={useColorModeValue("gray.100", "gray.900")}
-              bg="gray.100"
-              _dark={{ bg: "gray.900" }}
+              bg={bg}
               rounded={"lg"}
               boxShadow={"lg"}
               p={6}
@@ -207,9 +204,7 @@ const Profile = () => {
             <GridItem
               w={"full"}
               colSpan={3}
-              // bg={useColorModeValue("gray.100", "gray.900")}
-              bg="gray.100"
-              _dark={{ bg: "gray.900" }}
+              bg={bg}
               rounded={"lg"}
               boxShadow={"lg"}
               p={6}

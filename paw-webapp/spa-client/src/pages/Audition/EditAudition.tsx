@@ -170,12 +170,12 @@ const EditAudition = () => {
     navigate(-1);
   };
 
-  const bg = useColorModeValue("gray.100", "gray.900");
+  const bg = useColorModeValue("white", "gray.900");
   const bgBorderColor = useColorModeValue("gray.200", "gray.700");
   return (
       <Box
     rounded={"lg"}
-    bg={useColorModeValue("gray.100", "gray.900")}
+    bg={useColorModeValue("white", "gray.900")}
     p={10}
     m={10}
   >

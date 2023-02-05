@@ -15,6 +15,7 @@ import {
   FlexProps,
   Center,
   Grid,
+  useColorMode,
 } from '@chakra-ui/react';
 import {
   FiHome,
@@ -42,8 +43,11 @@ const LinkItems: Array<LinkItemProps> = [
 
 export default function SidenavLayout({ children }: { children: ReactNode }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const bg = useColorModeValue('white', 'gray.900');
   return (
-    <Grid templateColumns={{ base: 'full', md: 'auto 1fr' }} m={'10'} rounded={'xl'} minH="fit-content" bg={useColorModeValue('gray.100', 'gray.900')}>
+    <Grid templateColumns={{ base: 'full', md: 'auto 1fr' }} 
+    boxShadow={'lg'}
+   m={'10'} rounded={'xl'} minH="fit-content" bg={bg}>
       <SidebarContent
         onClose={() => onClose}
         display={{ md: 'block' }}
@@ -104,7 +108,7 @@ const NavItem = ({ icon, children, href, ...rest }: NavItemProps) => {
         role="group"
         cursor="pointer"
         bg={isSelected ? 'cyan.400' : undefined}
-        color={isSelected ? 'black' : 'white'}
+        color={useColorModeValue('black', 'white')}
         _hover={{
           bg: 'cyan.400',
           color: 'white',

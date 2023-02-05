@@ -70,7 +70,7 @@ const EditBand = () => {
     const [roles, setRoles] = useState<RoleGroup[]>([]);
     const { userId } = useContext(AuthContext);
     const [userImg, setUserImg] = useState<string | undefined>(undefined);
-    const bg19=useColorModeValue("gray.100", "gray.900");
+    const bg19=useColorModeValue("white", "gray.900");
     const bg27 = useColorModeValue("gray.200", "gray.700");
     const options = localStorage.getItem('i18nextLng') === 'es' ? editOptionsES : editOptions;
     const toast = useToast();

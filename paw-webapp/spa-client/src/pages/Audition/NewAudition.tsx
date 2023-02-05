@@ -125,9 +125,10 @@ const NewAudition = () => {
 
   return <Box
     rounded={"lg"}
-    bg={useColorModeValue("gray.100", "gray.900")}
+    bg={useColorModeValue("white", "gray.900")}
     p={10}
     m={10}
+    boxShadow={'lg'}
   >
     <Box>
       <SimpleGrid
@@ -175,7 +176,7 @@ const NewAudition = () => {
 
           >
             <Stack
-              bg={useColorModeValue("gray.100", "gray.900")}
+              bg={useColorModeValue("white", "gray.900")}
               border={'1px'}
               borderColor={useColorModeValue("gray.200", "gray.700")}
               px={4}
@@ -275,7 +276,7 @@ const NewAudition = () => {
 
             </Stack>
             <Box
-              bg={useColorModeValue("gray.100", "gray.900")}
+              bg={useColorModeValue("white", "gray.900")}
               border={'1px'}
               borderColor={useColorModeValue("gray.200", "gray.700")}
               roundedBottom={'md'}
