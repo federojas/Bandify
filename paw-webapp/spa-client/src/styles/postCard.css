@@ -34,6 +34,22 @@
   margin-bottom: 1rem;
   overflow: hidden !important;
 }
+
+.ellipsis-overflow {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.prueba {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  width: 100%;
+  height: 100%;
+}
 button:disabled,
 button[disabled]{
   border: 1px solid #999999;
