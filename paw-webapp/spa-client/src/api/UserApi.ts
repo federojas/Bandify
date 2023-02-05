@@ -80,9 +80,9 @@ class UserApi {
       })
   };
 
-  public updateProfileImage = async (id: number, image: File) => {
+  public updateProfileImage = async (id: number, image: FormData) => {
     return this.axiosPrivate
-      .put(`${this.endpoint}/${id}/profile-image`)
+      .put(`${this.endpoint}/${id}/profile-image`, image)
       .then((response) => {
         return true;
       })

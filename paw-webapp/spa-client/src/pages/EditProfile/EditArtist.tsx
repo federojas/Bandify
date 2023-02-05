@@ -50,7 +50,7 @@ interface FormData {
   genres: string[];
   roles: string[];
   available: boolean;
-  image?: File;
+  image: FileList;
 }
 
 const EditArtist = () => {
@@ -125,25 +125,26 @@ const EditArtist = () => {
 
   useEffect(() => {
     serviceCall(
+          userService.getUserById(Number(userId)),
+          navigate,
+          (user) => {
+              setUser(user)
+              setLocation({label:user.location, value:user.location} as LocationGroup)
+              setGenres(user.genres.map(r => {return {value: r, label: r}}))
+              setRoles(user.roles.map(r => {return {value: r, label: r}}))
+              setAvailable(user.available ? {value:true, label:t("Edit.availableTrue")} as AvailableGroup : {value:false, label:t("Edit.availableFalse")} as AvailableGroup)
+          }
+    )
+    serviceCall(
       userService.getProfileImageByUserId(Number(userId)),
       navigate,
       (response) => {
           setUserImg(
               response
           )
-      },
-    )
-    serviceCall(
-        userService.getUserById(Number(userId)),
-        navigate,
-        (user) => {
-          setUser(user)
-          setLocation({label:user.location, value:user.location} as LocationGroup)
-          setGenres(user.genres.map(r => {return {value: r, label: r}}))
-          setRoles(user.roles.map(r => {return {value: r, label: r}}))
-          setAvailable(user.available ? {value:true, label:t("Edit.availableTrue")} as AvailableGroup : {value:false, label:t("Edit.availableFalse")} as AvailableGroup)
           setIsLoading(false)
-        }
+
+      },
     )
   }, [userService]);
 
@@ -165,24 +166,23 @@ const EditArtist = () => {
           roles: roles.map((role) => role.value),
           available: available!.value,
       }
-
-      // if(data.image) {
-      //     serviceCall(
-      //         userService.updateUserProfileImage(Number(userId), data.image),
-      //         navigate,
-      //         () => {
-      //         }
-      //     )
-      //         // .then((response) => {
-      //         // if(response.hasFailed()){
-      //         //     toast({
-      //         //         title: t("Register.error"),
-      //         //         status: "error",
-      //         //         description: t("Edit.error"),
-      //         //         isClosable: true,
-      //         //     })
-      //         // }
-      //     }
+      if(data.image && data.image[0]) {
+          serviceCall(
+              userService.updateUserProfileImage(Number(userId), data.image[0]),
+              navigate,
+              () => {
+              }
+          ).then((response) => {
+              if(response.hasFailed()){
+                  toast({
+                      title: t("Register.error"),
+                      status: "error",
+                      description: t("Edit.error"),
+                      isClosable: true,
+                  })
+              }
+          })
+      }
       serviceCall(
           userService.updateUser(Number(userId), userInput),
           navigate,
@@ -342,7 +342,7 @@ const EditArtist = () => {
                     boxSize={40}
                     fontSize={16} fontWeight="bold"
                     bg={bg19}
-                    mr={5}
+                    mr={8}
                     borderColor="gray.800"
                     _dark={{
                         borderColor: "gray.200",
@@ -361,19 +361,24 @@ const EditArtist = () => {
                         /> : <></>
                     }
                     </Flex>
-                    {/*<input*/}
-                    {/*    type='file'*/}
-                    {/*    accept='image/png, image/jpeg'*/}
-                    {/*    {...register('image', {*/}
-                    {/*        validate: {*/}
-                    {/*            size: (image) =>*/}
-                    {/*                image && image.size / (1024 * 1024) < 1,*/}
-                    {/*        },*/}
-                    {/*    })}*/}
-                    {/*/>*/}
-                    {/*{errors.image?.type === 'size' && (*/}
-                    {/*    <FormErrorMessage>{errors.image?.message}</FormErrorMessage>*/}
-                    {/*)}*/}
+                    <Flex>
+                        <Stack>
+                            <Input
+                                variant="unstyled"
+                                type="file"
+                                accept='image/png, image/jpeg'
+                                {...register('image',  {
+                                    validate: {
+                                        size: (image) =>
+                                            image && image[0] && image[0].size / (1024 * 1024) < 1,
+                                    },
+                                })}
+                            />
+                            {errors.image?.type === 'size' && (
+                                <FormErrorMessage>{options.image?.size.message}</FormErrorMessage>
+                            )}
+                        </Stack>
+                    </Flex>
                 </Flex>
               </FormControl>
               <FormControl>

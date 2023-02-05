@@ -109,12 +109,12 @@ const Profile = () => {
                   {user?.available ? <Image
                     src={filterAvailable}
                     alt={t("Alts.available")}
-                    boxSize="140px"
+                    boxSize="141px"
                     ml={1}
                     mt={1.5}
                     borderRadius="full"
                     position={"absolute"}
-                    />: <></>
+                    /> : <></>
                 }
                 </Flex>
                 <VStack align={"left"} spacing={4}>

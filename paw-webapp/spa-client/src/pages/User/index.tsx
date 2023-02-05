@@ -82,6 +82,8 @@ const UserProfile = () => {
   const [currentUser, setCurrentUser] = React.useState<User>();
   const [userImg, setUserImg] = useState<string | undefined>(undefined)
   const userService = useUserService();
+  const filterAvailable = require(`../../images/available.png`);
+
 
   useEffect(() => {
     serviceCall(
@@ -131,6 +133,7 @@ const UserProfile = () => {
           <Flex justify={'space-between'}>
             { }
             <HStack gap={'8'}>
+              <Flex>
               <Image
                 src={`data:image/png;base64,${userImg}`} //TODO: revisar posible mejora a link
                 alt={t("Alts.profilePicture")}
@@ -145,6 +148,17 @@ const UserProfile = () => {
                   backgroundColor: "white"
                 }}
               />
+                {user?.available ? <Image
+                    src={filterAvailable}
+                    alt={t("Alts.available")}
+                    boxSize="141px"
+                    ml={1}
+                    mt={1.5}
+                    borderRadius="full"
+                    position={"absolute"}
+                /> : <></>
+                }
+              </Flex>
               <VStack align={"left"} spacing={4}>
                 <Box maxW={'lg'}>
                   <Heading fontSize={"3xl"} fontWeight={700}>

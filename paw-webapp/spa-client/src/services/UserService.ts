@@ -107,7 +107,9 @@ export default class UserService {
 
   public async updateUserProfileImage(id: number, image: File) {
       try {
-          const response = await this.userApi.updateProfileImage(id, image);
+          const formData = new FormData();
+          formData.append("image", image, image.name);
+          const response = await this.userApi.updateProfileImage(id, formData);
           return new ApiResult(
               response,
               false,

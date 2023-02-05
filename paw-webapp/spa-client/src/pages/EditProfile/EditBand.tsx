@@ -50,6 +50,7 @@ interface FormData {
     location: string;
     genres: string[];
     roles: string[];
+    image: FileList;
 }
 
 const EditBand = () => {
@@ -115,15 +116,7 @@ const EditBand = () => {
     }, []);
 
     useEffect(() => {
-        serviceCall(
-            userService.getProfileImageByUserId(Number(userId)),
-            navigate,
-            (response) => {
-                setUserImg(
-                    response
-                )
-            },
-        )
+
         serviceCall(
             userService.getUserById(Number(userId)),
             navigate,
@@ -132,8 +125,18 @@ const EditBand = () => {
                 setLocation({label:user.location, value:user.location} as LocationGroup)
                 setGenres(user.genres.map(r => {return {value: r, label: r}}))
                 setRoles(user.roles.map(r => {return {value: r, label: r}}))
-                setIsLoading(false)
+
             }
+        )
+        serviceCall(
+            userService.getProfileImageByUserId(Number(userId)),
+            navigate,
+            (response) => {
+                setUserImg(
+                    response
+                )
+                setIsLoading(false)
+            },
         )
     }, [userService]);
 
@@ -154,6 +157,23 @@ const EditBand = () => {
             genres: genres.map((genre) => genre.value),
             roles: roles.map((role) => role.value),
             available: false,
+        }
+        if(data.image && data.image[0]) {
+            serviceCall(
+                userService.updateUserProfileImage(Number(userId), data.image[0]),
+                navigate,
+                () => {
+                }
+            ).then((response) => {
+                if(response.hasFailed()){
+                    toast({
+                        title: t("Register.error"),
+                        status: "error",
+                        description: t("Edit.error"),
+                        isClosable: true,
+                    })
+                }
+            })
         }
         serviceCall(
             userService.updateUser(Number(userId), userInput),
@@ -294,20 +314,27 @@ const EditBand = () => {
                                                 boxSize={40}
                                                 fontSize={16} fontWeight="bold"
                                                 bg={bg19}
+                                                mr={8}
                                                 src={`data:image/png;base64,${userImg}`} //TODO ALT Y MEJORA
                                             />
-                                            <Button
-                                                type="button"
-                                                ml={5}
-                                                variant="outline"
-                                                size="md"
-                                                fontWeight="medium"
-                                                _focus={{
-                                                    shadow: "none",
-                                                }}
-                                            >
-                                                {t("Edit.chooseFile")}
-                                            </Button>
+                                            <Flex>
+                                                <Stack>
+                                                    <Input
+                                                        variant="unstyled"
+                                                        type="file"
+                                                        accept='image/png, image/jpeg'
+                                                        {...register('image',  {
+                                                            validate: {
+                                                                size: (image) =>
+                                                                    image && image[0] && image[0].size / (1024 * 1024) < 1,
+                                                            },
+                                                        })}
+                                                    />
+                                                    {errors.image?.type === 'size' && (
+                                                        <FormErrorMessage>{options.image?.size.message}</FormErrorMessage>
+                                                    )}
+                                                </Stack>
+                                            </Flex>
                                         </Flex>
                                     </FormControl>
 
