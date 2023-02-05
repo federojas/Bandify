@@ -71,7 +71,7 @@ const EditArtist = () => {
   const [available, setAvailable] = useState<AvailableGroup>();
   const { userId } = useContext(AuthContext);
   const [userImg, setUserImg] = useState<string | undefined>(undefined);
-  const bg19=useColorModeValue("gray.100", "gray.900");
+  const bg19=useColorModeValue("white", "gray.900");
   const bg27 = useColorModeValue("gray.200", "gray.700");
   const toast = useToast();
   const options = localStorage.getItem('i18nextLng') === 'es' ? editOptionsES : editOptions;

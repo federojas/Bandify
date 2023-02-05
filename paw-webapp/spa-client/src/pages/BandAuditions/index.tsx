@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import "../../styles/welcome.css";
 import "../../styles/auditions.css";
-import BandAuditionCard from "../../components/BandAuditionCard";
+// import BandAuditionCard from "../../components/BandAuditionCard";
 import { Audition } from "../../models";
 import PostCard from "../../components/PostCard/PostCard";
 import { Box, Button, Flex, Heading, HStack, Link, Text, useColorModeValue, VStack } from "@chakra-ui/react";
@@ -110,7 +110,7 @@ const BandAudition = (
     audition: Audition
   }
 ) => {
-  const bg = useColorModeValue("gray.100", "gray.900")
+  const bg = useColorModeValue("white", "gray.900")
   const { t } = useTranslation();
   const date = dayjs(audition.creationDate).format('DD/MM/YYYY')
   const navigate = useNavigate()

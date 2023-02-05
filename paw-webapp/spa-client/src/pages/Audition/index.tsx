@@ -156,7 +156,7 @@ const AuditionCard = ({
       <CardHeader>
         <Flex
           as="a"
-          href={userId === audition.ownerId ? "/profile" : "/user/" + audition.ownerId}
+          href={userId === audition.ownerId ? "/profile" : "/users/" + audition.ownerId}
           flex="1"
           gap="4"
           alignItems="center"

@@ -131,7 +131,7 @@ const DiscoverSearchBar = ({ onSubmit = () => {} }: DiscoverSearchBarProps) => {
 
   return (
     <Box
-      bgColor={useColorModeValue("gray.100", "gray.900")}
+      bgColor={useColorModeValue("white", "gray.900")}
       rounded="lg"
       p={5}
       boxShadow="xl"

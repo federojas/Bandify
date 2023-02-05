@@ -199,7 +199,7 @@ const UserProfile = () => {
   const [userImg, setUserImg] = useState<string | undefined>(undefined)
   const userService = useUserService();
   const filterAvailable = require(`../../images/available.png`);
-
+  const bg = useColorModeValue('white', 'gray.900')
 
   useEffect(() => {
     serviceCall(
@@ -239,9 +239,7 @@ const UserProfile = () => {
       <Stack spacing={4}>
         <Box
           w={"full"}
-          // bg={useColorModeValue("gray.100", "gray.900")}
-          bg="gray.100"
-          _dark={{ bg: "gray.900" }}
+          bg={bg}
           rounded={"lg"}
           boxShadow={"lg"}
           p={6}
@@ -319,8 +317,8 @@ const UserProfile = () => {
             w={"full"}
             colSpan={2}
             // bg={useColorModeValue("gray.100", "gray.900")}
-            bg="gray.100"
-            _dark={{ bg: "gray.900" }}
+            bg={bg}
+
             rounded={"lg"}
             boxShadow={"lg"}
             p={6}
@@ -359,8 +357,8 @@ const UserProfile = () => {
             w={"full"}
             colSpan={3}
             // bg={useColorModeValue("gray.100", "gray.900")}
-            bg="gray.100"
-            _dark={{ bg: "gray.900" }}
+            bg={bg}
+
             rounded={"lg"}
             boxShadow={"lg"}
             p={6}
