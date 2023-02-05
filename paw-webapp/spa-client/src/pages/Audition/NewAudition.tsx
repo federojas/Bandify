@@ -13,7 +13,7 @@ import {
 } from "chakra-react-select";
 import { LocationGroup, GenreGroup, RoleGroup } from "./EntitiesGroups";
 import { genreService, roleService, locationService } from "../../services";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { serviceCall } from "../../services/ServiceManager";
 import { useNavigate } from "react-router-dom";
 import { AuditionInput } from "../../api/types/Audition"
@@ -36,7 +36,7 @@ const NewAudition = () => {
 
   const navigate = useNavigate();
 
-  const [location, setLocation] = useState<LocationGroup>({ label: "Buenos Aires", value: "Buenos Aires" });
+  const [location, setLocation] = useState<LocationGroup>();
   const [genres, setGenres] = useState<GenreGroup[]>([]);
   const [roles, setRoles] = useState<RoleGroup[]>([]);
 
@@ -85,6 +85,10 @@ const NewAudition = () => {
     formState: { errors },
   } = useForm<FormData>();
 
+  const onCancel = () => {
+    navigate(-1);
+  };
+
 
   const onSubmit = async (data: FormData) => {
     console.log("Posting audition")
@@ -92,7 +96,7 @@ const NewAudition = () => {
     const auditionInput: AuditionInput = {
       title: data.title,
       description: data.description,
-      location: location.value,
+      location: location!.value,
       musicGenres: genres.map((genre) => genre.value),
       lookingFor: roles.map((role) => role.value),
     }
@@ -140,7 +144,7 @@ const NewAudition = () => {
         >
           <Box px={[4, 0]}>
             <Heading fontSize={'x-large'} fontWeight="bold" lineHeight="6">
-              Post a new audition
+              {t("EditAudition.newAudition")}
             </Heading>
             <Text
               mt={1}
@@ -150,8 +154,7 @@ const NewAudition = () => {
                 color: "gray.400",
               }}
             >
-              Looking for artists to play in your band?
-
+              {t("EditAudition.newAuditionDescription")}
             </Text>
           </Box>
         </GridItem>
@@ -185,7 +188,7 @@ const NewAudition = () => {
                 isInvalid={Boolean(errors.title)}
               >
                 <FormLabel fontSize={16} fontWeight="bold">
-                  Title
+                  {t("EditAudition.auditionTitle")}
                 </FormLabel>
                 <Input
                   type="text"
@@ -203,7 +206,7 @@ const NewAudition = () => {
                 <FormLabel
                   fontSize={16} fontWeight="bold"
                 >
-                  Description
+                  {t("EditAudition.auditionDescription")}
                 </FormLabel>
                 <Textarea
                   mt={1}
@@ -215,12 +218,12 @@ const NewAudition = () => {
                 />
                 <FormErrorMessage>{errors.description?.message}</FormErrorMessage>
                 <FormHelperText>
-                  Brief description for your audition
+                  {t("EditAudition.descriptionHelp")}
                 </FormHelperText>
               </FormControl>
 
-              {/* <FormControl>
-                <FormLabel>{t("AuditionSearchBar.location")}</FormLabel>
+              <FormControl isRequired>
+                <FormLabel fontSize={16} fontWeight="bold">{t("EditAudition.location")}</FormLabel>
                 <Select<LocationGroup, false, GroupBase<LocationGroup>>
                   name="locations"
                   options={locationOptions}
@@ -229,14 +232,13 @@ const NewAudition = () => {
                   variant="filled"
                   tagVariant="solid"
                   onChange={(loc) => {
-
-                    setLocation(loc);
+                    setLocation(loc!);
                   }}
                 />
-              </FormControl> */}
+              </FormControl>
 
-              <FormControl>
-                <FormLabel>{t("AuditionSearchBar.genre")}</FormLabel>
+              <FormControl isRequired>
+                <FormLabel fontSize={16} fontWeight="bold">{t("AuditionSearchBar.genre")}</FormLabel>
                 <Select<GenreGroup, true, GroupBase<GenreGroup>>
                   isMulti
                   name="genres"
@@ -250,8 +252,8 @@ const NewAudition = () => {
                   }}
                 />
               </FormControl>
-              <FormControl>
-                <FormLabel>{t("AuditionSearchBar.role")}</FormLabel>
+              <FormControl isRequired>
+                <FormLabel fontSize={16} fontWeight="bold">{t("AuditionSearchBar.role")}</FormLabel>
                 <Select<RoleGroup, true, GroupBase<RoleGroup>>
                   isMulti
                   name="roles"
@@ -291,8 +293,23 @@ const NewAudition = () => {
                   shadow: "",
                 }}
                 fontWeight="md"
+                mr={4}
               >
-                Post
+                {t("Button.post")}
+              </Button>
+              <Button
+                  bg={"gray.400"}
+                  color={"white"}
+                  _hover={{
+                    bg: "gray.500",
+                  }}
+                  _focus={{
+                    shadow: "",
+                  }}
+                  fontWeight="md"
+                  onClick={onCancel}
+              >
+                {t("EditAudition.cancel")}
               </Button>
             </Box>
           </form>

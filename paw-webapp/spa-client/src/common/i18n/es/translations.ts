@@ -9,7 +9,7 @@ export const TRANSLATIONS_ES = {
     title: "Audiciones",
     discover: "Descubre audiciones",
     latest: "Últimas audiciones",
-    header:"Buscar Audiciones 🎸",
+    header: "Buscar Audiciones 🎸",
     noFound: "No se encontraron audiciones",
   },
   Profile: {
@@ -43,7 +43,7 @@ export const TRANSLATIONS_ES = {
     logoutAlt: "Cerrar sesión",
     register: "Registrarse",
   },
-  Login : {
+  Login: {
     email: "Email",
     password: "Password",
     rememberMe: "Recuérdame",
@@ -56,7 +56,7 @@ export const TRANSLATIONS_ES = {
     error: "Error",
   },
   Register: {
-    title: "¡Registrate como banda o artista gratis!", 
+    title: "¡Registrate como banda o artista gratis!",
     subtitle: "¡Conoce nuevos artistas y bandas, y se descubierto!",
     header: "Registrarse como",
     band: "Banda",
@@ -72,31 +72,31 @@ export const TRANSLATIONS_ES = {
     button: "Registrarse",
     alreadyUser: "¿Ya sos usuario?",
     login: "Iniciar sesión",
-    Required:{
+    Required: {
       email: "El email es obligatorio",
       password: "La contraseña es obligatoria",
       passwordConfirm: "La confirmación de la contraseña es obligatoria",
       name: "El nombre es obligatorio",
       surname: "El apellido es obligatorio",
     },
-    MaxLenght:{
+    MaxLenght: {
       email: "El email no debe superar los 254 caracteres",
       password: "La contraseña no debe superar los 25 caracteres",
       name: "El nombre no debe superar los 50 caracteres",
       surname: "El apellido no debe superar los 50 caracteres",
     },
-    MinLenght:{
+    MinLenght: {
       password: "La contraseña debe tener al menos 8 caracteres",
     },
     error: "Error",
     success: "Éxito",
     alreadyRegistered: "El email ya se encuentra registrado",
-    Band:{
+    Band: {
       content: "Siendo una banda podrás crear audiciones, postear en el muro, y ser descubierto por otros artistas y bandas.",
       title: "¡Registrate como banda!",
       urlTitle: "Soy una banda",
     },
-    Artist:{
+    Artist: {
       content: "Siendo un artista podrás aplicar a audiciones, postear en el muro, y ser descubierto por otros artistas y bandas.",
       title: "¡Registrate como artista!",
       urlTitle: "Soy un artista",
@@ -156,7 +156,7 @@ export const TRANSLATIONS_ES = {
     discover: "¡Encuentra bandas y artistas!",
     results: "Resultados",
     noResults: "No se encontraron resultados para su búsqueda"
-  }, 
+  },
   ProfileApplications: {
     pending: "Pendientes",
     accepted: "Aceptadas",
@@ -201,8 +201,8 @@ export const TRANSLATIONS_ES = {
       title: "Aplicar a audición",
       message: "Dejale un mensaje a la banda",
       apply: "Aplicar",
-      cancel: "Cancelar", 
-      placeHolder: "Max. 300 caracteres", 
+      cancel: "Cancelar",
+      placeHolder: "Max. 300 caracteres",
     },
     applyError: "¡Ups, ocurrio un error!",
   },
@@ -236,7 +236,8 @@ export const TRANSLATIONS_ES = {
   Button: {
     cancel: "Cancelar",
     save: "Guardar",
-    confirm: "Confirmar"
+    confirm: "Confirmar",
+    post: "Publicar"
   },
   EditAudition: {
     title: "Editar audición",
@@ -253,20 +254,35 @@ export const TRANSLATIONS_ES = {
     role: "Role/es",
     location: "Ubicación",
     error: "No se pudo editar la audición.",
-    success:"¡Audición editada con éxito!",
+    success: "¡Audición editada con éxito!",
     genrePlaceholder: "Selecciona entre 1 y 5 géneros",
-    rolePlaceHolder: "Selecciona entre 1 y 5 roles",
+    rolePlaceholder: "Selecciona entre 1 y 5 roles",
     titlePlaceholder: "Máximo 50 caracteres",
-    descriptionPlaceHolder: "Máximo 300 caracteres",
+    descriptionPlaceholder: "Máximo 300 caracteres",
+    descriptionHelp: "Descripción breve de su audición",
+    newAuditionDescription: "¿Buscas artistas para tu banda?",
+    newAudition: "Crea una nueva audición"
   },
-    "Invites": "Invitaciones",
   Hub: {
-    "Applications": "Aplicaciones"
+    "Applications": "Aplicaciones",
+    "Invites": "Invitaciones",
   },
   Applications: {
     "Pending": "Pendientes",
     "Accepted": "Aceptadas",
     "Rejected": "Rechazadas",
-    "NoApplications": "No tienes aplicaciones en esta sección"
+    "NoApplications": "No tienes aplicaciones en esta sección",
+    "Title": "Estado actual de las aplicaciones que has hecho",
   },
+  Invites: {
+    Title: "Invitaciones a bandas que has recibido",
+    ModalTitle: "Invitación a banda",
+    Accept: "Aceptar",
+    Reject: "Rechazar",
+    MoreInfo: "Ver invitación",
+    Subtitle: "Felicidades!",
+    Subtitle2: "te han invitado a formar parte de la banda.",
+    Subtitle3: "Esta es una breve descripción de tu participación en la banda:",
+    Subtitle4: "y este/estos es/son los roles que te ofrecen:",
+  }
 };

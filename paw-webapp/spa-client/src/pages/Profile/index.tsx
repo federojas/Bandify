@@ -88,15 +88,15 @@ const Profile = () => {
   }, [])
 
   useEffect(() => {
-    if(user) {
+    if (user) {
       serviceCall(
-          userService.getProfileImageByUserId(user.id),
-          navigate,
-          (response) => {
-            setUserImg(
-                response
-            )
-          },
+        userService.getProfileImageByUserId(user.id),
+        navigate,
+        (response) => {
+          setUserImg(
+            response
+          )
+        },
       )
     }
   }, [user, navigate])
@@ -115,12 +115,13 @@ const Profile = () => {
           p={6}
         >
           <HStack gap={'8'}>
-            {}
+            { }
             <Image
               src={`data:image/png;base64,${userImg}`} //TODO: revisar posible mejora a link
               alt="Profile Picture"
               borderRadius="full"
               boxSize="150px"
+              objectFit={'cover'}
               shadow="lg"
               border="5px solid"
               borderColor="gray.800"
@@ -175,7 +176,7 @@ const Profile = () => {
             <Divider marginY={6} />
             <VStack spacing={4} justifyItems="start">
               <Heading fontSize={"2xl"} fontWeight={500}>
-                {t("Profile.roles")}
+                {user?.band ? t("Profile.rolesBand") : t("Profile.rolesArtist")}
               </Heading>
               {user?.roles && user?.roles.length > 0 ? (
                 <HStack wrap={"wrap"}>

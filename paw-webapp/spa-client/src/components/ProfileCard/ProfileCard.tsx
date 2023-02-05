@@ -80,6 +80,7 @@ const ProfileCard: React.FC<User> = ({
             alt="Profile Picture"
             borderRadius="full"
             boxSize="150px"
+            objectFit={'cover'}
             shadow="lg"
             border="5px solid"
             borderColor="gray.800"

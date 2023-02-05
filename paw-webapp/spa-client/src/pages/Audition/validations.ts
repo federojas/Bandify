@@ -13,9 +13,6 @@ const newAuditionOptions = {
       message: "Description cannot be larger than 300 characters",
     },
   },
-  roles: {
-    required: "Select at least one role"
-  }
 };
 
 const newAuditionOptionsES = {
