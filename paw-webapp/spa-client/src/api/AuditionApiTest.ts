@@ -20,18 +20,36 @@ class AuditionApi {
 
     private endpoint: string = '/auditions';
 
-    //debug
     private config = {
         headers: {
             'Content-Type': 'application/vnd.audition.v1+json'
         }
     }
-    // TODO: Mejorar
+
     private applicationConfig = {
         headers: {
             'Content-Type': 'application/vnd.application.v1+json'
         }
     }
+
+    public getAuditionById = async (id: number) => {
+        return this.axiosPrivate.get(`${this.endpoint}/${id}`).then((response) => {
+            const data = response.data;
+            const audition: Audition = {
+                id: data.id,
+                title: data.title,
+                description: data.description,
+                creationDate: data.creationDate,
+                location: data.location,
+                lookingFor: data.lookingFor,
+                musicGenres: data.musicGenres,
+                applications: data.applications,
+                self: data.self,
+                owner: data.owner
+            };
+            return Promise.resolve(audition);
+        });
+    };
 
     //TODO: codigo repetido
     public getAuditions = async (page?: number, query?: string, roles?: string[], genres?: string[], locations?: string[], order?: string) => {
@@ -120,36 +138,10 @@ class AuditionApi {
             });
     };
 
-    public getAuditionById = async (id: number) => {
-        // Call the this.axiosPrivate to get the audition data
-        return this.axiosPrivate.get(`${this.endpoint}/${id}`).then((response) => {
-            // Extract the data for the audition from the response
-            const data = response.data;
-            // Create a new object with the structure of a Audition object
-            const audition: Audition = {
-                id: data.id,
-                title: data.title,
-                description: data.description,
-                creationDate: data.creationDate,
-                location: data.location,
-                lookingFor: data.lookingFor,
-                musicGenres: data.musicGenres,
-                applications: data.applications,
-                self: data.self,
-                owner: data.owner
-            };
-
-            // Return a new promise that resolves with the audition object
-            return Promise.resolve(audition);
-        });
-    };
-
     public getApplication = async (auditionId: number, applicationId: number) => {
         return this.axiosPrivate.get(`${this.endpoint}/${auditionId}/applications/${applicationId}`)
             .then((response) => {
-            // Extract the data for the audition from the response
             const data = response.data;
-            // Create a new object with the structure of a Audition object
             const application: Application = {
                 id: data.id,
                 state: data.state,
@@ -159,8 +151,6 @@ class AuditionApi {
                 audition: data.audition,
                 applicant: data.applicant
             };
-
-            // Return a new promise that resolves with the application object
             return Promise.resolve(application);
         });
     };
@@ -191,7 +181,6 @@ class AuditionApi {
     };
 
     public createAudition = async (input: AuditionInput) => {
-        // const axiosPrivate = useAxiosPrivate();
         return this.axiosPrivate.post(this.endpoint, input, this.config).then((response) => {
             return Promise.resolve(response);
         });

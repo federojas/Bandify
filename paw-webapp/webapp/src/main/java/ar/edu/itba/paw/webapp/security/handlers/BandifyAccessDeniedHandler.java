@@ -24,7 +24,7 @@ public class BandifyAccessDeniedHandler implements AccessDeniedHandler {
 
         errorInfoDto.setStatus(HttpStatus.FORBIDDEN.value());
         errorInfoDto.setTitle(HttpStatus.FORBIDDEN.getReasonPhrase());
-        errorInfoDto.setMessage(exception.getMessage());
+        errorInfoDto.addMessage(exception.getMessage());
         errorInfoDto.setPath(request.getRequestURI());
 
         final ObjectMapper mapper = new ObjectMapper();

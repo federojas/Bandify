@@ -26,7 +26,7 @@ public class BandifyAuthenticationEntryPoint implements AuthenticationEntryPoint
 
         errorInfoDto.setStatus(HttpStatus.UNAUTHORIZED.value());
         errorInfoDto.setTitle(HttpStatus.UNAUTHORIZED.getReasonPhrase());
-        errorInfoDto.setMessage(exception.getMessage());
+        errorInfoDto.addMessage(exception.getMessage());
         errorInfoDto.setPath(request.getRequestURI());
 
         final ObjectMapper mapper = new ObjectMapper();

@@ -6,8 +6,6 @@ import { AuditionInput } from "../api/types/Audition";
 import PostResponse from "../api/types/PostResponse";
 import AuditionApiTest from "../api/AuditionApiTest";
 import PagedContent from "../api/types/PagedContent";
-import DeleteResponse from "../api/types/DeleteResponse";
-import PutResponse from "../api/types/PutResponse";
 
 export default class AuditionService {
   private auditionApi: AuditionApiTest;
@@ -156,15 +154,11 @@ export default class AuditionService {
     }
   }
 
-  public async updateAudition(auditionId: number, auditionInput: AuditionInput): Promise<ApiResult<PutResponse>> {
+  public async updateAudition(auditionId: number, auditionInput: AuditionInput) {
     try {
-      const putResponse = await this.auditionApi.editAudition(auditionId, auditionInput);
-      const url: string = putResponse.headers!.location!;
-      const tokens = url.split('/')
-      const id: number = parseInt(tokens[tokens.length-1]);
-      const data: PutResponse = { url: url, id: id };
+      await this.auditionApi.editAudition(auditionId, auditionInput); 
       return new ApiResult(
-          data,
+          null as any,
           false,
           null as any
       );
@@ -190,15 +184,11 @@ export default class AuditionService {
     }
   }
 
-  public async deleteAuditionById(auditionId: number): Promise<ApiResult<DeleteResponse>> {
+  public async deleteAuditionById(auditionId: number) {
     try {
-      const deleteResponse = await this.auditionApi.deleteAuditionById(auditionId);
-      const url: string = deleteResponse.headers!.location!;
-      const tokens = url.split('/')
-      const id: number = parseInt(tokens[tokens.length-1]);
-      const data: DeleteResponse = { url: url, id: id };
+      await this.auditionApi.deleteAuditionById(auditionId);
       return new ApiResult(
-          data,
+          null as any,
           false,
           null as any
       );

@@ -2,14 +2,14 @@ export default class ErrorResponse {
     private _status: number;
     private _title: string;
     private _path: string;
-    private _message: string;
+    private _messages: string[];
 
   
-    public constructor(status: number, title: string, path: string, message: string) {
+    public constructor(status: number, title: string, path: string, message: string[]) {
       this._status = status;
       this._title = title;
       this._path = path;
-      this._message = message;
+      this._messages = message;
     }
 
 
@@ -25,7 +25,7 @@ export default class ErrorResponse {
         return this._path;
     }
 
-    get message(): string {
-        return this._message;
+    get message(): string[] {
+        return this._messages;
     }
 }

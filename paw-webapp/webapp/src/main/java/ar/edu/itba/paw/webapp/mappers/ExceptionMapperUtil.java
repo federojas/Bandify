@@ -14,7 +14,7 @@ public class ExceptionMapperUtil {
         ErrorInfoDto errorInfo = new ErrorInfoDto();
         errorInfo.setStatus(status.getStatusCode());
         errorInfo.setTitle(status.getReasonPhrase());
-        errorInfo.setMessage(message);
+        errorInfo.addMessage(message);
         errorInfo.setPath(uriInfo.getAbsolutePath().getPath());
 
         return Response.status(status).entity(errorInfo).type("application/vnd.bandify.api.v1+json").build();
