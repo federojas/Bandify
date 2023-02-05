@@ -1,10 +1,8 @@
-import api from './api';
 import {Audition, AuditionInput} from './types/Audition';
 import {Application} from './types/Application';
-import { m } from 'framer-motion';
-import AuthContext from '../contexts/AuthContext';
-import { useContext } from 'react';
-// import useAxiosPrivate from './hooks/useAxiosPrivate';
+import { AxiosInstance } from 'axios';
+import PagedContent from "./types/PagedContent";
+import {parseLinkHeader} from '@web3-storage/parse-link-header'
 
 interface Params {
     auditionId?: number;
@@ -12,39 +10,65 @@ interface Params {
 }
 
 class AuditionApi {
+    private axiosPrivate: AxiosInstance;
+
+    constructor(axiosPrivate: AxiosInstance) {
+      this.axiosPrivate = axiosPrivate;
+    }
+
     private endpoint: string = '/auditions';
 
-    // TODO: revisar si estan bien todos estos custom mime types y definir los que faltan
     private config = {
         headers: {
             'Content-Type': 'application/vnd.audition.v1+json'
         }
     }
-    
+
     private applicationConfig = {
         headers: {
             'Content-Type': 'application/vnd.application.v1+json'
         }
     }
 
-    // private bearerConfig = {
-    //     headers: {
-    //       'Authorization': 'Bearer ' + this.context.jwt,
-    //       'Content-Type': 'application/vnd.audition.v1+json'
-    //     }
-    // }
+    public getAuditionById = async (id: number) => {
+        return this.axiosPrivate.get(`${this.endpoint}/${id}`).then((response) => {
+            const data = response.data;
+            const audition: Audition = {
+                id: data.id,
+                title: data.title,
+                description: data.description,
+                creationDate: data.creationDate,
+                location: data.location,
+                lookingFor: data.lookingFor,
+                musicGenres: data.musicGenres,
+                applications: data.applications,
+                self: data.self,
+                owner: data.owner
+            };
+            return Promise.resolve(audition);
+        });
+    };
 
-    public getAuditions = async (page?: number, query?: string, roles?: string[], genres?: string[], locations?: string[], bandId?: number) => {
-        return api
+    //TODO: codigo repetido
+    public getAuditions = async (page?: number, query?: string, roles?: string[], genres?: string[], locations?: string[], order?: string) => {
+        // const params = [
+        //     ...(roles || []).map(role => `role=${encodeURIComponent(role)}`),
+        //     ...(genres || []).map(genre => `genre=${encodeURIComponent(genre)}`),
+        //     ...(locations || []).map(location => `location=${encodeURIComponent(location)}`),
+        // ].join("&");
+        return this.axiosPrivate
             .get(this.endpoint, {
                 params: {
                     page: page,
                     query: query,
-                    genre: genres,
                     role: roles,
+                    genre: genres,
                     location: locations,
-                    bandId: bandId
+                    order: order
                 },
+                paramsSerializer: {
+                    indexes: null
+                }
             })
             .then((response) => {
                 const data = response.data;
@@ -64,40 +88,58 @@ class AuditionApi {
                           };
                       })
                     : [];
-                return Promise.resolve(auditions);
+                let maxPage = 1;
+                let parsed;
+                if(response.headers) {
+                    parsed = parseLinkHeader(response.headers.link);
+                    if(parsed)
+                        maxPage = parseInt(parsed.last.page);
+                }
+                return Promise.resolve(new PagedContent(auditions, maxPage));
             });
     };
 
-    public getAuditionById = async (id: number) => {
-        // Call the API to get the audition data
-        return api.get(`${this.endpoint}/${id}`).then((response) => {
-            // Extract the data for the audition from the response
-            const data = response.data;
-            // Create a new object with the structure of a Audition object
-            const audition: Audition = {
-                id: data.id,
-                title: data.title,
-                description: data.description,
-                creationDate: data.creationDate,
-                location: data.location,
-                lookingFor: data.lookingFor,
-                musicGenres: data.musicGenres,
-                applications: data.applications,
-                self: data.self,
-                owner: data.owner
-            };
-
-            // Return a new promise that resolves with the audition object
-            return Promise.resolve(audition);
-        });
+    public getAuditionsByBandId = async (page?: number, bandId?: number) => {
+        return this.axiosPrivate
+            .get(this.endpoint, {
+                params: {
+                    page: page,
+                    bandId: bandId,
+                },
+            })
+            .then((response) => {
+                const data = response.data;
+                const auditions: Audition[] = Array.isArray(data)
+                    ? data.map((audition: any) => {
+                        return {
+                            id: audition.id,
+                            title: audition.title,
+                            description: audition.description,
+                            creationDate: audition.creationDate,
+                            location: audition.location,
+                            lookingFor: audition.lookingFor,
+                            musicGenres: audition.musicGenres,
+                            applications: audition.applications,
+                            self: audition.self,
+                            owner: audition.owner
+                        };
+                    })
+                    : [];
+                let maxPage = 1;
+                let parsed;
+                if(response.headers) {
+                    parsed = parseLinkHeader(response.headers.link);
+                    if(parsed)
+                        maxPage = parseInt(parsed.last.page);
+                }
+                return Promise.resolve(new PagedContent(auditions, maxPage));
+            });
     };
 
     public getApplication = async (auditionId: number, applicationId: number) => {
-        return api.get(`${this.endpoint}/${auditionId}/applications/${applicationId}`)
+        return this.axiosPrivate.get(`${this.endpoint}/${auditionId}/applications/${applicationId}`)
             .then((response) => {
-            // Extract the data for the audition from the response
             const data = response.data;
-            // Create a new object with the structure of a Audition object
             const application: Application = {
                 id: data.id,
                 state: data.state,
@@ -107,14 +149,12 @@ class AuditionApi {
                 audition: data.audition,
                 applicant: data.applicant
             };
-
-            // Return a new promise that resolves with the application object
             return Promise.resolve(application);
         });
     };
 
     public getApplications = async (auditionId: number, page?: number, state?: string) => {
-        return api.get(`${this.endpoint}/${auditionId}/applications`, {
+        return this.axiosPrivate.get(`${this.endpoint}/${auditionId}/applications`, {
             params: {
                 page: page,
                 state: state
@@ -139,25 +179,27 @@ class AuditionApi {
     };
 
     public createAudition = async (input: AuditionInput) => {
-        // const axiosPrivate = useAxiosPrivate();
-        return api.post(this.endpoint, input, this.config).then((response) => {
+        return this.axiosPrivate.post(this.endpoint, input, this.config).then((response) => {
             return Promise.resolve(response);
         });
     }
 
     public editAudition = async (id: number, input: AuditionInput) => {
-        return api.put(`${this.endpoint}/${id}`, input, this.config).then((response) => {
-            console.log(response);
-            return true;
-        }).catch((error) => {
-            console.log(error.response.data);
-            return false;
+        return this.axiosPrivate.put(`${this.endpoint}/${id}`, input, this.config).then((response) => {
+            return Promise.resolve(response);
         });
     }
 
     public apply = async(auditionId:number, message: string) => {
-        return api.post(`${this.endpoint}/${auditionId}/applications`,
+        return this.axiosPrivate.post(`${this.endpoint}/${auditionId}/applications`,
         {message: message},this.applicationConfig).then((response) => {
+            return Promise.resolve(response);
+        });
+    }
+
+    public deleteAuditionById = async(auditionId:number) => {
+        return this.axiosPrivate.delete(`${this.endpoint}/${auditionId}`,this.applicationConfig)
+            .then((response) => {
             return Promise.resolve(response);
         });
     }

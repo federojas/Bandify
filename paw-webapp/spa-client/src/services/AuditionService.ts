@@ -4,7 +4,7 @@ import { ErrorService } from "./ErrorService";
 import ApiResult from "../api/types/ApiResult";
 import { AuditionInput } from "../api/types/Audition";
 import PostResponse from "../api/types/PostResponse";
-import AuditionApiTest from "../api/AuditionApiTest";
+import AuditionApiTest from "../api/AuditionApi";
 import PagedContent from "../api/types/PagedContent";
 
 export default class AuditionService {

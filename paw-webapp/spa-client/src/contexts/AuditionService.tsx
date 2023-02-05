@@ -1,7 +1,7 @@
 import { createContext, useContext } from "react";
 import useAxiosPrivate from "../hooks/useAxiosPrivate"
 import AuditionService from "../services/AuditionService";
-import AuditionApiTest from "../api/AuditionApiTest";
+import AuditionApiTest from "../api/AuditionApi";
 
 const AuditionServiceContext = createContext<AuditionService>(null!);
 

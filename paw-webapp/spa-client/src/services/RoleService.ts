@@ -1,4 +1,4 @@
-import RoleApiTest from "../api/RoleApiTest";
+import RoleApiTest from "../api/RoleApi";
 import ApiResult from "../api/types/ApiResult";
 import { Role } from "../models";
 import {ErrorService} from "./ErrorService";

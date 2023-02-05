@@ -1,7 +1,7 @@
 import { createContext, useContext } from "react";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import GenreService from "../services/GenreService";
-import GenreApiTest from "../api/GenreApiTest";
+import GenreApiTest from "../api/GenreApi";
 
 const GenreServiceContext = createContext<GenreService>(null!);
 

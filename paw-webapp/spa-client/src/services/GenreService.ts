@@ -1,4 +1,4 @@
-import GenreApiTest from "../api/GenreApiTest";
+import GenreApiTest from "../api/GenreApi";
 import ApiResult from "../api/types/ApiResult";
 import { Genre } from "../models";
 import {ErrorService} from "./ErrorService";

@@ -1,4 +1,4 @@
-import LocationApiTest from "../api/LocationApiTest";
+import LocationApiTest from "../api/LocationApi";
 import ApiResult from "../api/types/ApiResult";
 import { Location } from "../models";
 import {ErrorService} from "./ErrorService";

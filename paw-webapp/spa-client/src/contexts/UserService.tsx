@@ -1,7 +1,7 @@
 import { createContext, useContext } from "react";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import UserService from "../services/UserService";
-import UserApiTest from "../api/UserApiTest";
+import UserApiTest from "../api/UserApi";
 
 const UserServiceContext = createContext<UserService>(null!);
 

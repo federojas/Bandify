@@ -1,7 +1,7 @@
 import { createContext, useContext } from "react";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import LocationService from "../services/LocationService";
-import LocationApiTest from "../api/LocationApiTest";
+import LocationApiTest from "../api/LocationApi";
 
 const LocationServiceContext = createContext<LocationService>(null!);
 

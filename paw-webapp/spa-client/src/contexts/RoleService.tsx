@@ -1,7 +1,7 @@
 import { createContext, useContext } from "react";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import RoleService from "../services/RoleService";
-import RoleApiTest from "../api/RoleApiTest";
+import RoleApiTest from "../api/RoleApi";
 
 const RoleServiceContext = createContext<RoleService>(null!);
 

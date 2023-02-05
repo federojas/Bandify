@@ -1,6 +1,6 @@
 import ApiResult from "../api/types/ApiResult";
 import {UserCreateInput, UserUpdateInput} from "../api/types/User";
-import UserApiTest from "../api/UserApiTest";
+import UserApiTest from "../api/UserApi";
 import { User } from "../models";
 import { ErrorService } from "./ErrorService";
 import PagedContent from "../api/types/PagedContent";
