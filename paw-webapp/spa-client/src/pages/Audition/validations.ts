@@ -13,6 +13,26 @@ const newAuditionOptions = {
       message: "Description cannot be larger than 300 characters",
     },
   },
+  roles: {
+    required: "Select at least one role"
+  }
+};
+
+const newAuditionOptionsES = {
+  title: {
+    required: "El titulo es requerido",
+    maxLength: {
+      value: 50,
+      message: "El titulo no puede ser mayor a 50 caracteres",
+    },
+  },
+  description: {
+    required: "La descripción es requerida",
+    maxLength: {
+      value: 300,
+      message: "La descripción no puede ser mayor a 300 caracteres",
+    },
+  },
 };
 
 const applyAuditionOptions = {
@@ -25,4 +45,15 @@ const applyAuditionOptions = {
   },
 };
 
-export {newAuditionOptions, applyAuditionOptions};
+const applyAuditionOptionsES = {
+  message: {
+    required: "El mensaje es requerido",
+    maxLength: {
+      value: 300,
+      message: "El mensaje no puede ser mayor a 300 caracteres",
+    },
+  },
+};
+
+
+export {newAuditionOptions, applyAuditionOptions, newAuditionOptionsES, applyAuditionOptionsES};

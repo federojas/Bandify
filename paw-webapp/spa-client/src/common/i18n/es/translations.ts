@@ -94,12 +94,12 @@ export const TRANSLATIONS_ES = {
     Band:{
       content: "Siendo una banda podrás crear audiciones, postear en el muro, y ser descubierto por otros artistas y bandas.",
       title: "¡Registrate como banda!",
-      urlTitle: "soy una banda",
+      urlTitle: "Soy una banda",
     },
     Artist:{
       content: "Siendo un artista podrás aplicar a audiciones, postear en el muro, y ser descubierto por otros artistas y bandas.",
       title: "¡Registrate como artista!",
-      urlTitle: "soy un artista",
+      urlTitle: "Soy un artista",
     },
   },
   AuditionSearchBar: {
@@ -251,7 +251,12 @@ export const TRANSLATIONS_ES = {
     cancel: "Cancelar",
     genre: "Género/s",
     role: "Role/es",
+    location: "Ubicación",
     error: "No se pudo editar la audición.",
-    success:"¡Audición editada con éxito!"
+    success:"¡Audición editada con éxito!",
+    genrePlaceholder: "Selecciona entre 1 y 5 géneros",
+    rolePlaceHolder: "Selecciona entre 1 y 5 roles",
+    titlePlaceholder: "Máximo 50 caracteres",
+    descriptionPlaceHolder: "Máximo 300 caracteres",
   }
 };

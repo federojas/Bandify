@@ -189,7 +189,8 @@ const NewAudition = () => {
                 </FormLabel>
                 <Input
                   type="text"
-                  // maxLength={50}
+                  maxLength={50}
+                  placeholder={t("EditAudition.titlePlaceholder")}
                   {...register("title", newAuditionOptions.title)}
                 />
                 <FormErrorMessage>{errors.title?.message}</FormErrorMessage>
@@ -208,6 +209,8 @@ const NewAudition = () => {
                   mt={1}
                   rows={3}
                   shadow="sm"
+                  maxLength={300}
+                  placeholder={t("EditAudition.descriptionPlaceholder")}
                   {...register("description", newAuditionOptions.description)}
                 />
                 <FormErrorMessage>{errors.description?.message}</FormErrorMessage>
@@ -238,7 +241,7 @@ const NewAudition = () => {
                   isMulti
                   name="genres"
                   options={genreOptions}
-                  placeholder={t("AuditionSearchBar.genrePlaceholder")}
+                  placeholder={t("EditAudition.genrePlaceholder")}
                   closeMenuOnSelect={false}
                   variant="filled"
                   tagVariant="solid"
@@ -253,7 +256,7 @@ const NewAudition = () => {
                   isMulti
                   name="roles"
                   options={roleOptions}
-                  placeholder={t("AuditionSearchBar.rolePlaceholder")}
+                  placeholder={t("EditAudition.rolePlaceholder")}
                   closeMenuOnSelect={false}
                   variant="filled"
                   tagVariant="solid"

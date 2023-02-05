@@ -250,8 +250,13 @@ export const TRANSLATIONS_EN = {
     cancel: "Cancel",
     genre: "Genre/s",
     role: "Role/s",
+    location: "Location",
     error: "Could not edit audition.",
-    success:"¡Audition successfully modified!"
+    success:"¡Audition successfully modified!",
+    genrePlaceholder: "Select between 1 and 5 genres",
+    rolePlaceHolder: "Select between 1 and 5 roles",
+    titlePlaceholder: "Maximum 50 characters",
+    descriptionPlaceHolder: "Maximum 300 characters",
   }
 };
 

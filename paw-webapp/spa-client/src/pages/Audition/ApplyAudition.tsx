@@ -6,7 +6,7 @@ import { FiUsers } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { useAuditionService } from "../../contexts/AuditionService";
 import { serviceCall } from "../../services/ServiceManager";
-import { applyAuditionOptions } from "./validations";
+import {applyAuditionOptions, applyAuditionOptionsES} from "./validations";
 import swal from 'sweetalert';
 
 interface FormData {
@@ -21,7 +21,9 @@ const ApplyButton = ({auditionId} : {auditionId: number})  => {
     const initialRef = React.useRef(null)
     const finalRef = React.useRef(null)
     const navigate = useNavigate();
-  
+    const options = localStorage.getItem('i18nextLng') === 'es' ? applyAuditionOptionsES : applyAuditionOptions;
+
+
     const {
       register,
       handleSubmit,
@@ -70,8 +72,8 @@ const ApplyButton = ({auditionId} : {auditionId: number})  => {
                   <Textarea 
                     // ref={initialRef}
                     placeholder={t("Audition.Modal.placeHolder")} 
-                    maxLength={applyAuditionOptions.message.maxLength.value}
-                    {...register("description", applyAuditionOptions.message)}
+                    maxLength={options.message.maxLength.value}
+                    {...register("description", options.message)}
                     />
                 </FormControl>
                 <ModalFooter>

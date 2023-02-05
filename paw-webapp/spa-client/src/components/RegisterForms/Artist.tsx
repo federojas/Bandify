@@ -97,7 +97,7 @@ export default function RegisterArtistForm (){
                 <Input
                   type="text"
                   // maxLength={50}
-                  {...register("name", registerOptions.name)}
+                  {...register("name", options.name)}
                 />
                 <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
               </FormControl>
@@ -113,7 +113,7 @@ export default function RegisterArtistForm (){
                 </FormLabel>
                 <Input
                   type="text"
-                  {...register("surname", registerOptions.surname)}
+                  {...register("surname", options.surname)}
                 />
                 <FormErrorMessage>{errors.surname?.message}</FormErrorMessage>
               </FormControl>
@@ -126,7 +126,7 @@ export default function RegisterArtistForm (){
             <Input
               type="email"
               maxLength={255}
-              {...register("email", registerOptions.email)}
+              {...register("email", options.email)}
             />
             <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
           </FormControl>
@@ -141,7 +141,7 @@ export default function RegisterArtistForm (){
             <InputGroup>
               <Input
                 type={showPassword ? "text" : "password"}
-                {...register("password", registerOptions.password)}
+                {...register("password", options.password)}
               />
               <InputRightElement h={"full"}>
                 <Button
@@ -169,7 +169,7 @@ export default function RegisterArtistForm (){
                 type={showPasswordConfirmation ? "text" : "password"}
                 {...register(
                   "passwordConfirmation",
-                  registerOptions.passwordConfirmation
+                    options.passwordConfirmation
                 )}
               />
               <InputRightElement h={"full"}>

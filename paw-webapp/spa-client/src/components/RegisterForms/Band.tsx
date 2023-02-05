@@ -89,7 +89,8 @@ const RegisterBandForm = () => {
             </FormLabel>
             <Input
               type="text"
-              // maxLength={50}
+              maxLength={50}
+
               {...register("name", options.name)}
             />
             <FormErrorMessage>{errors.name?.message}</FormErrorMessage>

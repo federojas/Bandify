@@ -1,4 +1,5 @@
 import {
+  useColorModeValue,
   Avatar,
   Box,
   Button,
@@ -11,18 +12,18 @@ import {
   Heading,
   HStack,
   Input,
+  Center,
   SimpleGrid,
   Stack,
   Text,
   Textarea,
-  useColorModeValue,
   Icon,
   useToast
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { FaUser } from "react-icons/fa";
-import { newAuditionOptions } from "./validations";
+import {newAuditionOptions, newAuditionOptionsES} from "./validations";
 
 import {
   Select,
@@ -33,12 +34,13 @@ import {
 } from "chakra-react-select";
 import { LocationGroup, GenreGroup, RoleGroup } from "./EntitiesGroups";
 import { genreService, roleService, locationService } from "../../services";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { serviceCall } from "../../services/ServiceManager";
 import {useNavigate, useParams} from "react-router-dom";
 import { AuditionInput } from "../../api/types/Audition"
 import { useAuditionService } from "../../contexts/AuditionService";
 import {Audition} from "../../models";
+import {registerOptions, registerOptionsES} from "../../components/RegisterForms/validations";
 
 interface FormData {
   title: string;
@@ -62,6 +64,8 @@ const EditAudition = () => {
   const [location, setLocation] = useState<LocationGroup>();
   const [genres, setGenres] = useState<GenreGroup[]>([]);
   const [roles, setRoles] = useState<RoleGroup[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const options = localStorage.getItem('i18nextLng') === 'es' ? newAuditionOptionsES : newAuditionOptions;
 
 
   const auditionService = useAuditionService();
@@ -108,6 +112,10 @@ const EditAudition = () => {
         navigate,
         (audition) => {
           setAudition(audition)
+          setLocation({label:audition.location, value:audition.location} as LocationGroup)
+          setGenres(audition.musicGenres.map(r => {return {value: r, label: r}}))
+          setRoles(audition.lookingFor.map(r => {return {value: r, label: r}}))
+          setIsLoading(false)
         }
     )
   }, [auditionService]);
@@ -121,10 +129,12 @@ const EditAudition = () => {
 
 
   const onSubmit = async (data: FormData) => {
+    console.log(data)
+    console.log(location?.value)
     const auditionInput: AuditionInput = {
       title: data.title,
       description: data.description,
-      location: location.value,
+      location: location!.value,
       musicGenres: genres.map((genre) => genre.value),
       lookingFor: roles.map((role) => role.value),
     }
@@ -158,12 +168,15 @@ const EditAudition = () => {
     navigate(-1);
   };
 
-  return <Box
+  return (
+    <Center>
+      <Box
     rounded={"lg"}
     bg={useColorModeValue("gray.100", "gray.900")}
     p={10}
     m={10}
   >
+    {isLoading ? <span className="loader"></span> :(
     <Box>
       <SimpleGrid
         display={{
@@ -234,7 +247,8 @@ const EditAudition = () => {
                   type="text"
                   maxLength={50}
                   defaultValue={audition?.title}
-                  {...register("title", newAuditionOptions.title)}
+                  placeholder={t("EditAudition.titlePlaceholder")}
+                  {...register("title", options.title)}
                 />
                 <FormErrorMessage>{errors.title?.message}</FormErrorMessage>
               </FormControl>
@@ -252,9 +266,10 @@ const EditAudition = () => {
                   mt={1}
                   rows={3}
                   shadow="sm"
+                  placeholder={t("EditAudition.descriptionPlaceHolder")}
                   maxLength={300}
                   defaultValue={audition?.description}
-                  {...register("description", newAuditionOptions.description)}
+                  {...register("description", options.description)}
                 />
                 <FormErrorMessage>{errors.description?.message}</FormErrorMessage>
                 <FormHelperText>
@@ -262,50 +277,50 @@ const EditAudition = () => {
                 </FormHelperText>
               </FormControl>
 
-              {/* <FormControl>
-                <FormLabel>{t("AuditionSearchBar.location")}</FormLabel>
+              <FormControl isRequired>
+                <FormLabel fontSize={16} fontWeight="bold">{t("EditAudition.location")}</FormLabel>
                 <Select<LocationGroup, false, GroupBase<LocationGroup>>
                   name="locations"
-                  isRequired
                   options={locationOptions}
                   placeholder={t("AuditionSearchBar.locationPlaceholder")}
                   closeMenuOnSelect={true}
                   variant="filled"
                   tagVariant="solid"
+                  defaultValue={location}
                   onChange={(loc) => {
-
-                    setLocation(loc);
+                    setLocation(loc!);
                   }}
                 />
-              </FormControl> */}
+              </FormControl>
 
-              <FormControl>
-                <FormLabel>{t("EditAudition.genre")}</FormLabel>
+              <FormControl isRequired>
+                <FormLabel fontSize={16} fontWeight="bold">{t("EditAudition.genre")}</FormLabel>
                 <Select<GenreGroup, true, GroupBase<GenreGroup>>
                   isMulti
-                  isRequired
                   name="genres"
                   options={genreOptions}
-                  placeholder={t("AuditionSearchBar.genrePlaceholder")}
+                  placeholder={t("EditAudition.genrePlaceholder")}
                   closeMenuOnSelect={false}
                   variant="filled"
                   tagVariant="solid"
+                  defaultValue={genres}
                   onChange={(event) => {
                     setGenres(event.flatMap((e) => e));
                   }}
                 />
               </FormControl>
-              <FormControl>
-                <FormLabel>{t("EditAudition.role")}</FormLabel>
+              <FormControl isRequired>
+                <FormLabel fontSize={16} fontWeight="bold" >{t("EditAudition.role")}</FormLabel>
                 <Select<RoleGroup, true, GroupBase<RoleGroup>>
                   isMulti
                   name="roles"
                   isRequired
                   options={roleOptions}
-                  placeholder={t("AuditionSearchBar.rolePlaceholder")}
+                  placeholder={t("EditAudition.rolePlaceHolder")}
                   closeMenuOnSelect={false}
                   variant="filled"
                   tagVariant="solid"
+                  defaultValue={roles}
                   onChange={(event) => {
                     setRoles(event.flatMap((e) => e));
                   }}
@@ -360,8 +375,9 @@ const EditAudition = () => {
         </GridItem>
       </SimpleGrid>
 
-    </Box>
-  </Box>;
+    </Box>)}
+  </Box>
+</Center>);
 }
 
 export default EditAudition
