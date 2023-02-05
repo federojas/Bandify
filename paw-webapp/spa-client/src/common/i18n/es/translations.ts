@@ -213,9 +213,8 @@ export const TRANSLATIONS_ES = {
     applyError: "¡Ups, ocurrio un error!",
   },
   ProfileCard: {
-    Profile: "Perfil",
+    Profile: "Ver perfil",
     Auditions: "Audiciones",
-    success: "Exito",
   },
   Clipboard: {
     message: "¡Link copiado al portapapeles!",

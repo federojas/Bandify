@@ -203,7 +203,7 @@ export const TRANSLATIONS_EN = {
   },
   ProfileCard: {
     Auditions: "Auditions",
-    Profile: "Profile",
+    Profile: "View profile",
   },
   Profile: {
     alt: {

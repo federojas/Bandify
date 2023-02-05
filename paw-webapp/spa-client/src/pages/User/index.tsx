@@ -299,11 +299,9 @@ const UserProfile = () => {
                 <AddToBandButton user={user} />
               }
               {user?.band &&
-
                 <>
                   <Button leftIcon={<FiMusic />} w={'50'} colorScheme={'cyan'} onClick={() => {
-                    // TODO: Logica de ver audiciones de X banda + esa vista
-                    navigate('/profile/auditions')
+                    navigate("/users/" + userId + "/auditions")
                   }}>
                     {t("User.auditions")}
                   </Button>
