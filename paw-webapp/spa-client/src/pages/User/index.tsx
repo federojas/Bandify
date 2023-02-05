@@ -11,15 +11,26 @@ import {
   Container,
   Divider,
   Flex,
+  FormControl,
+  FormLabel,
   Grid,
   GridItem,
   Heading,
   HStack,
   Image,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Stack,
   Tag,
   Text,
+  Textarea,
   useColorModeValue,
+  useDisclosure,
   VStack,
 } from "@chakra-ui/react";
 import ArtistTag from "../../components/Tags/ArtistTag";
@@ -42,34 +53,139 @@ import { User } from "../../models";
 import { useUserService } from "../../contexts/UserService";
 import { AiOutlineUserAdd } from "react-icons/ai";
 import { FiMusic } from "react-icons/fi";
+import { useForm } from "react-hook-form";
+import { addToBandOptions, addToBandOptionsES } from "./validations";
+import {
+  Select, GroupBase,
+} from "chakra-react-select";
+import { RoleGroup } from "../EditProfile/EntitiesGroups";
+import { useRoleService } from "../../contexts/RoleService";
 
-type Props = {
-  user: {
-    id: number;
-    name: string;
-    surname?: string;
-    email: string;
-    available?: boolean;
-    description?: string;
-    band: boolean;
-    location: string;
-  };
-};
 
-type Genre = {
-  name: string;
-  // other properties of a Genre object
-};
+interface FormData {
+  roles: string[];
+  description: string;
+}
 
-type Role = {
-  name: string;
-  // other properties of a Role object
-};
 
-type SocialMedia = {
-  name: string;
-  url: string;
-};
+const AddToBandButton = ({ user }: { user: User }) => {
+  const { t } = useTranslation();
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const [roleOptions, setRoleOptions] = useState<RoleGroup[]>([]);
+  const [roles, setRoles] = useState<RoleGroup[]>([]);
+  const roleService = useRoleService();
+
+  // const auditionService = useAuditionService();
+  const initialRef = React.useRef(null)
+  const finalRef = React.useRef(null)
+  const navigate = useNavigate();
+  const options = localStorage.getItem('i18nextLng') === 'es' ? addToBandOptionsES : addToBandOptions;
+
+  useEffect(() => {
+    serviceCall(
+      roleService.getRoles(),
+      navigate,
+      (roles) => {
+        const roleAux: RoleGroup[] = roles.map((role) => {
+          return { value: role.name, label: role.name };
+        });
+        setRoleOptions(roleAux);
+      }
+    )
+  }, [])
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>();
+
+
+  const onSubmit = (data: FormData) => {
+    console.log('hola')
+    const input = {
+      roles: roles.map((role) => role.value),
+      description: data.description,
+    }
+    console.log(input)
+    // serviceCall(auditionService.apply(auditionId, data.description),
+    //   navigate
+    // ).then((response) => {//todo: distintos response messages segun el error
+    //   if (response.hasFailed()) {
+    //     swal({
+    //       title: t("Audition.applyError"),
+    //       icon: "error",
+    //     })
+    //   } else {
+    //     swal({
+    //       title: t("Audition.applySuccess"),
+    //       text: t("Audition.applySuccessText"),
+    //       icon: "success",
+    //     })
+    //   }
+    // })
+  }
+
+  return (
+    <>
+      <Button leftIcon={<AiOutlineUserAdd />} w={'50'} colorScheme={'cyan'} onClick={onOpen}>
+        {t("User.addToBand")}
+      </Button>
+
+
+
+      <Modal
+        initialFocusRef={initialRef}
+        finalFocusRef={finalRef}
+        isOpen={isOpen}
+        onClose={onClose}
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>{t("AddToBand.Title")}</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={6}>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <Text fontSize={'lg'} mb={'4'}>{t("AddToBand.Subtitle")}<Text as='b'>{user.name}{' '}{user.surname}</Text> {t("AddToBand.Subtitle2")}</Text>
+              <FormControl isRequired mb={'4'}>
+                <FormLabel fontSize={16}  fontWeight="bold">{t("AuditionSearchBar.role")}</FormLabel>
+                <Select<RoleGroup, true, GroupBase<RoleGroup>>
+                  isMulti
+
+                  name="roles"
+                  options={roleOptions}
+                  placeholder={t("EditAudition.rolePlaceholder")}
+                  closeMenuOnSelect={false}
+                  variant="filled"
+                  tagVariant="solid"
+                  onChange={(event) => {
+                    setRoles(event.flatMap((e) => e));
+                  }}
+                />
+              </FormControl>
+
+              <FormControl isRequired
+              >
+                <FormLabel>{t("AddToBand.Field2")}</FormLabel>
+                <Textarea
+                  // ref={initialRef}
+                  placeholder={t("AddToBand.Field2Placeholder")}
+                  maxLength={options.message.maxLength.value}
+                  {...register("description", options.message)}
+                />
+              </FormControl>
+              <ModalFooter>
+                <Button leftIcon={<AiOutlineUserAdd />} colorScheme='blue' type="submit">
+                  {t("AddToBand.Add")}
+                </Button>
+              </ModalFooter>
+            </form>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+    </>
+  )
+}
 
 const UserProfile = () => {
   const { t } = useTranslation();
@@ -182,12 +298,7 @@ const UserProfile = () => {
             <VStack justify={'center'}>
 
               {!user?.band && user?.available && currentUser?.band &&
-                <Button leftIcon={<AiOutlineUserAdd />} w={'50'} colorScheme={'cyan'} onClick={() => {
-                  // TODO: Logica de agregar a la banda
-                  navigate('/applications')
-                }}>
-                  {t("User.addToBand")}
-                </Button>
+                <AddToBandButton user={user} />
               }
               {user?.band &&
 

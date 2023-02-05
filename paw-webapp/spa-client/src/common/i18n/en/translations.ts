@@ -305,6 +305,15 @@ export const TRANSLATIONS_EN = {
     title: "My auditions",
     applicants: "Applicants",
     moreInfo: "More"
+  },
+  AddToBand: {
+    "Title": "Adding artist to your band",
+    "Subtitle": "You are about to add ",
+    "Subtitle2": " to your band",
+    "Field1": "Which roles will the artist play?",
+    "Field2": "Describe artist's responsibilities",
+    Field2Placeholder: "Maximum 100 characters",
+    "Add": "Add to band"
   }
 };
 
