@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "../../styles/profile.css";
 import UserIcon from "../../assets/icons/user.svg";
 import EditIcon from "../../assets/icons/edit-white-icon.svg";
@@ -10,6 +10,7 @@ import {
   Center,
   Container,
   Divider,
+  Flex,
   Grid,
   GridItem,
   Heading,
@@ -39,6 +40,8 @@ import { serviceCall } from "../../services/ServiceManager";
 import { useNavigate, useParams } from "react-router-dom";
 import { User } from "../../models";
 import { useUserService } from "../../contexts/UserService";
+import { AiOutlineUserAdd } from "react-icons/ai";
+import { FiMusic } from "react-icons/fi";
 
 type Props = {
   user: {
@@ -74,6 +77,9 @@ const UserProfile = () => {
   const userId = Number(id);
   const navigate = useNavigate();
   const [user, setUser] = React.useState<User>();
+  const authContext = useContext(AuthContext);
+  const currentUserId = Number(authContext.userId);
+  const [currentUser, setCurrentUser] = React.useState<User>();
   const [userImg, setUserImg] = useState<string | undefined>(undefined)
   const userService = useUserService();
 
@@ -83,6 +89,14 @@ const UserProfile = () => {
       navigate,
       (response: any) => {
         setUser(response);
+      }
+    )
+
+    serviceCall(
+      userService.getUserById(currentUserId),
+      navigate,
+      (response: any) => {
+        setCurrentUser(response);
       }
     )
   }, [])
@@ -114,39 +128,66 @@ const UserProfile = () => {
           boxShadow={"lg"}
           p={6}
         >
-          <HStack gap={'8'}>
+          <Flex justify={'space-between'}>
             { }
-            <Image
-              src={`data:image/png;base64,${userImg}`} //TODO: revisar posible mejora a link
-              alt={t("Alts.profilePicture")}
-              borderRadius="full"
-              boxSize="150px"
-              objectFit={'cover'}
-              shadow="lg"
-              border="5px solid"
-              borderColor="gray.800"
-              _dark={{
-                borderColor: "gray.200",
-              }}
-            />
-            <VStack align={"left"} spacing={4}>
-              <Heading fontSize={"3xl"} fontWeight={700}>
-                {user?.name}{" "}
-                {user?.surname && <>{user?.surname}</>}
-              </Heading>
-              {user?.band ? <BandTag /> : <ArtistTag />}
-              <Text color={"gray.500"} fontSize={"xl"}>
-                {user?.description}
-              </Text>
-              {
-                user?.location &&
-                <HStack>
-                  <ImLocation />
-                  <Text color={"gray.500"}> {user?.location}</Text>
-                </HStack>
+            <HStack gap={'8'}>
+              <Image
+                src={`data:image/png;base64,${userImg}`} //TODO: revisar posible mejora a link
+                alt={t("Alts.profilePicture")}
+                borderRadius="full"
+                boxSize="150px"
+                objectFit={'cover'}
+                shadow="lg"
+                border="5px solid"
+                borderColor="gray.800"
+                _dark={{
+                  borderColor: "gray.200",
+                  backgroundColor: "white"
+                }}
+              />
+              <VStack align={"left"} spacing={4}>
+                <Box maxW={'lg'}>
+                  <Heading fontSize={"3xl"} fontWeight={700}>
+                    {user?.name}{" "}
+                    {user?.surname && <>{user?.surname}</>}
+                  </Heading>
+                </Box>
+                {user?.band ? <BandTag /> : <ArtistTag />}
+                <Text color={"gray.500"} fontSize={"xl"}>
+                  {user?.description}
+                </Text>
+                {
+                  user?.location &&
+                  <HStack>
+                    <ImLocation />
+                    <Text color={"gray.500"}> {user?.location}</Text>
+                  </HStack>
+                }
+              </VStack>
+            </HStack>
+            <VStack justify={'center'}>
+
+              {!user?.band && user?.available && currentUser?.band &&
+                <Button leftIcon={<AiOutlineUserAdd />} w={'50'} colorScheme={'cyan'} onClick={() => {
+                  // TODO: Logica de agregar a la banda
+                  navigate('/applications')
+                }}>
+                  {t("User.addToBand")}
+                </Button>
+              }
+              {user?.band &&
+
+                <>
+                  <Button leftIcon={<FiMusic />} w={'50'} colorScheme={'cyan'} onClick={() => {
+                    // TODO: Logica de ver audiciones de X banda + esa vista
+                    navigate('/profile/auditions')
+                  }}>
+                    {t("User.auditions")}
+                  </Button>
+                </>
               }
             </VStack>
-          </HStack>
+          </Flex>
         </Box>
         <Grid templateColumns={"repeat(5,1fr)"} gap={4}>
           <GridItem
@@ -236,7 +277,7 @@ const UserProfile = () => {
         </Grid>
       </Stack>
     </Container>
-    
+
   );
 };
 

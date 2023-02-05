@@ -11,6 +11,7 @@ import {
   Center,
   Container,
   Divider,
+  Flex,
   Grid,
   GridItem,
   Heading,
@@ -40,6 +41,8 @@ import { serviceCall } from "../../services/ServiceManager";
 import { useNavigate } from "react-router-dom";
 import { User } from "../../models";
 import { useUserService } from "../../contexts/UserService";
+import { AiOutlineEdit, AiOutlineUserAdd } from "react-icons/ai";
+import { FiMusic } from "react-icons/fi";
 
 const Profile = () => {
   const { t } = useTranslation();
@@ -84,42 +87,67 @@ const Profile = () => {
             boxShadow={"lg"}
             p={6}
           >
-            <HStack gap={'8'}>
+            <Flex justify={'space-between'}>
               { }
-              <Image
-                src={`data:image/png;base64,${userImg}`} //TODO: revisar posible mejora a link
-                alt={t("Alts.profilePicture")}
-                borderRadius="full"
-                boxSize="150px"
-                objectFit={'cover'}
-                shadow="lg"
-                border="5px solid"
-                borderColor="gray.800"
-                _dark={{
-                  borderColor: "gray.200",
-                  backgroundColor:"white"
-                }}
-              />
-              <VStack align={"left"} spacing={4}>
-                <Box maxW={'xl'}>
-                  <Heading fontSize={"3xl"} fontWeight={700}>
-                    {user?.name}{" "}
-                    {user?.surname && <>{user?.surname}</>}
-                  </Heading>
-                </Box>
-                {user?.band ? <BandTag /> : <ArtistTag />}
-                <Text color={"gray.500"} fontSize={"xl"}>
-                  {user?.description}
-                </Text>
-                {
-                  user?.location &&
-                  <HStack>
-                    <ImLocation />
-                    <Text color={"gray.500"}> {user?.location}</Text>
-                  </HStack>
+              <HStack gap={'8'}>
+                <Image
+                  src={`data:image/png;base64,${userImg}`} //TODO: revisar posible mejora a link
+                  alt={t("Alts.profilePicture")}
+                  borderRadius="full"
+                  boxSize="150px"
+                  objectFit={'cover'}
+                  shadow="lg"
+                  border="5px solid"
+                  borderColor="gray.800"
+                  _dark={{
+                    borderColor: "gray.200",
+                    backgroundColor: "white"
+                  }}
+                />
+                <VStack align={"left"} spacing={4}>
+                  <Box maxW={'lg'}>
+                    <Heading fontSize={"3xl"} fontWeight={700}>
+                      {user?.name}{" "}
+                      {user?.surname && <>{user?.surname}</>}
+                    </Heading>
+                  </Box>
+                  {user?.band ? <BandTag /> : <ArtistTag />}
+                  <Text color={"gray.500"} fontSize={"xl"}>
+                    {user?.description}
+                  </Text>
+                  {
+                    user?.location &&
+                    <HStack>
+                      <ImLocation />
+                      <Text color={"gray.500"}> {user?.location}</Text>
+                    </HStack>
+                  }
+                </VStack>
+              </HStack>
+              <VStack justify={'center'}>
+                <Button leftIcon={<AiOutlineEdit />} w={'44'} colorScheme='teal' onClick={() => {
+                  let postfix = user?.band ? 'editBand' : 'editArtist';
+                  let url = "/profile/" + postfix
+                  navigate(url);
                 }
+                }>{t("Profile.edit")}</Button>
+                {!user?.band ? <>
+                  <Button leftIcon={<FiMusic />} w={'44'} colorScheme={'cyan'} onClick={() => { navigate('/applications') }}>
+                    {t("Hub.Applications")}
+                  </Button>
+                  <Button leftIcon={<AiOutlineUserAdd />} colorScheme={'linkedin'} w={'44'} onClick={() => { navigate('/invites') }}>
+                    {t("Hub.Invites")}
+                  </Button>
+                </>
+                :
+                <>
+                  <Button leftIcon={<FiMusic />} w={'44'} colorScheme={'cyan'} onClick={() => { navigate('/profile/auditions') }}>
+                    {t("MyAuditions.title")}
+                  </Button>
+                </>  
+              }
               </VStack>
-            </HStack>
+            </Flex>
           </Box>
 
           <Grid templateColumns={"repeat(5,1fr)"} gap={4}>

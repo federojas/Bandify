@@ -58,8 +58,8 @@ function App() {
           <Route path="newAudition" element={<PrivateRoute component={NewAudition} roles={["BAND"]} />} />
           <Route path="auditions/search" element={<AuditionSearch />} />
           <Route path="users/search" element={<Index />} />
-          <Route path="applications" element={<Applications />} />
-          <Route path="invites" element={<Invites/>} />
+          <Route path="applications" element={<PrivateRoute component={Applications} roles={["ARTIST"]}/>} />
+          <Route path="invites" element={<PrivateRoute component={Invites} roles={["ARTIST"]}/>} />
           {/* TODO: falta hacer los components de todo esto */}
           {/* <Route path="bandAuditions/:id" element={<BandAuditions />} /> */}
           <Route path="profile/auditions" element={<PrivateRoute component={BandAuditions} roles={["BAND"]} />} />

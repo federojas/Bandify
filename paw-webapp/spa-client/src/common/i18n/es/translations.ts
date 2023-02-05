@@ -27,6 +27,8 @@ export const TRANSLATIONS_ES = {
     playsIn: "Toca en",
     noPlaysIn: "No hay bandas",
     noDescription: "No hay descripción",
+    edit: "Editar perfil",
+
   },
   NavBar: {
     title: "Barra de navegación",
@@ -183,6 +185,8 @@ export const TRANSLATIONS_ES = {
     profileArtistNoGenres: "Este artista no tiene géneros.",
     profileBandNoRoles: "Esta banda no tiene roles.",
     profileArtistNoRoles: "Este artista no tiene roles.",
+    auditions: "Audiciones",
+    addToBand: "Agregar a la banda",
   },
   Welcome: {
     connect: "Conectate con ",

@@ -167,6 +167,8 @@ export const TRANSLATIONS_EN = {
     profileArtistNoGenres: "This artist has not provided any genres.",
     profileBandNoRoles: "This band has not provided any roles.",
     profileArtistNoRoles: "This artist has not provided any roles.",
+    auditions: "Auditions",
+    addToBand: "Add to Band",
   },
   Welcome: {
     connect: "Connect with nearby ",
@@ -218,6 +220,8 @@ export const TRANSLATIONS_EN = {
     playsIn: "Plays in",
     noPlaysIn: "No bands",
     noDescription: "No description",
+    edit: "Edit profile",
+
   },
   Edit: {
     name: "Name",
