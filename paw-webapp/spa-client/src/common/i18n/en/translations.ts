@@ -74,6 +74,7 @@ export const TRANSLATIONS_EN = {
     },
     error: "Error",
     success: "Success",
+    emailSent: "We have sent you an email to confirm your account",
     alreadyRegistered: "This email is already registered",
     Band: {
       content: "By being a band, you can create auditions and find new members.",

@@ -90,6 +90,7 @@ export const TRANSLATIONS_ES = {
     },
     error: "Error",
     success: "Éxito",
+    emailSent: "Te enviamos un email para que puedas confirmar tu cuenta",
     alreadyRegistered: "El email ya se encuentra registrado",
     Band: {
       content: "Siendo una banda podrás crear audiciones, postear en el muro, y ser descubierto por otros artistas y bandas.",

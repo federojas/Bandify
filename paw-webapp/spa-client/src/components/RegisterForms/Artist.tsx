@@ -75,6 +75,12 @@ export default function RegisterArtistForm (){
           isClosable: true,
         });
       } else {
+        toast({
+          title: t("Register.success"),
+          status: "success",
+          description: t("Register.emailSent"),
+          isClosable: true,
+        })
         navigate('/auditions', {replace: true}) //todo: redirect a auditions?
       }
      }

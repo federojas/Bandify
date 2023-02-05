@@ -74,6 +74,12 @@ const RegisterBandForm = () => {
           isClosable: true,
         });//todo: distintos mensajes?
       } else {
+        toast({
+          title: t("Register.success"),
+          status: "success",
+          description: t("Register.emailSent"),
+          isClosable: true,
+        })
         navigate('/auditions', {replace: true}) //todo: redirect a auditions?
       }
     })
