@@ -104,4 +104,16 @@ export default class UserService {
       return ErrorService.returnApiError(error);
     }
   }
+
+  public async updateUserProfileImage(id: number, image: File) {
+      try {
+          const response = await this.userApi.updateProfileImage(id, image);
+          return new ApiResult(
+              response,
+              false,
+              null as any)
+      } catch (error: any) {
+          return ErrorService.returnApiError(error);
+      }
+  }
 }

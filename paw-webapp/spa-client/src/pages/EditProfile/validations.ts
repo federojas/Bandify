@@ -19,6 +19,12 @@ const editOptions = {
       message: "Description cannot be larger than 500 characters",
     },
   },
+  image: {
+    size: {
+      value: 1,
+      message: "Image maximum size is 1MB",
+    },
+  }
 };
 
 const editOptionsES = {
@@ -42,6 +48,12 @@ const editOptionsES = {
       message: "La descripción debe tener 500 caracteres máximo",
     },
   },
+  image: {
+    size: {
+      value: 1,
+      message: "La imágen debe pesar menos de 1MB",
+    },
+  }
 };
 
 export {editOptions, editOptionsES};

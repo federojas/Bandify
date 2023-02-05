@@ -32,7 +32,7 @@ public class GenreServiceImpl implements GenreService {
     @Override
     public Set<Genre> getGenresByNames(List<String> genresNames) {
 
-        if(genresNames == null)
+        if(genresNames == null || genresNames.isEmpty())
             return new HashSet<>();
 
         List<String> genres = genreDao.getAll().stream().map(Genre::getName).collect(Collectors.toList());

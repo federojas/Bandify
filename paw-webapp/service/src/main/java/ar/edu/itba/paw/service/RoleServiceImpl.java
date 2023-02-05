@@ -31,7 +31,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Set<Role> getRolesByNames(List<String> rolesNames) {
-        if(rolesNames == null)
+        if(rolesNames == null || rolesNames.isEmpty())
             return new HashSet<>();
         List<String> roles = roleDao.getAll().stream().map(Role::getName).collect(Collectors.toList());
 

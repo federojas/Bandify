@@ -82,7 +82,7 @@ class UserApi {
 
   public updateProfileImage = async (id: number, image: File) => {
     return this.axiosPrivate
-      .get(`${this.endpoint}/${id}/profile-image`)
+      .put(`${this.endpoint}/${id}/profile-image`)
       .then((response) => {
         return true;
       })

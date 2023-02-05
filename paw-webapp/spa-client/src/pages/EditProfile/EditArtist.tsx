@@ -50,6 +50,7 @@ interface FormData {
   genres: string[];
   roles: string[];
   available: boolean;
+  image?: File;
 }
 
 const EditArtist = () => {
@@ -163,6 +164,24 @@ const EditArtist = () => {
           roles: roles.map((role) => role.value),
           available: available!.value,
       }
+
+      // if(data.image) {
+      //     serviceCall(
+      //         userService.updateUserProfileImage(Number(userId), data.image),
+      //         navigate,
+      //         () => {
+      //         }
+      //     )
+      //         // .then((response) => {
+      //         // if(response.hasFailed()){
+      //         //     toast({
+      //         //         title: t("Register.error"),
+      //         //         status: "error",
+      //         //         description: t("Edit.error"),
+      //         //         isClosable: true,
+      //         //     })
+      //         // }
+      //     }
       serviceCall(
           userService.updateUser(Number(userId), userInput),
           navigate,
@@ -310,7 +329,7 @@ const EditArtist = () => {
                   <FormErrorMessage>{errors.description?.message}</FormErrorMessage>
               </FormControl>
 
-              <FormControl>
+              <FormControl id="image" isInvalid={Boolean(errors.image)}>
                 <FormLabel
                   fontSize={16} fontWeight="bold"
                 >
@@ -321,20 +340,22 @@ const EditArtist = () => {
                     boxSize={40}
                     fontSize={16} fontWeight="bold"
                     bg={bg19}
+                    mr={5}
                     src={`data:image/png;base64,${userImg}`} //TODO ALT Y MEJORA
                   />
-                  <Button
-                    type="button"
-                    ml={5}
-                    variant="outline"
-                    size="md"
-                    fontWeight="medium"
-                    _focus={{
-                      shadow: "none",
-                    }}
-                  >
-                    {t("Edit.chooseFile")}
-                  </Button>
+                    {/*<input*/}
+                    {/*    type='file'*/}
+                    {/*    accept='image/png, image/jpeg'*/}
+                    {/*    {...register('image', {*/}
+                    {/*        validate: {*/}
+                    {/*            size: (image) =>*/}
+                    {/*                image && image.size / (1024 * 1024) < 1,*/}
+                    {/*        },*/}
+                    {/*    })}*/}
+                    {/*/>*/}
+                    {/*{errors.image?.type === 'size' && (*/}
+                    {/*    <FormErrorMessage>{errors.image?.message}</FormErrorMessage>*/}
+                    {/*)}*/}
                 </Flex>
               </FormControl>
               <FormControl>
