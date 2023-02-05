@@ -97,6 +97,7 @@ const Profile = () => {
                 borderColor="gray.800"
                 _dark={{
                   borderColor: "gray.200",
+                  backgroundColor:"white"
                 }}
               />
               <VStack align={"left"} spacing={4}>
