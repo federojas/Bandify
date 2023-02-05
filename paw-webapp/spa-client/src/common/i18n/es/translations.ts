@@ -240,7 +240,8 @@ export const TRANSLATIONS_ES = {
     cancel: "Cancelar",
     save: "Guardar",
     confirm: "Confirmar",
-    post: "Publicar"
+    post: "Publicar",
+    back: "Volver"
   },
   EditAudition: {
     title: "Editar audición",

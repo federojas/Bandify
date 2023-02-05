@@ -239,7 +239,8 @@ export const TRANSLATIONS_EN = {
     cancel: "Cancel",
     save: "Save",
     confirm: "Confirm",
-    post: "Post"
+    post: "Post",
+    back: "Back"
   },
   EditAudition: {
     title: "Edit audition",

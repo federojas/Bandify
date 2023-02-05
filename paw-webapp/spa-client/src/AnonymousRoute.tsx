@@ -1,6 +1,6 @@
 import AuthContext from "./contexts/AuthContext";
 import { useContext } from "react";
-import AccessDenied from './pages/ErrorPages/AccessDenied';
+import { Navigate } from "react-router-dom";
 
 interface Props {
     component: React.ComponentType
@@ -20,5 +20,5 @@ if (!isAuthenticated) {
     return <RouteComponent />
 }
 
-return <AccessDenied />
+return <Navigate to="/error?code=403" />
 }
