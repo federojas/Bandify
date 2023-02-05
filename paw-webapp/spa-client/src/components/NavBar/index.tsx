@@ -173,6 +173,9 @@ function Nav() {
                   <Avatar
                     size={"sm"}
                     src={`data:image/png;base64,${userImg}`} //TODO: revisar posible mejora a link ALT?
+                    _dark={{
+                      backgroundColor: "white",
+                    }}
                   />
                 </MenuButton>
                 <MenuList>
