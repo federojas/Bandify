@@ -30,7 +30,8 @@ import EditArtist from "./pages/EditProfile/EditArtist";
 import NewAudition from "./pages/Audition/NewAudition";
 import EditAudition from "./pages/Audition/EditAudition";
 import Index from "./pages/UsersSearch";
-
+import Invites from "./pages/Hub/Invites"
+import Applications from "./pages/Hub/Applications"
 
 function App() {
   // TODO: revisar las paginas anonimas, comunes a todos o privadas
@@ -54,6 +55,8 @@ function App() {
           <Route path="newAudition" element={<PrivateRoute component={NewAudition} roles={["BAND"]} />} />
           <Route path="auditions/search" element={<AuditionSearch />} />
           <Route path="users/search" element={<Index />} />
+          <Route path="applications" element={<Applications />} />
+          <Route path="invites" element={<Invites/>} />
           {/* TODO: falta hacer los components de todo esto */}
           {/* <Route path="user/:id" element={<User user={dagos} />} /> */}
           {/* <Route path="bandAuditions/:id" element={<BandAuditions />} /> */}
@@ -61,7 +64,6 @@ function App() {
           {/* <Route path="profile/applications" element={<PrivateRoute component={ProfileApplications} roles={["ARTIST"]} />} /> */}
           <Route path="profile/editArtist" element={<PrivateRoute component={EditArtist} roles={["ARTIST"]} />} />
           <Route path="profile/editBand" element={<PrivateRoute component={Profile} roles={["BAND"]} />} />
-          <Route path="profile/invites" element={<PrivateRoute component={ProfileInvites} roles={["ARTIST"]} />} />
           <Route path="auditions/:id/applicants" element={<PrivateRoute component={AuditionsPage} roles={["BAND"]} />} />
         </Route>
       </Routes>

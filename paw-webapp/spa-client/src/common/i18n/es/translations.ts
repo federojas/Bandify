@@ -258,5 +258,15 @@ export const TRANSLATIONS_ES = {
     rolePlaceHolder: "Selecciona entre 1 y 5 roles",
     titlePlaceholder: "Máximo 50 caracteres",
     descriptionPlaceHolder: "Máximo 300 caracteres",
-  }
+  },
+    "Invites": "Invitaciones",
+  Hub: {
+    "Applications": "Aplicaciones"
+  },
+  Applications: {
+    "Pending": "Pendientes",
+    "Accepted": "Aceptadas",
+    "Rejected": "Rechazadas",
+    "NoApplications": "No tienes aplicaciones en esta sección"
+  },
 };
