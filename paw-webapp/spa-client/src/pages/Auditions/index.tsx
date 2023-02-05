@@ -5,13 +5,14 @@ import { Audition } from "../../models";
 import { Center, Divider, Flex, Heading, VStack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { serviceCall } from "../../services/ServiceManager";
-import { usePagination} from "../../hooks/usePagination";
+import { usePagination } from "../../hooks/usePagination";
 import {
-    PaginationArrow,
-    PaginationWrapper,
+  PaginationArrow,
+  PaginationWrapper,
 } from "../../components/Pagination/pagination";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import { useAuditionService } from "../../contexts/AuditionService";
+import Pagination from "@choc-ui/paginator";
 
 export default function AuditionsPage() {
   const { t } = useTranslation();
@@ -54,54 +55,37 @@ export default function AuditionsPage() {
         >
           {auditions.length > 0 ? auditions.map((audition) => (
             <PostCard {...audition} />
-          )) : <Heading>{t("Auditions.noFound")}</Heading>  
+          )) : <Heading>{t("Auditions.noFound")}</Heading>
           }
         </Flex>
       </VStack>
-        {/*TODO: ver si se puede hacer componente*/}
-        <PaginationWrapper>
-        {currentPage > 1 && (
-            <button
-                onClick={() => {
-                    let searchParams = new URLSearchParams(location.search);
-                    searchParams.set('page', (currentPage - 1).toString());
-                    navigate( {
-                        pathname: location.pathname,
-                        search: searchParams.toString()
-                    });
-                }}
-                style={{ background: "none", border: "none" }}
-            >
-                <PaginationArrow
-                    xRotated={true}
-                    src="../../images/page-next.png"
-                    alt={t("Pagination.alt.beforePage")}
-                />
-            </button>
-        )}
-        {t("Pagination.message", {
-            currentPage: currentPage,
-            maxPage: maxPage,
-        })}
-        {currentPage < maxPage && (
-            <button
-                onClick={() => {
-                    let searchParams = new URLSearchParams(location.search);
-                    searchParams.set('page', (currentPage + 1).toString());
-                    navigate( {
-                        pathname: location.pathname,
-                        search: searchParams.toString()
-                    });
-                }}
-                style={{ background: "none", border: "none" }}
-            >
-                <PaginationArrow
-                    src="../../images/page-next.png"
-                    alt={t("Pagination.alt.nextPage")}
-                />
-            </button>
-        )}
-    </PaginationWrapper>
+      {/*TODO: ver si se puede hacer componente*/}
+      <Flex
+        w="full"
+        p={50}
+        alignItems="center"
+        justifyContent="center"
+      >
+        <Pagination
+          defaultCurrent={currentPage}
+          total={maxPage * 10}
+          pageSize={10}
+          paginationProps={{
+            display: "flex",
+          }}
+          onChange={(page) => {
+            let searchParams = new URLSearchParams(location.search);
+            searchParams.set('page', String(page));
+            navigate({
+              pathname: location.pathname,
+              search: searchParams.toString()
+            });
+          }
+          }
+          colorScheme="blue"
+          rounded="full"
+        />
+      </Flex>
     </>
   );
 }

@@ -5,17 +5,18 @@ import { useUserService } from "../../contexts/UserService";
 import { usePagination } from "../../hooks/usePagination";
 import { User } from "../../models";
 import { serviceCall } from "../../services/ServiceManager";
-import { Center, Divider, Flex, Heading, VStack } from "@chakra-ui/react";
+import { Center, Divider, Flex, Heading, useColorModeValue, VStack } from "@chakra-ui/react";
 import { PaginationArrow, PaginationWrapper } from "../../components/Pagination/pagination";
 import ProfileCard from "../../components/ProfileCard/ProfileCard";
-import {getQueryOrDefault, getQueryOrDefaultArray, useQuery} from "../../hooks/useQuery";
+import { getQueryOrDefault, getQueryOrDefaultArray, useQuery } from "../../hooks/useQuery";
 import DiscoverSearchBar from "../../components/SearchBars/DiscoverSearchBar";
+import Pagination from "@choc-ui/paginator";
 
 interface SearchParams {
-    searchTerms?: string;
-    roles?: string[];
-    genres?: string[];
-    locations?: string[];
+  searchTerms?: string;
+  roles?: string[];
+  genres?: string[];
+  locations?: string[];
 }
 
 const Index = () => {
@@ -24,7 +25,8 @@ const Index = () => {
   const [users, setUsers] = useState<User[]>([]);
   const query = useQuery();
 
-  const [currentPage] = usePagination();
+  const [current] = usePagination();
+  const [currentPage, setCurrentPage] = useState(current);
   const [maxPage, setMaxPage] = useState(1);
   const location = useLocation();
   const userService = useUserService();
@@ -47,7 +49,7 @@ const Index = () => {
       navigate,
       (response) => {
         setUsers(response ? response.getContent() : []);
-        setMaxPage(response ? response.getMaxPage() : 1); ; //TODO revisar esto
+        setMaxPage(response ? response.getMaxPage() : 1);; //TODO revisar esto
       },
       location
     )
@@ -80,7 +82,35 @@ const Index = () => {
         </Flex>
       </VStack>
       {/*TODO: ver si se puede hacer componente*/}
-      <PaginationWrapper>
+      <Flex
+        w="full"
+   
+        p={50}
+        alignItems="center"
+        justifyContent="center"
+      >
+        <Pagination
+          defaultCurrent={currentPage}
+          total={maxPage * 10}
+          pageSize={10}
+          paginationProps={{
+            display: "flex",
+          }}
+          onChange={(page) => {
+            let searchParams = new URLSearchParams(location.search);
+            searchParams.set('page', String(page));
+            navigate({
+              pathname: location.pathname,
+              search: searchParams.toString()
+            });
+          }
+          }
+          colorScheme="blue"
+          rounded="full"
+        />
+      </Flex>;
+
+      {/* <PaginationWrapper>
         {currentPage > 1 && (
           <button
             onClick={() => {
@@ -122,7 +152,7 @@ const Index = () => {
             />
           </button>
         )}
-      </PaginationWrapper>
+      </PaginationWrapper> */}
     </>
   );
 }

@@ -25,6 +25,7 @@ import { usePagination } from "../../hooks/usePagination";
 import { useAuditionService } from "../../contexts/AuditionService";
 import { getQueryOrDefault, getQueryOrDefaultArray, useQuery } from "../../hooks/useQuery";
 import React from "react";
+import Pagination from "@choc-ui/paginator";
 
 interface SearchParams {
   searchTerms?: string;
@@ -75,7 +76,7 @@ const AuditionSearch = () => {
       <Center marginY={10} flexDirection="column">
         <VStack spacing={5}>
           <Heading>{t("AuditionsSearch.results")}</Heading>
-          <AuditionSearchBar  onSubmit={handleSubmit} />
+          <AuditionSearchBar onSubmit={handleSubmit} />
         </VStack>
       </Center>
       <Flex
@@ -94,49 +95,32 @@ const AuditionSearch = () => {
         ))}
       </Flex>
       {/*TODO: ver si se puede hacer componente*/}
-      <PaginationWrapper>
-        {currentPage > 1 && (
-          <button
-            onClick={() => {
-              let searchParams = new URLSearchParams(location.search);
-              searchParams.set('page', (currentPage - 1).toString());
-              navigate({
-                pathname: location.pathname,
-                search: searchParams.toString()
-              });
-            }}
-            style={{ background: "none", border: "none" }}
-          >
-            <PaginationArrow
-              xRotated={true}
-              src="../../images/page-next.png"
-              alt={t("Pagination.alt.beforePage")}
-            />
-          </button>
-        )}
-        {t("Pagination.message", {
-          currentPage: currentPage,
-          maxPage: maxPage,
-        })}
-        {currentPage < maxPage && (
-          <button
-            onClick={() => {
-              let searchParams = new URLSearchParams(location.search);
-              searchParams.set('page', (currentPage + 1).toString());
-              navigate({
-                pathname: location.pathname,
-                search: searchParams.toString()
-              });
-            }}
-            style={{ background: "none", border: "none" }}
-          >
-            <PaginationArrow
-              src="../../images/page-next.png"
-              alt={t("Pagination.alt.nextPage")}
-            />
-          </button>
-        )}
-      </PaginationWrapper>
+      <Flex
+        w="full"
+        p={50}
+        alignItems="center"
+        justifyContent="center"
+      >
+        <Pagination
+          defaultCurrent={currentPage}
+          total={maxPage * 10}
+          pageSize={10}
+          paginationProps={{
+            display: "flex",
+          }}
+          onChange={(page) => {
+            let searchParams = new URLSearchParams(location.search);
+            searchParams.set('page', String(page));
+            navigate({
+              pathname: location.pathname,
+              search: searchParams.toString()
+            });
+          }
+          }
+          colorScheme="blue"
+          rounded="full"
+        />
+      </Flex>
     </>
   );
 };
