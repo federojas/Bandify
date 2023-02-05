@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Flex, FormControl, FormErrorMessage, FormHelperText, FormLabel, GridItem, Heading, HStack, Input, SimpleGrid, Stack, Text, Textarea, useColorModeValue, Icon } from "@chakra-ui/react";
+import { Avatar, Box, Button, Flex, FormControl, FormErrorMessage, FormHelperText, FormLabel, GridItem, Heading, HStack, Input, SimpleGrid, Stack, Text, Textarea, useColorModeValue, Icon, useToast } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { FaUser } from "react-icons/fa";
@@ -46,6 +46,7 @@ const NewAudition = () => {
   const roleService = useRoleService();
   const locationService = useLocationService();
   const genreService = useGenreService();
+  const toast = useToast();
 
   useEffect(() => {
     serviceCall(
@@ -97,7 +98,36 @@ const NewAudition = () => {
 
   const onSubmit = async (data: FormData) => {
     console.log("Posting audition")
+    console.log(JSON.stringify(data))
+    if (!location) {
+      toast({
+        title: t("EditAudition.locationRequired"),
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+      return;
+    }
+    
+    if (genres.length == 0) {
+      toast({
+        title: t("EditAudition.genresRequired"),
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+      return 
+    }
 
+    if (roles.length == 0) {
+      toast({
+        title: t("EditAudition.rolesRequired"),
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+      return
+    }
     const auditionInput: AuditionInput = {
       title: data.title,
       description: data.description,
@@ -116,9 +146,21 @@ const NewAudition = () => {
       }
     ).then((r) => {
       if (r.hasFailed()) {
-        console.log("Failed")
+        toast({
+          title: t("EditAudition.errorCreatingAudition"),
+          description: t("EditAudition.errorCreatingAuditionMessage"),
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
       } else {
-        console.log("Success")
+        toast({
+          title: t("EditAudition.successCreatingAudition"),
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+        });
+        navigate("/auditions/" + r.getData().id);
       }
     })
   };
