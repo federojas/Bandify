@@ -1,4 +1,25 @@
-import { Avatar, Box, Button, Flex, FormControl, FormErrorMessage, FormHelperText, FormLabel, GridItem, Heading, HStack, Input, SimpleGrid, Stack, Text, Textarea, useColorModeValue, Icon, Center } from "@chakra-ui/react";
+import {
+    Avatar,
+    Box,
+    Button,
+    Flex,
+    FormControl,
+    FormErrorMessage,
+    FormHelperText,
+    FormLabel,
+    GridItem,
+    Heading,
+    HStack,
+    Input,
+    SimpleGrid,
+    Stack,
+    Text,
+    Textarea,
+    useColorModeValue,
+    Icon,
+    Center,
+    useToast
+} from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { FaUser } from "react-icons/fa";
@@ -20,6 +41,7 @@ import {useUserService} from "../../contexts/UserService";
 import {useGenreService} from "../../contexts/GenreService";
 import {useRoleService} from "../../contexts/RoleService";
 import {useLocationService} from "../../contexts/LocationService";
+import {UserUpdateInput} from "../../api/types/User";
 
 interface FormData {
     name: string;
@@ -50,7 +72,7 @@ const EditBand = () => {
     const bg19=useColorModeValue("gray.100", "gray.900");
     const bg27 = useColorModeValue("gray.200", "gray.700");
     const options = localStorage.getItem('i18nextLng') === 'es' ? editOptionsES : editOptions;
-
+    const toast = useToast();
 
     const onCancel = () => {
         navigate(-1);
@@ -124,7 +146,38 @@ const EditBand = () => {
 
 
     const onSubmit = async (data: FormData) => {
-
+        const userInput: UserUpdateInput = {
+            name: data.name,
+            surname: "",
+            description: data.description,
+            location: location!.value,
+            genres: genres.map((genre) => genre.value),
+            roles: roles.map((role) => role.value),
+            available: false,
+        }
+        serviceCall(
+            userService.updateUser(Number(userId), userInput),
+            navigate,
+            () => {
+            }
+        ).then((response) => {
+            if(response.hasFailed()){
+                toast({
+                    title: t("Register.error"),
+                    status: "error",
+                    description: t("Edit.error"),
+                    isClosable: true,
+                })
+            } else {
+                toast({
+                    title: t("Register.success"),
+                    status: "success",
+                    description: t("Edit.success"),
+                    isClosable: true,
+                })
+                navigate("/profile");
+            }
+        })
     };
 
     return (
