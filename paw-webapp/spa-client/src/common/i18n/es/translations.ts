@@ -296,5 +296,8 @@ export const TRANSLATIONS_ES = {
   Alts: {
     profilePicture: "Foto de perfil",
     bandify: "Bandify logo"
+  },
+  MyAuditions: {
+    title: "Mis audiciones"
   }
 };

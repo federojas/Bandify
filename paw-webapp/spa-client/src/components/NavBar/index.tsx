@@ -1,5 +1,5 @@
 //i18 translations
-import React, {ReactElement, useEffect, useState} from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import BandifyLogo from "../../images/logo.png";
@@ -32,15 +32,16 @@ import { HamburgerIcon, CloseIcon, AddIcon } from "@chakra-ui/icons";
 import { FiMusic, FiUsers } from "react-icons/fi";
 import AuthContext from "../../contexts/AuthContext";
 import { useContext } from "react";
-import {serviceCall} from "../../services/ServiceManager";
-import {useUserService} from "../../contexts/UserService";
-
+import { serviceCall } from "../../services/ServiceManager";
+import { useUserService } from "../../contexts/UserService";
+import { GrAppsRounded } from "react-icons/gr";
+import { RiAppsFill } from "react-icons/ri";
 const NavLink = ({
   children,
   link,
   icon,
 }: {
-  children: ReactNode;
+  children?: ReactNode;
   link: string;
   icon: ReactElement;
 }) => {
@@ -80,17 +81,18 @@ function Nav() {
 
     // TODO: PONER BIEN LOS LINKS DESPUES
   ];
+  const bg27 = useColorModeValue("gray.200", "gray.700");
 
   useEffect(() => {
-    if(userId) {
+    if (userId) {
       serviceCall(
-          userService.getProfileImageByUserId(userId),
-          navigate,
-          (response) => {
-            setUserImg(
-                response
-            )
-          },
+        userService.getProfileImageByUserId(userId),
+        navigate,
+        (response) => {
+          setUserImg(
+            response
+          )
+        },
       )
     }
   }, [userId, navigate])
@@ -144,6 +146,22 @@ function Nav() {
                   {t("NavBar.post")}
                 </Button>
               }
+
+              <Button
+                as="a"
+                px={4}
+                py={1}
+                rounded={"md"}
+                mr={'6'}
+                _hover={{
+                  textDecoration: "none",
+                  bg: bg27,
+                }}
+                href={isBand ? '/profile/auditions' : '/applications'}
+              >
+                <RiAppsFill />
+              </Button>
+
               <Menu>
                 <MenuButton
                   as={Button}
