@@ -32,6 +32,7 @@ import EditAudition from "./pages/Audition/EditAudition";
 import Index from "./pages/UsersSearch";
 import Invites from "./pages/Hub/Invites"
 import Applications from "./pages/Hub/Applications"
+import Error from "./pages/Error"
 
 function App() {
   // TODO: revisar las paginas anonimas, comunes a todos o privadas
@@ -66,6 +67,7 @@ function App() {
           <Route path="profile/editArtist" element={<PrivateRoute component={EditArtist} roles={["ARTIST"]} />} />
           <Route path="profile/editBand" element={<PrivateRoute component={Profile} roles={["BAND"]} />} />
           <Route path="auditions/:id/applicants" element={<PrivateRoute component={AuditionsPage} roles={["BAND"]} />} />
+          <Route path='error' element={<Error />} />
         </Route>
       </Routes>
     </Router>
