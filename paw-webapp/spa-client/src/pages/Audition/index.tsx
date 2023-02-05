@@ -159,7 +159,7 @@ const AuditionCard = ({
           flex="1"
           gap="4"
           alignItems="center"
-          flexWrap="wrap"
+          className="ellipsis-overflow"
         >
           <Avatar
             src={`data:image/png;base64,${userImg}`}
@@ -168,7 +168,8 @@ const AuditionCard = ({
         </Flex>
       </CardHeader>
       <CardBody>
-        <VStack spacing={8} alignItems={"start"}>
+        <Flex flexWrap="wrap">
+        <VStack className="ellipsis-overflow" spacing={8} alignItems={"start"}>
           <Heading size={"lg"}>{audition.title}</Heading>
           <HStack spacing={4}>
             <FiCalendar />
@@ -201,6 +202,7 @@ const AuditionCard = ({
             </HStack>
           </HStack>
         </VStack>
+        </Flex>
       </CardBody>
 
       {/* TODO: Agregar el formulario para artistas */}

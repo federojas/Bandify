@@ -99,7 +99,6 @@ const PostCard: React.FC<Audition> = ({
           flex="1"
           gap="4"
           alignItems="center"
-          
           justifyContent={"space-between"}
           className="ellipsis-overflow"
         >
