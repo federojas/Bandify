@@ -1,5 +1,6 @@
 import {
   Badge,
+  Box,
   Button,
   Center,
   Flex,
@@ -96,10 +97,11 @@ const ProfileCard: React.FC<User> = ({
           alignItems="center"
           p={1}
           pt={2}>
-          <Heading fontSize={'2xl'} fontFamily={'body'}>
-            {name} {' '} {surname}
-          </Heading>
-
+          <Box maxW={'64'}>
+            <Heading noOfLines={1} fontSize={'2xl'} fontFamily={'body'}>
+              {name} {' '} {surname}
+            </Heading>
+          </Box>
           {
             band ? <BandTag /> : <ArtistTag />
           }
