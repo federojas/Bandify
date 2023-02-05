@@ -90,7 +90,7 @@ const RegisterBandForm = () => {
             <Input
               type="text"
               maxLength={50}
-
+              placeholder={t("EditAudition.titlePlaceholder")}
               {...register("name", options.name)}
             />
             <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
@@ -102,6 +102,7 @@ const RegisterBandForm = () => {
             </FormLabel>
             <Input
               type="email"
+              placeholder={t("Register.emailPlaceholder")}
               maxLength={255}
               {...register("email", options.email)}
             />
@@ -119,6 +120,7 @@ const RegisterBandForm = () => {
               <Input
                 type={showPassword ? "text" : "password"}
                 {...register("password", options.password)}
+                placeholder={t("Register.pwd")}
               />
               <InputRightElement h={"full"}>
                 <Button
@@ -144,6 +146,7 @@ const RegisterBandForm = () => {
             <InputGroup>
               <Input
                 type={showPasswordConfirmation ? "text" : "password"}
+                placeholder={t("Register.pwd")}
                 {...register(
                   "passwordConfirmation",
                   options.passwordConfirmation

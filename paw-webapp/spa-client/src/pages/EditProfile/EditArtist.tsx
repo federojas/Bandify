@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Flex, FormControl, FormErrorMessage, FormHelperText, FormLabel, GridItem, Heading, HStack, Input, SimpleGrid, Stack, Text, Textarea, useColorModeValue, Icon } from "@chakra-ui/react";
+import { Avatar, Box, Button, Flex, FormControl, FormErrorMessage, FormHelperText, FormLabel, GridItem, Heading, HStack, Input, SimpleGrid, Stack, Text, Textarea, useColorModeValue, Icon, Center } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { FaUser } from "react-icons/fa";
@@ -10,11 +10,16 @@ import {
   OptionBase,
   GroupBase,
 } from "chakra-react-select";
-import { LocationGroup, GenreGroup, RoleGroup } from "./EntitiesGroups";
-import {genreService, roleService, locationService, userService} from "../../services";
-import React, { useEffect, useState } from "react";
+import { LocationGroup, GenreGroup, RoleGroup, AvailableGroup } from "./EntitiesGroups";
+import React, {useContext, useEffect, useState} from "react";
 import { serviceCall } from "../../services/ServiceManager";
 import { useNavigate } from "react-router-dom";
+import AuthContext from "../../contexts/AuthContext";
+import {User} from "../../models";
+import {useUserService} from "../../contexts/UserService";
+import {useGenreService} from "../../contexts/GenreService";
+import {useRoleService} from "../../contexts/RoleService";
+import {useLocationService} from "../../contexts/LocationService";
 
 interface FormData {
   name: string;
@@ -26,7 +31,13 @@ interface FormData {
 }
 
 const EditArtist = () => {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
+  const locationService = useLocationService();
+  const roleService = useRoleService();
+  const genreService = useGenreService();
+  const userService = useUserService();
+  const [user, setUser] = useState<User>();
+  const [isLoading, setIsLoading] = useState(true);
   const [locationOptions, setLocationOptions] = useState<LocationGroup[]>([]);
   const [genreOptions, setGenreOptions] = useState<GenreGroup[]>([]);
   const [roleOptions, setRoleOptions] = useState<RoleGroup[]>([]);
@@ -34,7 +45,12 @@ const EditArtist = () => {
   const [location, setLocation] = useState<LocationGroup>();
   const [genres, setGenres] = useState<GenreGroup[]>([]);
   const [roles, setRoles] = useState<RoleGroup[]>([]);
-  const [available, setAvailable] = React.useState("");
+  const [available, setAvailable] = useState<AvailableGroup>();
+  const { userId } = useContext(AuthContext);
+  const [userImg, setUserImg] = useState<string | undefined>(undefined);
+  const bg19=useColorModeValue("gray.100", "gray.900");
+  const bg27 = useColorModeValue("gray.200", "gray.700");
+
 
   const availableOptions = [
     { value: true, label: t("Edit.availableTrue") },
@@ -77,6 +93,30 @@ const EditArtist = () => {
     )
   }, []);
 
+  useEffect(() => {
+    serviceCall(
+      userService.getProfileImageByUserId(Number(userId)),
+      navigate,
+      (response) => {
+          setUserImg(
+              response
+          )
+      },
+    )
+    serviceCall(
+        userService.getUserById(Number(userId)),
+        navigate,
+        (user) => {
+          setUser(user)
+          setLocation({label:user.location, value:user.location} as LocationGroup)
+          setGenres(user.genres.map(r => {return {value: r, label: r}}))
+          setRoles(user.roles.map(r => {return {value: r, label: r}}))
+          setAvailable(user.available ? {value:true, label:t("Edit.availableTrue")} as AvailableGroup : {value:false, label:t("Edit.availableFalse")} as AvailableGroup)
+          setIsLoading(false)
+        }
+    )
+  }, [userService]);
+
 
   const {
     register,
@@ -89,12 +129,14 @@ const EditArtist = () => {
 
   };
 
-  return <Box
+  return (
+    <Box
     rounded={"lg"}
-    bg={useColorModeValue("gray.100", "gray.900")}
+    bg={bg19}
     p={10}
     m={10}
   >
+        {isLoading ? <Center mt={'15%'}><span className="loader"></span></Center> :(
     <Box>
       <SimpleGrid
         display={{
@@ -139,9 +181,9 @@ const EditArtist = () => {
             onSubmit={handleSubmit(onSubmit)}
           >
             <Stack
-              bg={useColorModeValue("gray.100", "gray.900")}
+              bg={bg19}
               border={'1px'}
-              borderColor={useColorModeValue("gray.200", "gray.700")}
+              borderColor={bg27}
               px={4}
               py={5}
               roundedTop={'md'}
@@ -163,7 +205,9 @@ const EditArtist = () => {
                     </FormLabel>
                     <Input
                       type="text"
-                      // maxLength={50}
+                      maxLength={50}
+                      placeholder={t("EditAudition.titlePlaceholder")}
+                      defaultValue={user?.name}
                       {...register("name", editOptions.name)}
                     />
                     <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
@@ -180,6 +224,9 @@ const EditArtist = () => {
                     </FormLabel>
                     <Input
                       type="text"
+                      maxLength={50}
+                      placeholder={t("EditAudition.titlePlaceholder")}
+                      defaultValue={user?.surname}
                       {...register("surname", editOptions.surname)}
                     />
                     <FormErrorMessage>{errors.surname?.message}</FormErrorMessage>
@@ -195,8 +242,10 @@ const EditArtist = () => {
                 <Textarea
                   mt={1}
                   rows={3}
+                  maxLength={500}
                   shadow="sm"
-
+                  defaultValue={user?.description}
+                  placeholder={t("Edit.descriptionPlaceholder")}
                 />
               </FormControl>
 
@@ -210,18 +259,8 @@ const EditArtist = () => {
                   <Avatar
                     boxSize={40}
                     fontSize={16} fontWeight="bold"
-                    bg={useColorModeValue("gray.100", "gray.900")}
-                    icon={
-                      // TODO: Add image if  user has one
-                      <Icon
-                        as={FaUser}
-                        boxSize={40}
-                        mt={30}
-                        mb={30}
-                        rounded="full"
-                        bg={useColorModeValue("gray.100", "gray.900")}
-                      />
-                    }
+                    bg={bg19}
+                    src={`data:image/png;base64,${userImg}`} //TODO ALT Y MEJORA
                   />
                   <Button
                     type="button"
@@ -245,27 +284,29 @@ const EditArtist = () => {
                     closeMenuOnSelect={false}
                     variant="filled"
                     tagVariant="solid"
+                    defaultValue={available}
                     onChange={(selection) => {
                       if(selection)
-                        setAvailable(selection.value.toString());
+                        setAvailable(selection);
                     }}
                 />
               </FormControl>
 
-              {/*<FormControl isRequired>*/}
-              {/*  <FormLabel>{t("Edit.location")}</FormLabel>*/}
-              {/*  <Select<LocationGroup, false, GroupBase<LocationGroup>>*/}
-              {/*    name="locations"*/}
-              {/*    options={locationOptions}*/}
-              {/*    placeholder={t("AuditionSearchBar.locationPlaceholder")}*/}
-              {/*    closeMenuOnSelect={true}*/}
-              {/*    variant="filled"*/}
-              {/*    tagVariant="solid"*/}
-              {/*    onChange={(loc) => {*/}
-              {/*      setLocation(loc);*/}
-              {/*    }}*/}
-              {/*  />*/}
-              {/*</FormControl>*/}
+              <FormControl isRequired>
+                <FormLabel fontSize={16} fontWeight="bold">{t("Edit.location")}</FormLabel>
+                <Select<LocationGroup, false, GroupBase<LocationGroup>>
+                  name="locations"
+                  options={locationOptions}
+                  placeholder={t("AuditionSearchBar.locationPlaceholder")}
+                  closeMenuOnSelect={true}
+                  variant="filled"
+                  tagVariant="solid"
+                  defaultValue={location}
+                  onChange={(loc) => {
+                    setLocation(loc!);
+                  }}
+                />
+              </FormControl>
 
               <FormControl>
                 <FormLabel fontSize={16} fontWeight="bold" >{t("Edit.genreArtist")}</FormLabel>
@@ -273,10 +314,11 @@ const EditArtist = () => {
                   isMulti
                   name="genres"
                   options={genreOptions}
-                  placeholder={t("AuditionSearchBar.genrePlaceholder")}
+                  placeholder={t("Edit.genrePlaceholder")}
                   closeMenuOnSelect={false}
                   variant="filled"
                   tagVariant="solid"
+                  defaultValue={genres}
                   onChange={(event) => {
                     setGenres(event.flatMap((e) => e));
                   }}
@@ -288,10 +330,11 @@ const EditArtist = () => {
                   isMulti
                   name="roles"
                   options={roleOptions}
-                  placeholder={t("AuditionSearchBar.rolePlaceholder")}
+                  placeholder={t("Edit.rolePlaceholder")}
                   closeMenuOnSelect={false}
                   variant="filled"
                   tagVariant="solid"
+                  defaultValue={roles}
                   onChange={(event) => {
                     setRoles(event.flatMap((e) => e));
                   }}
@@ -391,9 +434,9 @@ const EditArtist = () => {
               </FormControl> */}
             </Stack>
             <Box
-              bg={useColorModeValue("gray.100", "gray.900")}
+              bg={bg19}
               border={'1px'}
-              borderColor={useColorModeValue("gray.200", "gray.700")}
+              borderColor={bg27}
               roundedBottom={'md'}
               px={{
                 base: 4,
@@ -438,8 +481,8 @@ const EditArtist = () => {
 
     </Box>
 
-
-    {/* <Divider
+    /* TODO: CODIGO COMENTADO
+    <Divider
       my="5"
       borderColor="gray.300"
       _dark={{
@@ -1006,8 +1049,9 @@ const EditArtist = () => {
           </chakra.form>
         </GridItem>
       </SimpleGrid>
-    </Box> */}
-  </Box>;
+    </Box> */
+        )}
+  </Box>);
 }
 
 export default EditArtist

@@ -118,7 +118,7 @@ const UserProfile = () => {
             { }
             <Image
               src={`data:image/png;base64,${userImg}`} //TODO: revisar posible mejora a link
-              alt="Profile Picture"
+              alt={t("Alts.profilePicture")}
               borderRadius="full"
               boxSize="150px"
               objectFit={'cover'}

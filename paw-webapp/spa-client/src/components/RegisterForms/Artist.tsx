@@ -96,7 +96,8 @@ export default function RegisterArtistForm (){
                 </FormLabel>
                 <Input
                   type="text"
-                  // maxLength={50}
+                  maxLength={50}
+                  placeholder={t("EditAudition.titlePlaceholder")}
                   {...register("name", options.name)}
                 />
                 <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
@@ -113,6 +114,8 @@ export default function RegisterArtistForm (){
                 </FormLabel>
                 <Input
                   type="text"
+                  maxLength={50}
+                  placeholder={t("EditAudition.titlePlaceholder")}
                   {...register("surname", options.surname)}
                 />
                 <FormErrorMessage>{errors.surname?.message}</FormErrorMessage>
@@ -125,6 +128,7 @@ export default function RegisterArtistForm (){
             </FormLabel>
             <Input
               type="email"
+              placeholder={t("Register.emailPlaceholder")}
               maxLength={255}
               {...register("email", options.email)}
             />
@@ -142,6 +146,7 @@ export default function RegisterArtistForm (){
               <Input
                 type={showPassword ? "text" : "password"}
                 {...register("password", options.password)}
+                placeholder={t("Register.pwd")}
               />
               <InputRightElement h={"full"}>
                 <Button
@@ -167,6 +172,7 @@ export default function RegisterArtistForm (){
             <InputGroup>
               <Input
                 type={showPasswordConfirmation ? "text" : "password"}
+                placeholder={t("Register.pwd")}
                 {...register(
                   "passwordConfirmation",
                     options.passwordConfirmation

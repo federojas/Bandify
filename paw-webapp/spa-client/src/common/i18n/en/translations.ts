@@ -48,14 +48,14 @@ export const TRANSLATIONS_EN = {
     email: "Email",
     password: "Password",
     confirmPassword: "Confirm password",
-    email_placeholder: "example@email.com",
-    password_placeholder: "********",
     band_name: "Band name",
     artist_name: "Artist name",
     artist_surname: "Artist surname",
     button: "Register",
     alreadyUser: "Already a user?",
     login: "Login",
+    pwd: "********",
+    emailPlaceholder: "example@mail.com",
     Required: {
       email: "Email is required",
       password: "Password is required",
@@ -222,7 +222,9 @@ export const TRANSLATIONS_EN = {
     description: "Description",
     surname: "Surname",
     roleArtist: "My skills",
+    rolePlaceholder: "Select up to 15 roles",
     genreArtist: "Favorite genres",
+    genrePlaceholder: "Select up to 15 genres",
     location: "Location",
     picture: "Change profile picture",
     chooseFile: "Choose File",
@@ -230,7 +232,8 @@ export const TRANSLATIONS_EN = {
     availableFalse: "No",
     available: "Looking for band filter:",
     title: "Edit profile",
-    subtitle: "Edit your profile"
+    subtitle: "Edit your profile",
+    descriptionPlaceholder: "Maximum 500 characters"
   },
   Button: {
     cancel: "Cancel",
@@ -283,6 +286,10 @@ export const TRANSLATIONS_EN = {
     Subtitle2: "has invited you to join their band.",
     Subtitle3: "This is a brief description of your participation in the band:",
     Subtitle4: "and this/these are the roles you will play:",
+  },
+  Alts: {
+    profilePicture: "Profile picture",
+    bandify: "Bandify logo"
   }
 };
 

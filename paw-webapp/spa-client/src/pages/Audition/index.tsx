@@ -162,7 +162,7 @@ const AuditionCard = ({
           className="ellipsis-overflow"
         >
           <Avatar
-            src={`data:image/png;base64,${userImg}`}
+            src={`data:image/png;base64,${userImg}`} //TODO: mejora y ALT
           />
           <Heading size={"lg"}>{user.name}</Heading>
         </Flex>

@@ -112,7 +112,7 @@ function Nav() {
           <Box>
             <a href="/" className="logo-section">
               <HStack>
-                <Image src={BandifyLogo} w={8} alt="Bandify" />
+                <Image src={BandifyLogo} w={8} alt={t("Alts.bandify")}/>
                 <span className="bandify-title">bandify</span>
               </HStack>
             </a>
@@ -154,7 +154,7 @@ function Nav() {
                 >
                   <Avatar
                     size={"sm"}
-                    src={`data:image/png;base64,${userImg}`} //TODO: revisar posible mejora a link
+                    src={`data:image/png;base64,${userImg}`} //TODO: revisar posible mejora a link ALT?
                   />
                 </MenuButton>
                 <MenuList>

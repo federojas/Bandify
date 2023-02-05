@@ -64,14 +64,14 @@ export const TRANSLATIONS_ES = {
     email: "Email",
     password: "Contraseña",
     confirmPassword: "Confirmar contraseña",
-    email_placeholder: "Ejemplo@email.com",
-    password_placeholder: "********",
     band_name: "Nombre de la banda",
     artist_name: "Nombre del artista",
     artist_surname: "Apellido del artista",
     button: "Registrarse",
     alreadyUser: "¿Ya sos usuario?",
     login: "Iniciar sesión",
+    pwd: "********",
+    emailPlaceholder: "ejemplo@mail.com",
     Required: {
       email: "El email es obligatorio",
       password: "La contraseña es obligatoria",
@@ -223,7 +223,9 @@ export const TRANSLATIONS_ES = {
     description: "Descripción",
     surname: "Apellido",
     roleArtist: "Mis habilidades",
+    rolePlaceholder: "Selecciona hasta 15 roles",
     genreArtist: "Géneros favoritos",
+    genrePlaceholder: "Selecciona hasta 15 géneros",
     location: "Ubicación",
     picture: "Cambiar foto de perfil",
     chooseFile: "Elegir archivo",
@@ -231,7 +233,8 @@ export const TRANSLATIONS_ES = {
     availableFalse: "No",
     available: "Filtro en búsqueda de banda:",
     title: "Editar perfil",
-    subtitle: "Modifica los datos de tu perfil"
+    subtitle: "Modifica los datos de tu perfil",
+    descriptionPlaceholder: "Máximo 500 caracteres"
   },
   Button: {
     cancel: "Cancelar",
@@ -284,5 +287,9 @@ export const TRANSLATIONS_ES = {
     Subtitle2: "te han invitado a formar parte de la banda.",
     Subtitle3: "Esta es una breve descripción de tu participación en la banda:",
     Subtitle4: "y este/estos es/son los roles que te ofrecen:",
+  },
+  Alts: {
+    profilePicture: "Foto de perfil",
+    bandify: "Bandify logo"
   }
 };

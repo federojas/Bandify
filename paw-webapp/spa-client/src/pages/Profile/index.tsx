@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useContext, useEffect, useState} from "react";
 import "../../styles/profile.css";
 import UserIcon from "../../assets/icons/user.svg";
 import EditIcon from "../../assets/icons/edit-white-icon.svg";
@@ -40,70 +40,39 @@ import { useNavigate } from "react-router-dom";
 import { User } from "../../models";
 import { useUserService } from "../../contexts/UserService";
 
-type Props = {
-  user: {
-    id: number;
-    name: string;
-    surname?: string;
-    email: string;
-    available?: boolean;
-    description?: string;
-    band: boolean;
-    location: string;
-  };
-};
-
-type Genre = {
-  name: string;
-  // other properties of a Genre object
-};
-
-type Role = {
-  name: string;
-  // other properties of a Role object
-};
-
-type SocialMedia = {
-  name: string;
-  url: string;
-};
-
 const Profile = () => {
   const { t } = useTranslation();
-  const authContext = React.useContext(AuthContext);
-  const { userId } = authContext
   const navigate = useNavigate();
   const [user, setUser] = React.useState<User>();
   const [userImg, setUserImg] = useState<string | undefined>(undefined)
   const userService = useUserService();
+  const [isLoading, setIsLoading] = useState(true);
+  const { userId } = useContext(AuthContext);
+
 
   useEffect(() => {
     serviceCall(
-      userService.getUserById(userId!),
-      navigate,
-      (response: any) => {
-        setUser(response);
-      }
+        userService.getUserById(userId!),
+        navigate,
+        (response: any) => {
+          setUser(response);
+        }
     )
-  }, [])
-
-  useEffect(() => {
-    if (user) {
-      serviceCall(
-        userService.getProfileImageByUserId(user.id),
+    serviceCall(
+        userService.getProfileImageByUserId(Number(userId)),
         navigate,
         (response) => {
           setUserImg(
-            response
+              response
           )
-        },
-      )
-    }
-  }, [user, navigate])
+          setIsLoading(false)
+        })
+  }, [userService]);
 
 
   return (
     <Container maxW={"5xl"} px={"0"} py={8}>
+      {isLoading ? <Center mt={'25%'}><span className="loader"></span></Center> :(
       <Stack spacing={4}>
         <Box
           w={"full"}
@@ -118,7 +87,7 @@ const Profile = () => {
             { }
             <Image
               src={`data:image/png;base64,${userImg}`} //TODO: revisar posible mejora a link
-              alt="Profile Picture"
+              alt={t("Alts.profilePicture")}
               borderRadius="full"
               boxSize="150px"
               objectFit={'cover'}
@@ -148,6 +117,7 @@ const Profile = () => {
             </VStack>
           </HStack>
         </Box>
+
         <Grid templateColumns={"repeat(5,1fr)"} gap={4}>
           <GridItem
             w={"full"}
@@ -235,6 +205,7 @@ const Profile = () => {
           </GridItem>
         </Grid>
       </Stack>
+          )}
     </Container>
     // <main>
     //   <div className="bg-gray-100">

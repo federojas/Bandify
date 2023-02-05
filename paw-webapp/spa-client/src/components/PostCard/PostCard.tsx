@@ -61,7 +61,6 @@ const PostCard: React.FC<Audition> = ({
   const [bandId, setBandId] = useState(0)
   const date = dayjs(creationDate).format('DD/MM/YYYY')
   const [userImg, setUserImg] = useState<string | undefined>(undefined);
-  const urlLocation = useLocation();
   const toast = useToast();
   const { userId } = useContext(AuthContext);
 
@@ -103,7 +102,7 @@ const PostCard: React.FC<Audition> = ({
           className="ellipsis-overflow"
         >
           <Avatar
-              src={`data:image/png;base64,${userImg}`} //TODO: revisar posible mejora a link
+              src={`data:image/png;base64,${userImg}`} //TODO: revisar posible mejora a link y ALT
           />
           <Box >
             <Heading size="sm">{userName}</Heading> {/*TODO: poner text overflow*/}

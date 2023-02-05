@@ -40,7 +40,6 @@ import {useNavigate, useParams} from "react-router-dom";
 import { AuditionInput } from "../../api/types/Audition"
 import { useAuditionService } from "../../contexts/AuditionService";
 import {Audition} from "../../models";
-import {registerOptions, registerOptionsES} from "../../components/RegisterForms/validations";
 
 interface FormData {
   title: string;
@@ -169,14 +168,13 @@ const EditAudition = () => {
   const bg = useColorModeValue("gray.100", "gray.900");
   const bgBorderColor = useColorModeValue("gray.200", "gray.700");
   return (
-    <Center>
       <Box
     rounded={"lg"}
     bg={useColorModeValue("gray.100", "gray.900")}
     p={10}
     m={10}
   >
-    {isLoading ? <span className="loader"></span> :(
+        {isLoading ? <Center mt={'15%'}><span className="loader"></span></Center> :(
     <Box>
       <SimpleGrid
         display={{
@@ -376,8 +374,7 @@ const EditAudition = () => {
       </SimpleGrid>
 
     </Box>)}
-  </Box>
-</Center>);
+  </Box>);
 }
 
 export default EditAudition
