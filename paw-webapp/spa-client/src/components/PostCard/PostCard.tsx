@@ -18,7 +18,7 @@ import {
 import { useTranslation } from "react-i18next";
 import "../../common/i18n/index";
 import { Audition } from "../../models";
-import { FiCalendar } from "react-icons/fi";
+import { FiCalendar, FiShare2 } from "react-icons/fi";
 import dayjs from 'dayjs';
 import {
   Avatar,
@@ -41,10 +41,12 @@ import RoleTag from "../Tags/RoleTag";
 import { BiBullseye } from "react-icons/bi";
 import { FiMusic } from "react-icons/fi";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import React, {useContext, useEffect, useState} from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { serviceCall } from "../../services/ServiceManager";
 import { useUserService } from "../../contexts/UserService";
 import AuthContext from "../../contexts/AuthContext";
+import { AiOutlineInfoCircle } from "react-icons/ai";
+
 const PostCard: React.FC<Audition> = ({
   title,
   ownerId,
@@ -73,18 +75,18 @@ const PostCard: React.FC<Audition> = ({
         setBandId(response.id);
       }
     )
-  },[])
+  }, [])
 
   useEffect(() => {
-    if(ownerId) {
+    if (ownerId) {
       serviceCall(
-          userService.getProfileImageByUserId(ownerId),
-          navigate,
-          (response) => {
-            setUserImg(
-                response
-            )
-          },
+        userService.getProfileImageByUserId(ownerId),
+        navigate,
+        (response) => {
+          setUserImg(
+            response
+          )
+        },
       )
     }
   }, [ownerId, navigate])
@@ -94,7 +96,7 @@ const PostCard: React.FC<Audition> = ({
       <CardHeader>
         <Flex
           as="a"
-          href={userId  === ownerId ? "/profile" : "/users/"+bandId.toString()}
+          href={userId === ownerId ? "/profile" : "/users/" + bandId.toString()}
           flex="1"
           gap="4"
           alignItems="center"
@@ -102,7 +104,7 @@ const PostCard: React.FC<Audition> = ({
           className="ellipsis-overflow"
         >
           <Avatar
-              src={`data:image/png;base64,${userImg}`} //TODO: revisar posible mejora a link y ALT
+            src={`data:image/png;base64,${userImg}`} //TODO: revisar posible mejora a link y ALT
           />
           <Box >
             <Heading size="sm">{userName}</Heading> {/*TODO: poner text overflow*/}
@@ -140,27 +142,24 @@ const PostCard: React.FC<Audition> = ({
       <Divider />
       <CardFooter>
         <ButtonGroup>
-          <Link to={"/auditions/"+id.toString()}>
-            <Button variant="solid" colorScheme="blue">
+          <Link to={"/auditions/" + id.toString()}>
+            <Button variant="solid" colorScheme="blue" leftIcon={<AiOutlineInfoCircle />}>
               {t("PostCard.more")}
-            </Button> 
+            </Button>
           </Link>
-              <Button variant="ghost" colorScheme="blue">
-                <button
-                    onClick={() => {
-                      navigator.clipboard.writeText( window.location.href + "/" + id.toString())
-                      toast({
-                        title: t("Register.success"),
-                        status: "success",
-                        description: t("Clipboard.message"),
-                        isClosable: true,
-                      });
-                    }
+          <Button variant="ghost" colorScheme="blue" leftIcon={<FiShare2 />}
+            onClick={() => {
+              navigator.clipboard.writeText(window.location.href + "/" + id.toString())
+              toast({
+                title: t("Register.success"),
+                status: "success",
+                description: t("Clipboard.message"),
+                isClosable: true,
+              });
+            }}
 
-                }>
-                {t("PostCard.share")}
-                </button>
-              </Button>
+                >                {t("PostCard.share")}
+          </Button>
         </ButtonGroup>
       </CardFooter>
     </Card>
