@@ -234,7 +234,9 @@ export const TRANSLATIONS_ES = {
     available: "Filtro en búsqueda de banda:",
     title: "Editar perfil",
     subtitle: "Modifica los datos de tu perfil",
-    descriptionPlaceholder: "Máximo 500 caracteres"
+    descriptionPlaceholder: "Máximo 500 caracteres",
+    error: "¡Oops! No se pudo actualizar el perfil.",
+    success: "¡Perfil actualizado correctamente!"
   },
   Button: {
     cancel: "Cancelar",

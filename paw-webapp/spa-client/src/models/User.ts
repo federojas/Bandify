@@ -12,4 +12,5 @@ export default interface User {
     socialMedia: string,
     surname: string
 }
+
   

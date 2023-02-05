@@ -233,7 +233,9 @@ export const TRANSLATIONS_EN = {
     available: "Looking for band filter:",
     title: "Edit profile",
     subtitle: "Edit your profile",
-    descriptionPlaceholder: "Maximum 500 characters"
+    descriptionPlaceholder: "Maximum 500 characters",
+    error: "Oops! Could not update profile.",
+    success: "Profile updated successfully!"
   },
   Button: {
     cancel: "Cancel",
