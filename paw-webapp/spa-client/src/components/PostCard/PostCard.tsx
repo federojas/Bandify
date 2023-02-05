@@ -98,7 +98,7 @@ const PostCard: React.FC<Audition> = ({
           flex="1"
           gap="4"
           alignItems="center"
-          justifyContent={"space-between"}
+          justifyContent={"start"}
           className="ellipsis-overflow"
         >
           <Avatar
