@@ -166,6 +166,8 @@ const EditAudition = () => {
     navigate(-1);
   };
 
+  const bg = useColorModeValue("gray.100", "gray.900");
+  const bgBorderColor = useColorModeValue("gray.200", "gray.700");
   return (
     <Center>
       <Box
@@ -221,9 +223,9 @@ const EditAudition = () => {
 
           >
             <Stack
-              bg={useColorModeValue("gray.100", "gray.900")}
+              bg={bg}
               border={'1px'}
-              borderColor={useColorModeValue("gray.200", "gray.700")}
+              borderColor={bgBorderColor}
               px={4}
               py={5}
               roundedTop={'md'}
@@ -327,9 +329,9 @@ const EditAudition = () => {
 
             </Stack>
             <Box
-              bg={useColorModeValue("gray.100", "gray.900")}
+              bg={bg}
               border={'1px'}
-              borderColor={useColorModeValue("gray.200", "gray.700")}
+              borderColor={bgBorderColor}
               roundedBottom={'md'}
               px={{
                 base: 4,
