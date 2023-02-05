@@ -27,6 +27,7 @@ import { PrivateRoute } from "./PrivateRoute";
 import { AnonymousRoute } from "./AnonymousRoute";
 import Login from "./pages/LogIn";
 import EditArtist from "./pages/EditProfile/EditArtist";
+import EditBand from "./pages/EditProfile/EditBand";
 import NewAudition from "./pages/Audition/NewAudition";
 import EditAudition from "./pages/Audition/EditAudition";
 import Index from "./pages/UsersSearch";
@@ -64,7 +65,7 @@ function App() {
           {/* <Route path="profile/auditions" element={<PrivateRoute component={BandAuditions} roles={["BAND"]} />} /> */}
           {/* <Route path="profile/applications" element={<PrivateRoute component={ProfileApplications} roles={["ARTIST"]} />} /> */}
           <Route path="profile/editArtist" element={<PrivateRoute component={EditArtist} roles={["ARTIST"]} />} />
-          <Route path="profile/editBand" element={<PrivateRoute component={Profile} roles={["BAND"]} />} />
+          <Route path="profile/editBand" element={<PrivateRoute component={EditBand} roles={["BAND"]} />} />
           <Route path="auditions/:id/applicants" element={<PrivateRoute component={AuditionsPage} roles={["BAND"]} />} />
         </Route>
       </Routes>
