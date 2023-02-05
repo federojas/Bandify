@@ -34,6 +34,7 @@ import Index from "./pages/UsersSearch";
 import Invites from "./pages/Hub/Invites"
 import Applications from "./pages/Hub/Applications"
 import Error from "./pages/Error"
+import PublicBandAuditions from "./pages/User/publicBandAuditions";
 
 function App() {
   // TODO: revisar las paginas anonimas, comunes a todos o privadas
@@ -61,8 +62,9 @@ function App() {
           <Route path="applications" element={<PrivateRoute component={Applications} roles={["ARTIST"]}/>} />
           <Route path="invites" element={<PrivateRoute component={Invites} roles={["ARTIST"]}/>} />
           {/* TODO: falta hacer los components de todo esto */}
-          <Route path="users/:id/auditions" element={<BandAuditions/>} />
           <Route path="profile/auditions" element={<PrivateRoute component={BandAuditions} roles={["BAND"]} />} />
+          {/*TODO: PORQ NO ANDA?????? TIRA 403*/}
+          <Route path="users/:id/auditions" element={<PublicBandAuditions />} />
           {/* <Route path="profile/applications" element={<PrivateRoute component={ProfileApplications} roles={["ARTIST"]} />} /> */}
           <Route path="profile/editArtist" element={<PrivateRoute component={EditArtist} roles={["ARTIST"]} />} />
           <Route path="profile/editBand" element={<PrivateRoute component={EditBand} roles={["BAND"]} />} />
