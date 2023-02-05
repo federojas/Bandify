@@ -272,7 +272,13 @@ export const TRANSLATIONS_EN = {
     descriptionPlaceholder: "Maximum 300 characters",
     descriptionHelp: "Brief description for your audition",
     newAuditionDescription: "Looking for artists to play in your band?",
-    newAudition: "Post a new audition"
+    newAudition: "Post a new audition",
+    locationRequired: "Location is required",
+    rolesRequired: "You must select at least one role",
+    genresRequired: "You must select at least one genre",
+    errorCreatingAudition: "Could not create audition.",
+    errorCreatingAuditionMessage: "Oops! Could not create audition.",
+    successCreatingAudition: "Audition created successfully!",
   },
   Hub: {
     "Invites": "Invitations",
