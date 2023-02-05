@@ -9,7 +9,7 @@ export const TRANSLATIONS_EN = {
     title: "Auditions",
     discover: "Discover auditions",
     latest: "Latest auditions",
-    header:"Search for Auditions 🎸",
+    header: "Search for Auditions 🎸",
     noFound: "No auditions found"
   },
   NavBar: {
@@ -27,7 +27,7 @@ export const TRANSLATIONS_EN = {
     logoutAlt: "Logout",
     register: "Register",
   },
-  Login : {
+  Login: {
     email: "Email",
     password: "Password",
     rememberMe: "Remember me",
@@ -40,7 +40,7 @@ export const TRANSLATIONS_EN = {
     error: "Error",
   },
   Register: {
-    title: "Register your band or artist for free!", 
+    title: "Register your band or artist for free!",
     subtitle: "Get to know new artists and bands, and get discovered!",
     header: "Register as a",
     band: "Band",
@@ -56,31 +56,31 @@ export const TRANSLATIONS_EN = {
     button: "Register",
     alreadyUser: "Already a user?",
     login: "Login",
-    Required:{
+    Required: {
       email: "Email is required",
       password: "Password is required",
       passwordConfirm: "Password confirmation is required",
       name: "Name is required",
       surname: "Surname is required",
     },
-    MaxLenght:{
+    MaxLenght: {
       email: "Email cannot be larger than 254 characters",
       password: "Password cannot be larger than 25 characters",
       name: "Name cannot be larger than 50 characters",
       surname: "Surname cannot be larger than 50 characters",
     },
-    MinLenght:{
+    MinLenght: {
       password: "Password must be at least 8 characters long",
     },
     error: "Error",
     success: "Success",
     alreadyRegistered: "This email is already registered",
-    Band:{
+    Band: {
       content: "By being a band, you can create auditions and find new members.",
       title: "Register as a Band!",
       urlTitle: "I'm a band",
     },
-    Artist:{
+    Artist: {
       content: "By being an artist, you can apply to auditions and find new bands.",
       title: "Register as an Artist!",
       urlTitle: "I'm an artist",
@@ -186,7 +186,7 @@ export const TRANSLATIONS_EN = {
       message: "Leave a message to the band",
       apply: "Apply",
       cancel: "Cancel",
-      placeHolder: "Max. 300 characters", 
+      placeHolder: "Max. 300 characters",
     },
     applyError: "Oops, an error occurred!",
   },
@@ -253,7 +253,7 @@ export const TRANSLATIONS_EN = {
     role: "Role/s",
     location: "Location",
     error: "Could not edit audition.",
-    success:"¡Audition successfully modified!",
+    success: "¡Audition successfully modified!",
     genrePlaceholder: "Select between 1 and 5 genres",
     rolePlaceholder: "Select between 1 and 5 roles",
     titlePlaceholder: "Maximum 50 characters",
@@ -263,15 +263,26 @@ export const TRANSLATIONS_EN = {
     newAudition: "Post a new audition"
   },
   Hub: {
-    "Invites": "Invites",
+    "Invites": "Invitations",
     "Applications": "Applications"
   },
   Applications: {
     "Pending": "Pending",
     "Accepted": "Accepted",
     "Rejected": "Rejected",
-    "NoApplications": "You don't have any applications in this sections"
+    "NoApplications": "You don't have any applications in this sections",
+    "Title": "Current state of your applications",
   },
-
+  Invites: {
+    Title: "Invitations you have received",
+    ModalTitle: "Band invitation",
+    Accept: "Accept",
+    Reject: "Reject",
+    MoreInfo: "See invitation",
+    Subtitle: "Congratulations!",
+    Subtitle2: "has invited you to join their band.",
+    Subtitle3: "This is a brief description of your participation in the band:",
+    Subtitle4: "and this/these are the roles you will play:",
+  }
 };
 

@@ -38,6 +38,7 @@ const Applications = () => {
 
   return (
     <SidenavLayout>
+      <Text fontSize='2xl' fontWeight='bold'  mb='4'>{t("Applications.Title")}</Text>
       <Tabs variant='soft-rounded' colorScheme='blue'>
         <TabList>
           <Tab>{t("Applications.Pending")}</Tab>
