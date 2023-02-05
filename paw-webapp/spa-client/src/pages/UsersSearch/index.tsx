@@ -25,8 +25,7 @@ const Index = () => {
   const [users, setUsers] = useState<User[]>([]);
   const query = useQuery();
 
-  const [current] = usePagination();
-  const [currentPage, setCurrentPage] = useState(current);
+  const [currentPage] = usePagination();
   const [maxPage, setMaxPage] = useState(1);
   const location = useLocation();
   const userService = useUserService();
@@ -53,7 +52,7 @@ const Index = () => {
       },
       location
     )
-  }, [currentPage, userService, searchTerms, genres, roles, locations])
+  }, [currentPage, userService, searchTerms, genres, roles, locations, navigate])
 
   return (
     <>
@@ -84,15 +83,15 @@ const Index = () => {
       {/*TODO: ver si se puede hacer componente*/}
       <Flex
         w="full"
-   
+
         p={50}
         alignItems="center"
         justifyContent="center"
       >
         <Pagination
           defaultCurrent={currentPage}
-          total={maxPage * 10}
-          pageSize={10}
+          total={maxPage * 8}
+          pageSize={8}
           paginationProps={{
             display: "flex",
           }}

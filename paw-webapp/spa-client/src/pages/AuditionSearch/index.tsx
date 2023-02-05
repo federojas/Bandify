@@ -103,8 +103,8 @@ const AuditionSearch = () => {
       >
         <Pagination
           defaultCurrent={currentPage}
-          total={maxPage * 10}
-          pageSize={10}
+          total={maxPage * 9}
+          pageSize={9}
           paginationProps={{
             display: "flex",
           }}
