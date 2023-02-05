@@ -131,8 +131,60 @@ const EditAudition = () => {
     formState: { errors },
   } = useForm<FormData>();
 
+  const isValidForm = (data: FormData) => {
+    if (!location) {
+      toast({
+        title: t("EditAudition.locationRequired"),
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+      return false;
+    }
+    
+    if (genres.length == 0) {
+      toast({
+        title: t("EditAudition.genresRequired"),
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+      return false;
+    }
+
+    if (roles.length == 0) {
+      toast({
+        title: t("EditAudition.rolesRequired"),
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+      return false;
+    }
+    
+    if (roles.length >5) {
+      toast({
+        title: t("EditAudition.maxRoles"),
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+      return false;
+    }
+
+    if(genres.length > 5) {
+      toast({
+        title: t("EditAudition.maxGenres"),
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+      return false;
+    }
+  }
 
   const onSubmit = async (data: FormData) => {
+    if(!isValidForm(data)) return;
     const auditionInput: AuditionInput = {
       title: data.title,
       description: data.description,

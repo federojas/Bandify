@@ -279,6 +279,8 @@ export const TRANSLATIONS_EN = {
     errorCreatingAudition: "Could not create audition.",
     errorCreatingAuditionMessage: "Oops! Could not create audition.",
     successCreatingAudition: "Audition created successfully!",
+    maxRoles: "You can select up to 5 roles",
+    maxGenres: "You can select up to 5 genres",
   },
   Hub: {
     "Invites": "Invitations",

@@ -95,10 +95,7 @@ const NewAudition = () => {
     navigate(-1);
   };
 
-
-  const onSubmit = async (data: FormData) => {
-    console.log("Posting audition")
-    console.log(JSON.stringify(data))
+  const isValidForm = (data: FormData) => {
     if (!location) {
       toast({
         title: t("EditAudition.locationRequired"),
@@ -106,7 +103,7 @@ const NewAudition = () => {
         duration: 9000,
         isClosable: true,
       });
-      return;
+      return false;
     }
     
     if (genres.length == 0) {
@@ -116,7 +113,7 @@ const NewAudition = () => {
         duration: 9000,
         isClosable: true,
       });
-      return 
+      return false;
     }
 
     if (roles.length == 0) {
@@ -126,8 +123,32 @@ const NewAudition = () => {
         duration: 9000,
         isClosable: true,
       });
-      return
+      return false;
     }
+    
+    if (roles.length >5) {
+      toast({
+        title: t("EditAudition.maxRoles"),
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+      return false;
+    }
+
+    if(genres.length > 5) {
+      toast({
+        title: t("EditAudition.maxGenres"),
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+      return false;
+    }
+  }
+
+  const onSubmit = async (data: FormData) => {
+    if (!isValidForm(data)) return; 
     const auditionInput: AuditionInput = {
       title: data.title,
       description: data.description,

@@ -279,6 +279,8 @@ export const TRANSLATIONS_ES = {
     errorCreatingAudition: "No se pudo crear la audición",
     errorCreatingAuditionMessage: "No se pudo crear la audición, por favor intente nuevamente",
     successCreatingAudition: "¡Audición creada con éxito!",
+    maxRoles: "Puede seleccionar hasta 5 roles",
+    maxGenres: "Puede seleccionar hasta 5 géneros",
   },
   Hub: {
     "Applications": "Aplicaciones",
