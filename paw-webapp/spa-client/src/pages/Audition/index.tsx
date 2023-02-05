@@ -10,6 +10,7 @@ import "../../styles/modals.css";
 import "../../styles/alerts.css";
 import {
   Avatar,
+  Box,
   Button,
   Card,
   CardBody,
@@ -168,17 +169,19 @@ const AuditionCard = ({
         </Flex>
       </CardHeader>
       <CardBody>
-        <Flex flexWrap="wrap">
+        <Flex flexWrap="wrap" justifyContent="space-between">
         <VStack className="ellipsis-overflow" spacing={8} alignItems={"start"}>
           <Heading size={"lg"}>{audition.title}</Heading>
           <HStack spacing={4}>
-            <FiCalendar />
+            <FiCalendar/>
             <HStack wrap={'wrap'}>
               <Text>{date}</Text>
             </HStack>
           </HStack>
           <HStack spacing={4}>
-            <BsInfoCircle />
+            <Box>
+              <BsInfoCircle  style={{width:"100% !important"}}/>
+            </Box>
             <Text fontSize={"lg"}>{audition.description}</Text>
           </HStack>
           <HStack spacing={4}>
