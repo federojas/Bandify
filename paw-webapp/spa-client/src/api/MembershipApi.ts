@@ -11,7 +11,7 @@ interface GetParams {
 interface PostParams {
     userId: number;
     roles: string[];
-    description: string[];
+    description: string;
 }
 
 class MembershipApi {

@@ -303,6 +303,9 @@ export const TRANSLATIONS_EN = {
     Subtitle2: "has invited you to join their band.",
     Subtitle3: "This is a brief description of your participation in the band:",
     Subtitle4: "and this/these are the roles you will play:",
+    errorCreatingInvite: "¡Oops! Could not create invite",
+    errorCreatingInviteMessage: "An error ocurred",
+    successCreatingInvite: "Invite created successfully!"
   },
   Alts: {
     profilePicture: "Profile picture",

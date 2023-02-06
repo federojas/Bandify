@@ -17,7 +17,7 @@ interface Params {
 interface PostParams {
     userId: number;
     roles: string[];
-    description: string[];
+    description: string;
 }
 
 export default class MembershipService {

@@ -3,6 +3,7 @@ import { AuditionServiceProvider } from "./AuditionService";
 import { AuthProvider } from "./AuthContext";
 import { GenreServiceProvider } from "./GenreService";
 import { LocationServiceProvider } from "./LocationService";
+import { MembershipServiceProvider } from "./MembershipService";
 import { RoleServiceProvider } from "./RoleService";
 import { UserServiceProvider } from "./UserService";
 interface Props {
@@ -17,7 +18,9 @@ const ContextProviderWrapper = (props: Props) => {
           <GenreServiceProvider>
             <RoleServiceProvider>
               <LocationServiceProvider>
-                {props.children}
+                <MembershipServiceProvider>
+                  {props.children}
+                </MembershipServiceProvider>
               </LocationServiceProvider>
             </RoleServiceProvider>
           </GenreServiceProvider>

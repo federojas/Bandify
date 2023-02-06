@@ -32,6 +32,7 @@ import {
   useColorModeValue,
   useDisclosure,
   VStack,
+  useToast
 } from "@chakra-ui/react";
 import ArtistTag from "../../components/Tags/ArtistTag";
 import BandTag from "../../components/Tags/BandTag";
@@ -51,6 +52,7 @@ import { serviceCall } from "../../services/ServiceManager";
 import { useNavigate, useParams } from "react-router-dom";
 import { User } from "../../models";
 import { useUserService } from "../../contexts/UserService";
+import { useMembershipService } from "../../contexts/MembershipService";
 import { AiOutlineUserAdd } from "react-icons/ai";
 import { FiMusic } from "react-icons/fi";
 import { useForm } from "react-hook-form";
@@ -74,8 +76,8 @@ const AddToBandButton = ({ user }: { user: User }) => {
   const [roleOptions, setRoleOptions] = useState<RoleGroup[]>([]);
   const [roles, setRoles] = useState<RoleGroup[]>([]);
   const roleService = useRoleService();
-
-  // const auditionService = useAuditionService();
+  const membershipService = useMembershipService();
+  const toast = useToast();
   const initialRef = React.useRef(null)
   const finalRef = React.useRef(null)
   const navigate = useNavigate();
@@ -101,29 +103,40 @@ const AddToBandButton = ({ user }: { user: User }) => {
   } = useForm<FormData>();
 
 
-  const onSubmit = (data: FormData) => {
-    console.log('hola')
+  const onSubmit = async (data: FormData) => {
+    console.log('Invitando a la banda')
     const input = {
+      userId: user.id,
       roles: roles.map((role) => role.value),
       description: data.description,
     }
     console.log(input)
-    // serviceCall(auditionService.apply(auditionId, data.description),
-    //   navigate
-    // ).then((response) => {//todo: distintos response messages segun el error
-    //   if (response.hasFailed()) {
-    //     swal({
-    //       title: t("Audition.applyError"),
-    //       icon: "error",
-    //     })
-    //   } else {
-    //     swal({
-    //       title: t("Audition.applySuccess"),
-    //       text: t("Audition.applySuccessText"),
-    //       icon: "success",
-    //     })
-    //   }
-    // })
+    console.log("A ver el membershipService: " + membershipService);
+    console.log("A ver el roleService: " + roleService);
+    serviceCall(
+      membershipService.inviteToBand(input),
+      navigate,
+      (response) => {
+        console.log(response)
+      }
+    ).then((r) => {
+      if (r.hasFailed()) {
+        toast({
+          title: t("Invites.errorCreatingInvite"),
+          description: t("Invites.errorCreatingInviteMessage"),
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+      } else {
+        toast({
+          title: t("Invites.successCreatingInvite"),
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+        });
+      }
+    })
   }
 
   return (
