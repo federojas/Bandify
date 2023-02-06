@@ -1,6 +1,7 @@
 import MembershipApi from "../api/MembershipApi";
 import RoleApi from "../api/RoleApi";
 import ApiResult from "../api/types/ApiResult";
+import PostResponse from "../api/types/PostResponse";
 import { User } from "../api/types/User";
 import UserApi from "../api/UserApi";
 import Membership from "../models/Membership";
@@ -10,6 +11,13 @@ interface Params {
     userId: number;
     state?: string;
     preview?: boolean;
+}
+
+
+interface PostParams {
+    userId: number;
+    roles: string[];
+    description: string[];
 }
 
 export default class MembershipService {
@@ -78,5 +86,24 @@ export default class MembershipService {
         } catch (error: any) {
             return ErrorService.returnApiError(error);
         }
+    }
+
+    public async inviteToBand(params: PostParams): Promise<ApiResult<PostResponse>> {
+
+        try {
+            const postResponse = await this.membershipApi.inviteToBand(params);
+            const url: string = postResponse.headers!.location!;
+            const tokens = url.split('/')
+            const id: number = parseInt(tokens[tokens.length - 1]);
+            const data: PostResponse = { url: url, id: id };
+            return new ApiResult(
+                data,
+                false,
+                null as any
+            );
+        } catch (error: any) {
+            return ErrorService.returnApiError(error);
+        }
+
     }
 }

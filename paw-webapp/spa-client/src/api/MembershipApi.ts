@@ -2,12 +2,17 @@ import { AxiosInstance } from "axios";
 import Membership from "./types/Membership";
 
 
-interface Params {
+interface GetParams {
     userId: number;
     state?: string;
     preview?: boolean;
 }
 
+interface PostParams {
+    userId: number;
+    roles: string[];
+    description: string[];
+}
 
 class MembershipApi {
 
@@ -20,6 +25,12 @@ class MembershipApi {
     private config = {
         headers: {
             'Accept': 'application/vnd.membership.v1+json'
+        }
+    }
+
+    private listConfig = {
+        headers: {
+            'Accept': 'application/vnd.membership-list.v1+json'
         }
     }
 
@@ -45,13 +56,13 @@ class MembershipApi {
         });
     };
 
-    public getUserMemberships = async (params: Params) => {
+    public getUserMemberships = async (params: GetParams) => {
         return this.axiosPrivate.get(this.endpoint, {
             params: {
                 userId: params.userId,
                 state: params.state,
                 preview: params.preview,
-            }, ...this.config
+            }, ...this.listConfig
         })
             .then((response) => {
                 const data = response.data;
@@ -75,6 +86,13 @@ class MembershipApi {
             });
     }
 
+    public inviteToBand = async (params: PostParams) => {
+        return this.axiosPrivate.post(`${this.endpoint}?user=${params.userId}`,
+        {roles: params.roles, description: params.description},
+        this.config).then((response) => {
+            return Promise.resolve(response);
+        });
+    }
 
 };
 
