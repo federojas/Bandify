@@ -330,6 +330,16 @@ export const TRANSLATIONS_EN = {
   PublicBandAuditions: {
     Title: "Auditions from: ",
     NoAuditions: "This band has no auditions",
+  },
+  AuditionApplicants: {
+    Title: "Applicants to audition: ",
+    NoApplicants: "This audition has no applicants in this section",
+    SeeApplication: "See application",
+    Accept: "Accept",
+    Reject: "Reject",
+    ModalTitle: "Artist application",
+    Subtitle: "Congratulations! Your audition has received an application from ",
+    Subtitle2: "This is what the artist has to say about themselves:",
   }
 };
 

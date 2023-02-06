@@ -118,7 +118,7 @@ const AuditionActions = (props: { auditionId: number, isOwner: boolean, currentU
       </Button>
       {props.isOwner ?
         <>
-          <Button leftIcon={<FiUsers />} w={'44'} colorScheme='green'>{t("Audition.applicants")}</Button>
+          <Button onClick={() => { navigate('/auditions/' + String(props.auditionId) + '/applicants') }} leftIcon={<FiUsers />} w={'44'} colorScheme='green'>{t("Audition.applicants")}</Button>
 
           <Button leftIcon={<AiOutlineEdit />} w={'44'} colorScheme='teal' onClick={onEdit}>{t("Audition.edit")}</Button>
           <Button leftIcon={<AiOutlineDelete />} w={'44'} colorScheme='red' onClick={onDelete}>{t("Audition.delete")}</Button>
@@ -185,7 +185,7 @@ const AuditionCard = ({
               </HStack>
             </HStack>
             <HStack spacing={4}>
-                <BsInfoCircle style={{ width: "100% !important" }} />
+              <BsInfoCircle style={{ width: "100% !important" }} />
               <Box maxW={'xl'}>
                 <Text fontSize={"lg"}>{audition.description}</Text>
               </Box>

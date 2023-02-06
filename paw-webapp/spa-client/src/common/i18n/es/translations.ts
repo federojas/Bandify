@@ -329,5 +329,10 @@ export const TRANSLATIONS_ES = {
   PublicBandAuditions: {
     Title: "Audiciones de: ",
     NoAuditions: "Esta banda no tiene audiciones abiertas",
-  }
+  },
+  AuditionApplicants: {
+    Title: "Aplicantes a la audición: ",
+    NoApplicants: "Esta audición no tiene aplicantes en esta sección",
+    SeeApplication: "Ve"
+  },
 };
