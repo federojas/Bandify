@@ -60,7 +60,7 @@ const ProfileCard: React.FC<User> = ({
         navigate,
         (response) => {
           setUserImg(
-            response
+              URL.createObjectURL(response)
           )
         },
       )
@@ -82,7 +82,7 @@ const ProfileCard: React.FC<User> = ({
         <Center flex={1}>
           <Flex>
             <Image
-              src={`data:image/png;base64,${userImg}`} //TODO: revisar posible mejora a link
+              src={userImg}
               alt={t("Alts.profilePicture")}
               borderRadius="full"
               boxSize="150px"

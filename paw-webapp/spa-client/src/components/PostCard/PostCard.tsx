@@ -84,7 +84,7 @@ const PostCard: React.FC<Audition> = ({
         navigate,
         (response) => {
           setUserImg(
-            response
+              URL.createObjectURL(response)
           )
         },
       )
@@ -107,7 +107,7 @@ const PostCard: React.FC<Audition> = ({
           className="ellipsis-overflow"
         >
           <Avatar
-            src={`data:image/png;base64,${userImg}`} //TODO: revisar posible mejora a link y ALT
+            src={userImg} //TODO: revisar ALT
           />
           <Box >
             <Heading size="sm">{userName}</Heading> {/*TODO: poner text overflow*/}

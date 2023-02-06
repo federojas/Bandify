@@ -24,6 +24,7 @@ import javax.validation.*;
 import javax.ws.rs.*;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.*;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -98,9 +99,8 @@ public class UserController {
     //TODO: si estamos sobrados no usar base 64 y tratar de usar blob con byte arrau, reduce datos en red
     @GET
     @Path("/{id}/profile-image")
-    @Produces({MediaType.MULTIPART_FORM_DATA})
     public Response getUserProfileImage(@PathParam("id") final long id) throws IOException {
-        return Response.ok(Base64.getEncoder().encodeToString(userService.getProfilePicture(id))).build();
+        return Response.ok(new ByteArrayInputStream(userService.getProfilePicture(id))).build();
     }
 
     @PUT

@@ -136,7 +136,7 @@ const PublicBandAuditions = () => {
       userService.getProfileImageByUserId(Number(id)),
       navigate,
       (img) => {
-        setBandImg(img);
+        setBandImg(URL.createObjectURL(img));
       },
 
     )
@@ -160,7 +160,7 @@ const PublicBandAuditions = () => {
         className="ellipsis-overflow"
       >
         <Avatar
-          src={`data:image/png;base64,${bandImg}`} //TODO: revisar posible mejora a link y ALT
+          src={bandImg} //TODO: revisar ALT
         />
         <Heading size="md">{band?.name}</Heading> {/*TODO: poner text overflow*/}
       </Flex>

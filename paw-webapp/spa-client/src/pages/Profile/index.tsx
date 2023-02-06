@@ -1,9 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import "../../styles/profile.css";
 import "../../styles/postCard.css";
-import UserIcon from "../../assets/icons/user.svg";
-import EditIcon from "../../assets/icons/edit-white-icon.svg";
-import AvailableCover from "../../assets/images/available.png";
 import { useTranslation } from "react-i18next";
 import {
   Box,
@@ -18,7 +15,6 @@ import {
   HStack,
   Image,
   Stack,
-  Tag,
   Text,
   useColorModeValue,
   VStack,
@@ -67,9 +63,7 @@ const Profile = () => {
       userService.getProfileImageByUserId(Number(userId)),
       navigate,
       (response) => {
-        setUserImg(
-          response
-        )
+        setUserImg(URL.createObjectURL(response))
         setIsLoading(false)
       })
   }, [userService]);
@@ -77,7 +71,7 @@ const Profile = () => {
 
   return (
     <Container maxW={"5xl"} px={"0"} py={8}>
-      {isLoading ? <Center mt={'25%'}><span className="loader"></span></Center> : (
+      {isLoading ? <Center mt={'25%'}><span className="loader"/></Center> : (
         <Stack spacing={4}>
           <Box
             w={"full"}
@@ -92,7 +86,7 @@ const Profile = () => {
               <HStack gap={'8'}>
                 <Flex>
                   <Image
-                    src={`data:image/png;base64,${userImg}`} //TODO: revisar posible mejora a link
+                    src={userImg}
                     alt={t("Alts.profilePicture")}
                     borderRadius="full"
                     boxSize="150px"

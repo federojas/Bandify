@@ -239,7 +239,7 @@ const UserProfile = () => {
         navigate,
         (response) => {
           setUserImg(
-            response
+              URL.createObjectURL(response)
           )
         },
       )
@@ -270,7 +270,7 @@ const UserProfile = () => {
             <HStack gap={'8'}>
               <Flex>
               <Image
-                src={`data:image/png;base64,${userImg}`} //TODO: revisar posible mejora a link
+                src={userImg}
                 alt={t("Alts.profilePicture")}
                 borderRadius="full"
                 boxSize="150px"

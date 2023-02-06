@@ -93,11 +93,11 @@ export default class UserService {
     }
   }
 
-  public async getProfileImageByUserId(id: number): Promise<ApiResult<string>> {
+  public async getProfileImageByUserId(id: number): Promise<ApiResult<Blob>> {
     try {
       const image = await this.userApi.getProfileImageByUserId(id);
       return new ApiResult(
-        image as string,
+        image as Blob,
         false,
         null as any)
     } catch (error: any) {

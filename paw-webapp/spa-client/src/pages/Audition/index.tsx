@@ -250,7 +250,7 @@ const AuditionView = () => {
         userService.getProfileImageByUserId(audition.ownerId),
         navigate,
         (response) => {
-          setUserImg(response)
+          setUserImg(URL.createObjectURL(response))
         },
       );
       if (userId) {

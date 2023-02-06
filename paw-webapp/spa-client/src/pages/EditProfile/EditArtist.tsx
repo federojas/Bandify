@@ -140,7 +140,7 @@ const EditArtist = () => {
       navigate,
       (response) => {
           setUserImg(
-              response
+              URL.createObjectURL(response)
           )
           setIsLoading(false)
 
@@ -149,16 +149,7 @@ const EditArtist = () => {
   }, [userService]);
 
     const handlePicture = (image: Blob) => {
-        const fileReader = new FileReader();
-        fileReader.readAsDataURL(image)
-        fileReader.onload = () => {
-            if(fileReader.result) {
-                let base64Img = fileReader.result as string
-                setUserImg(base64Img.split(",").pop());
-            }
-        }
-        fileReader.onerror = (error) => {
-        }
+        setUserImg(URL.createObjectURL(image));
     };
 
 
@@ -361,7 +352,7 @@ const EditArtist = () => {
                         borderColor: "gray.200",
                         backgroundColor: "white"
                     }}
-                    src={`data:image/png;base64,${userImg}`} //TODO ALT Y MEJORA
+                    src={userImg} //TODO ALT
                   />
                     {available!.value ? <Image
                         src={filterAvailable}

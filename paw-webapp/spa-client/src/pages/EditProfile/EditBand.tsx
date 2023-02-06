@@ -76,16 +76,7 @@ const EditBand = () => {
     const toast = useToast();
 
     const handlePicture = (image: Blob) => {
-        const fileReader = new FileReader();
-        fileReader.readAsDataURL(image)
-        fileReader.onload = () => {
-            if(fileReader.result) {
-                let base64Img = fileReader.result as string
-                setUserImg(base64Img.split(",").pop());
-            }
-        }
-        fileReader.onerror = (error) => {
-        }
+        setUserImg(URL.createObjectURL(image));
     };
 
     const onCancel = () => {
@@ -146,7 +137,7 @@ const EditBand = () => {
             navigate,
             (response) => {
                 setUserImg(
-                    response
+                    URL.createObjectURL(response)
                 )
                 setIsLoading(false)
             },
@@ -328,7 +319,7 @@ const EditBand = () => {
                                                 fontSize={16} fontWeight="bold"
                                                 bg={bg19}
                                                 mr={8}
-                                                src={`data:image/png;base64,${userImg}`} //TODO ALT Y MEJORA
+                                                src={userImg} //TODO ALT
                                             />
                                             <Flex>
                                                 <Stack>

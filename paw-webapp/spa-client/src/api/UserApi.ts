@@ -72,11 +72,13 @@ class UserApi {
     });
   };
 
-  public getProfileImageByUserId = async (id: number): Promise<string> => {
+  public getProfileImageByUserId = async (id: number): Promise<Blob> => {
     return this.axiosPrivate
-      .get(`${this.endpoint}/${id}/profile-image`)
+      .get(`${this.endpoint}/${id}/profile-image`,  {
+          responseType: "blob"
+      })
       .then((response) => {
-        return Promise.resolve(response.data);
+        return Promise.resolve(response.data as Blob);
       })
   };
 
