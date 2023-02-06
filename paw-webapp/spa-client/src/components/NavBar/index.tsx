@@ -50,7 +50,7 @@ const NavLink = ({
   const navigate = useNavigate();
   return (
     <Button
-      as="a"
+      cursor={'pointer'}
       px={3}
       py={1}
       rounded={"md"}
@@ -136,7 +136,6 @@ function Nav() {
               {
                 isBand &&
                 <Button
-                  as='a'
                   variant={"solid"}
                   colorScheme={"teal"}
                   size={"md"}
@@ -153,7 +152,6 @@ function Nav() {
               }
 
               <Button
-                as="a"
                 px={4}
                 py={1}
                 rounded={"md"}
@@ -186,7 +184,7 @@ function Nav() {
                   />
                 </MenuButton>
                 <MenuList>
-                  <MenuItem as="a" onClick={() => { navigate('/profile') }}>
+                  <MenuItem onClick={() => { navigate('/profile') }}>
                     {t("NavBar.profileAlt")}
                   </MenuItem>
                   <MenuDivider />

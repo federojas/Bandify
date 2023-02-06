@@ -158,6 +158,7 @@ const AuditionCard = ({
       <CardHeader>
         <Flex
           as="a"
+          cursor="pointer"
           onClick={() => {
             navigate(userId === audition.ownerId ? "/profile" : "/users/" + audition.ownerId)
           }}

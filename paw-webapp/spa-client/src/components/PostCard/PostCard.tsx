@@ -96,6 +96,7 @@ const PostCard: React.FC<Audition> = ({
       <CardHeader>
         <Flex
           as="a"
+          cursor="pointer"
           onClick={() => {
             navigate(userId === ownerId ? "/profile" : "/users/" + bandId.toString())
           }}
