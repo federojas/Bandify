@@ -322,6 +322,10 @@ export const TRANSLATIONS_EN = {
     "Field2": "Describe artist's responsibilities",
     Field2Placeholder: "Maximum 100 characters",
     "Add": "Add to band"
+  },
+  PublicBandAuditions: {
+    Title: "Auditions from: ",
+    NoAuditions: "This band has no auditions",
   }
 };
 
