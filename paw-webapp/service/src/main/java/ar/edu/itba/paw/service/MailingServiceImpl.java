@@ -44,7 +44,7 @@ public class MailingServiceImpl implements MailingService {
     @Override
     public void sendAddedToBandEmail(User band, String receiverEmail, Locale locale) {
         try {
-            final String url = new URL(environment.getRequiredProperty("app.protocol"), environment.getRequiredProperty("app.base.url"), environment.getRequiredProperty("app.group.directory") + "user/" + band.getId()).toString();
+            final String url = new URL(environment.getRequiredProperty("app.protocol"), environment.getRequiredProperty("app.base.url"), environment.getRequiredProperty("app.group.directory") + "users/" + band.getId()).toString();
             Map<String, Object> mailData = new HashMap<>();
             String subject = messageSource.getMessage("added-band.title",null,locale);
             mailData.put("goToBandifyURL", url);
@@ -58,7 +58,7 @@ public class MailingServiceImpl implements MailingService {
     @Override
     public void sendInvitationAcceptedEmail(User artist, String receiverEmail, Locale locale) {
         try {
-            final String url = new URL(environment.getRequiredProperty("app.protocol"), environment.getRequiredProperty("app.base.url"), environment.getRequiredProperty("app.group.directory") + "user/" + artist.getId()).toString();
+            final String url = new URL(environment.getRequiredProperty("app.protocol"), environment.getRequiredProperty("app.base.url"), environment.getRequiredProperty("app.group.directory") + "users/" + artist.getId()).toString();
             Map<String, Object> mailData = new HashMap<>();
             String subject = messageSource.getMessage("added-artist.title",null,locale);
             mailData.put("goToBandifyURL", url);
@@ -72,7 +72,7 @@ public class MailingServiceImpl implements MailingService {
     @Override
     public void sendNewInvitationEmail(User band, String receiverEmail, Locale locale) {
         try {
-            final String url = new URL(environment.getRequiredProperty("app.protocol"), environment.getRequiredProperty("app.base.url"), environment.getRequiredProperty("app.group.directory") + "user/" + band.getId()).toString();
+            final String url = new URL(environment.getRequiredProperty("app.protocol"), environment.getRequiredProperty("app.base.url"), environment.getRequiredProperty("app.group.directory") + "users/" + band.getId()).toString();
             Map<String, Object> mailData = new HashMap<>();
             String subject = messageSource.getMessage("new-invite.title",null,locale);
             mailData.put("goToBandifyURL", url);
@@ -86,7 +86,7 @@ public class MailingServiceImpl implements MailingService {
     @Override
     public void sendApplicationAcceptedEmail(User band, Audition audition, String receiverEmail, Locale locale) {
         try {
-            final String url = new URL(environment.getRequiredProperty("app.protocol"), environment.getRequiredProperty("app.base.url"), environment.getRequiredProperty("app.group.directory") + "user/" + band.getId()).toString();
+            final String url = new URL(environment.getRequiredProperty("app.protocol"), environment.getRequiredProperty("app.base.url"), environment.getRequiredProperty("app.group.directory") + "users/" + band.getId()).toString();
             Map<String, Object> mailData = new HashMap<>();
             String subject = messageSource.getMessage("accepted-application.title",null,locale);
             mailData.put("goToBandifyURL", url);
@@ -101,7 +101,7 @@ public class MailingServiceImpl implements MailingService {
     @Override
     public void sendApplicationEmail(User applicant, String receiverEmail, String message, Locale locale) {
         try {
-            final String url = new URL(environment.getRequiredProperty("app.protocol"), environment.getRequiredProperty("app.base.url"), environment.getRequiredProperty("app.group.directory") + "user/" + applicant.getId()).toString();
+            final String url = new URL(environment.getRequiredProperty("app.protocol"), environment.getRequiredProperty("app.base.url"), environment.getRequiredProperty("app.group.directory") + "users/" + applicant.getId()).toString();
             Map<String, Object> mailData = new HashMap<>();
             String subject = messageSource.getMessage("audition-application.subject",null,locale);
             mailData.put("content", message);
