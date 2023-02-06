@@ -182,7 +182,7 @@ const AuditionSearchBar = ({ onSubmit = () => {} }: AuditionSearchBarProps) => {
             cursor='pointer'
             color={useColorModeValue("blue.500", "blue.200")}
             alignSelf='flex-start'
-            onClick={() => setFilters(!filters)}>Filters</Text>
+            onClick={() => setFilters(!filters)}>{t("AuditionSearchBar.filters")}</Text>
 
           {filters && (
             <>

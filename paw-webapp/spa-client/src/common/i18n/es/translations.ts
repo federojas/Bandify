@@ -118,7 +118,8 @@ export const TRANSLATIONS_ES = {
     role: "Roles",
     rolePlaceholder: "Rol",
     asc: "Más antiguos",
-    desc: "Más recientes"
+    desc: "Más recientes",
+    filters: "Filtros",
   },
   SearchForm: {
     searchUsers: "Buscar usuarios",
