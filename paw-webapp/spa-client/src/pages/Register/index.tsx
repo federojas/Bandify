@@ -16,6 +16,7 @@ import { useTranslation } from "react-i18next";
 import "../../styles/forms.css";
 import "../../styles/register.css";
 import "../../js/alerts.js";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -37,6 +38,7 @@ interface RegisterCardProps {
 
 function RegisterCard(props: RegisterCardProps) {
   const { content, avatar, index, urlTitle, url, title } = props;
+  const navigate = useNavigate();
   return (
     <Flex
       boxShadow={"lg"}
@@ -81,9 +83,9 @@ function RegisterCard(props: RegisterCardProps) {
           {content}
         </chakra.p>
         {/* TODO: CHusmear aca el underlined */}
-        <Link href={url}>
-          <Button colorScheme={"blue"}>{urlTitle}</Button>
-        </Link>
+        <Button w={'fit-content'} px={'4'} onClick={() => {
+          navigate(url)
+        }} colorScheme={"blue"}>{urlTitle}</Button>
       </Flex>
       <Avatar
         src={avatar}

@@ -200,7 +200,7 @@ const RegisterBandForm = () => {
           <Stack pt={6}>
             <Text align={"center"}>
               {t("Register.alreadyUser")}{" "}
-              <Link color={"blue.400"} href={"/login"}>
+              <Link color={"blue.400"} onClick={() => {navigate('/login')}}>
               {t("Register.login")}
               </Link>
             </Text>

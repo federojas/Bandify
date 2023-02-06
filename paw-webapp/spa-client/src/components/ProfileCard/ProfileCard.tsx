@@ -157,7 +157,7 @@ const ProfileCard: React.FC<User> = ({
             alignItems={'center'}>
             <Button
               as='a'
-              href={id === userId ? "/profile" : `/users/${id}`}
+              onClick={() => {navigate(id === userId ? "/profile" : `/users/${id}`)}}
               flexBasis={'50%'}
               fontSize={'sm'}
               rounded={'full'}

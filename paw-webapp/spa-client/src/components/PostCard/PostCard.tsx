@@ -96,7 +96,9 @@ const PostCard: React.FC<Audition> = ({
       <CardHeader>
         <Flex
           as="a"
-          href={userId === ownerId ? "/profile" : "/users/" + bandId.toString()}
+          onClick={() => {
+            navigate(userId === ownerId ? "/profile" : "/users/" + bandId.toString())
+          }}
           flex="1"
           gap="4"
           alignItems="center"
@@ -158,11 +160,11 @@ const PostCard: React.FC<Audition> = ({
               });
             }}
 
-                >                {t("PostCard.share")}
+          >                {t("PostCard.share")}
           </Button>
         </ButtonGroup>
       </CardFooter>
-    </Card>
+    </Card >
   );
 };
 
