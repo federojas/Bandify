@@ -165,7 +165,7 @@ const AuditionCard = ({
           <Avatar
             src={`data:image/png;base64,${userImg}`} //TODO: mejora y ALT
           />
-          <Heading size={"lg"}>{user.name}</Heading>
+          <Heading size={"lg"} noOfLines={1}>{user.name}</Heading>
         </Flex>
       </CardHeader>
       <CardBody>
