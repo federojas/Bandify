@@ -6,6 +6,7 @@ import Role from "./types/Role";
 interface Params {
     auditionId?: number;
     userId?: number;
+    membershipId?: number;
 }
 
 class RoleApi {
@@ -30,6 +31,7 @@ class RoleApi {
             params: {
               audition: params.auditionId,
               user: params.userId,
+              membership: params.auditionId,
             }, ...this.config
           })
           .then((response) => {

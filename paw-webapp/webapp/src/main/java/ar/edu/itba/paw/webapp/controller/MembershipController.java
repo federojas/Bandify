@@ -97,10 +97,10 @@ public class MembershipController {
         if(!band.isBand())
             throw new NotABandException();
 
-        Membership membership = new Membership.Builder(userService.getArtistById(artistId), band)
+        Membership.Builder membershipBuilder = new Membership.Builder(userService.getArtistById(artistId), band)
                 .description(form.getDescription())
-                .roles(roleService.getRolesByNames(form.getRoles())).build();
-
+                .roles(roleService.getRolesByNames(form.getRoles()));
+        Membership membership = membershipService.createMembershipInvite(membershipBuilder);
         final URI uri = uriInfo.getAbsolutePathBuilder()
                 .path(String.valueOf(membership.getId())).build();
         return Response.created(uri).build();
