@@ -194,6 +194,8 @@ export const TRANSLATIONS_EN = {
       placeHolder: "Max. 300 characters",
     },
     applyError: "Oops, an error occurred!",
+    applySuccess: "Application sent successfully!",
+    applySuccessText: "You will be notified when the band accepts or rejects your application.",
   },
   Clipboard: {
     message: "Link copied to clipboard!",
@@ -306,7 +308,8 @@ export const TRANSLATIONS_EN = {
     Subtitle4: "and this/these are the roles you will play:",
     errorCreatingInvite: "¡Oops! Could not create invite",
     errorCreatingInviteMessage: "An error ocurred",
-    successCreatingInvite: "Invite created successfully!"
+    successCreatingInvite: "Invite created successfully!",
+    noInvites: "You don't have any invitations in this section",
   },
   Alts: {
     profilePicture: "Profile picture",

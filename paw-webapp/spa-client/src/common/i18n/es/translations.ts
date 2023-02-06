@@ -224,6 +224,9 @@ export const TRANSLATIONS_ES = {
     close: "Cerrar",
     confirm: "Aceptar"
   },
+  applyError: "¡Ups, ocurrio un error!",
+  applySuccess: "¡Aplicación enviada exitosamente!",
+  applySuccessText: "¡Tu aplicación fue enviada exitosamente! Te avisaremos cuando la banda te acepte o rechace.",
   Edit: {
     name: "Nombre",
     description: "Descripción",
@@ -306,7 +309,8 @@ export const TRANSLATIONS_ES = {
     Subtitle4: "y este/estos es/son los roles que te ofrecen:",
     errorCreatingInvite: "¡Oops! No se pudo invitar al artista",
     errorCreatingInviteMessage: "Ha ocurrido un error",
-    successCreatingInvite: "¡La invitación se creó exitosamente!"
+    successCreatingInvite: "¡La invitación se creó exitosamente!",
+    noInvites: "No tienes invitaciones en esta sección",
   },
   Alts: {
     profilePicture: "Foto de perfil",

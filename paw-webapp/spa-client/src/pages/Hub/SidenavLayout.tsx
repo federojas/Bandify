@@ -80,7 +80,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
         {t("Hub.Applications")}
       </NavItem>
       <NavItem key={'invites'} href={'/invites'} icon={AiOutlineUserAdd}>
-        {t("Hub.Invites")}
+        {t("Hub.Invites")} 
       </NavItem>
 
     </Box>

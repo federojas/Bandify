@@ -48,6 +48,7 @@ const ProfileInvites = () => {
         </span>
 
         <hr className="rounded" />
+        
 
         {invites.invites.length === 0 ? (
           <p className="no-invites">{t("ProfileInvites.none")}</p>

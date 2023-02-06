@@ -80,8 +80,8 @@ const LoginBox = () => {
         const headers: any = response.getData().headers
 
         if (response) authContext.login(headers['x-jwt'], headers['x-refresh-token'])
-        // navigate(from, { replace: true });
-        navigate(-1);
+        navigate(from, { replace: true });
+        // navigate(-1);
       }
     })
   };
