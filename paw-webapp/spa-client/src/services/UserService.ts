@@ -1,15 +1,15 @@
 import ApiResult from "../api/types/ApiResult";
 import {UserCreateInput, UserUpdateInput} from "../api/types/User";
-import UserApiTest from "../api/UserApi";
+import UserApi from "../api/UserApi";
 import { User } from "../models";
 import { ErrorService } from "./ErrorService";
 import PagedContent from "../api/types/PagedContent";
 
 export default class UserService {
 
-  private userApi: UserApiTest;
+  private userApi: UserApi;
 
-  constructor(userApi: UserApiTest) {
+  constructor(userApi: UserApi) {
     this.userApi = userApi;
   }
 
@@ -84,7 +84,7 @@ export default class UserService {
             socialMedia: u.socialMedia,
             surname: u.surname
           }; return user
-        }), current.getMaxPage()),
+        }), current.getMaxPage(), current.getNextPage(), current.getPreviousPage()),
         false,
         null as any
       );

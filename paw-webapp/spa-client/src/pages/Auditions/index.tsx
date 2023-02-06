@@ -21,8 +21,11 @@ export default function AuditionsPage() {
   const auditionService = useAuditionService();
   const [currentPage] = usePagination();
   const [maxPage, setMaxPage] = useState(1);
+  const [previousPage, setPreviousPage] = useState("");
+  const [nextPage, setNextPage] = useState("");
 
-  const location = useLocation();
+
+    const location = useLocation();
   useEffect(() => {
     serviceCall(
       auditionService.getAuditions(currentPage),
@@ -30,6 +33,8 @@ export default function AuditionsPage() {
       (response) => {
         setAuditions(response ? response.getContent() : []);
         setMaxPage(response ? response.getMaxPage() : 1); //TODO revisar esto
+        setPreviousPage(response ? response.getPreviousPage() : "");
+        setNextPage(response ? response.getPreviousPage() : "");
       },
       location
     )
@@ -66,25 +71,58 @@ export default function AuditionsPage() {
         alignItems="center"
         justifyContent="center"
       >
-        <Pagination
-          defaultCurrent={currentPage}
-          total={maxPage * 9}
-          pageSize={9}
-          paginationProps={{
-            display: "flex",
-          }}
-          onChange={(page) => {
-            let searchParams = new URLSearchParams(location.search);
-            searchParams.set('page', String(page));
-            navigate({
-              pathname: location.pathname,
-              search: searchParams.toString()
-            });
-          }
-          }
-          colorScheme="blue"
-          rounded="full"
-        />
+        {/*<Pagination*/}
+        {/*  defaultCurrent={currentPage}*/}
+        {/*  total={maxPage * 9}*/}
+        {/*  pageSize={9}*/}
+        {/*  paginationProps={{*/}
+        {/*    display: "flex",*/}
+        {/*  }}*/}
+        {/*  onChange={(page) => {*/}
+        {/*    let searchParams = new URLSearchParams(location.search);*/}
+        {/*    searchParams.set('page', String(page));*/}
+        {/*    navigate({*/}
+        {/*      pathname: location.pathname,*/}
+        {/*      search: searchParams.toString()*/}
+        {/*    });*/}
+        {/*  }*/}
+        {/*  }*/}
+        {/*  colorScheme="blue"*/}
+        {/*  rounded="full"*/}
+        {/*/>*/}
+      <PaginationWrapper>
+        {currentPage > 1 && (
+          <button
+            onClick={() => {
+              navigate(previousPage);
+            }}
+            style={{ background: "none", border: "none" }}
+          >
+            <PaginationArrow
+              xRotated={true}
+              src="../../images/page-next.png"
+              alt={t("Pagination.alt.beforePage")}
+            />
+          </button>
+        )}
+        {t("Pagination.message", {
+          currentPage: currentPage,
+          maxPage: maxPage,
+        })}
+        {currentPage < maxPage && (
+          <button
+            onClick={() => {
+              navigate(nextPage);
+            }}
+            style={{ background: "none", border: "none" }}
+          >
+            <PaginationArrow
+              src="../../images/page-next.png"
+              alt={t("Pagination.alt.nextPage")}
+            />
+          </button>
+        )}
+      </PaginationWrapper>
       </Flex>
     </>
   );

@@ -4,11 +4,6 @@ import { AxiosInstance } from 'axios';
 import PagedContent from "./types/PagedContent";
 import {parseLinkHeader} from '@web3-storage/parse-link-header'
 
-interface Params {
-    auditionId?: number;
-    userId?: number;
-}
-
 class AuditionApi {
     private axiosPrivate: AxiosInstance;
 
@@ -51,11 +46,6 @@ class AuditionApi {
 
     //TODO: codigo repetido
     public getAuditions = async (page?: number, query?: string, roles?: string[], genres?: string[], locations?: string[], order?: string) => {
-        // const params = [
-        //     ...(roles || []).map(role => `role=${encodeURIComponent(role)}`),
-        //     ...(genres || []).map(genre => `genre=${encodeURIComponent(genre)}`),
-        //     ...(locations || []).map(location => `location=${encodeURIComponent(location)}`),
-        // ].join("&");
         return this.axiosPrivate
             .get(this.endpoint, {
                 params: {
@@ -89,13 +79,20 @@ class AuditionApi {
                       })
                     : [];
                 let maxPage = 1;
+                let previousPage = {};
+                let nextPage = {};
                 let parsed;
                 if(response.headers) {
                     parsed = parseLinkHeader(response.headers.link);
-                    if(parsed)
+                    if(parsed) {
                         maxPage = parseInt(parsed.last.page);
+                        if(parsed.prev)
+                            previousPage = parsed.prev;
+                        if(parsed.next)
+                            nextPage = parsed.next;
+                    }
                 }
-                return Promise.resolve(new PagedContent(auditions, maxPage));
+                return Promise.resolve(new PagedContent(auditions, maxPage, nextPage, previousPage));
             });
     };
 
@@ -126,13 +123,20 @@ class AuditionApi {
                     })
                     : [];
                 let maxPage = 1;
+                let previousPage = {};
+                let nextPage = {};
                 let parsed;
                 if(response.headers) {
                     parsed = parseLinkHeader(response.headers.link);
-                    if(parsed)
+                    if(parsed) {
                         maxPage = parseInt(parsed.last.page);
+                        if(parsed.prev)
+                            previousPage = parsed.prev;
+                        if(parsed.next)
+                            nextPage = parsed.next;
+                    }
                 }
-                return Promise.resolve(new PagedContent(auditions, maxPage));
+                return Promise.resolve(new PagedContent(auditions, maxPage, nextPage, previousPage));
             });
     };
 

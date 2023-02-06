@@ -126,13 +126,20 @@ class UserApi {
                     })
                     : [];
                 let maxPage = 1;
+                let previousPage = {};
+                let nextPage = {};
                 let parsed;
                 if(response.headers) {
                     parsed = parseLinkHeader(response.headers.link);
-                    if(parsed)
+                    if(parsed) {
                         maxPage = parseInt(parsed.last.page);
+                        if(parsed.prev)
+                            previousPage = parsed.prev;
+                        if(parsed.next)
+                            nextPage = parsed.next;
+                    }
                 }
-                return Promise.resolve(new PagedContent(users, maxPage));
+                return Promise.resolve(new PagedContent(users, maxPage, nextPage, previousPage));
             })
     };
 

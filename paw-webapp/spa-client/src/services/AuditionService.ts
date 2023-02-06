@@ -1,16 +1,15 @@
-// import {auditionApi} from "../api";
 import { Audition, Application } from "../models";
 import { ErrorService } from "./ErrorService";
 import ApiResult from "../api/types/ApiResult";
 import { AuditionInput } from "../api/types/Audition";
 import PostResponse from "../api/types/PostResponse";
-import AuditionApiTest from "../api/AuditionApi";
+import AuditionApi from "../api/AuditionApi";
 import PagedContent from "../api/types/PagedContent";
 
 export default class AuditionService {
-  private auditionApi: AuditionApiTest;
+  private auditionApi: AuditionApi;
 
-  constructor(auditionApi: AuditionApiTest) {
+  constructor(auditionApi: AuditionApi) {
     this.auditionApi = auditionApi;
   }
 
@@ -59,7 +58,7 @@ export default class AuditionService {
               applications: a.applications,
               ownerId: parseInt(a.owner.split('/')[a.owner.split('/').length - 1])
             }; return aud
-          }), response.getMaxPage()),
+          }), response.getMaxPage(), response.getNextPage(), response.getPreviousPage()),
         false,
         null as any
       );
@@ -86,7 +85,7 @@ export default class AuditionService {
                   applications: a.applications,
                   ownerId: parseInt(a.owner.split('/')[a.owner.split('/').length - 1])
                 }; return aud
-              }), response.getMaxPage()),
+              }), response.getMaxPage(), response.getNextPage(), response.getPreviousPage()),
           false,
           null as any
       );

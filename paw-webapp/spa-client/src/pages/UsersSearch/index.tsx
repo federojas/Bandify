@@ -10,7 +10,6 @@ import { PaginationArrow, PaginationWrapper } from "../../components/Pagination/
 import ProfileCard from "../../components/ProfileCard/ProfileCard";
 import { getQueryOrDefault, getQueryOrDefaultArray, useQuery } from "../../hooks/useQuery";
 import DiscoverSearchBar from "../../components/SearchBars/DiscoverSearchBar";
-import Pagination from "@choc-ui/paginator";
 
 interface SearchParams {
   searchTerms?: string;
@@ -27,6 +26,8 @@ const Index = () => {
 
   const [currentPage] = usePagination();
   const [maxPage, setMaxPage] = useState(1);
+  const [previousPage, setPreviousPage] = useState("");
+  const [nextPage, setNextPage] = useState("");
   const location = useLocation();
   const userService = useUserService();
   const [searchTerms, setSearchTerms] = React.useState<string>(getQueryOrDefault(query, "query", ""));
@@ -88,70 +89,40 @@ const Index = () => {
         alignItems="center"
         justifyContent="center"
       >
-        <Pagination
-          defaultCurrent={currentPage}
-          total={maxPage * 8}
-          pageSize={8}
-          paginationProps={{
-            display: "flex",
-          }}
-          onChange={(page) => {
-            let searchParams = new URLSearchParams(location.search);
-            searchParams.set('page', String(page));
-            navigate({
-              pathname: location.pathname,
-              search: searchParams.toString()
-            });
-          }
-          }
-          colorScheme="blue"
-          rounded="full"
-        />
+        <PaginationWrapper>
+          {currentPage > 1 && (
+              <button
+                  onClick={() => {
+                    navigate(previousPage);
+                  }}
+                  style={{ background: "none", border: "none" }}
+              >
+                <PaginationArrow
+                    xRotated={true}
+                    src="../../images/page-next.png"
+                    alt={t("Pagination.alt.beforePage")}
+                />
+              </button>
+          )}
+          {t("Pagination.message", {
+            currentPage: currentPage,
+            maxPage: maxPage,
+          })}
+          {currentPage < maxPage && (
+              <button
+                  onClick={() => {
+                    navigate(nextPage);
+                  }}
+                  style={{ background: "none", border: "none" }}
+              >
+                <PaginationArrow
+                    src="../../images/page-next.png"
+                    alt={t("Pagination.alt.nextPage")}
+                />
+              </button>
+          )}
+        </PaginationWrapper>
       </Flex>;
-
-      {/* <PaginationWrapper>
-        {currentPage > 1 && (
-          <button
-            onClick={() => {
-              let searchParams = new URLSearchParams(location.search);
-              searchParams.set('page', (currentPage - 1).toString());
-              navigate({
-                pathname: location.pathname,
-                search: searchParams.toString()
-              });
-            }}
-            style={{ background: "none", border: "none" }}
-          >
-            <PaginationArrow
-              xRotated={true}
-              src="../../images/page-next.png"
-              alt={t("Pagination.alt.beforePage")}
-            />
-          </button>
-        )}
-        {t("Pagination.message", {
-          currentPage: currentPage,
-          maxPage: maxPage,
-        })}
-        {currentPage < maxPage && (
-          <button
-            onClick={() => {
-              let searchParams = new URLSearchParams(location.search);
-              searchParams.set('page', (currentPage + 1).toString());
-              navigate({
-                pathname: location.pathname,
-                search: searchParams.toString()
-              });
-            }}
-            style={{ background: "none", border: "none" }}
-          >
-            <PaginationArrow
-              src="../../images/page-next.png"
-              alt={t("Pagination.alt.nextPage")}
-            />
-          </button>
-        )}
-      </PaginationWrapper> */}
     </>
   );
 }

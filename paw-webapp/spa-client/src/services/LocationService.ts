@@ -1,13 +1,13 @@
-import LocationApiTest from "../api/LocationApi";
+import LocationApi from "../api/LocationApi";
 import ApiResult from "../api/types/ApiResult";
 import { Location } from "../models";
 import {ErrorService} from "./ErrorService";
 
 export default class LocationService {
 
-    private locationApi: LocationApiTest;
+    private locationApi: LocationApi;
 
-    constructor(locationApi: LocationApiTest) {
+    constructor(locationApi: LocationApi) {
         this.locationApi = locationApi;
     }
     public async getLocations(): Promise<ApiResult<Location[]>> {

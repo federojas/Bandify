@@ -1,13 +1,13 @@
-import GenreApiTest from "../api/GenreApi";
+import GenreApi from "../api/GenreApi";
 import ApiResult from "../api/types/ApiResult";
 import { Genre } from "../models";
 import {ErrorService} from "./ErrorService";
 
 export default class GenreService {
 
-    private genreApi: GenreApiTest;
+    private genreApi: GenreApi;
 
-    constructor(genreApi: GenreApiTest) {
+    constructor(genreApi: GenreApi) {
         this.genreApi = genreApi;
     }
     public async getGenres(): Promise<ApiResult<Genre[]>> {

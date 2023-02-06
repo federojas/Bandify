@@ -28,6 +28,7 @@ import { BiBullseye } from "react-icons/bi";
 import GenreTag from "../../components/Tags/GenreTag";
 import RoleTag from "../../components/Tags/RoleTag";
 import { useUserService } from "../../contexts/UserService";
+import {PaginationArrow, PaginationWrapper} from "../../components/Pagination/pagination";
 
 const PublicBandAudition = (
   {
@@ -108,6 +109,8 @@ const PublicBandAuditions = () => {
   const navigate = useNavigate();
   const [currentPage] = usePagination();
   const [maxPage, setMaxPage] = useState(1);
+  const [previousPage, setPreviousPage] = useState("");
+  const [nextPage, setNextPage] = useState("");
   const location = useLocation();
   const [bandImg, setBandImg] = useState<string | undefined>(undefined);
 
@@ -182,25 +185,40 @@ const PublicBandAuditions = () => {
         alignItems="center"
         justifyContent="center"
       >
-        <Pagination
-          defaultCurrent={currentPage}
-          total={maxPage * 9}
-          pageSize={9}
-          paginationProps={{
-            display: "flex",
-          }}
-          onChange={(page) => {
-            let searchParams = new URLSearchParams(location.search);
-            searchParams.set('page', String(page));
-            navigate({
-              pathname: location.pathname,
-              search: searchParams.toString()
-            });
-          }
-          }
-          colorScheme="blue"
-          rounded="full"
-        />
+          {/*TODO: ver si se puede hacer componente*/}
+          <PaginationWrapper>
+              {currentPage > 1 && (
+                  <button
+                      onClick={() => {
+                          navigate(previousPage);
+                      }}
+                      style={{ background: "none", border: "none" }}
+                  >
+                      <PaginationArrow
+                          xRotated={true}
+                          src="../../images/page-next.png"
+                          alt={t("Pagination.alt.beforePage")}
+                      />
+                  </button>
+              )}
+              {t("Pagination.message", {
+                  currentPage: currentPage,
+                  maxPage: maxPage,
+              })}
+              {currentPage < maxPage && (
+                  <button
+                      onClick={() => {
+                          navigate(nextPage);
+                      }}
+                      style={{ background: "none", border: "none" }}
+                  >
+                      <PaginationArrow
+                          src="../../images/page-next.png"
+                          alt={t("Pagination.alt.nextPage")}
+                      />
+                  </button>
+              )}
+          </PaginationWrapper>
       </Flex>
     </VStack>
   )

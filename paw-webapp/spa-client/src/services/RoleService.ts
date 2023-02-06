@@ -1,13 +1,13 @@
-import RoleApiTest from "../api/RoleApi";
+import RoleApi from "../api/RoleApi";
 import ApiResult from "../api/types/ApiResult";
 import { Role } from "../models";
 import {ErrorService} from "./ErrorService";
 
 export default class RoleService {
 
-    private RoleApi: RoleApiTest;
+    private RoleApi: RoleApi;
 
-    constructor(RoleApi: RoleApiTest) {
+    constructor(RoleApi: RoleApi) {
         this.RoleApi = RoleApi;
     }
     public async getRoles(): Promise<ApiResult<Role[]>> {
