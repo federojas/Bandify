@@ -111,8 +111,6 @@ const AddToBandButton = ({ user }: { user: User }) => {
       description: data.description,
     }
     console.log(input)
-    console.log("A ver el membershipService: " + membershipService);
-    console.log("A ver el roleService: " + roleService);
     serviceCall(
       membershipService.inviteToBand(input),
       navigate,
@@ -209,8 +207,10 @@ const UserProfile = () => {
   const authContext = useContext(AuthContext);
   const currentUserId = Number(authContext.userId);
   const [currentUser, setCurrentUser] = React.useState<User>();
+  const [canInvite, setCanInvite] = React.useState<Boolean>(false);
   const [userImg, setUserImg] = useState<string | undefined>(undefined)
   const userService = useUserService();
+  const membershipService = useMembershipService();
   const filterAvailable = require(`../../images/available.png`);
   const bg = useColorModeValue('white', 'gray.900')
 
@@ -233,7 +233,7 @@ const UserProfile = () => {
   }, [])
 
   useEffect(() => {
-    if (user) {
+    if (user && currentUser) {
       serviceCall(
         userService.getProfileImageByUserId(user.id),
         navigate,
@@ -242,6 +242,14 @@ const UserProfile = () => {
             response
           )
         },
+      )
+
+      serviceCall(
+        membershipService.canInvite(currentUser?.id as number, user?.id as number),
+        navigate,
+        (response: any) => {
+          setCanInvite(response);
+        }
       )
     }
   }, [user, navigate])
@@ -308,7 +316,7 @@ const UserProfile = () => {
             </HStack>
             <VStack justify={'center'}>
 
-              {!user?.band && user?.available && currentUser?.band &&
+              {!user?.band && canInvite && user?.available && currentUser?.band &&
                 <AddToBandButton user={user} />
               }
               {user?.band &&

@@ -67,7 +67,7 @@ public class MembershipController {
     public Response getUserMemberships(@QueryParam("user") final Long userId,
                                        @QueryParam("state") @DefaultValue("PENDING") final String state,
                                        @QueryParam("page") @DefaultValue("1") final int page,
-                                       @QueryParam("preview") @DefaultValue("true") final Boolean preview) {
+                                       @QueryParam("preview") @DefaultValue("false") final Boolean preview) {
         if(userId == null)
             throw new BandifyBadRequestException("Parameter 'user' is required");
         final User user = userService.getUserById(userId).orElseThrow(UserNotFoundException::new);

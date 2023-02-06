@@ -8,7 +8,7 @@ import Membership from "../models/Membership";
 import { ErrorService } from "./ErrorService";
 
 interface Params {
-    userId: number;
+    user: number;
     state?: string;
     preview?: boolean;
 }
@@ -105,5 +105,25 @@ export default class MembershipService {
             return ErrorService.returnApiError(error);
         }
 
+    }
+
+    public async canInvite(bandId: number, artistId: number) : Promise<ApiResult<Boolean>> {
+        console.log("canInvite (service) con bandId: "+ bandId) + " y el user ID: " + artistId;
+        try {
+            const members = await this.getUserMemberships({user: bandId, state: "ACCEPTED"});
+            const pendings = await this.getUserMemberships({user: bandId, state: "PENDING"});
+            if(!members.hasFailed()) {
+                if(!pendings.hasFailed()) {
+                    const membersIds = members.getData().map( (member) => member.artist.id );
+                    const pendingsIds = pendings.getData().map( (member) => member.artist.id );
+                    return new ApiResult( !(membersIds.includes(artistId) || pendingsIds.includes(artistId)), false, null as any);
+                } else {
+                    throw pendings.getError();
+                }
+            }
+            throw members.getError();
+        } catch (error: any) {
+            return ErrorService.returnApiError(error);
+        }
     }
 }

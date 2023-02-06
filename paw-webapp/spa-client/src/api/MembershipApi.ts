@@ -3,7 +3,7 @@ import Membership from "./types/Membership";
 
 
 interface GetParams {
-    userId: number;
+    user: number;
     state?: string;
     preview?: boolean;
 }
@@ -59,7 +59,7 @@ class MembershipApi {
     public getUserMemberships = async (params: GetParams) => {
         return this.axiosPrivate.get(this.endpoint, {
             params: {
-                userId: params.userId,
+                user: params.user,
                 state: params.state,
                 preview: params.preview,
             }, ...this.listConfig
