@@ -147,7 +147,9 @@ const PublicBandAuditions = () => {
         fontWeight="bold">{t("PublicBandAuditions.Title")}</Heading>
       <Flex
         as="a"
-        href={"/users/" + id}
+        onClick={() => {
+          navigate("/users/" + id);
+        }}
         flex="1"
         gap="4"
         alignItems="center"

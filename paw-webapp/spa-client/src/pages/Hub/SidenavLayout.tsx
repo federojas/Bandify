@@ -30,7 +30,7 @@ import { IconType } from 'react-icons';
 import { ReactText } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AiOutlineUserAdd } from 'react-icons/ai';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 interface LinkItemProps {
   name: string;
@@ -65,7 +65,6 @@ interface SidebarProps extends BoxProps {
 
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
   const {t} = useTranslation();
-  
   return (
     <Box
       bg={useColorModeValue('white', 'gray.900')}
@@ -96,9 +95,12 @@ interface NavItemProps extends FlexProps {
 const NavItem = ({ icon, children, href, ...rest }: NavItemProps) => {
   const location = useLocation();
   const isSelected = location.pathname === href;
+  const navigate = useNavigate();
 
   return (
-    <Link href={href} style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
+    <Link onClick={() => {
+      navigate(href)
+    }} style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
       <Flex
         align="center"
         p="4"

@@ -4,7 +4,6 @@ const RoleTag = ({ role, size = 'lg', marginY = 2 }: { role: string, size?: stri
   return (
     <Tag
       as="a"
-      href={"#"}
       marginY={marginY}
       size={size}
       variant="solid"

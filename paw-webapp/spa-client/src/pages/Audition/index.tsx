@@ -144,6 +144,8 @@ const AuditionCard = ({
 }) => {
   const date = dayjs(audition.creationDate).format('DD/MM/YYYY')
   const { userId } = useContext(AuthContext);
+  const navigate = useNavigate()
+
   return (
     <Card
       maxW={"3xl"}
@@ -156,7 +158,10 @@ const AuditionCard = ({
       <CardHeader>
         <Flex
           as="a"
-          href={userId === audition.ownerId ? "/profile" : "/users/" + audition.ownerId}
+          cursor="pointer"
+          onClick={() => {
+            navigate(userId === audition.ownerId ? "/profile" : "/users/" + audition.ownerId)
+          }}
           flex="1"
           gap="4"
           alignItems="center"

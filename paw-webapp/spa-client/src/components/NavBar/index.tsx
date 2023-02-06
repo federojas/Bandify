@@ -47,10 +47,10 @@ const NavLink = ({
 }) => {
   const location = useLocation();
   const toHighlight = location.pathname.startsWith(link);
-
+  const navigate = useNavigate();
   return (
     <Button
-      as="a"
+      cursor={'pointer'}
       px={3}
       py={1}
       rounded={"md"}
@@ -59,7 +59,9 @@ const NavLink = ({
         textDecoration: "none",
         bg: useColorModeValue("gray.200", "gray.700"),
       }}
-      href={link}
+      onClick={() => {
+        navigate(link)
+      }}
       leftIcon={icon}
     >
       {children}
@@ -112,9 +114,9 @@ function Nav() {
         />
         <HStack spacing={8} alignItems={"center"}>
           <Box>
-            <a href="/" className="logo-section">
+            <a onClick={() => {navigate('/')}} className="logo-section">
               <HStack>
-                <Image src={BandifyLogo} w={8} alt={t("Alts.bandify")}/>
+                <Image src={BandifyLogo} w={8} alt={t("Alts.bandify")} />
                 <span className="bandify-title">bandify</span>
               </HStack>
             </a>
@@ -134,21 +136,22 @@ function Nav() {
               {
                 isBand &&
                 <Button
-                  as='a'
                   variant={"solid"}
                   colorScheme={"teal"}
                   size={"md"}
                   mx={4}
                   px={6}
                   leftIcon={<AddIcon />}
-                  href={'/newAudition'}
+                  onClick={() => {
+                    navigate('/newAudition')
+                  }
+                  }
                 >
                   {t("NavBar.post")}
                 </Button>
               }
 
               <Button
-                as="a"
                 px={4}
                 py={1}
                 rounded={"md"}
@@ -157,7 +160,9 @@ function Nav() {
                   textDecoration: "none",
                   bg: bg27,
                 }}
-                href={isBand ? '/profile/auditions' : '/applications'}
+                onClick={() => {
+                  navigate(isBand ? '/profile/auditions' : '/applications')
+                }}
               >
                 <RiAppsFill />
               </Button>
@@ -179,7 +184,7 @@ function Nav() {
                   />
                 </MenuButton>
                 <MenuList>
-                  <MenuItem as="a" href="/profile">
+                  <MenuItem onClick={() => { navigate('/profile') }}>
                     {t("NavBar.profileAlt")}
                   </MenuItem>
                   <MenuDivider />
@@ -199,7 +204,7 @@ function Nav() {
                 fontSize={"sm"}
                 fontWeight={400}
                 variant={"link"}
-                href={"/login"}
+                onClick={() => { navigate('/login') }}
               >
                 {t("NavBar.login")}
               </Button>
@@ -213,7 +218,7 @@ function Nav() {
                   bg: "blue.300",
                 }}
                 as={"a"}
-                href={"/register"}
+                onClick={() => { navigate('/register') }}
               >
                 {t("NavBar.register")}
               </Button>
@@ -233,117 +238,7 @@ function Nav() {
         </Box>
       ) : null}
     </Box>
-    // <nav>
-    //   <div className="nav-container nav-div">
-    //     <a href="/" className="logo-section">
-    //       <img src={BandifyLogo} className="bandify-logo" alt="Bandify" />
-    //       <span className="bandify-title">bandify</span>
-    //     </a>
 
-    //     <div className="w-full md:block md:w-auto" id="mobile-menu">
-    //       <ul>
-    //         <ToggleColorMode />
-    //         <li>
-    //           <a
-    //             href="/auditions"
-    //             className="block py-2 pr-4 pl-3 text-white rounded text-2xl"
-    //           >
-    //             Auditions
-    //           </a>
-    //         </li>
-    //         {/* isLogged && */}
-    //         {
-    //           <li>
-    //             <a
-    //               href="/users"
-    //               className="block py-2 pr-4 pl-3 text-white rounded text-2xl"
-    //             >
-    //               Discover
-    //             </a>
-    //           </li>
-    //         }
-    //         {!isLogged && (
-    //           <>
-    //             <li>
-    //               <a
-    //                 href="/aboutUs"
-    //                 className="block py-2 pr-4 pl-3 text-white rounded text-2xl"
-    //               >
-    //                 About Us
-    //               </a>
-    //             </li>
-    //             {/* param.navItem !== 0 && param.navItem !== 5 && */}
-    //             {
-    //               <li>
-    //                 <div className="flex">
-    //                   <a href="/login" className="purple-login-button">
-    //                     Login
-    //                   </a>
-    //                 </div>
-    //               </li>
-    //             }
-    //           </>
-    //         )}
-    //         {/* TODO isLogged && */}
-    //         {
-    //           <>
-    //             {/* hasRole('BAND') && */}
-    //             {
-    //               <li>
-    //                 <a
-    //                   href="/newAudition"
-    //                   className="block py-2 pr-4 pl-3 text-white rounded text-2xl"
-    //                 >
-    //                   Post
-    //                 </a>
-    //               </li>
-    //               // TODO: Add "Manager" con distinto href
-    //             }
-    //             {/* hasRole('ARTIST') && */}
-    //             {
-    //               <li>
-    //                 <a
-    //                   href="/profile/applications"
-    //                   className="block py-2 pr-4 pl-3 text-white rounded text-2xl"
-    //                 >
-    //                   <img
-    //                     src={ManagerIcon}
-    //                     className="profile-icon-img"
-    //                     alt="Manager"
-    //                   />{" "}
-    //                 </a>
-    //               </li>
-    //             }
-    //             <li>
-    //               <a
-    //                 href="/profile"
-    //                 className="block py-2 pr-4 pl-3 text-white rounded text-2xl"
-    //               >
-    //                 <img
-    //                   src={ProfileIcon}
-    //                   className="profile-icon-img"
-    //                   alt="Profile"
-    //                 />
-    //               </a>
-    //             </li>
-    //             <li>
-    //               <a
-    //                 href="/logout"
-    //                 className="block py-2 pr-4 pl-3 text-white rounded text-2xl"
-    //               >
-    //                 <img
-    //                   src={LogoutIcon}
-    //                   className="profile-icon-img"
-    //                   alt="Logout"
-    //                 />
-    //               </a>
-    //             </li>
-    //           </>
-    //         }
-    //       </ul>
-    //     </div>
-    //   </div>
-    // </nav>
   );
 }
 
