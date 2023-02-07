@@ -12,7 +12,6 @@ import {
 } from "../../components/Pagination/pagination";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import { useAuditionService } from "../../contexts/AuditionService";
-import Pagination from "@choc-ui/paginator";
 
 export default function AuditionsPage() {
   const { t } = useTranslation();
@@ -23,9 +22,8 @@ export default function AuditionsPage() {
   const [maxPage, setMaxPage] = useState(1);
   const [previousPage, setPreviousPage] = useState("");
   const [nextPage, setNextPage] = useState("");
+  const location = useLocation();
 
-
-    const location = useLocation();
   useEffect(() => {
     serviceCall(
       auditionService.getAuditions(currentPage),
@@ -71,25 +69,7 @@ export default function AuditionsPage() {
         alignItems="center"
         justifyContent="center"
       >
-        {/*<Pagination*/}
-        {/*  defaultCurrent={currentPage}*/}
-        {/*  total={maxPage * 9}*/}
-        {/*  pageSize={9}*/}
-        {/*  paginationProps={{*/}
-        {/*    display: "flex",*/}
-        {/*  }}*/}
-        {/*  onChange={(page) => {*/}
-        {/*    let searchParams = new URLSearchParams(location.search);*/}
-        {/*    searchParams.set('page', String(page));*/}
-        {/*    navigate({*/}
-        {/*      pathname: location.pathname,*/}
-        {/*      search: searchParams.toString()*/}
-        {/*    });*/}
-        {/*  }*/}
-        {/*  }*/}
-        {/*  colorScheme="blue"*/}
-        {/*  rounded="full"*/}
-        {/*/>*/}
+
       <PaginationWrapper>
         {currentPage > 1 && (
           <button
