@@ -61,7 +61,6 @@ const AuditionSearch = () => {
   };
 
   useEffect(() => {
-    console.log(searchTerms, roles, genres, locations, order);
     serviceCall(
       auditionService.getAuditions(currentPage, searchTerms, roles, genres, locations, order),
       navigate,

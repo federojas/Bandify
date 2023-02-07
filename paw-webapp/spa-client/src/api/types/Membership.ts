@@ -4,6 +4,7 @@ type Membership = {
     bandId: number;
     description: string;
     state: string;
+    roles: string[];
 }
 
 export default Membership;

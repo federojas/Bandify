@@ -60,8 +60,7 @@ public class MembershipController {
         if(userId == null)
             throw new BandifyBadRequestException("Parameter 'user' is required");
         final User user = userService.getUserById(userId).orElseThrow(UserNotFoundException::new);
-        if(!user.isBand())
-            throw new NotABandException();
+
         final List<MembershipDto> memberships;
         final List<Membership> membershipsAux;
         if(preview)
@@ -71,12 +70,14 @@ public class MembershipController {
         else
             membershipsAux = membershipService.getUserMemberships(user, Enum.valueOf(MembershipState.class, state), page);
 
+        if(membershipsAux.isEmpty()) {
+            return Response.noContent().build();
+        }
+
         memberships = membershipsAux.stream().map(m -> MembershipDto.fromMembership(uriInfo, m))
                     .collect(Collectors.toList());
 
-        if(memberships.isEmpty()) {
-            return Response.noContent().build();
-        }
+
         Response.ResponseBuilder response = Response.ok(new GenericEntity<List<MembershipDto>>(memberships) {});
         PaginationLinkBuilder.getResponsePaginationLinks(
                 response, uriInfo, page,  state == null?

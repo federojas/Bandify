@@ -50,6 +50,7 @@ class MembershipApi {
                 bandId: bandId,
                 state: data.state,
                 description: data.description,
+                roles: data.roles
             }
 
             return Promise.resolve(membership);
@@ -79,6 +80,7 @@ class MembershipApi {
                                 bandId: bandId,
                                 state: membership.state,
                                 description: membership.description,
+                                roles: membership.roles
                             };
                         })
                         : [];
