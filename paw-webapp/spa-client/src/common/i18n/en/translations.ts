@@ -350,6 +350,25 @@ export const TRANSLATIONS_EN = {
     Text: "Please check your inbox and click on the link to verify your account.",
     DidntReceive: "If you don't receive the email, please check your spam folder or click on the button below to resend the email.",
     Resend: "Resend email",
+  },
+  ResetPassword: {
+    Title: "Forgot your password?",
+    Subtitle: "You will get an email with a link to reset your password.",
+    EmailPlaceholder: "email@example.com",
+    RequestReset: "Request reset",
+  },
+  ResetPwdEmailSent: {
+    Title: "Email sent successfully!",
+    Subtitle: "We have sent an email to your email address.",
+    Text: "Please check your inbox and click on the link to reset your password.",
+    DidntReceive: "If you don't receive the email, please check your spam folder or click on the button below to resend the email.",
+    Resend: "Resend email",
+  },
+  NewPassword: {
+   Title: "Enter new pasword",
+   Password: "Password",
+   ConfirmPassword: "Confirm password",
+   Submit: "Submit", 
   }
 };
 

@@ -169,7 +169,9 @@ const LoginBox = () => {
                   align={"start"}
                   justify={"space-between"}
                 >
-                  <Link color={"blue.400"} href={"/forgot-password"}>
+                  <Link color={"blue.400"} onClick={() => {
+                    navigate("/resetPassword")
+                  }}>
                     {t("Login.forgotPassword")}
                   </Link>
                 </Stack>

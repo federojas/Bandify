@@ -37,6 +37,8 @@ import Error from "./pages/Error"
 import PublicBandAuditions from "./pages/User/PublicBandAuditions";
 import AuditionApplicants from "./pages/Audition/Applicants";
 import EmailSent from "./pages/Results/EmailSent";
+import ResetPwdEmailSent from "./pages/Results/ResetPwdEmailSent";
+import NewPassword from "./pages/Results/NewPassword";
 
 function App() {
   // TODO: revisar las paginas anonimas, comunes a todos o privadas
@@ -54,7 +56,7 @@ function App() {
           <Route path="profile" element={<PrivateRoute component={Profile} roles={["ARTIST", "BAND"]} />} />
           <Route path="users" element={<Discover />} />
           <Route path="users/:id" element={<User />} />
-          <Route path="forgot-password" element={<ForgotPassword />} />
+          <Route path="resetPassword" element={<ForgotPassword />} />
           <Route path="auditions" element={<AuditionsPage />} />
           <Route path="auditions/:id" element={<PrivateRoute component={Audition} roles={["ARTIST", "BAND"]} />} />
           <Route path="auditions/:id/edit" element={<PrivateRoute component={EditAudition} roles={["BAND"]} />} />
@@ -62,8 +64,8 @@ function App() {
           <Route path="newAudition" element={<PrivateRoute component={NewAudition} roles={["BAND"]} />} />
           <Route path="auditions/search" element={<AuditionSearch />} />
           <Route path="users/search" element={<Index />} />
-          <Route path="applications" element={<PrivateRoute component={Applications} roles={["ARTIST"]}/>} />
-          <Route path="invites" element={<PrivateRoute component={Invites} roles={["ARTIST"]}/>} />
+          <Route path="applications" element={<PrivateRoute component={Applications} roles={["ARTIST"]} />} />
+          <Route path="invites" element={<PrivateRoute component={Invites} roles={["ARTIST"]} />} />
           {/* TODO: falta hacer los components de todo esto */}
           <Route path="profile/auditions" element={<PrivateRoute component={BandAuditions} roles={["BAND"]} />} />
           {/*TODO: PORQ NO ANDA?????? TIRA 403*/}
@@ -73,7 +75,9 @@ function App() {
           <Route path="profile/editBand" element={<PrivateRoute component={EditBand} roles={["BAND"]} />} />
           <Route path="auditions/:id/applicants" element={<PrivateRoute component={AuditionsPage} roles={["BAND"]} />} />
           <Route path='error' element={<Error />} />
-          <Route path='emailSent' element={<EmailSent/>}  />
+          <Route path='emailSent' element={<EmailSent />} />
+          <Route path='resetPassword/emailSent' element={<ResetPwdEmailSent />} />
+          <Route path='newPassword' element={<NewPassword />} />
         </Route>
       </Routes>
     </Router>

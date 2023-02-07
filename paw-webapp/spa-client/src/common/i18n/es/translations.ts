@@ -351,4 +351,23 @@ export const TRANSLATIONS_ES = {
     DidntReceive: "Si no recibiste el email, por favor revisa tu carpeta de spam o haz click en el botón de abajo para reenviar el email.",
     Resend: "Reenviar email",
   },
+  ResetPassword: {
+    Title: "¿Olvidaste tu contraseña?",
+    Subtitle: "Te enviaremos un email con un link para restablecer tu contraseña.",
+    EmailPlaceholder: "email@example.com",
+    RequestReset: "Solicitar restablecimiento",
+  },
+  ResetPwdEmailSent: {
+    Title: "¡Email enviado con éxito!",
+    Subtitle: "Hemos enviado un email a tu dirección de email.",
+    Text: "Por favor revisa tu bandeja de entrada y haz click en el link para restablecer tu contraseña.",
+    DidntReceive: "Si no recibiste el email, por favor revisa tu carpeta de spam o haz click en el botón de abajo para reenviar el email.",
+    Resend: "Reenviar email",
+  },
+  NewPassword: {
+    Title: "Ingresa una nueva contraseña",
+    Password: "Contraseña",
+    ConfirmPassword: "Confirmar contraseña",
+    Submit: "Enviar",
+  }
 };
