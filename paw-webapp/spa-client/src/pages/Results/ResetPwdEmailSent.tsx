@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 export default function ResetPwdEmailSent() {
   const { t } = useTranslation()
-    const [isDisabled, setIsDisabled] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
 
   useEffect(() => {
     if (isDisabled) {
@@ -34,7 +34,9 @@ export default function ResetPwdEmailSent() {
           <Text color={'gray.500'} as={'i'} fontSize={'large'}>
             {t("ResetPwdEmailSent.DidntReceive")}
           </Text>
-          <Button colorScheme="blue" variant="outline">
+          <Button colorScheme="blue" variant="outline"
+            isDisabled={isDisabled}
+            onClick={() => setIsDisabled(true)}>
             {t("ResetPwdEmailSent.Resend")}
           </Button>
 
