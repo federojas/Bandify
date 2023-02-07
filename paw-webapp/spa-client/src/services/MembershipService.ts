@@ -108,7 +108,7 @@ export default class MembershipService {
     }
 
     public async canInvite(bandId: number, artistId: number) : Promise<ApiResult<Boolean>> {
-        console.log("canInvite (service) con bandId: "+ bandId) + " y el user ID: " + artistId;
+        console.log("canInvite (service) con bandId: "+ bandId + " y el user ID: " + artistId);
         try {
             const members = await this.getUserMemberships({user: bandId, state: "ACCEPTED"});
             const pendings = await this.getUserMemberships({user: bandId, state: "PENDING"});

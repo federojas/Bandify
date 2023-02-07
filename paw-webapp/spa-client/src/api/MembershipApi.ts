@@ -71,7 +71,7 @@ class MembershipApi {
                         data.map((membership: any) => {
                             const artistLink = membership.artist.split('/')
                             const artistId: number = parseInt(artistLink[artistLink.length - 1]);
-                            const bandLink = membership.artist.split('/')
+                            const bandLink = membership.band.split('/')
                             const bandId: number = parseInt(bandLink[bandLink.length - 1]);
                             return {
                                 id: membership.id,
