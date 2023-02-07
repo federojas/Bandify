@@ -24,6 +24,7 @@ import { PaginationArrow, PaginationWrapper } from "../../components/Pagination/
 import { useAuditionService } from "../../contexts/AuditionService";
 import { getQueryOrDefault, getQueryOrDefaultArray, useQuery } from "../../hooks/useQuery";
 import React from "react";
+import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 
 interface SearchParams {
   searchTerms?: string;
@@ -123,11 +124,8 @@ const AuditionSearch = () => {
                   }}
                   style={{ background: "none", border: "none" }}
               >
-                <PaginationArrow
-                    xRotated={true}
-                    src="../../images/page-next.png"
-                    alt={t("Pagination.alt.beforePage")}
-                />
+              <ChevronLeftIcon mr={4}/>
+
               </button>
           )}
           {t("Pagination.message", {
@@ -154,10 +152,8 @@ const AuditionSearch = () => {
                   }}
                   style={{ background: "none", border: "none" }}
               >
-                <PaginationArrow
-                    src="../../images/page-next.png"
-                    alt={t("Pagination.alt.nextPage")}
-                />
+            <ChevronRightIcon ml={4}/>
+
               </button>
           )}
         </PaginationWrapper>

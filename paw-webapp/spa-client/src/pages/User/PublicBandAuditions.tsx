@@ -28,6 +28,7 @@ import RoleTag from "../../components/Tags/RoleTag";
 import { useUserService } from "../../contexts/UserService";
 import {PaginationArrow, PaginationWrapper} from "../../components/Pagination/pagination";
 import {getQueryOrDefault, useQuery} from "../../hooks/useQuery";
+import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 
 const PublicBandAudition = (
   {
@@ -197,11 +198,8 @@ const PublicBandAuditions = () => {
                       }}
                       style={{ background: "none", border: "none" }}
                   >
-                      <PaginationArrow
-                          xRotated={true}
-                          src="../../images/page-next.png"
-                          alt={t("Pagination.alt.beforePage")}
-                      />
+            <ChevronLeftIcon mr={4}/>
+
                   </button>
               )}
               {t("Pagination.message", {
@@ -228,10 +226,8 @@ const PublicBandAuditions = () => {
                       }}
                       style={{ background: "none", border: "none" }}
                   >
-                      <PaginationArrow
-                          src="../../images/page-next.png"
-                          alt={t("Pagination.alt.nextPage")}
-                      />
+            <ChevronRightIcon ml={4}/>
+
                   </button>
               )}
           </PaginationWrapper>

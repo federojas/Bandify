@@ -12,6 +12,7 @@ import {
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuditionService } from "../../contexts/AuditionService";
 import {getQueryOrDefault, useQuery} from "../../hooks/useQuery";
+import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 
 export default function AuditionsPage() {
   const { t } = useTranslation();
@@ -92,11 +93,7 @@ export default function AuditionsPage() {
             }}
             style={{ background: "none", border: "none" }}
           >
-            <PaginationArrow
-              xRotated={true}
-              src="../../images/page-next.png"
-              alt={t("Pagination.alt.beforePage")}
-            />
+            <ChevronLeftIcon mr={4}/>
           </button>
         )}
         {t("Pagination.message", {
@@ -123,10 +120,7 @@ export default function AuditionsPage() {
             }}
             style={{ background: "none", border: "none" }}
           >
-            <PaginationArrow
-              src="../../images/page-next.png"
-              alt={t("Pagination.alt.nextPage")}
-            />
+            <ChevronRightIcon ml={4}/>
           </button>
         )}
       </PaginationWrapper>

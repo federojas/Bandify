@@ -9,6 +9,7 @@ import { PaginationArrow, PaginationWrapper } from "../../components/Pagination/
 import ProfileCard from "../../components/ProfileCard/ProfileCard";
 import { getQueryOrDefault, getQueryOrDefaultArray, useQuery } from "../../hooks/useQuery";
 import DiscoverSearchBar from "../../components/SearchBars/DiscoverSearchBar";
+import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 
 interface SearchParams {
   searchTerms?: string;
@@ -110,11 +111,8 @@ const Index = () => {
                   }}
                   style={{ background: "none", border: "none" }}
               >
-                <PaginationArrow
-                    xRotated={true}
-                    src="../../images/page-next.png"
-                    alt={t("Pagination.alt.beforePage")}
-                />
+            <ChevronLeftIcon mr={4}/>
+
               </button>
           )}
           {t("Pagination.message", {
@@ -141,10 +139,8 @@ const Index = () => {
                   }}
                   style={{ background: "none", border: "none" }}
               >
-                <PaginationArrow
-                    src="../../images/page-next.png"
-                    alt={t("Pagination.alt.nextPage")}
-                />
+            <ChevronRightIcon ml={4}/>
+
               </button>
           )}
         </PaginationWrapper>

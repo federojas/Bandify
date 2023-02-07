@@ -14,6 +14,7 @@ import { useAuditionService } from "../../contexts/AuditionService";
 import {useLocation, useNavigate} from "react-router-dom";
 import {PaginationArrow, PaginationWrapper} from "../../components/Pagination/pagination";
 import { getQueryOrDefault, useQuery } from "../../hooks/useQuery";
+import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 
 const BandAudition = (
   {
@@ -156,11 +157,8 @@ const BandAuditions = () => {
                       }}
                       style={{ background: "none", border: "none" }}
                   >
-                      <PaginationArrow
-                          xRotated={true}
-                          src="../../images/page-next.png"
-                          alt={t("Pagination.alt.beforePage")}
-                      />
+            <ChevronLeftIcon mr={4}/>
+
                   </button>
               )}
               {t("Pagination.message", {
@@ -187,10 +185,8 @@ const BandAuditions = () => {
                       }}
                       style={{ background: "none", border: "none" }}
                   >
-                      <PaginationArrow
-                          src="../../images/page-next.png"
-                          alt={t("Pagination.alt.nextPage")}
-                      />
+            <ChevronRightIcon ml={4}/>
+
                   </button>
               )}
           </PaginationWrapper>
