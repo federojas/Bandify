@@ -9,7 +9,7 @@ import "../../styles/forms.css";
 import "../../styles/modals.css";
 import "../../styles/alerts.css";
 import {
-  Avatar,
+  Image,
   Box,
   Button,
   Card,
@@ -17,19 +17,9 @@ import {
   CardHeader,
   Center,
   Flex,
-  FormControl,
-  FormLabel,
   Heading,
   HStack,
-  Input,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  Text, Textarea, useDisclosure, useToast,
+  Text, useToast,
   VStack,
 } from "@chakra-ui/react";
 
@@ -142,9 +132,10 @@ const AuditionCard = ({
   audition: Audition;
   userImg: string;
 }) => {
-  const date = dayjs(audition.creationDate).format('DD/MM/YYYY')
+  const date = dayjs(audition.creationDate).format('DD/MM/YYYY');
   const { userId } = useContext(AuthContext);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const { t } = useTranslation();
 
   return (
     <Card
@@ -167,10 +158,21 @@ const AuditionCard = ({
           alignItems="center"
           className="ellipsis-overflow"
         >
-          <Avatar
-            src={userImg} //TODO: ALT
+          <Image
+            src={userImg}
+            alt={t("Alts.profilePicture")}
+            borderRadius="full"
+            boxSize="70px"
+            objectFit={'cover'}
+            shadow="lg"
+            border="5px solid"
+            borderColor="gray.800"
+            _dark={{
+              borderColor: "gray.200",
+              backgroundColor: "white"
+            }}
           />
-          <Heading size={"lg"} noOfLines={1}>{user.name}</Heading>
+          <Heading size={"md"} noOfLines={1}>{user.name}</Heading>
         </Flex>
       </CardHeader>
       <CardBody>

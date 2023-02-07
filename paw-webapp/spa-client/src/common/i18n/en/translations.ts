@@ -356,6 +356,8 @@ export const TRANSLATIONS_EN = {
     Subtitle: "You will get an email with a link to reset your password.",
     EmailPlaceholder: "email@example.com",
     RequestReset: "Request reset",
+    error: "Could not send reset password email.",
+    success: "Reset password email sent successfully!"
   },
   ResetPwdEmailSent: {
     Title: "Email sent successfully!",

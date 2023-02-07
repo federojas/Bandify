@@ -1,6 +1,4 @@
 import { paths } from "../common/constants";
-// import { checkError } from "../scripts/ErrorChecker";
-// import { setCookie } from "../scripts/cookies";
 import api from "../api/api";
 import {ErrorService} from "./ErrorService";
 import ApiResult from "../api/types/ApiResult";

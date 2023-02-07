@@ -34,7 +34,9 @@ type User = {
     surname: string;
 };
 
-
+type UserPasswordResetRequestInput = {
+    email: string
+}
 
 type UserSocialMedia = {
     id: number;
@@ -45,4 +47,4 @@ type UserSocialMedia = {
 // TODO: campos para banda ?
 
 
-export type { UserCreateInput, UserUpdateInput, User, UserSocialMedia }
+export type { UserCreateInput, UserUpdateInput, User, UserSocialMedia, UserPasswordResetRequestInput }

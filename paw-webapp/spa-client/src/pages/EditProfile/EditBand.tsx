@@ -18,7 +18,7 @@ import {
     useColorModeValue,
     Icon,
     Center,
-    useToast
+    useToast, Image
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -339,12 +339,18 @@ const EditBand = () => {
                                             {t("Edit.picture")}
                                         </FormLabel>
                                         <Flex alignItems="center" mt={1}>
-                                            <Avatar
-                                                boxSize={40}
-                                                fontSize={16} fontWeight="bold"
-                                                bg={bg19}
+                                            <Image
+                                                src={userImg}
+                                                alt={t("Alts.profilePicture")}
+                                                borderRadius="full"
                                                 mr={8}
-                                                src={userImg} //TODO ALT
+                                                boxSize={40}
+                                                objectFit={'cover'}
+                                                shadow="lg"
+                                                _dark={{
+                                                    borderColor: "gray.200",
+                                                    backgroundColor: "white"
+                                                }}
                                             />
                                             <Flex>
                                                 <Stack>

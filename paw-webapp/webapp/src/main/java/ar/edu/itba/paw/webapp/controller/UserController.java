@@ -18,6 +18,7 @@ import ar.edu.itba.paw.webapp.form.*;
 import org.apache.commons.io.IOUtils;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -30,9 +31,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
-import java.util.Base64;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Path("users")
@@ -56,16 +55,7 @@ public class UserController {
 
     @POST
     @Consumes("application/vnd.user.v1+json")
-    public Response createUser(UserForm form,
-                               @QueryParam("email") final String email) {
-        if(email != null) {
-            userService.resendUserVerification(email);
-            return Response.ok().build();
-        }
-        Validator validator = validatorFactory.getValidator();
-        Set<ConstraintViolation<UserForm>> violations = validator.validate(form);
-        if(!violations.isEmpty())
-            throw new ConstraintViolationException(violations);
+    public Response createUser(@Valid UserForm form) {
         User.UserBuilder builder = new User.UserBuilder(form.getEmail(), form.getPassword(),
                 form.getName(), form.getBand(), false).surname(form.getSurname());
         final User user = userService.create(builder);
@@ -73,6 +63,11 @@ public class UserController {
                 .path(String.valueOf(user.getId())).build();
         return Response.created(uri).build();
     }
+
+    //  TODO: Al form le puse un enum validator para estar seguros de que mandaron
+    //  TODO: un enum valido, en este caso solo esta NOT_VERIFIED y VERIFIED
+    //  TODO: pero en realidad nunca estoy revisando cual status mandaron
+    //  TODO: quizas podriamos cambiar el metodo verifyUser de userService por updateUserStatus
 
     //TODO REVISAR SI SE PUEDE PASAR EL CHECK OWNERSHIP AL SERVICIO
     // TODO: si soy banda tendria que aceptarme no mandar apellido ni available, pero
@@ -87,7 +82,6 @@ public class UserController {
                 form.getRoles(), form.getGenres(), form.getLocation());
         return Response.ok().build();
     }
-
 
     @GET
     @Path("/{id}")
@@ -122,14 +116,19 @@ public class UserController {
         return Response.ok().build();
     }
 
-
     @GET
     @Produces("application/vnd.user-list.v1+json")
     public Response usersSearch(@QueryParam("page") @DefaultValue("1") final int page,
                                 @QueryParam("query") @DefaultValue("") final String query,
                                 @QueryParam("genre") final List<String> genres,
                                 @QueryParam("role") final List<String> roles,
-                                @QueryParam("location")  final List<String> locations) {
+                                @QueryParam("location")  final List<String> locations,
+                                @QueryParam("email") final String email
+                                ) {
+        if(email != null && !email.isEmpty()) {
+            final User user = userService.findByEmail(email).orElseThrow(UserNotFoundException::new);
+            return Response.ok(new GenericEntity<List<UserDto>>(Collections.singletonList( UserDto.fromUser(uriInfo, user))){}).build();
+        }
         FilterOptions filter = new FilterOptions.FilterOptionsBuilder().
                 withGenres(genres)
                 .withRoles(roles)
@@ -209,55 +208,35 @@ public class UserController {
                         SocialMediaNotFoundException::new))).build();
     }
 
-    @GET
-    @Path("/{id}/status")
-    @Produces("application/vnd.status.v1+json")
-    public Response getUserStatus(@PathParam("id") final long id) {
-        final User user = userService.findByEmail(securityContext.getUserPrincipal().getName()).orElseThrow(UserNotFoundException::new);
-        checkOwnership(user, id);
-        return Response.ok(UserStatusDto.fromUser(uriInfo, user.isEnabled(),id)).build();
+    @POST
+    @Path("/verify-tokens")
+    @Consumes("application/vnd.verify-token.v1+json")
+    public Response resendUserVerification(@Valid SendTokenToEmailForm form) {
+        userService.resendUserVerification(form.getEmail());
+        return Response.ok().build();
     }
 
-    //  TODO: Al form le puse un enum validator para estar seguros de que mandaron
-    //  TODO: un enum valido, en este caso solo esta NOT_VERIFIED y VERIFIED
-    //  TODO: pero en realidad nunca estoy revisando cual status mandaron
-    //  TODO: quizas podriamos cambiar el metodo verifyUser de userService por updateUserStatus
-
     @PUT
-    @Path("/{id}/status")
-    @Consumes("application/vnd.status.v1+json")
-    public Response updateUserStatus(@Valid UserStatusForm form,
-                                     @PathParam("id") final long id,
-                                     @HeaderParam(HttpHeaders.AUTHORIZATION) String authHeader) {
-        String[] payload = authHeader.split(" ");
-        final User user = userService.findByEmail(securityContext.getUserPrincipal().getName()).orElseThrow(UserNotFoundException::new);
-        checkOwnership(user, id);
-        String token = new String(Base64.getDecoder().decode(payload[1].trim()), StandardCharsets.UTF_8).split(":")[1];
+    @Path("/verify-tokens/{token}")
+    @Consumes("application/vnd.verify-token.v1+json")
+    public Response updateUserStatus(@PathParam("token") final String token) {
         userService.verifyUser(token);
         return Response.ok().build();
     }
 
     @POST
-    @Path("/{id}/password")
-    @Consumes("application/vnd.password.v1+json")
-    public Response generateUserPassword(@Valid SendTokenToEmailForm form,
-                                     @PathParam("id") final long id) {
-        final User user = userService.findByEmail(form.getEmail()).orElseThrow(UserNotFoundException::new);
-        checkOwnership(user, id);
-        userService.sendResetEmail(user.getEmail()); //TODO aca por ahi mejor pasar el user directo? pasa que los services deberian validar
+    @Path("/password-tokens")
+    @Consumes("application/vnd.password-token.v1+json")
+    public Response generateUserPassword(@Valid SendTokenToEmailForm form) {
+        userService.sendResetEmail(form.getEmail());
         return Response.ok().build();
     }
 
     @PUT
-    @Path("/{id}/password")
-    @Consumes("application/vnd.password.v1+json")
+    @Path("/password-tokens/{token}")
+    @Consumes("application/vnd.password-token.v1+json")
     public Response updateUserPassword(@Valid NewPasswordForm form,
-                                     @PathParam("id") final long id,
-                                     @HeaderParam(HttpHeaders.AUTHORIZATION) String authHeader) {
-        String[] payload = authHeader.split(" ");
-        final User user = userService.findByEmail(securityContext.getUserPrincipal().getName()).orElseThrow(UserNotFoundException::new);
-        checkOwnership(user, id);
-        String token = new String(Base64.getDecoder().decode(payload[1].trim()), StandardCharsets.UTF_8).split(":")[1];
+                                     @PathParam("token") final String token) {
         userService.changePassword(token, form.getNewPassword());
         return Response.ok().build();
     }
@@ -268,7 +247,5 @@ public class UserController {
             throw new ForbiddenException();
         }
     }
-
-
-
+    
 }

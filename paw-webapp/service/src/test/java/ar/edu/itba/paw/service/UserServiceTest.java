@@ -160,9 +160,7 @@ public class UserServiceTest {
         when(verificationTokenService.getTokenOwner(TOKEN_VALUE, TokenType.VERIFY)).thenReturn(USER.getId());
         doNothing().when(userDao).verifyUser(USER.getId());
         when(userService.getUserById(USER.getId())).thenReturn(Optional.ofNullable(USER));
-
-        boolean verifiedAndAutoLogged = userService.verifyUser(TOKEN_VALUE);
-        assertTrue(verifiedAndAutoLogged);
+        userService.verifyUser(TOKEN_VALUE);
     }
 
     @Test
@@ -179,8 +177,7 @@ public class UserServiceTest {
         when(verificationTokenService.getTokenOwner(TOKEN_VALUE, TokenType.RESET)).thenReturn(USER.getId());
         when(userService.getUserById(USER.getId())).thenReturn(Optional.of(USER));
 
-        boolean changePassword = userService.changePassword(TOKEN_VALUE, PASSWORD);
-        assertTrue(changePassword);
+        userService.changePassword(TOKEN_VALUE, PASSWORD);
     }
 
     @Test

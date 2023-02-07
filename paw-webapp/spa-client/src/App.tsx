@@ -11,7 +11,7 @@ import Welcome from "./pages/Welcome";
 import LogIn from "./pages/LogIn";
 import Register from "./pages/Register";
 import MainLayout from "./components/layouts";
-import ForgotPassword from "./pages/ForgotPassword";
+import ForgotPassword from "./pages/LogIn/ResetPassword";
 import AuditionsPage from "./pages/Auditions";
 import Profile from "./pages/Profile";
 import Discover from "./pages/Discover";
@@ -38,7 +38,7 @@ import PublicBandAuditions from "./pages/User/PublicBandAuditions";
 import AuditionApplicants from "./pages/Audition/Applicants";
 import EmailSent from "./pages/Results/EmailSent";
 import ResetPwdEmailSent from "./pages/Results/ResetPwdEmailSent";
-import NewPassword from "./pages/Results/NewPassword";
+import NewPassword from "./pages/LogIn/NewPassword";
 
 function App() {
   // TODO: revisar las paginas anonimas, comunes a todos o privadas

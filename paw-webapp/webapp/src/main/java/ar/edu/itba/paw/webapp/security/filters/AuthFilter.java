@@ -88,8 +88,8 @@ public class AuthFilter extends OncePerRequestFilter {
 
         if (receivedHeader.startsWith("Basic ")) {
             if (httpServletRequest.getMethod().equals("PUT")
-                    && (httpServletRequest.getRequestURI().endsWith("status")
-                    || httpServletRequest.getRequestURI().endsWith("password"))) {
+                    && (httpServletRequest.getRequestURI().contains("verify-tokens")
+                    || httpServletRequest.getRequestURI().contains("password-tokens"))) {
                 String nonce = new String(Base64.getDecoder().decode(token), StandardCharsets.UTF_8).split(":")[1];
                 try {
                     verificationTokenService.isValid(nonce);
@@ -172,6 +172,8 @@ public class AuthFilter extends OncePerRequestFilter {
                                                   final HttpServletResponse httpServletResponse) throws AuthenticationException {
         VerificationToken token = verificationTokenService.getToken(nonce).orElseThrow(InvalidTokenException::new);
         final User user = token.getUser();
+        httpServletResponse.addHeader(JwtUtil.JWT_RESPONSE, JwtUtil.generateToken(user, appUrl, secretJWT));
+        httpServletResponse.addHeader(JwtUtil.JWT_REFRESH_RESPONSE, userService.getAuthRefreshToken(user.getEmail()).getToken());
         return new UsernamePasswordAuthenticationToken(user.getEmail(),user.getPassword(),null);
     }
 }

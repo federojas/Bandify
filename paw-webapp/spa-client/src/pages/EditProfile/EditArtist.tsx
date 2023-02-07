@@ -368,18 +368,19 @@ const EditArtist = () => {
                 </FormLabel>
                 <Flex alignItems="center" mt={1}>
                     <Flex>
-                  <Avatar
-                    boxSize={40}
-                    fontSize={16} fontWeight="bold"
-                    bg={bg19}
-                    mr={8}
-                    borderColor="gray.800"
-                    _dark={{
-                        borderColor: "gray.200",
-                        backgroundColor: "white"
-                    }}
-                    src={userImg} //TODO ALT
-                  />
+                    <Image
+                        src={userImg}
+                        alt={t("Alts.profilePicture")}
+                        borderRadius="full"
+                        boxSize={40}
+                        mr={8}
+                        objectFit={'cover'}
+                        shadow="lg"
+                        _dark={{
+                            borderColor: "gray.200",
+                            backgroundColor: "white"
+                        }}
+                    />
                     {available!.value ? <Image
                         src={filterAvailable}
                         alt={t("Alts.available")}

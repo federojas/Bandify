@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import "../../styles/login.css";
 import "../../styles/welcome.css";
 import "../../styles/forms.css";
@@ -44,14 +44,10 @@ const LoginBox = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const toast = useToast();
-  // location.state?.from?.pathname || 
-  let from = "/auditions";
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (authContext.isAuthenticated) {
-      console.log(
-        "tamo chelo, el usuario esta autenticado, redireccionando a home"
-      );//todo: ?????
+      navigate("/auditions");
     }
   }, [authContext.isAuthenticated]);
 
@@ -80,8 +76,7 @@ const LoginBox = () => {
         const headers: any = response.getData().headers
 
         if (response) authContext.login(headers['x-jwt'], headers['x-refresh-token'])
-        navigate(from, { replace: true });
-        // navigate(-1);
+        navigate("/auditions", { replace: true });
       }
     })
   };

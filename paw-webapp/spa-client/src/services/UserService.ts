@@ -1,5 +1,5 @@
 import ApiResult from "../api/types/ApiResult";
-import {UserCreateInput, UserUpdateInput} from "../api/types/User";
+import {UserCreateInput, UserPasswordResetRequestInput, UserUpdateInput} from "../api/types/User";
 import UserApi from "../api/UserApi";
 import {Audition, User, Application} from "../models";
 import { ErrorService } from "./ErrorService";
@@ -13,6 +13,8 @@ export default class UserService {
     this.userApi = userApi;
   }
 
+
+
   public async createUser(input: UserCreateInput): Promise<ApiResult<User>> {
     try {
       const current = await this.userApi.createNewUser(input);
@@ -24,6 +26,19 @@ export default class UserService {
     } catch (error: any) {
       return ErrorService.returnApiError(error);
     }
+  }
+
+  public async resendVerificationEmail(input: string): Promise<ApiResult<User>> {
+      try {
+          const current = await this.userApi.resendVerificationEmail(input);
+          return new ApiResult(
+              {} as User,
+              false,
+              null as any
+          );
+      } catch (error: any) {
+          return ErrorService.returnApiError(error);
+      }
   }
 
     public async updateUser(userId: number, input: UserUpdateInput): Promise<ApiResult<User>> {
@@ -158,4 +173,16 @@ export default class UserService {
       return ErrorService.returnApiError(error);
     }
   }
+
+    public async generateUserPassword(data: UserPasswordResetRequestInput) {
+        try {
+            const response = await this.userApi.generateUserPassword(data);
+            return new ApiResult(
+                response,
+                false,
+                null as any)
+        } catch (error: any) {
+            return ErrorService.returnApiError(error);
+        }
+    }
 }

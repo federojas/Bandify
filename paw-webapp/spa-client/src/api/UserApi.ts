@@ -1,9 +1,11 @@
-import { UserCreateInput, UserUpdateInput, User } from "./types/User";
+import {UserCreateInput, UserUpdateInput, User, UserPasswordResetRequestInput} from "./types/User";
 import { Application } from "./types/Application";
 import axios, { AxiosInstance, AxiosResponse } from "axios";
 import {parseLinkHeader} from "@web3-storage/parse-link-header";
 import PagedContent from "./types/PagedContent";
 import {Audition} from "./types/Audition";
+import ApiResult from "./types/ApiResult";
+import {ErrorService} from "../services/ErrorService";
 
 interface GetUserParams {
   page?: number;
@@ -40,6 +42,20 @@ class UserApi {
       .then((response) => {
         return true;
       })
+  };
+
+  public resendVerificationEmail = async (user: string) => {
+      return this.axiosPrivate.post(
+          this.endpoint,
+          {},
+          {
+              ...this.config,
+              params: {
+                  email: user,
+              }
+          })
+      .then((response) => {
+          return true;})
   };
 
   public updateUser = async (id: number, user: UserUpdateInput) => {
@@ -217,7 +233,18 @@ class UserApi {
       })
   };
 
-
+  public generateUserPassword = async (email: UserPasswordResetRequestInput) => {
+    const pwdConfig = {
+        headers: {
+            'Content-Type': 'application/vnd.password.v1+json'
+        }
+    }
+    return this.axiosPrivate
+        .post(`${this.endpoint}/password`, email, pwdConfig)
+        .then((response) => {
+            return true;
+        })
+  };
 
 };
 

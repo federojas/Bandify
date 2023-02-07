@@ -4,15 +4,8 @@ import ar.edu.itba.paw.model.*;
 import ar.edu.itba.paw.model.exceptions.*;
 import ar.edu.itba.paw.persistence.UserDao;
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,7 +35,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private LocationService locationService;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
     private static final int MAX_USER_GENRES = 15;
     private static final int MAX_USER_ROLES = 15;
 
@@ -169,23 +161,9 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public boolean verifyUser(String token) {
+    public void verifyUser(String token) {
         long userId = verificationTokenService.getTokenOwner(token, TokenType.VERIFY);
         userDao.verifyUser(userId);
-        return autoLogin(userId);
-    }
-
-    private boolean autoLogin(long userId) {
-        final User user = getUserById(userId).orElseThrow(UserNotFoundException::new);
-        final Collection<GrantedAuthority> authorities = new ArrayList<>();
-        if(user.isBand())
-            authorities.add(new SimpleGrantedAuthority("ROLE_BAND"));
-        else
-            authorities.add(new SimpleGrantedAuthority("ROLE_ARTIST"));
-        Authentication auth = new UsernamePasswordAuthenticationToken(user.getEmail(),user.getPassword(),authorities);
-        SecurityContextHolder.getContext().setAuthentication(auth);
-        LOGGER.debug("Autologin for user {}",userId);
-        return true;
     }
 
     @Transactional
@@ -201,10 +179,9 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public boolean changePassword(String token, String newPassword) {
+    public void changePassword(String token, String newPassword) {
         long userId = verificationTokenService.getTokenOwner(token, TokenType.RESET);
         userDao.changePassword(userId, passwordEncoder.encode(newPassword));
-        return autoLogin(userId);
     }
 
     @Override

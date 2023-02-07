@@ -22,7 +22,7 @@ const InviteItem: React.FC<Invite> = ({
           <img
             className="postcard-profile-image"
             src={`/user/${bandId}/profile-image`}
-            alt="Profile"
+            alt={t("Alts.profilePicture")}
           />
           <span className="user-name">{bandName}</span>
           <div />
