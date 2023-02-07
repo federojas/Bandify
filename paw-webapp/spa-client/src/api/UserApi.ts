@@ -179,9 +179,13 @@ class UserApi {
             })
     };
 
-  public getUserApplications = async (id: number) => {
+  public getUserApplications = async (id: number, state: string) => {
     return this.axiosPrivate
-      .get(`${this.endpoint}/${id}/applications`)
+      .get(`${this.endpoint}/${id}/applications`, {
+        params: {
+          state: state,
+        },
+      })
       .then((response) => {
         const data = response.data;
         const applications: Application[] = Array.isArray(data)

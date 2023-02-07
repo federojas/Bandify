@@ -335,7 +335,7 @@ export const TRANSLATIONS_ES = {
     NoAuditions: "Esta banda no tiene audiciones abiertas",
   },
   AuditionApplicants: {
-    Title: "Aplicantes a la audición: ",
+    Title: "Aplicantes a ",
     NoApplicants: "Esta audición no tiene aplicantes en esta sección",
     SeeApplication: "Ver aplicación",
     Accept: "Aceptar",

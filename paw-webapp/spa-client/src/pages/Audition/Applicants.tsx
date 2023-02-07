@@ -3,10 +3,16 @@ import {
   Avatar, Badge, Flex, HStack, Tab, TabList, TabPanel, TabPanels, Tabs, Text, Button,
   Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure, VStack, useColorModeValue
 } from "@chakra-ui/react"
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { TiCancel, TiTick } from "react-icons/ti";
+import { useNavigate, useParams } from "react-router-dom";
+import { useAuditionService } from "../../contexts/AuditionService";
+import { Application, Audition } from "../../models";
+import { serviceCall } from "../../services/ServiceManager";
+import AuditionsPage from "../Auditions";
 
-function ApplicantInfo() {
+function ApplicantInfo({application} : {application: Application}) {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { t } = useTranslation();
 
@@ -20,12 +26,13 @@ function ApplicantInfo() {
           <ModalHeader>{t("AuditionApplicants.ModalTitle")}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Text>{t("AuditionApplicants.Subtitle")}<Text as='b'>ARTIST</Text></Text>
-            <Text>{t("AuditionApplicants.Subtitle2")}<Text as='i'>DESCRIPTION</Text></Text>
-            
+            <Text>{t("AuditionApplicants.Subtitle")}<Text as='b'>{application.applicant}</Text></Text>
+            <Text mt="4">{t("AuditionApplicants.Subtitle2")}</Text>
+            <Text as='i'>{application.message}</Text>
 
           </ModalBody>
 
+{/* TODO: Agregar funcionalidad de aceptar y rechazar aplicacion a audition */}
           <ModalFooter>
             <Button leftIcon={<TiTick />} colorScheme='blue' mr={3} onClick={onClose}>
               {t("Invites.Accept")}
@@ -38,7 +45,7 @@ function ApplicantInfo() {
   )
 }
 
-const ApplicantItem = ({ type = 'PENDING' }: { type: string }) => {
+const ApplicantItem = ({ type = 'PENDING', application }: { type: string, application: Application }) => {
   const { t } = useTranslation();
   const scheme = type === "REJECTED" ? "red" : (type === "PENDING" ? undefined : "green")
   const label = type === "REJECTED" ? t("Applications.Rejected") : (type === "PENDING" ? t("Applications.Pending") : t("Applications.Accepted"))
@@ -51,15 +58,15 @@ const ApplicantItem = ({ type = 'PENDING' }: { type: string }) => {
           <Avatar src='https://bit.ly/sage-adebayo' />
           <Box ml='3'>
             <Text fontWeight='bold'>
-              Segun Adebayo
+              {application.applicant}
             </Text>
           </Box>
         </HStack>
-        {isPending ? <ApplicantInfo /> :
+        {isPending ? <ApplicantInfo application={application} /> :
           <Badge ml='1' colorScheme={scheme}>
             {label}
           </Badge>
-          }
+        }
       </Flex>
 
     </Box>
@@ -68,14 +75,60 @@ const ApplicantItem = ({ type = 'PENDING' }: { type: string }) => {
 
 const AuditionApplicants = () => {
   const { t } = useTranslation();
-  const pendingApplicants = [];
-  const acceptedApplicants = [];
-  const rejectedApplicants = [];
+  const { id } = useParams();
+
+  const [audition, setAudition] = useState<Audition>();
+  const [pending, setPending] = useState<Application[]>([]);
+  const [accepted, setAccepted] = useState<Application[]>([]);
+  const [rejected, setRejected] = useState<Application[]>([]);
+
+  const navigate = useNavigate();
+  const auditionService = useAuditionService();
+
+  useEffect(() => {
+
+    serviceCall(
+      auditionService.getAuditionById(Number(id)),
+      navigate,
+      (audition) => {
+        console.log(audition)
+        setAudition(audition)
+      }
+    )
+
+    serviceCall(
+      auditionService.getAuditionApplications(Number(id), 1, 'PENDING'),
+      navigate,
+      (applications) => {
+        console.log(applications)
+        setPending(applications)
+      }
+    )
+
+    serviceCall(
+      auditionService.getAuditionApplications(Number(id), 1, 'SELECTED'),
+      navigate,
+      (applications) => {
+        console.log(applications)
+        setAccepted(applications)
+      }
+    )
+
+    serviceCall(
+      auditionService.getAuditionApplications(Number(id), 1, 'REJECTED'),
+      navigate,
+      (applications) => {
+        console.log(applications)
+        setRejected(applications)
+      }
+    )
+
+  }, [navigate, auditionService, id])
 
   return (
     <Center py={'10'}>
       <VStack spacing={'4'}>
-        <Heading>{t("AuditionApplicants.Title")}</Heading>
+        <Heading>{t("AuditionApplicants.Title")}{audition?.title}</Heading>
         <Box bg={useColorModeValue("white", "gray.900")} px={4}
           py={4} shadow={'md'} rounded={'xl'} w={'xl'}
         >
@@ -87,23 +140,23 @@ const AuditionApplicants = () => {
             </TabList>
             <TabPanels>
               <TabPanel mt="4">
-                {pendingApplicants.length > 0 ?
-                  <p>{t("AuditionApplicants.NoApplicants")}</p>
+                {pending.length > 0 ?
+                  pending.map((application) => <ApplicantItem type={'PENDING'} application={application} />)
                   :
-                  <ApplicantItem type={'PENDING'} />
+                  <p>{t("AuditionApplicants.NoApplicants")}</p>
                 }
               </TabPanel>
               <TabPanel mt="4">
-                {acceptedApplicants.length > 0 ?
-                  <p>{t("AuditionApplicants.NoApplicants")}</p>
+                {accepted.length > 0 ?
+                  accepted.map((application) => <ApplicantItem type={'ACCEPTED'} application={application} />)
                   :
-                  <ApplicantItem type={'ACCEPTED'} />
+                  <p>{t("AuditionApplicants.NoApplicants")}</p>
                 }
 
               </TabPanel>
               <TabPanel mt="4">
-                {rejectedApplicants.length > 0 ?
-                  <ApplicantItem type={'REJECTED'} />
+                {rejected.length > 0 ?
+                  rejected.map((application) => <ApplicantItem type={'REJECTED'} application={application} />)
                   :
                   <p>{t("AuditionApplicants.NoApplicants")}</p>
                 }

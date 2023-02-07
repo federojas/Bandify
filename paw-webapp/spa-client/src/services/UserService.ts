@@ -1,7 +1,7 @@
 import ApiResult from "../api/types/ApiResult";
 import {UserCreateInput, UserUpdateInput} from "../api/types/User";
 import UserApi from "../api/UserApi";
-import {Audition, User} from "../models";
+import {Audition, User, Application} from "../models";
 import { ErrorService } from "./ErrorService";
 import PagedContent from "../api/types/PagedContent";
 
@@ -136,5 +136,26 @@ export default class UserService {
       } catch (error: any) {
           return ErrorService.returnApiError(error);
       }
+  }
+
+  public async getUserApplications(userId: number, state: string): Promise<ApiResult<Application[]>> {
+    try {
+      const applications = await this.userApi.getUserApplications(userId, state);
+      return new ApiResult(
+        applications.map(a => {
+          const aux : Application = {
+            id: a.id,
+            creationDate: a.creationDate,
+            message: a.message,
+            audition: a.audition,
+            applicant: a.applicant,
+            state: a.state
+          }; return aux
+        }),
+        false,
+        null as any)
+    } catch (error: any) {
+      return ErrorService.returnApiError(error);
+    }
   }
 }

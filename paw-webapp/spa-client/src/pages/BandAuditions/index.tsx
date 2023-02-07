@@ -11,10 +11,30 @@ import { ImLocation } from "react-icons/im";
 import AuthContext from "../../contexts/AuthContext";
 import { serviceCall } from "../../services/ServiceManager";
 import { useAuditionService } from "../../contexts/AuditionService";
-import {useLocation, useNavigate} from "react-router-dom";
-import {PaginationArrow, PaginationWrapper} from "../../components/Pagination/pagination";
+import { useLocation, useNavigate } from "react-router-dom";
+import { PaginationArrow, PaginationWrapper } from "../../components/Pagination/pagination";
 import { getQueryOrDefault, useQuery } from "../../hooks/useQuery";
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
+
+const RedCircle = ({ notificationCount }: { notificationCount: number }) => {
+  return (
+    <div style={{
+      width: 20,
+      height: 20,
+      marginLeft: 10,
+      borderRadius: '50%',
+      backgroundColor: 'red',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      color: 'white',
+      fontWeight: 'bold'
+    }}>
+      {notificationCount}
+    </div>
+  );
+};
+
 
 const BandAudition = (
   {
@@ -27,6 +47,26 @@ const BandAudition = (
   const { t } = useTranslation();
   const date = dayjs(audition.creationDate).format('DD/MM/YYYY')
   const navigate = useNavigate();
+  const [pending, setPending] = useState<number>(0);
+
+  const auditionService = useAuditionService();
+
+  useEffect(() => {
+
+
+    serviceCall(
+      auditionService.getAuditionApplications(Number(audition.id), 1, 'PENDING'),
+      navigate,
+      (applications) => {
+        console.log(applications.length)
+        setPending(applications.length)
+      }
+    )
+
+
+  }, [navigate, auditionService, audition])
+
+
   return (
 
     <Box
@@ -74,6 +114,10 @@ const BandAudition = (
           navigate('/auditions/' + audition.id + '/applicants')
         }}>
           {t("MyAuditions.applicants")}
+          {
+            pending > 0 &&
+          <RedCircle notificationCount={pending} />
+          }
         </Button>
         <Button colorScheme="blue" leftIcon={<AiOutlineInfoCircle />}
           onClick={() => navigate('/auditions/' + audition.id)}
@@ -99,7 +143,7 @@ const BandAuditions = () => {
   const [currentPage, setCurrentPage] = useState(parseInt(getQueryOrDefault(query, "page", "1")));
 
 
-    useEffect(() => {
+  useEffect(() => {
     serviceCall(
       auditionService.getAuditionsByBandId(currentPage, userId),
       navigate,
@@ -125,71 +169,71 @@ const BandAuditions = () => {
         justifyContent={"space-around"}
       >
         {auditions.length > 0 ?
-        auditions.map((audition, index) => {
-          return <BandAudition audition={audition} key={index} />
-        }) : <></>
+          auditions.map((audition, index) => {
+            return <BandAudition audition={audition} key={index} />
+          }) : <></>
         }
       </Flex>
       <Flex
-          w="full"
-          p={50}
-          alignItems="center"
-          justifyContent="center"
+        w="full"
+        p={50}
+        alignItems="center"
+        justifyContent="center"
       >
-          <PaginationWrapper>
-              {currentPage > 1 && (
-                  <button
-                      onClick={() => {
-                          serviceCall(
-                              auditionService.getAuditionsByUrl(previousPage),
-                              navigate,
-                              (response) => {
-                                  setAuditions(response ? response.getContent() : []);
-                                  setPreviousPage(response ? response.getPreviousPage() : "");
-                                  setNextPage(response ? response.getNextPage() : "");
-                              },
-                              location
-                          )
-                          setCurrentPage(currentPage - 1)
-                          const url = new URL(window.location.href);
-                          url.searchParams.set('page', String(currentPage - 1));
-                          window.history.pushState(null, '', url.toString());
-                      }}
-                      style={{ background: "none", border: "none" }}
-                  >
-            <ChevronLeftIcon mr={4}/>
+        <PaginationWrapper>
+          {currentPage > 1 && (
+            <button
+              onClick={() => {
+                serviceCall(
+                  auditionService.getAuditionsByUrl(previousPage),
+                  navigate,
+                  (response) => {
+                    setAuditions(response ? response.getContent() : []);
+                    setPreviousPage(response ? response.getPreviousPage() : "");
+                    setNextPage(response ? response.getNextPage() : "");
+                  },
+                  location
+                )
+                setCurrentPage(currentPage - 1)
+                const url = new URL(window.location.href);
+                url.searchParams.set('page', String(currentPage - 1));
+                window.history.pushState(null, '', url.toString());
+              }}
+              style={{ background: "none", border: "none" }}
+            >
+              <ChevronLeftIcon mr={4} />
 
-                  </button>
-              )}
-              {t("Pagination.message", {
-                  currentPage: currentPage,
-                  maxPage: maxPage,
-              })}
-              {currentPage < maxPage && (
-                  <button
-                      onClick={() => {
-                          serviceCall(
-                              auditionService.getAuditionsByUrl(nextPage),
-                              navigate,
-                              (response) => {
-                                  setAuditions(response ? response.getContent() : []);
-                                  setPreviousPage(response ? response.getPreviousPage() : "");
-                                  setNextPage(response ? response.getNextPage() : "");
-                              },
-                              location
-                          )
-                          setCurrentPage(currentPage + 1)
-                          const url = new URL(window.location.href);
-                          url.searchParams.set('page', String(currentPage + 1));
-                          window.history.pushState(null, '', url.toString());
-                      }}
-                      style={{ background: "none", border: "none" }}
-                  >
-            <ChevronRightIcon ml={4}/>
+            </button>
+          )}
+          {t("Pagination.message", {
+            currentPage: currentPage,
+            maxPage: maxPage,
+          })}
+          {currentPage < maxPage && (
+            <button
+              onClick={() => {
+                serviceCall(
+                  auditionService.getAuditionsByUrl(nextPage),
+                  navigate,
+                  (response) => {
+                    setAuditions(response ? response.getContent() : []);
+                    setPreviousPage(response ? response.getPreviousPage() : "");
+                    setNextPage(response ? response.getNextPage() : "");
+                  },
+                  location
+                )
+                setCurrentPage(currentPage + 1)
+                const url = new URL(window.location.href);
+                url.searchParams.set('page', String(currentPage + 1));
+                window.history.pushState(null, '', url.toString());
+              }}
+              style={{ background: "none", border: "none" }}
+            >
+              <ChevronRightIcon ml={4} />
 
-                  </button>
-              )}
-          </PaginationWrapper>
+            </button>
+          )}
+        </PaginationWrapper>
       </Flex>
     </VStack>
   )
