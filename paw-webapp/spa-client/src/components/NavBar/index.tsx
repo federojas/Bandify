@@ -219,6 +219,7 @@ function Nav() {
                   bg: "blue.300",
                 }}
                 as={"a"}
+                style={{cursor: "pointer"}}
                 onClick={() => { navigate('/register') }}
               >
                 {t("NavBar.register")}

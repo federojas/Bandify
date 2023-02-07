@@ -202,4 +202,28 @@ export default class UserService {
         return ErrorService.returnApiError(error);
     }
   }
+
+  public async resendUserVerification(email: UserPasswordResetRequestInput) {
+      try {
+          const response = await this.userApi.resendUserVerification(email);
+          return new ApiResult(
+              response,
+              false,
+              null as any)
+      } catch (error: any) {
+          return ErrorService.returnApiError(error);
+      }
+  }
+
+public async verifyUser(token: string) {
+    try {
+        const response = await this.userApi.verifyUser(token);
+        return new ApiResult(
+            response,
+            false,
+            null as any)
+    } catch (error: any) {
+        return ErrorService.returnApiError(error);
+    }
+}
 }

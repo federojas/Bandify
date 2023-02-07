@@ -266,6 +266,33 @@ class UserApi {
           })
   };
 
+    public resendUserVerification = async (email: UserPasswordResetRequestInput) => {
+        const config = {
+            headers: {
+                'Content-Type': 'application/vnd.verify-token.v1+json'
+            }
+        }
+        return this.axiosPrivate
+            .post(`${this.endpoint}/verify-tokens`, email, config)
+            .then((response) => {
+                return response;
+            })
+    };
+
+    public verifyUser = async (token: string) => {
+        const config = {
+            headers: {
+                'Content-Type': 'application/vnd.password-token.v1+json',
+                'Authorization' : "Basic " + btoa( "mail:" + token)
+            }
+        }
+        return this.axiosPrivate
+            .put(`${this.endpoint}/verify-tokens/${token}`,{}, config)
+            .then((response) => {
+                return response;
+            })
+    };
+
 };
 
 export default UserApi;

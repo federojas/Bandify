@@ -360,6 +360,7 @@ export const TRANSLATIONS_ES = {
     success: "¡Email enviado con éxito!",
     errorChange: "No se pudo cambiar la contraseña.",
     successChange: "¡Contraseña cambiada con éxito!",
+    emailSent: "¡Email enviado!"
   },
   ResetPwdEmailSent: {
     Title: "¡Email enviado con éxito!",
