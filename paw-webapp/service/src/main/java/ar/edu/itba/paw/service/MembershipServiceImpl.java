@@ -42,6 +42,15 @@ public class MembershipServiceImpl implements MembershipService {
     }
 
     @Override
+    public List<Membership> getUserMemberships(User user, int page) {
+        int lastPage = getTotalUserMembershipsPages(user);
+        lastPage = lastPage == 0 ? 1 : lastPage;
+        checkPage(page, lastPage);
+        LOGGER.info("Getting specified user memberships");
+        return membershipDao.getUserMemberships(user, page);
+    }
+
+    @Override
     public List<Membership> getUserMembershipsPreview(User user) {
         return membershipDao.getUserMembershipsPreview(user);
     }
@@ -50,6 +59,11 @@ public class MembershipServiceImpl implements MembershipService {
     public int getTotalUserMembershipsPages(User user, MembershipState state) {
         LOGGER.info("Getting total specified user memberships");
         return membershipDao.getTotalUserMembershipsByStatePages(user,state);
+    }
+    @Override
+    public int getTotalUserMembershipsPages(User user) {
+        LOGGER.info("Getting total specified user memberships");
+        return membershipDao.getTotalUserMembershipsByStatePages(user);
     }
 
     @Transactional

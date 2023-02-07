@@ -37,24 +37,50 @@ public class MembershipJpaDao implements MembershipDao {
     }
 
     @Override
+    public List<Membership> getUserMemberships(User user, int page) {
+        return getMemberships(user, null, PAGE_SIZE, (page-1) * PAGE_SIZE, page);
+    }
+
+    @Override
+    public int getTotalUserMembershipsByStatePages(User user) {
+        Query query = membershipCountQuery(user, null);
+        return (int) Math.ceil(((BigInteger) query.getSingleResult()).doubleValue() / PAGE_SIZE);
+    }
+
+    @Override
     public List<Membership> getUserMembershipsPreview(User user) {
         return getMemberships(user, MembershipState.ACCEPTED, PREVIEW_SIZE, NO_OFFSET, DEFAULT_PAGE);
     }
 
     private List<Membership> getMemberships(User user, MembershipState state, int page_size, int offset, int page) {
         Query query;
-        if(user.isBand()) {
-            query = em.createNativeQuery("SELECT id FROM memberships" +
-                    " WHERE bandId = :bandId AND state = :state ORDER BY id ASC " +
-                    " LIMIT " + page_size + " OFFSET " + offset);
-            query.setParameter("bandId", user.getId());
+        if(state != null) {
+            if(user.isBand()) {
+                query = em.createNativeQuery("SELECT id FROM memberships" +
+                        " WHERE bandId = :bandId AND state = :state ORDER BY id ASC " +
+                        " LIMIT " + page_size + " OFFSET " + offset);
+                query.setParameter("bandId", user.getId());
+            } else {
+                query = em.createNativeQuery("SELECT id FROM memberships" +
+                        " WHERE artistId = :artistId AND state = :state ORDER BY id ASC " +
+                        " LIMIT " + page_size + " OFFSET " + offset);
+                query.setParameter("artistId", user.getId());
+            }
+            query.setParameter("state", state.getState());
         } else {
-            query = em.createNativeQuery("SELECT id FROM memberships" +
-                    " WHERE artistId = :artistId AND state = :state ORDER BY id ASC " +
-                    " LIMIT " + page_size + " OFFSET " + offset);
-            query.setParameter("artistId", user.getId());
+            if(user.isBand()) {
+                query = em.createNativeQuery("SELECT id FROM memberships" +
+                        " WHERE bandId = :bandId ORDER BY id ASC " +
+                        " LIMIT " + page_size + " OFFSET " + offset);
+                query.setParameter("bandId", user.getId());
+            } else {
+                query = em.createNativeQuery("SELECT id FROM memberships" +
+                        " WHERE artistId = :artistId ORDER BY id ASC " +
+                        " LIMIT " + page_size + " OFFSET " + offset);
+                query.setParameter("artistId", user.getId());
+            }
         }
-        query.setParameter("state", state.getState());
+
 
         @SuppressWarnings("unchecked")
         List<Long> ids = (List<Long>) query.getResultList().stream().map(o -> ((Number) o).longValue()).collect(Collectors.toList());
@@ -131,16 +157,29 @@ public class MembershipJpaDao implements MembershipDao {
 
     private Query membershipCountQuery(User user, MembershipState state) {
         Query query;
-        if(user.isBand()) {
-            query = em.createNativeQuery(
-                    "SELECT COUNT(*) FROM memberships WHERE bandId = :bandId AND state= :state");
-            query.setParameter("bandId", user.getId());
+        if(state != null) {
+            if(user.isBand()) {
+                query = em.createNativeQuery(
+                        "SELECT COUNT(*) FROM memberships WHERE bandId = :bandId AND state= :state");
+                query.setParameter("bandId", user.getId());
+            } else {
+                query = em.createNativeQuery(
+                        "SELECT COUNT(*) FROM memberships WHERE artistId = :artistId AND state= :state");
+                query.setParameter("artistId", user.getId());
+            }
+            query.setParameter("state", state.getState());
         } else {
-            query = em.createNativeQuery(
-                    "SELECT COUNT(*) FROM memberships WHERE artistId = :artistId AND state= :state");
-            query.setParameter("artistId", user.getId());
+            if(user.isBand()) {
+                query = em.createNativeQuery(
+                        "SELECT COUNT(*) FROM memberships WHERE bandId = :bandId");
+                query.setParameter("bandId", user.getId());
+            } else {
+                query = em.createNativeQuery(
+                        "SELECT COUNT(*) FROM memberships WHERE artistId = :artistId");
+                query.setParameter("artistId", user.getId());
+            }
         }
-        query.setParameter("state", state.getState());
+
         return query;
     }
 

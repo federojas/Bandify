@@ -65,7 +65,7 @@ public class MembershipController {
     @GET
     @Produces("application/vnd.membership-list.v1+json")
     public Response getUserMemberships(@QueryParam("user") final Long userId,
-                                       @QueryParam("state") @DefaultValue("PENDING") final String state,
+                                       @QueryParam("state") final String state,
                                        @QueryParam("page") @DefaultValue("1") final int page,
                                        @QueryParam("preview") @DefaultValue("false") final Boolean preview) {
         if(userId == null)
@@ -77,6 +77,8 @@ public class MembershipController {
         final List<Membership> membershipsAux;
         if(preview)
             membershipsAux = membershipService.getUserMembershipsPreview(user);
+        else if(state == null)
+            membershipsAux = membershipService.getUserMemberships(user, page);
         else
             membershipsAux = membershipService.getUserMemberships(user, Enum.valueOf(MembershipState.class, state), page);
 
@@ -87,7 +89,10 @@ public class MembershipController {
             return Response.noContent().build();
         }
         Response.ResponseBuilder response = Response.ok(new GenericEntity<List<MembershipDto>>(memberships) {});
-        PaginationLinkBuilder.getResponsePaginationLinks(response, uriInfo, page,  membershipService.getTotalUserMembershipsPages(user, Enum.valueOf(MembershipState.class, state)));
+        PaginationLinkBuilder.getResponsePaginationLinks(
+                response, uriInfo, page,  state == null?
+                        membershipService.getTotalUserMembershipsPages(user) :
+                        membershipService.getTotalUserMembershipsPages(user, Enum.valueOf(MembershipState.class, state)));
         return response.build();
     }
 

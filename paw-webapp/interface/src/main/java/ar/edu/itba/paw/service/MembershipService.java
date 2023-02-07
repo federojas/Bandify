@@ -13,9 +13,13 @@ public interface MembershipService {
 
     List<Membership> getUserMemberships(User user, MembershipState state, int page);
 
+    List<Membership> getUserMemberships(User user, int page);
+
     List<Membership> getUserMembershipsPreview(User user);
 
     int getTotalUserMembershipsPages(User user, MembershipState state);
+
+    int getTotalUserMembershipsPages(User user);
 
     Membership createMembershipInvite(Membership.Builder builder);
 
