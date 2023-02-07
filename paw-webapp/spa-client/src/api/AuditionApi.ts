@@ -1,6 +1,6 @@
 import {Audition, AuditionInput} from './types/Audition';
 import {Application} from './types/Application';
-import { AxiosInstance } from 'axios';
+import axios, { AxiosInstance } from 'axios';
 import PagedContent from "./types/PagedContent";
 import {parseLinkHeader} from '@web3-storage/parse-link-header'
 
@@ -94,6 +94,46 @@ class AuditionApi {
                 return Promise.resolve(new PagedContent(auditions, maxPage, nextPage, previousPage));
             });
     };
+
+    public getAuditionsWithUrl = async (url: string) => {
+        return this.axiosPrivate
+            .get(url)
+            .then((response) => {
+                const data = response.data;
+                const auditions: Audition[] = Array.isArray(data)
+                    ? data.map((audition: any) => {
+                        return {
+                            id: audition.id,
+                            title: audition.title,
+                            description: audition.description,
+                            creationDate: audition.creationDate,
+                            location: audition.location,
+                            lookingFor: audition.lookingFor,
+                            musicGenres: audition.musicGenres,
+                            applications: audition.applications,
+                            self: audition.self,
+                            owner: audition.owner
+                        };
+                    })
+                    : [];
+                let maxPage = 1;
+                let previousPage = "";
+                let nextPage = "";
+                let parsed;
+                if(response.headers) {
+                    parsed = parseLinkHeader(response.headers.link);
+                    if(parsed) {
+                        maxPage = parseInt(parsed.last.page);
+                        if(parsed.prev)
+                            previousPage = parsed.prev.url;
+                        if(parsed.next)
+                            nextPage = parsed.next.url;
+                    }
+                }
+                return Promise.resolve(new PagedContent(auditions, maxPage, nextPage, previousPage));
+            });
+    };
+
 
     public getAuditionsByBandId = async (page?: number, bandId?: number) => {
         return this.axiosPrivate

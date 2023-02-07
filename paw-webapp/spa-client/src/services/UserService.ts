@@ -1,7 +1,7 @@
 import ApiResult from "../api/types/ApiResult";
 import {UserCreateInput, UserUpdateInput} from "../api/types/User";
 import UserApi from "../api/UserApi";
-import { User } from "../models";
+import {Audition, User} from "../models";
 import { ErrorService } from "./ErrorService";
 import PagedContent from "../api/types/PagedContent";
 
@@ -65,6 +65,35 @@ export default class UserService {
       return ErrorService.returnApiError(error);
     }
   }
+
+    public async getUsersByUrl(url: string): Promise<ApiResult<PagedContent<User[]>>> {
+        try {
+            const response = await this.userApi.getUsersWithUrl(url);
+            return new ApiResult( new PagedContent(
+                    response.getContent().map(u => {
+                        const user: User = {
+                            applications: u.applications,
+                            available: u.available,
+                            band: u.band,
+                            description: u.description,
+                            enabled: u.enabled,
+                            genres: u.genres,
+                            id: u.id,
+                            location: u.location,
+                            name: u.name,
+                            roles: u.roles,
+                            socialMedia: u.socialMedia,
+                            surname: u.surname,
+                            profileImage: u.profileImage
+                        }; return user
+                    }), response.getMaxPage(), response.getNextPage(), response.getPreviousPage()),
+                false,
+                null as any
+            );
+        } catch (error) {
+            return ErrorService.returnApiError(error);
+        }
+    }
 
   public async getUsers(page?: number, query?: string, genre?: string[], role?: string[], location?: string[]): Promise<ApiResult<PagedContent<User[]>>> {
     try {

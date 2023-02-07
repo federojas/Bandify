@@ -12,8 +12,8 @@ import AuthContext from "../../contexts/AuthContext";
 import { serviceCall } from "../../services/ServiceManager";
 import { useAuditionService } from "../../contexts/AuditionService";
 import {useLocation, useNavigate} from "react-router-dom";
-import { usePagination} from "../../hooks/usePagination";
 import {PaginationArrow, PaginationWrapper} from "../../components/Pagination/pagination";
+import { getQueryOrDefault, useQuery } from "../../hooks/useQuery";
 
 const BandAudition = (
   {
@@ -88,13 +88,15 @@ const BandAuditions = () => {
   const [auditions, setAuditions] = useState<Audition[]>([]);
   const auditionService = useAuditionService();
   const navigate = useNavigate();
-  const [currentPage] = usePagination();
   const [maxPage, setMaxPage] = useState(1);
   const [previousPage, setPreviousPage] = useState("");
   const [nextPage, setNextPage] = useState("");
   const location = useLocation();
+  const query = useQuery();
+  const [currentPage, setCurrentPage] = useState(parseInt(getQueryOrDefault(query, "page", "1")));
 
-  useEffect(() => {
+
+    useEffect(() => {
     serviceCall(
       auditionService.getAuditionsByBandId(currentPage, userId),
       navigate,
@@ -122,7 +124,7 @@ const BandAuditions = () => {
         {auditions.length > 0 ?
         auditions.map((audition, index) => {
           return <BandAudition audition={audition} key={index} />
-        }) : <Text></Text>
+        }) : <></>
         }
       </Flex>
       <Flex
@@ -135,7 +137,20 @@ const BandAuditions = () => {
               {currentPage > 1 && (
                   <button
                       onClick={() => {
-                          navigate(previousPage);
+                          serviceCall(
+                              auditionService.getAuditionsByUrl(previousPage),
+                              navigate,
+                              (response) => {
+                                  setAuditions(response ? response.getContent() : []);
+                                  setPreviousPage(response ? response.getPreviousPage() : "");
+                                  setNextPage(response ? response.getNextPage() : "");
+                              },
+                              location
+                          )
+                          setCurrentPage(currentPage - 1)
+                          const url = new URL(window.location.href);
+                          url.searchParams.set('page', String(currentPage - 1));
+                          window.history.pushState(null, '', url.toString());
                       }}
                       style={{ background: "none", border: "none" }}
                   >
@@ -153,7 +168,20 @@ const BandAuditions = () => {
               {currentPage < maxPage && (
                   <button
                       onClick={() => {
-                          navigate(nextPage);
+                          serviceCall(
+                              auditionService.getAuditionsByUrl(nextPage),
+                              navigate,
+                              (response) => {
+                                  setAuditions(response ? response.getContent() : []);
+                                  setPreviousPage(response ? response.getPreviousPage() : "");
+                                  setNextPage(response ? response.getNextPage() : "");
+                              },
+                              location
+                          )
+                          setCurrentPage(currentPage + 1)
+                          const url = new URL(window.location.href);
+                          url.searchParams.set('page', String(currentPage + 1));
+                          window.history.pushState(null, '', url.toString());
                       }}
                       style={{ background: "none", border: "none" }}
                   >

@@ -22,13 +22,12 @@ import AuthContext from "../../contexts/AuthContext";
 import { serviceCall } from "../../services/ServiceManager";
 import { useAuditionService } from "../../contexts/AuditionService";
 import { useLocation, useNavigate, useParams, Link } from "react-router-dom";
-import { usePagination } from "../../hooks/usePagination";
-import Pagination from "@choc-ui/paginator";
 import { BiBullseye } from "react-icons/bi";
 import GenreTag from "../../components/Tags/GenreTag";
 import RoleTag from "../../components/Tags/RoleTag";
 import { useUserService } from "../../contexts/UserService";
 import {PaginationArrow, PaginationWrapper} from "../../components/Pagination/pagination";
+import {getQueryOrDefault, useQuery} from "../../hooks/useQuery";
 
 const PublicBandAudition = (
   {
@@ -107,12 +106,12 @@ const PublicBandAuditions = () => {
   const auditionService = useAuditionService();
   const userService = useUserService();
   const navigate = useNavigate();
-  const [currentPage] = usePagination();
+  const query = useQuery();
+  const [currentPage, setCurrentPage] = useState(parseInt(getQueryOrDefault(query, "page", "1")));
   const [maxPage, setMaxPage] = useState(1);
   const [previousPage, setPreviousPage] = useState("");
   const [nextPage, setNextPage] = useState("");
   const location = useLocation();
-  const [bandImg, setBandImg] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     serviceCall(
@@ -181,7 +180,20 @@ const PublicBandAuditions = () => {
               {currentPage > 1 && (
                   <button
                       onClick={() => {
-                          navigate(previousPage);
+                          serviceCall(
+                              auditionService.getAuditionsByUrl(previousPage),
+                              navigate,
+                              (response) => {
+                                  setAuditions(response ? response.getContent() : []);
+                                  setPreviousPage(response ? response.getPreviousPage() : "");
+                                  setNextPage(response ? response.getNextPage() : "");
+                              },
+                              location
+                          )
+                          setCurrentPage(currentPage - 1)
+                          const url = new URL(window.location.href);
+                          url.searchParams.set('page', String(currentPage - 1));
+                          window.history.pushState(null, '', url.toString());
                       }}
                       style={{ background: "none", border: "none" }}
                   >
@@ -199,7 +211,20 @@ const PublicBandAuditions = () => {
               {currentPage < maxPage && (
                   <button
                       onClick={() => {
-                          navigate(nextPage);
+                          serviceCall(
+                              auditionService.getAuditionsByUrl(nextPage),
+                              navigate,
+                              (response) => {
+                                  setAuditions(response ? response.getContent() : []);
+                                  setPreviousPage(response ? response.getPreviousPage() : "");
+                                  setNextPage(response ? response.getNextPage() : "");
+                              },
+                              location
+                          )
+                          setCurrentPage(currentPage + 1)
+                          const url = new URL(window.location.href);
+                          url.searchParams.set('page', String(currentPage + 1));
+                          window.history.pushState(null, '', url.toString());
                       }}
                       style={{ background: "none", border: "none" }}
                   >

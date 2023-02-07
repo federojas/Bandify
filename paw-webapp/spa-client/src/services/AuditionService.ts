@@ -67,6 +67,31 @@ export default class AuditionService {
     }
   }
 
+  public async getAuditionsByUrl(url: string): Promise<ApiResult<PagedContent<Audition[]>>> {
+    try {
+      const response = await this.auditionApi.getAuditionsWithUrl(url);
+      return new ApiResult( new PagedContent(
+              response.getContent().map(a => {
+                const aud: Audition = {
+                  id: a.id,
+                  title: a.title,
+                  description: a.description,
+                  creationDate: a.creationDate,
+                  location: a.location,
+                  lookingFor: a.lookingFor,
+                  musicGenres: a.musicGenres,
+                  applications: a.applications,
+                  ownerId: parseInt(a.owner.split('/')[a.owner.split('/').length - 1])
+                }; return aud
+              }), response.getMaxPage(), response.getNextPage(), response.getPreviousPage()),
+          false,
+          null as any
+      );
+    } catch (error) {
+      return ErrorService.returnApiError(error);
+    }
+  }
+
   public async getAuditionsByBandId(page?: number,
                             bandId?: number,
   ): Promise<ApiResult<PagedContent<Audition[]>>> {

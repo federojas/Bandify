@@ -21,7 +21,6 @@ import { serviceCall } from "../../services/ServiceManager";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Audition } from "../../models";
 import { PaginationArrow, PaginationWrapper } from "../../components/Pagination/pagination";
-import { usePagination } from "../../hooks/usePagination";
 import { useAuditionService } from "../../contexts/AuditionService";
 import { getQueryOrDefault, getQueryOrDefaultArray, useQuery } from "../../hooks/useQuery";
 import React from "react";
@@ -38,13 +37,13 @@ const AuditionSearch = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
+  const query = useQuery();
   const auditionService = useAuditionService();
   const [auditions, setAuditions] = useState<Audition[]>([]);
-  const [currentPage] = usePagination();
+  const [currentPage, setCurrentPage] = useState(parseInt(getQueryOrDefault(query, "page", "1")));
   const [maxPage, setMaxPage] = useState(1);
   const [previousPage, setPreviousPage] = useState("");
   const [nextPage, setNextPage] = useState("");
-  const query = useQuery();
   const [searchTerms, setSearchTerms] = React.useState<string>(getQueryOrDefault(query, "query", ""));
   const [roles, setRoles] = React.useState<string[]>(getQueryOrDefaultArray(query, "role"));
   const [genres, setGenres] = React.useState<string[]>(getQueryOrDefaultArray(query, "genre"));
@@ -67,6 +66,8 @@ const AuditionSearch = () => {
       (response) => {
         setAuditions(response ? response.getContent() : []);
         setMaxPage(response ? response.getMaxPage() : 1); //TODO revisar esto
+        setPreviousPage(response ? response.getPreviousPage() : "");
+        setNextPage(response ? response.getNextPage() : "");
       }
     )
   }, [currentPage, searchTerms, roles, genres, locations, order])
@@ -105,7 +106,20 @@ const AuditionSearch = () => {
           {currentPage > 1 && (
               <button
                   onClick={() => {
-                    navigate(previousPage);
+                    serviceCall(
+                        auditionService.getAuditionsByUrl(previousPage),
+                        navigate,
+                        (response) => {
+                          setAuditions(response ? response.getContent() : []);
+                          setPreviousPage(response ? response.getPreviousPage() : "");
+                          setNextPage(response ? response.getNextPage() : "");
+                        },
+                        location
+                    )
+                    setCurrentPage(currentPage - 1)
+                    const url = new URL(window.location.href);
+                    url.searchParams.set('page', String(currentPage - 1));
+                    window.history.pushState(null, '', url.toString());
                   }}
                   style={{ background: "none", border: "none" }}
               >
@@ -123,7 +137,20 @@ const AuditionSearch = () => {
           {currentPage < maxPage && (
               <button
                   onClick={() => {
-                    navigate(nextPage);
+                    serviceCall(
+                        auditionService.getAuditionsByUrl(nextPage),
+                        navigate,
+                        (response) => {
+                          setAuditions(response ? response.getContent() : []);
+                          setPreviousPage(response ? response.getPreviousPage() : "");
+                          setNextPage(response ? response.getNextPage() : "");
+                        },
+                        location
+                    )
+                    setCurrentPage(currentPage + 1)
+                    const url = new URL(window.location.href);
+                    url.searchParams.set('page', String(currentPage + 1));
+                    window.history.pushState(null, '', url.toString());
                   }}
                   style={{ background: "none", border: "none" }}
               >

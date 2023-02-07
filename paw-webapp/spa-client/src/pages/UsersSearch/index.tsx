@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useUserService } from "../../contexts/UserService";
-import { usePagination } from "../../hooks/usePagination";
 import { User } from "../../models";
 import { serviceCall } from "../../services/ServiceManager";
 import { Center, Divider, Flex, Heading, useColorModeValue, VStack } from "@chakra-ui/react";
@@ -23,8 +22,7 @@ const Index = () => {
   const navigate = useNavigate();
   const [users, setUsers] = useState<User[]>([]);
   const query = useQuery();
-
-  const [currentPage] = usePagination();
+  const [currentPage, setCurrentPage] = useState(parseInt(getQueryOrDefault(query, "page", "1")));
   const [maxPage, setMaxPage] = useState(1);
   const [previousPage, setPreviousPage] = useState("");
   const [nextPage, setNextPage] = useState("");
@@ -49,7 +47,9 @@ const Index = () => {
       navigate,
       (response) => {
         setUsers(response ? response.getContent() : []);
-        setMaxPage(response ? response.getMaxPage() : 1);; //TODO revisar esto
+        setMaxPage(response ? response.getMaxPage() : 1); //TODO revisar esto
+        setNextPage(response ? response.getNextPage() : "");
+        setPreviousPage( response ? response.getPreviousPage() : "");
       },
       location
     )
@@ -93,7 +93,20 @@ const Index = () => {
           {currentPage > 1 && (
               <button
                   onClick={() => {
-                    navigate(previousPage);
+                    serviceCall(
+                        userService.getUsersByUrl(previousPage),
+                        navigate,
+                        (response) => {
+                          setUsers(response ? response.getContent() : []);
+                          setPreviousPage(response ? response.getPreviousPage() : "");
+                          setNextPage(response ? response.getNextPage() : "");
+                        },
+                        location
+                    )
+                    setCurrentPage(currentPage - 1)
+                    const url = new URL(window.location.href);
+                    url.searchParams.set('page', String(currentPage - 1));
+                    window.history.pushState(null, '', url.toString());
                   }}
                   style={{ background: "none", border: "none" }}
               >
@@ -111,7 +124,20 @@ const Index = () => {
           {currentPage < maxPage && (
               <button
                   onClick={() => {
-                    navigate(nextPage);
+                    serviceCall(
+                        userService.getUsersByUrl(previousPage),
+                        navigate,
+                        (response) => {
+                          setUsers(response ? response.getContent() : []);
+                          setPreviousPage(response ? response.getPreviousPage() : "");
+                          setNextPage(response ? response.getNextPage() : "");
+                        },
+                        location
+                    )
+                    setCurrentPage(currentPage + 1)
+                    const url = new URL(window.location.href);
+                    url.searchParams.set('page', String(currentPage + 1));
+                    window.history.pushState(null, '', url.toString());
                   }}
                   style={{ background: "none", border: "none" }}
               >
