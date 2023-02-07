@@ -1,9 +1,19 @@
 import { Box, Button, Heading, Text, VStack } from '@chakra-ui/react';
 import { CheckCircleIcon, EmailIcon } from '@chakra-ui/icons';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 export default function ResetPwdEmailSent() {
   const { t } = useTranslation()
+    const [isDisabled, setIsDisabled] = useState(false);
+
+  useEffect(() => {
+    if (isDisabled) {
+      const timerId = setTimeout(() => setIsDisabled(false), 20000);
+      return () => clearTimeout(timerId);
+    }
+  }, [isDisabled]);
+
   return (
     <Box textAlign="center" py={10} px={6}>
       <VStack gap={'8'}>
