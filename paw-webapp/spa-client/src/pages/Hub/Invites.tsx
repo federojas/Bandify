@@ -1,4 +1,4 @@
-import { Accordion, Avatar, Box, Button, Center, Flex, HStack, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useDisclosure, VStack } from "@chakra-ui/react"
+import { Accordion, Avatar, Box, Button, Center, Flex, HStack, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Tab, TabList, TabPanel, TabPanels, Tabs, Text, useDisclosure, VStack } from "@chakra-ui/react"
 import { useTranslation } from "react-i18next"
 import SidenavLayout from "./SidenavLayout"
 import {TiTick, TiCancel} from 'react-icons/ti'
@@ -10,6 +10,13 @@ import { useNavigate } from "react-router-dom"
 import Membership from "../../models/Membership"
 import User from "../../models/User"
 import { useUserService } from "../../contexts/UserService"
+
+
+enum inviteStatuses {
+  PENDING = "PENDING",
+  ACCEPTED = "ACCEPTED",
+  REJECTED = "REJECTED",
+}
 
 function InviteInfo({membership}:{membership:Membership}) {
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -84,13 +91,14 @@ const InviteItem = ({membership}:{membership:Membership}) => {
   )
 }
 
-const InvitesList = ({memberships}:{memberships:Membership[]}) => {
+const InvitesList = ({memberships, inviteStatus}:{memberships: Membership[], inviteStatus: inviteStatuses}) => {
   const { t } = useTranslation();
+  console.log(memberships)
   if(memberships.length === 0) return (<Text>{t("Invites.noInvites")}</Text>)
   return (<VStack width={'full'}>
     {memberships.map((membership) => {
-      console.log(membership)
-      return <InviteItem membership={membership}/>
+      if(membership.state === inviteStatus)
+        return <InviteItem membership={membership}/>
     })}
 
   </VStack>)
@@ -103,6 +111,8 @@ const Invites = () => {
   const navigate = useNavigate();
   const [memberships, setMemberships] = useState<Membership[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [inviteStatus, setInviteStatus] = useState<string>('PENDING');
+
   useEffect(()=>{
     if(!userId) return;
     serviceCall(
@@ -120,7 +130,20 @@ const Invites = () => {
     <SidenavLayout>
       <Text fontSize='2xl' fontWeight='bold' mb='4'>{t("Invites.Title")}</Text>
       {isLoading ? <Center mt={'15%'}><span className="loader"></span></Center> :
-      <InvitesList memberships={memberships} />}
+      <>
+      <Tabs variant='soft-rounded' colorScheme='blue'>
+      <TabList>
+        <Tab onClick={()=>{setInviteStatus(inviteStatuses.PENDING)}} >{t("Applications.Pending")}</Tab>
+        <Tab onClick={()=>{setInviteStatus(inviteStatuses.ACCEPTED)}} >{t("Applications.Accepted")}</Tab>
+        <Tab onClick={()=>{setInviteStatus(inviteStatuses.REJECTED)}}>{t("Applications.Rejected")}</Tab>
+      </TabList>
+        <TabPanels>     
+        <TabPanel mt="4">   
+          <InvitesList memberships={memberships} inviteStatus={inviteStatus as inviteStatuses} />
+        </TabPanel>
+        </TabPanels>
+      </Tabs>
+      </>}
     </SidenavLayout>
   )
 }

@@ -306,7 +306,7 @@ export const TRANSLATIONS_ES = {
     Subtitle: "Felicidades!",
     Subtitle2: "te han invitado a formar parte de la banda.",
     Subtitle3: "Esta es una breve descripción de tu participación en la banda:",
-    Subtitle4: "y este/estos es/son los roles que te ofrecen:",
+    Subtitle4: "y estos son los roles que te ofrecen:",
     errorCreatingInvite: "¡Oops! No se pudo invitar al artista",
     errorCreatingInviteMessage: "Ha ocurrido un error",
     successCreatingInvite: "¡La invitación se creó exitosamente!",
