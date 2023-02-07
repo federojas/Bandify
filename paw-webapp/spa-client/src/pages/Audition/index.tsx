@@ -126,11 +126,9 @@ const AuditionActions = (props: { auditionId: number, isOwner: boolean, currentU
 const AuditionCard = ({
   user,
   audition,
-  userImg,
 }: {
   user: User;
   audition: Audition;
-  userImg: string;
 }) => {
   const date = dayjs(audition.creationDate).format('DD/MM/YYYY');
   const { userId } = useContext(AuthContext);
@@ -159,7 +157,7 @@ const AuditionCard = ({
           className="ellipsis-overflow"
         >
           <Image
-            src={userImg}
+            src={user.profileImage}
             alt={t("Alts.profilePicture")}
             borderRadius="full"
             boxSize="70px"
@@ -286,7 +284,7 @@ const AuditionView = () => {
       <HStack minH={"80vh"}>
         {isLoading ? <span className="loader"></span> :
           (<>
-            <AuditionCard user={ownerUser!} audition={audition!} userImg={currentUser!.profileImage} />
+            <AuditionCard user={ownerUser!} audition={audition!} />
             <AuditionActions auditionId={audition!.id} isOwner={isOwner} currentUser={currentUser} />
           </>)}
       </HStack>
