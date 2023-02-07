@@ -30,6 +30,7 @@ public class MembershipServiceImpl implements MembershipService {
     @Autowired
     private AuthFacadeService authFacadeService;
 
+    private static final int MAX_INV_ROLES = 5;
     private static final Logger LOGGER = LoggerFactory.getLogger(MembershipServiceImpl.class);
 
     @Override
@@ -72,6 +73,8 @@ public class MembershipServiceImpl implements MembershipService {
         if(builder.getArtist().isBand() || !builder.getArtist().isAvailable()) {
             throw new UserNotAvailableException();
         }
+        if(builder.getRoles().size() > MAX_INV_ROLES)
+            throw new IllegalArgumentException("Invalid amount of roles");
         Locale locale = LocaleContextHolder.getLocale();
         LocaleContextHolder.setLocale(locale, true);
         mailingService.sendNewInvitationEmail(builder.getBand(), builder.getArtist().getEmail(), locale);

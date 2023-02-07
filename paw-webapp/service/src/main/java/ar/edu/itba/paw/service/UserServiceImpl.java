@@ -137,7 +137,7 @@ public class UserServiceImpl implements UserService {
     public User updateUserRoles(List<String> rolesNames, User user) {
         Set<Role> roles = roleService.getRolesByNames(rolesNames);
         if(roles.size() > MAX_USER_ROLES)
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Invalid amount of roles");
         user.setUserRoles(roles);
         return user;
     }
@@ -157,7 +157,7 @@ public class UserServiceImpl implements UserService {
     public User updateUserGenres(List<String> genreNames, User user) {
         Set<Genre> genres = genreService.getGenresByNames(genreNames);
         if(genres.size() > MAX_USER_GENRES)
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Invalid amount of genres");
         user.setUserGenres(genres);
         return user;
     }

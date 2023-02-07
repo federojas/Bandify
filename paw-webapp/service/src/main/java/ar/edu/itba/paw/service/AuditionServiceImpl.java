@@ -20,6 +20,9 @@ public class AuditionServiceImpl implements AuditionService {
     @Autowired
     private AuthFacadeService authFacadeService;
 
+    private static final int MAX_AUD_GENRES = 5;
+    private static final int MAX_AUD_ROLES = 5;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(AuditionServiceImpl.class);
 
 
@@ -36,6 +39,8 @@ public class AuditionServiceImpl implements AuditionService {
     @Transactional
     @Override
     public Audition create(Audition.AuditionBuilder builder) {
+        if(builder.getLookingFor().size() > MAX_AUD_ROLES  || builder.getMusicGenres().size() > MAX_AUD_GENRES)
+            throw new IllegalArgumentException("Invalid amount of roles or genres");
         return auditionDao.create(builder);
     }
 
@@ -45,6 +50,8 @@ public class AuditionServiceImpl implements AuditionService {
         checkAuditionId(id);
         checkPermissions(id);
         Audition audition = getAuditionById(id);
+        if(builder.getLookingFor().size() > MAX_AUD_ROLES  || builder.getMusicGenres().size() > MAX_AUD_GENRES)
+            throw new IllegalArgumentException("Invalid amount of roles or genres");
         audition.edit(builder);
         return audition;
     }
