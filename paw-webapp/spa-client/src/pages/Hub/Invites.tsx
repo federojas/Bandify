@@ -78,12 +78,17 @@ const InviteItem = ({membership}:{membership:Membership}) => {
 
 const InvitesList = ({memberships, inviteStatus}:{memberships: Membership[], inviteStatus: inviteStatuses}) => {
   const { t } = useTranslation();
-  console.log(memberships)
+  const [membershipAux, setMembershipAux] = useState<Membership[]>(memberships);
+  useEffect(()=>{
+    setMembershipAux(memberships)
+  },[inviteStatus])
+
   if(memberships.length === 0) return (<Text>{t("Invites.noInvites")}</Text>)
   return (<VStack width={'full'}>
-    {memberships.map((membership) => {
-      if(membership.state === inviteStatus)
-        return <InviteItem membership={membership}/>
+    {membershipAux.map((membership) => {
+      // if(membership.state === inviteStatus)
+      
+        return <InviteItem key={membership.id} membership={membership}/>
     })}
 
   </VStack>)
@@ -101,7 +106,7 @@ const Invites = () => {
   useEffect(()=>{
     if(!userId) return;
     serviceCall(
-      membershipService.getUserMemberships({user: userId}),
+      membershipService.getUserMemberships({user: userId, state: inviteStatus}),
       navigate,
       ).then((response) => {
         if(!response.hasFailed()) {
@@ -109,7 +114,7 @@ const Invites = () => {
           setMemberships(response.getData().getContent());
         }
       })
-    },[]
+    },[inviteStatus]
   )
   return (
     <SidenavLayout>
@@ -117,11 +122,11 @@ const Invites = () => {
       {isLoading ? <Center mt={'15%'}><span className="loader"></span></Center> :
       <>
       <Tabs variant='soft-rounded' colorScheme='blue'>
-      <TabList>
-        <Tab onClick={()=>{setInviteStatus(inviteStatuses.PENDING)}} >{t("Applications.Pending")}</Tab>
-        <Tab onClick={()=>{setInviteStatus(inviteStatuses.ACCEPTED)}} >{t("Applications.Accepted")}</Tab>
-        <Tab onClick={()=>{setInviteStatus(inviteStatuses.REJECTED)}}>{t("Applications.Rejected")}</Tab>
-      </TabList>
+        <TabList>
+          <Tab onClick={()=>{setInviteStatus(inviteStatuses.PENDING)}}  >{t("Applications.Pending")}</Tab>
+          <Tab onClick={()=>{setInviteStatus(inviteStatuses.ACCEPTED)}} >{t("Applications.Accepted")}</Tab>
+          <Tab onClick={()=>{setInviteStatus(inviteStatuses.REJECTED)}} >{t("Applications.Rejected")}</Tab>
+        </TabList>
         <TabPanels>     
         <TabPanel mt="4">   
           <InvitesList memberships={memberships} inviteStatus={inviteStatus as inviteStatuses} />
