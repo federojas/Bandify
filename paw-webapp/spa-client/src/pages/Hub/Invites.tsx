@@ -106,7 +106,7 @@ const Invites = () => {
       ).then((response) => {
         if(!response.hasFailed()) {
           setIsLoading(false);
-          setMemberships(response.getData());
+          setMemberships(response.getData().getContent());
         }
       })
     },[]

@@ -1,6 +1,7 @@
 import MembershipApi from "../api/MembershipApi";
 import RoleApi from "../api/RoleApi";
 import ApiResult from "../api/types/ApiResult";
+import PagedContent from "../api/types/PagedContent";
 import PostResponse from "../api/types/PostResponse";
 import { User } from "../api/types/User";
 import UserApi from "../api/UserApi";
@@ -53,11 +54,11 @@ export default class MembershipService {
         }
     }
 
-    public async getUserMemberships(params: Params): Promise<ApiResult<Membership[]>> {
+    public async getUserMemberships(params: Params, page?: number): Promise<ApiResult<PagedContent<Membership[]>>> {
         try {
-            const membershipList = await this.membershipApi.getUserMemberships(params);
+            const response = await this.membershipApi.getUserMemberships(params, page);
             let memberships: Membership[] = [];
-            for await (const membership of membershipList) {
+            for await (const membership of response.getContent()) {
                 const artist: User = await this.userApi.getUserById(membership.artistId);
                 const band: User = await this.userApi.getUserById(membership.bandId);
                 memberships.push(
@@ -72,7 +73,10 @@ export default class MembershipService {
                 )
             }
             return new ApiResult(
-                memberships,
+                new PagedContent(
+                    memberships, response.getMaxPage(),
+                    response.getNextPage(),
+                    response.getPreviousPage()),
                 false,
                 null as any
             )
@@ -100,19 +104,14 @@ export default class MembershipService {
 
     }
 
+    // TODO: esto esta mal porque solo revisa la pagina 1.
     public async canInvite(bandId: number, artistId: number) : Promise<ApiResult<Boolean>> {
         console.log("canInvite (service) con bandId: "+ bandId + " y el user ID: " + artistId);
         try {
-            const members = await this.getUserMemberships({user: bandId, state: "ACCEPTED"});
-            const pendings = await this.getUserMemberships({user: bandId, state: "PENDING"});
+            const members = await this.getUserMemberships({user: bandId});
             if(!members.hasFailed()) {
-                if(!pendings.hasFailed()) {
-                    const membersIds = members.getData().map( (member) => member.artist.id );
-                    const pendingsIds = pendings.getData().map( (member) => member.artist.id );
-                    return new ApiResult( !(membersIds.includes(artistId) || pendingsIds.includes(artistId)), false, null as any);
-                } else {
-                    throw pendings.getError();
-                }
+                const membersIds = members.getData().getContent().map( (member) => member.artist.id );
+                return new ApiResult( !membersIds.includes(artistId) , false, null as any);
             }
             throw members.getError();
         } catch (error: any) {
