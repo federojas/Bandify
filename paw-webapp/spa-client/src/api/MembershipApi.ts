@@ -1,5 +1,7 @@
+import { parseLinkHeader } from "@web3-storage/parse-link-header";
 import { AxiosInstance } from "axios";
 import Membership from "./types/Membership";
+import PagedContent from "./types/PagedContent";
 
 
 interface GetParams {
@@ -57,12 +59,15 @@ class MembershipApi {
         });
     };
 
-    public getUserMemberships = async (params: GetParams) => {
+    public getUserMemberships = async (params: GetParams, page?: number) => {
         return this.axiosPrivate.get(this.endpoint, {
             params: {
                 user: params.user,
                 state: params.state,
                 preview: params.preview,
+                page: page
+            }, paramsSerializer: {
+                indexes: null
             }, ...this.listConfig
         })
             .then((response) => {
@@ -84,16 +89,30 @@ class MembershipApi {
                             };
                         })
                         : [];
-                return Promise.resolve(memberships);
+                let maxPage = 1;
+                let previousPage = "";
+                let nextPage = "";
+                let parsed;
+                if (response.headers) {
+                    parsed = parseLinkHeader(response.headers.link);
+                    if (parsed) {
+                        maxPage = parseInt(parsed.last.page);
+                        if (parsed.prev)
+                            previousPage = parsed.prev.url;
+                        if (parsed.next)
+                            nextPage = parsed.next.url;
+                    }
+                }
+                return Promise.resolve(new PagedContent(memberships, maxPage, nextPage, previousPage));
             });
     }
 
     public inviteToBand = async (params: PostParams) => {
         return this.axiosPrivate.post(`${this.endpoint}?user=${params.userId}`,
-        {roles: params.roles, description: params.description},
-        this.config).then((response) => {
-            return Promise.resolve(response);
-        });
+            { roles: params.roles, description: params.description },
+            this.config).then((response) => {
+                return Promise.resolve(response);
+            });
     }
 
 };

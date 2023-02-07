@@ -44,7 +44,6 @@ class AuditionApi {
         });
     };
 
-    //TODO: codigo repetido
     public getAuditions = async (page?: number, query?: string, roles?: string[], genres?: string[], locations?: string[], order?: string) => {
         return this.axiosPrivate
             .get(this.endpoint, {
