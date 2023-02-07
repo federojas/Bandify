@@ -100,39 +100,28 @@ const Invites = () => {
   const membershipService = useMembershipService();
   const navigate = useNavigate();
   const [memberships, setMemberships] = useState<Membership[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [inviteStatus, setInviteStatus] = useState<string>('PENDING');
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(()=>{
     if(!userId) return;
     serviceCall(
-      membershipService.getUserMemberships({user: userId, state: inviteStatus}),
+      membershipService.getUserMemberships({user: userId, state: inviteStatuses.PENDING}),
       navigate,
       ).then((response) => {
         if(!response.hasFailed()) {
           setIsLoading(false);
           setMemberships(response.getData().getContent());
+          console.log(memberships)
         }
       })
-    },[inviteStatus]
+    },[]
   )
   return (
     <SidenavLayout>
       <Text fontSize='2xl' fontWeight='bold' mb='4'>{t("Invites.Title")}</Text>
       {isLoading ? <Center mt={'15%'}><span className="loader"></span></Center> :
-      <>
-      <Tabs variant='soft-rounded' colorScheme='blue'>
-        <TabList>
-          <Tab onClick={()=>{setInviteStatus(inviteStatuses.PENDING)}}  >{t("Applications.Pending")}</Tab>
-          <Tab onClick={()=>{setInviteStatus(inviteStatuses.ACCEPTED)}} >{t("Applications.Accepted")}</Tab>
-          <Tab onClick={()=>{setInviteStatus(inviteStatuses.REJECTED)}} >{t("Applications.Rejected")}</Tab>
-        </TabList>
-        <TabPanels>     
-        <TabPanel mt="4">   
-          <InvitesList memberships={memberships} inviteStatus={inviteStatus as inviteStatuses} />
-        </TabPanel>
-        </TabPanels>
-      </Tabs>
+      <>  
+        <InvitesList memberships={memberships} inviteStatus={inviteStatuses.PENDING} />
       </>}
     </SidenavLayout>
   )
