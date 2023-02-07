@@ -1,5 +1,5 @@
 //i18 translations
-import React, {ReactElement, useEffect, useState} from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import BandifyLogo from "../../images/logo.png";
@@ -25,13 +25,15 @@ import {
   Image,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon, AddIcon } from "@chakra-ui/icons";
-import { FiMusic, FiUsers } from "react-icons/fi";
+import { FiLogOut, FiMusic, FiUsers } from "react-icons/fi";
 import AuthContext from "../../contexts/AuthContext";
 import { useContext } from "react";
 import { serviceCall } from "../../services/ServiceManager";
 import { useUserService } from "../../contexts/UserService";
 import { RiAppsFill } from "react-icons/ri";
-import {User} from "../../models";
+import { User } from "../../models";
+import { FaUserCircle } from "react-icons/fa";
+import { BiUser } from "react-icons/bi";
 const NavLink = ({
   children,
   link,
@@ -88,7 +90,7 @@ function Nav() {
         navigate,
         (response) => {
           setUser(
-              response
+            response
           )
         },
       )
@@ -110,7 +112,7 @@ function Nav() {
         />
         <HStack spacing={8} alignItems={"center"}>
           <Box>
-            <a style={{cursor: "pointer"}} onClick={() => {navigate('/')}} className="logo-section">
+            <a style={{ cursor: "pointer" }} onClick={() => { navigate('/') }} className="logo-section">
               <HStack>
                 <Image src={BandifyLogo} w={8} alt={t("Alts.bandify")} />
                 <span className="bandify-title">bandify</span>
@@ -180,11 +182,13 @@ function Nav() {
                   />
                 </MenuButton>
                 <MenuList>
-                  <MenuItem onClick={() => { navigate('/profile') }}>
+                  <MenuItem gap={2} onClick={() => { navigate('/profile') }}>
+                    <BiUser />
                     {t("NavBar.profileAlt")}
                   </MenuItem>
                   <MenuDivider />
-                  <MenuItem onClick={() => { logout(); navigate('/welcome'); }}>{t("NavBar.logoutAlt")}</MenuItem>
+                  <MenuItem gap={2} onClick={() => { logout(); navigate('/welcome'); }}>
+                    <FiLogOut />                    {t("NavBar.logoutAlt")}</MenuItem>
                 </MenuList>
               </Menu>
             </>
@@ -200,7 +204,7 @@ function Nav() {
                 fontSize={"sm"}
                 fontWeight={400}
                 variant={"link"}
-                style={{cursor: "pointer"}}
+                style={{ cursor: "pointer" }}
                 onClick={() => { navigate('/login') }}
               >
                 {t("NavBar.login")}

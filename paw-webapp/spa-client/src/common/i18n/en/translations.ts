@@ -309,7 +309,7 @@ export const TRANSLATIONS_EN = {
     errorCreatingInvite: "¡Oops! Could not create invite",
     errorCreatingInviteMessage: "An error ocurred",
     successCreatingInvite: "Invite created successfully!",
-    noInvites: "You don't have any invitations in this section",
+    noInvites: "You don't have any invitations yet. Keep up the good work!",
   },
   Alts: {
     profilePicture: "Profile picture",

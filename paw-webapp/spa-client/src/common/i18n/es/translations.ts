@@ -310,7 +310,7 @@ export const TRANSLATIONS_ES = {
     errorCreatingInvite: "¡Oops! No se pudo invitar al artista",
     errorCreatingInviteMessage: "Ha ocurrido un error",
     successCreatingInvite: "¡La invitación se creó exitosamente!",
-    noInvites: "No tienes invitaciones en esta sección",
+    noInvites: "No tienes invitaciones todavía. ¡Manten el animo y sigue buscando bandas!",
   },
   Alts: {
     profilePicture: "Foto de perfil",

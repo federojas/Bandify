@@ -149,6 +149,7 @@ const PublicBandAuditions = () => {
         alignItems="center"
         justifyContent={"start"}
         className="ellipsis-overflow"
+        cursor={'pointer'}
       >
         <Avatar
           src={band?.profileImage} //TODO: revisar ALT
