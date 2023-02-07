@@ -126,7 +126,7 @@ const NewAudition = () => {
       return false;
     }
     
-    if (roles.length >5) {
+    if (roles.length > 5) {
       toast({
         title: t("EditAudition.maxRoles"),
         status: "error",
@@ -145,10 +145,12 @@ const NewAudition = () => {
       });
       return false;
     }
+
+    return true;
   }
 
   const onSubmit = async (data: FormData) => {
-    if (!isValidForm(data)) return; 
+    if (!isValidForm(data)) return;
     const auditionInput: AuditionInput = {
       title: data.title,
       description: data.description,
@@ -156,8 +158,6 @@ const NewAudition = () => {
       musicGenres: genres.map((genre) => genre.value),
       lookingFor: roles.map((role) => role.value),
     }
-
-    console.log(auditionInput)
 
     serviceCall(
       auditionService.createAudition(auditionInput),

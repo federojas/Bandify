@@ -162,7 +162,7 @@ const EditAudition = () => {
       return false;
     }
     
-    if (roles.length >5) {
+    if (roles.length > 5) {
       toast({
         title: t("EditAudition.maxRoles"),
         status: "error",
@@ -181,6 +181,8 @@ const EditAudition = () => {
       });
       return false;
     }
+
+    return true;
   }
 
   const onSubmit = async (data: FormData) => {

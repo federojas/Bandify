@@ -102,9 +102,34 @@ const AddToBandButton = ({ user }: { user: User }) => {
     formState: { errors },
   } = useForm<FormData>();
 
+  const isValidForm = (data: FormData) => {
+
+    if (roles.length == 0) {
+      toast({
+        title: t("EditAudition.rolesRequired"),
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+      return false;
+    }
+
+    if (roles.length > 5) {
+      toast({
+        title: t("EditAudition.maxRoles"),
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+      return false;
+    }
+
+    return true;
+  }
+
 
   const onSubmit = async (data: FormData) => {
-    console.log('Invitando a la banda')
+    if (!isValidForm(data)) return;
     const input = {
       userId: user.id,
       roles: roles.map((role) => role.value),
