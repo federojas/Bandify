@@ -298,7 +298,7 @@ const EditBand = () => {
                                         <FormErrorMessage>{errors.description?.message}</FormErrorMessage>
                                         </FormControl>
 
-                                    <FormControl>
+                                    <FormControl id="image" isInvalid={Boolean(errors.image)}>
                                         <FormLabel
                                             fontSize={16} fontWeight="bold"
                                         >

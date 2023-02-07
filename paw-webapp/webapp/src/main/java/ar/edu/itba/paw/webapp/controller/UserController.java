@@ -113,8 +113,9 @@ public class UserController {
     @Path("/{id}/profile-image")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public Response updateUserProfileImage(@PathParam("id") final long id,
-                                           @FormDataParam("image") InputStream image, //TODO IMAGE TYPE Y SIZE
-                                           @FormDataParam("image")FormDataContentDisposition imageMetaData) throws IOException {
+                                           @FormDataParam("image") InputStream image,
+                                           @FormDataParam("image") FormDataContentDisposition imageMetaData) throws IOException {
+        //TODO file type y size
         userService.updateProfilePicture(
                 userService.getUserById(id).orElseThrow(UserNotFoundException::new),
                 IOUtils.toByteArray(image));
