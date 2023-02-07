@@ -357,7 +357,9 @@ export const TRANSLATIONS_ES = {
     EmailPlaceholder: "email@example.com",
     RequestReset: "Solicitar restablecimiento",
     error: "No se pudo enviar el mail.",
-    success: "¡Email enviado con éxito!"
+    success: "¡Email enviado con éxito!",
+    errorChange: "No se pudo cambiar la contraseña.",
+    successChange: "¡Contraseña cambiada con éxito!",
   },
   ResetPwdEmailSent: {
     Title: "¡Email enviado con éxito!",
@@ -367,7 +369,7 @@ export const TRANSLATIONS_ES = {
     Resend: "Reenviar email",
   },
   NewPassword: {
-    Title: "Ingresa una nueva contraseña",
+    Title: "Cambia tu contraseña",
     Password: "Contraseña",
     ConfirmPassword: "Confirmar contraseña",
     Submit: "Enviar"

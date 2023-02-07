@@ -1,5 +1,10 @@
 import ApiResult from "../api/types/ApiResult";
-import {UserCreateInput, UserPasswordResetRequestInput, UserUpdateInput} from "../api/types/User";
+import {
+    UserCreateInput,
+    UserPasswordResetInput,
+    UserPasswordResetRequestInput,
+    UserUpdateInput
+} from "../api/types/User";
 import UserApi from "../api/UserApi";
 import {Audition, User, Application} from "../models";
 import { ErrorService } from "./ErrorService";
@@ -174,15 +179,27 @@ export default class UserService {
     }
   }
 
-    public async generateUserPassword(data: UserPasswordResetRequestInput) {
-        try {
-            const response = await this.userApi.generateUserPassword(data);
-            return new ApiResult(
-                response,
-                false,
-                null as any)
-        } catch (error: any) {
-            return ErrorService.returnApiError(error);
-        }
+  public async generateUserPassword(data: UserPasswordResetRequestInput) {
+    try {
+        const response = await this.userApi.generateUserPassword(data);
+        return new ApiResult(
+            response,
+            false,
+            null as any)
+    } catch (error: any) {
+        return ErrorService.returnApiError(error);
     }
+  }
+
+  public async changeUserPassword(token: string, data: UserPasswordResetInput) {
+    try {
+        const response = await this.userApi.changeUserPassword(token, data);
+        return new ApiResult(
+            response,
+            false,
+            null as any)
+    } catch (error: any) {
+        return ErrorService.returnApiError(error);
+    }
+  }
 }

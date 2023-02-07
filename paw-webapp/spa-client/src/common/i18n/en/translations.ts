@@ -357,7 +357,9 @@ export const TRANSLATIONS_EN = {
     EmailPlaceholder: "email@example.com",
     RequestReset: "Request reset",
     error: "Could not send reset password email.",
-    success: "Reset password email sent successfully!"
+    success: "Reset password email sent successfully!",
+    errorChange: "Could not change password.",
+    successChange: "Password changed successfully!",
   },
   ResetPwdEmailSent: {
     Title: "Email sent successfully!",

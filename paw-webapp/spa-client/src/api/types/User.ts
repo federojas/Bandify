@@ -38,6 +38,11 @@ type UserPasswordResetRequestInput = {
     email: string
 }
 
+type UserPasswordResetInput = {
+    newPassword: string,
+    newPasswordConfirmation: string
+}
+
 type UserSocialMedia = {
     id: number;
     twitterUrl: string;
@@ -47,4 +52,4 @@ type UserSocialMedia = {
 // TODO: campos para banda ?
 
 
-export type { UserCreateInput, UserUpdateInput, User, UserSocialMedia, UserPasswordResetRequestInput }
+export type { UserCreateInput, UserUpdateInput, User, UserSocialMedia, UserPasswordResetRequestInput, UserPasswordResetInput }

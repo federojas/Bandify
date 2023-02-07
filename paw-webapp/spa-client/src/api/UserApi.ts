@@ -1,4 +1,10 @@
-import {UserCreateInput, UserUpdateInput, User, UserPasswordResetRequestInput} from "./types/User";
+import {
+    UserCreateInput,
+    UserUpdateInput,
+    User,
+    UserPasswordResetRequestInput,
+    UserPasswordResetInput
+} from "./types/User";
 import { Application } from "./types/Application";
 import axios, { AxiosInstance, AxiosResponse } from "axios";
 import {parseLinkHeader} from "@web3-storage/parse-link-header";
@@ -244,6 +250,20 @@ class UserApi {
         .then((response) => {
             return true;
         })
+  };
+
+  public changeUserPassword = async (token: string, input: UserPasswordResetInput) => {
+      const config = {
+          headers: {
+              'Content-Type': 'application/vnd.password-token.v1+json',
+              'Authorization' : "Basic " + btoa( "mail:" + token)
+          }
+      }
+      return this.axiosPrivate
+          .put(`${this.endpoint}/password-tokens/${token}`, input, config)
+          .then((response) => {
+              return response;
+          })
   };
 
 };

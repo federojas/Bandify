@@ -13,7 +13,7 @@ import {useForm} from "react-hook-form";
 import {registerOptions, registerOptionsES} from "../../components/RegisterForms/validations";
 import {UserPasswordResetRequestInput} from "../../api/types/User";
 import {serviceCall} from "../../services/ServiceManager";
-import { createSearchParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {useUserService} from "../../contexts/UserService";
 
 interface FormData {
@@ -56,12 +56,12 @@ export default function ForgotPasswordForm(): JSX.Element {
               description: t("ResetPassword.emailSent"),
               isClosable: true,
             })
-            navigate({
-              pathname: '/resetPassword/emailSent',
-              search: createSearchParams({
-                email: data.email
-              }).toString()
-            }, {replace: true}) //todo: redirect a auditions?
+            navigate('/resetPassword/emailSent',{
+              state: {
+                email: data.email,
+              },
+              replace: true
+            })
           }
         }
     ).catch((error) => { console.log("error:"+error) });

@@ -2,10 +2,9 @@ import {Box, Button, Heading, Text, useToast, VStack} from '@chakra-ui/react';
 import { EmailIcon } from '@chakra-ui/icons';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {getQueryOrDefault, useQuery} from "../../hooks/useQuery";
 import { serviceCall } from "../../services/ServiceManager"
 import {useUserService} from "../../contexts/UserService";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {UserPasswordResetRequestInput} from "../../api/types/User";
 
 export default function ResetPwdEmailSent() {
@@ -19,15 +18,14 @@ export default function ResetPwdEmailSent() {
   }, [isDisabled]);
 
   const { t } = useTranslation()
-  const query = useQuery();
-  const email = getQueryOrDefault(query, "email" ,"");
   const userService = useUserService();
   const navigate = useNavigate();
   const toast = useToast();
+  const location = useLocation();
 
   const onResend = () => {
     const input: UserPasswordResetRequestInput = {
-      email: email
+      email: location.state.email
     }
     serviceCall(
         userService.generateUserPassword(input),
