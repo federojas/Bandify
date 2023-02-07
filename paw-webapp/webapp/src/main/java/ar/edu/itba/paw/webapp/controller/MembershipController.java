@@ -50,17 +50,6 @@ public class MembershipController {
         return Response.ok(MembershipDto.fromMembership(uriInfo, membership)).build();
     }
 
-    //TODO VUELA? O COMBINAMOS?
-//    @GET
-//    @Produces(value = { MediaType.APPLICATION_JSON, })
-//    public Response getMembershipsByUsers(@QueryParam("artist") final Long artistId,
-//                                          @QueryParam("band") final Long bandId) {
-//        final User artist = userService.getUserById(artistId).orElseThrow(UserNotFoundException::new);
-//        final User band = userService.getUserById(bandId).orElseThrow(UserNotFoundException::new);
-//        final Membership membership = membershipService.getMembershipByUsers(band, artist).orElseThrow(MembershipNotFoundException::new);
-//        return Response.ok(MembershipDto.fromMembership(uriInfo, membership)).build();
-//    }
-
     //TODO ANALIZAR SI SIRVE ESTO DEL PREVIEW O VUELA
     @GET
     @Produces("application/vnd.membership-list.v1+json")

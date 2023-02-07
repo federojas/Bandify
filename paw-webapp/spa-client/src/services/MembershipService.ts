@@ -23,21 +23,16 @@ interface PostParams {
 export default class MembershipService {
 
     private membershipApi: MembershipApi;
-    private roleApi: RoleApi;
     private userApi: UserApi;
 
-    constructor(membershipApi: MembershipApi, roleApi: RoleApi,
-        userApi: UserApi) {
+    constructor(membershipApi: MembershipApi, userApi: UserApi) {
         this.membershipApi = membershipApi;
-        this.roleApi = roleApi;
         this.userApi = userApi;
     }
 
     public async getMembershipById(id: number): Promise<ApiResult<Membership>> {
         try {
             const currentMembership = await this.membershipApi.getMembershipById(id);
-            const membershipRoles = await this.roleApi.getRoles({ membershipId: currentMembership.id });
-            const roles: string[] = membershipRoles.map((role) => role.roleName);
             const artist: User = await this.userApi.getUserById(currentMembership.artistId);
             const band: User = await this.userApi.getUserById(currentMembership.bandId);
 
@@ -47,7 +42,7 @@ export default class MembershipService {
                     artist: artist,
                     band: band,
                     description: currentMembership.description,
-                    roles: roles,
+                    roles: currentMembership.roles,
                     state: currentMembership.state
                 } as Membership,
                 false,
@@ -63,8 +58,6 @@ export default class MembershipService {
             const membershipList = await this.membershipApi.getUserMemberships(params);
             let memberships: Membership[] = [];
             for await (const membership of membershipList) {
-                const membershipRoles = await this.roleApi.getRoles({ membershipId: membership.id });
-                const roles: string[] = membershipRoles.map((role) => role.roleName);
                 const artist: User = await this.userApi.getUserById(membership.artistId);
                 const band: User = await this.userApi.getUserById(membership.bandId);
                 memberships.push(
@@ -73,7 +66,7 @@ export default class MembershipService {
                         artist: artist,
                         band: band,
                         description: membership.description,
-                        roles: roles,
+                        roles: membership.roles,
                         state: membership.state
                     } as Membership
                 )

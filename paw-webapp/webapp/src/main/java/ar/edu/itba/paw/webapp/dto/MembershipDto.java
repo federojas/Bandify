@@ -2,10 +2,13 @@ package ar.edu.itba.paw.webapp.dto;
 
 import ar.edu.itba.paw.model.Membership;
 import ar.edu.itba.paw.model.MembershipState;
+import ar.edu.itba.paw.model.Role;
 
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class MembershipDto {
 
@@ -14,7 +17,7 @@ public class MembershipDto {
     private MembershipState state;
 
     private URI self;
-    private URI roles;
+    private List<String> roles;
     private URI artist;
     private URI band;
 
@@ -26,14 +29,10 @@ public class MembershipDto {
         dto.id = membership.getId();
         dto.description = membership.getDescription();
         dto.state = membership.getState();
-
+        dto.roles = membership.getRoles().stream().map(Role::getName).collect(Collectors.toList());
         final UriBuilder membershipUriBuilder = uriInfo.getAbsolutePathBuilder()
                 .replacePath("memberships").path(String.valueOf(membership.getId()));
         dto.self = membershipUriBuilder.build();
-
-        final UriBuilder roleUriBuilder = uriInfo.getAbsolutePathBuilder()
-                .replacePath("roles");
-        dto.roles = roleUriBuilder.queryParam("membership", String.valueOf(membership.getId())).build();
 
         final UriBuilder artistUriBuilder = uriInfo.getAbsolutePathBuilder()
                 .replacePath("users").path(String.valueOf(membership.getArtist().getId()));
@@ -78,11 +77,11 @@ public class MembershipDto {
         this.self = self;
     }
 
-    public URI getRoles() {
+    public List<String> getRoles() {
         return roles;
     }
 
-    public void setRoles(URI roles) {
+    public void setRoles(List<String> roles) {
         this.roles = roles;
     }
 
