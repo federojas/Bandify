@@ -9,10 +9,9 @@ import {
   useColorModeValue, FormLabel, FormErrorMessage, useToast,
 } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import React from "react";
 import {useForm} from "react-hook-form";
 import {registerOptions, registerOptionsES} from "../../components/RegisterForms/validations";
-import {UserCreateInput, UserPasswordResetRequestInput} from "../../api/types/User";
+import {UserPasswordResetRequestInput} from "../../api/types/User";
 import {serviceCall} from "../../services/ServiceManager";
 import { createSearchParams, useNavigate } from "react-router-dom";
 import {useUserService} from "../../contexts/UserService";
@@ -106,7 +105,6 @@ export default function ForgotPasswordForm(): JSX.Element {
           <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
         </FormControl>
         <Stack spacing={6}>
-          {/* TODO: agregar navigate a resetPassword/emailSent */}
           <Button
             type="submit"
             bg={'blue.400'}

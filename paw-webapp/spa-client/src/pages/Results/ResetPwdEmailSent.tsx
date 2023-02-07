@@ -1,5 +1,5 @@
 import {Box, Button, Heading, Text, useToast, VStack} from '@chakra-ui/react';
-import { CheckCircleIcon, EmailIcon } from '@chakra-ui/icons';
+import { EmailIcon } from '@chakra-ui/icons';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {getQueryOrDefault, useQuery} from "../../hooks/useQuery";
@@ -68,11 +68,6 @@ export default function ResetPwdEmailSent() {
           <Text color={'gray.500'} fontSize={'x-large'}>
             {t("ResetPwdEmailSent.Text")}
           </Text>
-          <Button colorScheme="blue" variant="outline"
-            isDisabled={isDisabled}
-            onClick={() => setIsDisabled(true)}>
-            {t("ResetPwdEmailSent.Resend")}
-          </Button>
           <VStack gap='2'>
 
             <Text color={'gray.500'} as={'i'} fontSize={'large'}>
@@ -81,7 +76,8 @@ export default function ResetPwdEmailSent() {
             <Button
                 colorScheme="blue"
                 variant="outline"
-                onClick={onResend}
+                isDisabled={isDisabled}
+                onClick={() => {setIsDisabled(true); onResend();}}
             >
               {t("ResetPwdEmailSent.Resend")}
             </Button>

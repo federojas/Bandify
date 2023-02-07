@@ -234,13 +234,13 @@ class UserApi {
   };
 
   public generateUserPassword = async (email: UserPasswordResetRequestInput) => {
-    const pwdConfig = {
+    const config = {
         headers: {
-            'Content-Type': 'application/vnd.password.v1+json'
+            'Content-Type': 'application/vnd.password-token.v1+json'
         }
     }
     return this.axiosPrivate
-        .post(`${this.endpoint}/password`, email, pwdConfig)
+        .post(`${this.endpoint}/password-tokens`, email, config)
         .then((response) => {
             return true;
         })
