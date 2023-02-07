@@ -69,7 +69,9 @@ const BandAudition = (
 
 
       <Flex alignItems="center" justifyContent="center" mt={4}>
-        <Button colorScheme="green" mr={3} leftIcon={<FiUsers />}>
+        <Button colorScheme="green" mr={3} leftIcon={<FiUsers />} onClick={() => {
+          navigate('/auditions/' + audition.id + '/applicants')
+        }}>
           {t("MyAuditions.applicants")}
         </Button>
         <Button colorScheme="blue" leftIcon={<AiOutlineInfoCircle />}

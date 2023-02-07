@@ -337,6 +337,18 @@ export const TRANSLATIONS_ES = {
   AuditionApplicants: {
     Title: "Aplicantes a la audición: ",
     NoApplicants: "Esta audición no tiene aplicantes en esta sección",
-    SeeApplication: "Ve"
+    SeeApplication: "Ver aplicación",
+    Accept: "Aceptar",
+    Reject: "Rechazar",
+    ModalTitle: "Aplicación de artista",
+    Subtitle: "¡Felicidades! Tu audición ha recibido una aplicación de ",
+    Subtitle2: "Esto es lo que el artista tiene que decir sobre sí mismo:",
+  },
+  EmailSent: {
+    Title: "¡Email enviado con éxito!",
+    Subtitle: "Hemos enviado un email de verificación a tu dirección de email.",
+    Text: "Por favor revisa tu bandeja de entrada y haz click en el link para verificar tu cuenta.",
+    DidntReceive: "Si no recibiste el email, por favor revisa tu carpeta de spam o haz click en el botón de abajo para reenviar el email.",
+    Resend: "Reenviar email",
   },
 };

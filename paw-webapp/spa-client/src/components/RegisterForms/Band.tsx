@@ -80,7 +80,7 @@ const RegisterBandForm = () => {
           description: t("Register.emailSent"),
           isClosable: true,
         })
-        navigate('/auditions', {replace: true}) //todo: redirect a auditions?
+        navigate('/emailSent', {replace: true}) //todo: redirect a auditions?
       }
     })
     

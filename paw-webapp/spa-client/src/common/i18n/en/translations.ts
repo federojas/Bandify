@@ -343,6 +343,13 @@ export const TRANSLATIONS_EN = {
     ModalTitle: "Artist application",
     Subtitle: "Congratulations! Your audition has received an application from ",
     Subtitle2: "This is what the artist has to say about themselves:",
+  },
+  EmailSent: {
+    Title: "Email sent successfully!",
+    Subtitle: "We have sent an verification email to your email address.",
+    Text: "Please check your inbox and click on the link to verify your account.",
+    DidntReceive: "If you don't receive the email, please check your spam folder or click on the button below to resend the email.",
+    Resend: "Resend email",
   }
 };
 
