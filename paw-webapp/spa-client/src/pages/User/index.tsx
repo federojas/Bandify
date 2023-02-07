@@ -208,7 +208,6 @@ const UserProfile = () => {
   const currentUserId = Number(authContext.userId);
   const [currentUser, setCurrentUser] = React.useState<User>();
   const [canInvite, setCanInvite] = React.useState<Boolean>(false);
-  const [userImg, setUserImg] = useState<string | undefined>(undefined)
   const userService = useUserService();
   const membershipService = useMembershipService();
   const filterAvailable = require(`../../images/available.png`);
@@ -235,16 +234,6 @@ const UserProfile = () => {
   useEffect(() => {
     if (user && currentUser) {
       serviceCall(
-        userService.getProfileImageByUserId(user.id),
-        navigate,
-        (response) => {
-          setUserImg(
-              URL.createObjectURL(response)
-          )
-        },
-      )
-
-      serviceCall(
         membershipService.canInvite(currentUser?.id as number, user?.id as number),
         navigate,
         (response: any) => {
@@ -270,7 +259,7 @@ const UserProfile = () => {
             <HStack gap={'8'}>
               <Flex>
               <Image
-                src={userImg}
+                src={user?.profileImage}
                 alt={t("Alts.profilePicture")}
                 borderRadius="full"
                 boxSize="150px"

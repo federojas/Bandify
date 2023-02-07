@@ -6,6 +6,7 @@ import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.service.AuditionService;
 import ar.edu.itba.paw.service.LocationService;
 import ar.edu.itba.paw.service.UserService;
+import ar.edu.itba.paw.webapp.controller.utils.ConditionalCacheUtil;
 import ar.edu.itba.paw.webapp.dto.LocationDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -57,6 +58,7 @@ public class LocationController {
             return Response.noContent().build();
 
         Response.ResponseBuilder response = Response.ok(new GenericEntity<Set<LocationDto>>(locations) {});
+        ConditionalCacheUtil.setUnconditionalCache(response);
         return response.build();
     }
 
@@ -65,7 +67,9 @@ public class LocationController {
     @Produces("application/vnd.location.v1+json")
     public Response getById(@PathParam("id") final long id) {
         final Location location = locationService.getLocationById(id).orElseThrow(LocationNotFoundException::new);
-        return Response.ok(LocationDto.fromLoc(uriInfo, location)).build();
+        Response.ResponseBuilder response = Response.ok(LocationDto.fromLoc(uriInfo, location));
+        ConditionalCacheUtil.setUnconditionalCache(response);
+        return response.build();
     }
 
 }

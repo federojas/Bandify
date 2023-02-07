@@ -30,12 +30,11 @@ const ProfileCard: React.FC<User> = ({
   name,
   surname,
   band,
-  location,
   genres,
   roles,
   id,
   available,
-  description
+  profileImage
 }) => {
 
   const { t } = useTranslation();
@@ -47,26 +46,10 @@ const ProfileCard: React.FC<User> = ({
 
   const filteredGenres = showMore ? genres : genres.slice(0, 1);
   const genreCount = genres.length - filteredGenres.length;
-  const [userImg, setUserImg] = useState<string | undefined>(undefined)
   const userService = useUserService();
   const navigate = useNavigate();
   const filterAvailable = require(`../../images/available.png`);
   const { userId } = useContext(AuthContext);
-
-  useEffect(() => {
-    if (id) {
-      serviceCall(
-        userService.getProfileImageByUserId(id),
-        navigate,
-        (response) => {
-          setUserImg(
-              URL.createObjectURL(response)
-          )
-        },
-      )
-    }
-  }, [id, navigate])
-
 
   return (
     <Center py={6}>
@@ -82,7 +65,7 @@ const ProfileCard: React.FC<User> = ({
         <Center flex={1}>
           <Flex>
             <Image
-              src={userImg}
+              src={profileImage}
               alt={t("Alts.profilePicture")}
               borderRadius="full"
               boxSize="150px"

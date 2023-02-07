@@ -55,7 +55,8 @@ export default class UserService {
           name: current.name,
           roles: current.roles,
           socialMedia: current.socialMedia,
-          surname: current.surname
+          surname: current.surname,
+          profileImage: current.profileImage
         } as User,
         false,
         null as any
@@ -82,24 +83,13 @@ export default class UserService {
             name: u.name,
             roles: u.roles,
             socialMedia: u.socialMedia,
-            surname: u.surname
-          }; return user
+            surname: u.surname,
+            profileImage: u.profileImage
+        }; return user
         }), current.getMaxPage(), current.getNextPage(), current.getPreviousPage()),
         false,
         null as any
       );
-    } catch (error: any) {
-      return ErrorService.returnApiError(error);
-    }
-  }
-
-  public async getProfileImageByUserId(id: number): Promise<ApiResult<Blob>> {
-    try {
-      const image = await this.userApi.getProfileImageByUserId(id);
-      return new ApiResult(
-        image as Blob,
-        false,
-        null as any)
     } catch (error: any) {
       return ErrorService.returnApiError(error);
     }

@@ -131,15 +131,6 @@ const PublicBandAuditions = () => {
         setBand(user);
       }
     )
-
-    serviceCall(
-      userService.getProfileImageByUserId(Number(id)),
-      navigate,
-      (img) => {
-        setBandImg(URL.createObjectURL(img));
-      },
-
-    )
   }, [currentPage, navigate, auditionService, userService])
 
   return (
@@ -160,7 +151,7 @@ const PublicBandAuditions = () => {
         className="ellipsis-overflow"
       >
         <Avatar
-          src={bandImg} //TODO: revisar ALT
+          src={band?.profileImage} //TODO: revisar ALT
         />
         <Heading size="md">{band?.name}</Heading> {/*TODO: poner text overflow*/}
       </Flex>

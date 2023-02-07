@@ -72,16 +72,6 @@ class UserApi {
     });
   };
 
-  public getProfileImageByUserId = async (id: number): Promise<Blob> => {
-    return this.axiosPrivate
-      .get(`${this.endpoint}/${id}/profile-image`,  {
-          responseType: "blob"
-      })
-      .then((response) => {
-        return Promise.resolve(response.data as Blob);
-      })
-  };
-
   public updateProfileImage = async (id: number, image: FormData) => {
     return this.axiosPrivate
       .put(`${this.endpoint}/${id}/profile-image`, image)
@@ -128,17 +118,17 @@ class UserApi {
                     })
                     : [];
                 let maxPage = 1;
-                let previousPage = {};
-                let nextPage = {};
+                let previousPage = "";
+                let nextPage = "";
                 let parsed;
                 if(response.headers) {
                     parsed = parseLinkHeader(response.headers.link);
                     if(parsed) {
                         maxPage = parseInt(parsed.last.page);
                         if(parsed.prev)
-                            previousPage = parsed.prev;
+                            previousPage = parsed.prev.url;
                         if(parsed.next)
-                            nextPage = parsed.next;
+                            nextPage = parsed.next.url;
                     }
                 }
                 return Promise.resolve(new PagedContent(users, maxPage, nextPage, previousPage));

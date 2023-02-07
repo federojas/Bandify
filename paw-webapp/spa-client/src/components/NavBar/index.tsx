@@ -1,13 +1,9 @@
 //i18 translations
-import React, { ReactElement, useEffect, useState } from "react";
+import React, {ReactElement, useEffect, useState} from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import BandifyLogo from "../../images/logo.png";
-// import "../../styles/navbar.css";
 import "../../styles/profile.css";
-import ManagerIcon from "../../assets/icons/manager.svg";
-import LogoutIcon from "../../assets/icons/logout.svg";
-import ProfileIcon from "../../assets/icons/user.svg";
 import ToggleColorMode from "../ToggleColorMode";
 import { ReactNode } from "react";
 import {
@@ -34,8 +30,8 @@ import AuthContext from "../../contexts/AuthContext";
 import { useContext } from "react";
 import { serviceCall } from "../../services/ServiceManager";
 import { useUserService } from "../../contexts/UserService";
-import { GrAppsRounded } from "react-icons/gr";
 import { RiAppsFill } from "react-icons/ri";
+import {User} from "../../models";
 const NavLink = ({
   children,
   link,
@@ -75,7 +71,7 @@ function Nav() {
   const isBand = role === "BAND";
   const navigate = useNavigate();
   const userService = useUserService();
-  const [userImg, setUserImg] = useState<string | undefined>(undefined);
+  const [user, setUser] = useState<User>();
   const sections = [
     { path: "/auditions", name: t("NavBar.auditions"), icon: <FiMusic /> },
     { path: "/users", name: t("NavBar.discover"), icon: <FiUsers /> },
@@ -88,11 +84,11 @@ function Nav() {
   useEffect(() => {
     if (userId) {
       serviceCall(
-        userService.getProfileImageByUserId(userId),
+        userService.getUserById(userId),
         navigate,
         (response) => {
-          setUserImg(
-              URL.createObjectURL(response)
+          setUser(
+              response
           )
         },
       )
@@ -177,7 +173,7 @@ function Nav() {
                 >
                   <Avatar
                     size={"sm"}
-                    src={userImg} //TODO: revisar ALT?
+                    src={user?.profileImage} //TODO: revisar ALT?
                     _dark={{
                       backgroundColor: "white",
                     }}

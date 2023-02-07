@@ -54,27 +54,12 @@ function InviteInfo({membership}:{membership:Membership}) {
 }
 
 const InviteItem = ({membership}:{membership:Membership}) => {
-  const [userImg, setUserImg] = useState<string | undefined>(undefined);
-  const userService = useUserService();
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (membership.band.id) {
-      serviceCall(
-        userService.getProfileImageByUserId(membership.band.id),
-        navigate,
-        (response) => {
-          setUserImg(
-              URL.createObjectURL(response)
-          )
-        },
-      )
-    }
-  }, [membership.band.id, navigate])
+
   return (
     <Box borderWidth='1px' borderRadius='lg' p="4" w={'full'}>
       <Flex alignItems={'center'} justify="space-between">
         <HStack>
-          <Avatar src={userImg} //TODO: revisar ALT?
+          <Avatar src={membership.band.profileImage} //TODO: revisar ALT?
                     _dark={{
                       backgroundColor: "white",
                     }} />

@@ -6,6 +6,7 @@ import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.service.AuditionService;
 import ar.edu.itba.paw.service.GenreService;
 import ar.edu.itba.paw.service.UserService;
+import ar.edu.itba.paw.webapp.controller.utils.ConditionalCacheUtil;
 import ar.edu.itba.paw.webapp.dto.GenreDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -60,6 +61,7 @@ public class GenreController {
             return Response.noContent().build();
 
         Response.ResponseBuilder response = Response.ok(new GenericEntity<Set<GenreDto>>(genres) {});
+        ConditionalCacheUtil.setUnconditionalCache(response);
         return response.build();
 
     }
@@ -69,7 +71,9 @@ public class GenreController {
     @Produces("application/vnd.genre.v1+json")
     public Response getById(@PathParam("id") final long id) {
         final Genre genre = genreService.getGenreById(id).orElseThrow(GenreNotFoundException::new);
-        return Response.ok(GenreDto.fromGenre(uriInfo, genre)).build();
+        Response.ResponseBuilder response = Response.ok(GenreDto.fromGenre(uriInfo, genre));
+        ConditionalCacheUtil.setUnconditionalCache(response);
+        return response.build();
     }
 
 }

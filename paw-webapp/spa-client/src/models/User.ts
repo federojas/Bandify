@@ -10,7 +10,8 @@ export default interface User {
     name: string,
     roles: string[],
     socialMedia: string,
-    surname: string
+    surname: string,
+    profileImage: string
 }
 
   

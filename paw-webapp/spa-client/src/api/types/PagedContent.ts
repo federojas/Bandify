@@ -3,10 +3,10 @@
 export default class PagedContent<T> {
     private readonly content: T;
     private readonly maxPage: number;
-    private readonly nextPage: {};
-    private readonly previousPage: {};
+    private readonly nextPage: string;
+    private readonly previousPage: string;
 
-    constructor(content: T, maxPage: number, nextPage: {}, previousPage: {}) {
+    constructor(content: T, maxPage: number, nextPage: string, previousPage: string) {
         this.content = content;
         this.maxPage = maxPage;
         this.nextPage = nextPage;
@@ -21,11 +21,11 @@ export default class PagedContent<T> {
         return this.maxPage;
     }
 
-    public getNextPage(): {} {
+    public getNextPage(): string {
         return this.nextPage;
     }
 
-    public getPreviousPage(): {} {
+    public getPreviousPage(): string {
         return this.previousPage;
     }
 }

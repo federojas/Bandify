@@ -8,6 +8,7 @@ import ar.edu.itba.paw.service.AuditionService;
 import ar.edu.itba.paw.service.MembershipService;
 import ar.edu.itba.paw.service.RoleService;
 import ar.edu.itba.paw.service.UserService;
+import ar.edu.itba.paw.webapp.controller.utils.ConditionalCacheUtil;
 import ar.edu.itba.paw.webapp.dto.RoleDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -66,6 +67,7 @@ public class RoleController {
             return Response.noContent().build();
 
         Response.ResponseBuilder response = Response.ok(new GenericEntity<Set<RoleDto>>(roles) {});
+        ConditionalCacheUtil.setUnconditionalCache(response);
         return response.build();
     }
 
@@ -74,7 +76,9 @@ public class RoleController {
     @Produces("application/vnd.role.v1+json")
     public Response getById(@PathParam("id") final long id) {
         final Role role = roleService.getRoleById(id).orElseThrow(RoleNotFoundException::new);
-        return Response.ok(RoleDto.fromRole(uriInfo, role)).build();
+        Response.ResponseBuilder response = Response.ok(RoleDto.fromRole(uriInfo, role));
+        ConditionalCacheUtil.setUnconditionalCache(response);
+        return response.build();
     }
 
 }

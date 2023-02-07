@@ -224,7 +224,6 @@ const AuditionView = () => {
   const navigate = useNavigate();
   const [audition, setAudition] = React.useState<Audition>();
   const [isLoading, setIsLoading] = useState(true);
-  const [userImg, setUserImg] = useState<string | undefined>(undefined)
   const userService = useUserService();
   const auditionService = useAuditionService();
   const [ownerUser, setOwnerUser] = React.useState<User>();
@@ -246,13 +245,6 @@ const AuditionView = () => {
 
   useEffect(() => {
     if (audition) {
-      serviceCall(
-        userService.getProfileImageByUserId(audition.ownerId),
-        navigate,
-        (response) => {
-          setUserImg(URL.createObjectURL(response))
-        },
-      );
       if (userId) {
         serviceCall(
           userService.getUserById(userId),
@@ -292,7 +284,7 @@ const AuditionView = () => {
       <HStack minH={"80vh"}>
         {isLoading ? <span className="loader"></span> :
           (<>
-            <AuditionCard user={ownerUser!} audition={audition!} userImg={userImg!} />
+            <AuditionCard user={ownerUser!} audition={audition!} userImg={currentUser!.profileImage} />
             <AuditionActions auditionId={audition!.id} isOwner={isOwner} currentUser={currentUser} />
           </>)}
       </HStack>

@@ -60,9 +60,9 @@ const PostCard: React.FC<Audition> = ({
   const userService = useUserService();
   const navigate = useNavigate();
   const [userName, setUsername] = useState("")
+  const [profileImage, setProfileImage] = useState("")
   const [bandId, setBandId] = useState(0)
   const date = dayjs(creationDate).format('DD/MM/YYYY')
-  const [userImg, setUserImg] = useState<string | undefined>(undefined);
   const toast = useToast();
   const { userId } = useContext(AuthContext);
 
@@ -72,24 +72,11 @@ const PostCard: React.FC<Audition> = ({
       navigate,
       (response) => {
         setUsername(response.name);
+        setProfileImage(response.profileImage)
         setBandId(response.id);
       }
     )
   }, [])
-
-  useEffect(() => {
-    if (ownerId) {
-      serviceCall(
-        userService.getProfileImageByUserId(ownerId),
-        navigate,
-        (response) => {
-          setUserImg(
-              URL.createObjectURL(response)
-          )
-        },
-      )
-    }
-  }, [ownerId, navigate])
 
   return (
     <Card maxW="md" margin={5} boxShadow={"2xl"} w={"2xl"}>
@@ -107,7 +94,7 @@ const PostCard: React.FC<Audition> = ({
           className="ellipsis-overflow"
         >
           <Avatar
-            src={userImg} //TODO: revisar ALT
+            src={profileImage} //TODO: revisar ALT
           />
           <Box >
             <Heading size="sm">{userName}</Heading> {/*TODO: poner text overflow*/}

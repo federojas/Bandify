@@ -44,7 +44,6 @@ const Profile = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [user, setUser] = React.useState<User>();
-  const [userImg, setUserImg] = useState<string | undefined>(undefined)
   const userService = useUserService();
   const [isLoading, setIsLoading] = useState(true);
   const { userId } = useContext(AuthContext);
@@ -57,15 +56,9 @@ const Profile = () => {
       navigate,
       (response: any) => {
         setUser(response);
+        setIsLoading(false)
       }
     )
-    serviceCall(
-      userService.getProfileImageByUserId(Number(userId)),
-      navigate,
-      (response) => {
-        setUserImg(URL.createObjectURL(response))
-        setIsLoading(false)
-      })
   }, [userService]);
 
 
@@ -86,7 +79,7 @@ const Profile = () => {
               <HStack gap={'8'}>
                 <Flex>
                   <Image
-                    src={userImg}
+                    src={user?.profileImage}
                     alt={t("Alts.profilePicture")}
                     borderRadius="full"
                     boxSize="150px"

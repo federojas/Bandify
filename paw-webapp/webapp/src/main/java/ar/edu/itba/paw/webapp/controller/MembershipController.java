@@ -71,6 +71,8 @@ public class MembershipController {
         if(userId == null)
             throw new BandifyBadRequestException("Parameter 'user' is required");
         final User user = userService.getUserById(userId).orElseThrow(UserNotFoundException::new);
+        if(!user.isBand())
+            throw new NotABandException();
         final List<MembershipDto> memberships;
         final List<Membership> membershipsAux;
         if(preview)

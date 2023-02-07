@@ -8,6 +8,7 @@ import ar.edu.itba.paw.model.exceptions.SocialMediaNotFoundException;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.service.ApplicationService;
 import ar.edu.itba.paw.service.UserService;
+import ar.edu.itba.paw.webapp.controller.utils.ConditionalCacheUtil;
 import ar.edu.itba.paw.webapp.controller.utils.PaginationLinkBuilder;
 import ar.edu.itba.paw.webapp.dto.ApplicationDto;
 import ar.edu.itba.paw.webapp.dto.SocialMediaDto;
@@ -96,11 +97,16 @@ public class UserController {
         return Response.ok(UserDto.fromUser(uriInfo, user)).build();
     }
 
-    //TODO: si estamos sobrados no usar base 64 y tratar de usar blob con byte arrau, reduce datos en red
     @GET
     @Path("/{id}/profile-image")
-    public Response getUserProfileImage(@PathParam("id") final long id) throws IOException {
-        return Response.ok(new ByteArrayInputStream(userService.getProfilePicture(id))).build();
+    @Produces(value = {"image/webp"})
+    public Response getUserProfileImage(@PathParam("id") final long id, @Context Request request) throws IOException {
+        EntityTag eTag = new EntityTag(String.valueOf(id));
+        Response.ResponseBuilder response = ConditionalCacheUtil.getConditionalCache(request, eTag);
+        if(response == null)
+            return Response.ok(new ByteArrayInputStream(userService.getProfilePicture(id))).tag(eTag).build();
+        else
+            return response.build();
     }
 
     @PUT
@@ -261,5 +267,7 @@ public class UserController {
             throw new ForbiddenException();
         }
     }
+
+
 
 }

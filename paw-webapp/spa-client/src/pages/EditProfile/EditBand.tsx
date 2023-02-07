@@ -126,21 +126,12 @@ const EditBand = () => {
             navigate,
             (user) => {
                 setUser(user)
+                setUserImg(user.profileImage)
                 setLocation({label:user.location, value:user.location} as LocationGroup)
                 setGenres(user.genres.map(r => {return {value: r, label: r}}))
                 setRoles(user.roles.map(r => {return {value: r, label: r}}))
-
-            }
-        )
-        serviceCall(
-            userService.getProfileImageByUserId(Number(userId)),
-            navigate,
-            (response) => {
-                setUserImg(
-                    URL.createObjectURL(response)
-                )
                 setIsLoading(false)
-            },
+            }
         )
     }, [userService]);
 
