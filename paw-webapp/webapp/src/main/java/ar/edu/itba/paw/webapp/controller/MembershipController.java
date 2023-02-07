@@ -4,6 +4,7 @@ import ar.edu.itba.paw.model.Membership;
 import ar.edu.itba.paw.model.MembershipState;
 import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.model.exceptions.MembershipNotFoundException;
+import ar.edu.itba.paw.model.exceptions.MembershipNotOwnedException;
 import ar.edu.itba.paw.model.exceptions.NotABandException;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.service.MembershipService;
@@ -11,6 +12,7 @@ import ar.edu.itba.paw.service.RoleService;
 import ar.edu.itba.paw.service.UserService;
 import ar.edu.itba.paw.webapp.controller.utils.PaginationLinkBuilder;
 import ar.edu.itba.paw.webapp.dto.MembershipDto;
+import ar.edu.itba.paw.webapp.form.MembershipEditForm;
 import ar.edu.itba.paw.webapp.form.MembershipForm;
 import ar.edu.itba.paw.webapp.security.exceptions.BandifyBadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.net.URI;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Path("memberships")
@@ -107,7 +110,6 @@ public class MembershipController {
     @Path("/{id}")
     @Produces("application/vnd.membership.v1+json")
     public Response deleteMembership(@PathParam("id") final Long id) {
-        checkBandOwnership(id);
         if(!membershipService.getMembershipById(id).isPresent()) {
             throw new MembershipNotFoundException();
         }
@@ -115,26 +117,16 @@ public class MembershipController {
         return Response.noContent().build();
     }
 
-    // TODO ACA PORQUE RECIBIAMOS SET DE ROLE EN EDIT? REVISAR LOS METODOS DEL SERVICIO
     @PUT
     @Path("/{id}")
     @Consumes("application/vnd.membership.v1+json")
     public Response editMembershipById(@PathParam("id") final Long id,
-                                       @QueryParam("description") final String description,
-                                       @QueryParam("roles") final List<String> roles,
-                                       @QueryParam("state") final String state) {
-        checkBandOwnership(id);
-        if(description == null && roles == null && state == null)
-            throw new BandifyBadRequestException("Parameters 'description' 'roles' 'state' can not be all null");
-        if((roles != null && !roles.isEmpty()) || description != null)
-            membershipService.editMembershipById(description, roles, id);
-        if(state != null)
-            membershipService.changeState(id, Enum.valueOf(MembershipState.class, state));
+                                       @Valid MembershipEditForm membershipEditForm) {
+
+        membershipService.editMembershipById(membershipEditForm.getDescription(),
+                membershipEditForm.getRoles(), id);
+        membershipService.changeState(id, Enum.valueOf(MembershipState.class, membershipEditForm.getState()));
         return Response.ok().build();
     }
 
-    private void checkBandOwnership(long membershipId) {
-        final User band = userService.findByEmail(securityContext.getUserPrincipal().getName()).orElseThrow(UserNotFoundException::new);
-        
-    }
 }

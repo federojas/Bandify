@@ -101,8 +101,10 @@ public class Membership {
     }
 
     public void edit(String description, Set<Role> roles) {
-        this.description = description;
-        this.roles = roles;
+        if(roles != null) {
+            this.roles = roles;
+        }
+        this.description = description == null? "" : description;
     }
 
     @Override

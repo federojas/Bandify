@@ -105,9 +105,6 @@ public class MembershipServiceImpl implements MembershipService {
         Long currentUserId = currentUser.getId();
         if (currentUserId.equals(membership.getBand().getId())
                 || currentUserId.equals(membership.getArtist().getId())) {
-            if (!membership.getState().equals(MembershipState.PENDING)) {
-                throw new MembershipNotFoundException();
-            }
             membership.setState(state);
             if(state == MembershipState.ACCEPTED) {
                 applicationService.closeApplications(membership.getBand().getId(), membership.getArtist().getId());
@@ -166,8 +163,7 @@ public class MembershipServiceImpl implements MembershipService {
             memRet.edit(description, roleSet);
             return memRet;
         }
-        //TODO PORQUE ACA RETURN NULL EN VEZ DE EXCEPTION?
-        return null;
+        throw new MembershipNotFoundException();
     }
 
     private void checkPermissions(long id) {

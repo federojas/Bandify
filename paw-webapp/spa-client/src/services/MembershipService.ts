@@ -54,6 +54,7 @@ export default class MembershipService {
         }
     }
 
+    // TODO: si piden preview, no vienen los links de paginacion, pasa algo con eso?
     public async getUserMemberships(params: Params, page?: number): Promise<ApiResult<PagedContent<Membership[]>>> {
         try {
             const response = await this.membershipApi.getUserMemberships(params, page);
@@ -86,7 +87,6 @@ export default class MembershipService {
     }
 
     public async inviteToBand(params: PostParams): Promise<ApiResult<PostResponse>> {
-
         try {
             const postResponse = await this.membershipApi.inviteToBand(params);
             const url: string = postResponse.headers!.location!;
@@ -101,7 +101,6 @@ export default class MembershipService {
         } catch (error: any) {
             return ErrorService.returnApiError(error);
         }
-
     }
 
     // TODO: esto esta mal porque solo revisa la pagina 1.
@@ -118,4 +117,6 @@ export default class MembershipService {
             return ErrorService.returnApiError(error);
         }
     }
+
+    
 }
