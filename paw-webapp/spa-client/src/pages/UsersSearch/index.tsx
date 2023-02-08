@@ -10,6 +10,7 @@ import ProfileCard from "../../components/ProfileCard/ProfileCard";
 import { getQueryOrDefault, getQueryOrDefaultArray, useQuery } from "../../hooks/useQuery";
 import DiscoverSearchBar from "../../components/SearchBars/DiscoverSearchBar";
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
+import { Helmet } from "react-helmet";
 
 interface SearchParams {
   searchTerms?: string;
@@ -58,6 +59,9 @@ const Index = () => {
 
   return (
     <>
+    <Helmet>
+          <title>{t("Discover.discover")}</title>
+    </Helmet>
       <Center marginY={10} flexDirection="column">
         <VStack spacing={5} >
           <Heading fontSize={40}>{t("Discover.discover")}</Heading>

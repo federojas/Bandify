@@ -15,6 +15,7 @@ import {UserPasswordResetRequestInput} from "../../api/types/User";
 import {serviceCall} from "../../services/ServiceManager";
 import { useNavigate } from "react-router-dom";
 import {useUserService} from "../../contexts/UserService";
+import {Helmet} from "react-helmet";
 
 interface FormData {
   email: string;
@@ -68,56 +69,61 @@ export default function ForgotPasswordForm(): JSX.Element {
   };
 
   return (
-    <Flex
-      minH={'80vh'}
-      align={'center'}
-      justify={'center'}
-    >
-      <form onSubmit={handleSubmit(onSubmit)}>
-      <Stack
-        spacing={4}
-        w={'full'}
-        maxW={'md'}
-        bg={useColorModeValue('white', 'gray.900')}
-        rounded={'xl'}
-        boxShadow={'lg'}
-        p={6}
-        my={12}>
-        <Heading lineHeight={1.1} fontSize={{ base: '2xl', md: '3xl' }}>
-          {t("ResetPassword.Title")}
-        </Heading>
-        <Text
-          fontSize={{ base: 'sm', sm: 'md' }}
-          color={useColorModeValue('gray.800', 'gray.400')}>
-          {t("ResetPassword.Subtitle")}
-        </Text>
-        <FormControl id="email" isRequired isInvalid={Boolean(errors.email)}>
-          <FormLabel fontSize={16} fontWeight="bold">
-            {t("Register.email")}
-          </FormLabel>
-          <Input
-            maxLength={255}
-             {...register("email", options.email)}
-            placeholder={t("ResetPassword.EmailPlaceholder")}
-            _placeholder={{ color: 'gray.500' }}
-            type="email"
-          />
-          <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
-        </FormControl>
-        <Stack spacing={6}>
-          <Button
-            type="submit"
-            bg={'blue.400'}
-            color={'white'}
-            _hover={{
-              bg: 'blue.500',
-            }}
-          >
-          {t("ResetPassword.RequestReset")}
-          </Button>
+    <>
+      <Helmet>
+        <title>{t("ResetPassword.header")}</title>
+      </Helmet>
+      <Flex
+        minH={'80vh'}
+        align={'center'}
+        justify={'center'}
+      >
+        <form onSubmit={handleSubmit(onSubmit)}>
+        <Stack
+          spacing={4}
+          w={'full'}
+          maxW={'md'}
+          bg={useColorModeValue('white', 'gray.900')}
+          rounded={'xl'}
+          boxShadow={'lg'}
+          p={6}
+          my={12}>
+          <Heading lineHeight={1.1} fontSize={{ base: '2xl', md: '3xl' }}>
+            {t("ResetPassword.Title")}
+          </Heading>
+          <Text
+            fontSize={{ base: 'sm', sm: 'md' }}
+            color={useColorModeValue('gray.800', 'gray.400')}>
+            {t("ResetPassword.Subtitle")}
+          </Text>
+          <FormControl id="email" isRequired isInvalid={Boolean(errors.email)}>
+            <FormLabel fontSize={16} fontWeight="bold">
+              {t("Register.email")}
+            </FormLabel>
+            <Input
+              maxLength={255}
+              {...register("email", options.email)}
+              placeholder={t("ResetPassword.EmailPlaceholder")}
+              _placeholder={{ color: 'gray.500' }}
+              type="email"
+            />
+            <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
+          </FormControl>
+          <Stack spacing={6}>
+            <Button
+              type="submit"
+              bg={'blue.400'}
+              color={'white'}
+              _hover={{
+                bg: 'blue.500',
+              }}
+            >
+            {t("ResetPassword.RequestReset")}
+            </Button>
+          </Stack>
         </Stack>
-      </Stack>
-      </form>
-    </Flex>
+        </form>
+      </Flex>
+      </>
   );
 }

@@ -11,12 +11,17 @@ import {
   Image,
   Center
 } from "@chakra-ui/react";
+import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
 import WelcomeGuitar from '../../images/welcome-guitar.png';
 
 function Home() {
   const { t } = useTranslation();
   return (
+    <>
+    <Helmet>
+          <title>{t("Welcome.welcome")}</title>
+    </Helmet>
     <Container maxW={"5xl"}>
       <Stack
         textAlign={"center"}
@@ -56,16 +61,7 @@ function Home() {
         </Center> */}
       </Stack>
     </Container>
-    // <div>
-    //   {/* Hero */}
-    //   <HeroContainer>
-    //     {/* Hero text */}
-    //     <HeroTitle>
-    //       <Slogan1>Connect with nearby bands and artists</Slogan1>
-    //       <Slogan2>Join bands... or create your own!</Slogan2>
-    //     </HeroTitle>
-    //   </HeroContainer>
-    // </div>
+    </>
   );
 }
 

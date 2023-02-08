@@ -38,6 +38,7 @@ import { useAuditionService } from "../../contexts/AuditionService";
 import AuthContext from "../../contexts/AuthContext";
 import swal from 'sweetalert';
 import ApplyButton from "./ApplyAudition";
+import { Helmet } from "react-helmet";
 
 
 const AuditionActions = (props: { auditionId: number, isOwner: boolean, currentUser: User | undefined }) => {
@@ -230,6 +231,7 @@ const AuditionView = () => {
   const [currentUser, setCurrentUser] = React.useState<User>();
   const [isOwner, setIsOwner] = useState(false);
   const { userId } = useContext(AuthContext);
+  const { t } = useTranslation();
   useEffect(() => {
     serviceCall(
       auditionService.getAuditionById(parseInt(params.id as string)),
@@ -280,15 +282,20 @@ const AuditionView = () => {
   }, [ownerUser])
 
   return (
-    <Center>
-      <HStack minH={"80vh"}>
-        {isLoading ? <span className="loader"></span> :
-          (<>
-            <AuditionCard user={ownerUser!} audition={audition!} />
-            <AuditionActions auditionId={audition!.id} isOwner={isOwner} currentUser={currentUser} />
-          </>)}
-      </HStack>
-    </Center>
+    <>
+      <Helmet>
+        <title>{t("Audition.title")}</title>
+      </Helmet>
+      <Center>
+        <HStack minH={"80vh"}>
+          {isLoading ? <span className="loader"></span> :
+            (<>
+              <AuditionCard user={ownerUser!} audition={audition!} />
+              <AuditionActions auditionId={audition!.id} isOwner={isOwner} currentUser={currentUser} />
+            </>)}
+        </HStack>
+      </Center>
+    </>
   );
 };
 

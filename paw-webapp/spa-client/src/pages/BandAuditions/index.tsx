@@ -15,6 +15,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { PaginationArrow, PaginationWrapper } from "../../components/Pagination/pagination";
 import { getQueryOrDefault, useQuery } from "../../hooks/useQuery";
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
+import { Helmet } from "react-helmet";
 
 const RedCircle = ({ notificationCount }: { notificationCount: number }) => {
   return (
@@ -68,7 +69,6 @@ const BandAudition = (
 
 
   return (
-
     <Box
       w="full"
       maxW="sm"
@@ -155,87 +155,92 @@ const BandAuditions = () => {
   }, [currentPage, navigate, auditionService])
 
   return (
-    <VStack pt={'10'}>
-      <Heading as='h1'
-        size='2xl'
-        fontWeight="bold">{t("MyAuditions.title")}</Heading>
-      <Flex
-        p={50}
-        w="full"
-        alignItems="center"
-        direction={"row"}
-        wrap={"wrap"}
-        margin={2}
-        justifyContent={"space-around"}
-      >
-        {auditions.length > 0 ?
-          auditions.map((audition, index) => {
-            return <BandAudition audition={audition} key={index} />
-          }) : <></>
-        }
-      </Flex>
-      <Flex
-        w="full"
-        p={50}
-        alignItems="center"
-        justifyContent="center"
-      >
-        <PaginationWrapper>
-          {currentPage > 1 && (
-            <button
-              onClick={() => {
-                serviceCall(
-                  auditionService.getAuditionsByUrl(previousPage),
-                  navigate,
-                  (response) => {
-                    setAuditions(response ? response.getContent() : []);
-                    setPreviousPage(response ? response.getPreviousPage() : "");
-                    setNextPage(response ? response.getNextPage() : "");
-                  },
-                  location
-                )
-                setCurrentPage(currentPage - 1)
-                const url = new URL(window.location.href);
-                url.searchParams.set('page', String(currentPage - 1));
-                window.history.pushState(null, '', url.toString());
-              }}
-              style={{ background: "none", border: "none" }}
-            >
-              <ChevronLeftIcon mr={4} />
+    <>
+      <Helmet>
+        <title>{t("MyAuditions.title")}</title>
+      </Helmet>
+      <VStack pt={'10'}>
+        <Heading as='h1'
+          size='2xl'
+          fontWeight="bold">{t("MyAuditions.title")}</Heading>
+        <Flex
+          p={50}
+          w="full"
+          alignItems="center"
+          direction={"row"}
+          wrap={"wrap"}
+          margin={2}
+          justifyContent={"space-around"}
+        >
+          {auditions.length > 0 ?
+            auditions.map((audition, index) => {
+              return <BandAudition audition={audition} key={index} />
+            }) : <></>
+          }
+        </Flex>
+        <Flex
+          w="full"
+          p={50}
+          alignItems="center"
+          justifyContent="center"
+        >
+          <PaginationWrapper>
+            {currentPage > 1 && (
+              <button
+                onClick={() => {
+                  serviceCall(
+                    auditionService.getAuditionsByUrl(previousPage),
+                    navigate,
+                    (response) => {
+                      setAuditions(response ? response.getContent() : []);
+                      setPreviousPage(response ? response.getPreviousPage() : "");
+                      setNextPage(response ? response.getNextPage() : "");
+                    },
+                    location
+                  )
+                  setCurrentPage(currentPage - 1)
+                  const url = new URL(window.location.href);
+                  url.searchParams.set('page', String(currentPage - 1));
+                  window.history.pushState(null, '', url.toString());
+                }}
+                style={{ background: "none", border: "none" }}
+              >
+                <ChevronLeftIcon mr={4} />
 
-            </button>
-          )}
-          {t("Pagination.message", {
-            currentPage: currentPage,
-            maxPage: maxPage,
-          })}
-          {currentPage < maxPage && (
-            <button
-              onClick={() => {
-                serviceCall(
-                  auditionService.getAuditionsByUrl(nextPage),
-                  navigate,
-                  (response) => {
-                    setAuditions(response ? response.getContent() : []);
-                    setPreviousPage(response ? response.getPreviousPage() : "");
-                    setNextPage(response ? response.getNextPage() : "");
-                  },
-                  location
-                )
-                setCurrentPage(currentPage + 1)
-                const url = new URL(window.location.href);
-                url.searchParams.set('page', String(currentPage + 1));
-                window.history.pushState(null, '', url.toString());
-              }}
-              style={{ background: "none", border: "none" }}
-            >
-              <ChevronRightIcon ml={4} />
+              </button>
+            )}
+            {t("Pagination.message", {
+              currentPage: currentPage,
+              maxPage: maxPage,
+            })}
+            {currentPage < maxPage && (
+              <button
+                onClick={() => {
+                  serviceCall(
+                    auditionService.getAuditionsByUrl(nextPage),
+                    navigate,
+                    (response) => {
+                      setAuditions(response ? response.getContent() : []);
+                      setPreviousPage(response ? response.getPreviousPage() : "");
+                      setNextPage(response ? response.getNextPage() : "");
+                    },
+                    location
+                  )
+                  setCurrentPage(currentPage + 1)
+                  const url = new URL(window.location.href);
+                  url.searchParams.set('page', String(currentPage + 1));
+                  window.history.pushState(null, '', url.toString());
+                }}
+                style={{ background: "none", border: "none" }}
+              >
+                <ChevronRightIcon ml={4} />
 
-            </button>
-          )}
-        </PaginationWrapper>
-      </Flex>
-    </VStack>
+              </button>
+            )}
+          </PaginationWrapper>
+        </Flex>
+      </VStack>
+    </>
   )
 }
 

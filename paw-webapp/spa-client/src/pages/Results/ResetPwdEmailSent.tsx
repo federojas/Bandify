@@ -52,6 +52,10 @@ export default function ResetPwdEmailSent() {
   };
 
   return (
+    <>
+    <Heading>
+      <title>{t("ResetPwdEmailSent.Title")}</title>
+    </Heading>
       <Box textAlign="center" py={10} px={6}>
         <VStack gap={'8'}>
           <VStack gap="2">
@@ -83,5 +87,6 @@ export default function ResetPwdEmailSent() {
           </VStack>
         </VStack>
       </Box>
+      </>
   );
 };

@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom"
 import Membership from "../../models/Membership"
 import User from "../../models/User"
 import { useUserService } from "../../contexts/UserService"
+import { Helmet } from "react-helmet"
 
 
 enum inviteStatuses {
@@ -117,6 +118,10 @@ const Invites = () => {
     },[]
   )
   return (
+    <>
+    <Helmet>
+          <title>{t("Hub.Invites")}</title>
+    </Helmet>
     <SidenavLayout>
       <Text fontSize='2xl' fontWeight='bold' mb='4'>{t("Invites.Title")}</Text>
       {isLoading ? <Center mt={'15%'}><span className="loader"></span></Center> :
@@ -124,6 +129,7 @@ const Invites = () => {
         <InvitesList memberships={memberships} inviteStatus={inviteStatuses.PENDING} />
       </>}
     </SidenavLayout>
+    </>
   )
 }
 

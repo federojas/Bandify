@@ -107,6 +107,8 @@ export const TRANSLATIONS_ES = {
       urlTitle: "Soy un artista",
     },
     passwordsDontMatch: "Las contraseñas no coinciden",
+    artistRegistration: "Registro de artista",
+    bandRegistration: "Registro de banda",
   },
   AuditionSearchBar: {
     search: "Buscar",
@@ -151,6 +153,7 @@ export const TRANSLATIONS_ES = {
   AuditionsSearch: {
     results: "Resultados",
     noResults: "No se encontraron resultados",
+    title: "Buscar audiciones",
   },
   Pagination: {
     message: "Página {{currentPage}} de {{maxPage}}",
@@ -192,6 +195,7 @@ export const TRANSLATIONS_ES = {
     addToBand: "Agregar a la banda",
   },
   Welcome: {
+    welcome: "¡Bienvenido a Bandify!",
     connect: "Conectate con ",
     bandsArtists: "bandas y artistas",
     join: "¡Únete a una banda... o crea una!",
@@ -214,6 +218,9 @@ export const TRANSLATIONS_ES = {
       placeHolder: "Max. 300 caracteres",
     },
     applyError: "¡Ups, ocurrio un error!",
+    applySuccess: "¡Aplicación enviada exitosamente!",
+    applySuccessText: "¡Tu aplicación fue enviada exitosamente! Te avisaremos cuando la banda te acepte o rechace.",
+    title: "Audición",
   },
   ProfileCard: {
     Profile: "Ver perfil",
@@ -226,9 +233,6 @@ export const TRANSLATIONS_ES = {
     close: "Cerrar",
     confirm: "Aceptar"
   },
-  applyError: "¡Ups, ocurrio un error!",
-  applySuccess: "¡Aplicación enviada exitosamente!",
-  applySuccessText: "¡Tu aplicación fue enviada exitosamente! Te avisaremos cuando la banda te acepte o rechace.",
   Edit: {
     name: "Nombre",
     description: "Descripción",
@@ -287,6 +291,7 @@ export const TRANSLATIONS_ES = {
     successCreatingAudition: "¡Audición creada con éxito!",
     maxRoles: "Puede seleccionar hasta 5 roles",
     maxGenres: "Puede seleccionar hasta 5 géneros",
+    newAuditionHeading: "Nueva audición",
   },
   Hub: {
     "Applications": "Aplicaciones",
@@ -362,7 +367,8 @@ export const TRANSLATIONS_ES = {
     success: "¡Email enviado con éxito!",
     errorChange: "No se pudo cambiar la contraseña.",
     successChange: "¡Contraseña cambiada con éxito!",
-    emailSent: "¡Email enviado!"
+    emailSent: "¡Email enviado!",
+    header: "Restablecer contraseña",
   },
   ResetPwdEmailSent: {
     Title: "¡Email enviado con éxito!",
@@ -375,6 +381,7 @@ export const TRANSLATIONS_ES = {
     Title: "Cambia tu contraseña",
     Password: "Contraseña",
     ConfirmPassword: "Confirmar contraseña",
-    Submit: "Enviar"
+    Submit: "Enviar",
+    heading: "Cambia tu contraseña",
   }
 };

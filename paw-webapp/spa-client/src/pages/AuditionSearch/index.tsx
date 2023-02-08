@@ -25,6 +25,7 @@ import { useAuditionService } from "../../contexts/AuditionService";
 import { getQueryOrDefault, getQueryOrDefaultArray, useQuery } from "../../hooks/useQuery";
 import React from "react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
+import { Helmet } from "react-helmet";
 
 interface SearchParams {
   searchTerms?: string;
@@ -75,6 +76,9 @@ const AuditionSearch = () => {
 
   return (
     <>
+     <Helmet>
+        <title>{t("AuditionsSearch.title")}</title>
+      </Helmet>
       <Center marginY={10} flexDirection="column">
         <VStack spacing={5}>
           <Heading>{t("AuditionsSearch.results")}</Heading>

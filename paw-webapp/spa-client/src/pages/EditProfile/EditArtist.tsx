@@ -41,6 +41,7 @@ import {useGenreService} from "../../contexts/GenreService";
 import {useRoleService} from "../../contexts/RoleService";
 import {useLocationService} from "../../contexts/LocationService";
 import {UserUpdateInput} from "../../api/types/User";
+import { Helmet } from "react-helmet";
 
 interface FormData {
   name: string;
@@ -239,6 +240,10 @@ const EditArtist = () => {
   };
 
   return (
+    <>
+    <Helmet>
+          <title>{t("Profile.edit")}</title>
+    </Helmet>
     <Box
     rounded={"lg"}
     bg={bg19}
@@ -1192,7 +1197,8 @@ const EditArtist = () => {
       </SimpleGrid>
     </Box> */
         )}
-  </Box>);
+  </Box>
+  </>);
 }
 
 export default EditArtist

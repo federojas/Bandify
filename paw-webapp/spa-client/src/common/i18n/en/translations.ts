@@ -87,6 +87,8 @@ export const TRANSLATIONS_EN = {
       urlTitle: "I'm an artist",
     },
     passwordsDontMatch: "Passwords don't match",
+    artistRegistration: "Artist registration",
+    bandRegistration: "Band registration",
   },
   AuditionSearchBar: {
     search: "Search",
@@ -131,6 +133,7 @@ export const TRANSLATIONS_EN = {
   AuditionsSearch: {
     results: "Results",
     noResults: "No results found",
+    tite: "Auditions search",
   },
   Pagination: {
     message: "Page {{currentPage}} of {{maxPage}}",
@@ -172,6 +175,7 @@ export const TRANSLATIONS_EN = {
     addToBand: "Add to Band",
   },
   Welcome: {
+    welcome: "Welcome to Bandify!",
     connect: "Connect with nearby ",
     bandsArtists: "bands & artists",
     join: "Join bands... or create your own!",
@@ -196,6 +200,7 @@ export const TRANSLATIONS_EN = {
     applyError: "Oops, an error occurred!",
     applySuccess: "Application sent successfully!",
     applySuccessText: "You will be notified when the band accepts or rejects your application.",
+    title: "Audition",
   },
   Clipboard: {
     message: "Link copied to clipboard!",
@@ -286,6 +291,7 @@ export const TRANSLATIONS_EN = {
     successCreatingAudition: "Audition created successfully!",
     maxRoles: "You can select up to 5 roles",
     maxGenres: "You can select up to 5 genres",
+    newAuditionHeading: "New audition",
   },
   Hub: {
     "Invites": "Invitations",
@@ -362,7 +368,8 @@ export const TRANSLATIONS_EN = {
     success: "Reset password email sent successfully!",
     errorChange: "Could not change password.",
     successChange: "Password changed successfully!",
-    emailSent: "Email sent!"
+    emailSent: "Email sent!",
+    header: "Reset password",
   },
   ResetPwdEmailSent: {
     Title: "Email sent successfully!",
@@ -376,6 +383,7 @@ export const TRANSLATIONS_EN = {
    Password: "Password",
    ConfirmPassword: "Confirm password",
    Submit: "Submit", 
+   heading: "New password",
   }
 };
 

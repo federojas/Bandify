@@ -5,6 +5,7 @@ import "../../common/i18n/index";
 import { getQueryOrDefault, useQuery } from "../../hooks/useQuery";
 import { useNavigate } from "react-router-dom";
 import { Container, Stack, Heading, Button } from "@chakra-ui/react";
+import { Helmet } from "react-helmet";
 
 function Error() {
     const { t } = useTranslation();
@@ -26,6 +27,10 @@ function Error() {
     else if (error === '401') message = "Unauthorized";
 
     return (
+        <>
+        <Helmet>
+          <title>{t("Login.error")}</title>
+        </Helmet>
         <Container maxW={"5xl"}>
             <Stack
                 textAlign={"center"}
@@ -58,6 +63,7 @@ function Error() {
                 </Button>
             </Stack>
         </Container>
+    </>
     );
 }
 

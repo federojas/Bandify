@@ -20,6 +20,7 @@ import { serviceCall } from "../../services/ServiceManager";
 import { useNavigate } from "react-router-dom";
 import { AuditionInput } from "../../api/types/Audition"
 import { useAuditionService } from "../../contexts/AuditionService";
+import { Helmet } from "react-helmet";
 
 interface FormData {
   title: string;
@@ -186,210 +187,213 @@ const NewAudition = () => {
     })
   };
 
-  return <Box
-    rounded={"lg"}
-    bg={useColorModeValue("white", "gray.900")}
-    p={10}
-    m={10}
-    boxShadow={'lg'}
-  >
-    <Box>
-      <SimpleGrid
-        display={{
-          base: "initial",
-          md: "grid",
-        }}
-        columns={{
-          md: 3,
-        }}
-        spacing={{
-          md: 6,
-        }}
+  return (
+    <>
+      <Helmet>
+        <title>{t("EditAudition.newAuditionHeading")}</title>
+      </Helmet>
+      <Box
+      rounded={"lg"}
+      bg={useColorModeValue("white", "gray.900")}
+      p={10}
+      m={10}
+      boxShadow={'lg'}
       >
-        <GridItem
-          colSpan={{
-            md: 1,
+      <Box>
+        <SimpleGrid
+          display={{
+            base: "initial",
+            md: "grid",
+          }}
+          columns={{
+            md: 3,
+          }}
+          spacing={{
+            md: 6,
           }}
         >
-          <Box px={[4, 0]}>
-            <Heading fontSize={'x-large'} fontWeight="bold" lineHeight="6">
-              {t("EditAudition.newAudition")}
-            </Heading>
-            <Text
-              mt={1}
-              fontSize="lg"
-              color="gray.600"
-              _dark={{
-                color: "gray.400",
-              }}
-            >
-              {t("EditAudition.newAuditionDescription")}
-            </Text>
-          </Box>
-        </GridItem>
-        <GridItem
-          mt={[5, null, 0]}
-          colSpan={{
-            md: 2,
-          }}
-        >
-          <form
-
-            onSubmit={handleSubmit(onSubmit)}
-
+          <GridItem
+            colSpan={{
+              md: 1,
+            }}
           >
-            <Stack
-              bg={useColorModeValue("white", "gray.900")}
-              border={'1px'}
-              borderColor={useColorModeValue("gray.200", "gray.700")}
-              px={4}
-              py={5}
-              roundedTop={'md'}
-              spacing={6}
-              p={{
-                sm: 6,
-              }}
-            >
-
-              <FormControl
-                id="title"
-                isRequired
-                isInvalid={Boolean(errors.title)}
+            <Box px={[4, 0]}>
+              <Heading fontSize={'x-large'} fontWeight="bold" lineHeight="6">
+                {t("EditAudition.newAudition")}
+              </Heading>
+              <Text
+                mt={1}
+                fontSize="lg"
+                color="gray.600"
+                _dark={{
+                  color: "gray.400",
+                }}
               >
-                <FormLabel fontSize={16} fontWeight="bold">
-                  {t("EditAudition.auditionTitle")}
-                </FormLabel>
-                <Input
-                  type="text"
-                  maxLength={50}
-                  placeholder={t("EditAudition.titlePlaceholder")}
-                  {...register("title", newAuditionOptions.title)}
-                />
-                <FormErrorMessage>{errors.title?.message}</FormErrorMessage>
-              </FormControl>
+                {t("EditAudition.newAuditionDescription")}
+              </Text>
+            </Box>
+          </GridItem>
+          <GridItem
+            mt={[5, null, 0]}
+            colSpan={{
+              md: 2,
+            }}
+          >
+            <form
 
-              <FormControl id="description"
-                isRequired
-                isInvalid={Boolean(errors.description)}
-                mt={1}>
-                <FormLabel
-                  fontSize={16} fontWeight="bold"
+              onSubmit={handleSubmit(onSubmit)}
+
+            >
+              <Stack
+                bg={useColorModeValue("white", "gray.900")}
+                border={'1px'}
+                borderColor={useColorModeValue("gray.200", "gray.700")}
+                px={4}
+                py={5}
+                roundedTop={'md'}
+                spacing={6}
+                p={{
+                  sm: 6,
+                }}
+              >
+
+                <FormControl
+                  id="title"
+                  isRequired
+                  isInvalid={Boolean(errors.title)}
                 >
-                  {t("EditAudition.auditionDescription")}
-                </FormLabel>
-                <Textarea
-                  mt={1}
-                  rows={3}
-                  shadow="sm"
-                  maxLength={300}
-                  placeholder={t("EditAudition.descriptionPlaceholder")}
-                  {...register("description", newAuditionOptions.description)}
-                />
-                <FormErrorMessage>{errors.description?.message}</FormErrorMessage>
-                <FormHelperText>
-                  {t("EditAudition.descriptionHelp")}
-                </FormHelperText>
-              </FormControl>
+                  <FormLabel fontSize={16} fontWeight="bold">
+                    {t("EditAudition.auditionTitle")}
+                  </FormLabel>
+                  <Input
+                    type="text"
+                    maxLength={50}
+                    placeholder={t("EditAudition.titlePlaceholder")}
+                    {...register("title", newAuditionOptions.title)}
+                  />
+                  <FormErrorMessage>{errors.title?.message}</FormErrorMessage>
+                </FormControl>
 
-              <FormControl isRequired>
-                <FormLabel fontSize={16} fontWeight="bold">{t("EditAudition.location")}</FormLabel>
-                <Select<LocationGroup, false, GroupBase<LocationGroup>>
-                  name="locations"
-                  options={locationOptions}
-                  placeholder={t("AuditionSearchBar.locationPlaceholder")}
-                  closeMenuOnSelect={true}
-                  variant="filled"
-                  tagVariant="solid"
-                  onChange={(loc) => {
-                    setLocation(loc!);
-                  }}
-                />
-              </FormControl>
+                <FormControl id="description"
+                  isRequired
+                  isInvalid={Boolean(errors.description)}
+                  mt={1}>
+                  <FormLabel
+                    fontSize={16} fontWeight="bold"
+                  >
+                    {t("EditAudition.auditionDescription")}
+                  </FormLabel>
+                  <Textarea
+                    mt={1}
+                    rows={3}
+                    shadow="sm"
+                    maxLength={300}
+                    placeholder={t("EditAudition.descriptionPlaceholder")}
+                    {...register("description", newAuditionOptions.description)}
+                  />
+                  <FormErrorMessage>{errors.description?.message}</FormErrorMessage>
+                  <FormHelperText>
+                    {t("EditAudition.descriptionHelp")}
+                  </FormHelperText>
+                </FormControl>
 
-              <FormControl isRequired>
-                <FormLabel fontSize={16} fontWeight="bold">{t("AuditionSearchBar.genre")}</FormLabel>
-                <Select<GenreGroup, true, GroupBase<GenreGroup>>
-                  isMulti
-                  name="genres"
-                  options={genreOptions}
-                  placeholder={t("EditAudition.genrePlaceholder")}
-                  closeMenuOnSelect={false}
-                  variant="filled"
-                  tagVariant="solid"
-                  onChange={(event) => {
-                    setGenres(event.flatMap((e) => e));
-                  }}
-                />
-              </FormControl>
-              <FormControl isRequired>
-                <FormLabel fontSize={16} fontWeight="bold">{t("AuditionSearchBar.role")}</FormLabel>
-                <Select<RoleGroup, true, GroupBase<RoleGroup>>
-                  isMulti
-                  name="roles"
-                  options={roleOptions}
-                  placeholder={t("EditAudition.rolePlaceholder")}
-                  closeMenuOnSelect={false}
-                  variant="filled"
-                  tagVariant="solid"
-                  onChange={(event) => {
-                    setRoles(event.flatMap((e) => e));
-                  }}
-                />
-              </FormControl>
+                <FormControl isRequired>
+                  <FormLabel fontSize={16} fontWeight="bold">{t("EditAudition.location")}</FormLabel>
+                  <Select<LocationGroup, false, GroupBase<LocationGroup>>
+                    name="locations"
+                    options={locationOptions}
+                    placeholder={t("AuditionSearchBar.locationPlaceholder")}
+                    closeMenuOnSelect={true}
+                    variant="filled"
+                    tagVariant="solid"
+                    onChange={(loc) => {
+                      setLocation(loc!);
+                    }}
+                  />
+                </FormControl>
 
-            </Stack>
-            <Box
-              bg={useColorModeValue("white", "gray.900")}
-              border={'1px'}
-              borderColor={useColorModeValue("gray.200", "gray.700")}
-              roundedBottom={'md'}
-              px={{
-                base: 4,
-                sm: 6,
-              }}
-              py={3}
+                <FormControl isRequired>
+                  <FormLabel fontSize={16} fontWeight="bold">{t("AuditionSearchBar.genre")}</FormLabel>
+                  <Select<GenreGroup, true, GroupBase<GenreGroup>>
+                    isMulti
+                    name="genres"
+                    options={genreOptions}
+                    placeholder={t("EditAudition.genrePlaceholder")}
+                    closeMenuOnSelect={false}
+                    variant="filled"
+                    tagVariant="solid"
+                    onChange={(event) => {
+                      setGenres(event.flatMap((e) => e));
+                    }}
+                  />
+                </FormControl>
+                <FormControl isRequired>
+                  <FormLabel fontSize={16} fontWeight="bold">{t("AuditionSearchBar.role")}</FormLabel>
+                  <Select<RoleGroup, true, GroupBase<RoleGroup>>
+                    isMulti
+                    name="roles"
+                    options={roleOptions}
+                    placeholder={t("EditAudition.rolePlaceholder")}
+                    closeMenuOnSelect={false}
+                    variant="filled"
+                    tagVariant="solid"
+                    onChange={(event) => {
+                      setRoles(event.flatMap((e) => e));
+                    }}
+                  />
+                </FormControl>
 
-              textAlign="right"
-            >
-              <Button
-                type="submit"
-                bg={"blue.400"}
-                color={"white"}
-                _hover={{
-                  bg: "blue.500",
+              </Stack>
+              <Box
+                bg={useColorModeValue("white", "gray.900")}
+                border={'1px'}
+                borderColor={useColorModeValue("gray.200", "gray.700")}
+                roundedBottom={'md'}
+                px={{
+                  base: 4,
+                  sm: 6,
                 }}
-                _focus={{
-                  shadow: "",
-                }}
-                fontWeight="md"
-                mr={4}
+                py={3}
+
+                textAlign="right"
               >
-                {t("Button.post")}
-              </Button>
-              <Button
-                  bg={"gray.400"}
+                <Button
+                  type="submit"
+                  bg={"blue.400"}
                   color={"white"}
                   _hover={{
-                    bg: "gray.500",
+                    bg: "blue.500",
                   }}
                   _focus={{
                     shadow: "",
                   }}
                   fontWeight="md"
-                  onClick={onCancel}
-              >
-                {t("EditAudition.cancel")}
-              </Button>
-            </Box>
-          </form>
-        </GridItem>
-      </SimpleGrid>
-
-    </Box>
-
-
-
-  </Box>;
+                  mr={4}
+                >
+                  {t("Button.post")}
+                </Button>
+                <Button
+                    bg={"gray.400"}
+                    color={"white"}
+                    _hover={{
+                      bg: "gray.500",
+                    }}
+                    _focus={{
+                      shadow: "",
+                    }}
+                    fontWeight="md"
+                    onClick={onCancel}
+                >
+                  {t("EditAudition.cancel")}
+                </Button>
+              </Box>
+            </form>
+          </GridItem>
+        </SimpleGrid>
+      </Box>
+    </Box> 
+  </>
+  );
 }
 
 export default NewAudition

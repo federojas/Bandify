@@ -1,5 +1,6 @@
 import { Avatar, Badge, Box, Flex, HStack, Tab, TabList, TabPanel, TabPanels, Tabs, Text, VStack } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../contexts/AuthContext";
@@ -78,6 +79,10 @@ const Applications = () => {
   // TODO: Get the three differents arrays of applications from the Service
 
   return (
+    <>
+    <Helmet>
+          <title>{t("Hub.Applications")}</title>
+    </Helmet>
     <SidenavLayout>
       <Text fontSize='2xl' fontWeight='bold' mb='4'>{t("Applications.Title")}</Text>
       <Tabs variant='soft-rounded' colorScheme='blue'>
@@ -124,6 +129,7 @@ const Applications = () => {
         </TabPanels>
       </Tabs>
     </SidenavLayout>
+    </>
   )
 }
 

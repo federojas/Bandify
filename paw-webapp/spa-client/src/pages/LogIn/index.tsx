@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import "../../common/i18n/index";
 import AuthContext from "../../contexts/AuthContext";
+import {Helmet} from "react-helmet";
 import {
   Flex,
   Box,
@@ -102,157 +103,96 @@ const LoginBox = () => {
         message: "Password cannot be larger than 25 characters",
       },
     },
-  };
+  };//TODO: ESTAS VALIDACIONES NO VAN ACA
 
   return (
-    <Flex
-      align={"center"}
-      justify={"center"}
-      bg={useColorModeValue("gray.50", "gray.800")}
-    >
-      <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6} minW={"40vw"}>
-        <Stack align={"center"}>
-          <Heading fontSize={"4xl"}>{t("Login.title")} ✌️</Heading>
-        </Stack>
-        <Box
-          rounded={"lg"}
-          bg={useColorModeValue("white", "gray.900")}
-          boxShadow={"lg"}
-          p={8}
-        >
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <Stack spacing={4}>
-              <FormControl
-                id="email"
-                isRequired
-                isInvalid={Boolean(errors.email)}
-              >
-                <FormLabel>{t("Login.email")}</FormLabel>
-                <Input
-                  type="email"
-                  {...register("email", loginValidations.email)}
-                />
-                <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
-              </FormControl>
-              <FormControl
-                id="password"
-                isRequired
-                isInvalid={Boolean(errors.password)}
-              >
-                <FormLabel>{t("Login.password")}</FormLabel>
-                <InputGroup>
+    <>
+      <Helmet>
+        <title>{t("Login.login")}</title>
+      </Helmet>
+      <Flex
+        align={"center"}
+        justify={"center"}
+        bg={useColorModeValue("gray.50", "gray.800")}
+      >
+        <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6} minW={"40vw"}>
+          <Stack align={"center"}>
+            <Heading fontSize={"4xl"}>{t("Login.title")} ✌️</Heading>
+          </Stack>
+          <Box
+            rounded={"lg"}
+            bg={useColorModeValue("white", "gray.900")}
+            boxShadow={"lg"}
+            p={8}
+          >
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <Stack spacing={4}>
+                <FormControl
+                  id="email"
+                  isRequired
+                  isInvalid={Boolean(errors.email)}
+                >
+                  <FormLabel>{t("Login.email")}</FormLabel>
                   <Input
-                    type={showPassword ? "text" : "password"}
-                    {...register("password", loginValidations.password)}
+                    type="email"
+                    {...register("email", loginValidations.email)}
                   />
-                  <InputRightElement h={"full"}>
-                    <Button
-                      variant={"ghost"}
-                      onClick={() =>
-                        setShowPassword((showPassword) => !showPassword)
-                      }
-                    >
-                      {showPassword ? <ViewIcon /> : <ViewOffIcon />}
-                    </Button>
-                  </InputRightElement>
-                </InputGroup>
-                <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
-              </FormControl>
-              <Stack spacing={10}>
-                <Stack
-                  direction={{ base: "column", sm: "row" }}
-                  align={"start"}
-                  justify={"space-between"}
+                  <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
+                </FormControl>
+                <FormControl
+                  id="password"
+                  isRequired
+                  isInvalid={Boolean(errors.password)}
                 >
-                  <Link color={"blue.400"} onClick={() => {
-                    navigate("/resetPassword")
-                  }}>
-                    {t("Login.forgotPassword")}
-                  </Link>
+                  <FormLabel>{t("Login.password")}</FormLabel>
+                  <InputGroup>
+                    <Input
+                      type={showPassword ? "text" : "password"}
+                      {...register("password", loginValidations.password)}
+                    />
+                    <InputRightElement h={"full"}>
+                      <Button
+                        variant={"ghost"}
+                        onClick={() =>
+                          setShowPassword((showPassword) => !showPassword)
+                        }
+                      >
+                        {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                      </Button>
+                    </InputRightElement>
+                  </InputGroup>
+                  <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
+                </FormControl>
+                <Stack spacing={10}>
+                  <Stack
+                    direction={{ base: "column", sm: "row" }}
+                    align={"start"}
+                    justify={"space-between"}
+                  >
+                    <Link color={"blue.400"} onClick={() => {
+                      navigate("/resetPassword")
+                    }}>
+                      {t("Login.forgotPassword")}
+                    </Link>
+                  </Stack>
+                  <Button
+                    bg={"blue.400"}
+                    color={"white"}
+                    _hover={{
+                      bg: "blue.500",
+                    }}
+                    type="submit"
+                  >
+                    {t("Login.login")}
+                  </Button>
                 </Stack>
-                <Button
-                  bg={"blue.400"}
-                  color={"white"}
-                  _hover={{
-                    bg: "blue.500",
-                  }}
-                  type="submit"
-                >
-                  {t("Login.login")}
-                </Button>
               </Stack>
-            </Stack>
-          </form>
-        </Box>
-      </Stack>
-    </Flex>
-    // <div className="login-box">
-    //   <div className="general-div" id="login">
-    //     <form onSubmit={handleSubmit(onSubmit)}>
-    //       <div className="form-group">
-    //         <label htmlFor="email" className="form-label">
-    //           {t("Login.email")}
-    //         </label>
-    //         <input
-    //           type="text"
-    //           required
-    //           className="form-input"
-    //           id="email"
-    //           placeholder={t("Login.email")}
-    //           {...register("email", {})}
-    //         />
-    //         {emailError && <span>This field is required</span>}
-    //       </div>
-    //       <div className="form-group">
-    //         <label htmlFor="password" className="form-label">
-    //           {t("Login.password")}
-    //         </label>
-    //         <input
-    //           type="password"
-    //           required
-    //           className="form-input"
-    //           id="password"
-    //           placeholder={t("Login.password")}
-    //           {...register("password", {})}
-    //         />
-    //         {passwordError && <span>This field is required</span>}
-    //       </div>
-    //       <div className="check-box">
-    //         <input
-    //           type="checkbox"
-    //           name="rememberMe"
-    //           id="rememberMe"
-    //           className="remember-me"
-    //         />
-    //         <label htmlFor="rememberMe">{t("Login.rememberMe")}</label>
-    //       </div>
-    //       <a href="/resetPassword">
-    //         <u className="login-reset-button">{t("Login.forgotPassword")}</u>
-    //       </a>
-    //       {/* <div className="errorDiv">
-    //         <p className="error">
-    //            TODO param.error &&  *
-    //           {<>Welcome.login.auth.failed</>}
-    //         </p>
-    //       </div> */}
-    //       <div className="loginButton">
-    //         <button type="submit" className="purple-hover-button">
-    //           {t("Login.login")}
-    //         </button>
-    //       </div>
-    //     </form>
-    //     <div className="notMemberYet">
-    //       <p>{t("Login.notAMemberyet")}</p>
-    //       &nbsp;&nbsp;
-    //       <b>
-    //         <a href="/register">
-    //           <u className="login-register-button">{t("Login.register")}</u>
-    //         </a>
-    //       </b>
-    //     </div>
-    //   </div>
-    // </div>
-  );
+            </form>
+          </Box>
+        </Stack>
+      </Flex>
+    </>
+    );
 };
 
 const Login = () => {

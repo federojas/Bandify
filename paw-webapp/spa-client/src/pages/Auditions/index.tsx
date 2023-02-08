@@ -13,6 +13,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useAuditionService } from "../../contexts/AuditionService";
 import {getQueryOrDefault, useQuery} from "../../hooks/useQuery";
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
+import { Helmet } from "react-helmet";
 
 export default function AuditionsPage() {
   const { t } = useTranslation();
@@ -42,6 +43,9 @@ export default function AuditionsPage() {
 
   return (
     <>
+      <Helmet>
+        <title>{t("Auditions.title")}</title>
+      </Helmet>
       <Center marginY={10} flexDirection="column">
         <VStack spacing={5} >
           <Heading fontSize={40}>{t("Auditions.header")}</Heading>

@@ -51,6 +51,10 @@ export default function EmailSent() {
   };
 
   return (
+    <>
+    <Heading>
+      <title>{t("EmailSent.Title")}</title>
+    </Heading>
     <Box textAlign="center" py={10} px={6}>
       <VStack gap={'8'}>
         <VStack gap="2">
@@ -80,5 +84,6 @@ export default function EmailSent() {
         </VStack>
       </VStack>
     </Box>
+    </>
   );
 }

@@ -1,13 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import "../../styles/profile.css";
-import UserIcon from "../../assets/icons/user.svg";
-import EditIcon from "../../assets/icons/edit-white-icon.svg";
-import AvailableCover from "../../assets/images/available.png";
 import { useTranslation } from "react-i18next";
 import {
   Box,
   Button,
-  Center,
   Container,
   Divider,
   Flex,
@@ -26,7 +22,6 @@ import {
   ModalHeader,
   ModalOverlay,
   Stack,
-  Tag,
   Text,
   Textarea,
   useColorModeValue,
@@ -66,6 +61,7 @@ import { RoleGroup } from "../EditProfile/EntitiesGroups";
 import { useRoleService } from "../../contexts/RoleService";
 import { GrView } from "react-icons/gr";
 import Membership from "../../models/Membership";
+import { Helmet } from "react-helmet";
 
 interface FormData {
   roles: string[];
@@ -328,6 +324,10 @@ const UserProfile = () => {
 
 
   return (
+    <>
+    <Helmet>
+          <title>{t("NavBar.Profile")}</title>
+    </Helmet>
     <Container maxW={"5xl"} px={"0"} py={8}>
       <Stack spacing={4}>
         <Box
@@ -512,7 +512,7 @@ const UserProfile = () => {
         </Grid>
       </Stack>
     </Container>
-
+  </>
   );
 };
 

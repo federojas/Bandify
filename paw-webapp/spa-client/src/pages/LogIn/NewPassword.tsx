@@ -22,6 +22,7 @@ import {serviceCall} from "../../services/ServiceManager";
 import {getQueryOrDefault, useQuery} from "../../hooks/useQuery";
 import {newPasswordOptions, newPasswordOptionsES} from "./validations";
 import AuthContext from "../../contexts/AuthContext";
+import { Helmet } from 'react-helmet';
 
 interface FormData {
   newPassword: string;
@@ -80,100 +81,105 @@ export default function NewPassword(): JSX.Element {
   };
 
   return (
-    <Flex
-      minH={'80vh'}
-      align={'center'}
-      justify={'center'}
-    >
-      <form onSubmit={handleSubmit(onSubmit)}>
-      <Stack
-        spacing={4}
-        w={'full'}
-        maxW={'md'}
-        bg={useColorModeValue('white', 'gray.900')}
-        rounded={'xl'}
-        boxShadow={'lg'}
-        p={6}
-        my={12}>
-        <Heading lineHeight={1.1} fontSize={{ base: '2xl', md: '3xl' }}>
-            {t("NewPassword.Title")}
-        </Heading>
-        <FormControl
-          id="password"
-          isRequired
-          isInvalid={Boolean(errors.newPassword)}
-        >
-          <FormLabel fontSize={16} fontWeight="bold">
-            {t("Register.password")}
-          </FormLabel>
-          <InputGroup>
-            <Input
-              type={showPassword ? "text" : "password"}
-              {...register("newPassword", options.newPassword)}
-              placeholder={t("Register.pwd")}
-              mb={4}
-            />
-            <InputRightElement h={"full"}>
-              <Button
-                variant={"ghost"}
-                onClick={() =>
-                  setShowPassword((showPassword) => !showPassword)
-                }
-              >
-                {showPassword ? <ViewIcon /> : <ViewOffIcon />}
-              </Button>
-            </InputRightElement>
-          </InputGroup>
-          <FormErrorMessage>{errors.newPassword?.message}</FormErrorMessage>
-        </FormControl>
-        <FormControl
-          id="passwordConfirmation"
-          isRequired
-          isInvalid={Boolean(errors.newPasswordConfirmation)}
-        >
-          <FormLabel fontSize={16} fontWeight="bold">
-            {t("Register.confirmPassword")}
-          </FormLabel>
-          <InputGroup>
-            <Input
-              type={showPasswordConfirmation ? "text" : "password"}
-              placeholder={t("Register.pwd")}
-              {...register(
-                "newPasswordConfirmation",
-                options.newPasswordConfirmation
-              )}
-            />
-            <InputRightElement h={"full"}>
-              <Button
-                variant={"ghost"}
-                onClick={() =>
-                  setShowPasswordConfirmation(
-                    (showPasswordConfirmation) => !showPasswordConfirmation
-                  )
-                }
-              >
-                {showPasswordConfirmation ? <ViewIcon /> : <ViewOffIcon />}
-              </Button>
-            </InputRightElement>
-          </InputGroup>
-          <FormErrorMessage>
-            {errors.newPasswordConfirmation?.message}
-          </FormErrorMessage>
-        </FormControl>
+    <>
+      <Helmet>
+        <title>{t("NewPassword.heading")}</title>
+      </Helmet>
+      <Flex
+        minH={'80vh'}
+        align={'center'}
+        justify={'center'}
+      >
+        <form onSubmit={handleSubmit(onSubmit)}>
+        <Stack
+          spacing={4}
+          w={'full'}
+          maxW={'md'}
+          bg={useColorModeValue('white', 'gray.900')}
+          rounded={'xl'}
+          boxShadow={'lg'}
+          p={6}
+          my={12}>
+          <Heading lineHeight={1.1} fontSize={{ base: '2xl', md: '3xl' }}>
+              {t("NewPassword.Title")}
+          </Heading>
+          <FormControl
+            id="password"
+            isRequired
+            isInvalid={Boolean(errors.newPassword)}
+          >
+            <FormLabel fontSize={16} fontWeight="bold">
+              {t("Register.password")}
+            </FormLabel>
+            <InputGroup>
+              <Input
+                type={showPassword ? "text" : "password"}
+                {...register("newPassword", options.newPassword)}
+                placeholder={t("Register.pwd")}
+                mb={4}
+              />
+              <InputRightElement h={"full"}>
+                <Button
+                  variant={"ghost"}
+                  onClick={() =>
+                    setShowPassword((showPassword) => !showPassword)
+                  }
+                >
+                  {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                </Button>
+              </InputRightElement>
+            </InputGroup>
+            <FormErrorMessage>{errors.newPassword?.message}</FormErrorMessage>
+          </FormControl>
+          <FormControl
+            id="passwordConfirmation"
+            isRequired
+            isInvalid={Boolean(errors.newPasswordConfirmation)}
+          >
+            <FormLabel fontSize={16} fontWeight="bold">
+              {t("Register.confirmPassword")}
+            </FormLabel>
+            <InputGroup>
+              <Input
+                type={showPasswordConfirmation ? "text" : "password"}
+                placeholder={t("Register.pwd")}
+                {...register(
+                  "newPasswordConfirmation",
+                  options.newPasswordConfirmation
+                )}
+              />
+              <InputRightElement h={"full"}>
+                <Button
+                  variant={"ghost"}
+                  onClick={() =>
+                    setShowPasswordConfirmation(
+                      (showPasswordConfirmation) => !showPasswordConfirmation
+                    )
+                  }
+                >
+                  {showPasswordConfirmation ? <ViewIcon /> : <ViewOffIcon />}
+                </Button>
+              </InputRightElement>
+            </InputGroup>
+            <FormErrorMessage>
+              {errors.newPasswordConfirmation?.message}
+            </FormErrorMessage>
+          </FormControl>
 
-        <Stack spacing={6}>
-          <Button
-            type="submit"
-            bg={'blue.400'}
-            color={'white'}
-            _hover={{
-              bg: 'blue.500',
-            }}>
-            {t("NewPassword.Submit")}
-          </Button>
+          <Stack spacing={6}>
+            <Button
+              type="submit"
+              bg={'blue.400'}
+              color={'white'}
+              _hover={{
+                bg: 'blue.500',
+              }}>
+              {t("NewPassword.Submit")}
+            </Button>
+          </Stack>
         </Stack>
-      </Stack>
-    </form>
-    </Flex>
+      </form>
+      </Flex>
+    </>
   );
 }

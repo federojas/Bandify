@@ -17,6 +17,7 @@ import "../../styles/forms.css";
 import "../../styles/register.css";
 import "../../js/alerts.js";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 
 
@@ -117,6 +118,10 @@ const RegisterContent = () => {
     },
   ];
   return (
+    <>
+    <Helmet>
+          <title>{t("NavBar.register")}</title>
+    </Helmet>
     <Flex
       textAlign={"center"}
       pt={10}
@@ -163,6 +168,7 @@ const RegisterContent = () => {
         </Icon>
       </Box>
     </Flex>
+    </>
   );
 };
 

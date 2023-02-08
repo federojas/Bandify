@@ -4,13 +4,13 @@ import {
   Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure, VStack, useColorModeValue
 } from "@chakra-ui/react"
 import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
 import { TiCancel, TiTick } from "react-icons/ti";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuditionService } from "../../contexts/AuditionService";
 import { Application, Audition } from "../../models";
 import { serviceCall } from "../../services/ServiceManager";
-import AuditionsPage from "../Auditions";
 
 function ApplicantInfo({application} : {application: Application}) {
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -18,6 +18,9 @@ function ApplicantInfo({application} : {application: Application}) {
 
   return (
     <>
+      <Helmet>
+        <title>{t("InviteItem.applicantsAlt")}</title>
+      </Helmet>
       <Button onClick={onOpen}>{t("AuditionApplicants.SeeApplication")}</Button>
 
       <Modal isOpen={isOpen} onClose={onClose}>

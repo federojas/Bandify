@@ -8,6 +8,7 @@ import { useAuditionService } from "../../contexts/AuditionService";
 import { serviceCall } from "../../services/ServiceManager";
 import { applyAuditionOptions, applyAuditionOptionsES } from "./validations";
 import swal from 'sweetalert';
+import { Helmet } from "react-helmet";
 
 interface FormData {
   description: string;
@@ -52,6 +53,9 @@ const ApplyButton = ({ auditionId }: { auditionId: number }) => {
 
   return (
     <>
+      <Helmet>
+        <title>{t("Audition.apply")}</title>
+      </Helmet>
       <Button leftIcon={<FiUsers />} w={'44'} colorScheme='green' onClick={onOpen}>{t("Audition.apply")}</Button>
 
 

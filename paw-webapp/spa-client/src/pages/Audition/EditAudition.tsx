@@ -42,6 +42,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import { AuditionInput } from "../../api/types/Audition"
 import { useAuditionService } from "../../contexts/AuditionService";
 import {Audition} from "../../models";
+import { Helmet } from "react-helmet";
 
 interface FormData {
   title: string;
@@ -227,6 +228,10 @@ const EditAudition = () => {
   const bg = useColorModeValue("white", "gray.900");
   const bgBorderColor = useColorModeValue("gray.200", "gray.700");
   return (
+    <>
+      <Helmet>
+        <title>{t("Audition.edit")}</title>
+      </Helmet>
       <Box
     rounded={"lg"}
     bg={useColorModeValue("white", "gray.900")}
@@ -432,8 +437,10 @@ const EditAudition = () => {
         </GridItem>
       </SimpleGrid>
 
-    </Box>)}
-  </Box>);
+      </Box>)}
+    </Box>
+    </>
+    );
 }
 
 export default EditAudition

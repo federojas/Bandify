@@ -45,6 +45,7 @@ import { FiMusic } from "react-icons/fi";
 import { useMembershipService } from "../../contexts/MembershipService";
 import Membership from "../../models/Membership";
 import MembershipItem from "../User/MembershipItem";
+import { Helmet } from "react-helmet";
 
 const Profile = () => {
   const { t } = useTranslation();
@@ -84,6 +85,10 @@ const Profile = () => {
 
 
   return (
+    <>
+    <Helmet>
+          <title>{t("NavBar.Profile")}</title>
+    </Helmet>
     <Container maxW={"5xl"} px={"0"} py={8}>
       {isLoading ? <Center mt={'25%'}><span className="loader" /></Center> : (
         <Stack spacing={4}>
@@ -276,7 +281,7 @@ const Profile = () => {
         </Stack>
       )}
     </Container>
-  );
+    </>);
 };
 
 export default Profile;

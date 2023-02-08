@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import ManagerTabs from '../../components/ManagerTabs';
 import { Application } from '../../models'
 import ArtistApplicationItem from '../../components/ArtistApplicationItem';
-
+//TODO: remove ?
 // const ProfileApplications = () => {
 //     const { t } = useTranslation();
 //     const pendingUrl = "/profile/applications?state=PENDING";
