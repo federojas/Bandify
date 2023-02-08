@@ -105,7 +105,6 @@ export default class MembershipService {
 
   // TODO: esto esta mal porque solo revisa la pagina 1.
   public async canInvite(bandId: number, artistId: number): Promise<ApiResult<Boolean>> {
-    console.log("canInvite (service) con bandId: " + bandId + " y el user ID: " + artistId);
     try {
       const members = await this.getUserMemberships({ user: bandId });
       if (!members.hasFailed()) {
@@ -118,5 +117,43 @@ export default class MembershipService {
     }
   }
 
+  public async accept(membership:Membership, state:string) {
+    try {
+      await this.membershipApi.editMembership(membership.id, {
+        roles: membership.roles,
+        description: membership.description,
+        state: "ACCEPTED"
+      });
+      return new ApiResult(null as any, false, null as any);
+    } catch (error: any) {
+      return ErrorService.returnApiError(error);
+    }
+  }
+
+  public async reject(membership:Membership, state:string) {
+    try {
+      await this.membershipApi.editMembership(membership.id, {
+        roles: membership.roles,
+        description: membership.description,
+        state: "REJECTED"
+      });
+      return new ApiResult(null as any, false, null as any);
+    } catch (error: any) {
+      return ErrorService.returnApiError(error);
+    }
+  }
+
+  public async edit(membership:Membership, state:string) {
+    try {
+      await this.membershipApi.editMembership(membership.id, {
+        roles: membership.roles,
+        description: membership.description,
+        state: membership.state
+      });
+      return new ApiResult(null as any, false, null as any);
+    } catch (error: any) {
+      return ErrorService.returnApiError(error);
+    }
+  }
 
 }

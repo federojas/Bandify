@@ -16,6 +16,12 @@ interface PostParams {
     description: string;
 }
 
+interface PutParams {
+    roles: string[];
+    state: string;
+    description: string;
+}
+
 class MembershipApi {
 
     private axiosPrivate: AxiosInstance;
@@ -27,6 +33,12 @@ class MembershipApi {
     private config = {
         headers: {
             'Accept': 'application/vnd.membership.v1+json'
+        }
+    }
+
+    private putConfig = {
+        headers: {
+            'Content-Type': 'application/vnd.membership.v1+json'
         }
     }
 
@@ -111,6 +123,13 @@ class MembershipApi {
         return this.axiosPrivate.post(`${this.endpoint}?user=${params.userId}`,
             { roles: params.roles, description: params.description },
             this.config).then((response) => {
+                return Promise.resolve(response);
+            });
+    }
+
+    public editMembership = async (membershipId: number, membership: PutParams) => {
+        return this.axiosPrivate.put(`${this.endpoint}/${membershipId}`,
+            membership, this.putConfig).then((response) => {
                 return Promise.resolve(response);
             });
     }
