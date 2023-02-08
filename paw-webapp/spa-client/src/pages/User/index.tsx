@@ -279,6 +279,7 @@ const UserProfile = () => {
   const bg = useColorModeValue('white', 'gray.900')
   const [memberships, setMemberships] = React.useState<Membership[]>([]);
 
+
   useEffect(() => {
     serviceCall(
       userService.getUserById(userId!),
@@ -298,6 +299,11 @@ const UserProfile = () => {
 
 
   }, [userId])
+
+  useEffect(() => {
+    if (userId === currentUserId)
+      navigate('/profile')
+  }, [userId, currentUserId, navigate])
 
   useEffect(() => {
     if (user && currentUser) {
