@@ -310,7 +310,7 @@ const UserProfile = () => {
       )
 
       serviceCall(
-        membershipService.getUserMemberships({ user: user?.id as number, state: "ACCEPTED" }),
+        membershipService.getUserMemberships({ user: user?.id as number, state: "ACCEPTED", preview: true }),
         navigate,
         (response: any) => {
           console.log(response.getContent())
@@ -485,7 +485,7 @@ const UserProfile = () => {
                   </Heading>
                 </HStack>
                 <Button leftIcon={<GrView />} w={'50'} colorScheme={'cyan'} onClick={() => {
-                  navigate("/users/" + userId + "/bands")
+                  navigate("/users/" + userId + "/associates")
                 }}>
                   {t("Profile.ViewAll")}
                 </Button>
