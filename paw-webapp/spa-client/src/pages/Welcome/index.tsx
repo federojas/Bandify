@@ -12,11 +12,23 @@ import {
   Center
 } from "@chakra-ui/react";
 import { Helmet } from "react-helmet";
+import { useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import AuthContext from "../../contexts/AuthContext";
 import WelcomeGuitar from '../../images/welcome-guitar.png';
 
 function Home() {
   const { t } = useTranslation();
+  const { isAuthenticated } = useContext(AuthContext)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/auditions', { replace: true })
+    }
+  }, [isAuthenticated, navigate])
+
   return (
     <>
     <Helmet>

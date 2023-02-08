@@ -112,7 +112,7 @@ function Nav() {
         />
         <HStack spacing={8} alignItems={"center"}>
           <Box>
-            <a style={{ cursor: "pointer" }} onClick={() => { navigate('/') }} className="logo-section">
+            <a style={{ cursor: "pointer" }} onClick={() => { navigate(isAuthenticated ? '/auditions' : '/') }} className="logo-section">
               <HStack>
                 <Image src={BandifyLogo} w={8} alt={t("Alts.bandify")} />
                 <span className="bandify-title">bandify</span>
