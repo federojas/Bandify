@@ -225,7 +225,8 @@ export const TRANSLATIONS_EN = {
     noDescription: "No description",
     edit: "Edit profile",
     BandMembers: "Band members",
-    ViewAll: "View all"
+    ViewAll: "View all",
+    noMemberships: "No memberships",
   },
   Edit: {
     name: "Name",
