@@ -223,6 +223,10 @@ export const TRANSLATIONS_ES = {
     applySuccess: "¡Aplicación enviada exitosamente!",
     applySuccessText: "¡Tu aplicación fue enviada exitosamente! Te avisaremos cuando la banda te acepte o rechace.",
     title: "Audición",
+    Closed: "Esta audición está cerrada",
+    CheckOutOthers: "La banda ha cerrado esta audición. ¡Mirá otras audiciones!",
+    MoreAuditions: "Más audiciones",
+
   },
   ProfileCard: {
     Profile: "Ver perfil",

@@ -201,6 +201,9 @@ export const TRANSLATIONS_EN = {
     applySuccess: "Application sent successfully!",
     applySuccessText: "You will be notified when the band accepts or rejects your application.",
     title: "Audition",
+    Closed: "This audition is closed",
+    CheckOutOthers: "The band has closed this audition. Check out other auditions!",
+    MoreAuditions: "More auditions",
   },
   Clipboard: {
     message: "Link copied to clipboard!",

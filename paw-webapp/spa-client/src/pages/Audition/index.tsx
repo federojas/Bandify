@@ -39,7 +39,28 @@ import AuthContext from "../../contexts/AuthContext";
 import swal from 'sweetalert';
 import ApplyButton from "./ApplyAudition";
 import { Helmet } from "react-helmet";
+import { WarningTwoIcon } from '@chakra-ui/icons';
 
+function ClosedAudition() {
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+  return (
+    <Box textAlign="center" py={10} px={6}>
+      <WarningTwoIcon boxSize={'50px'} color={'orange.300'} />
+      <Heading as="h2" size="xl" mt={6} mb={2}>
+        {t("Audition.Closed")}
+      </Heading>
+      <Text color={'gray.500'} fontSize={'lg'}>
+        {t("Audition.CheckOutOthers")}
+      </Text>
+      <Button colorScheme="blue" mt={6} onClick={() => {
+        navigate('/auditions')
+      }}>
+        {t("Audition.MoreAuditions")}
+      </Button>
+    </Box>
+  );
+}
 
 const AuditionActions = (props: { auditionId: number, isOwner: boolean, currentUser: User | undefined }) => {
   const isBand = props.currentUser?.band;
@@ -231,19 +252,22 @@ const AuditionView = () => {
   const [isOwner, setIsOwner] = useState(false);
   const { userId } = useContext(AuthContext);
   const { t } = useTranslation();
+  const [closed, setClosed] = useState(false);
+
   useEffect(() => {
     serviceCall(
-        auditionService.getAuditionById(parseInt(params.id as string)),
-        navigate,
-        (response) => {
-          if (response) {
-            setAudition(response)
-          }
-        },
-     ).then(r => {
-       if(r.hasFailed() && r.getError().status == 410) {
-         setIsLoading(false);
-       }
+      auditionService.getAuditionById(parseInt(params.id as string)),
+      navigate,
+      (response) => {
+        if (response) {
+          setAudition(response)
+        }
+      },
+    ).then(r => {
+      if (r.hasFailed() && r.getError().status === 410) {
+        setClosed(true);
+        setIsLoading(false);
+      }
     });
   }, [params.id, navigate]);
 
@@ -291,11 +315,12 @@ const AuditionView = () => {
       </Helmet>
       <Center>
         <HStack minH={"80vh"}>
-          {isLoading ? <span className="loader"></span> :
-            (<>
+          {isLoading ? (<span className="loader"></span>) :
+            (closed ? <ClosedAudition /> : (<>
               <AuditionCard user={ownerUser!} audition={audition!} />
               <AuditionActions auditionId={audition!.id} isOwner={isOwner} currentUser={currentUser} />
-            </>)}
+            </>))
+          }
         </HStack>
       </Center>
     </>
