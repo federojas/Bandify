@@ -232,6 +232,7 @@ export const TRANSLATIONS_EN = {
     BandMembers: "Band members",
     ViewAll: "View all",
     noMemberships: "No memberships",
+    editSocialMedia: "Edit"
   },
   Edit: {
     name: "Name",
@@ -384,6 +385,17 @@ export const TRANSLATIONS_EN = {
    ConfirmPassword: "Confirm password",
    Submit: "Submit", 
    heading: "New password",
+  },
+  SocialMediaModal: {
+    title: "Edit",
+    Subtitle: "Edit your social media links",
+    Facebook: "Facebook",
+    Instagram: "Instagram",
+    Twitter: "Twitter",
+    Youtube: "Youtube",
+    Spotify: "Spotify",
+    Soundcloud: "Soundcloud",
+    Save: "Save",
   }
 };
 
