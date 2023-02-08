@@ -50,9 +50,6 @@ public class UserController {
     @Context
     private UriInfo uriInfo;
 
-    @Context
-    private SecurityContext securityContext;
-
     @POST
     @Consumes("application/vnd.user.v1+json")
     public Response createUser(@Valid UserForm form) {
@@ -76,9 +73,7 @@ public class UserController {
     @PUT
     @Path("/{id}")
     public Response updateUser(@Valid UserEditForm form, @PathParam("id") final long id) {
-        final User user = userService.findByEmail(securityContext.getUserPrincipal().getName()).orElseThrow(UserNotFoundException::new);
-        checkOwnership(user, id);
-        userService.editUser(user.getId(), form.getName(), form.getSurname(), form.getDescription(), form.getAvailable(),
+        userService.editUser(id, form.getName(), form.getSurname(), form.getDescription(), form.getAvailable(),
                 form.getRoles(), form.getGenres(), form.getLocation());
         return Response.ok().build();
     }
@@ -154,9 +149,6 @@ public class UserController {
     public Response getUserApplications(@PathParam("id") final long id,
                                         @QueryParam("state") @DefaultValue("PENDING") final String state,
                                         @QueryParam("page") @DefaultValue("1") final int page){
-
-        final User user = userService.findByEmail(securityContext.getUserPrincipal().getName()).orElseThrow(UserNotFoundException::new);
-        checkOwnership(user, id);
         final List<ApplicationDto> applicationDtos =
                 applicationService.getMyApplicationsFiltered(id,page, ApplicationState.valueOf(state))
                         .stream().map(application -> ApplicationDto.fromApplication(uriInfo,application))
@@ -189,9 +181,7 @@ public class UserController {
     @Path("/{id}/social-media")
     @Consumes("application/vnd.social-media-list.v1+json")
     public Response updateUserSocialMedia(@Valid SocialMediaForm form, @PathParam("id") final long id) {
-        final User user = userService.findByEmail(securityContext.getUserPrincipal().getName()).orElseThrow(UserNotFoundException::new);
-        checkOwnership(user, id);
-        userService.updateSocialMedia(user, form.getSocialMedia());
+        userService.updateSocialMedia(id, form.getSocialMedia());
         return Response.ok().build();
     }
 
@@ -241,11 +231,4 @@ public class UserController {
         return Response.ok().build();
     }
 
-
-    private void checkOwnership(User user, long userId) {
-        if (user.getId() != userId) {
-            throw new ForbiddenException();
-        }
-    }
-    
 }

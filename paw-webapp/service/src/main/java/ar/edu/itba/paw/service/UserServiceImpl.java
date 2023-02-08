@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.acl.NotOwnerException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -34,6 +35,8 @@ public class UserServiceImpl implements UserService {
     private MailingService mailingService;
     @Autowired
     private LocationService locationService;
+    @Autowired
+    private AuthFacadeService authFacadeService;
 
     private static final int MAX_USER_GENRES = 15;
     private static final int MAX_USER_ROLES = 15;
@@ -95,7 +98,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public User editUser(long userId, String name, String surname, String description, boolean isAvailable,
                          List<String> roles, List<String> genres, String location) {
-        User user = getUserById(userId).orElseThrow(UserNotFoundException::new);
+        final User user = authFacadeService.getCurrentUser();
+        checkOwnership(user, userId);
         user.editInfo(name, surname, description);
         if(!user.isBand()) {
             user.setAvailable(isAvailable);
@@ -202,7 +206,9 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public void updateSocialMedia(User user, Set<MediaUrl> mediaUrls) {
+    public void updateSocialMedia(long userId, Set<MediaUrl> mediaUrls) {
+        final User user = authFacadeService.getCurrentUser();
+        checkOwnership(user, userId);
         Set<SocialMedia> socialMedia = mediaUrls.stream().map(mediaUrl -> new SocialMedia(user,mediaUrl.getUrl(),mediaUrl.getType())).collect(Collectors.toSet());
         user.setSocialSocialMedia(socialMedia);
     }
@@ -275,5 +281,11 @@ public class UserServiceImpl implements UserService {
         if(page > lastPage)
             throw new PageNotFoundException();
     }
+
+    private void checkOwnership(User user, long userId) {
+        if (user.getId() != userId)
+            throw new ProfileNotOwnedException();
+    }
+
 
 }

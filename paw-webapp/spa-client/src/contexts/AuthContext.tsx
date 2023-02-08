@@ -26,9 +26,9 @@ const AuthContext = React.createContext<AuthContextValue>({
 });
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const jwtInLocalStorage = localStorage.hasOwnProperty("jwt");
+  const jwtInLocalStorage = localStorage.getItem("jwt") != null;
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(
-    jwtInLocalStorage 
+    jwtInLocalStorage
   );
 
   const token = localStorage.getItem("jwt") as string;
