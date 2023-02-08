@@ -101,7 +101,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/users/{\\d+}/applications").hasRole("ARTIST")
                 .antMatchers(HttpMethod.GET, "/memberships/{\\d+}").authenticated() //TODO REVISAR CUAND VEAMOS EL ACCESO DESDE EL FRONT
                 .antMatchers(HttpMethod.DELETE, "/memberships/{\\d+}").hasRole("BAND")
-                .antMatchers(HttpMethod.PUT, "/memberships/{\\d+}").hasRole("BAND")
+                .antMatchers(HttpMethod.PUT, "/memberships/{\\d+}").authenticated()
                 .antMatchers(HttpMethod.GET, "/auditions/{\\d+}/applications",
                         "/{auditionId}/applications/{\\d+}").hasRole("BAND")
                 .antMatchers(HttpMethod.PUT, "/auditions/{\\d+}/applications/{\\d+}").hasRole("BAND")
