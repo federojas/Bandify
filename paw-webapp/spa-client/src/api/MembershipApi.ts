@@ -107,6 +107,45 @@ class MembershipApi {
             });
     }
 
+    public getUserMembershipsUrl = async (url: string) => {
+        return this.axiosPrivate.get(url)
+            .then((response) => {
+                const data = response.data;
+                const memberships: Membership[] =
+                    Array.isArray(data) ?
+                        data.map((membership: any) => {
+                            const artistLink = membership.artist.split('/')
+                            const artistId: number = parseInt(artistLink[artistLink.length - 1]);
+                            const bandLink = membership.band.split('/')
+                            const bandId: number = parseInt(bandLink[bandLink.length - 1]);
+                            return {
+                                id: membership.id,
+                                artistId: artistId,
+                                bandId: bandId,
+                                state: membership.state,
+                                description: membership.description,
+                                roles: membership.roles
+                            };
+                        })
+                        : [];
+                let maxPage = 1;
+                let previousPage = "";
+                let nextPage = "";
+                let parsed;
+                if (response.headers) {
+                    parsed = parseLinkHeader(response.headers.link);
+                    if (parsed) {
+                        maxPage = parseInt(parsed.last.page);
+                        if (parsed.prev)
+                            previousPage = parsed.prev.url;
+                        if (parsed.next)
+                            nextPage = parsed.next.url;
+                    }
+                }
+                return Promise.resolve(new PagedContent(memberships, maxPage, nextPage, previousPage));
+            });
+    }
+
     public inviteToBand = async (params: PostParams) => {
         return this.axiosPrivate.post(`${this.endpoint}?user=${params.userId}`,
             { roles: params.roles, description: params.description },

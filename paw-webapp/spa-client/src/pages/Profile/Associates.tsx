@@ -1,12 +1,11 @@
 import {
   Box, Center, Heading,
-  Avatar, Badge, Flex, HStack, Tab, TabList, TabPanel, TabPanels, Tabs, Text, Button,
-  Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure, VStack, useColorModeValue
+  Avatar, Badge, Flex, HStack, useDisclosure, VStack, useColorModeValue
 } from "@chakra-ui/react"
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { HiUserGroup } from "react-icons/hi";
-import { useNavigate, useParams } from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import AuthContext from "../../contexts/AuthContext";
 import { useMembershipService } from "../../contexts/MembershipService";
 import { useUserService } from "../../contexts/UserService";
@@ -14,6 +13,9 @@ import { User } from "../../models";
 import Membership from "../../models/Membership";
 import { serviceCall } from "../../services/ServiceManager";
 import MembershipItem from "../User/MembershipItem";
+import {PaginationWrapper} from "../../components/Pagination/pagination";
+import {ChevronLeftIcon, ChevronRightIcon} from "@chakra-ui/icons";
+import {getQueryOrDefault, useQuery} from "../../hooks/useQuery";
 
 const ProfileAssociates = () => {
   const { t } = useTranslation();
@@ -24,9 +26,14 @@ const ProfileAssociates = () => {
   const userService = useUserService();
   const membershipService = useMembershipService();
   const [memberships, setMemberships] = useState<Membership[]>([]);
+  const query = useQuery();
+  const [currentPage, setCurrentPage] = useState(parseInt(getQueryOrDefault(query, "page", "1")));
+  const [maxPage, setMaxPage] = useState(1);
+  const [previousPage, setPreviousPage] = useState("");
+  const [nextPage, setNextPage] = useState("");
+  const location = useLocation();
 
   useEffect(() => {
-
     serviceCall(
       userService.getUserById(currentUserId),
       navigate,
@@ -34,24 +41,25 @@ const ProfileAssociates = () => {
         setCurrentUser(response);
       }
     )
-
-
-  }, [currentUserId])
+  }, [])
 
   useEffect(() => {
-    if (currentUser) {
+    if (currentUserId) {
       serviceCall(
-        membershipService.getUserMemberships({ user: currentUserId as number, state: "ACCEPTED", preview: true }),
+        membershipService.getUserMemberships({ user: currentUserId as number, state: "ACCEPTED"}),
         navigate,
         (response: any) => {
-          console.log(response.getContent())
-          setMemberships(response.getContent());
+          setMemberships(response ? response.getContent() : []);
+          setMaxPage(response ? response.getMaxPage() : 1); //TODO revisar esto
+          setPreviousPage(response ? response.getPreviousPage() : "");
+          setNextPage(response ? response.getNextPage() : "");
         }
       )
     }
-  }, [navigate, currentUser])
+  }, [])
 
 
+  //TODO IS LOADING
   return (
     <Center py={'10'}>
       <VStack spacing={'4'}>
@@ -93,6 +101,66 @@ const ProfileAssociates = () => {
                 <>{t("Profile.noMemberships")}</>
               }
             </VStack>
+          </Flex>
+          <Flex
+              w="full"
+              p={50}
+              alignItems="center"
+              justifyContent="center"
+          >
+            <PaginationWrapper>
+              {currentPage > 1 && (
+                  <button
+                      onClick={() => {
+                        serviceCall(
+                            membershipService.getUserMembershipsUrl(previousPage),
+                            navigate,
+                            (response) => {
+                              setMemberships(response ? response.getContent() : []);
+                              setPreviousPage(response ? response.getPreviousPage() : "");
+                              setNextPage(response ? response.getNextPage() : "");
+                            },
+                            location
+                        )
+                        setCurrentPage(currentPage - 1)
+                        const url = new URL(window.location.href);
+                        url.searchParams.set('page', String(currentPage - 1));
+                        window.history.pushState(null, '', url.toString());
+                      }}
+                      style={{ background: "none", border: "none" }}
+                  >
+                    <ChevronLeftIcon mr={4}/>
+
+                  </button>
+              )}
+              {t("Pagination.message", {
+                currentPage: currentPage,
+                maxPage: maxPage,
+              })}
+              {currentPage < maxPage && (
+                  <button
+                      onClick={() => {
+                        serviceCall(
+                            membershipService.getUserMembershipsUrl(nextPage),
+                            navigate,
+                            (response) => {
+                              setMemberships(response ? response.getContent() : []);
+                              setPreviousPage(response ? response.getPreviousPage() : "");
+                              setNextPage(response ? response.getNextPage() : "");
+                            },
+                            location
+                        )
+                        setCurrentPage(currentPage + 1)
+                        const url = new URL(window.location.href);
+                        url.searchParams.set('page', String(currentPage + 1));
+                        window.history.pushState(null, '', url.toString());
+                      }}
+                      style={{ background: "none", border: "none" }}
+                  >
+                    <ChevronRightIcon ml={4}/>
+                  </button>
+              )}
+            </PaginationWrapper>
           </Flex>
         </Box>
       </VStack>
