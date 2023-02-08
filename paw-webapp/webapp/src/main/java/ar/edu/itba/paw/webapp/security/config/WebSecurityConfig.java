@@ -100,8 +100,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.PUT, "/users/verify-tokens/**", "/users/password-tokens/**").authenticated()
                 .antMatchers(HttpMethod.GET, "/users/{\\d+}/status").authenticated()
                 .antMatchers(HttpMethod.GET, "/users/{\\d+}/applications").hasRole("ARTIST")
-                .antMatchers(HttpMethod.GET, "/memberships",
-                        "/memberships/{\\d+}").authenticated() //TODO REVISAR CUAND VEAMOS EL ACCESO DESDE EL FRONT
+                .antMatchers(HttpMethod.GET, "/memberships/{\\d+}").authenticated() //TODO REVISAR CUAND VEAMOS EL ACCESO DESDE EL FRONT
                 .antMatchers(HttpMethod.DELETE, "/memberships/{\\d+}").hasRole("BAND")
                 .antMatchers(HttpMethod.PUT, "/memberships/{\\d+}").hasRole("BAND")
                 .antMatchers(HttpMethod.GET, "/auditions/{\\d+}/applications",
@@ -123,8 +122,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers( "/css/**", "/js/**", "/images/**", "/icons/**");
     }
 
-
-    //TODO ESTO EN PRODUCCION VUELA !!!!!!!!!!!!!!!!!!!!!!!!
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration cors = new CorsConfiguration();
@@ -134,8 +131,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         cors.setExposedHeaders(Arrays.asList("X-JWT", "X-Refresh-Token", "X-Content-Type-Options", "X-XSS-Protection", "X-Frame-Options",
                 "authorization", "Location",
                 "Content-Disposition", "Link"));
-        //TODO ESTO EN PRODUCCION VUELA !!!!!!!!!!!!!!!!!!!!!!!!
-        //cors.addAllowedOrigin("http://localhost:9000/");
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", cors);
         return source;
