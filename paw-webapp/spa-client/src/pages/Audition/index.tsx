@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import dayjs from 'dayjs';
 import { Audition, User } from "../../models";
@@ -46,9 +46,7 @@ const AuditionActions = (props: { auditionId: number, isOwner: boolean, currentU
   const { t } = useTranslation();
   const navigate = useNavigate();
   const toast = useToast();
-  const share = () => {
-    // TODO: Add code to share the audition
-  };
+
   const auditionService = useAuditionService();
 
   const onDelete = () => {
@@ -109,6 +107,7 @@ const AuditionActions = (props: { auditionId: number, isOwner: boolean, currentU
       </Button>
       {props.isOwner ?
         <>
+          {/*TODO ANALIZAR LINK ACA*/}
           <Button onClick={() => { navigate('/auditions/' + String(props.auditionId) + '/applicants') }} leftIcon={<FiUsers />} w={'44'} colorScheme='green'>{t("Audition.applicants")}</Button>
 
           <Button leftIcon={<AiOutlineEdit />} w={'44'} colorScheme='teal' onClick={onEdit}>{t("Audition.edit")}</Button>
@@ -150,7 +149,7 @@ const AuditionCard = ({
           as="a"
           cursor="pointer"
           onClick={() => {
-            navigate(userId === audition.ownerId ? "/profile" : "/users/" + audition.ownerId)
+            navigate(userId === user.id ? "/profile" : "/users/" + user.id)
           }}
           flex="1"
           gap="4"
@@ -234,14 +233,18 @@ const AuditionView = () => {
   const { t } = useTranslation();
   useEffect(() => {
     serviceCall(
-      auditionService.getAuditionById(parseInt(params.id as string)),
-      navigate,
-      (response) => {
-        if (response) {
-          setAudition(response)
-        }
-      },
-    );
+        auditionService.getAuditionById(parseInt(params.id as string)),
+        navigate,
+        (response) => {
+          if (response) {
+            setAudition(response)
+          }
+        },
+     ).then(r => {
+       if(r.hasFailed() && r.getError().status == 410) {
+         setIsLoading(false);
+       }
+    });
   }, [params.id, navigate]);
 
 
@@ -257,7 +260,7 @@ const AuditionView = () => {
         );
       }
       serviceCall(
-        userService.getUserById(audition.ownerId),
+        userService.getUserByUrl(audition.owner),
         navigate,
         (response) => {
           setOwnerUser(response)
@@ -271,9 +274,9 @@ const AuditionView = () => {
 
   useEffect(() => {
     if (currentUser && audition) {
-      setIsOwner(currentUser?.id === audition.ownerId ? true : false);
+      setIsOwner(currentUser?.id == ownerUser?.id ? true : false);
     }
-  }, [audition, currentUser])
+  }, [audition, currentUser, ownerUser])
 
   useEffect(() => {
     if (ownerUser) {

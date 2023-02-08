@@ -228,6 +228,29 @@ public class ApplicationServiceImpl implements ApplicationService {
         return applicationDao.getAuditionApplicationsByState(auditionId,state);
     }
 
+    @Override
+    public void changeState(long auditionId, long applicationId, String state) {
+        Application app = getApplicationById(auditionId, applicationId)
+                .orElseThrow(ApplicationNotFoundException::new);
+        if(Objects.equals(state, ApplicationState.CLOSED.getState()))
+            closeApplications(auditionId, app.getApplicant().getId());
+        else if(app.getState().equals(ApplicationState.PENDING)) {
+            if (Objects.equals(state, ApplicationState.ACCEPTED.getState()))
+                accept(auditionId, app.getApplicant().getId());
+            else if (Objects.equals(state, ApplicationState.REJECTED.getState()))
+                reject(auditionId, app.getApplicant().getId());
+        } else if(app.getState().equals(ApplicationState.ACCEPTED) &&
+                Objects.equals(state, ApplicationState.SELECTED.getState())) {
+            User band = authFacadeService.getCurrentUser();
+            if(!band.isBand())
+                throw new NotABandException();
+            select(auditionId, band, app.getApplicant().getId());
+        } else {
+            throw new InvalidApplicationStateException();
+        }
+    }
+
+
     private void checkOwnership(User user, long userId) {
         if (user.getId() != userId)
             throw new ProfileNotOwnedException();

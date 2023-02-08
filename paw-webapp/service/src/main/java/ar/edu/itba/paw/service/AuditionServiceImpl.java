@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.service;
 
 import ar.edu.itba.paw.model.*;
+import ar.edu.itba.paw.model.exceptions.AuditionGoneException;
 import ar.edu.itba.paw.model.exceptions.AuditionNotFoundException;
 import ar.edu.itba.paw.model.exceptions.AuditionNotOwnedException;
 import ar.edu.itba.paw.model.exceptions.PageNotFoundException;
@@ -30,9 +31,10 @@ public class AuditionServiceImpl implements AuditionService {
     public Audition getAuditionById(long id) {
         checkAuditionId(id);
         Optional<Audition> audition = auditionDao.getAuditionById(id);
-
-        if(!audition.isPresent() || !audition.get().getIsOpen())
+        if(!audition.isPresent())
             throw new AuditionNotFoundException();
+        if(!audition.get().getIsOpen())
+            throw new AuditionGoneException();
         return audition.get();
     }
 

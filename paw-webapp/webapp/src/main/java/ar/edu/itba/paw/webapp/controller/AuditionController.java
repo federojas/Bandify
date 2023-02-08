@@ -181,34 +181,13 @@ public class AuditionController {
         return Response.created(uri).build();
     }
 
-    //TODO: si un artista fue elegido en una audicion creo que se usa CLOSE para cerrar aplicaciones
-    // adicionales que tiene en otras audiciones de la misma banda
-    // esto no deberia hacerlo el servicio? hay mucha logica
     @PUT
     @Path("/{auditionId}/applications/{id}")
     @Consumes("application/vnd.application.v1+json")
     public Response changeApplicationStatus(@PathParam("auditionId") final long auditionId,
                                             @PathParam("id") final long applicationId,
                                             @QueryParam("state") final String state) {
-        Application app = applicationService.getApplicationById(auditionId, applicationId)
-                .orElseThrow(ApplicationNotFoundException::new);
-        if(Objects.equals(state, ApplicationState.CLOSED.getState()))
-            applicationService.closeApplications(auditionId, app.getApplicant().getId());
-        else if(app.getState().equals(ApplicationState.PENDING)) {
-            if (Objects.equals(state, ApplicationState.ACCEPTED.getState()))
-                applicationService.accept(auditionId, app.getApplicant().getId());
-            else if (Objects.equals(state, ApplicationState.REJECTED.getState()))
-                applicationService.reject(auditionId, app.getApplicant().getId());
-        } else if(app.getState().equals(ApplicationState.ACCEPTED) &&
-                Objects.equals(state, ApplicationState.SELECTED.getState())) {
-                User band = userService.findByEmail(securityContext.getUserPrincipal().getName())
-                        .orElseThrow(UserNotFoundException::new);
-                if(!band.isBand())
-                    throw new NotABandException();
-                applicationService.select(auditionId, band, app.getApplicant().getId());
-        } else {
-            throw new InvalidApplicationStateException();
-        }
+        applicationService.changeState(auditionId, applicationId, state);
         return Response.ok().build();
     }
 }

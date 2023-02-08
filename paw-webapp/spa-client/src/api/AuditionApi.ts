@@ -44,6 +44,25 @@ class AuditionApi {
         });
     };
 
+    public getAuditionByUrl = async (url: string) => {
+        return this.axiosPrivate.get(url).then((response) => {
+            const data = response.data;
+            const audition: Audition = {
+                id: data.id,
+                title: data.title,
+                description: data.description,
+                creationDate: data.creationDate,
+                location: data.location,
+                lookingFor: data.lookingFor,
+                musicGenres: data.musicGenres,
+                applications: data.applications,
+                self: data.self,
+                owner: data.owner
+            };
+            return Promise.resolve(audition);
+        });
+    };
+
     public getAuditions = async (page?: number, query?: string, roles?: string[], genres?: string[], locations?: string[], order?: string) => {
         return this.axiosPrivate
             .get(this.endpoint, {
@@ -190,7 +209,8 @@ class AuditionApi {
                 message: data.message,
                 self: data.self,
                 audition: data.audition,
-                applicant: data.applicant
+                applicant: data.applicant,
+                title: data.title
             };
             return Promise.resolve(application);
         });
@@ -213,7 +233,8 @@ class AuditionApi {
                         message: app.message,
                         self: app.self,
                         audition: app.audition,
-                        applicant: app.applicant
+                        applicant: app.applicant,
+                        title: app.title
                     };
                 })
                 : [];

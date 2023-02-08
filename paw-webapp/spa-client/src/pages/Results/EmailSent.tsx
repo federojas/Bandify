@@ -1,5 +1,5 @@
 import {Box, Button, Heading, Text, useToast, VStack} from '@chakra-ui/react';
-import { CheckCircleIcon, EmailIcon } from '@chakra-ui/icons';
+import { EmailIcon } from '@chakra-ui/icons';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useState } from 'react';
 import {useLocation, useNavigate} from "react-router-dom";

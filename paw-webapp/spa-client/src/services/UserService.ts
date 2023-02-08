@@ -59,6 +59,33 @@ export default class UserService {
         }
     }
 
+    public async getUserByUrl(url: string): Promise<ApiResult<User>> {
+        try {
+            const current = await this.userApi.getUserByUrl(url);
+            return new ApiResult(
+                {
+                    applications: current.applications,
+                    available: current.available,
+                    band: current.band,
+                    description: current.description,
+                    enabled: current.enabled,
+                    genres: current.genres,
+                    id: current.id,
+                    location: current.location,
+                    name: current.name,
+                    roles: current.roles,
+                    socialMedia: current.socialMedia,
+                    surname: current.surname,
+                    profileImage: current.profileImage
+                } as User,
+                false,
+                null as any
+            );
+        } catch (error: any) {
+            return ErrorService.returnApiError(error);
+        }
+    }
+
   public async getUserById(id: number): Promise<ApiResult<User>> {
     try {
       const current = await this.userApi.getUserById(id);
@@ -158,26 +185,49 @@ export default class UserService {
       }
   }
 
-  public async getUserApplications(userId: number, state: string): Promise<ApiResult<Application[]>> {
+  public async getUserApplications(userId: number, state: string): Promise<ApiResult<PagedContent<Application[]>>> {
     try {
       const applications = await this.userApi.getUserApplications(userId, state);
-      return new ApiResult(
-        applications.map(a => {
+      return new ApiResult( new PagedContent(
+        applications.getContent().map(a => {
           const aux : Application = {
             id: a.id,
             creationDate: a.creationDate,
             message: a.message,
             audition: a.audition,
             applicant: a.applicant,
-            state: a.state
+            state: a.state,
+            title: a.title
           }; return aux
-        }),
+        }), applications.getMaxPage(), applications.getNextPage(), applications.getPreviousPage()),
         false,
         null as any)
     } catch (error: any) {
       return ErrorService.returnApiError(error);
     }
   }
+
+    public async getUserApplicationsByUrl(url: string): Promise<ApiResult<PagedContent<Application[]>>> {
+        try {
+            const applications = await this.userApi.getUserApplicationsByUrl(url);
+            return new ApiResult( new PagedContent(
+                    applications.getContent().map(a => {
+                        const aux : Application = {
+                            id: a.id,
+                            creationDate: a.creationDate,
+                            message: a.message,
+                            audition: a.audition,
+                            applicant: a.applicant,
+                            state: a.state,
+                            title: a.title
+                        }; return aux
+                    }), applications.getMaxPage(), applications.getNextPage(), applications.getPreviousPage()),
+                false,
+                null as any)
+        } catch (error: any) {
+            return ErrorService.returnApiError(error);
+        }
+    }
 
   public async generateUserPassword(data: UserPasswordResetRequestInput) {
     try {

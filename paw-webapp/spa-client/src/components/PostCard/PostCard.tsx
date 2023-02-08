@@ -49,7 +49,7 @@ import { AiOutlineInfoCircle } from "react-icons/ai";
 
 const PostCard: React.FC<Audition> = ({
   title,
-  ownerId,
+  owner,
   location,
   lookingFor,
   musicGenres,
@@ -68,7 +68,7 @@ const PostCard: React.FC<Audition> = ({
 
   useEffect(() => {
     serviceCall(
-      userService.getUserById(ownerId),
+      userService.getUserByUrl(owner),
       navigate,
       (response) => {
         setUsername(response.name);
@@ -85,7 +85,7 @@ const PostCard: React.FC<Audition> = ({
           as="a"
           cursor="pointer"
           onClick={() => {
-            navigate(userId === ownerId ? "/profile" : "/users/" + bandId.toString())
+            navigate(userId === bandId ? "/profile" : "/users/" + bandId.toString())
           }}
           flex="1"
           gap="4"

@@ -26,10 +26,33 @@ export default class AuditionService {
           lookingFor: response.lookingFor,
           musicGenres: response.musicGenres,
           applications: response.applications,
-          ownerId: parseInt(response.owner.split('/')[response.owner.split('/').length - 1])
+          owner: response.owner
         } as Audition,
         false,
         null as any
+      );
+    } catch (error) {
+      return ErrorService.returnApiError(error);
+    }
+  }
+
+  public async getAuditionByUrl(url: string): Promise<ApiResult<Audition>> {
+    try {
+      const response = await this.auditionApi.getAuditionByUrl(url);
+      return new ApiResult(
+          {
+            id: response.id,
+            title: response.title,
+            description: response.description,
+            creationDate: response.creationDate,
+            location: response.location,
+            lookingFor: response.lookingFor,
+            musicGenres: response.musicGenres,
+            applications: response.applications,
+            owner: response.owner
+          } as Audition,
+          false,
+          null as any
       );
     } catch (error) {
       return ErrorService.returnApiError(error);
@@ -56,7 +79,7 @@ export default class AuditionService {
               lookingFor: a.lookingFor,
               musicGenres: a.musicGenres,
               applications: a.applications,
-              ownerId: parseInt(a.owner.split('/')[a.owner.split('/').length - 1])
+              owner: a.owner
             }; return aud
           }), response.getMaxPage(), response.getNextPage(), response.getPreviousPage()),
         false,
@@ -81,7 +104,7 @@ export default class AuditionService {
                   lookingFor: a.lookingFor,
                   musicGenres: a.musicGenres,
                   applications: a.applications,
-                  ownerId: parseInt(a.owner.split('/')[a.owner.split('/').length - 1])
+                  owner: a.owner
                 }; return aud
               }), response.getMaxPage(), response.getNextPage(), response.getPreviousPage()),
           false,
@@ -108,7 +131,7 @@ export default class AuditionService {
                   lookingFor: a.lookingFor,
                   musicGenres: a.musicGenres,
                   applications: a.applications,
-                  ownerId: parseInt(a.owner.split('/')[a.owner.split('/').length - 1])
+                  owner: a.owner
                 }; return aud
               }), response.getMaxPage(), response.getNextPage(), response.getPreviousPage()),
           false,
@@ -129,7 +152,8 @@ export default class AuditionService {
           message: response.message,
           audition: response.audition,
           applicant: response.applicant,
-          state: response.state
+          state: response.state,
+          title: response.title
         } as Application,
         false,
         null as any
@@ -150,7 +174,8 @@ export default class AuditionService {
             message: a.message,
             audition: a.audition,
             applicant: a.applicant,
-            state: a.state
+            state: a.state,
+            title: a.title
           }; return app
         }),
         false,

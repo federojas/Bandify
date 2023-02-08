@@ -298,9 +298,9 @@ export const TRANSLATIONS_ES = {
     "Invites": "Invitaciones",
   },
   Applications: {
-    "Pending": "Pendientes",
-    "Accepted": "Aceptadas",
-    "Rejected": "Rechazadas",
+    "Pending": "Pendiente",
+    "Accepted": "Aceptada",
+    "Rejected": "Rechazada",
     "NoApplications": "No tienes aplicaciones en esta sección",
     "Title": "Estado actual de las aplicaciones que has hecho",
   },

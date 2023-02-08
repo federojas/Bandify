@@ -14,6 +14,7 @@ public class ApplicationDto {
     private ApplicationState state;
     private LocalDateTime creationDate;
     private String message;
+    private String title;
 
     private URI self;
     private URI audition;
@@ -27,6 +28,7 @@ public class ApplicationDto {
         applicationDto.state = application.getState();
         applicationDto.creationDate = application.getCreationDate();
         applicationDto.message = application.getMessage();
+        applicationDto.title = application.getAudition().getTitle();
 
         final UriBuilder selfBuilder = uriInfo.getAbsolutePathBuilder()
                 .replacePath("auditions").path(String.valueOf(application.getAudition().getId()))
@@ -97,5 +99,13 @@ public class ApplicationDto {
 
     public void setApplicant(URI applicant) {
         this.applicant = applicant;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

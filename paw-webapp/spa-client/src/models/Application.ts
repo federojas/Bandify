@@ -6,4 +6,5 @@ export default interface Application {
     audition: string;
     applicant: string;
     state: string;
+    title: string;
 }

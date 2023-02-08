@@ -40,4 +40,7 @@ public interface ApplicationService {
     int getTotalUserApplicationsFiltered(long userId, ApplicationState state);
 
     void closeApplications(long bandId, long applicantId);
+
+    void changeState(long auditionId, long applicationId, String state);
+
 }

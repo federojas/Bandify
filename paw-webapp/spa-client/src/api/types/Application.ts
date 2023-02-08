@@ -6,6 +6,7 @@ type Application = {
     self: string;
     audition: string;
     applicant: string;
+    title: string;
 }
 
 export type { Application }
