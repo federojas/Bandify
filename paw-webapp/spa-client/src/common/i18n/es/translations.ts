@@ -336,6 +336,7 @@ export const TRANSLATIONS_ES = {
     Field1: "¿Qué roles desempeñará el artista?",
     Field2: "Describe las responsabilidades del artista",
     Field2Placeholder: "Máximo 100 caracteres",
+    Add: "Agregar",
   },
   PublicBandAuditions: {
     Title: "Audiciones de: ",

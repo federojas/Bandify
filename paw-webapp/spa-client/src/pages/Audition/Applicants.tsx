@@ -11,6 +11,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useAuditionService } from "../../contexts/AuditionService";
 import { Application, Audition } from "../../models";
 import { serviceCall } from "../../services/ServiceManager";
+import AddToBandButton from "../User/AddToBandButton";
 
 function ApplicantInfo({application} : {application: Application}) {
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -53,6 +54,7 @@ const ApplicantItem = ({ type = 'PENDING', application }: { type: string, applic
   const scheme = type === "REJECTED" ? "red" : (type === "PENDING" ? undefined : "green")
   const label = type === "REJECTED" ? t("Applications.Rejected") : (type === "PENDING" ? t("Applications.Pending") : t("Applications.Accepted"))
   const isPending = type === "PENDING"
+  const isAccepted = type === "ACCEPTED"
 
   return (
     <Box borderWidth='1px' borderRadius='lg' p="4">
@@ -70,6 +72,9 @@ const ApplicantItem = ({ type = 'PENDING', application }: { type: string, applic
             {label}
           </Badge>
         }
+        {/* { isAccepted && 
+          <AddToBandButton user={{}}/>
+        } */}
       </Flex>
 
     </Box>
