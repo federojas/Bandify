@@ -30,6 +30,7 @@ export const TRANSLATIONS_ES = {
     edit: "Editar perfil",
     BandMembers: "Miembros de la banda",
     ViewAll: "Ver todos",
+    noMemberships: "No hay asociados"
   },
   NavBar: {
     title: "Barra de navegación",

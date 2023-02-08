@@ -30,11 +30,13 @@ const MembershipItem = ({ contraUser, description, roles }: { contraUser: User, 
           </Box>
         </HStack>
         <Flex direction={'column'} justify={'space-between'} alignItems={'center'}>
-          {roles.map((role) => {
-            return (
-              <RoleTag key={role} role={role} size="md" />
-            )
-          })}
+          <HStack>
+            {roles.map((role) => {
+              return (
+                <RoleTag key={role} role={role} size="md" />
+              )
+            })}
+          </HStack>
           <Text as='i'>{description}</Text>
         </Flex>
       </Flex>
