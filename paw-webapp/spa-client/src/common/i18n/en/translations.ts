@@ -322,6 +322,12 @@ export const TRANSLATIONS_EN = {
     errorCreatingInviteMessage: "An error ocurred",
     successCreatingInvite: "Invite created successfully!",
     noInvites: "You don't have any invitations yet. Keep up the good work!",
+    Accepted: "Congratulations!",
+    AcceptedDescription: "You are now part of the band",
+    Rejected: "We understand",
+    RejectedDescription: "The band didn't convince you",
+    Error: "Oops!",
+    ErrorDescription: "Could not process invitation",
   },
   Alts: {
     profilePicture: "Profile picture",
