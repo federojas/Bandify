@@ -22,6 +22,32 @@ enum inviteStatuses {
 function InviteInfo({membership}:{membership:Membership}) {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const {t} = useTranslation();
+  const navigate = useNavigate()
+  const membershipService = useMembershipService();
+  
+  const handleAccept = () => {
+    serviceCall(membershipService.accept(membership, "ACCEPTED"), navigate)
+      .then((response) => {
+        if(!response.hasFailed()) {
+          console.log("Accepted");
+        } else {
+          console.log("Failed");
+        }
+        onClose()
+      })
+  }
+
+  const handleReject = () => {
+    serviceCall(membershipService.reject(membership, "REJECTED"), navigate)
+      .then((response) => {
+        if(!response.hasFailed()) {
+          console.log("Rejected");
+        } else {
+          console.log("Failed");
+        }
+        onClose()
+      })
+  }
 
   return (
     <>
@@ -43,10 +69,10 @@ function InviteInfo({membership}:{membership:Membership}) {
           </ModalBody>
 
           <ModalFooter>
-            <Button leftIcon={<TiTick />} colorScheme='blue' mr={3} onClick={onClose}>
+            <Button leftIcon={<TiTick />} colorScheme='blue' mr={3} onClick={handleAccept}>
               {t("Invites.Accept")}
             </Button>
-            <Button leftIcon={<TiCancel />} colorScheme='red'>{t("Invites.Reject")}</Button>
+            <Button leftIcon={<TiCancel />} colorScheme='red' onClick={handleReject} >{t("Invites.Reject")}</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

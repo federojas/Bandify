@@ -46,6 +46,7 @@ import { useMembershipService } from "../../contexts/MembershipService";
 import Membership from "../../models/Membership";
 import MembershipItem from "../User/MembershipItem";
 import { Helmet } from "react-helmet";
+import SocialMediaModal from "../User/SocialMediaModal";
 
 const Profile = () => {
   const { t } = useTranslation();
@@ -86,201 +87,207 @@ const Profile = () => {
 
   return (
     <>
-    <Helmet>
-          <title>{t("NavBar.Profile")}</title>
-    </Helmet>
-    <Container maxW={"5xl"} px={"0"} py={8}>
-      {isLoading ? <Center mt={'25%'}><span className="loader" /></Center> : (
-        <Stack spacing={4}>
-          <Box
-            w={"full"}
-            // bg={useColorModeValue("gray.100", "gray.900")}
-            bg={bg}
-            rounded={"lg"}
-            boxShadow={"lg"}
-            p={6}
-          >
-            <Flex justify={'space-between'}>
-              { }
-              <HStack gap={'8'}>
-                <Flex>
-                  <Image
-                    src={user?.profileImage}
-                    alt={t("Alts.profilePicture")}
-                    borderRadius="full"
-                    boxSize="150px"
-                    objectFit={'cover'}
-                    shadow="lg"
-                    border="5px solid"
-                    borderColor="gray.800"
-                    _dark={{
-                      borderColor: "gray.200",
-                      backgroundColor: "white"
-                    }}
-                  />
-                  {user?.available ? <Image
-                    src={filterAvailable}
-                    alt={t("Alts.available")}
-                    boxSize="141px"
-                    ml={1}
-                    mt={1.5}
-                    borderRadius="full"
-                    position={"absolute"}
-                  /> : <></>
+      <Helmet>
+        <title>{t("NavBar.Profile")}</title>
+      </Helmet>
+      <Container maxW={"5xl"} px={"0"} py={8}>
+        {isLoading ? <Center mt={'25%'}><span className="loader" /></Center> : (
+          <Stack spacing={4}>
+            <Box
+              w={"full"}
+              // bg={useColorModeValue("gray.100", "gray.900")}
+              bg={bg}
+              rounded={"lg"}
+              boxShadow={"lg"}
+              p={6}
+            >
+              <Flex justify={'space-between'}>
+                { }
+                <HStack gap={'8'}>
+                  <Flex>
+                    <Image
+                      src={user?.profileImage}
+                      alt={t("Alts.profilePicture")}
+                      borderRadius="full"
+                      boxSize="150px"
+                      objectFit={'cover'}
+                      shadow="lg"
+                      border="5px solid"
+                      borderColor="gray.800"
+                      _dark={{
+                        borderColor: "gray.200",
+                        backgroundColor: "white"
+                      }}
+                    />
+                    {user?.available ? <Image
+                      src={filterAvailable}
+                      alt={t("Alts.available")}
+                      boxSize="141px"
+                      ml={1}
+                      mt={1.5}
+                      borderRadius="full"
+                      position={"absolute"}
+                    /> : <></>
+                    }
+                  </Flex>
+                  <VStack align={"left"} spacing={4}>
+                    <Box maxW={'lg'}>
+                      <Heading fontSize={"3xl"} fontWeight={700}>
+                        {user?.name}{" "}
+                        {user?.surname && <>{user?.surname}</>}
+                      </Heading>
+                    </Box>
+                    {user?.band ? <BandTag /> : <ArtistTag />}
+                    <Text color={"gray.500"} fontSize={"xl"}>
+                      {user?.description}
+                    </Text>
+                    {
+                      user?.location &&
+                      <HStack>
+                        <ImLocation />
+                        <Text color={"gray.500"}> {user?.location}</Text>
+                      </HStack>
+                    }
+                  </VStack>
+                </HStack>
+                <VStack justify={'center'}>
+                  <Button leftIcon={<AiOutlineEdit />} w={'44'} colorScheme='teal' onClick={() => {
+                    let postfix = user?.band ? 'editBand' : 'editArtist';
+                    let url = "/profile/" + postfix
+                    navigate(url);
                   }
-                </Flex>
-                <VStack align={"left"} spacing={4}>
-                  <Box maxW={'lg'}>
-                    <Heading fontSize={"3xl"} fontWeight={700}>
-                      {user?.name}{" "}
-                      {user?.surname && <>{user?.surname}</>}
-                    </Heading>
-                  </Box>
-                  {user?.band ? <BandTag /> : <ArtistTag />}
-                  <Text color={"gray.500"} fontSize={"xl"}>
-                    {user?.description}
-                  </Text>
-                  {
-                    user?.location &&
-                    <HStack>
-                      <ImLocation />
-                      <Text color={"gray.500"}> {user?.location}</Text>
-                    </HStack>
-                  }
-                </VStack>
-              </HStack>
-              <VStack justify={'center'}>
-                <Button leftIcon={<AiOutlineEdit />} w={'44'} colorScheme='teal' onClick={() => {
-                  let postfix = user?.band ? 'editBand' : 'editArtist';
-                  let url = "/profile/" + postfix
-                  navigate(url);
-                }
-                }>{t("Profile.edit")}</Button>
-                {!user?.band ? <>
-                  <Button leftIcon={<FiMusic />} w={'44'} colorScheme={'cyan'} onClick={() => { navigate('/applications') }}>
-                    {t("Hub.Applications")}
-                  </Button>
-                  <Button leftIcon={<AiOutlineUserAdd />} colorScheme={'linkedin'} w={'44'} onClick={() => { navigate('/invites') }}>
-                    {t("Hub.Invites")}
-                  </Button>
-                </>
-                  :
-                  <>
-                    <Button leftIcon={<FiMusic />} w={'44'} colorScheme={'cyan'} onClick={() => { navigate('/profile/auditions') }}>
-                      {t("MyAuditions.title")}
+                  }>{t("Profile.edit")}</Button>
+                  {!user?.band ? <>
+                    <Button leftIcon={<FiMusic />} w={'44'} colorScheme={'cyan'} onClick={() => { navigate('/applications') }}>
+                      {t("Hub.Applications")}
+                    </Button>
+                    <Button leftIcon={<AiOutlineUserAdd />} colorScheme={'linkedin'} w={'44'} onClick={() => { navigate('/invites') }}>
+                      {t("Hub.Invites")}
                     </Button>
                   </>
-                }
-              </VStack>
-            </Flex>
-          </Box>
-
-          <Grid templateColumns={"repeat(5,1fr)"} gap={4}>
-            <GridItem
-              w={"full"}
-              colSpan={2}
-              bg={bg}
-              rounded={"lg"}
-              boxShadow={"lg"}
-              p={6}
-            >
-              <VStack spacing={4} justifyItems="start">
-                <Heading fontSize={"2xl"} fontWeight={500}>
-                  {t("Profile.favoriteGenres")}
-                </Heading>
-                {user?.genres && user?.genres.length > 0 ? (
-                  <HStack wrap={"wrap"}>
-                    {user?.genres.map((genre) => (
-                      <GenreTag genre={genre} />
-                    ))}
-                  </HStack>
-                ) : (
-                  <>{t("Profile.noFavoriteGenres")}</>
-                )}
-              </VStack>
-              <Divider marginY={6} />
-              <VStack spacing={4} justifyItems="start">
-                <Heading fontSize={"2xl"} fontWeight={500}>
-                  {user?.band ? t("Profile.rolesBand") : t("Profile.rolesArtist")}
-                </Heading>
-                {user?.roles && user?.roles.length > 0 ? (
-                  <HStack wrap={"wrap"}>
-                    {user?.roles.map((role) => (
-                      <RoleTag role={role} />
-                    ))}
-                  </HStack>
-                ) : (
-                  <>{t("Profile.noRoles")}</>
-                )}
-              </VStack>
-            </GridItem>
-            <GridItem
-              w={"full"}
-              colSpan={3}
-              bg={bg}
-              rounded={"lg"}
-              boxShadow={"lg"}
-              p={6}
-            >
-              <VStack spacing={4} justifyItems="start">
-                <Heading fontSize={"2xl"} fontWeight={500}>
-                  {t("Profile.socialMedia")}
-                </Heading>
-                {/* TODO: socialMedia from user.socialMedia */}
-                <HStack wrap={"wrap"}>
-                  <Button colorScheme={"facebook"} as="a" href={"#"}>
-                    <FaFacebook />
-                  </Button>
-                  {/* Add Twitter, Instagram, Youtube, Soundcloud and Spotify */}
-                  <Button colorScheme={"twitter"} as="a" href={"#"}>
-                    <FaTwitter />
-                  </Button>
-                  <Button colorScheme={"orange"} as="a" href={"#"}>
-                    <FaInstagram />
-                  </Button>
-                  <Button colorScheme={"red"} as="a" href={"#"}>
-                    <FaYoutube />
-                  </Button>
-                  <Button colorScheme={"orange"} as="a" href={"#"}>
-                    <FaSoundcloud />
-                  </Button>
-                  <Button colorScheme={"yellow"} as="a" href={"#"}>
-                    <FaSpotify />
-                  </Button>
-                </HStack>
-              </VStack>
-              <Divider marginY={6} />
-              <VStack spacing={4} justifyItems="start">
-                <HStack w={'full'} justify={'space-around'}>
-                  <HStack>
-                    <HiUserGroup />
-                    <Heading fontSize={"2xl"} fontWeight={500}>
-                      {user?.band ? t("Profile.BandMembers") : t("Profile.playsIn")}
-                    </Heading>
-                  </HStack>
-                  <Button leftIcon={<GrView />} w={'50'} colorScheme={'cyan'} onClick={() => {
-                    navigate("/profile/associates")
-                  }}>
-                    {t("Profile.ViewAll")}
-                  </Button>
-                </HStack>
-                <VStack w={'80%'}>
-                  {memberships.length > 0 ?
-                    memberships.map((m) => {
-                      return (
-                        <MembershipItem contraUser={user?.band ? m.artist : m.band} description={m.description} roles={m.roles} />
-                      )
-                    })
                     :
-                    <>{t("Profile.noMemberships")}</>
+                    <>
+                      <Button leftIcon={<FiMusic />} w={'44'} colorScheme={'cyan'} onClick={() => { navigate('/profile/auditions') }}>
+                        {t("MyAuditions.title")}
+                      </Button>
+                    </>
                   }
                 </VStack>
-              </VStack>
-            </GridItem>
-          </Grid>
-        </Stack>
-      )}
-    </Container>
+              </Flex>
+            </Box>
+
+            <Grid templateColumns={"repeat(5,1fr)"} gap={4}>
+              <GridItem
+                w={"full"}
+                colSpan={2}
+                bg={bg}
+                rounded={"lg"}
+                boxShadow={"lg"}
+                p={6}
+              >
+                <VStack spacing={4} justifyItems="start">
+                  <Heading fontSize={"2xl"} fontWeight={500}>
+                    {t("Profile.favoriteGenres")}
+                  </Heading>
+                  {user?.genres && user?.genres.length > 0 ? (
+                    <HStack wrap={"wrap"}>
+                      {user?.genres.map((genre) => (
+                        <GenreTag genre={genre} />
+                      ))}
+                    </HStack>
+                  ) : (
+                    <>{t("Profile.noFavoriteGenres")}</>
+                  )}
+                </VStack>
+                <Divider marginY={6} />
+                <VStack spacing={4} justifyItems="start">
+                  <Heading fontSize={"2xl"} fontWeight={500}>
+                    {user?.band ? t("Profile.rolesBand") : t("Profile.rolesArtist")}
+                  </Heading>
+                  {user?.roles && user?.roles.length > 0 ? (
+                    <HStack wrap={"wrap"}>
+                      {user?.roles.map((role) => (
+                        <RoleTag role={role} />
+                      ))}
+                    </HStack>
+                  ) : (
+                    <>{t("Profile.noRoles")}</>
+                  )}
+                </VStack>
+              </GridItem>
+              <GridItem
+                w={"full"}
+                colSpan={3}
+                bg={bg}
+                rounded={"lg"}
+                boxShadow={"lg"}
+                p={6}
+              >
+                <VStack spacing={4} justifyItems="start">
+                  <HStack w={'full'} justify={'space-around'}>
+                    <HStack>
+                      <HiUserGroup />
+                      <Heading fontSize={"2xl"} fontWeight={500}>
+                        {t("Profile.socialMedia")}
+                      </Heading>
+                    </HStack>
+                    <SocialMediaModal />
+                  </HStack>
+                  {/* TODO: socialMedia from user.socialMedia */}
+                  <HStack wrap={"wrap"}>
+                    <Button colorScheme={"facebook"} as="a" href={"#"}>
+                      <FaFacebook />
+                    </Button>
+                    {/* Add Twitter, Instagram, Youtube, Soundcloud and Spotify */}
+                    <Button colorScheme={"twitter"} as="a" href={"#"}>
+                      <FaTwitter />
+                    </Button>
+                    <Button colorScheme={"orange"} as="a" href={"#"}>
+                      <FaInstagram />
+                    </Button>
+                    <Button colorScheme={"red"} as="a" href={"#"}>
+                      <FaYoutube />
+                    </Button>
+                    <Button colorScheme={"orange"} as="a" href={"#"}>
+                      <FaSoundcloud />
+                    </Button>
+                    <Button colorScheme={"yellow"} as="a" href={"#"}>
+                      <FaSpotify />
+                    </Button>
+                  </HStack>
+                </VStack>
+                <Divider marginY={6} />
+                <VStack spacing={4} justifyItems="start">
+                  <HStack w={'full'} justify={'space-around'}>
+                    <HStack>
+                      <HiUserGroup />
+                      <Heading fontSize={"2xl"} fontWeight={500}>
+                        {user?.band ? t("Profile.BandMembers") : t("Profile.playsIn")}
+                      </Heading>
+                    </HStack>
+                    <Button leftIcon={<GrView />} w={'50'} colorScheme={'cyan'} onClick={() => {
+                      navigate("/profile/associates")
+                    }}>
+                      {t("Profile.ViewAll")}
+                    </Button>
+                  </HStack>
+                  <VStack w={'80%'}>
+                    {memberships.length > 0 ?
+                      memberships.map((m) => {
+                        return (
+                          <MembershipItem contraUser={user?.band ? m.artist : m.band} description={m.description} roles={m.roles} />
+                        )
+                      })
+                      :
+                      <>{t("Profile.noMemberships")}</>
+                    }
+                  </VStack>
+                </VStack>
+              </GridItem>
+            </Grid>
+          </Stack>
+        )}
+      </Container>
     </>);
 };
 

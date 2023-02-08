@@ -30,7 +30,9 @@ export const TRANSLATIONS_ES = {
     edit: "Editar perfil",
     BandMembers: "Miembros de la banda",
     ViewAll: "Ver todos",
-    noMemberships: "No hay asociados"
+    noMemberships: "No hay asociados",
+    editSocialMedia: "Edit"
+
   },
   NavBar: {
     title: "Barra de navegación",
@@ -384,5 +386,16 @@ export const TRANSLATIONS_ES = {
     ConfirmPassword: "Confirmar contraseña",
     Submit: "Enviar",
     heading: "Cambia tu contraseña",
-  }
+  },
+  SocialMediaModal: {
+    title: "Editar",
+    Subtitle: "Edita tus links de redes sociales",
+    Facebook: "Facebook",
+    Instagram: "Instagram",
+    Twitter: "Twitter",
+    Youtube: "Youtube",
+    Spotify: "Spotify",
+    Soundcloud: "Soundcloud",
+    Save: "Guardar",
+  },
 };
