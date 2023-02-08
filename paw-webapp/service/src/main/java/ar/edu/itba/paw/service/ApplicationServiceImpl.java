@@ -137,6 +137,8 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public List<Application> getMyApplicationsFiltered(long applicantId, int page, ApplicationState state) {
+        final User user = authFacadeService.getCurrentUser();
+        checkOwnership(user, applicantId);
         int lastPage = getTotalUserApplicationPagesFiltered(applicantId, state);
         lastPage = lastPage == 0 ? 1 : lastPage;
         checkPage(page, lastPage);
@@ -233,5 +235,10 @@ public class ApplicationServiceImpl implements ApplicationService {
         if(state == ApplicationState.ALL)
             state = ApplicationState.PENDING;
         return applicationDao.getAuditionApplicationsByState(auditionId,state);
+    }
+
+    private void checkOwnership(User user, long userId) {
+        if (user.getId() != userId)
+            throw new ProfileNotOwnedException();
     }
 }

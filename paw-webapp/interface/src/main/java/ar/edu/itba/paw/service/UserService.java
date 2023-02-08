@@ -46,7 +46,7 @@ public interface UserService {
 
     byte[] getProfilePicture(long userId) throws IOException;
 
-    void updateSocialMedia(User user, Set<MediaUrl> mediaUrls);
+    void updateSocialMedia(long userId, Set<MediaUrl> mediaUrls);
 
     User setAvailable(boolean isLookingFor, User user);
 
