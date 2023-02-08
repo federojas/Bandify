@@ -72,6 +72,7 @@ const Index = () => {
           direction={"row"}
           wrap={"wrap"}
           margin={2}
+          gap={4}
           justifyContent={"space-around"}
         >
           {users.length > 0 ? users.map((user) => (
@@ -144,7 +145,7 @@ const Index = () => {
               </button>
           )}
         </PaginationWrapper>
-      </Flex>;
+      </Flex>
     </>
   );
 }

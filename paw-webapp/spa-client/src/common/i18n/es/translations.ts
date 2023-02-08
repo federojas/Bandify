@@ -28,7 +28,8 @@ export const TRANSLATIONS_ES = {
     noPlaysIn: "No hay bandas",
     noDescription: "No hay descripción",
     edit: "Editar perfil",
-
+    BandMembers: "Miembros de la banda",
+    ViewAll: "Ver todos",
   },
   NavBar: {
     title: "Barra de navegación",

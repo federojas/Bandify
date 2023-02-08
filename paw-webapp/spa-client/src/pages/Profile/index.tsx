@@ -19,6 +19,9 @@ import {
   useColorModeValue,
   VStack,
 } from "@chakra-ui/react";
+import { HiUserGroup } from "react-icons/hi";
+import { GrView } from "react-icons/gr";
+
 import ArtistTag from "../../components/Tags/ArtistTag";
 import BandTag from "../../components/Tags/BandTag";
 import { ImLocation } from "react-icons/im";
@@ -48,7 +51,7 @@ const Profile = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { userId } = useContext(AuthContext);
   const filterAvailable = require(`../../images/available.png`);
-  const bg = useColorModeValue("white", "gray.900") 
+  const bg = useColorModeValue("white", "gray.900")
 
   useEffect(() => {
     serviceCall(
@@ -64,7 +67,7 @@ const Profile = () => {
 
   return (
     <Container maxW={"5xl"} px={"0"} py={8}>
-      {isLoading ? <Center mt={'25%'}><span className="loader"/></Center> : (
+      {isLoading ? <Center mt={'25%'}><span className="loader" /></Center> : (
         <Stack spacing={4}>
           <Box
             w={"full"}
@@ -225,9 +228,19 @@ const Profile = () => {
               </VStack>
               <Divider marginY={6} />
               <VStack spacing={4} justifyItems="start">
-                <Heading fontSize={"2xl"} fontWeight={500}>
-                  {t("Profile.playsIn")}
-                </Heading>
+                <HStack w={'full'} justify={'space-around'}>
+                  <HStack>
+                    <HiUserGroup />
+                    <Heading fontSize={"2xl"} fontWeight={500}>
+                      {user?.band ? t("Profile.BandMembers") : t("Profile.playsIn")}
+                    </Heading>
+                  </HStack>
+                  <Button leftIcon={<GrView />} w={'50'} colorScheme={'cyan'} onClick={() => {
+                    navigate("/profile/bands")
+                  }}>
+                    {t("Profile.ViewAll")}
+                  </Button>
+                </HStack>
               </VStack>
             </GridItem>
           </Grid>

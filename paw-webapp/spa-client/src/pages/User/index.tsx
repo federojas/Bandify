@@ -32,7 +32,8 @@ import {
   useColorModeValue,
   useDisclosure,
   VStack,
-  useToast
+  useToast,
+  Avatar
 } from "@chakra-ui/react";
 import ArtistTag from "../../components/Tags/ArtistTag";
 import BandTag from "../../components/Tags/BandTag";
@@ -47,6 +48,7 @@ import {
   FaSoundcloud,
   FaSpotify,
 } from "react-icons/fa";
+import { HiUserGroup } from "react-icons/hi";
 import AuthContext from "../../contexts/AuthContext";
 import { serviceCall } from "../../services/ServiceManager";
 import { useNavigate, useParams } from "react-router-dom";
@@ -62,13 +64,51 @@ import {
 } from "chakra-react-select";
 import { RoleGroup } from "../EditProfile/EntitiesGroups";
 import { useRoleService } from "../../contexts/RoleService";
-
+import { GrView } from "react-icons/gr";
+import Membership from "../../models/Membership";
 
 interface FormData {
   roles: string[];
   description: string;
 }
 
+const MembershipItem = ({ contraUser, description, roles }: { contraUser: User, description: string, roles: string[] }) => {
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+
+  return (
+    <Box borderWidth='1px' borderRadius='lg' p="4" w={'full'}>
+      <Flex direction={'column'} justify="space-between">
+        <HStack onClick={() => {
+          navigate('/users/' + contraUser.id)
+        }}
+          cursor={'pointer'}
+        >
+          <Avatar src={contraUser.profileImage} //TODO: revisar ALT?
+            _dark={{
+              backgroundColor: "white",
+            }} />
+          <Box ml='3'>
+            <Text fontWeight='bold'>
+              {contraUser.name}
+              {
+                contraUser.surname && ` ${contraUser.surname}`
+              }
+            </Text>
+          </Box>
+        </HStack>
+        <Flex direction={'column'} justify={'space-between'} alignItems={'center'}>
+          {roles.map((role) => {
+            return (
+              <RoleTag key={role} role={role} size="md" />
+            )
+          })}
+          <Text as='i'>{description}</Text>
+        </Flex>
+      </Flex>
+    </Box>
+  )
+}
 
 const AddToBandButton = ({ user }: { user: User }) => {
   const { t } = useTranslation();
@@ -184,7 +224,7 @@ const AddToBandButton = ({ user }: { user: User }) => {
             <form onSubmit={handleSubmit(onSubmit)}>
               <Text fontSize={'lg'} mb={'4'}>{t("AddToBand.Subtitle")}<Text as='b'>{user.name}{' '}{user.surname}</Text> {t("AddToBand.Subtitle2")}</Text>
               <FormControl isRequired mb={'4'}>
-                <FormLabel fontSize={16}  fontWeight="bold">{t("AuditionSearchBar.role")}</FormLabel>
+                <FormLabel fontSize={16} fontWeight="bold">{t("AuditionSearchBar.role")}</FormLabel>
                 <Select<RoleGroup, true, GroupBase<RoleGroup>>
                   isMulti
 
@@ -237,6 +277,7 @@ const UserProfile = () => {
   const membershipService = useMembershipService();
   const filterAvailable = require(`../../images/available.png`);
   const bg = useColorModeValue('white', 'gray.900')
+  const [memberships, setMemberships] = React.useState<Membership[]>([]);
 
   useEffect(() => {
     serviceCall(
@@ -254,7 +295,9 @@ const UserProfile = () => {
         setCurrentUser(response);
       }
     )
-  }, [])
+
+
+  }, [userId])
 
   useEffect(() => {
     if (user && currentUser) {
@@ -265,8 +308,17 @@ const UserProfile = () => {
           setCanInvite(response);
         }
       )
+
+      serviceCall(
+        membershipService.getUserMemberships({ user: user?.id as number, state: "ACCEPTED" }),
+        navigate,
+        (response: any) => {
+          console.log(response.getContent())
+          setMemberships(response.getContent());
+        }
+      )
     }
-  }, [user, navigate])
+  }, [user, navigate, currentUser])
 
 
   return (
@@ -283,28 +335,28 @@ const UserProfile = () => {
             { }
             <HStack gap={'8'}>
               <Flex>
-              <Image
-                src={user?.profileImage}
-                alt={t("Alts.profilePicture")}
-                borderRadius="full"
-                boxSize="150px"
-                objectFit={'cover'}
-                shadow="lg"
-                border="5px solid"
-                borderColor="gray.800"
-                _dark={{
-                  borderColor: "gray.200",
-                  backgroundColor: "white"
-                }}
-              />
+                <Image
+                  src={user?.profileImage}
+                  alt={t("Alts.profilePicture")}
+                  borderRadius="full"
+                  boxSize="150px"
+                  objectFit={'cover'}
+                  shadow="lg"
+                  border="5px solid"
+                  borderColor="gray.800"
+                  _dark={{
+                    borderColor: "gray.200",
+                    backgroundColor: "white"
+                  }}
+                />
                 {user?.available ? <Image
-                    src={filterAvailable}
-                    alt={t("Alts.available")}
-                    boxSize="141px"
-                    ml={1}
-                    mt={1.5}
-                    borderRadius="full"
-                    position={"absolute"}
+                  src={filterAvailable}
+                  alt={t("Alts.available")}
+                  boxSize="141px"
+                  ml={1}
+                  mt={1.5}
+                  borderRadius="full"
+                  position={"absolute"}
                 /> : <></>
                 }
               </Flex>
@@ -425,9 +477,30 @@ const UserProfile = () => {
             </VStack>
             <Divider marginY={6} />
             <VStack spacing={4} justifyItems="start">
-              <Heading fontSize={"2xl"} fontWeight={500}>
-                {t("Profile.playsIn")}
-              </Heading>
+              <HStack w={'full'} justify={'space-around'}>
+                <HStack>
+                  <HiUserGroup />
+                  <Heading fontSize={"2xl"} fontWeight={500}>
+                    {user?.band ? t("Profile.BandMembers") : t("Profile.playsIn")}
+                  </Heading>
+                </HStack>
+                <Button leftIcon={<GrView />} w={'50'} colorScheme={'cyan'} onClick={() => {
+                  navigate("/users/" + userId + "/bands")
+                }}>
+                  {t("Profile.ViewAll")}
+                </Button>
+              </HStack>
+              <VStack w={'80%'}>
+                {memberships.length > 0 ?
+                  memberships.map((m) => {
+                    return (
+                      <MembershipItem contraUser={user?.band ? m.artist : m.band} description={m.description} roles={m.roles} />
+                    )
+                  })
+                  :
+                  <>{t("Profile.noMemberships")}</>
+                }
+              </VStack>
             </VStack>
           </GridItem>
         </Grid>
