@@ -1,9 +1,7 @@
 package ar.edu.itba.paw.webapp.form;
 
 import ar.edu.itba.paw.model.MembershipState;
-import ar.edu.itba.paw.model.UserStatus;
 import ar.edu.itba.paw.webapp.form.constraints.annotations.ValidEnum;
-import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.Size;

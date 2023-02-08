@@ -26,7 +26,6 @@ public class UserDto {
     private URI socialMedia;
     private URI applications;
     private URI profileImage;
-    private URI status;
 
     public static UserDto fromUser(final UriInfo uriInfo, final User user) {
         if(user == null)
@@ -62,11 +61,6 @@ public class UserDto {
                 .replacePath("users").path(String.valueOf(user.getId()))
                 .path("applications");
         dto.applications = applicationsUriBuilder.build();
-
-        final UriBuilder statusUriBuilder = uriInfo.getAbsolutePathBuilder()
-                .replacePath("users").path(String.valueOf(user.getId()))
-                .path("status");
-        dto.status = statusUriBuilder.build();
 
         return dto;
     }
@@ -173,13 +167,5 @@ public class UserDto {
 
     public void setRoles(List<String> roles) {
         this.roles = roles;
-    }
-
-    public URI getStatus() {
-        return status;
-    }
-
-    public void setStatus(URI status) {
-        this.status = status;
     }
 }

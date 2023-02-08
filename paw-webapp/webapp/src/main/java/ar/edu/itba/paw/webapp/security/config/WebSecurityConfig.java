@@ -98,7 +98,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/users", "/users/verify-tokens").anonymous()
                 .antMatchers(HttpMethod.PUT, "/users/{\\d+}").authenticated()
                 .antMatchers(HttpMethod.PUT, "/users/verify-tokens/**", "/users/password-tokens/**").authenticated()
-                .antMatchers(HttpMethod.GET, "/users/{\\d+}/status").authenticated()
                 .antMatchers(HttpMethod.GET, "/users/{\\d+}/applications").hasRole("ARTIST")
                 .antMatchers(HttpMethod.GET, "/memberships/{\\d+}").authenticated() //TODO REVISAR CUAND VEAMOS EL ACCESO DESDE EL FRONT
                 .antMatchers(HttpMethod.DELETE, "/memberships/{\\d+}").hasRole("BAND")

@@ -13,12 +13,10 @@ import ar.edu.itba.paw.webapp.controller.utils.PaginationLinkBuilder;
 import ar.edu.itba.paw.webapp.dto.ApplicationDto;
 import ar.edu.itba.paw.webapp.dto.SocialMediaDto;
 import ar.edu.itba.paw.webapp.dto.UserDto;
-import ar.edu.itba.paw.webapp.dto.UserStatusDto;
 import ar.edu.itba.paw.webapp.form.*;
 import org.apache.commons.io.IOUtils;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -30,7 +28,6 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -61,12 +58,6 @@ public class UserController {
         return Response.created(uri).build();
     }
 
-    //  TODO: Al form le puse un enum validator para estar seguros de que mandaron
-    //  TODO: un enum valido, en este caso solo esta NOT_VERIFIED y VERIFIED
-    //  TODO: pero en realidad nunca estoy revisando cual status mandaron
-    //  TODO: quizas podriamos cambiar el metodo verifyUser de userService por updateUserStatus
-
-    //TODO REVISAR SI SE PUEDE PASAR EL CHECK OWNERSHIP AL SERVICIO
     // TODO: si soy banda tendria que aceptarme no mandar apellido ni available, pero
     // TODO: en el caso de ser artista deberia pedirme los 4 atributos (name,surname,description,available)
     // TODO: mas la lista de generos roles y location
@@ -209,7 +200,7 @@ public class UserController {
     @PUT
     @Path("/verify-tokens/{token}")
     @Consumes("application/vnd.verify-token.v1+json")
-    public Response updateUserStatus(@PathParam("token") final String token) {
+    public Response verifyUser(@PathParam("token") final String token) {
         userService.verifyUser(token);
         return Response.ok().build();
     }
