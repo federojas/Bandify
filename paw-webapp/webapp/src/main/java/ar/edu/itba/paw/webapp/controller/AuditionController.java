@@ -127,7 +127,6 @@ public class AuditionController {
 
     }
 
-    // TODO: y si no esta presente? o esta closed?
     @GET
     @Path("/{id}")
     @Produces("application/vnd.audition.v1+json")
@@ -136,10 +135,6 @@ public class AuditionController {
         return Response.ok(AuditionDto.fromAudition(uriInfo, audition)).build();
     }
 
-
-    // TODO: las aplicaciones que da son por defecto las pendientes
-    // le podes pasar para que te de las del estado que quieras, podemos dejarlo asi
-    // o que por defecto te de las que sean de cualquier estado.
     @GET
     @Path("/{id}/applications")
     @Produces("application/vnd.application-list.v1+json")
@@ -188,6 +183,7 @@ public class AuditionController {
 
     //TODO: si un artista fue elegido en una audicion creo que se usa CLOSE para cerrar aplicaciones
     // adicionales que tiene en otras audiciones de la misma banda
+    // esto no deberia hacerlo el servicio? hay mucha logica
     @PUT
     @Path("/{auditionId}/applications/{id}")
     @Consumes("application/vnd.application.v1+json")

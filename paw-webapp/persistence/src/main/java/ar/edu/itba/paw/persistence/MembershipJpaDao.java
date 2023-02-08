@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 public class MembershipJpaDao implements MembershipDao {
 
     private final int PAGE_SIZE = 5;
-    private final int PREVIEW_SIZE = 4;
+    private final int PREVIEW_SIZE = 3;
     private final int NO_OFFSET = 0;
     private final int DEFAULT_PAGE = 1;
 

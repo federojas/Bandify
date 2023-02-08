@@ -202,30 +202,6 @@ public class ApplicationServiceTest {
     }
 
     @Test
-    public void testGetAcceptedApplicationById() {
-        long applicationId = 1;
-        long auditionId = 1;
-        when(authFacadeService.getCurrentUser()).thenReturn(BAND);
-        when(auditionService.getAuditionById(auditionId)).thenReturn(BAND_AUDITION);
-        when(applicationDao.findApplication(applicationId)).thenReturn(Optional.of(ACCEPTED_APP));
-        Optional<Application> app = applicationService.getAcceptedApplicationById(auditionId, applicationId);
-        assertTrue(app.isPresent());
-        assertEquals(ACCEPTED_APP, app.get());
-    }
-
-    @Test
-    public void testGetAcceptedApplicationByIdButIsNotAccepted() {
-        long applicationId = 1;
-        long auditionId = 1;
-        when(authFacadeService.getCurrentUser()).thenReturn(BAND);
-        when(auditionService.getAuditionById(auditionId)).thenReturn(BAND_AUDITION);
-        when(applicationDao.findApplication(applicationId)).thenReturn(Optional.of(PENDING_APP));
-        Optional<Application> app = applicationService.getAcceptedApplicationById(auditionId, applicationId);
-        assertFalse(app.isPresent());
-    }
-
-
-    @Test
     public void testCloseApplicationsByAuditionId() {
         long auditionId = 1;
         when(authFacadeService.getCurrentUser()).thenReturn(BAND);

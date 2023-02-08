@@ -53,7 +53,6 @@ public class MembershipController {
         return Response.ok(MembershipDto.fromMembership(uriInfo, membership)).build();
     }
 
-    //TODO ANALIZAR SI SIRVE ESTO DEL PREVIEW O VUELA
     @GET
     @Produces("application/vnd.membership-list.v1+json")
     public Response getUserMemberships(@QueryParam("user") final Long userId,

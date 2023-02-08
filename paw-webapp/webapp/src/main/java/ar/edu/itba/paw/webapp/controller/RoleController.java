@@ -36,9 +36,6 @@ public class RoleController {
     @Context
     private UriInfo uriInfo;
 
-
-
-    // TODO: paginacion?
     @GET
     @Produces("application/vnd.role-list.v1+json")
     public Response roles(@QueryParam("user") final Long userId,
