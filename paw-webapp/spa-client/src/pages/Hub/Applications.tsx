@@ -49,46 +49,69 @@ const Applications = () => {
   const { userId } = useContext(AuthContext);
   const userService = useUserService();
   const query = useQuery();
-  const [currentPage, setCurrentPage] = useState(parseInt(getQueryOrDefault(query, "page", "1")));
-  const [maxPage, setMaxPage] = useState(1);
-  const [previousPage, setPreviousPage] = useState("");
-  const [nextPage, setNextPage] = useState("");
+  //TODO posible mejora de codigo
+  const [currentPagePending, setCurrentPagePending] = useState((getQueryOrDefault(query, "state", "") === 'PENDING' || getQueryOrDefault(query, "state", "") === '' ) ? parseInt(getQueryOrDefault(query, "page", "1")) : 1);
+  const [currentPageRejected, setCurrentPageRejected] = useState(getQueryOrDefault(query, "state", "") === 'REJECTED' ? parseInt(getQueryOrDefault(query, "page", "1")) : 1);
+  const [currentPageAccepted, setCurrentPageAccepted] = useState(getQueryOrDefault(query, "state", "") === 'ACCEPTED' ? parseInt(getQueryOrDefault(query, "page", "1")) : 1);
+  const [maxPageAccepted, setMaxPageAccepted] = useState(1);
+  const [previousPageAccepted, setPreviousPageAccepted] = useState("");
+  const [nextPageAccepted, setNextPageAccepted] = useState("");
+  const [maxPageRejected, setMaxPageRejected] = useState(1);
+  const [previousPageRejected, setPreviousPageRejected] = useState("");
+  const [nextPageRejected, setNextPageRejected] = useState("");
+  const [nextPagePending, setNextPagePending] = useState("");
+  const [maxPagePending, setMaxPagePending] = useState(1);
+  const [previousPagePending, setPreviousPagePending] = useState("");
+  const [tabIndex, setTabIndex] = useState(() => {
+    let state = getQueryOrDefault(query, "state", "PENDING");
+    if(state === "PENDING")
+      return 0;
+    else if(state === "ACCPETED")
+      return 1;
+    else
+      return 2;
+  });
   const location = useLocation();
 
   useEffect(() => {
     serviceCall(
-      userService.getUserApplications(userId!, "PENDING"),
+      userService.getUserApplications(userId!, "PENDING", currentPagePending),
       navigate,
       (apps) => {
         setPending(apps.getContent())
-        setMaxPage(apps ? apps.getMaxPage() : 1); //TODO revisar esto
-        setPreviousPage(apps ? apps.getPreviousPage() : "");
-        setNextPage(apps ? apps.getNextPage() : "");
+        setMaxPagePending(apps ? apps.getMaxPage() : 1); //TODO revisar esto
+        setPreviousPagePending(apps ? apps.getPreviousPage() : "");
+        setNextPagePending(apps ? apps.getNextPage() : "");
       }
     )
 
     serviceCall(
-      userService.getUserApplications(userId!, "REJECTED"),
+      userService.getUserApplications(userId!, "REJECTED", currentPageAccepted),
       navigate,
       (apps) => {
         setRejected(apps.getContent())
-        setMaxPage(apps ? apps.getMaxPage() : 1); //TODO revisar esto
-        setPreviousPage(apps ? apps.getPreviousPage() : "");
-        setNextPage(apps ? apps.getNextPage() : "");
+        setMaxPageRejected(apps ? apps.getMaxPage() : 1); //TODO revisar esto
+        setPreviousPageRejected(apps ? apps.getPreviousPage() : "");
+        setNextPageRejected(apps ? apps.getNextPage() : "");
       }
     )
 
     serviceCall(
-      userService.getUserApplications(userId!, "ACCEPTED"),
+      userService.getUserApplications(userId!, "ACCEPTED", currentPageRejected),
       navigate,
       (apps) => {
         setAccepted(apps.getContent())
-        setMaxPage(apps ? apps.getMaxPage() : 1); //TODO revisar esto
-        setPreviousPage(apps ? apps.getPreviousPage() : "");
-        setNextPage(apps ? apps.getNextPage() : "");
+        setMaxPageAccepted(apps ? apps.getMaxPage() : 1); //TODO revisar esto
+        setPreviousPageAccepted(apps ? apps.getPreviousPage() : "");
+        setNextPageAccepted(apps ? apps.getNextPage() : "");
       }
     )
-  }, [userService, userId, navigate])
+
+    const url = new URL(window.location.href);
+    if(getQueryOrDefault(query, "state", "") === "")
+      url.searchParams.set('state', "PENDING");
+    window.history.pushState(null, '', url.toString());
+  }, [userId, navigate])
 
 
 
@@ -101,7 +124,23 @@ const Applications = () => {
     </Helmet>
     <SidenavLayout>
       <Text fontSize='2xl' fontWeight='bold' mb='4'>{t("Applications.Title")}</Text>
-      <Tabs variant='soft-rounded' colorScheme='blue'>
+      <Tabs variant='soft-rounded' colorScheme='blue' onChange={
+        (index) => {
+          setTabIndex(index)
+          const url = new URL(window.location.href);
+          if(index === 0) {
+            url.searchParams.set('page', String(currentPagePending));
+            url.searchParams.set('state', 'PENDING');
+          } else if(index === 1) {
+            url.searchParams.set('page', String(currentPageAccepted));
+            url.searchParams.set('state', 'ACCEPTED');
+          } else {
+            url.searchParams.set('page', String(currentPageRejected));
+            url.searchParams.set('state', 'REJECTED');
+          }
+          window.history.pushState(null, '', url.toString());
+        }
+      } defaultIndex={tabIndex}>
         <TabList>
           <Tab>{t("Applications.Pending")}</Tab>
           <Tab>{t("Applications.Accepted")}</Tab>
@@ -125,22 +164,22 @@ const Applications = () => {
             >
 
               <PaginationWrapper>
-                {currentPage > 1 && (
+                {currentPagePending > 1 && (
                     <button
                         onClick={() => {
                           serviceCall(
-                              userService.getUserApplicationsByUrl(previousPage),
+                              userService.getUserApplicationsByUrl(previousPagePending),
                               navigate,
                               (response) => {
                                 setPending(response ? response.getContent() : []);
-                                setPreviousPage(response ? response.getPreviousPage() : "");
-                                setNextPage(response ? response.getNextPage() : "");
+                                setPreviousPagePending(response ? response.getPreviousPage() : "");
+                                setNextPagePending(response ? response.getNextPage() : "");
                               },
                               location
                           )
-                          setCurrentPage(currentPage - 1)
+                          setCurrentPagePending(currentPagePending - 1)
                           const url = new URL(window.location.href);
-                          url.searchParams.set('page', String(currentPage - 1));
+                          url.searchParams.set('page', String(currentPagePending - 1));
                           window.history.pushState(null, '', url.toString());
                         }}
                         style={{ background: "none", border: "none" }}
@@ -149,25 +188,25 @@ const Applications = () => {
                     </button>
                 )}
                 {t("Pagination.message", {
-                  currentPage: currentPage,
-                  maxPage: maxPage,
+                  currentPage: currentPagePending,
+                  maxPage: maxPagePending,
                 })}
-                {currentPage < maxPage && (
+                {currentPagePending < maxPagePending && (
                     <button
                         onClick={() => {
                           serviceCall(
-                              userService.getUserApplicationsByUrl(nextPage),
+                              userService.getUserApplicationsByUrl(nextPagePending),
                               navigate,
                               (response) => {
                                 setPending(response ? response.getContent() : []);
-                                setPreviousPage(response ? response.getPreviousPage() : "");
-                                setNextPage(response ? response.getNextPage() : "");
+                                setPreviousPagePending(response ? response.getPreviousPage() : "");
+                                setNextPagePending(response ? response.getNextPage() : "");
                               },
                               location
                           )
-                          setCurrentPage(currentPage + 1)
+                          setCurrentPagePending(currentPagePending + 1)
                           const url = new URL(window.location.href);
-                          url.searchParams.set('page', String(currentPage + 1));
+                          url.searchParams.set('page', String(currentPagePending + 1));
                           window.history.pushState(null, '', url.toString());
                         }}
                         style={{ background: "none", border: "none" }}
@@ -198,22 +237,22 @@ const Applications = () => {
             >
 
               <PaginationWrapper>
-                {currentPage > 1 && (
+                {currentPageAccepted > 1 && (
                     <button
                         onClick={() => {
                           serviceCall(
-                              userService.getUserApplicationsByUrl(previousPage),
+                              userService.getUserApplicationsByUrl(previousPageAccepted),
                               navigate,
                               (response) => {
                                 setAccepted(response ? response.getContent() : []);
-                                setPreviousPage(response ? response.getPreviousPage() : "");
-                                setNextPage(response ? response.getNextPage() : "");
+                                setPreviousPageAccepted(response ? response.getPreviousPage() : "");
+                                setNextPageAccepted(response ? response.getNextPage() : "");
                               },
                               location
                           )
-                          setCurrentPage(currentPage - 1)
+                          setCurrentPageAccepted(currentPageAccepted - 1)
                           const url = new URL(window.location.href);
-                          url.searchParams.set('page', String(currentPage - 1));
+                          url.searchParams.set('page', String(currentPageAccepted - 1));
                           window.history.pushState(null, '', url.toString());
                         }}
                         style={{ background: "none", border: "none" }}
@@ -222,25 +261,25 @@ const Applications = () => {
                     </button>
                 )}
                 {t("Pagination.message", {
-                  currentPage: currentPage,
-                  maxPage: maxPage,
+                  currentPage: currentPageAccepted,
+                  maxPage: maxPageAccepted,
                 })}
-                {currentPage < maxPage && (
+                {currentPageAccepted < maxPageAccepted && (
                     <button
                         onClick={() => {
                           serviceCall(
-                              userService.getUserApplicationsByUrl(nextPage),
+                              userService.getUserApplicationsByUrl(nextPageAccepted),
                               navigate,
                               (response) => {
                                 setAccepted(response ? response.getContent() : []);
-                                setPreviousPage(response ? response.getPreviousPage() : "");
-                                setNextPage(response ? response.getNextPage() : "");
+                                setPreviousPageAccepted(response ? response.getPreviousPage() : "");
+                                setNextPageAccepted(response ? response.getNextPage() : "");
                               },
                               location
                           )
-                          setCurrentPage(currentPage + 1)
+                          setCurrentPageAccepted(currentPageAccepted + 1)
                           const url = new URL(window.location.href);
-                          url.searchParams.set('page', String(currentPage + 1));
+                          url.searchParams.set('page', String(currentPageAccepted + 1));
                           window.history.pushState(null, '', url.toString());
                         }}
                         style={{ background: "none", border: "none" }}
@@ -270,22 +309,22 @@ const Applications = () => {
             >
 
               <PaginationWrapper>
-                {currentPage > 1 && (
+                {currentPageRejected > 1 && (
                     <button
                         onClick={() => {
                           serviceCall(
-                              userService.getUserApplicationsByUrl(previousPage),
+                              userService.getUserApplicationsByUrl(previousPageRejected),
                               navigate,
                               (response) => {
                                 setRejected(response ? response.getContent() : []);
-                                setPreviousPage(response ? response.getPreviousPage() : "");
-                                setNextPage(response ? response.getNextPage() : "");
+                                setPreviousPageRejected(response ? response.getPreviousPage() : "");
+                                setNextPageRejected(response ? response.getNextPage() : "");
                               },
                               location
                           )
-                          setCurrentPage(currentPage - 1)
+                          setCurrentPageRejected(currentPageRejected - 1)
                           const url = new URL(window.location.href);
-                          url.searchParams.set('page', String(currentPage - 1));
+                          url.searchParams.set('page', String(currentPageRejected - 1));
                           window.history.pushState(null, '', url.toString());
                         }}
                         style={{ background: "none", border: "none" }}
@@ -294,25 +333,25 @@ const Applications = () => {
                     </button>
                 )}
                 {t("Pagination.message", {
-                  currentPage: currentPage,
-                  maxPage: maxPage,
+                  currentPage: currentPageRejected,
+                  maxPage: maxPageRejected,
                 })}
-                {currentPage < maxPage && (
+                {currentPageRejected < maxPageRejected && (
                     <button
                         onClick={() => {
                           serviceCall(
-                              userService.getUserApplicationsByUrl(nextPage),
+                              userService.getUserApplicationsByUrl(nextPageRejected),
                               navigate,
                               (response) => {
                                 setRejected(response ? response.getContent() : []);
-                                setPreviousPage(response ? response.getPreviousPage() : "");
-                                setNextPage(response ? response.getNextPage() : "");
+                                setPreviousPageRejected(response ? response.getPreviousPage() : "");
+                                setNextPageRejected(response ? response.getNextPage() : "");
                               },
                               location
                           )
-                          setCurrentPage(currentPage + 1)
+                          setCurrentPageRejected(currentPageRejected + 1)
                           const url = new URL(window.location.href);
-                          url.searchParams.set('page', String(currentPage + 1));
+                          url.searchParams.set('page', String(currentPageRejected + 1));
                           window.history.pushState(null, '', url.toString());
                         }}
                         style={{ background: "none", border: "none" }}

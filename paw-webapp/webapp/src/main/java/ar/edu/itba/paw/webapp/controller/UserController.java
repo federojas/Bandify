@@ -148,7 +148,7 @@ public class UserController {
             return Response.noContent().build();
         Response.ResponseBuilder responseBuilder = Response.ok(new GenericEntity<List<ApplicationDto>>(applicationDtos){});
 
-        int lastPage = applicationService.getTotalUserApplicationsFiltered(id,ApplicationState.valueOf(state));
+        int lastPage = applicationService.getTotalUserApplicationPagesFiltered(id,ApplicationState.valueOf(state));
         PaginationLinkBuilder.getResponsePaginationLinks(responseBuilder, uriInfo, page, lastPage);
         return responseBuilder.build();
     }

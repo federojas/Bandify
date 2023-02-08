@@ -224,11 +224,12 @@ class UserApi {
             })
     };
 
-  public getUserApplications = async (id: number, state: string) => {
+  public getUserApplications = async (id: number, state: string, page: number) => {
     return this.axiosPrivate
       .get(`${this.endpoint}/${id}/applications`, {
         params: {
           state: state,
+          page: page
         },
       })
       .then((response) => {

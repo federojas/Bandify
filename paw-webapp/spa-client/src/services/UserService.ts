@@ -185,9 +185,9 @@ export default class UserService {
       }
   }
 
-  public async getUserApplications(userId: number, state: string): Promise<ApiResult<PagedContent<Application[]>>> {
+  public async getUserApplications(userId: number, state: string, page: number): Promise<ApiResult<PagedContent<Application[]>>> {
     try {
-      const applications = await this.userApi.getUserApplications(userId, state);
+      const applications = await this.userApi.getUserApplications(userId, state, page);
       return new ApiResult( new PagedContent(
         applications.getContent().map(a => {
           const aux : Application = {
