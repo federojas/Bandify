@@ -79,6 +79,7 @@ function App() {
           <Route path='newPassword' element={<NewPassword />} />
           <Route path='users/:id/associates' element={<Associates/>} />
           <Route path='profile/associates' element={<ProfileAssociates />} />
+          <Route path='*' element={<Error />} />
         </Route>
       </Routes>
     </Router>
