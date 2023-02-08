@@ -42,6 +42,9 @@ import { User } from "../../models";
 import { useUserService } from "../../contexts/UserService";
 import { AiOutlineEdit, AiOutlineUserAdd } from "react-icons/ai";
 import { FiMusic } from "react-icons/fi";
+import { useMembershipService } from "../../contexts/MembershipService";
+import Membership from "../../models/Membership";
+import MembershipItem from "../User/MembershipItem";
 
 const Profile = () => {
   const { t } = useTranslation();
@@ -52,6 +55,21 @@ const Profile = () => {
   const { userId } = useContext(AuthContext);
   const filterAvailable = require(`../../images/available.png`);
   const bg = useColorModeValue("white", "gray.900")
+  const membershipService = useMembershipService();
+  const [memberships, setMemberships] = React.useState<Membership[]>([]);
+
+  useEffect(() => {
+    if (user) {
+      serviceCall(
+        membershipService.getUserMemberships({ user: user?.id as number, state: "ACCEPTED", preview: true }),
+        navigate,
+        (response: any) => {
+          console.log(response.getContent())
+          setMemberships(response.getContent());
+        }
+      )
+    }
+  }, [user, navigate, user])
 
   useEffect(() => {
     serviceCall(
@@ -236,11 +254,22 @@ const Profile = () => {
                     </Heading>
                   </HStack>
                   <Button leftIcon={<GrView />} w={'50'} colorScheme={'cyan'} onClick={() => {
-                    navigate("/profile/bands")
+                    navigate("/profile/associates")
                   }}>
                     {t("Profile.ViewAll")}
                   </Button>
                 </HStack>
+                <VStack w={'80%'}>
+                  {memberships.length > 0 ?
+                    memberships.map((m) => {
+                      return (
+                        <MembershipItem contraUser={user?.band ? m.artist : m.band} description={m.description} roles={m.roles} />
+                      )
+                    })
+                    :
+                    <>{t("Profile.noMemberships")}</>
+                  }
+                </VStack>
               </VStack>
             </GridItem>
           </Grid>
