@@ -160,18 +160,22 @@ class UserApi {
         let maxPage = 1;
         let previousPage = "";
         let nextPage = "";
+        let lastPage = "";
+        let firstPage = "";
         let parsed;
-        if (response.headers) {
+        if(response.headers) {
           parsed = parseLinkHeader(response.headers.link);
-          if (parsed) {
+          if(parsed) {
             maxPage = parseInt(parsed.last.page);
-            if (parsed.prev)
+            lastPage = parsed.last.url;
+            firstPage = parsed.first.url;
+            if(parsed.prev)
               previousPage = parsed.prev.url;
-            if (parsed.next)
+            if(parsed.next)
               nextPage = parsed.next.url;
           }
         }
-        return Promise.resolve(new PagedContent(users, maxPage, nextPage, previousPage));
+        return Promise.resolve(new PagedContent(users, maxPage, nextPage, previousPage, lastPage, firstPage));
       });
   };
 
@@ -214,18 +218,22 @@ class UserApi {
         let maxPage = 1;
         let previousPage = "";
         let nextPage = "";
+        let lastPage = "";
+        let firstPage = "";
         let parsed;
-        if (response.headers) {
+        if(response.headers) {
           parsed = parseLinkHeader(response.headers.link);
-          if (parsed) {
+          if(parsed) {
             maxPage = parseInt(parsed.last.page);
-            if (parsed.prev)
+            lastPage = parsed.last.url;
+            firstPage = parsed.first.url;
+            if(parsed.prev)
               previousPage = parsed.prev.url;
-            if (parsed.next)
+            if(parsed.next)
               nextPage = parsed.next.url;
           }
         }
-        return Promise.resolve(new PagedContent(users, maxPage, nextPage, previousPage));
+        return Promise.resolve(new PagedContent(users, maxPage, nextPage, previousPage, lastPage, firstPage));
       })
   };
 
@@ -247,18 +255,22 @@ class UserApi {
         let maxPage = 1;
         let previousPage = "";
         let nextPage = "";
+        let lastPage = "";
+        let firstPage = "";
         let parsed;
-        if (response.headers) {
+        if(response.headers) {
           parsed = parseLinkHeader(response.headers.link);
-          if (parsed) {
+          if(parsed) {
             maxPage = parseInt(parsed.last.page);
-            if (parsed.prev)
+            lastPage = parsed.last.url;
+            firstPage = parsed.first.url;
+            if(parsed.prev)
               previousPage = parsed.prev.url;
-            if (parsed.next)
+            if(parsed.next)
               nextPage = parsed.next.url;
           }
         }
-        return Promise.resolve(new PagedContent(applications, maxPage, nextPage, previousPage));
+        return Promise.resolve(new PagedContent(applications, maxPage, nextPage, previousPage, lastPage, firstPage));
       })
   };
 
@@ -275,18 +287,22 @@ class UserApi {
         let maxPage = 1;
         let previousPage = "";
         let nextPage = "";
+        let lastPage = "";
+        let firstPage = "";
         let parsed;
-        if (response.headers) {
+        if(response.headers) {
           parsed = parseLinkHeader(response.headers.link);
-          if (parsed) {
+          if(parsed) {
             maxPage = parseInt(parsed.last.page);
-            if (parsed.prev)
+            lastPage = parsed.last.url;
+            firstPage = parsed.first.url;
+            if(parsed.prev)
               previousPage = parsed.prev.url;
-            if (parsed.next)
+            if(parsed.next)
               nextPage = parsed.next.url;
           }
         }
-        return Promise.resolve(new PagedContent(applications, maxPage, nextPage, previousPage));
+        return Promise.resolve(new PagedContent(applications, maxPage, nextPage, previousPage, lastPage, firstPage));
       })
   };
 

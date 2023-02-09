@@ -330,6 +330,10 @@ export const TRANSLATIONS_ES = {
     RejectedDescription: "La banda no te convenció",
     Error: "¡Oops!",
     ErrorDescription: "No se pudo procesar la invitación",
+    acceptError: "Error al aceptar al artista.",
+    acceptSuccess: "¡Artista aceptado con éxito!",
+    rejectError: "Error al rechazar al artista.",
+    rejectSuccess: "¡Artista rechazado con éxito"
   },
   Alts: {
     profilePicture: "Foto de perfil",
@@ -339,7 +343,8 @@ export const TRANSLATIONS_ES = {
   MyAuditions: {
     title: "Mis audiciones",
     applicants: "Aplicantes",
-    moreInfo: "Ver más"
+    moreInfo: "Ver más",
+    noAuditions: "No tiene audiciones abiertas",
   },
   AddToBand: {
     Title: "Agregar artista a tu banda",
@@ -361,7 +366,6 @@ export const TRANSLATIONS_ES = {
     Accept: "Aceptar",
     Reject: "Rechazar",
     ModalTitle: "Aplicación de artista",
-    Subtitle: "¡Felicidades! Tu audición ha recibido una aplicación de ",
     Subtitle2: "Esto es lo que el artista tiene que decir sobre sí mismo:",
   },
   EmailSent: {

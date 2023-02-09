@@ -66,7 +66,7 @@ const AuditionActions = (props: { auditionId: number, isOwner: boolean, currentU
   const isBand = props.currentUser?.band;
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [hasApplied, setHasApplied] = useState(true);
+  const [hasApplied, setHasApplied] = useState(false);
   const toast = useToast();
 
   const auditionService = useAuditionService();
@@ -87,7 +87,7 @@ const AuditionActions = (props: { auditionId: number, isOwner: boolean, currentU
       //   }
       // }
       // );
-      //TODO CHEQUEAR SI YA APLICO
+      // //TODO CHEQUEAR SI YA APLICO
     }
   }, [props.currentUser, navigate]);
 

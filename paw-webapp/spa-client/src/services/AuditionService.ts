@@ -81,7 +81,7 @@ export default class AuditionService {
               applications: a.applications,
               owner: a.owner
             }; return aud
-          }), response.getMaxPage(), response.getNextPage(), response.getPreviousPage()),
+          }), response.getMaxPage(), response.getNextPage(), response.getPreviousPage(), response.getLastPage(), response.getFirstPage()),
         false,
         null as any
       );
@@ -106,7 +106,7 @@ export default class AuditionService {
                   applications: a.applications,
                   owner: a.owner
                 }; return aud
-              }), response.getMaxPage(), response.getNextPage(), response.getPreviousPage()),
+              }), response.getMaxPage(), response.getNextPage(), response.getPreviousPage(), response.getLastPage(), response.getFirstPage()),
           false,
           null as any
       );
@@ -133,7 +133,7 @@ export default class AuditionService {
                   applications: a.applications,
                   owner: a.owner
                 }; return aud
-              }), response.getMaxPage(), response.getNextPage(), response.getPreviousPage()),
+              }), response.getMaxPage(), response.getNextPage(), response.getPreviousPage(), response.getLastPage(), response.getFirstPage()),
           false,
           null as any
       );
@@ -163,11 +163,11 @@ export default class AuditionService {
     }
   }
 
-  public async getAuditionApplications(auditionId: number, page?: number, state?: string): Promise<ApiResult<Application[]>> {
+  public async getAuditionApplications(auditionId: number, page?: number, state?: string): Promise<ApiResult<PagedContent<Application[]>>> {
     try {
       const response = await this.auditionApi.getApplications(auditionId, page, state);
-      return new ApiResult(
-        response.map(a => {
+      return new ApiResult(new PagedContent(
+        response.getContent().map(a => {
           const app: Application = {
             id: a.id,
             creationDate: a.creationDate,
@@ -177,9 +177,32 @@ export default class AuditionService {
             state: a.state,
             title: a.title
           }; return app
-        }),
+        }), response.getMaxPage(), response.getNextPage(), response.getPreviousPage(), response.getLastPage(), response.getFirstPage()),
         false,
         null as any
+      );
+    } catch (error) {
+      return ErrorService.returnApiError(error);
+    }
+  }
+
+  public async getAuditionApplicationsByUrl(url: string): Promise<ApiResult<PagedContent<Application[]>>> {
+    try {
+      const response = await this.auditionApi.getApplicationsByUrl(url);
+      return new ApiResult(new PagedContent(
+              response.getContent().map(a => {
+                const app: Application = {
+                  id: a.id,
+                  creationDate: a.creationDate,
+                  message: a.message,
+                  audition: a.audition,
+                  applicant: a.applicant,
+                  state: a.state,
+                  title: a.title
+                }; return app
+              }), response.getMaxPage(), response.getNextPage(), response.getPreviousPage(), response.getLastPage(), response.getFirstPage()),
+          false,
+          null as any
       );
     } catch (error) {
       return ErrorService.returnApiError(error);
@@ -227,6 +250,19 @@ export default class AuditionService {
         data,
         false,
         null as any
+      );
+    } catch (error) {
+      return ErrorService.returnApiError(error);
+    }
+  }
+
+  public async changeApplicationStatus(auditionId: number, applicationId: number, status: string) {
+    try {
+      await this.auditionApi.changeApplicationStatus(auditionId, applicationId, status);
+      return new ApiResult(
+          null as any,
+          false,
+          null as any
       );
     } catch (error) {
       return ErrorService.returnApiError(error);

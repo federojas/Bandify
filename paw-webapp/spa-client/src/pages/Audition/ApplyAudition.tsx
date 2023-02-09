@@ -60,7 +60,7 @@ const ApplyButton = ({ auditionId }: { auditionId: number }) => {
         toast({
           title: t("Audition.applySuccess"),
           description: t("Audition.applySuccessText"),
-          status: "error",
+          status: "success",
           isClosable: true,
         });
       }

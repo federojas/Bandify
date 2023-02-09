@@ -54,13 +54,18 @@ const BandAudition = (
 
   useEffect(() => {
 
-
-    serviceCall(
-      auditionService.getAuditionApplications(Number(audition.id), 1, 'PENDING'),
+      serviceCall(
+      auditionService.getAuditionApplicationsByUrl(audition.applications),
       navigate,
       (applications) => {
-        console.log(applications.length)
-        setPending(applications.length)
+          serviceCall(
+              auditionService.getAuditionApplicationsByUrl(applications.getLastPage()),
+              navigate,
+              (applicationsLast) => {
+                  setPending(((applicationsLast.getMaxPage() - 1) * 10) +   applicationsLast.getContent().length)
+              }
+          )
+
       }
     )
 
@@ -175,7 +180,9 @@ const BandAuditions = () => {
           {auditions.length > 0 ?
             auditions.map((audition, index) => {
               return <BandAudition audition={audition} key={index} />
-            }) : <></>
+            }) : <b>
+                  <p className="no-results">{t("MyAuditions.noAuditions")}</p>
+              </b>
           }
         </Flex>
         <Flex

@@ -21,8 +21,6 @@ import Audition from "./pages/Audition";
 import AuditionSearch from "./pages/AuditionSearch";
 import User from "./pages/User";
 import BandAuditions from "./pages/BandAuditions";
-import ProfileApplications from "./pages/ProfileApplications";
-import ProfileInvites from "./pages/ProfileInvites";
 import { PrivateRoute } from "./PrivateRoute";
 import { AnonymousRoute } from "./AnonymousRoute";
 import Login from "./pages/LogIn";

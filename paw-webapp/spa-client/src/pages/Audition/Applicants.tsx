@@ -1,21 +1,91 @@
 import {
-  Box, Center, Heading,
-  Avatar, Badge, Flex, HStack, Tab, TabList, TabPanel, TabPanels, Tabs, Text, Button,
-  Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure, VStack, useColorModeValue
+  Box,
+  Center,
+  Heading,
+  Link,
+  Avatar,
+  Badge,
+  Flex,
+  HStack,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+  Text,
+  Button,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  useDisclosure,
+  VStack,
+  useColorModeValue,
+  useToast
 } from "@chakra-ui/react"
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
 import { TiCancel, TiTick } from "react-icons/ti";
-import { useNavigate, useParams } from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 import { useAuditionService } from "../../contexts/AuditionService";
-import { Application, Audition } from "../../models";
+import {Application, Audition, User} from "../../models";
 import { serviceCall } from "../../services/ServiceManager";
 import AddToBandButton from "../User/AddToBandButton";
+import {getQueryOrDefault, useQuery} from "../../hooks/useQuery";
+import {PaginationWrapper} from "../../components/Pagination/pagination";
+import {ChevronLeftIcon, ChevronRightIcon} from "@chakra-ui/icons";
+import {useUserService} from "../../contexts/UserService";
 
 function ApplicantInfo({application} : {application: Application}) {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { t } = useTranslation();
+  const toast = useToast();
+  const navigate = useNavigate();
+  const auditionService = useAuditionService();
+
+  const onAccept = () => {
+    serviceCall(auditionService.changeApplicationStatus(parseInt(application.audition.split('/')[application.audition.split('/').length - 1]), application.id, "ACCEPTED"),
+        navigate
+    ).then((response) => {
+      if (response.hasFailed()) {
+        toast({
+          title: t("Invites.acceptError"),
+          status: "error",
+          isClosable: true,
+        });
+      } else {
+        toast({
+          title: t("Invites.acceptSuccess"),
+          status: "success",
+          isClosable: true,
+        });
+      }
+    })
+  }
+
+  const onReject = () => {
+    serviceCall(auditionService.changeApplicationStatus(parseInt(application.audition.split('/')[application.audition.split('/').length - 1]), application.id, "REJECTED"),
+        navigate
+    ).then((response) => {
+      if (response.hasFailed()) {
+        toast({
+          title: t("Invites.rejectError"),
+          status: "error",
+          isClosable: true,
+        });
+      } else {
+        toast({
+          title: t("Invites.rejectSuccess"),
+          status: "success",
+          isClosable: true,
+        });
+      }
+    })
+  }
 
   return (
     <>
@@ -30,18 +100,17 @@ function ApplicantInfo({application} : {application: Application}) {
           <ModalHeader>{t("AuditionApplicants.ModalTitle")}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Text>{t("AuditionApplicants.Subtitle")}<Text as='b'>{application.applicant}</Text></Text>
-            <Text mt="4">{t("AuditionApplicants.Subtitle2")}</Text>
+            <Text mt="2" mb="1">{t("AuditionApplicants.Subtitle2")}</Text>
             <Text as='i'>{application.message}</Text>
-
           </ModalBody>
 
-{/* TODO: Agregar funcionalidad de aceptar y rechazar aplicacion a audition */}
           <ModalFooter>
-            <Button leftIcon={<TiTick />} colorScheme='blue' mr={3} onClick={onClose}>
+            <Button leftIcon={<TiTick />} colorScheme='blue' mr={3} onClick={onAccept}>
               {t("Invites.Accept")}
             </Button>
-            <Button leftIcon={<TiCancel />} colorScheme='red'>{t("Invites.Reject")}</Button>
+            <Button leftIcon={<TiCancel />} colorScheme='red' onClick={onReject}>
+              {t("Invites.Reject")}
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
@@ -55,18 +124,33 @@ const ApplicantItem = ({ type = 'PENDING', application }: { type: string, applic
   const label = type === "REJECTED" ? t("Applications.Rejected") : (type === "PENDING" ? t("Applications.Pending") : t("Applications.Accepted"))
   const isPending = type === "PENDING"
   const isAccepted = type === "ACCEPTED"
+  const userService = useUserService();
+  const [user, setUser] = useState<User>();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    serviceCall(
+        userService.getUserByUrl(application.applicant),
+        navigate,
+        (user) => {
+          setUser(user);
+        }
+    )
+  }, [navigate, userService])
 
   return (
     <Box borderWidth='1px' borderRadius='lg' p="4">
       <Flex alignItems={'center'} justify="space-between">
-        <HStack>
-          <Avatar src='https://bit.ly/sage-adebayo' />
-          <Box ml='3'>
-            <Text fontWeight='bold'>
-              {application.applicant}
-            </Text>
-          </Box>
-        </HStack>
+        <Link onClick={() => {navigate("/users/" + user?.id)}}>
+          <HStack>
+            <Avatar src={user?.profileImage} />
+            <Box ml='3'>
+              <Text fontWeight='bold'>
+                {user?.name + " " + user?.surname}
+              </Text>
+            </Box>
+          </HStack>
+        </Link>
         {isPending ? <ApplicantInfo application={application} /> :
           <Badge ml='1' colorScheme={scheme}>
             {label}
@@ -84,12 +168,34 @@ const ApplicantItem = ({ type = 'PENDING', application }: { type: string, applic
 const AuditionApplicants = () => {
   const { t } = useTranslation();
   const { id } = useParams();
-
+  const query = useQuery();
+  //TODO posible mejora de codigo
+  const [currentPagePending, setCurrentPagePending] = useState((getQueryOrDefault(query, "state", "") === 'PENDING' || getQueryOrDefault(query, "state", "") === '' ) ? parseInt(getQueryOrDefault(query, "page", "1")) : 1);
+  const [currentPageRejected, setCurrentPageRejected] = useState(getQueryOrDefault(query, "state", "") === 'REJECTED' ? parseInt(getQueryOrDefault(query, "page", "1")) : 1);
+  const [currentPageAccepted, setCurrentPageAccepted] = useState(getQueryOrDefault(query, "state", "") === 'ACCEPTED' ? parseInt(getQueryOrDefault(query, "page", "1")) : 1);
+  const [maxPageAccepted, setMaxPageAccepted] = useState(1);
+  const [previousPageAccepted, setPreviousPageAccepted] = useState("");
+  const [nextPageAccepted, setNextPageAccepted] = useState("");
+  const [maxPageRejected, setMaxPageRejected] = useState(1);
+  const [previousPageRejected, setPreviousPageRejected] = useState("");
+  const [nextPageRejected, setNextPageRejected] = useState("");
+  const [nextPagePending, setNextPagePending] = useState("");
+  const [maxPagePending, setMaxPagePending] = useState(1);
+  const [previousPagePending, setPreviousPagePending] = useState("");
+  const [tabIndex, setTabIndex] = useState(() => {
+    let state = getQueryOrDefault(query, "state", "PENDING");
+    if(state === "PENDING")
+      return 0;
+    else if(state === "ACCPETED")
+      return 1;
+    else
+      return 2;
+  });
+  const location = useLocation();
   const [audition, setAudition] = useState<Audition>();
   const [pending, setPending] = useState<Application[]>([]);
   const [accepted, setAccepted] = useState<Application[]>([]);
   const [rejected, setRejected] = useState<Application[]>([]);
-
   const navigate = useNavigate();
   const auditionService = useAuditionService();
 
@@ -99,38 +205,47 @@ const AuditionApplicants = () => {
       auditionService.getAuditionById(Number(id)),
       navigate,
       (audition) => {
-        console.log(audition)
         setAudition(audition)
       }
     )
 
     serviceCall(
-      auditionService.getAuditionApplications(Number(id), 1, 'PENDING'),
+      auditionService.getAuditionApplications(Number(id), currentPagePending, 'PENDING'),
       navigate,
       (applications) => {
-        console.log(applications)
-        setPending(applications)
+        setPending(applications.getContent())
+        setMaxPagePending(applications ? applications.getMaxPage() : 1); //TODO revisar esto
+        setPreviousPagePending(applications ? applications.getPreviousPage() : "");
+        setNextPagePending(applications ? applications.getNextPage() : "");
       }
     )
 
     serviceCall(
-      auditionService.getAuditionApplications(Number(id), 1, 'SELECTED'),
+      auditionService.getAuditionApplications(Number(id), currentPageAccepted, 'ACCEPTED'),
       navigate,
       (applications) => {
-        console.log(applications)
-        setAccepted(applications)
+        setAccepted(applications.getContent())
+        setMaxPageAccepted(applications ? applications.getMaxPage() : 1); //TODO revisar esto
+        setPreviousPageAccepted(applications ? applications.getPreviousPage() : "");
+        setNextPageAccepted(applications ? applications.getNextPage() : "");
       }
     )
 
     serviceCall(
-      auditionService.getAuditionApplications(Number(id), 1, 'REJECTED'),
+      auditionService.getAuditionApplications(Number(id), currentPageRejected, 'REJECTED'),
       navigate,
       (applications) => {
-        console.log(applications)
-        setRejected(applications)
+        setRejected(applications.getContent())
+        setMaxPageRejected(applications ? applications.getMaxPage() : 1); //TODO revisar esto
+        setPreviousPageRejected(applications ? applications.getPreviousPage() : "");
+        setNextPageRejected(applications ? applications.getNextPage() : "");
       }
     )
 
+    const url = new URL(window.location.href);
+    if(getQueryOrDefault(query, "state", "") === "")
+      url.searchParams.set('state', "PENDING");
+    window.history.pushState(null, '', url.toString());
   }, [navigate, auditionService, id])
 
   return (
@@ -140,7 +255,23 @@ const AuditionApplicants = () => {
         <Box bg={useColorModeValue("white", "gray.900")} px={4}
           py={4} shadow={'md'} rounded={'xl'} w={'xl'}
         >
-          <Tabs variant='soft-rounded' colorScheme='blue'>
+          <Tabs variant='soft-rounded' colorScheme='blue' onChange={
+            (index) => {
+              setTabIndex(index)
+              const url = new URL(window.location.href);
+              if(index === 0) {
+                url.searchParams.set('page', String(currentPagePending));
+                url.searchParams.set('state', 'PENDING');
+              } else if(index === 1) {
+                url.searchParams.set('page', String(currentPageAccepted));
+                url.searchParams.set('state', 'ACCEPTED');
+              } else {
+                url.searchParams.set('page', String(currentPageRejected));
+                url.searchParams.set('state', 'REJECTED');
+              }
+              window.history.pushState(null, '', url.toString());
+            }
+          } defaultIndex={tabIndex}>
             <TabList>
               <Tab>{t("Applications.Pending")}</Tab>
               <Tab>{t("Applications.Accepted")}</Tab>
@@ -153,6 +284,67 @@ const AuditionApplicants = () => {
                   :
                   <p>{t("AuditionApplicants.NoApplicants")}</p>
                 }
+                {/*TODO: ver si se puede hacer componente*/}
+                <Flex
+                    w="full"
+                    p={50}
+                    alignItems="center"
+                    justifyContent="center"
+                >
+
+                  <PaginationWrapper>
+                    {currentPagePending > 1 && (
+                        <button
+                            onClick={() => {
+                              serviceCall(
+                                  auditionService.getAuditionApplicationsByUrl(previousPagePending),
+                                  navigate,
+                                  (response) => {
+                                    setPending(response ? response.getContent() : []);
+                                    setPreviousPagePending(response ? response.getPreviousPage() : "");
+                                    setNextPagePending(response ? response.getNextPage() : "");
+                                  },
+                                  location
+                              )
+                              setCurrentPagePending(currentPagePending - 1)
+                              const url = new URL(window.location.href);
+                              url.searchParams.set('page', String(currentPagePending - 1));
+                              window.history.pushState(null, '', url.toString());
+                            }}
+                            style={{ background: "none", border: "none" }}
+                        >
+                          <ChevronLeftIcon mr={4}/>
+                        </button>
+                    )}
+                    {t("Pagination.message", {
+                      currentPage: currentPagePending,
+                      maxPage: maxPagePending,
+                    })}
+                    {currentPagePending < maxPagePending && (
+                        <button
+                            onClick={() => {
+                              serviceCall(
+                                  auditionService.getAuditionApplicationsByUrl(nextPagePending),
+                                  navigate,
+                                  (response) => {
+                                    setPending(response ? response.getContent() : []);
+                                    setPreviousPagePending(response ? response.getPreviousPage() : "");
+                                    setNextPagePending(response ? response.getNextPage() : "");
+                                  },
+                                  location
+                              )
+                              setCurrentPagePending(currentPagePending + 1)
+                              const url = new URL(window.location.href);
+                              url.searchParams.set('page', String(currentPagePending + 1));
+                              window.history.pushState(null, '', url.toString());
+                            }}
+                            style={{ background: "none", border: "none" }}
+                        >
+                          <ChevronRightIcon ml={4}/>
+                        </button>
+                    )}
+                  </PaginationWrapper>
+                </Flex>
               </TabPanel>
               <TabPanel mt="4">
                 {accepted.length > 0 ?
@@ -160,7 +352,67 @@ const AuditionApplicants = () => {
                   :
                   <p>{t("AuditionApplicants.NoApplicants")}</p>
                 }
+                {/*TODO: ver si se puede hacer componente*/}
+                <Flex
+                    w="full"
+                    p={50}
+                    alignItems="center"
+                    justifyContent="center"
+                >
 
+                  <PaginationWrapper>
+                    {currentPageAccepted > 1 && (
+                        <button
+                            onClick={() => {
+                              serviceCall(
+                                  auditionService.getAuditionApplicationsByUrl(previousPageAccepted),
+                                  navigate,
+                                  (response) => {
+                                    setAccepted(response ? response.getContent() : []);
+                                    setPreviousPageAccepted(response ? response.getPreviousPage() : "");
+                                    setNextPageAccepted(response ? response.getNextPage() : "");
+                                  },
+                                  location
+                              )
+                              setCurrentPageAccepted(currentPageAccepted - 1)
+                              const url = new URL(window.location.href);
+                              url.searchParams.set('page', String(currentPageAccepted - 1));
+                              window.history.pushState(null, '', url.toString());
+                            }}
+                            style={{ background: "none", border: "none" }}
+                        >
+                          <ChevronLeftIcon mr={4}/>
+                        </button>
+                    )}
+                    {t("Pagination.message", {
+                      currentPage: currentPageAccepted,
+                      maxPage: maxPageAccepted,
+                    })}
+                    {currentPageAccepted < maxPageAccepted && (
+                        <button
+                            onClick={() => {
+                              serviceCall(
+                                  auditionService.getAuditionApplicationsByUrl(nextPageAccepted),
+                                  navigate,
+                                  (response) => {
+                                    setAccepted(response ? response.getContent() : []);
+                                    setPreviousPageAccepted(response ? response.getPreviousPage() : "");
+                                    setNextPageAccepted(response ? response.getNextPage() : "");
+                                  },
+                                  location
+                              )
+                              setCurrentPageAccepted(currentPageAccepted + 1)
+                              const url = new URL(window.location.href);
+                              url.searchParams.set('page', String(currentPageAccepted + 1));
+                              window.history.pushState(null, '', url.toString());
+                            }}
+                            style={{ background: "none", border: "none" }}
+                        >
+                          <ChevronRightIcon ml={4}/>
+                        </button>
+                    )}
+                  </PaginationWrapper>
+                </Flex>
               </TabPanel>
               <TabPanel mt="4">
                 {rejected.length > 0 ?
@@ -168,7 +420,67 @@ const AuditionApplicants = () => {
                   :
                   <p>{t("AuditionApplicants.NoApplicants")}</p>
                 }
+                {/*TODO: ver si se puede hacer componente*/}
+                <Flex
+                    w="full"
+                    p={50}
+                    alignItems="center"
+                    justifyContent="center"
+                >
 
+                  <PaginationWrapper>
+                    {currentPageRejected > 1 && (
+                        <button
+                            onClick={() => {
+                              serviceCall(
+                                  auditionService.getAuditionApplicationsByUrl(previousPageRejected),
+                                  navigate,
+                                  (response) => {
+                                    setRejected(response ? response.getContent() : []);
+                                    setPreviousPageRejected(response ? response.getPreviousPage() : "");
+                                    setNextPageRejected(response ? response.getNextPage() : "");
+                                  },
+                                  location
+                              )
+                              setCurrentPageRejected(currentPageRejected - 1)
+                              const url = new URL(window.location.href);
+                              url.searchParams.set('page', String(currentPageRejected - 1));
+                              window.history.pushState(null, '', url.toString());
+                            }}
+                            style={{ background: "none", border: "none" }}
+                        >
+                          <ChevronLeftIcon mr={4}/>
+                        </button>
+                    )}
+                    {t("Pagination.message", {
+                      currentPage: currentPageRejected,
+                      maxPage: maxPageRejected,
+                    })}
+                    {currentPageRejected < maxPageRejected && (
+                        <button
+                            onClick={() => {
+                              serviceCall(
+                                  auditionService.getAuditionApplicationsByUrl(nextPageRejected),
+                                  navigate,
+                                  (response) => {
+                                    setRejected(response ? response.getContent() : []);
+                                    setPreviousPageRejected(response ? response.getPreviousPage() : "");
+                                    setNextPageRejected(response ? response.getNextPage() : "");
+                                  },
+                                  location
+                              )
+                              setCurrentPageRejected(currentPageRejected + 1)
+                              const url = new URL(window.location.href);
+                              url.searchParams.set('page', String(currentPageRejected + 1));
+                              window.history.pushState(null, '', url.toString());
+                            }}
+                            style={{ background: "none", border: "none" }}
+                        >
+                          <ChevronRightIcon ml={4}/>
+                        </button>
+                    )}
+                  </PaginationWrapper>
+                </Flex>
               </TabPanel>
             </TabPanels>
           </Tabs>

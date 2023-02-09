@@ -1,6 +1,6 @@
 import {Audition, AuditionInput} from './types/Audition';
 import {Application} from './types/Application';
-import axios, { AxiosInstance } from 'axios';
+import { AxiosInstance } from 'axios';
 import PagedContent from "./types/PagedContent";
 import {parseLinkHeader} from '@web3-storage/parse-link-header'
 
@@ -99,18 +99,22 @@ class AuditionApi {
                 let maxPage = 1;
                 let previousPage = "";
                 let nextPage = "";
+                let lastPage = "";
+                let firstPage = "";
                 let parsed;
                 if(response.headers) {
                     parsed = parseLinkHeader(response.headers.link);
                     if(parsed) {
                         maxPage = parseInt(parsed.last.page);
+                        lastPage = parsed.last.url;
+                        firstPage = parsed.first.url;
                         if(parsed.prev)
                             previousPage = parsed.prev.url;
                         if(parsed.next)
                             nextPage = parsed.next.url;
                     }
                 }
-                return Promise.resolve(new PagedContent(auditions, maxPage, nextPage, previousPage));
+                return Promise.resolve(new PagedContent(auditions, maxPage, nextPage, previousPage, lastPage, firstPage));
             });
     };
 
@@ -138,18 +142,22 @@ class AuditionApi {
                 let maxPage = 1;
                 let previousPage = "";
                 let nextPage = "";
+                let lastPage = "";
+                let firstPage = "";
                 let parsed;
                 if(response.headers) {
                     parsed = parseLinkHeader(response.headers.link);
                     if(parsed) {
                         maxPage = parseInt(parsed.last.page);
+                        lastPage = parsed.last.url;
+                        firstPage = parsed.first.url;
                         if(parsed.prev)
                             previousPage = parsed.prev.url;
                         if(parsed.next)
                             nextPage = parsed.next.url;
                     }
                 }
-                return Promise.resolve(new PagedContent(auditions, maxPage, nextPage, previousPage));
+                return Promise.resolve(new PagedContent(auditions, maxPage, nextPage, previousPage, lastPage, firstPage));
             });
     };
 
@@ -183,18 +191,22 @@ class AuditionApi {
                 let maxPage = 1;
                 let previousPage = "";
                 let nextPage = "";
+                let lastPage = "";
+                let firstPage = "";
                 let parsed;
                 if(response.headers) {
                     parsed = parseLinkHeader(response.headers.link);
                     if(parsed) {
                         maxPage = parseInt(parsed.last.page);
+                        lastPage = parsed.last.url;
+                        firstPage = parsed.first.url;
                         if(parsed.prev)
                             previousPage = parsed.prev.url;
                         if(parsed.next)
                             nextPage = parsed.next.url;
                     }
                 }
-                return Promise.resolve(new PagedContent(auditions, maxPage, nextPage, previousPage));
+                return Promise.resolve(new PagedContent(auditions, maxPage, nextPage, previousPage, lastPage, firstPage));
             });
     };
 
@@ -215,6 +227,7 @@ class AuditionApi {
             return Promise.resolve(application);
         });
     };
+
 
     public getApplications = async (auditionId: number, page?: number, state?: string) => {
         return this.axiosPrivate.get(`${this.endpoint}/${auditionId}/applications`, {
@@ -238,7 +251,64 @@ class AuditionApi {
                     };
                 })
                 : [];
-            return Promise.resolve(applications);
+            let maxPage = 1;
+            let previousPage = "";
+            let nextPage = "";
+            let lastPage = "";
+            let firstPage = "";
+            let parsed;
+            if(response.headers) {
+                parsed = parseLinkHeader(response.headers.link);
+                if(parsed) {
+                    maxPage = parseInt(parsed.last.page);
+                    lastPage = parsed.last.url;
+                    firstPage = parsed.first.url;
+                    if(parsed.prev)
+                        previousPage = parsed.prev.url;
+                    if(parsed.next)
+                        nextPage = parsed.next.url;
+                }
+            }
+            return Promise.resolve(new PagedContent(applications, maxPage, nextPage, previousPage, lastPage, firstPage));
+        });
+    };
+
+    public getApplicationsByUrl = async (url: string) => {
+        return this.axiosPrivate.get(url).then((response) => {
+            const data = response.data;
+            const applications: Application[] = Array.isArray(data)
+                ? data.map((app: any) => {
+                    return {
+                        id: app.id,
+                        state: app.state,
+                        creationDate: app.creationDate,
+                        message: app.message,
+                        self: app.self,
+                        audition: app.audition,
+                        applicant: app.applicant,
+                        title: app.title
+                    };
+                })
+                : [];
+            let maxPage = 1;
+            let previousPage = "";
+            let nextPage = "";
+            let lastPage = "";
+            let firstPage = "";
+            let parsed;
+            if(response.headers) {
+                parsed = parseLinkHeader(response.headers.link);
+                if(parsed) {
+                    maxPage = parseInt(parsed.last.page);
+                    lastPage = parsed.last.url;
+                    firstPage = parsed.first.url;
+                    if(parsed.prev)
+                        previousPage = parsed.prev.url;
+                    if(parsed.next)
+                        nextPage = parsed.next.url;
+                }
+            }
+            return Promise.resolve(new PagedContent(applications, maxPage, nextPage, previousPage, lastPage, firstPage));
         });
     };
 
@@ -257,6 +327,17 @@ class AuditionApi {
     public apply = async(auditionId:number, message: string) => {
         return this.axiosPrivate.post(`${this.endpoint}/${auditionId}/applications`,
         {message: message},this.applicationConfig).then((response) => {
+            return Promise.resolve(response);
+        });
+    }
+
+    public changeApplicationStatus = async(auditionId:number, applicationId: number, status: string) => {
+        return this.axiosPrivate.put(`${this.endpoint}/${auditionId}/applications/${applicationId}`,
+            {
+                params: {
+                    status: status
+                }
+            },this.applicationConfig).then((response) => {
             return Promise.resolve(response);
         });
     }

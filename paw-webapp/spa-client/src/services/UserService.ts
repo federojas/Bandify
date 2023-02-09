@@ -135,7 +135,7 @@ export default class UserService {
             surname: u.surname,
             profileImage: u.profileImage
           }; return user
-        }), response.getMaxPage(), response.getNextPage(), response.getPreviousPage()),
+        }), response.getMaxPage(), response.getNextPage(), response.getPreviousPage(), response.getLastPage(), response.getFirstPage()),
         false,
         null as any
       );
@@ -164,7 +164,7 @@ export default class UserService {
             surname: u.surname,
             profileImage: u.profileImage
           }; return user
-        }), current.getMaxPage(), current.getNextPage(), current.getPreviousPage()),
+        }), current.getMaxPage(), current.getNextPage(), current.getPreviousPage(), current.getLastPage(), current.getFirstPage()),
         false,
         null as any
       );
@@ -201,7 +201,7 @@ export default class UserService {
             state: a.state,
             title: a.title
           }; return aux
-        }), applications.getMaxPage(), applications.getNextPage(), applications.getPreviousPage()),
+        }), applications.getMaxPage(), applications.getNextPage(), applications.getPreviousPage(), applications.getLastPage(), applications.getFirstPage()),
         false,
         null as any)
     } catch (error: any) {
@@ -223,7 +223,7 @@ export default class UserService {
             state: a.state,
             title: a.title
           }; return aux
-        }), applications.getMaxPage(), applications.getNextPage(), applications.getPreviousPage()),
+        }), applications.getMaxPage(), applications.getNextPage(), applications.getPreviousPage(), applications.getLastPage(), applications.getFirstPage()),
         false,
         null as any)
     } catch (error: any) {

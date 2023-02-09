@@ -76,7 +76,9 @@ export default class MembershipService {
         new PagedContent(
           memberships, response.getMaxPage(),
           response.getNextPage(),
-          response.getPreviousPage()),
+          response.getPreviousPage(),
+            response.getLastPage(),
+            response.getFirstPage()),
         false,
         null as any
       )
@@ -107,7 +109,9 @@ export default class MembershipService {
           new PagedContent(
               memberships, response.getMaxPage(),
               response.getNextPage(),
-              response.getPreviousPage()),
+              response.getPreviousPage(),
+              response.getLastPage(),
+              response.getFirstPage()),
           false,
           null as any
       )
