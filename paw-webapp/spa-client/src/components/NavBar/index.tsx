@@ -177,6 +177,10 @@ function Nav() {
                     size={"sm"}
                     key={Date.now()}
                     src={profileImg}
+                    _dark={{
+                      backgroundColor: "white",
+                    }
+                    }
                   />
                 </MenuButton>
                 <MenuList>

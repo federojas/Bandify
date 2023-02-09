@@ -5,10 +5,9 @@ import { useTranslation } from "react-i18next";
 import {useLocation, useNavigate} from "react-router-dom";
 import AuthContext from "../../contexts/AuthContext";
 import { useUserService } from "../../contexts/UserService";
-import {Application, Audition} from "../../models";
+import {Application} from "../../models";
 import { serviceCall } from "../../services/ServiceManager";
 import SidenavLayout from "./SidenavLayout";
-import {useAuditionService} from "../../contexts/AuditionService";
 import {PaginationWrapper} from "../../components/Pagination/pagination";
 import {ChevronLeftIcon, ChevronRightIcon} from "@chakra-ui/icons";
 import {getQueryOrDefault, useQuery} from "../../hooks/useQuery";
@@ -112,10 +111,6 @@ const Applications = () => {
       url.searchParams.set('state', "PENDING");
     window.history.pushState(null, '', url.toString());
   }, [userId, navigate])
-
-
-
-  // TODO: Get the three differents arrays of applications from the Service
 
   return (
     <>

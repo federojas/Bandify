@@ -40,7 +40,7 @@ import {PaginationWrapper} from "../../components/Pagination/pagination";
 import {ChevronLeftIcon, ChevronRightIcon} from "@chakra-ui/icons";
 import {useUserService} from "../../contexts/UserService";
 
-function ApplicantInfo({application} : {application: Application}) {
+function ApplicantInfo({application, handleRefresh} : {application: Application, handleRefresh: () => void }) {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { t } = useTranslation();
   const toast = useToast();
@@ -63,7 +63,8 @@ function ApplicantInfo({application} : {application: Application}) {
           status: "success",
           isClosable: true,
         });
-        //TODO REVISAR SI HAY QUE UPDATEAR PENDING Y ACCEPTED
+        handleRefresh();
+        onClose();
       }
     })
   }
@@ -84,7 +85,8 @@ function ApplicantInfo({application} : {application: Application}) {
           status: "success",
           isClosable: true,
         });
-        //TODO REVISAR SI HAY QUE UPDATEAR PENDING Y REJECTED
+        handleRefresh();
+        onClose();
       }
     })
   }
@@ -120,7 +122,7 @@ function ApplicantInfo({application} : {application: Application}) {
   )
 }
 
-const ApplicantItem = ({ type = 'PENDING', application }: { type: string, application: Application }) => {
+const ApplicantItem = ({ type = 'PENDING', application, handleRefresh }: { type: string, application: Application, handleRefresh: () => void }) => {
   const { t } = useTranslation();
   const scheme = type === "REJECTED" ? "red" : (type === "PENDING" ? undefined : "green")
   const label = type === "REJECTED" ? t("Applications.Rejected") : (type === "PENDING" ? t("Applications.Pending") : t("Applications.Accepted"))
@@ -155,7 +157,7 @@ const ApplicantItem = ({ type = 'PENDING', application }: { type: string, applic
             </Box>
           </HStack>
         </Link>
-        {isPending ? <ApplicantInfo application={application} /> :
+        {isPending ? <ApplicantInfo application={application} handleRefresh={handleRefresh} /> :
           <Badge ml='1' colorScheme={scheme}>
             {label}
           </Badge>
@@ -202,6 +204,11 @@ const AuditionApplicants = () => {
   const [rejected, setRejected] = useState<Application[]>([]);
   const navigate = useNavigate();
   const auditionService = useAuditionService();
+  const [refresh, setRefresh] = useState<boolean>(false);
+
+  const handleRefresh = () => {
+      setRefresh(!refresh)
+  }
 
   useEffect(() => {
 
@@ -250,7 +257,7 @@ const AuditionApplicants = () => {
     if(getQueryOrDefault(query, "state", "") === "")
       url.searchParams.set('state', "PENDING");
     window.history.pushState(null, '', url.toString());
-  }, [navigate, auditionService, id])
+  }, [navigate, auditionService, id, refresh])
 
   return (
     <Center py={'10'}>
@@ -284,7 +291,7 @@ const AuditionApplicants = () => {
             <TabPanels>
               <TabPanel mt="4">
                 {pending.length > 0 ?
-                  pending.map((application) => <ApplicantItem type={'PENDING'} application={application} />)
+                  pending.map((application) => <ApplicantItem type={'PENDING'} application={application} handleRefresh={handleRefresh} />)
                   :
                   <p>{t("AuditionApplicants.NoApplicants")}</p>
                 }
@@ -352,7 +359,7 @@ const AuditionApplicants = () => {
               </TabPanel>
               <TabPanel mt="4">
                 {accepted.length > 0 ?
-                  accepted.map((application) => <ApplicantItem type={'ACCEPTED'} application={application} />)
+                  accepted.map((application) => <ApplicantItem type={'ACCEPTED'} application={application} handleRefresh={handleRefresh} />)
                   :
                   <p>{t("AuditionApplicants.NoApplicants")}</p>
                 }
@@ -420,7 +427,7 @@ const AuditionApplicants = () => {
               </TabPanel>
               <TabPanel mt="4">
                 {rejected.length > 0 ?
-                  rejected.map((application) => <ApplicantItem type={'REJECTED'} application={application} />)
+                  rejected.map((application) => <ApplicantItem type={'REJECTED'} application={application} handleRefresh={handleRefresh} />)
                   :
                   <p>{t("AuditionApplicants.NoApplicants")}</p>
                 }
