@@ -63,6 +63,7 @@ function ApplicantInfo({application} : {application: Application}) {
           status: "success",
           isClosable: true,
         });
+        //TODO REVISAR SI HAY QUE UPDATEAR PENDING Y ACCEPTED
       }
     })
   }
@@ -83,6 +84,7 @@ function ApplicantInfo({application} : {application: Application}) {
           status: "success",
           isClosable: true,
         });
+        //TODO REVISAR SI HAY QUE UPDATEAR PENDING Y REJECTED
       }
     })
   }
