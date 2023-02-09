@@ -21,7 +21,6 @@ import { useNavigate } from "react-router-dom";
 import { useAuditionService } from "../../contexts/AuditionService";
 import { serviceCall } from "../../services/ServiceManager";
 import { applyAuditionOptions, applyAuditionOptionsES } from "./validations";
-import swal from 'sweetalert';
 import { Helmet } from "react-helmet";
 
 interface FormData {

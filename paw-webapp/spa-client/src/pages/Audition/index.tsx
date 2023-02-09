@@ -21,6 +21,13 @@ import {
   HStack,
   Text, useToast,
   VStack,
+  Modal,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  useDisclosure,
 } from "@chakra-ui/react";
 
 import { BsInfoCircle } from "react-icons/bs";
@@ -36,10 +43,10 @@ import { serviceCall } from "../../services/ServiceManager";
 import { useUserService } from "../../contexts/UserService";
 import { useAuditionService } from "../../contexts/AuditionService";
 import AuthContext from "../../contexts/AuthContext";
-import swal from 'sweetalert';
 import ApplyButton from "./ApplyAudition";
 import { Helmet } from "react-helmet";
 import { WarningTwoIcon } from '@chakra-ui/icons';
+import { TiTick, TiCancel } from "react-icons/ti";
 
 function ClosedAudition() {
   const { t } = useTranslation();
@@ -60,6 +67,51 @@ function ClosedAudition() {
       </Button>
     </Box>
   );
+}
+
+function DeleteAuditionModal(props: { auditionId: number}) {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { t } = useTranslation();
+  const auditionService = useAuditionService();
+  const navigate = useNavigate();
+  const toast = useToast();
+  const onDelete = () => {
+    serviceCall(auditionService.deleteAuditionById(props.auditionId), navigate, () => { }).then((response) => {
+      if (response.hasFailed()) {
+        toast({
+          title: t("Register.error"),
+          status: "error",
+          description: t("Audition.deleteError"),
+          isClosable: true,
+        })
+      } else {
+        toast({
+          title: t("Audition.deleteSuccess"),
+          status: "success",
+          isClosable: true,
+        })
+        navigate('/auditions');
+      }
+    });
+  }
+  return (
+    <>
+      <Button leftIcon={<AiOutlineDelete />} w={'44'} colorScheme='red' onClick={onOpen}>{t("Audition.delete")}</Button>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>{t("Audition.deleteConfirm")}</ModalHeader>
+          <ModalCloseButton />  
+          <ModalFooter>
+            <Button leftIcon={<TiTick />} colorScheme='blue' mr={3} onClick={onDelete}>
+              {t("Button.cancel")}
+            </Button>
+            <Button  onClick={onClose} leftIcon={<TiCancel />} colorScheme='red' >{t("Button.cancel")}</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
+  )
 }
 
 const AuditionActions = (props: { auditionId: number, isOwner: boolean, currentUser: User | undefined }) => {
@@ -91,41 +143,7 @@ const AuditionActions = (props: { auditionId: number, isOwner: boolean, currentU
     }
   }, [props.currentUser, navigate]);
 
-  const onDelete = () => {
-    swal({
-      title: t("Audition.delete"),
-      text: t("Audition.deleteConfirm"),
-      icon: "warning",
-      buttons: {
-        cancel: t("Button.cancel"),
-        willDelete: t("Button.confirm")
-      },
-      dangerMode: true,
-    })
-      .then((willDelete) => {
-        if (willDelete) {
-          serviceCall(auditionService.deleteAuditionById(props.auditionId), navigate, () => { }).then((response) => {
-            if (response.hasFailed()) {
-              toast({
-                title: t("Register.error"),
-                status: "error",
-                description: t("Audition.deleteError"),
-                isClosable: true,
-              })
-            } else {
-              toast({
-                title: t("Register.success"),
-                status: "success",
-                description: t("Audition.deleteSuccess"),
-                isClosable: true,
-              })
-              navigate("/auditions");
-            }
-          });
-        }
-      });
 
-  }
 
   const onEdit = () => {
     navigate("/auditions/" + props.auditionId + "/edit");
@@ -151,9 +169,8 @@ const AuditionActions = (props: { auditionId: number, isOwner: boolean, currentU
         <>
           {/*TODO ANALIZAR LINK ACA*/}
           <Button onClick={() => { navigate('/auditions/' + String(props.auditionId) + '/applicants') }} leftIcon={<FiUsers />} w={'44'} colorScheme='green'>{t("Audition.applicants")}</Button>
-
           <Button leftIcon={<AiOutlineEdit />} w={'44'} colorScheme='teal' onClick={onEdit}>{t("Audition.edit")}</Button>
-          <Button leftIcon={<AiOutlineDelete />} w={'44'} colorScheme='red' onClick={onDelete}>{t("Audition.delete")}</Button>
+          <DeleteAuditionModal auditionId={props.auditionId} />
 
         </>
         :
