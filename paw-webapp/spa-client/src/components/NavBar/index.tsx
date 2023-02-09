@@ -175,10 +175,6 @@ function Nav() {
                 >
                   <Avatar
                     size={"sm"}
-                    src={user?.profileImage} //TODO: revisar ALT?
-                    _dark={{
-                      backgroundColor: "white",
-                    }}
                   />
                 </MenuButton>
                 <MenuList>
