@@ -27,14 +27,6 @@ import BandTag from "../../components/Tags/BandTag";
 import { ImLocation } from "react-icons/im";
 import GenreTag from "../../components/Tags/GenreTag";
 import RoleTag from "../../components/Tags/RoleTag";
-import {
-  FaFacebook,
-  FaInstagram,
-  FaTwitter,
-  FaYoutube,
-  FaSoundcloud,
-  FaSpotify,
-} from "react-icons/fa";
 import AuthContext from "../../contexts/AuthContext";
 import { serviceCall } from "../../services/ServiceManager";
 import { useNavigate } from "react-router-dom";
@@ -47,6 +39,8 @@ import Membership from "../../models/Membership";
 import MembershipItem from "../User/MembershipItem";
 import { Helmet } from "react-helmet";
 import SocialMediaModal from "../User/SocialMediaModal";
+import SocialMediaTag from "./SocialMediaTag";
+import SocialMedia from "../../models/SocialMedia";
 
 const Profile = () => {
   const { t } = useTranslation();
@@ -59,7 +53,8 @@ const Profile = () => {
   const bg = useColorModeValue("white", "gray.900")
   const membershipService = useMembershipService();
   const [memberships, setMemberships] = React.useState<Membership[]>([]);
-
+  const [socialMedia, setSocialMedia] = useState<SocialMedia[]>([]);
+  const [refreshMedia, setRefreshMedia] = useState(false);
   useEffect(() => {
     if (user) {
       serviceCall(
@@ -70,8 +65,16 @@ const Profile = () => {
           setMemberships(response.getContent());
         }
       )
+
+      serviceCall(
+        userService.getUserSocialMedia(user.id),
+        navigate,
+        (response: any) => {
+          setSocialMedia(response);
+        }
+      )
     }
-  }, [user, navigate, user])
+  }, [user, navigate, user, refreshMedia])
 
   useEffect(() => {
     serviceCall(
@@ -83,6 +86,7 @@ const Profile = () => {
       }
     )
   }, [userService]);
+
 
 
   return (
@@ -231,29 +235,16 @@ const Profile = () => {
                         {t("Profile.socialMedia")}
                       </Heading>
                     </HStack>
-                    <SocialMediaModal />
+                    <SocialMediaModal refreshMedia={() => {
+                      setRefreshMedia(!refreshMedia);
+                    }}/>
                   </HStack>
-                  {/* TODO: socialMedia from user.socialMedia */}
                   <HStack wrap={"wrap"}>
-                    <Button colorScheme={"facebook"} as="a" href={"#"}>
-                      <FaFacebook />
-                    </Button>
-                    {/* Add Twitter, Instagram, Youtube, Soundcloud and Spotify */}
-                    <Button colorScheme={"twitter"} as="a" href={"#"}>
-                      <FaTwitter />
-                    </Button>
-                    <Button colorScheme={"orange"} as="a" href={"#"}>
-                      <FaInstagram />
-                    </Button>
-                    <Button colorScheme={"red"} as="a" href={"#"}>
-                      <FaYoutube />
-                    </Button>
-                    <Button colorScheme={"orange"} as="a" href={"#"}>
-                      <FaSoundcloud />
-                    </Button>
-                    <Button colorScheme={"yellow"} as="a" href={"#"}>
-                      <FaSpotify />
-                    </Button>
+                    {socialMedia.length > 0 ? socialMedia.map((social) => (
+                      <SocialMediaTag social={social} />
+                    )) :
+                      <Text>{t("Profile.noSocialMedia")}</Text>
+                    }
                   </HStack>
                 </VStack>
                 <Divider marginY={6} />

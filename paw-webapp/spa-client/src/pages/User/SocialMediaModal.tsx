@@ -47,34 +47,95 @@ import {
 import { RoleGroup } from "../EditProfile/EntitiesGroups";
 import { useRoleService } from "../../contexts/RoleService";
 import { GrView } from "react-icons/gr";
+import { UpdateUserSocialMediaInput } from "../../api/types/SocialMedia";
+import { useUserService } from "../../contexts/UserService";
+import useAuth from "../../hooks/useAuth";
 
 interface FormData {
-  roles: string[];
-  description: string;
+  twitterUrl?: string;
+  spotifyUrl?: string;
+  instagramUrl?: string;
+  facebookUrl?: string;
+  youtubeUrl?: string;
+  soundcloudUrl?: string;
 }
 
-const SocialMediaModal = () => {
+const SocialMediaModal = ({refreshMedia}: {refreshMedia: Function}) => {
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const [roleOptions, setRoleOptions] = useState<RoleGroup[]>([]);
-  const [roles, setRoles] = useState<RoleGroup[]>([]);
-  const roleService = useRoleService();
-  const membershipService = useMembershipService();
+  const userService = useUserService();
   const toast = useToast();
   const initialRef = React.useRef(null)
   const finalRef = React.useRef(null)
   const navigate = useNavigate();
+  const { userId } = useAuth()
   const options = localStorage.getItem('i18nextLng') === 'es' ? addToBandOptionsES : addToBandOptions;
+  const [socialMedia, setSocialMedia] = useState<FormData>({})
 
   useEffect(() => {
     serviceCall(
-      roleService.getRoles(),
+      userService.getUserSocialMedia(userId!),
       navigate,
-      (roles) => {
-        const roleAux: RoleGroup[] = roles.map((role) => {
-          return { value: role.name, label: role.name };
-        });
-        setRoleOptions(roleAux);
+      (response) => {
+        response.forEach((social) => {
+          switch (social.type) {
+            case "FACEBOOK": {
+              setSocialMedia((prev) => {
+                if (prev.facebookUrl) return prev;
+                const urlCleaned = social.url.replace('https://', '')
+
+                return { ...prev, facebookUrl: urlCleaned }
+              })
+              break;
+            }
+            case "TWITTER": {
+              setSocialMedia((prev) => {
+                if (prev.twitterUrl) return prev;
+                const urlCleaned = social.url.replace('https://', '')
+
+                return { ...prev, twitterUrl: urlCleaned }
+              })
+              break;
+            }
+            case "INSTAGRAM": {
+              setSocialMedia((prev) => {
+                if (prev.instagramUrl) return prev;
+                const urlCleaned = social.url.replace('https://', '')
+                return { ...prev, instagramUrl: urlCleaned }
+              })
+              break;
+            }
+            case "YOUTUBE": {
+              setSocialMedia((prev) => {
+                if (prev.youtubeUrl) return prev;
+                const urlCleaned = social.url.replace('https://', '')
+
+                return { ...prev, youtubeUrl: urlCleaned }
+              })
+              break;
+            }
+            case "SOUNDCLOUD": {
+              setSocialMedia((prev) => {
+                if (prev.soundcloudUrl) return prev;
+                const urlCleaned = social.url.replace('https://', '')
+                return { ...prev, soundcloudUrl: urlCleaned }
+              })
+              break;
+            }
+            case "SPOTIFY": {
+              setSocialMedia((prev) => {
+                if (prev.spotifyUrl) return prev;
+                const urlCleaned = social.url.replace('https://', '')
+
+                return { ...prev, spotifyUrl: urlCleaned }
+              })
+              break;
+            }
+            default: {
+              return
+            }
+          }
+        }, {})
       }
     )
   }, [])
@@ -85,38 +146,38 @@ const SocialMediaModal = () => {
     formState: { errors },
   } = useForm<FormData>();
 
-  const isValidForm = (data: FormData) => {
-
-    if (roles.length == 0) {
-      toast({
-        title: t("EditAudition.rolesRequired"),
-        status: "error",
-        duration: 9000,
-        isClosable: true,
-      });
-      return false;
-    }
-
-    if (roles.length > 5) {
-      toast({
-        title: t("EditAudition.maxRoles"),
-        status: "error",
-        duration: 9000,
-        isClosable: true,
-      });
-      return false;
-    }
-
-    return true;
-  }
-
-
   const onSubmit = async (data: FormData) => {
-    if (!isValidForm(data)) return;
-    const input = {
-      roles: roles.map((role) => role.value),
-      description: data.description,
+
+    console.log(data)
+    const input: UpdateUserSocialMediaInput = {
+      twitterUrl: data.twitterUrl ? data.twitterUrl : undefined,
+      spotifyUrl: data.spotifyUrl ? data.spotifyUrl : undefined,
+      instagramUrl: data.instagramUrl ? data.instagramUrl : undefined,
+      facebookUrl: data.facebookUrl ? data.facebookUrl : undefined,
+      youtubeUrl: data.youtubeUrl ? data.youtubeUrl : undefined,
+      soundcloudUrl: data.soundcloudUrl ? data.soundcloudUrl : undefined,
     }
+
+    const inputCleaned = Object.entries(input).filter(
+      ([key, value]) => value !== undefined
+    ).reduce(
+      (obj, [key, value]) => ({ ...obj, [key]: 'https://' + value }), {})
+
+    serviceCall(
+      userService.updateUserSocialMedia(userId!, inputCleaned),
+      navigate,
+      (response) => {
+        toast({
+          title: t("SocialMediaModal.Success"),
+          description: t("SocialMediaModal.SuccessDescription"),
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+        })
+        refreshMedia()
+        onClose();
+      }
+    )
   }
 
   return (
@@ -170,6 +231,8 @@ const SocialMediaModal = () => {
                       placeholder="www.example.com"
                       focusBorderColor="brand.400"
                       rounded="md"
+                      defaultValue={socialMedia.facebookUrl}
+                      {...register("facebookUrl")}
                     />
                   </InputGroup>
                 </FormControl>
@@ -201,6 +264,8 @@ const SocialMediaModal = () => {
                       placeholder="www.example.com"
                       focusBorderColor="brand.400"
                       rounded="md"
+                      defaultValue={socialMedia.instagramUrl}
+                      {...register("instagramUrl")}
                     />
                   </InputGroup>
                 </FormControl>
@@ -232,6 +297,8 @@ const SocialMediaModal = () => {
                       placeholder="www.example.com"
                       focusBorderColor="brand.400"
                       rounded="md"
+                      defaultValue={socialMedia.youtubeUrl}
+                      {...register("youtubeUrl")}
                     />
                   </InputGroup>
                 </FormControl>
@@ -263,6 +330,8 @@ const SocialMediaModal = () => {
                       placeholder="www.example.com"
                       focusBorderColor="brand.400"
                       rounded="md"
+                      defaultValue={socialMedia.twitterUrl}
+                      {...register("twitterUrl")}
                     />
                   </InputGroup>
                 </FormControl>
@@ -294,6 +363,8 @@ const SocialMediaModal = () => {
                       placeholder="www.example.com"
                       focusBorderColor="brand.400"
                       rounded="md"
+                      defaultValue={socialMedia.soundcloudUrl}
+                      {...register("soundcloudUrl")}
                     />
                   </InputGroup>
                 </FormControl>
@@ -325,6 +396,8 @@ const SocialMediaModal = () => {
                       placeholder="www.example.com"
                       focusBorderColor="brand.400"
                       rounded="md"
+                      defaultValue={socialMedia.spotifyUrl}
+                      {...register("spotifyUrl")}
                     />
                   </InputGroup>
                 </FormControl>
