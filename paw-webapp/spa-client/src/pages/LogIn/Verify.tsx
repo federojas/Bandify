@@ -1,9 +1,13 @@
-import { Box, Button, Flex, Heading, Text } from '@chakra-ui/react';
+import {Box, Button, Flex, Heading, Text, useToast} from '@chakra-ui/react';
 import { CloseIcon } from '@chakra-ui/icons';
 import { CheckCircleIcon } from '@chakra-ui/icons';
-import { useState } from 'react';
+import {useContext, useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import {serviceCall} from "../../services/ServiceManager";
+import {getQueryOrDefault, useQuery} from "../../hooks/useQuery";
+import {useUserService} from "../../contexts/UserService";
+import AuthContext from "../../contexts/AuthContext";
 
 function Success() {
   const { t } = useTranslation();
@@ -64,7 +68,40 @@ function Error() {
 
 export default function Verify() {
   const [error, setError] = useState(false);
+  const userService = useUserService();
+  const query = useQuery();
+  const token = getQueryOrDefault(query, "token" ,"");
+  const toast = useToast();
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+  const auth  = useContext(AuthContext);
 
+    useEffect(() => {
+        serviceCall(
+            userService.verifyUser(token),
+            navigate
+        ).then((response) => {
+                if (response.hasFailed()) {
+                    toast({
+                        title: t("Register.error"),
+                        status: "error",
+                        description: t("VerifyError.error"),
+                        isClosable: true,
+                    });
+                    setError(true);
+                } else {
+                    toast({
+                        title: t("Register.success"),
+                        status: "success",
+                        description: t("VerifyError.success"),
+                        isClosable: true,
+                    })
+                    setError(false);
+                    auth.login(response.getData().headers.get("X-JWT"), response.getData().headers.get("X-Refresh-Token"))
+                }
+            }
+        ).catch((error) => { console.log("error:"+error) });
+    }, [navigate])
   return (
     <Box>
       {error ? <Error /> : <Success />}

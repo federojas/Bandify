@@ -349,7 +349,7 @@ class UserApi {
     public verifyUser = async (token: string) => {
         const config = {
             headers: {
-                'Content-Type': 'application/vnd.password-token.v1+json',
+                'Content-Type': 'application/vnd.verify-token.v1+json',
                 'Authorization' : "Basic " + btoa( "mail:" + token)
             }
         }

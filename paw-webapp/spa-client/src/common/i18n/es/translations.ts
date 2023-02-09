@@ -417,5 +417,7 @@ export const TRANSLATIONS_ES = {
     Title: "Error verificando email",
     Subtitle: "Ha ocurrido un error verificando tu email. Por favor intenta más tarde.",
     Button: "Ir a Bandify",
+    success: "¡El usuario se verifico con éxito!",
+    error: "¡Error verificando al usuario!"
   },
 };

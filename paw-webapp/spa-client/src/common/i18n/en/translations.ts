@@ -415,6 +415,8 @@ export const TRANSLATIONS_EN = {
     Title: "Error verifying email",
     Subtitle: "There was an error verifying your email. Please try again later.",
     Button: "Go to Bandify",
+    success: "User verified successfully!",
+    error: "Error! Could not verify user!"
   },
 };
 
