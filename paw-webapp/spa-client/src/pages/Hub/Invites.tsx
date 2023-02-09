@@ -20,7 +20,7 @@ enum inviteStatuses {
   REJECTED = "REJECTED",
 }
 
-function InviteInfo({ membership }: { membership: Membership }) {
+function InviteInfo({ membership, setRefresh, setIsLoading, refresh }: { membership: Membership, setRefresh: React.Dispatch<React.SetStateAction<boolean>>,setIsLoading: React.Dispatch<React.SetStateAction<boolean>>, refresh: boolean  }) {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { t } = useTranslation();
   const navigate = useNavigate()
@@ -47,11 +47,13 @@ function InviteInfo({ membership }: { membership: Membership }) {
             isClosable: true,
           })
         }
+        setRefresh(!refresh);
+        setIsLoading(true);
         onClose()
       })
   }
 
-  const handleReject = () => {
+  function handleReject () {
     serviceCall(membershipService.reject(membership, "REJECTED"), navigate)
       .then((response) => {
         if (!response.hasFailed()) {
@@ -71,6 +73,8 @@ function InviteInfo({ membership }: { membership: Membership }) {
             isClosable: true,
           })
         }
+        setRefresh(!refresh);
+        setIsLoading(true);
         onClose()
       })
   }
@@ -111,7 +115,7 @@ function InviteInfo({ membership }: { membership: Membership }) {
   )
 }
 
-const InviteItem = ({ membership }: { membership: Membership }) => {
+function InviteItem ({ membership, setRefresh , setIsLoading, refresh}: { membership: Membership, setRefresh:React.Dispatch<React.SetStateAction<boolean>>,setIsLoading: React.Dispatch<React.SetStateAction<boolean>>, refresh:boolean })  {
 
   return (
     <Box borderWidth='1px' borderRadius='lg' p="4" w={'full'}>
@@ -127,26 +131,26 @@ const InviteItem = ({ membership }: { membership: Membership }) => {
             </Text>
           </Box>
         </HStack>
-        <InviteInfo membership={membership} />
+        <InviteInfo membership={membership} setIsLoading={setIsLoading} setRefresh={setRefresh} refresh={refresh} />
 
       </Flex>
     </Box>
   )
 }
 
-const InvitesList = ({ memberships, inviteStatus }: { memberships: Membership[], inviteStatus: inviteStatuses }) => {
+function InvitesList ({ memberships, setRefresh ,setIsLoading, refresh}: { memberships: Membership[], setRefresh: React.Dispatch<React.SetStateAction<boolean>>, setIsLoading: React.Dispatch<React.SetStateAction<boolean>>, refresh:boolean }) {
   const { t } = useTranslation();
   const [membershipAux, setMembershipAux] = useState<Membership[]>(memberships);
   useEffect(() => {
     setMembershipAux(memberships)
-  }, [inviteStatus])
+  }, [])
 
   if (memberships.length === 0) return (<Text>{t("Invites.noInvites")}</Text>)
   return (<VStack width={'full'}>
     {membershipAux.map((membership) => {
       // if(membership.state === inviteStatus)
 
-      return <InviteItem key={membership.id} membership={membership} />
+      return <InviteItem key={membership.id} setIsLoading={setIsLoading} membership={membership} setRefresh={setRefresh} refresh={refresh}  />
     })}
 
   </VStack>)
@@ -159,6 +163,7 @@ const Invites = () => {
   const navigate = useNavigate();
   const [memberships, setMemberships] = useState<Membership[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [refresh, setRefresh] = useState<boolean>(false);
 
   useEffect(() => {
     if (!userId) return;
@@ -167,12 +172,11 @@ const Invites = () => {
       navigate,
     ).then((response) => {
       if (!response.hasFailed()) {
-        setIsLoading(false);
         setMemberships(response.getData().getContent());
-        console.log(memberships)
       }
-    })
-  }, []
+      setIsLoading(false);
+    });
+  }, [refresh]
   )
   return (
     <>
@@ -183,7 +187,7 @@ const Invites = () => {
         <Text fontSize='2xl' fontWeight='bold' mb='4'>{t("Invites.Title")}</Text>
         {isLoading ? <Center mt={'15%'}><span className="loader"></span></Center> :
           <>
-            <InvitesList memberships={memberships} inviteStatus={inviteStatuses.PENDING} />
+            <InvitesList memberships={memberships} setIsLoading={setIsLoading} setRefresh={setRefresh} refresh={refresh} />
           </>}
       </SidenavLayout>
     </>
