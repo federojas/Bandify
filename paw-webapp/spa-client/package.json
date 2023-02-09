@@ -38,7 +38,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build-java": "react-scripts build && sed -i '1s/^/<%@ page session=\"false\" %> /' ./build/index.html",
+    "build": "react-scripts build",
+    "build-paw": "react-scripts build && sed -i '1s/^/<%@ page session=\"false\" %> /' ./build/index.html",
     "test": "react-scripts test --transformIgnorePatterns \"node_modules/(?!axios)/\"",
     "eject": "react-scripts eject"
   },
