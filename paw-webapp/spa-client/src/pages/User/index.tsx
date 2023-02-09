@@ -307,10 +307,12 @@ const UserProfile = () => {
   useEffect(() => {
     if (user && currentUser) {
       serviceCall(
-        membershipService.canInvite(currentUser?.id as number, user?.id as number),
+        membershipService.getUserMembershipsByBand(currentUser?.id, user?.id),
         navigate,
-        (response: any) => {
-          setCanInvite(response);
+        (response) => {
+          if(response.getContent().length === 0) {
+            setCanInvite(true);
+          }
         }
       )
 
@@ -318,7 +320,6 @@ const UserProfile = () => {
         membershipService.getUserMemberships({ user: user?.id as number, state: "ACCEPTED", preview: true }),
         navigate,
         (response: any) => {
-          console.log(response.getContent())
           setMemberships(response.getContent());
         }
       )
@@ -327,7 +328,6 @@ const UserProfile = () => {
         userService.getUserSocialMedia(user.id),
         navigate,
         (response: any) => {
-          console.log(response)
           setSocialMedia(response);
         }
       )

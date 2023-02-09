@@ -56,21 +56,27 @@ public class MembershipController {
     @GET
     @Produces("application/vnd.membership-list.v1+json")
     public Response getUserMemberships(@QueryParam("user") final Long userId,
+                                       @QueryParam("band") final Long bandId,
                                        @QueryParam("state") final String state,
                                        @QueryParam("page") @DefaultValue("1") final int page,
                                        @QueryParam("preview") @DefaultValue("false") final Boolean preview) {
         if(userId == null)
             throw new BandifyBadRequestException("Parameter 'user' is required");
-        final User user = userService.getUserById(userId).orElseThrow(UserNotFoundException::new);
 
+        final User user = userService.getUserById(userId).orElseThrow(UserNotFoundException::new);
         final List<MembershipDto> memberships;
         final List<Membership> membershipsAux;
-        if(preview)
-            membershipsAux = membershipService.getUserMembershipsPreview(user);
-        else if(state == null)
-            membershipsAux = membershipService.getUserMemberships(user, page);
-        else
-            membershipsAux = membershipService.getUserMemberships(user, Enum.valueOf(MembershipState.class, state), page);
+        if(bandId != null) {
+            final User band = userService.getUserById(bandId).orElseThrow(UserNotFoundException::new);
+            membershipsAux = membershipService.getMembershipsByUsers(band, user);
+        } else {
+            if(preview)
+                membershipsAux = membershipService.getUserMembershipsPreview(user);
+            else if(state == null)
+                membershipsAux = membershipService.getUserMemberships(user, page);
+            else
+                membershipsAux = membershipService.getUserMemberships(user, Enum.valueOf(MembershipState.class, state), page);
+        }
 
         if(membershipsAux.isEmpty()) {
             return Response.noContent().build();

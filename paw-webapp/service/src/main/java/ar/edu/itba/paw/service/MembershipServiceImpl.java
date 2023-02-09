@@ -125,10 +125,12 @@ public class MembershipServiceImpl implements MembershipService {
     }
 
     @Override
-    public Optional<Membership> getMembershipByUsers(User band, User artist) {
-        if(!band.isBand() || artist.isBand())
-            throw new IllegalArgumentException();
-        return membershipDao.getMembershipByUsers(band, artist);
+    public List<Membership> getMembershipsByUsers(User band, User artist) {
+        if(!band.isBand())
+            throw new NotABandException();
+        if(artist.isBand())
+            throw new NotAnArtistException();
+        return membershipDao.getMembershipsByUsers(band, artist);
     }
 
     @Transactional

@@ -1,5 +1,4 @@
 import MembershipApi from "../api/MembershipApi";
-import RoleApi from "../api/RoleApi";
 import ApiResult from "../api/types/ApiResult";
 import PagedContent from "../api/types/PagedContent";
 import PostResponse from "../api/types/PostResponse";
@@ -34,8 +33,8 @@ export default class MembershipService {
   public async getMembershipById(id: number): Promise<ApiResult<Membership>> {
     try {
       const currentMembership = await this.membershipApi.getMembershipById(id);
-      const artist: User = await this.userApi.getUserById(currentMembership.artistId);
-      const band: User = await this.userApi.getUserById(currentMembership.bandId);
+      const artist: User = await this.userApi.getUserByUrl(currentMembership.artist);
+      const band: User = await this.userApi.getUserByUrl(currentMembership.band);
 
       return new ApiResult(
         {
@@ -59,8 +58,8 @@ export default class MembershipService {
       const response = await this.membershipApi.getUserMemberships(params, page);
       let memberships: Membership[] = [];
       for await (const membership of response.getContent()) {
-        const artist: User = await this.userApi.getUserById(membership.artistId);
-        const band: User = await this.userApi.getUserById(membership.bandId);
+        const artist: User = await this.userApi.getUserByUrl(membership.artist);
+        const band: User = await this.userApi.getUserByUrl(membership.band);
         memberships.push(
           {
             id: membership.id,
@@ -87,13 +86,46 @@ export default class MembershipService {
     }
   }
 
+  public async getUserMembershipsByBand(userId: number, bandId: number): Promise<ApiResult<PagedContent<Membership[]>>> {
+    try {
+      const response = await this.membershipApi.getUserMembershipsByBand(userId, bandId);
+      let memberships: Membership[] = [];
+      for await (const membership of response.getContent()) {
+        const artist: User = await this.userApi.getUserByUrl(membership.artist);
+        const band: User = await this.userApi.getUserByUrl(membership.band);
+        memberships.push(
+            {
+              id: membership.id,
+              artist: artist,
+              band: band,
+              description: membership.description,
+              roles: membership.roles,
+              state: membership.state
+            } as Membership
+        )
+      }
+      return new ApiResult(
+          new PagedContent(
+              memberships, response.getMaxPage(),
+              response.getNextPage(),
+              response.getPreviousPage(),
+              response.getLastPage(),
+              response.getFirstPage()),
+          false,
+          null as any
+      )
+    } catch (error: any) {
+      return ErrorService.returnApiError(error);
+    }
+  }
+
   public async getUserMembershipsUrl(url: string): Promise<ApiResult<PagedContent<Membership[]>>> {
     try {
       const response = await this.membershipApi.getUserMembershipsUrl(url);
       let memberships: Membership[] = [];
       for await (const membership of response.getContent()) {
-        const artist: User = await this.userApi.getUserById(membership.artistId);
-        const band: User = await this.userApi.getUserById(membership.bandId);
+        const artist: User = await this.userApi.getUserByUrl(membership.artist);
+        const band: User = await this.userApi.getUserByUrl(membership.band);
         memberships.push(
             {
               id: membership.id,

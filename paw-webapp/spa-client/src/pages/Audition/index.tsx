@@ -47,6 +47,7 @@ import ApplyButton from "./ApplyAudition";
 import { Helmet } from "react-helmet";
 import { WarningTwoIcon } from '@chakra-ui/icons';
 import { TiTick, TiCancel } from "react-icons/ti";
+import {useMembershipService} from "../../contexts/MembershipService";
 
 function ClosedAudition() {
   const { t } = useTranslation();
@@ -114,7 +115,7 @@ function DeleteAuditionModal(props: { auditionId: number}) {
   )
 }
 
-const AuditionActions = (props: { auditionId: number, isOwner: boolean, currentUser: User | undefined }) => {
+const AuditionActions = (props: { auditionId: number, isOwner: boolean, currentUser: User | undefined, bandId: number }) => {
   const isBand = props.currentUser?.band;
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -122,6 +123,7 @@ const AuditionActions = (props: { auditionId: number, isOwner: boolean, currentU
   const [isMember, setIsMember] = useState(true);
   const toast = useToast();
   const userService = useUserService();
+  const membershipService = useMembershipService();
 
   useEffect(() => {
     if(props.currentUser && !props.currentUser.band) {
@@ -134,7 +136,15 @@ const AuditionActions = (props: { auditionId: number, isOwner: boolean, currentU
             }
           },
       )
-      //TODO SANTI CHEQUEA QUE NO ESTE EN LA BANDA CON MEMBERSHIP, ANALOGO AL DE ARRIBA
+      serviceCall(
+          membershipService.getUserMembershipsByBand(props.currentUser.id, props.bandId),
+          navigate,
+          (response) => {
+            if (response.getContent().length === 0) {
+              setIsMember(false);
+            }
+          },
+      )
     }
   }, [props.currentUser, navigate]);
 
@@ -267,8 +277,6 @@ const AuditionCard = ({
           </VStack>
         </Flex>
       </CardBody>
-
-      {/* TODO: Agregar el formulario para artistas */}
     </Card>
   );
 };
@@ -351,7 +359,7 @@ const AuditionView = () => {
           {isLoading ? (<span className="loader"></span>) :
             (closed ? <ClosedAudition /> : (<>
               <AuditionCard user={ownerUser!} audition={audition!} />
-              <AuditionActions auditionId={audition!.id} isOwner={isOwner} currentUser={currentUser} />
+              <AuditionActions auditionId={audition!.id} isOwner={isOwner} currentUser={currentUser} bandId={parseInt(audition!.owner.split('/')[audition!.owner.split('/').length - 1])} />
             </>))
           }
         </HStack>

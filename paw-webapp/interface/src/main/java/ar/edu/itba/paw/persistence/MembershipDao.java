@@ -24,7 +24,7 @@ public interface MembershipDao {
 
     Optional<Membership> getMembershipById(long id);
 
-    Optional<Membership> getMembershipByUsers(User band, User artist);
+    List<Membership> getMembershipsByUsers(User band, User artist);
 
     boolean membershipExists(User band, User artist);
 
