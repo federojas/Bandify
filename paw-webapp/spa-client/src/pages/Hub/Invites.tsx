@@ -8,8 +8,6 @@ import { useMembershipService } from "../../contexts/MembershipService"
 import { serviceCall } from "../../services/ServiceManager"
 import { useNavigate } from "react-router-dom"
 import Membership from "../../models/Membership"
-import User from "../../models/User"
-import { useUserService } from "../../contexts/UserService"
 import { Helmet } from "react-helmet"
 import RoleTag from "../../components/Tags/RoleTag"
 
@@ -82,7 +80,6 @@ function InviteInfo({ membership, setRefresh, setIsLoading, refresh }: { members
   return (
     <>
       <Button onClick={onOpen}>{t("Invites.MoreInfo")}</Button>
-
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
