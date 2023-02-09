@@ -177,7 +177,16 @@ const SocialMediaModal = ({refreshMedia}: {refreshMedia: Function}) => {
         refreshMedia()
         onClose();
       }
-    )
+    ).then((response) => {
+      if(response.hasFailed()){
+        toast({
+          title: t("SocialMediaModal.Error"),
+          status: "error",
+          description: t("SocialMediaModal.ErrorDescription"),
+          isClosable: true,
+        })
+      }
+    })
   }
 
   return (

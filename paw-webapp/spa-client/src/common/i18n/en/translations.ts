@@ -317,7 +317,7 @@ export const TRANSLATIONS_EN = {
     Subtitle: "Congratulations!",
     Subtitle2: "has invited you to join their band.",
     Subtitle3: "This is a brief description of your participation in the band:",
-    Subtitle4: "and these are the roles you will play:",
+    Subtitle4: "And these are the roles you will play:",
     errorCreatingInvite: "¡Oops! Could not create invite",
     errorCreatingInviteMessage: "An error ocurred",
     successCreatingInvite: "Invite created successfully!",
@@ -409,6 +409,10 @@ export const TRANSLATIONS_EN = {
     Spotify: "Spotify",
     Soundcloud: "Soundcloud",
     Save: "Save",
+    Success: "Success!",
+    SuccessDescription: "Social media edited successfully!",
+    Error: "Error!",
+    ErrorDescription: "Could not edit social media."
   },
   VerifySuccess: {
     Title: "Email verified!",
