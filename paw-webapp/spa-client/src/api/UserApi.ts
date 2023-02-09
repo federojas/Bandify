@@ -237,6 +237,42 @@ class UserApi {
       })
   };
 
+  public getUserAuditionApplications = async (auditionId: number, userId: number) => {
+    return this.axiosPrivate
+        .get(`${this.endpoint}/${userId}/applications`, {
+          params: {
+            auditionId: auditionId
+          },
+        })
+        .then((response) => {
+          const data = response.data;
+          const applications: Application[] = Array.isArray(data)
+              ? data.map((application) => {
+                return { ...application };
+              })
+              : [];
+          let maxPage = 1;
+          let previousPage = "";
+          let nextPage = "";
+          let lastPage = "";
+          let firstPage = "";
+          let parsed;
+          if(response.headers) {
+            parsed = parseLinkHeader(response.headers.link);
+            if(parsed) {
+              maxPage = parseInt(parsed.last.page);
+              lastPage = parsed.last.url;
+              firstPage = parsed.first.url;
+              if(parsed.prev)
+                previousPage = parsed.prev.url;
+              if(parsed.next)
+                nextPage = parsed.next.url;
+            }
+          }
+          return Promise.resolve(new PagedContent(applications, maxPage, nextPage, previousPage, lastPage, firstPage));
+        })
+  };
+
   public getUserApplications = async (id: number, state: string, page: number) => {
     return this.axiosPrivate
       .get(`${this.endpoint}/${id}/applications`, {

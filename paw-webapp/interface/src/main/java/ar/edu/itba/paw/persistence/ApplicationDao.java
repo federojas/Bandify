@@ -12,6 +12,8 @@ public interface ApplicationDao {
 
     List<Application> getAuditionApplicationsByState(long auditionId, ApplicationState state);
 
+    List<Application> getMyApplicationsByAuditionId(long auditionId, long applicantId);
+
     Optional<Application> findApplication(long auditionId, long applicantId);
 
     Optional<Application> findApplication(long applicationId);

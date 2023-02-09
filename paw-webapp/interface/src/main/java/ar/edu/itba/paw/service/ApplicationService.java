@@ -31,7 +31,7 @@ public interface ApplicationService {
 
     int getTotalAuditionApplicationByStatePages(long auditionId, ApplicationState state);
 
-    boolean alreadyApplied(long auditionId, long applicantId);
+    List<Application> getMyApplicationsByAuditionId(long auditionId, long applicantId);
 
     Optional<Application> getApplicationById(long auditionId, long applicationId) ;
 

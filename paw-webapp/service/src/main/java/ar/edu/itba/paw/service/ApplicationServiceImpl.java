@@ -183,8 +183,8 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public boolean alreadyApplied(long auditionId, long applicantId) {
-        return applicationDao.findApplication(auditionId,applicantId).isPresent();
+    public List<Application> getMyApplicationsByAuditionId(long auditionId, long applicantId) {
+        return applicationDao.getMyApplicationsByAuditionId(auditionId,applicantId);
     }
 
     @Override

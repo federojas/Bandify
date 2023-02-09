@@ -138,11 +138,19 @@ public class UserController {
     @Produces("application/vnd.application-list.v1+json")
     public Response getUserApplications(@PathParam("id") final long id,
                                         @QueryParam("state") @DefaultValue("PENDING") final String state,
-                                        @QueryParam("page") @DefaultValue("1") final int page){
-        final List<ApplicationDto> applicationDtos =
-                applicationService.getMyApplicationsFiltered(id,page, ApplicationState.valueOf(state))
-                        .stream().map(application -> ApplicationDto.fromApplication(uriInfo,application))
-                        .collect(Collectors.toList());
+                                        @QueryParam("page") @DefaultValue("1") final int page,
+                                        @QueryParam("auditionId") final Long auditionId) {
+        List<ApplicationDto> applicationDtos;
+        if(auditionId != null)
+            applicationDtos =
+                    applicationService.getMyApplicationsByAuditionId(auditionId, id)
+                            .stream().map(application -> ApplicationDto.fromApplication(uriInfo,application))
+                            .collect(Collectors.toList());
+        else
+            applicationDtos =
+                    applicationService.getMyApplicationsFiltered(id,page, ApplicationState.valueOf(state))
+                            .stream().map(application -> ApplicationDto.fromApplication(uriInfo,application))
+                            .collect(Collectors.toList());
         if(applicationDtos.isEmpty())
             return Response.noContent().build();
         Response.ResponseBuilder responseBuilder = Response.ok(new GenericEntity<List<ApplicationDto>>(applicationDtos){});
@@ -151,6 +159,7 @@ public class UserController {
         PaginationLinkBuilder.getResponsePaginationLinks(responseBuilder, uriInfo, page, lastPage);
         return responseBuilder.build();
     }
+
 
     @GET
     @Path("/{id}/social-media")

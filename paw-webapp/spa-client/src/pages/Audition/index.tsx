@@ -104,7 +104,7 @@ function DeleteAuditionModal(props: { auditionId: number}) {
           <ModalCloseButton />  
           <ModalFooter>
             <Button leftIcon={<TiTick />} colorScheme='blue' mr={3} onClick={onDelete}>
-              {t("Button.cancel")}
+              {t("Button.confirm")}
             </Button>
             <Button  onClick={onClose} leftIcon={<TiCancel />} colorScheme='red' >{t("Button.cancel")}</Button>
           </ModalFooter>
@@ -118,28 +118,23 @@ const AuditionActions = (props: { auditionId: number, isOwner: boolean, currentU
   const isBand = props.currentUser?.band;
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [hasApplied, setHasApplied] = useState(false);
+  const [hasApplied, setHasApplied] = useState(true);
+  const [isMember, setIsMember] = useState(true);
   const toast = useToast();
-
-  const auditionService = useAuditionService();
+  const userService = useUserService();
 
   useEffect(() => {
-    if(props.currentUser) {
-      // serviceCall(
-      //     auditionService.getApplication(props.auditionId, props.currentUser.id),
-      //     navigate,
-      //     (response) => {
-      //       if (response) {
-      //         setHasApplied(true);
-      //       }
-      //     },
-      // ).then(r => {
-      //   if (r.hasFailed() && r.getError().status === 404) {
-      //     setHasApplied(false);
-      //   }
-      // }
-      // );
-      // //TODO CHEQUEAR SI YA APLICO
+    if(props.currentUser && !props.currentUser.band) {
+      serviceCall(
+          userService.getUserAuditionApplications(props.auditionId, props.currentUser.id),
+          navigate,
+          (response) => {
+            if (response.getContent().length === 0) {
+              setHasApplied(false);
+            }
+          },
+      )
+      //TODO SANTI CHEQUEA QUE NO ESTE EN LA BANDA CON MEMBERSHIP, ANALOGO AL DE ARRIBA
     }
   }, [props.currentUser, navigate]);
 
@@ -175,7 +170,7 @@ const AuditionActions = (props: { auditionId: number, isOwner: boolean, currentU
         </>
         :
         <>
-          {(props.isOwner || isBand || hasApplied) ? <></> : (<ApplyButton auditionId={props.auditionId} />)}
+          {(props.isOwner || isBand || hasApplied || isMember) ? <></> : (<ApplyButton auditionId={props.auditionId} />)}
         </>
       }
     </VStack>

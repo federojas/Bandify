@@ -209,6 +209,28 @@ export default class UserService {
     }
   }
 
+  public async getUserAuditionApplications(auditionId: number, userId: number): Promise<ApiResult<PagedContent<Application[]>>> {
+    try {
+      const applications = await this.userApi.getUserAuditionApplications(auditionId, userId);
+      return new ApiResult(new PagedContent(
+              applications.getContent().map(a => {
+                const aux: Application = {
+                  id: a.id,
+                  creationDate: a.creationDate,
+                  message: a.message,
+                  audition: a.audition,
+                  applicant: a.applicant,
+                  state: a.state,
+                  title: a.title
+                }; return aux
+              }), applications.getMaxPage(), applications.getNextPage(), applications.getPreviousPage(), applications.getLastPage(), applications.getFirstPage()),
+          false,
+          null as any)
+    } catch (error: any) {
+      return ErrorService.returnApiError(error);
+    }
+  }
+
   public async getUserApplicationsByUrl(url: string): Promise<ApiResult<PagedContent<Application[]>>> {
     try {
       const applications = await this.userApi.getUserApplicationsByUrl(url);
