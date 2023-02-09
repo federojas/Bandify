@@ -90,6 +90,9 @@ const Associates = () => {
         >
           <Avatar
             src={user?.profileImage} //TODO: revisar ALT
+            _dark={{
+              backgroundColor: "white",
+            }}
           />
           <Heading size="md">{user?.name}{' '}{user?.surname}</Heading> {/*TODO: poner text overflow*/}
         </Flex>

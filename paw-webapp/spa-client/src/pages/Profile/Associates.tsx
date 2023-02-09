@@ -77,6 +77,9 @@ const ProfileAssociates = () => {
         >
           <Avatar
             src={currentUser?.profileImage} //TODO: revisar ALT
+            _dark={{
+              backgroundColor: "white",
+            }}
           />
           <Heading size="md">{currentUser?.name}{' '}{currentUser?.surname}</Heading> {/*TODO: poner text overflow*/}
         </Flex>

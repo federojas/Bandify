@@ -95,6 +95,9 @@ const PostCard: React.FC<Audition> = ({
         >
           <Avatar
             src={profileImage} //TODO: revisar ALT
+            _dark={{
+              backgroundColor: "white",
+            }}
           />
           <Box >
             <Heading size="sm">{userName}</Heading> {/*TODO: poner text overflow*/}

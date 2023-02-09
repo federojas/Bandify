@@ -145,7 +145,9 @@ const ApplicantItem = ({ type = 'PENDING', application }: { type: string, applic
       <Flex alignItems={'center'} justify="space-between">
         <Link onClick={() => {navigate("/users/" + user?.id)}}>
           <HStack>
-            <Avatar src={user?.profileImage} />
+            <Avatar src={user?.profileImage} _dark={{
+              backgroundColor: "white",
+            }}/>
             <Box ml='3'>
               <Text fontWeight='bold'>
                 {user?.name + " " + user?.surname}

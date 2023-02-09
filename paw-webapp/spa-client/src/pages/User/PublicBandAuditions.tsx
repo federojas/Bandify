@@ -153,6 +153,9 @@ const PublicBandAuditions = () => {
       >
         <Avatar
           src={band?.profileImage} //TODO: revisar ALT
+          _dark={{
+              backgroundColor: "white",
+          }}
         />
         <Heading size="md">{band?.name}</Heading> {/*TODO: poner text overflow*/}
       </Flex>

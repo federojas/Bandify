@@ -93,6 +93,9 @@ function RegisterCard(props: RegisterCardProps) {
         height={"80px"}
         width={"80px"}
         alignSelf={"center"}
+        _dark={{
+          backgroundColor: "white",
+        }}
         m={{ base: "0 0 35px 0", md: "0 0 0 50px" }}
       />
     </Flex>
