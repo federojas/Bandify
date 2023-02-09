@@ -389,11 +389,11 @@ export const TRANSLATIONS_EN = {
     Resend: "Resend email",
   },
   NewPassword: {
-   Title: "Enter new pasword",
-   Password: "Password",
-   ConfirmPassword: "Confirm password",
-   Submit: "Submit", 
-   heading: "New password",
+    Title: "Enter new pasword",
+    Password: "Password",
+    ConfirmPassword: "Confirm password",
+    Submit: "Submit",
+    heading: "New password",
   },
   SocialMediaModal: {
     title: "Edit",
@@ -405,6 +405,16 @@ export const TRANSLATIONS_EN = {
     Spotify: "Spotify",
     Soundcloud: "Soundcloud",
     Save: "Save",
-  }
+  },
+  VerifySuccess: {
+    Title: "Email verified!",
+    Subtitle: "Your email has been verified successfully. You can now use Bandify.",
+    Button: "Go to Bandify",
+  },
+  VerifyError: {
+    Title: "Error verifying email",
+    Subtitle: "There was an error verifying your email. Please try again later.",
+    Button: "Go to Bandify",
+  },
 };
 

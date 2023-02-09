@@ -408,4 +408,14 @@ export const TRANSLATIONS_ES = {
     Soundcloud: "Soundcloud",
     Save: "Guardar",
   },
+  VerifySuccess: {
+    Title: "¡Email verificado!",
+    Subtitle: "Tu email ha sido verificado con éxito. Ahora puedes usar Bandify.",
+    Button: "Ir a Bandify",
+  },
+  VerifyError: {
+    Title: "Error verificando email",
+    Subtitle: "Ha ocurrido un error verificando tu email. Por favor intenta más tarde.",
+    Button: "Ir a Bandify",
+  },
 };

@@ -41,6 +41,7 @@ import ResetPwdEmailSent from "./pages/Results/ResetPwdEmailSent";
 import NewPassword from "./pages/LogIn/NewPassword";
 import Associates from "./pages/User/Associates";
 import ProfileAssociates from "./pages/Profile/Associates";
+import Verify from "./pages/LogIn/Verify";
 
 function App() {
   // TODO: revisar las paginas anonimas, comunes a todos o privadas
@@ -77,8 +78,9 @@ function App() {
           <Route path='emailSent' element={<EmailSent />} />
           <Route path='resetPassword/emailSent' element={<ResetPwdEmailSent />} />
           <Route path='newPassword' element={<NewPassword />} />
-          <Route path='users/:id/associates' element={<Associates/>} />
+          <Route path='users/:id/associates' element={<Associates />} />
           <Route path='profile/associates' element={<ProfileAssociates />} />
+          <Route path='verify' element={<Verify />} />
           <Route path='*' element={<Error />} />
         </Route>
       </Routes>
