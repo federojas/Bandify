@@ -50,8 +50,6 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
         return t.get().getUser().getId();
     }
 
-    // TODO: no entiendo por que aca borra el token de tipo RESET
-    // TODO: Porque si no es valido lo volamos
     @Transactional
     @Override
     public boolean isValid(String token) {
@@ -76,8 +74,6 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
         return verificationTokenDao.getRefreshToken(user.getId());
     }
 
-    //TODO MIRA ACA QUE REUTILIZE ESTA CLASE PARA EL REFRESH TOKEN DE JWT ESTA BIEN?
-    //REUTILIZE EL UUID.RANDOMUUID PARA EL TOKEN ESTA BIEN?
     @Transactional
     @Override
     public VerificationToken generate(User user, TokenType type) {

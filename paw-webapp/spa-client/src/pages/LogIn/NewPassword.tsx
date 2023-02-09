@@ -50,7 +50,6 @@ export default function NewPassword(): JSX.Element {
   } = useForm<FormData>();
 
   const onSubmit = async (data: FormData) => {
-    console.log("llegue")
     const input: UserPasswordResetInput = {
       newPassword: data.newPassword,
       newPasswordConfirmation: data.newPasswordConfirmation
