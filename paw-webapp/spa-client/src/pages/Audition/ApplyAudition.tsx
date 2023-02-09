@@ -1,4 +1,18 @@
-import { useDisclosure, Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, FormControl, FormLabel, Textarea, ModalFooter } from "@chakra-ui/react";
+import {
+  useDisclosure,
+  Button,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  FormControl,
+  FormLabel,
+  Textarea,
+  ModalFooter,
+  FormErrorMessage, useToast
+} from "@chakra-ui/react";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -11,7 +25,7 @@ import swal from 'sweetalert';
 import { Helmet } from "react-helmet";
 
 interface FormData {
-  description: string;
+  message: string;
 }
 
 
@@ -23,7 +37,7 @@ const ApplyButton = ({ auditionId }: { auditionId: number }) => {
   const finalRef = React.useRef(null)
   const navigate = useNavigate();
   const options = localStorage.getItem('i18nextLng') === 'es' ? applyAuditionOptionsES : applyAuditionOptions;
-
+  const toast = useToast();
 
   const {
     register,
@@ -33,20 +47,22 @@ const ApplyButton = ({ auditionId }: { auditionId: number }) => {
 
 
   const onSubmit = (data: FormData) => {
-    serviceCall(auditionService.apply(auditionId, data.description),
+    serviceCall(auditionService.apply(auditionId, data.message),
       navigate
     ).then((response) => {//todo: distintos response messages segun el error
       if (response.hasFailed()) {
-        swal({
+        toast({
           title: t("Audition.applyError"),
-          icon: "error",
-        })
+          status: "error",
+          isClosable: true,
+        });
       } else {
-        swal({
+        toast({
           title: t("Audition.applySuccess"),
-          text: t("Audition.applySuccessText"),
-          icon: "success",
-        })
+          description: t("Audition.applySuccessText"),
+          status: "error",
+          isClosable: true,
+        });
       }
     })
   }
@@ -71,14 +87,16 @@ const ApplyButton = ({ auditionId }: { auditionId: number }) => {
           <ModalCloseButton />
           <ModalBody pb={6}>
             <form onSubmit={handleSubmit(onSubmit)}>
-              <FormControl>
-                <FormLabel>{t("Audition.Modal.message")}</FormLabel>
+              <FormControl id="message"
+                           isRequired
+                           isInvalid={Boolean(errors.message)}>
+                <FormLabel fontSize={16} fontWeight="bold">{t("Audition.Modal.message")}</FormLabel>
                 <Textarea
-                  // ref={initialRef}
                   placeholder={t("Audition.Modal.placeHolder")}
                   maxLength={options.message.maxLength.value}
-                  {...register("description", options.message)}
+                  {...register("message", options.message)}
                 />
+                <FormErrorMessage>{errors.message?.message}</FormErrorMessage>
               </FormControl>
               <ModalFooter>
                 <Button colorScheme='blue' mr={3} type="submit">

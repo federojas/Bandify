@@ -310,7 +310,7 @@ const EditBand = () => {
                                                 </FormLabel>
                                                 <Input
                                                     type="text"
-                                                    maxLength={50}
+                                                    maxLength={options.name.maxLength.value}
                                                     placeholder={t("EditAudition.titlePlaceholder")}
                                                     defaultValue={user?.name}
                                                     {...register("name", options.name)}
@@ -328,7 +328,7 @@ const EditBand = () => {
                                         <Textarea
                                             mt={1}
                                             rows={3}
-                                            maxLength={500}
+                                            maxLength={options.description.maxLength.value}
                                             shadow="sm"
                                             defaultValue={user?.description}
                                             placeholder={t("Edit.descriptionPlaceholder")}

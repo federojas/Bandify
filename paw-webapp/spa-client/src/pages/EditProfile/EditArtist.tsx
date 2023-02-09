@@ -319,7 +319,7 @@ const EditArtist = () => {
                     </FormLabel>
                     <Input
                       type="text"
-                      maxLength={50}
+                      maxLength={options.name.maxLength.value}
                       placeholder={t("EditAudition.titlePlaceholder")}
                       defaultValue={user?.name}
                       {...register("name", options.name)}
@@ -338,7 +338,7 @@ const EditArtist = () => {
                     </FormLabel>
                     <Input
                       type="text"
-                      maxLength={50}
+                      maxLength={options.surname.maxLength.value}
                       placeholder={t("EditAudition.titlePlaceholder")}
                       defaultValue={user?.surname}
                       {...register("surname", options.surname)}
@@ -356,7 +356,7 @@ const EditArtist = () => {
                 <Textarea
                   mt={1}
                   rows={3}
-                  maxLength={500}
+                  maxLength={options.description.maxLength.value}
                   shadow="sm"
                   defaultValue={user?.description}
                   placeholder={t("Edit.descriptionPlaceholder")}

@@ -307,7 +307,7 @@ const EditAudition = () => {
                 </FormLabel>
                 <Input
                   type="text"
-                  maxLength={50}
+                  maxLength={options.title.maxLength.value}
                   defaultValue={audition?.title}
                   placeholder={t("EditAudition.titlePlaceholder")}
                   {...register("title", options.title)}
@@ -329,7 +329,7 @@ const EditAudition = () => {
                   rows={3}
                   shadow="sm"
                   placeholder={t("EditAudition.descriptionPlaceholder")}
-                  maxLength={300}
+                  maxLength={options.description.maxLength.value}
                   defaultValue={audition?.description}
                   {...register("description", options.description)}
                 />

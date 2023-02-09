@@ -114,7 +114,7 @@ export default function RegisterArtistForm (){
                 </FormLabel>
                 <Input
                   type="text"
-                  maxLength={50}
+                  maxLength={options.name.maxLength.value}
                   placeholder={t("EditAudition.titlePlaceholder")}
                   {...register("name", options.name)}
                 />
@@ -132,7 +132,7 @@ export default function RegisterArtistForm (){
                 </FormLabel>
                 <Input
                   type="text"
-                  maxLength={50}
+                  maxLength={options.surname.maxLength.value}
                   placeholder={t("EditAudition.titlePlaceholder")}
                   {...register("surname", options.surname)}
                 />
@@ -147,7 +147,7 @@ export default function RegisterArtistForm (){
             <Input
               type="email"
               placeholder={t("Register.emailPlaceholder")}
-              maxLength={255}
+              maxLength={options.email.maxLength.value}
               {...register("email", options.email)}
             />
             <FormErrorMessage>{errors.email?.message}</FormErrorMessage>

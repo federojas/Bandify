@@ -66,9 +66,30 @@ const AuditionActions = (props: { auditionId: number, isOwner: boolean, currentU
   const isBand = props.currentUser?.band;
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const [hasApplied, setHasApplied] = useState(true);
   const toast = useToast();
 
   const auditionService = useAuditionService();
+
+  useEffect(() => {
+    if(props.currentUser) {
+      // serviceCall(
+      //     auditionService.getApplication(props.auditionId, props.currentUser.id),
+      //     navigate,
+      //     (response) => {
+      //       if (response) {
+      //         setHasApplied(true);
+      //       }
+      //     },
+      // ).then(r => {
+      //   if (r.hasFailed() && r.getError().status === 404) {
+      //     setHasApplied(false);
+      //   }
+      // }
+      // );
+      //TODO CHEQUEAR SI YA APLICO
+    }
+  }, [props.currentUser, navigate]);
 
   const onDelete = () => {
     swal({
@@ -137,7 +158,7 @@ const AuditionActions = (props: { auditionId: number, isOwner: boolean, currentU
         </>
         :
         <>
-          {(props.isOwner || isBand) ? <></> : (<ApplyButton auditionId={props.auditionId} />)}
+          {(props.isOwner || isBand || hasApplied) ? <></> : (<ApplyButton auditionId={props.auditionId} />)}
         </>
       }
     </VStack>

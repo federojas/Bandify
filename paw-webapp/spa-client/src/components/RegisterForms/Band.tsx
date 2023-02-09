@@ -107,7 +107,7 @@ const RegisterBandForm = () => {
             </FormLabel>
             <Input
               type="text"
-              maxLength={50}
+              maxLength={options.name.maxLength.value}
               placeholder={t("EditAudition.titlePlaceholder")}
               {...register("name", options.name)}
             />
@@ -121,7 +121,7 @@ const RegisterBandForm = () => {
             <Input
               type="email"
               placeholder={t("Register.emailPlaceholder")}
-              maxLength={255}
+              maxLength={options.email.maxLength.value}
               {...register("email", options.email)}
             />
             <FormErrorMessage>{errors.email?.message}</FormErrorMessage>

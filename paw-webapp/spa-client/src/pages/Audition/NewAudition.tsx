@@ -267,7 +267,7 @@ const NewAudition = () => {
                   </FormLabel>
                   <Input
                     type="text"
-                    maxLength={50}
+                    maxLength={newAuditionOptions.title.maxLength.value}
                     placeholder={t("EditAudition.titlePlaceholder")}
                     {...register("title", newAuditionOptions.title)}
                   />
@@ -287,7 +287,7 @@ const NewAudition = () => {
                     mt={1}
                     rows={3}
                     shadow="sm"
-                    maxLength={300}
+                    maxLength={newAuditionOptions.description.maxLength.value}
                     placeholder={t("EditAudition.descriptionPlaceholder")}
                     {...register("description", newAuditionOptions.description)}
                   />

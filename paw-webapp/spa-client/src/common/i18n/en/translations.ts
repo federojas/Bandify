@@ -197,7 +197,7 @@ export const TRANSLATIONS_EN = {
       cancel: "Cancel",
       placeHolder: "Max. 300 characters",
     },
-    applyError: "Oops, an error occurred!",
+    applyError: "Oops, an error occurred while trying to apply!",
     applySuccess: "Application sent successfully!",
     applySuccessText: "You will be notified when the band accepts or rejects your application.",
     title: "Audition",

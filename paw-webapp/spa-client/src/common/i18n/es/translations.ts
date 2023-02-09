@@ -219,7 +219,7 @@ export const TRANSLATIONS_ES = {
       cancel: "Cancelar",
       placeHolder: "Max. 300 caracteres",
     },
-    applyError: "¡Ups, ocurrio un error!",
+    applyError: "¡Ups, ocurrió un error al aplicar!",
     applySuccess: "¡Aplicación enviada exitosamente!",
     applySuccessText: "¡Tu aplicación fue enviada exitosamente! Te avisaremos cuando la banda te acepte o rechace.",
     title: "Audición",

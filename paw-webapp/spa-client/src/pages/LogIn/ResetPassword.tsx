@@ -101,7 +101,7 @@ export default function ForgotPasswordForm(): JSX.Element {
               {t("Register.email")}
             </FormLabel>
             <Input
-              maxLength={255}
+              maxLength={options.email.maxLength.value}
               {...register("email", options.email)}
               placeholder={t("ResetPassword.EmailPlaceholder")}
               _placeholder={{ color: 'gray.500' }}
