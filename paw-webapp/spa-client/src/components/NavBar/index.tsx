@@ -69,7 +69,7 @@ const NavLink = ({
 
 function Nav() {
   const { t } = useTranslation();
-  const { isAuthenticated, logout, role, userId } = useContext(AuthContext);
+  const { isAuthenticated, logout, role, userId, profileImg, updateProfileImg } = useContext(AuthContext);
   const isBand = role === "BAND";
   const navigate = useNavigate();
   const userService = useUserService();
@@ -92,10 +92,11 @@ function Nav() {
           setUser(
             response
           )
+          updateProfileImg(response.profileImage)
         },
       )
     }
-  }, [userId, navigate])
+  }, [userId, navigate, profileImg])
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -164,7 +165,6 @@ function Nav() {
               >
                 <RiAppsFill />
               </Button>
-
               <Menu>
                 <MenuButton
                   as={Button}
@@ -175,6 +175,8 @@ function Nav() {
                 >
                   <Avatar
                     size={"sm"}
+                    key={Date.now()}
+                    src={profileImg}
                   />
                 </MenuButton>
                 <MenuList>

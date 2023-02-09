@@ -13,12 +13,16 @@ export interface AuthContextValue {
   email?: string | undefined;
   role?: string | undefined;
   userId?: number | undefined;
+  profileImg: string;
+  updateProfileImg: (img: string) => void;
   setJwt: React.Dispatch<React.SetStateAction<string | undefined>>;
   setRefreshToken: React.Dispatch<React.SetStateAction<string | undefined>>;
 }
 
 const AuthContext = React.createContext<AuthContextValue>({
   isAuthenticated: false,
+  profileImg: "",
+  updateProfileImg: () => { },
   logout: () => { },
   login: async () => { },
   setJwt: () => { },
@@ -98,9 +102,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setUserId(undefined);
   };
 
+  const [profileImg, updateProfileImg] = useState<string>("");
+
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, logout, login, jwt, email, role, userId, refreshToken, setJwt, setRefreshToken }}
+      value={{ isAuthenticated, logout, login, jwt, email, role, userId, refreshToken, setJwt, setRefreshToken, profileImg, updateProfileImg }}
     >
       {children}
     </AuthContext.Provider>

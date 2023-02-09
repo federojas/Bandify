@@ -48,7 +48,7 @@ const Profile = () => {
   const [user, setUser] = React.useState<User>();
   const userService = useUserService();
   const [isLoading, setIsLoading] = useState(true);
-  const { userId } = useContext(AuthContext);
+  const { userId, updateProfileImg } = useContext(AuthContext);
   const filterAvailable = require(`../../images/available.png`);
   const bg = useColorModeValue("white", "gray.900")
   const membershipService = useMembershipService();
@@ -82,6 +82,9 @@ const Profile = () => {
       navigate,
       (response: any) => {
         setUser(response);
+        console.log('cambio la foto del contexto')
+        console.log(response.profileImage)
+        updateProfileImg(response.profileImage);
         setIsLoading(false)
       }
     )
