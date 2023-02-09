@@ -332,12 +332,15 @@ class AuditionApi {
     }
 
     public changeApplicationStatus = async(auditionId:number, applicationId: number, status: string) => {
-        return this.axiosPrivate.put(`${this.endpoint}/${auditionId}/applications/${applicationId}`,
-            {
+        return this.axiosPrivate.put(`${this.endpoint}/${auditionId}/applications/${applicationId}`, {},
+      {
                 params: {
-                    status: status
+                    state: status
+                },
+                headers: {
+                    'Content-Type': 'application/vnd.application.v1+json'
                 }
-            },this.applicationConfig).then((response) => {
+            }).then((response) => {
             return Promise.resolve(response);
         });
     }
