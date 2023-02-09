@@ -1,11 +1,9 @@
 import {
-    Avatar,
     Box,
     Button,
     Flex,
     FormControl,
     FormErrorMessage,
-    FormHelperText,
     FormLabel,
     GridItem,
     Heading,
@@ -16,19 +14,14 @@ import {
     Text,
     Textarea,
     useColorModeValue,
-    Icon,
     Center,
     useToast, Image
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { FaUser } from "react-icons/fa";
 import {editOptions, editOptionsES} from "./validations"
 import {
     Select,
-    CreatableSelect,
-    AsyncSelect,
-    OptionBase,
     GroupBase,
 } from "chakra-react-select";
 import { LocationGroup, GenreGroup, RoleGroup } from "./EntitiesGroups";

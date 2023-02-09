@@ -169,20 +169,6 @@ export default class MembershipService {
     }
   }
 
-  // TODO: esto esta mal porque solo revisa la pagina 1.
-  public async canInvite(bandId: number, artistId: number): Promise<ApiResult<Boolean>> {
-    try {
-      const members = await this.getUserMemberships({ user: bandId });
-      if (!members.hasFailed()) {
-        const membersIds = members.getData().getContent().map((member) => member.artist.id);
-        return new ApiResult(!membersIds.includes(artistId), false, null as any);
-      }
-      throw members.getError();
-    } catch (error: any) {
-      return ErrorService.returnApiError(error);
-    }
-  }
-
   public async accept(membership:Membership, state:string) {
     try {
       await this.membershipApi.editMembership(membership.id, {
