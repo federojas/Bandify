@@ -55,6 +55,8 @@ const Profile = () => {
   const [memberships, setMemberships] = React.useState<Membership[]>([]);
   const [socialMedia, setSocialMedia] = useState<SocialMedia[]>([]);
   const [refreshMedia, setRefreshMedia] = useState(false);
+  const [refreshMembership, setRefreshMembership] = useState(false);
+
   useEffect(() => {
     if (user) {
       serviceCall(
@@ -74,7 +76,7 @@ const Profile = () => {
         }
       )
     }
-  }, [user, navigate, user, refreshMedia])
+  }, [user, navigate, user, refreshMedia, refreshMembership])
 
   useEffect(() => {
     serviceCall(
@@ -269,7 +271,9 @@ const Profile = () => {
                     {memberships.length > 0 ?
                       memberships.map((m) => {
                         return (
-                          <MembershipItem key={m.id} membershipId={m.id} contraUser={user?.band ? m.artist : m.band} description={m.description} roles={m.roles} isOwner={true} />
+                          <MembershipItem key={m.id} membershipId={m.id} contraUser={user?.band ? m.artist : m.band} description={m.description} roles={m.roles} isOwner={true} refresh={() => {
+                            setRefreshMembership(!refreshMembership);
+                          }} />
                         )
                       })
                       :

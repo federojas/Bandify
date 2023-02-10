@@ -9,7 +9,7 @@ import { User } from "../../models";
 import { serviceCall } from "../../services/ServiceManager";
 
 
-function LeaveBand({ membershipId }: { membershipId: number }) {
+function LeaveBand({ membershipId, refresh }: { membershipId: number, refresh: () => void }) {
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const membershipService = useMembershipService();
@@ -31,6 +31,7 @@ function LeaveBand({ membershipId }: { membershipId: number }) {
           duration: 9000,
           isClosable: true,
         });
+
       } else {
         toast({
           title: t("Profile.kickModal.error"),
@@ -40,6 +41,7 @@ function LeaveBand({ membershipId }: { membershipId: number }) {
           isClosable: true,
         });
       }
+      refresh();
       onClose()
     });
 
@@ -69,7 +71,7 @@ function LeaveBand({ membershipId }: { membershipId: number }) {
   )
 }
 
-function KickFromBand({ membershipId }: { membershipId: number }) {
+function KickFromBand({ membershipId, refresh }: { membershipId: number, refresh: () => void }) {
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const membershipService = useMembershipService();
@@ -99,6 +101,8 @@ function KickFromBand({ membershipId }: { membershipId: number }) {
           isClosable: true,
         });
       }
+      refresh();
+
       onClose()
 
     });
@@ -130,7 +134,7 @@ function KickFromBand({ membershipId }: { membershipId: number }) {
   )
 }
 
-const MembershipItem = ({ contraUser, description, roles, isOwner, membershipId }: { contraUser: User, description: string, roles: string[], isOwner: boolean, membershipId: number }) => {
+const MembershipItem = ({ contraUser, description, roles, isOwner, membershipId, refresh }: { contraUser: User, description: string, roles: string[], isOwner: boolean, membershipId: number, refresh: () => void }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   return (
@@ -158,8 +162,8 @@ const MembershipItem = ({ contraUser, description, roles, isOwner, membershipId 
           <Box>
             {isOwner ?
               (contraUser.band ?
-                <LeaveBand membershipId={membershipId as any} /> :
-                <KickFromBand membershipId={membershipId} />)
+                <LeaveBand membershipId={membershipId as any} refresh={refresh} /> :
+                <KickFromBand membershipId={membershipId} refresh={refresh} />)
               : <></>}
           </Box>
         </VStack>
