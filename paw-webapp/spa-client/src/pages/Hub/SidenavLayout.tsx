@@ -76,10 +76,10 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       roundedLeft={'xl'}
       {...rest}>
 
-      <NavItem key={'applications'} href={'/applications'} icon={FiMusic}>
+      <NavItem key={'applications'} href={'/profile/applications'} icon={FiMusic}>
         {t("Hub.Applications")}
       </NavItem>
-      <NavItem key={'invites'} href={'/invites'} icon={AiOutlineUserAdd}>
+      <NavItem key={'invites'} href={'/profile/invites'} icon={AiOutlineUserAdd}>
         {t("Hub.Invites")} 
       </NavItem>
 

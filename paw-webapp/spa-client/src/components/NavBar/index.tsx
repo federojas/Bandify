@@ -157,7 +157,7 @@ function Nav() {
                   bg: bg27,
                 }}
                 onClick={() => {
-                  navigate(isBand ? '/profile/auditions' : '/applications')
+                  navigate(isBand ? '/profile/auditions' : '/profile/applications')
                 }}
               >
                 <RiAppsFill />

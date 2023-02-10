@@ -166,10 +166,10 @@ const Profile = () => {
                   }
                   }>{t("Profile.edit")}</Button>
                   {!user?.band ? <>
-                    <Button leftIcon={<FiMusic />} w={'44'} colorScheme={'cyan'} onClick={() => { navigate('/applications') }}>
+                    <Button leftIcon={<FiMusic />} w={'44'} colorScheme={'cyan'} onClick={() => { navigate('/profile/applications') }}>
                       {t("Hub.Applications")}
                     </Button>
-                    <Button leftIcon={<AiOutlineUserAdd />} colorScheme={'linkedin'} w={'44'} onClick={() => { navigate('/invites') }}>
+                    <Button leftIcon={<AiOutlineUserAdd />} colorScheme={'linkedin'} w={'44'} onClick={() => { navigate('/profile/invites') }}>
                       {t("Hub.Invites")}
                     </Button>
                   </>

@@ -69,7 +69,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BandifyAuthenticationEntryPoint();
     }
 
-    //TODO http://localhost:6060///status tira 500 no deberia ser bad request o not found?
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         CharacterEncodingFilter filter = new CharacterEncodingFilter();
@@ -79,7 +78,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors().and().csrf().disable()
                 .exceptionHandling()
                 .authenticationEntryPoint(new BandifyAuthenticationEntryPoint())
-                .accessDeniedHandler(accessDeniedHandler()) //TODO 500 CUANDO PONES MAL LAS CREDENTIALS TOKENS ETC
+                .accessDeniedHandler(accessDeniedHandler())
                 .and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().headers()

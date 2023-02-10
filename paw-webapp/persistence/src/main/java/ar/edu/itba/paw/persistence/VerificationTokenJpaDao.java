@@ -33,7 +33,7 @@ public class VerificationTokenJpaDao implements VerificationTokenDao {
     public Optional<VerificationToken> getRefreshToken(Long userId) {
         final TypedQuery<VerificationToken> query = em.createQuery("FROM VerificationToken as v " +
                 "WHERE v.user.id = :userId " +
-                "AND v.type = 'REFRESH'", VerificationToken.class); //TODO CHECK
+                "AND v.type = 'REFRESH'", VerificationToken.class);
         query.setParameter("userId", userId);
         final List<VerificationToken> list = query.getResultList();
         return list.isEmpty() ? Optional.empty() : list.stream().findFirst();
