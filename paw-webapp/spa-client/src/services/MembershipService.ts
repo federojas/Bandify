@@ -208,4 +208,14 @@ export default class MembershipService {
     }
   }
 
+  public async kickMember(membershipId:number) {
+    try {
+      await this.membershipApi.kickMember(membershipId);
+
+      return new ApiResult(null as any, false, null as any);
+    } catch (error: any) {
+      return ErrorService.returnApiError(error);
+    }
+  }
+    
 }

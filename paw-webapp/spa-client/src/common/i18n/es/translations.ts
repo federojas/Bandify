@@ -31,8 +31,21 @@ export const TRANSLATIONS_ES = {
     BandMembers: "Miembros de la banda",
     ViewAll: "Ver todos",
     noMemberships: "No hay asociados",
-    editSocialMedia: "Edit"
-
+    editSocialMedia: "Edit",
+    leaveBand: "Abandonar",
+    kickFromBand: "Expulsar",
+    leaveModal: {
+      title: "Abandonar banda",
+      message: "¿Estás seguro que querés abandonar la banda?",
+      confirm: "Confirmar",
+      cancel: "Cancelar",
+    },
+    kickModal: {
+      title: "Expulsar miembro",
+      message: "¿Estás seguro que querés expulsar a este miembro?",
+      confirm: "Confirmar",
+      cancel: "Cancelar",
+    },
   },
   NavBar: {
     title: "Barra de navegación",

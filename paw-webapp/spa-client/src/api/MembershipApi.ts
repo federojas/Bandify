@@ -213,6 +213,12 @@ class MembershipApi {
             });
     }
 
+    public kickMember = async (membershipId: number) => {
+        return this.axiosPrivate.delete(`${this.endpoint}/${membershipId}`, this.config).then((response) => {
+            return Promise.resolve(response);
+        });
+    }
+
 }
 
 export default MembershipApi;

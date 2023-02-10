@@ -24,7 +24,7 @@ export default function EmailSent() {
 
   const onResend = () => {
     const input: UserPasswordResetRequestInput = {
-      email: location.state.email
+      email: (location.state as any).email 
     }
     serviceCall(
         userService.resendUserVerification(input),

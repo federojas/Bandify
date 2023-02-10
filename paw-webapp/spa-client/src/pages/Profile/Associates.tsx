@@ -97,13 +97,13 @@ const ProfileAssociates = () => {
               {memberships.length > 0 ?
                 memberships.map((m) => {
                   return (
-                    <MembershipItem contraUser={currentUser?.band ? m.artist : m.band} description={m.description} roles={m.roles} />
+                    <MembershipItem key={m.id} membershipId={m.id} isOwner={false} contraUser={currentUser?.band ? m.artist : m.band} description={m.description} roles={m.roles} />
                   )
                 })
                 :
                 <>{t("Profile.noMemberships")}</>
               }
-            </VStack>
+            </VStack>currentUser
           </Flex>
           <Flex
               w="full"

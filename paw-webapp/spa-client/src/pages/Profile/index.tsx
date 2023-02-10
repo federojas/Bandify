@@ -269,7 +269,7 @@ const Profile = () => {
                     {memberships.length > 0 ?
                       memberships.map((m) => {
                         return (
-                          <MembershipItem contraUser={user?.band ? m.artist : m.band} description={m.description} roles={m.roles} />
+                          <MembershipItem key={m.id} membershipId={m.id} contraUser={user?.band ? m.artist : m.band} description={m.description} roles={m.roles} isOwner={true} />
                         )
                       })
                       :

@@ -110,7 +110,7 @@ const Associates = () => {
               {memberships.length > 0 ?
                 memberships.map((m) => {
                   return (
-                    <MembershipItem contraUser={user?.band ? m.artist : m.band} description={m.description} roles={m.roles} />
+                    <MembershipItem membershipId={m.id} isOwner={false} contraUser={user?.band ? m.artist : m.band} description={m.description} roles={m.roles} />
                   )
                 })
                 :

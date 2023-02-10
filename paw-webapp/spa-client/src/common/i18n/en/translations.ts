@@ -235,7 +235,21 @@ export const TRANSLATIONS_EN = {
     BandMembers: "Band members",
     ViewAll: "View all",
     noMemberships: "No memberships",
-    editSocialMedia: "Edit"
+    editSocialMedia: "Edit",
+    leaveBand: "Leave",
+    kickFromBand: "Kick",
+    leaveModal: {
+      title: "Leave band",
+      message: "Are you sure you want to leave this band?",
+      confirm: "Leave",
+      cancel: "Cancel",
+    },
+    kickModal: {
+      title: "Kick member",
+      message: "Are you sure you want to kick this member?",
+      confirm: "Kick",
+      cancel: "Cancel",
+    },
   },
   Edit: {
     name: "Name",
