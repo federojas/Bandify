@@ -105,6 +105,8 @@ public class MembershipServiceImpl implements MembershipService {
         Long currentUserId = currentUser.getId();
         if (currentUserId.equals(membership.getBand().getId())
                 || currentUserId.equals(membership.getArtist().getId())) {
+            if(membership.getState() != MembershipState.PENDING)
+                throw new IllegalArgumentException("Membership is not pending");
             membership.setState(state);
             if(state == MembershipState.ACCEPTED) {
                 applicationService.closeApplications(membership.getBand().getId(), membership.getArtist().getId());

@@ -51,6 +51,17 @@ export const TRANSLATIONS_ES = {
       error: "Error",
       errorDescription: "Hubo un error al expulsar al miembro",
     },
+    editModal: {
+      edit: "Editar",
+      title: "Editar membresía",
+      message: "¿Estás seguro que quieres editar a este miembro?",
+      confirm: "Confirmar",
+      cancel: "Cancelar",
+      success: "Éxito",
+      successDescription: "El miembro fue editado",
+      error: "Error",
+      errorDescription: "Hubo un error al editar al miembro",
+    },
   },
   NavBar: {
     title: "Barra de navegación",

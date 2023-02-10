@@ -130,7 +130,9 @@ public class MembershipController {
 
         membershipService.editMembershipById(membershipEditForm.getDescription(),
                 membershipEditForm.getRoles(), id);
-        membershipService.changeState(id, Enum.valueOf(MembershipState.class, membershipEditForm.getState()));
+        Membership membership = membershipService.getMembershipById(id).orElseThrow(MembershipNotFoundException::new);
+        if(membership.getState().equals(MembershipState.PENDING))
+            membershipService.changeState(id, Enum.valueOf(MembershipState.class, membershipEditForm.getState()));
         return Response.ok().build();
     }
 

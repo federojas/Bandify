@@ -20,6 +20,11 @@ interface PostParams {
   description: string;
 }
 
+interface EditParams {
+  roles: string[];
+  description: string;
+}
+
 export default class MembershipService {
 
   private membershipApi: MembershipApi;
@@ -195,12 +200,12 @@ export default class MembershipService {
     }
   }
 
-  public async edit(membership:Membership) {
+  public async edit(membership:EditParams, membershipId: number) {
     try {
-      await this.membershipApi.editMembership(membership.id, {
+      await this.membershipApi.editMembership(membershipId, {
         roles: membership.roles,
         description: membership.description,
-        state: membership.state
+        state: 'ACCEPTED'
       });
       return new ApiResult(null as any, false, null as any);
     } catch (error: any) {

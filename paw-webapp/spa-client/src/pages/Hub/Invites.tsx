@@ -26,7 +26,7 @@ function InviteInfo({ membership, setRefresh, setIsLoading, refresh }: { members
   const toast = useToast()
 
   const handleAccept = () => {
-    serviceCall(membershipService.accept(membership, "ACCEPTED"), navigate)
+    serviceCall(membershipService.accept(membership), navigate)
       .then((response) => {
         if (!response.hasFailed()) {
           toast({
@@ -52,7 +52,7 @@ function InviteInfo({ membership, setRefresh, setIsLoading, refresh }: { members
   }
 
   function handleReject () {
-    serviceCall(membershipService.reject(membership, "REJECTED"), navigate)
+    serviceCall(membershipService.reject(membership), navigate)
       .then((response) => {
         if (!response.hasFailed()) {
           toast({

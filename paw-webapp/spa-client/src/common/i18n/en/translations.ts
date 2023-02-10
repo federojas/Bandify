@@ -255,6 +255,17 @@ export const TRANSLATIONS_EN = {
       error: "Oops, an error occurred!",
       errorDescription: "The member could not be kicked from the band.",
     },
+    editModal: {
+      edit: "Edit",
+      title: "Edit membership",
+      message: "Are you sure you want to edit this member?",
+      confirm: "Kick",
+      cancel: "Cancel",
+      success: "Member kicked successfully!",
+      successDescription: "The membership has been edited.",
+      error: "Oops, an error occurred!",
+      errorDescription: "The membership could not be edited.",
+    },
   },
   Edit: {
     name: "Name",

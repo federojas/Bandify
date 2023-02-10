@@ -181,7 +181,7 @@ const AddToBandButton = ({ user }: { user: User }) => {
 
               <FormControl isRequired
               >
-                <FormLabel>{t("AddToBand.Field2")}</FormLabel>
+                <FormLabel fontSize={16} fontWeight="bold">{t("AddToBand.Field2")}</FormLabel>
                 <Textarea
                   // ref={initialRef}
                   placeholder={t("AddToBand.Field2Placeholder")}
