@@ -14,7 +14,7 @@ const MembershipItem = ({ contraUser, description, roles}: { contraUser: User, d
           }}
             cursor={'pointer'}
           >
-            <Avatar src={contraUser.profileImage} //TODO: revisar ALT?
+            <Avatar src={contraUser.profileImage}
               _dark={{
                 backgroundColor: "white",
               }} />

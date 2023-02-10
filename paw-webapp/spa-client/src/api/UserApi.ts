@@ -355,8 +355,6 @@ class UserApi {
     id: number,
     input: UpdateUserSocialMediaInput
   ) => {
-
-
     return this.axiosPrivate
       .put(`${this.endpoint}/${id}/social-media`, input, this.socialMediaConfig)
       .then((response) => {

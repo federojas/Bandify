@@ -152,12 +152,12 @@ const PublicBandAuditions = () => {
         cursor={'pointer'}
       >
         <Avatar
-          src={band?.profileImage} //TODO: revisar ALT
+          src={band?.profileImage}
           _dark={{
               backgroundColor: "white",
           }}
         />
-        <Heading size="md">{band?.name}</Heading> {/*TODO: poner text overflow*/}
+        <Heading size="md" noOfLines={1}>{band?.name}</Heading>
       </Flex>
       <Flex
         p={50}
@@ -180,7 +180,6 @@ const PublicBandAuditions = () => {
         alignItems="center"
         justifyContent="center"
       >
-          {/*TODO: ver si se puede hacer componente*/}
           <PaginationWrapper>
               {currentPage > 1 && (
                   <button

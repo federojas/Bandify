@@ -77,9 +77,6 @@ function Nav() {
   const sections = [
     { path: "/auditions", name: t("NavBar.auditions"), icon: <FiMusic /> },
     { path: "/users", name: t("NavBar.discover"), icon: <FiUsers /> },
-    // { path: "/newAudition", name: t("NavBar.post") },
-
-    // TODO: PONER BIEN LOS LINKS DESPUES
   ];
   const bg27 = useColorModeValue("gray.200", "gray.700");
 

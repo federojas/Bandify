@@ -119,7 +119,6 @@ const AddToBandButton = ({ user, auditionId, refresh }: { user: User, auditionId
       membershipService.createMembershipByApplication(input, auditionId),
       navigate,
       (response) => {
-        console.log(response)
       }
     ).then((r) => {
       if (r.hasFailed()) {

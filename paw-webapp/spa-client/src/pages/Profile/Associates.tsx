@@ -55,7 +55,7 @@ const ProfileAssociates = () => {
         navigate,
         (response: any) => {
           setMemberships(response ? response.getContent() : []);
-          setMaxPage(response ? response.getMaxPage() : 1); //TODO revisar esto
+          setMaxPage(response ? response.getMaxPage() : 1);
           setPreviousPage(response ? response.getPreviousPage() : "");
           setNextPage(response ? response.getNextPage() : "");
         }
@@ -64,7 +64,6 @@ const ProfileAssociates = () => {
   }, [refreshMembership])
 
 
-  //TODO IS LOADING
   return (
     <Center py={'10'}>
       <VStack spacing={'4'}>
@@ -81,12 +80,12 @@ const ProfileAssociates = () => {
           cursor={'pointer'}
         >
           <Avatar
-            src={currentUser?.profileImage} //TODO: revisar ALT
+            src={currentUser?.profileImage}
             _dark={{
               backgroundColor: "white",
             }}
           />
-          <Heading size="md">{currentUser?.name}{' '}{currentUser?.surname}</Heading> {/*TODO: poner text overflow*/}
+          <Heading size="md" noOfLines={1}>{currentUser?.name}{' '}{currentUser?.surname}</Heading>
         </Flex>
 
 

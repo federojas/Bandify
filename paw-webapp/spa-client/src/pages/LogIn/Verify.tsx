@@ -100,7 +100,7 @@ export default function Verify() {
                     auth.login(response.getData().headers.get("X-JWT"), response.getData().headers.get("X-Refresh-Token"))
                 }
             }
-        ).catch((error) => { console.log("error:"+error) });
+        )
     }, [navigate])
   return (
     <Box>

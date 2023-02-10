@@ -1,5 +1,3 @@
-//TODO: esto va aca o en models, lo mismo para apiresult
-
 export default class PagedContent<T> {
     private readonly content: T;
     private readonly maxPage: number;

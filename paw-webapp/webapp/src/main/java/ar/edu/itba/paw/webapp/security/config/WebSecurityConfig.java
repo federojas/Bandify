@@ -85,21 +85,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().headers()
                 .cacheControl().disable()
                 .and().authorizeRequests()
-//                .antMatchers( "/welcome","/register","/registerBand","/registerArtist","/verify",
-//                        "/resetPassword","/aboutUs","/newPassword","/login","/emailSent","/resetEmailSent").anonymous()
-//                .antMatchers("/apply", "/profile/applications","/editArtist","/success", "/invites", "/invites/{\\d+}", "/profile/bands").hasRole("ARTIST")
-//                .antMatchers("/newAudition", "/profile/auditions", "/profile/editAudition/{\\d+}", "/profile/closeAudition/{\\d+}","/editBand",
-//                        "/auditions/{\\d+}/applicants", "/auditions/{\\d+}/applicants/select/{\\d+}", "/profile/newMembership/{\\d+}", "/profile/bandMembers",
-//                        "/profile/editMembership/{\\d+}", "/user/{\\d+}/invite").hasRole("BAND")
-//                .antMatchers("/profile/**","/auditions/{\\d+}","/bandAuditions/{\\d+}", "/users/search", "/users", "/user/{\\d+}/bandMembers", "/user/{\\d+}/bands",
-//                        "/profile/deleteMembership/{\\d+}").authenticated()
-//                .antMatchers("/auditions","/auditions/search", "/", "/user/{\\d+}","/user/{\\d+}/profile-image").permitAll()
-//TODO REVISAR TODOS
+                //TODO REVISAR TODOS
                 .antMatchers(HttpMethod.POST, "/users", "/users/password-token", "/users/verify-tokens").anonymous()
-                .antMatchers(HttpMethod.PUT, "/users/{\\d+}").authenticated()
-                .antMatchers(HttpMethod.PUT, "/users/verify-tokens/**", "/users/password-tokens/**").authenticated()
+                .antMatchers(HttpMethod.PUT, "/users/{\\d+}/**", "/users/verify-tokens/**", "/users/password-tokens/**").authenticated()
                 .antMatchers(HttpMethod.GET, "/users/{\\d+}/applications").hasRole("ARTIST")
-                .antMatchers(HttpMethod.GET, "/memberships/{\\d+}").authenticated() //TODO REVISAR CUAND VEAMOS EL ACCESO DESDE EL FRONT
+                .antMatchers(HttpMethod.POST, "/memberships").authenticated()
+                .antMatchers(HttpMethod.GET, "/memberships/{\\d+}").authenticated()
                 .antMatchers(HttpMethod.DELETE, "/memberships/{\\d+}").authenticated()
                 .antMatchers(HttpMethod.PUT, "/memberships/{\\d+}").authenticated()
                 .antMatchers(HttpMethod.GET, "/auditions/{\\d+}/applications",

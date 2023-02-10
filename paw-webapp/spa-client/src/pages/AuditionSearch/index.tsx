@@ -67,7 +67,7 @@ const AuditionSearch = () => {
       navigate,
       (response) => {
         setAuditions(response ? response.getContent() : []);
-        setMaxPage(response ? response.getMaxPage() : 1); //TODO revisar esto
+        setMaxPage(response ? response.getMaxPage() : 1);
         setPreviousPage(response ? response.getPreviousPage() : "");
         setNextPage(response ? response.getNextPage() : "");
       }
@@ -100,7 +100,6 @@ const AuditionSearch = () => {
           <PostCard {...audition} />
         ))}
       </Flex>
-      {/*TODO: ver si se puede hacer componente*/}
       <Flex
         w="full"
         p={50}

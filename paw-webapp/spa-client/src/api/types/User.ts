@@ -49,7 +49,6 @@ type UserSocialMedia = {
     spotifyUrl: string;
     user: string;
 }
-// TODO: campos para banda ?
 
 
 export type { UserCreateInput, UserUpdateInput, User, UserSocialMedia, UserPasswordResetRequestInput, UserPasswordResetInput }

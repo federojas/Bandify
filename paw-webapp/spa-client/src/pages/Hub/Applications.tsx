@@ -48,7 +48,6 @@ const Applications = () => {
   const { userId } = useContext(AuthContext);
   const userService = useUserService();
   const query = useQuery();
-  //TODO posible mejora de codigo
   const [currentPagePending, setCurrentPagePending] = useState((getQueryOrDefault(query, "state", "") === 'PENDING' || getQueryOrDefault(query, "state", "") === '' ) ? parseInt(getQueryOrDefault(query, "page", "1")) : 1);
   const [currentPageRejected, setCurrentPageRejected] = useState(getQueryOrDefault(query, "state", "") === 'REJECTED' ? parseInt(getQueryOrDefault(query, "page", "1")) : 1);
   const [currentPageAccepted, setCurrentPageAccepted] = useState(getQueryOrDefault(query, "state", "") === 'ACCEPTED' ? parseInt(getQueryOrDefault(query, "page", "1")) : 1);
@@ -78,7 +77,7 @@ const Applications = () => {
       navigate,
       (apps) => {
         setPending(apps.getContent())
-        setMaxPagePending(apps ? apps.getMaxPage() : 1); //TODO revisar esto
+        setMaxPagePending(apps ? apps.getMaxPage() : 1);
         setPreviousPagePending(apps ? apps.getPreviousPage() : "");
         setNextPagePending(apps ? apps.getNextPage() : "");
       }
@@ -89,7 +88,7 @@ const Applications = () => {
       navigate,
       (apps) => {
         setRejected(apps.getContent())
-        setMaxPageRejected(apps ? apps.getMaxPage() : 1); //TODO revisar esto
+        setMaxPageRejected(apps ? apps.getMaxPage() : 1);
         setPreviousPageRejected(apps ? apps.getPreviousPage() : "");
         setNextPageRejected(apps ? apps.getNextPage() : "");
       }
@@ -100,7 +99,7 @@ const Applications = () => {
       navigate,
       (apps) => {
         setAccepted(apps.getContent())
-        setMaxPageAccepted(apps ? apps.getMaxPage() : 1); //TODO revisar esto
+        setMaxPageAccepted(apps ? apps.getMaxPage() : 1);
         setPreviousPageAccepted(apps ? apps.getPreviousPage() : "");
         setNextPageAccepted(apps ? apps.getNextPage() : "");
       }
@@ -150,7 +149,6 @@ const Applications = () => {
               :
               <p>{t("Applications.NoApplications")}</p>
             }
-            {/*TODO: ver si se puede hacer componente*/}
             <Flex
                 w="full"
                 p={50}
@@ -223,7 +221,6 @@ const Applications = () => {
               :
               <p>{t("Applications.NoApplications")}</p>
             }
-            {/*TODO: ver si se puede hacer componente*/}
             <Flex
                 w="full"
                 p={50}
@@ -295,7 +292,6 @@ const Applications = () => {
               :
               <p>{t("Applications.NoApplications")}</p>
             }
-            {/*TODO: ver si se puede hacer componente*/}
             <Flex
                 w="full"
                 p={50}

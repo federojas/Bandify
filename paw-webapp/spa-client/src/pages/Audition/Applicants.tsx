@@ -175,7 +175,6 @@ const AuditionApplicants = () => {
   const { t } = useTranslation();
   const { id } = useParams();
   const query = useQuery();
-  //TODO posible mejora de codigo
   const [currentPagePending, setCurrentPagePending] = useState((getQueryOrDefault(query, "state", "") === 'PENDING' || getQueryOrDefault(query, "state", "") === '') ? parseInt(getQueryOrDefault(query, "page", "1")) : 1);
   const [currentPageRejected, setCurrentPageRejected] = useState(getQueryOrDefault(query, "state", "") === 'REJECTED' ? parseInt(getQueryOrDefault(query, "page", "1")) : 1);
   const [currentPageAccepted, setCurrentPageAccepted] = useState(getQueryOrDefault(query, "state", "") === 'ACCEPTED' ? parseInt(getQueryOrDefault(query, "page", "1")) : 1);
@@ -225,7 +224,7 @@ const AuditionApplicants = () => {
       navigate,
       (applications) => {
         setPending(applications.getContent())
-        setMaxPagePending(applications ? applications.getMaxPage() : 1); //TODO revisar esto
+        setMaxPagePending(applications ? applications.getMaxPage() : 1);
         setPreviousPagePending(applications ? applications.getPreviousPage() : "");
         setNextPagePending(applications ? applications.getNextPage() : "");
       }
@@ -236,7 +235,7 @@ const AuditionApplicants = () => {
       navigate,
       (applications) => {
         setAccepted(applications.getContent())
-        setMaxPageAccepted(applications ? applications.getMaxPage() : 1); //TODO revisar esto
+        setMaxPageAccepted(applications ? applications.getMaxPage() : 1);
         setPreviousPageAccepted(applications ? applications.getPreviousPage() : "");
         setNextPageAccepted(applications ? applications.getNextPage() : "");
       }
@@ -247,7 +246,7 @@ const AuditionApplicants = () => {
       navigate,
       (applications) => {
         setRejected(applications.getContent())
-        setMaxPageRejected(applications ? applications.getMaxPage() : 1); //TODO revisar esto
+        setMaxPageRejected(applications ? applications.getMaxPage() : 1);
         setPreviousPageRejected(applications ? applications.getPreviousPage() : "");
         setNextPageRejected(applications ? applications.getNextPage() : "");
       }
@@ -295,7 +294,6 @@ const AuditionApplicants = () => {
                   :
                   <p>{t("AuditionApplicants.NoApplicants")}</p>
                 }
-                {/*TODO: ver si se puede hacer componente*/}
                 <Flex
                   w="full"
                   p={50}
@@ -363,7 +361,6 @@ const AuditionApplicants = () => {
                   :
                   <p>{t("AuditionApplicants.NoApplicants")}</p>
                 }
-                {/*TODO: ver si se puede hacer componente*/}
                 <Flex
                   w="full"
                   p={50}
@@ -431,7 +428,6 @@ const AuditionApplicants = () => {
                   :
                   <p>{t("AuditionApplicants.NoApplicants")}</p>
                 }
-                {/*TODO: ver si se puede hacer componente*/}
                 <Flex
                   w="full"
                   p={50}

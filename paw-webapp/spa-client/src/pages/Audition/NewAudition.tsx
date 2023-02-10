@@ -164,7 +164,6 @@ const NewAudition = () => {
       auditionService.createAudition(auditionInput),
       navigate,
       (response) => {
-        console.log(response)
       }
     ).then((r) => {
       if (r.hasFailed()) {

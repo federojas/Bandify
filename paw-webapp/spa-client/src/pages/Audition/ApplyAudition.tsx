@@ -48,7 +48,7 @@ const ApplyButton = ({ auditionId, refresh }: { auditionId: number, refresh: () 
   const onSubmit = (data: FormData) => {
     serviceCall(auditionService.apply(auditionId, data.message),
       navigate
-    ).then((response) => {//todo: distintos response messages segun el error
+    ).then((response) => {
       if (response.hasFailed()) {
         toast({
           title: t("Audition.applyError"),

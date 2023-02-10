@@ -148,7 +148,6 @@ const SocialMediaModal = ({refreshMedia}: {refreshMedia: Function}) => {
 
   const onSubmit = async (data: FormData) => {
 
-    console.log(data)
     const input: UpdateUserSocialMediaInput = {
       twitterUrl: data.twitterUrl ? data.twitterUrl : undefined,
       spotifyUrl: data.spotifyUrl ? data.spotifyUrl : undefined,

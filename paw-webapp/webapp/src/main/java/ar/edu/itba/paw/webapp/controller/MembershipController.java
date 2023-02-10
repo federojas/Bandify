@@ -96,7 +96,7 @@ public class MembershipController {
 
     @POST
     @Consumes("application/vnd.membership.v1+json")
-    public Response createMembershipInvite(@Valid MembershipForm form,
+    public Response createMembership(@Valid MembershipForm form,
                                            @QueryParam("user") final Long artistId,
                                            @QueryParam("audition") final Long auditionId) {
         User band =  userService.findByEmail(securityContext.getUserPrincipal().getName())

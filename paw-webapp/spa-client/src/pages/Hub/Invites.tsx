@@ -118,7 +118,7 @@ function InviteItem ({ membership, setRefresh , setIsLoading, refresh}: { member
     <Box borderWidth='1px' borderRadius='lg' p="4" w={'full'}>
       <Flex alignItems={'center'} justify="space-between">
         <HStack>
-          <Avatar src={membership.band.profileImage} //TODO: revisar ALT?
+          <Avatar src={membership.band.profileImage}
             _dark={{
               backgroundColor: "white",
             }} />

@@ -70,9 +70,9 @@ const RegisterBandForm = () => {
         toast({
           title: t("Register.error"),
           status: "error",
-          description: t("Register.alreadyRegistered"),
+          description: t("Register.errorRegister"),
           isClosable: true,
-        });//todo: distintos mensajes?
+        });
       } else {
         toast({
           title: t("Register.success"),

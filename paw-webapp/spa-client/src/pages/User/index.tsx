@@ -83,7 +83,7 @@ const MembershipItem = ({ contraUser, description, roles }: { contraUser: User, 
         }}
           cursor={'pointer'}
         >
-          <Avatar src={contraUser.profileImage} //TODO: revisar ALT?
+          <Avatar src={contraUser.profileImage}
             _dark={{
               backgroundColor: "white",
             }} />
@@ -178,7 +178,6 @@ const AddToBandButton = ({ user, refresh }: { user: User, refresh: () => void })
       membershipService.inviteToBand(input),
       navigate,
       (response) => {
-        console.log(response)
       }
     ).then((r) => {
       if (r.hasFailed()) {
@@ -343,9 +342,7 @@ const UserProfile = () => {
               if(response.getContent().length === 0) {
                 setCanInvite(true);
                 setCanLeave(false);
-                console.log("deberia haber entrado")
               } else {
-                console.log("no deberia haber entrado")
                 if(response.getContent().at(0) && response.getContent().at(0)!.state === 'ACCEPTED') {
                   setMembershipId(response.getContent().at(0)!.id)
                   setCanLeave(true);
@@ -495,7 +492,6 @@ const UserProfile = () => {
                 <Heading fontSize={"2xl"} fontWeight={500}>
                   {t("Profile.socialMedia")}
                 </Heading>
-                {/* TODO: socialMedia from user.socialMedia */}
                 <HStack wrap={"wrap"}>
                   {socialMedia.length > 0 ? socialMedia.map((social) => (
                     <SocialMediaTag social={social} />

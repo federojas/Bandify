@@ -94,13 +94,13 @@ const PostCard: React.FC<Audition> = ({
           className="ellipsis-overflow"
         >
           <Avatar
-            src={profileImage} //TODO: revisar ALT
+            src={profileImage}
             _dark={{
               backgroundColor: "white",
             }}
           />
           <Box >
-            <Heading size="sm">{userName}</Heading> {/*TODO: poner text overflow*/}
+            <Heading size="sm" noOfLines={1}>{userName}</Heading>
             <Text fontSize="smaller">{location}</Text>
           </Box>
         </Flex>

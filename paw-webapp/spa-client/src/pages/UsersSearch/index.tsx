@@ -49,7 +49,7 @@ const Index = () => {
       navigate,
       (response) => {
         setUsers(response ? response.getContent() : []);
-        setMaxPage(response ? response.getMaxPage() : 1); //TODO revisar esto
+        setMaxPage(response ? response.getMaxPage() : 1);
         setNextPage(response ? response.getNextPage() : "");
         setPreviousPage( response ? response.getPreviousPage() : "");
       },
@@ -87,7 +87,6 @@ const Index = () => {
           }
         </Flex>
       </VStack>
-      {/*TODO: ver si se puede hacer componente*/}
       <Flex
         w="full"
 

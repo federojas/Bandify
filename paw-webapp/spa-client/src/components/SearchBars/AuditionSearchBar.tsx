@@ -43,7 +43,6 @@ interface AuditionSearchBarProps {
   onSubmit?: (searchParams: SearchParams) => void;
 }
 
-// TODO: Move these to another folder
 const AuditionSearchBar = ({ onSubmit = () => {} }: AuditionSearchBarProps) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

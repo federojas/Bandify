@@ -10,7 +10,6 @@ public class ExceptionMapperUtil {
     }
 
     public static Response toResponse(Response.Status status, String message, UriInfo uriInfo) {
-        //TODO MIRAR COMP
         ErrorInfoDto errorInfo = new ErrorInfoDto();
         errorInfo.setStatus(status.getStatusCode());
         errorInfo.setTitle(status.getReasonPhrase());

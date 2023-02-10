@@ -68,7 +68,7 @@ const Associates = () => {
         navigate,
         (response: any) => {
           setMemberships(response.getContent());
-          setMaxPage(response ? response.getMaxPage() : 1); //TODO revisar esto
+          setMaxPage(response ? response.getMaxPage() : 1);
           setPreviousPage(response ? response.getPreviousPage() : "");
           setNextPage(response ? response.getNextPage() : "");
         }
@@ -93,12 +93,12 @@ const Associates = () => {
           cursor={'pointer'}
         >
           <Avatar
-            src={user?.profileImage} //TODO: revisar ALT
+            src={user?.profileImage}
             _dark={{
               backgroundColor: "white",
             }}
           />
-          <Heading size="md">{user?.name}{' '}{user?.surname}</Heading> {/*TODO: poner text overflow*/}
+          <Heading size="md" noOfLines={1}>{user?.name}{' '}{user?.surname}</Heading>
         </Flex>
 
 

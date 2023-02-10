@@ -127,6 +127,7 @@ export const TRANSLATIONS_ES = {
       password: "La contraseña debe tener al menos 8 caracteres",
     },
     error: "Error",
+    errorRegister: "Error registrando usuario",
     success: "Éxito",
     emailSent: "Te enviamos un email para que puedas confirmar tu cuenta",
     alreadyRegistered: "El email ya se encuentra registrado",

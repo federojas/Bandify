@@ -58,9 +58,6 @@ public class UserController {
         return Response.created(uri).build();
     }
 
-    // TODO: si soy banda tendria que aceptarme no mandar apellido ni available, pero
-    // TODO: en el caso de ser artista deberia pedirme los 4 atributos (name,surname,description,available)
-    // TODO: mas la lista de generos roles y location
     @PUT
     @Path("/{id}")
     public Response updateUser(@Valid UserEditForm form, @PathParam("id") final long id) {
@@ -130,9 +127,6 @@ public class UserController {
         return response.build();
     }
 
-    // TODO: las aplicaciones que da son por defecto las pendientes
-    // le podes pasar para que te de las del estado que quieras, podemos dejarlo asi
-    // o que por defecto te de las que sean de cualquier estado.
     @GET
     @Path("/{id}/applications")
     @Produces("application/vnd.application-list.v1+json")

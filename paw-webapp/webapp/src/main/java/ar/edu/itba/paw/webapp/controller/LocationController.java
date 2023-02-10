@@ -31,7 +31,6 @@ public class LocationController {
     @Context
     private UriInfo uriInfo;
 
-    // TODO: paginacion?
     @GET
     @Produces("application/vnd.location-list.v1+json")
     public Response locations(@QueryParam("user") final Long userId,

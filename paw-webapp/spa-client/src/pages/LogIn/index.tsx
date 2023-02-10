@@ -65,7 +65,6 @@ const LoginBox = () => {
       loginService.login(email, password),
       navigate
     ).then((response) => {
-      console.log(response)
       if (response.hasFailed()) {
         toast({
           title: t("Login.error"),

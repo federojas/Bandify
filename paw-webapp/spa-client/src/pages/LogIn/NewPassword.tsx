@@ -76,7 +76,7 @@ export default function NewPassword(): JSX.Element {
             navigate("/auditions", {replace: true})
           }
         }
-    ).catch((error) => { console.log("error:"+error) });
+    )
   };
 
   return (

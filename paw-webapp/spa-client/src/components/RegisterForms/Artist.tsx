@@ -71,7 +71,7 @@ export default function RegisterArtistForm (){
         toast({
           title: t("Register.error"),
           status: "error",
-          description: t("Register.alreadyRegistered"),
+          description: t("Register.errorRegister"),
           isClosable: true,
         });
       } else {
@@ -89,7 +89,7 @@ export default function RegisterArtistForm (){
         })
       }
      }
-      ).catch((error) => { console.log("error:"+error) });
+      )
   };
 
   return (
