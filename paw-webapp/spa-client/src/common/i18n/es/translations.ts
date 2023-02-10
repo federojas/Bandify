@@ -45,6 +45,10 @@ export const TRANSLATIONS_ES = {
       message: "¿Estás seguro que querés expulsar a este miembro?",
       confirm: "Confirmar",
       cancel: "Cancelar",
+      success: "Éxito",
+      successDescription: "El miembro fue expulsado",
+      error: "Error",
+      errorDescription: "Hubo un error al expulsar al miembro",
     },
   },
   NavBar: {

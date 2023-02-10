@@ -249,6 +249,10 @@ export const TRANSLATIONS_EN = {
       message: "Are you sure you want to kick this member?",
       confirm: "Kick",
       cancel: "Cancel",
+      success: "Member kicked successfully!",
+      successDescription: "The member has been kicked from the band.",
+      error: "Oops, an error occurred!",
+      errorDescription: "The member could not be kicked from the band.",
     },
   },
   Edit: {
