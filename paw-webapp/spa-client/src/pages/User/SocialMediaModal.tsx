@@ -237,7 +237,7 @@ const SocialMediaModal = ({refreshMedia}: {refreshMedia: Function}) => {
                     </InputLeftAddon>
                     <Input
                       type="tel"
-                      placeholder="www.example.com"
+                      placeholder="www.facebook.com"
                       focusBorderColor="brand.400"
                       rounded="md"
                       defaultValue={socialMedia.facebookUrl}
@@ -270,7 +270,7 @@ const SocialMediaModal = ({refreshMedia}: {refreshMedia: Function}) => {
                     </InputLeftAddon>
                     <Input
                       type="tel"
-                      placeholder="www.example.com"
+                      placeholder="www.instagram.com"
                       focusBorderColor="brand.400"
                       rounded="md"
                       defaultValue={socialMedia.instagramUrl}
@@ -303,7 +303,7 @@ const SocialMediaModal = ({refreshMedia}: {refreshMedia: Function}) => {
                     </InputLeftAddon>
                     <Input
                       type="tel"
-                      placeholder="www.example.com"
+                      placeholder="www.youtube.com"
                       focusBorderColor="brand.400"
                       rounded="md"
                       defaultValue={socialMedia.youtubeUrl}
@@ -336,7 +336,7 @@ const SocialMediaModal = ({refreshMedia}: {refreshMedia: Function}) => {
                     </InputLeftAddon>
                     <Input
                       type="tel"
-                      placeholder="www.example.com"
+                      placeholder="twitter.com"
                       focusBorderColor="brand.400"
                       rounded="md"
                       defaultValue={socialMedia.twitterUrl}
@@ -369,7 +369,7 @@ const SocialMediaModal = ({refreshMedia}: {refreshMedia: Function}) => {
                     </InputLeftAddon>
                     <Input
                       type="tel"
-                      placeholder="www.example.com"
+                      placeholder="open.spotify.com"
                       focusBorderColor="brand.400"
                       rounded="md"
                       defaultValue={socialMedia.soundcloudUrl}
@@ -402,7 +402,7 @@ const SocialMediaModal = ({refreshMedia}: {refreshMedia: Function}) => {
                     </InputLeftAddon>
                     <Input
                       type="tel"
-                      placeholder="www.example.com"
+                      placeholder="soundcloud.com"
                       focusBorderColor="brand.400"
                       rounded="md"
                       defaultValue={socialMedia.spotifyUrl}
