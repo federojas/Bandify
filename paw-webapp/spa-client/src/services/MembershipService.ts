@@ -169,7 +169,7 @@ export default class MembershipService {
     }
   }
 
-  public async accept(membership:Membership, state:string) {
+  public async accept(membership:Membership) {
     try {
       await this.membershipApi.editMembership(membership.id, {
         roles: membership.roles,
@@ -182,7 +182,7 @@ export default class MembershipService {
     }
   }
 
-  public async reject(membership:Membership, state:string) {
+  public async reject(membership:Membership) {
     try {
       await this.membershipApi.editMembership(membership.id, {
         roles: membership.roles,
@@ -195,7 +195,7 @@ export default class MembershipService {
     }
   }
 
-  public async edit(membership:Membership, state:string) {
+  public async edit(membership:Membership) {
     try {
       await this.membershipApi.editMembership(membership.id, {
         roles: membership.roles,

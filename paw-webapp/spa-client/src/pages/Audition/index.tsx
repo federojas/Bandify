@@ -116,11 +116,11 @@ function DeleteAuditionModal(props: { auditionId: number}) {
 }
 
 const AuditionActions = (props: { auditionId: number, isOwner: boolean, currentUser: User | undefined, bandId: number }) => {
-  const isBand = props.currentUser?.band;
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [hasApplied, setHasApplied] = useState(true);
   const [isMember, setIsMember] = useState(true);
+  const [isBand, setIsBand] = useState(true);
   const toast = useToast();
   const userService = useUserService();
   const membershipService = useMembershipService();
@@ -145,8 +145,9 @@ const AuditionActions = (props: { auditionId: number, isOwner: boolean, currentU
             }
           },
       )
+      setIsBand(props.currentUser.band);
     }
-  }, [props.currentUser, navigate]);
+  }, [navigate, isBand, isMember, hasApplied]);
 
 
 
@@ -172,7 +173,6 @@ const AuditionActions = (props: { auditionId: number, isOwner: boolean, currentU
       </Button>
       {props.isOwner ?
         <>
-          {/*TODO ANALIZAR LINK ACA*/}
           <Button onClick={() => { navigate('/auditions/' + String(props.auditionId) + '/applicants') }} leftIcon={<FiUsers />} w={'44'} colorScheme='green'>{t("Audition.applicants")}</Button>
           <Button leftIcon={<AiOutlineEdit />} w={'44'} colorScheme='teal' onClick={onEdit}>{t("Audition.edit")}</Button>
           <DeleteAuditionModal auditionId={props.auditionId} />
@@ -180,7 +180,7 @@ const AuditionActions = (props: { auditionId: number, isOwner: boolean, currentU
         </>
         :
         <>
-          {(props.isOwner || isBand || hasApplied || isMember) ? <></> : (<ApplyButton auditionId={props.auditionId} />)}
+          {( isBand || hasApplied || isMember) ? <></> : (<ApplyButton auditionId={props.auditionId} />)}
         </>
       }
     </VStack>

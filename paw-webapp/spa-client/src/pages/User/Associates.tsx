@@ -1,7 +1,6 @@
 import {
   Box, Center, Heading,
-  Avatar, Badge, Flex, HStack, Tab, TabList, TabPanel, TabPanels, Tabs, Text, Button,
-  Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure, VStack, useColorModeValue
+  Avatar, Flex, HStack, VStack, useColorModeValue
 } from "@chakra-ui/react"
 import React, { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -115,7 +114,7 @@ const Associates = () => {
               {memberships.length > 0 ?
                 memberships.map((m) => {
                   return (
-                    <MembershipItem membershipId={m.id} isOwner={false} contraUser={user?.band ? m.artist : m.band} description={m.description} roles={m.roles} refresh={handleRefresh}  />
+                    <MembershipItem membershipId={m.id} contraUser={user?.band ? m.artist : m.band} description={m.description} roles={m.roles} refresh={handleRefresh}  />
                   )
                 })
                 :

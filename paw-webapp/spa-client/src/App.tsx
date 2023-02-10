@@ -39,6 +39,7 @@ import ResetPwdEmailSent from "./pages/Results/ResetPwdEmailSent";
 import NewPassword from "./pages/LogIn/NewPassword";
 import Associates from "./pages/User/Associates";
 import ProfileAssociates from "./pages/Profile/Associates";
+import EditAssociates from "./pages/Profile/EditAssociates";
 import Verify from "./pages/LogIn/Verify";
 
 function App() {
@@ -76,6 +77,7 @@ function App() {
           <Route path='resetPassword/emailSent' element={<ResetPwdEmailSent />} />
           <Route path='newPassword' element={<NewPassword />} />
           <Route path='users/:id/associates' element={<Associates />} />
+          <Route path='profile/editAssociates' element={<EditAssociates />} />
           <Route path='profile/associates' element={<ProfileAssociates />} />
           <Route path='verify' element={<Verify />} />
           <Route path='*' element={<Error />} />

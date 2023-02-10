@@ -307,7 +307,7 @@ const UserProfile = () => {
   useEffect(() => {
     if (user && currentUser) {
       serviceCall(
-        membershipService.getUserMembershipsByBand(currentUser?.id, user?.id),
+        membershipService.getUserMembershipsByBand(user?.id, currentUser?.id),
         navigate,
         (response) => {
           if(response.getContent().length === 0) {

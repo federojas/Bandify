@@ -234,6 +234,7 @@ export const TRANSLATIONS_EN = {
     edit: "Edit profile",
     BandMembers: "Band members",
     ViewAll: "View all",
+    ViewEditAll: "View and edit all",
     noMemberships: "No memberships",
     editSocialMedia: "Edit",
     leaveBand: "Leave",

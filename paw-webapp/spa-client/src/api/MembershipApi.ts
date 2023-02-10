@@ -117,8 +117,8 @@ class MembershipApi {
     public getUserMembershipsByBand = async (userId: number, bandId: number) => {
         return this.axiosPrivate.get(this.endpoint, {
             params: {
-                userId: userId,
-                bandId: bandId
+                user: userId,
+                band: bandId
             }
         })
             .then((response) => {

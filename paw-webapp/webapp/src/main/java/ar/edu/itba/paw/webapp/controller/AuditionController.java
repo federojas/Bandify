@@ -182,10 +182,10 @@ public class AuditionController {
     }
 
     @PUT
-    @Path("/{auditionId}/applications/{id}")
+    @Path("/{auditionId}/applications/{applicationId}")
     @Consumes("application/vnd.application.v1+json")
     public Response changeApplicationStatus(@PathParam("auditionId") final long auditionId,
-                                            @PathParam("id") final long applicationId,
+                                            @PathParam("applicationId") final long applicationId,
                                             @QueryParam("state") final String state) {
         applicationService.changeState(auditionId, applicationId, state);
         return Response.ok().build();

@@ -100,8 +100,8 @@ CREATE TABLE IF NOT EXISTS profileMediaUrls
     id SERIAL PRIMARY KEY,
     userId BIGINT NOT NULL,
     url VARCHAR(2083) NOT NULL,
-    mediatype TEXT NOT NULL,
-    UNIQUE(userId,mediatype),
+    type TEXT NOT NULL,
+    UNIQUE(userId,type),
     FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE
 );
 

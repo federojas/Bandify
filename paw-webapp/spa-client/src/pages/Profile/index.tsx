@@ -56,6 +56,8 @@ const Profile = () => {
   const [socialMedia, setSocialMedia] = useState<SocialMedia[]>([]);
   const [refreshMedia, setRefreshMedia] = useState(false);
   const [refreshMembership, setRefreshMembership] = useState(false);
+  const authContext = useContext(AuthContext);
+  const currentUserId = Number(authContext.userId);
 
   useEffect(() => {
     if (user) {
@@ -261,17 +263,24 @@ const Profile = () => {
                         {user?.band ? t("Profile.BandMembers") : t("Profile.playsIn")}
                       </Heading>
                     </HStack>
-                    <Button leftIcon={<GrView />} w={'50'} colorScheme={'cyan'} onClick={() => {
-                      navigate("/profile/associates")
-                    }}>
-                      {t("Profile.ViewAll")}
-                    </Button>
+                      {user?.band && user?.id == currentUserId ?
+                          <Button leftIcon={<AiOutlineEdit />} w={'50'} colorScheme={'cyan'} onClick={() => {
+                          navigate("/profile/editAssociates")
+                          }}>
+                              {t("Profile.ViewEditAll")}
+                          </Button>
+                          :
+                          <Button leftIcon={<GrView />} w={'50'} colorScheme={'cyan'} onClick={() => {
+                          navigate("/profile/associates")
+                          }}>
+                              {t("Profile.ViewAll")}
+                          </Button>}
                   </HStack>
                   <VStack w={'80%'}>
                     {memberships.length > 0 ?
                       memberships.map((m) => {
                         return (
-                          <MembershipItem key={m.id} membershipId={m.id} contraUser={user?.band ? m.artist : m.band} description={m.description} roles={m.roles} isOwner={true} refresh={() => {
+                          <MembershipItem key={m.id} membershipId={m.id} contraUser={user?.band ? m.artist : m.band} description={m.description} roles={m.roles} refresh={() => {
                             setRefreshMembership(!refreshMembership);
                           }} />
                         )

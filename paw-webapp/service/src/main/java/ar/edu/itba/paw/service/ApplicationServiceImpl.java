@@ -105,6 +105,11 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public void closeApplications(long bandId, long applicantId) {
+        User band = authFacadeService.getCurrentUser();
+        if(!band.getId().equals(bandId))
+            throw new ApplicationNotOwnedException();
+        if(!band.isBand())
+            throw new NotABandException();
         applicationDao.closeApplications(bandId,applicantId);
     }
 
@@ -156,7 +161,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     private Application setApplicationState(long auditionId, long applicantId, ApplicationState state) {
         Audition audition = auditionService.getAuditionById(auditionId);
         User applicant = userService.getUserById(applicantId).orElseThrow(UserNotFoundException::new);
-        User band = userService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(UserNotFoundException::new);
+        User band = authFacadeService.getCurrentUser();
         if(!Objects.equals(audition.getBand().getId(), band.getId()))
             throw new AuditionNotOwnedException();
         if(state.equals(ApplicationState.ACCEPTED)) {
@@ -227,12 +232,13 @@ public class ApplicationServiceImpl implements ApplicationService {
         return applicationDao.getAuditionApplicationsByState(auditionId,state);
     }
 
+    @Transactional
     @Override
     public void changeState(long auditionId, long applicationId, String state) {
         Application app = getApplicationById(auditionId, applicationId)
                 .orElseThrow(ApplicationNotFoundException::new);
         if(Objects.equals(state, ApplicationState.CLOSED.getState()))
-            closeApplications(auditionId, app.getApplicant().getId());
+            closeApplications(app.getAudition().getBand().getId(), app.getApplicant().getId());
         else if(app.getState().equals(ApplicationState.PENDING)) {
             if (Objects.equals(state, ApplicationState.ACCEPTED.getState()))
                 accept(auditionId, app.getApplicant().getId());
@@ -240,10 +246,7 @@ public class ApplicationServiceImpl implements ApplicationService {
                 reject(auditionId, app.getApplicant().getId());
         } else if(app.getState().equals(ApplicationState.ACCEPTED) &&
                 Objects.equals(state, ApplicationState.SELECTED.getState())) {
-            User band = authFacadeService.getCurrentUser();
-            if(!band.isBand())
-                throw new NotABandException();
-            select(auditionId, band, app.getApplicant().getId());
+            select(auditionId, app.getAudition().getBand(), app.getApplicant().getId());
         } else {
             throw new InvalidApplicationStateException();
         }

@@ -1,6 +1,6 @@
 import {
   Box, Center, Heading,
-  Avatar, Badge, Flex, HStack, useDisclosure, VStack, useColorModeValue
+  Avatar, Flex, HStack, VStack, useColorModeValue
 } from "@chakra-ui/react"
 import React, { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -102,7 +102,7 @@ const ProfileAssociates = () => {
               {memberships.length > 0 ?
                 memberships.map((m) => {
                   return (
-                    <MembershipItem membershipId={m.id} contraUser={currentUser?.band ? m.artist : m.band} description={m.description} roles={m.roles} isOwner={false} refresh={handleRefresh} />
+                    <MembershipItem membershipId={m.id} contraUser={currentUser?.band ? m.artist : m.band} description={m.description} roles={m.roles} refresh={handleRefresh} />
                   )
                 })
                 :

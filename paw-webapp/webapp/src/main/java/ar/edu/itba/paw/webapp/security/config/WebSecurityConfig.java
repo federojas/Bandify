@@ -95,7 +95,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                        "/profile/deleteMembership/{\\d+}").authenticated()
 //                .antMatchers("/auditions","/auditions/search", "/", "/user/{\\d+}","/user/{\\d+}/profile-image").permitAll()
 //TODO REVISAR TODOS
-                .antMatchers(HttpMethod.POST, "/users", "/users/verify-tokens").anonymous()
+                .antMatchers(HttpMethod.POST, "/users", "/users/password-token", "/users/verify-tokens").anonymous()
                 .antMatchers(HttpMethod.PUT, "/users/{\\d+}").authenticated()
                 .antMatchers(HttpMethod.PUT, "/users/verify-tokens/**", "/users/password-tokens/**").authenticated()
                 .antMatchers(HttpMethod.GET, "/users/{\\d+}/applications").hasRole("ARTIST")

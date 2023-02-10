@@ -62,6 +62,7 @@ const ApplyButton = ({ auditionId }: { auditionId: number }) => {
           status: "success",
           isClosable: true,
         });
+        onClose();
       }
     })
   }
