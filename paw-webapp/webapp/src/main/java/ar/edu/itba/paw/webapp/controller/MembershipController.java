@@ -95,8 +95,10 @@ public class MembershipController {
     }
 
     @POST
-    @Consumes(value = {MediaType.APPLICATION_JSON, })
-    public Response createMembershipInvite(@Valid MembershipForm form, @QueryParam("user") final Long artistId) {
+    @Consumes("application/vnd.membership.v1+json")
+    public Response createMembershipInvite(@Valid MembershipForm form,
+                                           @QueryParam("user") final Long artistId,
+                                           @QueryParam("audition") final Long auditionId) {
         User band =  userService.findByEmail(securityContext.getUserPrincipal().getName())
                 .orElseThrow(UserNotFoundException::new);
         if(!band.isBand())
@@ -105,7 +107,12 @@ public class MembershipController {
         Membership.Builder membershipBuilder = new Membership.Builder(userService.getArtistById(artistId), band)
                 .description(form.getDescription())
                 .roles(roleService.getRolesByNames(form.getRoles()));
-        Membership membership = membershipService.createMembershipInvite(membershipBuilder);
+        Membership membership;
+        if(auditionId != null)
+            membership = membershipService.createMembershipByApplication(membershipBuilder, auditionId);
+        else
+            membership = membershipService.createMembershipInvite(membershipBuilder);
+
         final URI uri = uriInfo.getAbsolutePathBuilder()
                 .path(String.valueOf(membership.getId())).build();
         return Response.created(uri).build();

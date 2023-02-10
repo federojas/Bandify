@@ -122,7 +122,7 @@ function ApplicantInfo({ application, handleRefresh }: { application: Applicatio
   )
 }
 
-const ApplicantItem = ({ type = 'PENDING', application, handleRefresh }: { type: string, application: Application, handleRefresh: () => void }) => {
+const ApplicantItem = ({ type = 'PENDING', application, handleRefresh, auditionId }: { type: string, application: Application, handleRefresh: () => void, auditionId: number }) => {
   const { t } = useTranslation();
   const scheme = type === "REJECTED" ? "red" : (type === "PENDING" ? undefined : "green")
   const label = type === "REJECTED" ? t("Applications.Rejected") : (type === "PENDING" ? t("Applications.Pending") : t("Applications.Accepted"))
@@ -163,7 +163,7 @@ const ApplicantItem = ({ type = 'PENDING', application, handleRefresh }: { type:
           </Badge>
         }
         {isAccepted && user &&
-          <AddToBandButton user={user!} />
+          <AddToBandButton user={user!} auditionId={auditionId} refresh={handleRefresh}/>
         }
       </Flex>
 
@@ -192,7 +192,7 @@ const AuditionApplicants = () => {
     let state = getQueryOrDefault(query, "state", "PENDING");
     if (state === "PENDING")
       return 0;
-    else if (state === "ACCPETED")
+    else if (state === "ACCEPTED")
       return 1;
     else
       return 2;
@@ -291,7 +291,7 @@ const AuditionApplicants = () => {
             <TabPanels>
               <TabPanel mt="4">
                 {pending.length > 0 ?
-                  pending.map((application) => <ApplicantItem type={'PENDING'} application={application} handleRefresh={handleRefresh} />)
+                  pending.map((application) => <ApplicantItem type={'PENDING'} application={application} handleRefresh={handleRefresh} auditionId={parseInt(id!)}/>)
                   :
                   <p>{t("AuditionApplicants.NoApplicants")}</p>
                 }
@@ -359,7 +359,7 @@ const AuditionApplicants = () => {
               </TabPanel>
               <TabPanel mt="4">
                 {accepted.length > 0 ?
-                  accepted.map((application) => <ApplicantItem type={'ACCEPTED'} application={application} handleRefresh={handleRefresh} />)
+                  accepted.map((application) => <ApplicantItem type={'ACCEPTED'} application={application} handleRefresh={handleRefresh} auditionId={parseInt(id!)}/>)
                   :
                   <p>{t("AuditionApplicants.NoApplicants")}</p>
                 }
@@ -427,7 +427,7 @@ const AuditionApplicants = () => {
               </TabPanel>
               <TabPanel mt="4">
                 {rejected.length > 0 ?
-                  rejected.map((application) => <ApplicantItem type={'REJECTED'} application={application} handleRefresh={handleRefresh} />)
+                  rejected.map((application) => <ApplicantItem type={'REJECTED'} application={application} handleRefresh={handleRefresh} auditionId={parseInt(id!)} />)
                   :
                   <p>{t("AuditionApplicants.NoApplicants")}</p>
                 }

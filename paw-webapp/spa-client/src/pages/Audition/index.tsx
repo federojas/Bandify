@@ -124,6 +124,11 @@ const AuditionActions = (props: { auditionId: number, isOwner: boolean, currentU
   const toast = useToast();
   const userService = useUserService();
   const membershipService = useMembershipService();
+  const [refresh, setRefresh] = useState(true);
+
+  const handleRefresh = () => {
+    setRefresh(!refresh);
+  }
 
   useEffect(() => {
     if(props.currentUser && !props.currentUser.band) {
@@ -147,7 +152,7 @@ const AuditionActions = (props: { auditionId: number, isOwner: boolean, currentU
       )
       setIsBand(props.currentUser.band);
     }
-  }, [navigate, isBand, isMember, hasApplied]);
+  }, [navigate, isBand, isMember, hasApplied, props.currentUser, refresh]);
 
 
 
@@ -180,7 +185,7 @@ const AuditionActions = (props: { auditionId: number, isOwner: boolean, currentU
         </>
         :
         <>
-          {( isBand || hasApplied || isMember) ? <></> : (<ApplyButton auditionId={props.auditionId} />)}
+          {( isBand || hasApplied || isMember) ? <></> : (<ApplyButton auditionId={props.auditionId} refresh={handleRefresh} />)}
         </>
       }
     </VStack>

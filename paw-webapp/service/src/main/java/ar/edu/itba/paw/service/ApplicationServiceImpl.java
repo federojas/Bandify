@@ -103,13 +103,12 @@ public class ApplicationServiceImpl implements ApplicationService {
         return toReturn;
     }
 
+    @Transactional
     @Override
     public void closeApplications(long bandId, long applicantId) {
-        User band = authFacadeService.getCurrentUser();
-        if(!band.getId().equals(bandId))
+        User current = authFacadeService.getCurrentUser();
+        if(!current.getId().equals(bandId) && !current.getId().equals(applicantId) )
             throw new ApplicationNotOwnedException();
-        if(!band.isBand())
-            throw new NotABandException();
         applicationDao.closeApplications(bandId,applicantId);
     }
 

@@ -81,6 +81,7 @@ public class AuditionController {
     }
 
     @DELETE
+    @Produces("application/vnd.audition.v1+json")
     @Path("/{id}")
     public Response deleteAudition(@PathParam("id") final long auditionId) {
         applicationService.closeApplicationsByAuditionId(auditionId);

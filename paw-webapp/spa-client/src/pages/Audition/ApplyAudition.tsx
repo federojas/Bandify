@@ -28,7 +28,7 @@ interface FormData {
 }
 
 
-const ApplyButton = ({ auditionId }: { auditionId: number }) => {
+const ApplyButton = ({ auditionId, refresh }: { auditionId: number, refresh: () => void }) => {
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure()
   const auditionService = useAuditionService();
@@ -62,6 +62,7 @@ const ApplyButton = ({ auditionId }: { auditionId: number }) => {
           status: "success",
           isClosable: true,
         });
+        refresh();
         onClose();
       }
     })

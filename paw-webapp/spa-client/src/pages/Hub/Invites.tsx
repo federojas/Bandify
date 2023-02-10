@@ -36,6 +36,9 @@ function InviteInfo({ membership, setRefresh, setIsLoading, refresh }: { members
             duration: 9000,
             isClosable: true,
           })
+          setRefresh(!refresh);
+          setIsLoading(true);
+          onClose();
         } else {
           toast({
             title: t("Invites.Error"),
@@ -44,9 +47,6 @@ function InviteInfo({ membership, setRefresh, setIsLoading, refresh }: { members
             duration: 9000,
             isClosable: true,
           })
-          setRefresh(!refresh);
-          setIsLoading(true);
-          onClose()
         }
       })
   }
@@ -62,6 +62,9 @@ function InviteInfo({ membership, setRefresh, setIsLoading, refresh }: { members
             duration: 9000,
             isClosable: true,
           })
+          setRefresh(!refresh);
+          setIsLoading(true);
+          onClose();
         } else {
           toast({
             title: t("Invites.Error"),
@@ -70,9 +73,6 @@ function InviteInfo({ membership, setRefresh, setIsLoading, refresh }: { members
             duration: 9000,
             isClosable: true,
           })
-          setRefresh(!refresh);
-          setIsLoading(true);
-          onClose()
         }
       })
   }

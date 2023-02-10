@@ -64,6 +64,7 @@ import Membership from "../../models/Membership";
 import { Helmet } from "react-helmet";
 import SocialMediaTag from "../Profile/SocialMediaTag";
 import SocialMedia from "../../models/SocialMedia";
+import LeaveBandButton from "./LeaveBandButton";
 
 interface FormData {
   roles: string[];
@@ -108,7 +109,7 @@ const MembershipItem = ({ contraUser, description, roles }: { contraUser: User, 
   )
 }
 
-const AddToBandButton = ({ user }: { user: User }) => {
+const AddToBandButton = ({ user, refresh }: { user: User, refresh: () => void }) => {
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [roleOptions, setRoleOptions] = useState<RoleGroup[]>([]);
@@ -173,7 +174,6 @@ const AddToBandButton = ({ user }: { user: User }) => {
       roles: roles.map((role) => role.value),
       description: data.description,
     }
-    console.log(input)
     serviceCall(
       membershipService.inviteToBand(input),
       navigate,
@@ -196,6 +196,8 @@ const AddToBandButton = ({ user }: { user: User }) => {
           duration: 9000,
           isClosable: true,
         });
+        refresh();
+        onClose();
       }
     })
   }
@@ -271,12 +273,19 @@ const UserProfile = () => {
   const currentUserId = Number(authContext.userId);
   const [currentUser, setCurrentUser] = React.useState<User>();
   const [canInvite, setCanInvite] = React.useState<Boolean>(false);
+  const [canLeave, setCanLeave] = React.useState<Boolean>(false);
+  const [membershipId, setMembershipId] = React.useState(0);
   const userService = useUserService();
   const membershipService = useMembershipService();
   const filterAvailable = require(`../../images/available.png`);
   const bg = useColorModeValue('white', 'gray.900')
   const [memberships, setMemberships] = React.useState<Membership[]>([]);
   const [socialMedia, setSocialMedia] = useState<SocialMedia[]>([]);
+  const [refreshMemberships, setRefreshMemberships] = useState(false);
+
+  const handleRefresh = () => {
+    setRefreshMemberships(!refreshMemberships);
+  }
 
 
   useEffect(() => {
@@ -305,25 +314,7 @@ const UserProfile = () => {
   }, [userId, currentUserId, navigate])
 
   useEffect(() => {
-    if (user && currentUser) {
-      serviceCall(
-        membershipService.getUserMembershipsByBand(user?.id, currentUser?.id),
-        navigate,
-        (response) => {
-          if(response.getContent().length === 0) {
-            setCanInvite(true);
-          }
-        }
-      )
-
-      serviceCall(
-        membershipService.getUserMemberships({ user: user?.id as number, state: "ACCEPTED", preview: true }),
-        navigate,
-        (response: any) => {
-          setMemberships(response.getContent());
-        }
-      )
-
+    if (user) {
       serviceCall(
         userService.getUserSocialMedia(user.id),
         navigate,
@@ -332,8 +323,39 @@ const UserProfile = () => {
         }
       )
     }
-  }, [user, navigate, currentUser])
+  }, [user, navigate])
 
+
+  useEffect(() => {
+    if(user && currentUser) {
+      serviceCall(
+          membershipService.getUserMemberships({ user: user.id as number, state: "ACCEPTED", preview: true }),
+          navigate,
+          (response: any) => {
+            setMemberships(response.getContent());
+          }
+      )
+      if(!user.band && currentUser.band) {
+        serviceCall(
+            membershipService.getUserMembershipsByBand(user?.id, currentUser?.id),
+            navigate,
+            (response) => {
+              if(response.getContent().length === 0) {
+                setCanInvite(true);
+                setCanLeave(false);
+                console.log("deberia haber entrado")
+              } else {
+                console.log("no deberia haber entrado")
+                if(response.getContent().at(0) && response.getContent().at(0)!.state === 'ACCEPTED') {
+                  setMembershipId(response.getContent().at(0)!.id)
+                  setCanLeave(true);
+                }
+              }
+            }
+        )
+      }
+    }
+    }, [user, navigate, currentUser, refreshMemberships, canInvite, canLeave])
 
   return (
     <>
@@ -401,7 +423,10 @@ const UserProfile = () => {
               <VStack justify={'center'}>
 
                 {!user?.band && canInvite && user?.available && currentUser?.band &&
-                  <AddToBandButton user={user} />
+                  <AddToBandButton user={user} refresh={handleRefresh} />
+                }
+                {user?.band && canLeave && !currentUser?.band &&
+                    <LeaveBandButton membershipId={membershipId} refresh={handleRefresh} />
                 }
                 {user?.band &&
                   <>

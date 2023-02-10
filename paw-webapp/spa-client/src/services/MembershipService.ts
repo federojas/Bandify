@@ -174,6 +174,23 @@ export default class MembershipService {
     }
   }
 
+  public async createMembershipByApplication(params: PostParams, auditionId: number): Promise<ApiResult<PostResponse>> {
+    try {
+      const postResponse = await this.membershipApi.createMembershipByApplication(params, auditionId);
+      const url: string = postResponse.headers!.location!;
+      const tokens = url.split('/')
+      const id: number = parseInt(tokens[tokens.length - 1]);
+      const data: PostResponse = { url: url, id: id };
+      return new ApiResult(
+          data,
+          false,
+          null as any
+      );
+    } catch (error: any) {
+      return ErrorService.returnApiError(error);
+    }
+  }
+
   public async accept(membership:Membership) {
     try {
       await this.membershipApi.editMembership(membership.id, {

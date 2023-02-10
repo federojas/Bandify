@@ -5,68 +5,6 @@ import { User } from "../../models";
 import EditMembershipButton from "./EditMembershipButton";
 import DeleteMembershipButton from"./DeleteMembershipButton"
 
-
-// function LeaveBand({ membershipId, refresh }: { membershipId: number, refresh: () => void }) {
-//     const { t } = useTranslation();
-//     const { isOpen, onOpen, onClose } = useDisclosure();
-//     const membershipService = useMembershipService();
-//     const toast = useToast();
-//     const navigate = useNavigate();
-//
-//
-//     const handleAccept = (membershipId: number) => {
-//
-//         serviceCall(
-//             membershipService.kickMember(membershipId),
-//             navigate
-//         ).then((response) => {
-//             if (!response.hasFailed()) {
-//                 toast({
-//                     title: t("Profile.kickModal.success"),
-//                     description: t("Profile.kickModal.successDescription"),
-//                     status: "success",
-//                     duration: 9000,
-//                     isClosable: true,
-//                 });
-//
-//             } else {
-//                 toast({
-//                     title: t("Profile.kickModal.error"),
-//                     description: t("Profile.kickModal.errorDescription"),
-//                     status: "error",
-//                     duration: 9000,
-//                     isClosable: true,
-//                 });
-//             }
-//             refresh();
-//             onClose()
-//         });
-//
-//     }
-//     return (
-//         <>
-//             <Button colorScheme='red' onClick={onOpen}>{t("Profile.leaveBand")}</Button>
-//             <Modal isOpen={isOpen} onClose={onClose}>
-//                 <ModalOverlay />
-//                 <ModalContent>
-//                     <ModalHeader>{t("Profile.leaveModal.title")}</ModalHeader>
-//                     <ModalCloseButton />
-//                     <ModalBody>
-//                         <Text>{t("Profile.leaveModal.message")}</Text>
-//                     </ModalBody>
-//
-//                     <ModalFooter>
-//                         <Button leftIcon={<TiTick />} colorScheme='blue' mr={3} onClick={() => handleAccept(membershipId)}>
-//                             {t("Profile.leaveModal.confirm")}
-//                         </Button>
-//                         <Button leftIcon={<TiCancel />} colorScheme='red' onClick={onClose} >{t("Profile.leaveModal.cancel")}</Button>
-//                     </ModalFooter>
-//                 </ModalContent>
-//             </Modal>
-//         </>
-//     )
-// }
-
 const MembershipItemEdit = ({ contraUser, description, roles, membershipId, refresh }: { contraUser: User, description: string, roles: string[], membershipId: number, refresh: () => void }) => {
     const navigate = useNavigate();
 

@@ -42,6 +42,13 @@ class MembershipApi {
         }
     }
 
+    private postConfig = {
+        headers: {
+            'Content-Type': 'application/vnd.membership.v1+json',
+            'Accept': 'application/vnd.membership.v1+json'
+        }
+    }
+
     private listConfig = {
         headers: {
             'Accept': 'application/vnd.membership-list.v1+json'
@@ -201,9 +208,17 @@ class MembershipApi {
     public inviteToBand = async (params: PostParams) => {
         return this.axiosPrivate.post(`${this.endpoint}?user=${params.userId}`,
             { roles: params.roles, description: params.description },
-            this.config).then((response) => {
+            this.postConfig).then((response) => {
                 return Promise.resolve(response);
             });
+    }
+
+    public createMembershipByApplication = async (params: PostParams, auditionId: number) => {
+        return this.axiosPrivate.post(`${this.endpoint}?user=${params.userId}&audition=${auditionId}`,
+            { roles: params.roles, description: params.description },
+            this.postConfig).then((response) => {
+            return Promise.resolve(response);
+        });
     }
 
     public editMembership = async (membershipId: number, membership: PutParams) => {

@@ -152,7 +152,7 @@ const EditArtist = () => {
   } = useForm<FormData>();
 
     const isValidForm = (data: FormData) => {
-        if (!location) {
+        if (!location || !location.value) {
             toast({
                 title: t("EditAudition.locationRequired"),
                 status: "error",

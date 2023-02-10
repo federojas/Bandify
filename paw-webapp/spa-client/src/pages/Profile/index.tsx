@@ -65,7 +65,6 @@ const Profile = () => {
         membershipService.getUserMemberships({ user: user?.id as number, state: "ACCEPTED", preview: true }),
         navigate,
         (response: any) => {
-          console.log(response.getContent())
           setMemberships(response.getContent());
         }
       )
@@ -86,8 +85,6 @@ const Profile = () => {
       navigate,
       (response: any) => {
         setUser(response);
-        console.log('cambio la foto del contexto')
-        console.log(response.profileImage)
         updateProfileImg(response.profileImage);
         setIsLoading(false)
       }

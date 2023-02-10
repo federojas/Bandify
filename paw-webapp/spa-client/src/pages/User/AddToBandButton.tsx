@@ -43,13 +43,14 @@ import {
 } from "chakra-react-select";
 import { RoleGroup } from "../EditProfile/EntitiesGroups";
 import { useRoleService } from "../../contexts/RoleService";
+import {TiCancel} from "react-icons/ti";
 
 interface FormData {
   roles: string[];
   description: string;
 }
 
-const AddToBandButton = ({ user }: { user: User }) => {
+const AddToBandButton = ({ user, auditionId, refresh }: { user: User, auditionId: number; refresh: () => void }) => {
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [roleOptions, setRoleOptions] = useState<RoleGroup[]>([]);
@@ -114,9 +115,8 @@ const AddToBandButton = ({ user }: { user: User }) => {
       roles: roles.map((role) => role.value),
       description: data.description,
     }
-    console.log(input)
     serviceCall(
-      membershipService.inviteToBand(input),
+      membershipService.createMembershipByApplication(input, auditionId),
       navigate,
       (response) => {
         console.log(response)
@@ -124,7 +124,7 @@ const AddToBandButton = ({ user }: { user: User }) => {
     ).then((r) => {
       if (r.hasFailed()) {
         toast({
-          title: t("Invites.errorCreatingInvite"),
+          title: t("Invites.errorCreatingMembership"),
           description: t("Invites.errorCreatingInviteMessage"),
           status: "error",
           duration: 9000,
@@ -132,11 +132,13 @@ const AddToBandButton = ({ user }: { user: User }) => {
         });
       } else {
         toast({
-          title: t("Invites.successCreatingInvite"),
+          title: t("Invites.successCreatingMembership"),
           status: "success",
           duration: 9000,
           isClosable: true,
         });
+        onClose();
+        refresh();
       }
     })
   }
@@ -190,9 +192,10 @@ const AddToBandButton = ({ user }: { user: User }) => {
                 />
               </FormControl>
               <ModalFooter>
-                <Button leftIcon={<AiOutlineUserAdd />} colorScheme='blue' type="submit">
+                <Button leftIcon={<AiOutlineUserAdd />} colorScheme='blue' type="submit" mr={5}>
                   {t("AddToBand.Add")}
                 </Button>
+                <Button leftIcon={<TiCancel />} colorScheme='red' onClick={onClose} >{t("Profile.leaveModal.cancel")}</Button>
               </ModalFooter>
             </form>
           </ModalBody>

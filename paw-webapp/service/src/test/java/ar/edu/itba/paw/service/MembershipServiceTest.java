@@ -108,15 +108,6 @@ public class MembershipServiceTest {
         assertEquals(MembershipState.REJECTED, memRet.getState());
     }
 
-
-    @Test
-    public void testCreateMembershipByApplication() {
-        when(membershipDao.membershipExists(any(), any())).thenReturn(false);
-
-        boolean created = membershipService.createMembershipByApplication(mem5Builder, 1);
-        assertTrue(created);
-    }
-
     @Test
     public void testEditMembershipById() {
         Set<Role> roles = new HashSet<>();

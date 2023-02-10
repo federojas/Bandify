@@ -40,6 +40,9 @@ export const TRANSLATIONS_ES = {
       message: "¿Estás seguro que quieres abandonar la banda?",
       confirm: "Confirmar",
       cancel: "Cancelar",
+      success: "¡Abandonaste la banda exitosamente!",
+      successDescription: "Has abandonado la banda.",
+      errorDescription: "No se pudo abandonar la banda.",
     },
     kickModal: {
       title: "Expulsar miembro",
@@ -87,7 +90,7 @@ export const TRANSLATIONS_ES = {
     notAMemberyet: "¿No eres miembro aún?",
     register: "Registrarse",
     title: "Inicia sesión en tu cuenta",
-    invalidCredentials: "credenciales inválidas",
+    invalidCredentials: "Credenciales inválidas",
     error: "Error",
   },
   Register: {
@@ -351,7 +354,9 @@ export const TRANSLATIONS_ES = {
     Subtitle4: "Y estos son los roles que te ofrecen:",
     errorCreatingInvite: "¡Oops! No se pudo invitar al artista",
     errorCreatingInviteMessage: "Ha ocurrido un error",
+    errorCreatingMembership: "¡Oops! No se pudo agregar al artista",
     successCreatingInvite: "¡La invitación se creó exitosamente!",
+    successCreatingMembership: "¡Se agrego al artista exitosamente!",
     noInvites: "No tienes invitaciones todavía. ¡Manten el animo y sigue buscando bandas!",
     Accepted: "¡Felicidades!",
     AcceptedDescription: "Ya eres parte de la banda",
