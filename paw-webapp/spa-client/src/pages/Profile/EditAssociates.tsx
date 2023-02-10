@@ -12,7 +12,7 @@ import { useUserService } from "../../contexts/UserService";
 import { User } from "../../models";
 import Membership from "../../models/Membership";
 import { serviceCall } from "../../services/ServiceManager";
-import MembershipItemEdit from "../User/MembershipItemEdit";
+import MembershipItemEdit from "./MembershipItemEdit";
 import { PaginationWrapper } from "../../components/Pagination/pagination";
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import { getQueryOrDefault, useQuery } from "../../hooks/useQuery";

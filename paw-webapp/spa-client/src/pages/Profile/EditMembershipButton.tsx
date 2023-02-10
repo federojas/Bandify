@@ -1,19 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../styles/profile.css";
 import { useTranslation } from "react-i18next";
 import {
-    Box,
     Button,
-    Container,
-    Divider,
-    Flex,
     FormControl,
     FormLabel,
-    Grid,
-    GridItem,
-    Heading,
-    HStack,
-    Image,
     Modal,
     ModalBody,
     ModalCloseButton,
@@ -21,23 +12,17 @@ import {
     ModalFooter,
     ModalHeader,
     ModalOverlay,
-    Stack,
-    Text,
     Textarea,
-    useColorModeValue,
     useDisclosure,
-    VStack,
     useToast,
-    Avatar
 } from "@chakra-ui/react";
 
 import { serviceCall } from "../../services/ServiceManager";
-import { useNavigate, useParams } from "react-router-dom";
-import { User } from "../../models";
+import { useNavigate } from "react-router-dom";
 import { useMembershipService } from "../../contexts/MembershipService";
 import { AiOutlineUserAdd } from "react-icons/ai";
 import { useForm } from "react-hook-form";
-import { addToBandOptions, addToBandOptionsES } from "./validations";
+import { addToBandOptions, addToBandOptionsES } from "../User/validations";
 import {
     Select, GroupBase,
 } from "chakra-react-select";
