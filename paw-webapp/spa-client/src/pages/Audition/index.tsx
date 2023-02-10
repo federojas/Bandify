@@ -47,7 +47,7 @@ import ApplyButton from "./ApplyAudition";
 import { Helmet } from "react-helmet";
 import { WarningTwoIcon } from '@chakra-ui/icons';
 import { TiTick, TiCancel } from "react-icons/ti";
-import {useMembershipService} from "../../contexts/MembershipService";
+import { useMembershipService } from "../../contexts/MembershipService";
 
 function ClosedAudition() {
   const { t } = useTranslation();
@@ -70,7 +70,7 @@ function ClosedAudition() {
   );
 }
 
-function DeleteAuditionModal(props: { auditionId: number}) {
+function DeleteAuditionModal(props: { auditionId: number }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { t } = useTranslation();
   const auditionService = useAuditionService();
@@ -102,12 +102,12 @@ function DeleteAuditionModal(props: { auditionId: number}) {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>{t("Audition.deleteConfirm")}</ModalHeader>
-          <ModalCloseButton />  
+          <ModalCloseButton />
           <ModalFooter>
             <Button leftIcon={<TiTick />} colorScheme='blue' mr={3} onClick={onDelete}>
               {t("Button.confirm")}
             </Button>
-            <Button  onClick={onClose} leftIcon={<TiCancel />} colorScheme='red' >{t("Button.cancel")}</Button>
+            <Button onClick={onClose} leftIcon={<TiCancel />} colorScheme='red' >{t("Button.cancel")}</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
@@ -131,24 +131,28 @@ const AuditionActions = (props: { auditionId: number, isOwner: boolean, currentU
   }
 
   useEffect(() => {
-    if(props.currentUser && !props.currentUser.band) {
+    if (props.currentUser && !props.currentUser.band) {
       serviceCall(
-          userService.getUserAuditionApplications(props.auditionId, props.currentUser.id),
-          navigate,
-          (response) => {
-            if (response.getContent().length === 0) {
-              setHasApplied(false);
-            }
-          },
+        userService.getUserAuditionApplications(props.auditionId, props.currentUser.id),
+        navigate,
+        (response) => {
+          console.log('De vuelta, refresheo ', refresh)
+          console.log('Respuesta: ', response.getContent().length)
+          if (response.getContent().length === 0) {
+            setHasApplied(false);
+          } else {
+            setHasApplied(true);
+          }
+        },
       )
       serviceCall(
-          membershipService.getUserMembershipsByBand(props.currentUser.id, props.bandId),
-          navigate,
-          (response) => {
-            if (response.getContent().length === 0) {
-              setIsMember(false);
-            }
-          },
+        membershipService.getUserMembershipsByBand(props.currentUser.id, props.bandId),
+        navigate,
+        (response) => {
+          if (response.getContent().length === 0) {
+            setIsMember(false);
+          }
+        },
       )
       setIsBand(props.currentUser.band);
     }
@@ -185,7 +189,7 @@ const AuditionActions = (props: { auditionId: number, isOwner: boolean, currentU
         </>
         :
         <>
-          {( isBand || hasApplied || isMember) ? <></> : (<ApplyButton auditionId={props.auditionId} refresh={handleRefresh} />)}
+          {(isBand || hasApplied || isMember) ? <></> : (<ApplyButton auditionId={props.auditionId} refresh={handleRefresh} />)}
         </>
       }
     </VStack>
