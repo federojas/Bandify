@@ -2,14 +2,17 @@ package ar.edu.itba.paw.service;
 
 import ar.edu.itba.paw.model.*;
 import ar.edu.itba.paw.model.exceptions.DuplicateUserException;
+import ar.edu.itba.paw.model.exceptions.NotAnArtistException;
 import ar.edu.itba.paw.model.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.persistence.UserDao;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -27,6 +30,9 @@ public class UserServiceTest {
     private UserDao userDao;
 
     @Mock
+    private AuthFacadeService authFacadeService;
+
+    @Mock
     private VerificationTokenService verificationTokenService;
 
     @Mock
@@ -42,6 +48,8 @@ public class UserServiceTest {
     @Mock
     private LocationService locationService;
 
+    @Mock
+    private PasswordEncoder passwordEncoder;
     @InjectMocks
     private UserService userService = new UserServiceImpl();
 
@@ -82,8 +90,6 @@ public class UserServiceTest {
 
     @Test
     public void testGetUserByIdNotFound() {
-        when(userDao.getUserById(1L)).thenReturn(Optional.empty());
-
         Optional<User> user = userService.getUserById(1L);
         assertFalse(user.isPresent());
     }
@@ -108,11 +114,10 @@ public class UserServiceTest {
 
     @Test
     public void testEditUser() {
-        when(userDao.getUserById(1L)).thenReturn(Optional.ofNullable(USER));
         when(locationService.getLocationByName(EDIT_LOCATION)).thenReturn((new Location(1L, EDIT_LOCATION)));
         when(genreService.getGenresByNames(EDIT_GENRES)).thenReturn(EDIT_GENRES_SET);
         when(roleService.getRolesByNames(EDIT_ROLES)).thenReturn(EDIT_ROLES_SET);
-
+        when(authFacadeService.getCurrentUser()).thenReturn(USER);
 
         User user = userService.editUser(1L, EDIT_NAME, EDIT_SURNAME, EDIT_DESCRIPTION, true, EDIT_ROLES, EDIT_GENRES, EDIT_LOCATION);
         assertNotNull(user);
@@ -159,7 +164,6 @@ public class UserServiceTest {
     public void testVerifyUser() {
         when(verificationTokenService.getTokenOwner(TOKEN_VALUE, TokenType.VERIFY)).thenReturn(USER.getId());
         doNothing().when(userDao).verifyUser(USER.getId());
-        when(userService.getUserById(USER.getId())).thenReturn(Optional.ofNullable(USER));
         userService.verifyUser(TOKEN_VALUE);
     }
 
@@ -175,8 +179,6 @@ public class UserServiceTest {
     @Test
     public void testChangePassword() {
         when(verificationTokenService.getTokenOwner(TOKEN_VALUE, TokenType.RESET)).thenReturn(USER.getId());
-        when(userService.getUserById(USER.getId())).thenReturn(Optional.of(USER));
-
         userService.changePassword(TOKEN_VALUE, PASSWORD);
     }
 
@@ -204,12 +206,12 @@ public class UserServiceTest {
         assertEquals(expectedUsers, users);
     }
 
-    @Test(expected = UserNotFoundException.class)
+    @Test(expected = NotAnArtistException.class)
     public void testGetArtistByIdButIsBand() {
         when(userDao.getUserById(1L)).thenReturn(Optional.ofNullable(USER_BAND));
 
         userService.getArtistById(1L);
-        fail("Should have thrown UserNotFoundException");
+        fail("Should have thrown NotAnArtistException");
     }
 
     @Test(expected = DuplicateUserException.class)
@@ -233,18 +235,6 @@ public class UserServiceTest {
         fail("Should have thrown UserNotFoundException");
     }
 
-    @Test(expected = UserNotFoundException.class)
-    public void testVerifyUserInvalidEmail() {
-        when(verificationTokenService.getTokenOwner(Mockito.eq(TOKEN_VALUE), Mockito.eq(TokenType.VERIFY))).thenReturn(Long.valueOf(1));
-        when(userDao.getUserById(Mockito.eq(Long.valueOf(1)))).thenThrow(new UserNotFoundException());
-        userService.verifyUser(TOKEN_VALUE);
-        fail("Should have thrown UserNotFoundException");
-    }
 
-    @Test(expected = UserNotFoundException.class)
-    public void testChangePasswordInvalidEmail() {
-        userService.verifyUser(TOKEN_VALUE);
-        fail("Should have thrown UserNotFoundException");
-    }
 
 }

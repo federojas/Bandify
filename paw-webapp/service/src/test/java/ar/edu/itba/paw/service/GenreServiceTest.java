@@ -2,6 +2,7 @@ package ar.edu.itba.paw.service;
 
 import ar.edu.itba.paw.model.Genre;
 import ar.edu.itba.paw.model.exceptions.GenreNotFoundException;
+import ar.edu.itba.paw.model.exceptions.InvalidGenreException;
 import ar.edu.itba.paw.persistence.GenreDao;
 import org.junit.Assert;
 import org.junit.Test;
@@ -58,11 +59,11 @@ public class GenreServiceTest {
     }
 
 
-    @Test(expected = GenreNotFoundException.class)
+    @Test(expected = InvalidGenreException.class)
     public void testValidateAndReturnGenresWithInvalidGenre() {
         when(genreDao.getAll()).thenReturn(new HashSet<>(GENRE_LIST));
         genreService.getGenresByNames(Collections.singletonList(INVALID));
-        Assert.fail("Should have thrown GenreNotFoundException");
+        Assert.fail("Should have thrown InvalidGenreException");
     }
 
     @Test
@@ -73,7 +74,6 @@ public class GenreServiceTest {
 
     @Test
     public void testGetGenresByNamesWithEmptyNamesList() {
-        when(genreDao.getAll()).thenReturn(new HashSet<>(GENRE_LIST));
         Set<Genre> genreSet = genreService.getGenresByNames(new ArrayList<>());
         Assert.assertEquals(0,genreSet.size());
     }

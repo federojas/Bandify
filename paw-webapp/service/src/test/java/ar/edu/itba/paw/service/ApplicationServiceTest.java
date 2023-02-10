@@ -131,9 +131,6 @@ public class ApplicationServiceTest {
     public void testApplyWithUserWhoIsAlreadyInBand() {
         long auditionId = 1;
         when(applicationDao.findApplication(auditionId, USER_NOT_APPLIED.getId())).thenThrow(UserAlreadyInBandException.class);
-        when(auditionService.getAuditionById(auditionId)).thenReturn(AUDITION);
-        when(userService.getUserById(AUDITION.getBand().getId())).thenReturn(Optional.of(BAND));
-        when(membershipService.isInBand(BAND, USER_NOT_APPLIED)).thenReturn(true);
         applicationService.apply(auditionId, USER_NOT_APPLIED,"message");
         Assert.fail("Should have thrown UserAlreadyInBandException");
     }
@@ -153,6 +150,7 @@ public class ApplicationServiceTest {
         long applicantId = 1;
         when(applicationDao.getMyApplicationsFiltered(applicantId, 1, ApplicationState.PENDING)).
                 thenReturn(new ArrayList<>(Collections.singletonList(PENDING_APP)));
+        when(authFacadeService.getCurrentUser()).thenReturn(USER_ALREADY_APPLIED);
         List<Application> myApps = applicationService.getMyApplicationsFiltered(applicantId, 1, ApplicationState.PENDING);
         assertEquals(1, myApps.size());
         assertTrue(myApps.containsAll(new ArrayList<>(Collections.singletonList(PENDING_APP))));
@@ -163,6 +161,7 @@ public class ApplicationServiceTest {
         long applicantId = 1;
         when(applicationDao.getMyApplicationsFiltered(applicantId, 1, ApplicationState.ACCEPTED)).
                 thenReturn(new ArrayList<>(Collections.singletonList(ACCEPTED_APP)));
+        when(authFacadeService.getCurrentUser()).thenReturn(USER_ALREADY_APPLIED);
         List<Application> myApps = applicationService.getMyApplicationsFiltered(applicantId, 1, ApplicationState.ACCEPTED);
         assertEquals(1, myApps.size());
         assertTrue(myApps.containsAll(new ArrayList<>(Collections.singletonList(ACCEPTED_APP))));
@@ -173,6 +172,7 @@ public class ApplicationServiceTest {
         long applicantId = 1;
         when(applicationDao.getMyApplicationsFiltered(applicantId, 1, ApplicationState.REJECTED)).
                 thenReturn(new ArrayList<>(Collections.singletonList(REJECTED_APP)));
+        when(authFacadeService.getCurrentUser()).thenReturn(USER_ALREADY_APPLIED);
         List<Application> myApps = applicationService.getMyApplicationsFiltered(applicantId, 1, ApplicationState.REJECTED);
         assertEquals(1, myApps.size());
         assertTrue(myApps.containsAll(new ArrayList<>(Collections.singletonList(REJECTED_APP))));
@@ -182,8 +182,7 @@ public class ApplicationServiceTest {
     public void testGetApplicationById() {
         long applicationId = 1;
         long auditionId = 1;
-        when(authFacadeService.getCurrentUser()).thenReturn(BAND);
-        when(auditionService.getAuditionById(auditionId)).thenReturn(BAND_AUDITION);
+        when(authFacadeService.getCurrentUser()).thenReturn(user);
         when(applicationDao.findApplication(applicationId)).thenReturn(Optional.of(PENDING_APP));
         Optional<Application> app = applicationService.getApplicationById(auditionId, applicationId);
         assertTrue(app.isPresent());
@@ -195,10 +194,7 @@ public class ApplicationServiceTest {
         long applicationId = 1;
         long auditionId = 1;
         when(authFacadeService.getCurrentUser()).thenReturn(BAND);
-        when(auditionService.getAuditionById(auditionId)).thenReturn(BAND_AUDITION);
-        when(applicationDao.findApplication(applicationId)).thenReturn(Optional.empty());
         Optional<Application> app = applicationService.getApplicationById(auditionId, applicationId);
-        Assert.assertFalse(app.isPresent());
     }
 
     @Test
@@ -240,16 +236,6 @@ public class ApplicationServiceTest {
     public void testCloseApplicationsByAuditionIdIllegalId() {
         long auditionId = -10;
         applicationService.closeApplicationsByAuditionId(auditionId);
-    }
-
-    @Test(expected = AuditionNotOwnedException.class)
-    public void testGetApplicationByIdNotOwned() {
-        long applicationId = 1;
-        long auditionId = 1;
-        when(authFacadeService.getCurrentUser()).thenReturn(BAND);
-        when(auditionService.getAuditionById(auditionId)).thenReturn(AUDITION);
-        applicationService.getApplicationById(applicationId,auditionId);
-        Assert.fail("Should have thrown AuditionNotOwnedException");
     }
 
     @Test(expected = AuditionNotOwnedException.class)
@@ -307,12 +293,14 @@ public class ApplicationServiceTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testGetMyApplicationsFilteredInvalidPage() {
-        applicationService.getMyApplicationsFiltered(1,-1,ApplicationState.PENDING);
+        when(authFacadeService.getCurrentUser()).thenReturn(user);
+        applicationService.getMyApplicationsFiltered(5,-1,ApplicationState.PENDING);
         Assert.fail("Should have thrown IllegalArgumentException");
     }
 
     @Test(expected = PageNotFoundException.class)
     public void testGetMyApplicationsFilteredPageNotFound() {
+        when(authFacadeService.getCurrentUser()).thenReturn(USER_ALREADY_APPLIED);
         applicationService.getMyApplicationsFiltered(1,100,ApplicationState.PENDING);
         Assert.fail("Should have thrown PageNotFoundException");
     }

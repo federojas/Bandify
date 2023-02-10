@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.service;
 
 import ar.edu.itba.paw.model.Role;
+import ar.edu.itba.paw.model.exceptions.InvalidRoleException;
 import ar.edu.itba.paw.model.exceptions.RoleNotFoundException;
 import ar.edu.itba.paw.persistence.RoleDao;
 import org.junit.Assert;
@@ -57,11 +58,11 @@ public class RoleServiceTest {
         Assert.assertEquals(expected, roles);
     }
 
-    @Test(expected = RoleNotFoundException.class)
+    @Test(expected = InvalidRoleException.class)
     public void testGetRolesByNamesWithInvalidRole() {
         when(roleDao.getAll()).thenReturn(new HashSet<>(ROLE_LIST));
         roleService.getRolesByNames(invalidRolesNames);
-        Assert.fail("Should have thrown RoleNotFoundException");
+        Assert.fail("Should have thrown InvalidRoleException");
     }
 
     @Test
@@ -72,7 +73,6 @@ public class RoleServiceTest {
 
     @Test
     public void testGetRolesByNamesWithEmptyNamesList() {
-        when(roleDao.getAll()).thenReturn(new HashSet<>(ROLE_LIST));
         Set<Role> roleSet = roleService.getRolesByNames(new ArrayList<>());
         Assert.assertEquals(0,roleSet.size());
     }
