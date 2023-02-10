@@ -61,7 +61,8 @@ public class User {
     )
     private Set<Genre> userGenres;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "userId")
     private Set<SocialMedia> socialSocialMedia;
 
     /* Default */ User() {

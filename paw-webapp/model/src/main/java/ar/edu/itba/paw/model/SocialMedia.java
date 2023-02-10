@@ -12,24 +12,19 @@ public class SocialMedia {
     @SequenceGenerator(sequenceName = "profileMediaUrls_id_seq",name="profileMediaUrls_id_seq")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userId")
-    private User user;
-
     @Column(nullable = false)
     private String url;
 
     @Enumerated(EnumType.STRING)
-    private UrlType type;
+    private UrlType mediaType;
 
     /* Default */ SocialMedia() {
         // Just for Hibernate
     }
 
-    public SocialMedia(User user, String url, UrlType type) {
-        this.user = user;
+    public SocialMedia(String url, UrlType mediaType) {
         this.url = url;
-        this.type = type;
+        this.mediaType = mediaType;
     }
 
     public String getUrl() {
@@ -40,12 +35,12 @@ public class SocialMedia {
         this.url = url;
     }
 
-    public UrlType getType() {
-        return type;
+    public UrlType getMediaType() {
+        return mediaType;
     }
 
-    public void setType(UrlType type) {
-        this.type = type;
+    public void setMediaType(UrlType mediaType) {
+        this.mediaType = mediaType;
     }
 
     public Long getId() {
@@ -56,24 +51,16 @@ public class SocialMedia {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SocialMedia that = (SocialMedia) o;
-        return Objects.equals(user, that.user) && Objects.equals(url, that.url) && type == that.type;
+        return mediaType == that.mediaType;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(user, url, type);
+        return Objects.hash(mediaType);
     }
 }

@@ -10,25 +10,21 @@ import java.net.URI;
 public class SocialMediaDto {
     private Long id;
     private String url;
-    private UrlType type;
+    private UrlType mediaType;
 
     private URI self;
-    private URI user;
 
-    public static SocialMediaDto fromSocialMedia(final UriInfo uriInfo, SocialMedia socialMedia) {
+    public static SocialMediaDto fromSocialMedia(final long userId, final UriInfo uriInfo, SocialMedia socialMedia) {
         SocialMediaDto socialMediaDto = new SocialMediaDto();
         socialMediaDto.id = socialMedia.getId();
         socialMediaDto.url = socialMedia.getUrl();
-        socialMediaDto.type = socialMedia.getType();
+        socialMediaDto.mediaType = socialMedia.getMediaType();
 
         final UriBuilder selfUriBuilder = uriInfo.getAbsolutePathBuilder()
-                .replacePath("users").path(String.valueOf(socialMedia.getUser().getId()))
+                .replacePath("users").path(String.valueOf(userId))
                 .path("social-media").path(String.valueOf(socialMedia.getId()));
         socialMediaDto.self = selfUriBuilder.build();
 
-        final UriBuilder userUriBuilder = uriInfo.getAbsolutePathBuilder()
-                .replacePath("users").path(String.valueOf(socialMedia.getUser().getId()));
-        socialMediaDto.user = userUriBuilder.clone().build();
         return socialMediaDto;
     }
 
@@ -49,11 +45,11 @@ public class SocialMediaDto {
     }
 
     public UrlType getType() {
-        return type;
+        return mediaType;
     }
 
     public void setType(UrlType type) {
-        this.type = type;
+        this.mediaType = type;
     }
 
     public URI getSelf() {
@@ -64,11 +60,4 @@ public class SocialMediaDto {
         this.self = self;
     }
 
-    public URI getUser() {
-        return user;
-    }
-
-    public void setUser(URI user) {
-        this.user = user;
-    }
 }

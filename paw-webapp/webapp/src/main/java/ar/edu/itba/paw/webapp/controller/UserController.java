@@ -167,7 +167,7 @@ public class UserController {
     public Response getUserSocialMedia(@PathParam("id") final long id){
         final Set<SocialMediaDto> socialMediaDtos = userService.getUserById(id)
                 .orElseThrow(UserNotFoundException::new).getSocialSocialMedia()
-                .stream().map(socialMedia -> SocialMediaDto.fromSocialMedia(uriInfo,socialMedia))
+                .stream().map(socialMedia -> SocialMediaDto.fromSocialMedia(id,uriInfo,socialMedia))
                 .collect(Collectors.toSet());
         if(socialMediaDtos.isEmpty())
             return Response.noContent().build();
@@ -192,7 +192,7 @@ public class UserController {
         final Set<SocialMedia> socialMedia = userService.getUserById(userId).orElseThrow(UserNotFoundException::new)
                 .getSocialSocialMedia().stream().filter(socialMedia1 -> socialMedia1.getId().equals(id))
                 .collect(Collectors.toSet());
-        return Response.ok(SocialMediaDto.fromSocialMedia(
+        return Response.ok(SocialMediaDto.fromSocialMedia(id,
                 uriInfo,socialMedia.stream().findFirst().orElseThrow(
                         SocialMediaNotFoundException::new))).build();
     }

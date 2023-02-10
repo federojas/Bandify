@@ -208,7 +208,7 @@ public class UserServiceImpl implements UserService {
     public void updateSocialMedia(long userId, Set<MediaUrl> mediaUrls) {
         final User user = authFacadeService.getCurrentUser();
         checkOwnership(user, userId);
-        Set<SocialMedia> socialMedia = mediaUrls.stream().map(mediaUrl -> new SocialMedia(user,mediaUrl.getUrl(),mediaUrl.getType())).collect(Collectors.toSet());
+        Set<SocialMedia> socialMedia = mediaUrls.stream().map(mediaUrl -> new SocialMedia(mediaUrl.getUrl(),mediaUrl.getType())).collect(Collectors.toSet());
         user.setSocialSocialMedia(socialMedia);
     }
 
