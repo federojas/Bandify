@@ -85,7 +85,7 @@ const EditAssociates = () => {
                             backgroundColor: "white",
                         }}
                     />
-                    <Heading size="md" noOfLines={1}>{userName}>{currentUser?.name}{' '}{currentUser?.surname}</Heading>
+                    <Heading size="md" noOfLines={1}>{currentUser?.name}{' '}{currentUser?.surname}</Heading>
                 </Flex>
 
 
