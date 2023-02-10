@@ -3,6 +3,7 @@ package ar.edu.itba.paw.webapp.security.handlers;
 import ar.edu.itba.paw.webapp.dto.ErrorInfoDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
@@ -17,16 +18,12 @@ public class BandifyAccessDeniedHandler implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException exception) throws IOException {
         ErrorInfoDto errorInfoDto = new ErrorInfoDto();
-
         response.setStatus(HttpStatus.FORBIDDEN.value());
-        response.setContentType("application/vnd.bandify.api.v1+json");
-
-
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         errorInfoDto.setStatus(HttpStatus.FORBIDDEN.value());
         errorInfoDto.setTitle(HttpStatus.FORBIDDEN.getReasonPhrase());
         errorInfoDto.addMessage(exception.getMessage());
         errorInfoDto.setPath(request.getRequestURI());
-
         final ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(response.getWriter(), errorInfoDto);
     }

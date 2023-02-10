@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 
 @Component
@@ -18,11 +19,8 @@ public class BandifyAuthenticationEntryPoint implements AuthenticationEntryPoint
     public void commence(HttpServletRequest request, HttpServletResponse response,
                          AuthenticationException exception) throws IOException {
         ErrorInfoDto errorInfoDto = new ErrorInfoDto();
-
-
-        //TODO VER DE AGREGAR LOS HEADERS DE WWW-AUTHENTICATE
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
-        response.setContentType("application/vnd.bandify.api.v1+json");
+        response.setContentType(MediaType.APPLICATION_JSON);
 
         errorInfoDto.setStatus(HttpStatus.UNAUTHORIZED.value());
         errorInfoDto.setTitle(HttpStatus.UNAUTHORIZED.getReasonPhrase());

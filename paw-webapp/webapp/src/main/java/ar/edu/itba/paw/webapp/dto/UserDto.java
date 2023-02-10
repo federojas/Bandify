@@ -11,7 +11,6 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
-// TODO: mostrar el mail solo en caso de que lo pida el usuario dueño
 public class UserDto {
     private Long id;
     private String name;
