@@ -75,7 +75,7 @@ function App() {
           <Route path='user/:id/associates' element={<Associates />} />
           <Route path='profile/editAssociates' element={<PrivateRoute component={EditAssociates} roles={["BAND"]} />} />
           <Route path='profile/associates' element={<PrivateRoute component={ProfileAssociates} roles={["BAND", "ARTIST"]} />} />
-          <Route path='verify' element={<AnonymousRoute component={Verify} />} />
+          <Route path='verify' element={<Verify />} />
           <Route path='*' element={<Error />} />
         </Route>
       </Routes>
