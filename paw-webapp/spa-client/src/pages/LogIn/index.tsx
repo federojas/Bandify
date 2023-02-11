@@ -47,12 +47,7 @@ const LoginBox = () => {
 
   const toast = useToast();
 
-  useEffect(() => {
-    if (authContext.isAuthenticated) {
-      navigate(state.prev || "/audition");
-    }
-  }, [authContext.isAuthenticated]);
-
+ 
   const {
     register,
     handleSubmit,
@@ -75,9 +70,8 @@ const LoginBox = () => {
         });
       } else {
         const headers: any = response.getData().headers
-
         if (response) authContext.login(headers['x-jwt'], headers['x-refresh-token'])
-        navigate(state.prev || "/audition", { replace: true });
+          navigate(state?.prev || "/audition", { replace: true });
       }
     })
   };
