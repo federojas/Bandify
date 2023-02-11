@@ -145,26 +145,24 @@ const ApplicantItem = ({ type = 'PENDING', application, handleRefresh, auditionI
   return (
     <Box borderWidth='1px' borderRadius='lg' p="4">
       <Flex alignItems={'center'} justify="space-between">
-        <Link onClick={() => { navigate("/users/" + user?.id) }}>
-          <HStack>
-            <Avatar src={user?.profileImage} _dark={{
-              backgroundColor: "white",
-            }} />
-            <Box ml='3'>
-              <Text fontWeight='bold'>
-                {user?.name + " " + user?.surname}
-              </Text>
-            </Box>
-          </HStack>
-        </Link>
-        {isPending ? <ApplicantInfo application={application} handleRefresh={handleRefresh} /> :
-          <Badge mx={2} colorScheme={scheme}>
-            {label}
-          </Badge>
-        }
-        {isAccepted && user &&
-          <AddToBandButton user={user!} auditionId={auditionId} refresh={handleRefresh}/>
-        }
+        <Flex direction={'row'} alignItems='center'  cursor="pointer" onClick={() => { navigate("/users/" + user?.id) }} flexWrap={'wrap'}>
+          <Avatar src={user?.profileImage} _dark={{
+            backgroundColor: "white",
+          }} />
+          <Text fontWeight='bold' ml={3} wordBreak={'break-word'} >
+            {user?.name + " " + user?.surname}
+          </Text>
+        </Flex>
+        <Flex alignItems={'center'}>
+          {isPending ? <ApplicantInfo application={application} handleRefresh={handleRefresh} /> :
+            <Badge mx={2} colorScheme={scheme}>
+              {label}
+            </Badge>
+          }
+          {isAccepted && user &&
+            <AddToBandButton user={user!} auditionId={auditionId} refresh={handleRefresh} />
+          }
+        </Flex>
       </Flex>
 
     </Box>
@@ -290,7 +288,7 @@ const AuditionApplicants = () => {
             <TabPanels>
               <TabPanel mt="4">
                 {pending.length > 0 ?
-                  pending.map((application) => <ApplicantItem type={'PENDING'} application={application} handleRefresh={handleRefresh} auditionId={parseInt(id!)}/>)
+                  pending.map((application) => <ApplicantItem type={'PENDING'} application={application} handleRefresh={handleRefresh} auditionId={parseInt(id!)} />)
                   :
                   <p>{t("AuditionApplicants.NoApplicants")}</p>
                 }
@@ -357,7 +355,7 @@ const AuditionApplicants = () => {
               </TabPanel>
               <TabPanel mt="4">
                 {accepted.length > 0 ?
-                  accepted.map((application) => <ApplicantItem type={'ACCEPTED'} application={application} handleRefresh={handleRefresh} auditionId={parseInt(id!)}/>)
+                  accepted.map((application) => <ApplicantItem type={'ACCEPTED'} application={application} handleRefresh={handleRefresh} auditionId={parseInt(id!)} />)
                   :
                   <p>{t("AuditionApplicants.NoApplicants")}</p>
                 }

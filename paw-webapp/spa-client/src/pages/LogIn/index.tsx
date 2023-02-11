@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import "../../common/i18n/index";
 import AuthContext from "../../contexts/AuthContext";
-import {Helmet} from "react-helmet";
+import { Helmet } from "react-helmet";
 import {
   Flex,
   Box,
@@ -29,7 +29,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { serviceCall } from "../../services/ServiceManager";
 
 interface FormData {
@@ -43,12 +43,13 @@ const LoginBox = () => {
   const [invalidCredentials, setInvalidCredentials] = React.useState(false);
   const authContext = React.useContext(AuthContext);
   const navigate = useNavigate();
-  const location = useLocation();
+  const { state } = useLocation();
+
   const toast = useToast();
 
   useEffect(() => {
     if (authContext.isAuthenticated) {
-      navigate("/auditions");
+      navigate(state.prev || "/auditions");
     }
   }, [authContext.isAuthenticated]);
 
@@ -76,7 +77,7 @@ const LoginBox = () => {
         const headers: any = response.getData().headers
 
         if (response) authContext.login(headers['x-jwt'], headers['x-refresh-token'])
-        navigate("/auditions", { replace: true });
+        navigate(state.prev || "/auditions", { replace: true });
       }
     })
   };
@@ -115,7 +116,7 @@ const LoginBox = () => {
         bg={useColorModeValue("gray.50", "gray.800")}
       >
         <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6} minW={"40vw"}>
-          <Stack align={"center"}>
+          <Stack align={"center"}>    
             <Heading fontSize={"4xl"}>{t("Login.title")} ✌️</Heading>
           </Stack>
           <Box
@@ -124,6 +125,7 @@ const LoginBox = () => {
             boxShadow={"lg"}
             p={8}
           >
+
             <form onSubmit={handleSubmit(onSubmit)}>
               <Stack spacing={4}>
                 <FormControl
@@ -191,7 +193,7 @@ const LoginBox = () => {
         </Stack>
       </Flex>
     </>
-    );
+  );
 };
 
 const Login = () => {
