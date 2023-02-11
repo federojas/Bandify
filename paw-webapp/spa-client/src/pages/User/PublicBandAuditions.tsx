@@ -74,7 +74,7 @@ const PublicBandAudition = (
       <Divider />
       <CardFooter>
         <ButtonGroup>
-          <Link to={"/auditions/" + audition.id.toString()}>
+          <Link to={"/audition/" + audition.id.toString()}>
             <Button variant="solid" colorScheme="blue" leftIcon={<AiOutlineInfoCircle />}>
               {t("PostCard.more")}
             </Button>
@@ -142,7 +142,7 @@ const PublicBandAuditions = () => {
       <Flex
         as="a"
         onClick={() => {
-          navigate("/users/" + id);
+          navigate("/user/" + id);
         }}
         flex="1"
         gap="4"

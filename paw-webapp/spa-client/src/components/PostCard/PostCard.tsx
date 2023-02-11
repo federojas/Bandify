@@ -68,7 +68,7 @@ const PostCard: React.FC<Audition> = ({
           as="a"
           cursor="pointer"
           onClick={() => {
-            navigate(userId === bandId ? "/profile" : "/users/" + bandId.toString())
+            navigate(userId === bandId ? "/profile" : "/user/" + bandId.toString())
           }}
           flex="1"
           gap="4"
@@ -117,7 +117,7 @@ const PostCard: React.FC<Audition> = ({
       <Divider />
       <CardFooter>
         <ButtonGroup>
-          <Link to={"/auditions/" + id.toString()}>
+          <Link to={"/audition/" + id.toString()}>
             <Button variant="solid" colorScheme="blue" leftIcon={<AiOutlineInfoCircle />}>
               {t("PostCard.more")}
             </Button>

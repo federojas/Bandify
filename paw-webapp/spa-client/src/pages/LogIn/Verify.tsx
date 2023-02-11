@@ -58,7 +58,7 @@ function Error() {
 
       </Text>
       <Button colorScheme="blue" mt={6} onClick={() => {
-        navigate('/auditions')
+        navigate('/audition')
       }}>
         {t("VerifyError.Button")}
       </Button>

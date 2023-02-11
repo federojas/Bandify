@@ -216,7 +216,7 @@ const EditAudition = () => {
           description: t("EditAudition.success"),
           isClosable: true,
         })
-        navigate("/auditions/"+id);
+        navigate("/audition/"+id);
       }
     })
   };

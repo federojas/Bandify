@@ -64,7 +64,7 @@ const AuditionSearchBar = ({ onSubmit = () => {} }: AuditionSearchBarProps) => {
     if (roles && roles.length > 0)
       roles.map((role) => searchParams.append('role', role.value));
     navigate({
-      pathname: "/auditions/search",
+      pathname: "/audition/search",
       search: searchParams.toString(),
     }
     );

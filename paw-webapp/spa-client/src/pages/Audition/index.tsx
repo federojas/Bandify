@@ -62,7 +62,7 @@ function ClosedAudition() {
         {t("Audition.CheckOutOthers")}
       </Text>
       <Button colorScheme="blue" mt={6} onClick={() => {
-        navigate('/auditions')
+        navigate('/audition')
       }}>
         {t("Audition.MoreAuditions")}
       </Button>
@@ -91,7 +91,7 @@ function DeleteAuditionModal(props: { auditionId: number }) {
           status: "success",
           isClosable: true,
         })
-        navigate('/auditions');
+        navigate('/audition');
       }
     });
   }
@@ -159,7 +159,7 @@ const AuditionActions = (props: { auditionId: number, isOwner: boolean, currentU
 
 
   const onEdit = () => {
-    navigate("/auditions/" + props.auditionId + "/edit");
+    navigate("/audition/" + props.auditionId + "/edit");
   }
 
 
@@ -180,7 +180,7 @@ const AuditionActions = (props: { auditionId: number, isOwner: boolean, currentU
       </Button>
       {props.isOwner ?
         <>
-          <Button onClick={() => { navigate('/auditions/' + String(props.auditionId) + '/applicants') }} leftIcon={<FiUsers />} w={'44'} colorScheme='green'>{t("Audition.applicants")}</Button>
+          <Button onClick={() => { navigate('/audition/' + String(props.auditionId) + '/applicants') }} leftIcon={<FiUsers />} w={'44'} colorScheme='green'>{t("Audition.applicants")}</Button>
           <Button leftIcon={<AiOutlineEdit />} w={'44'} colorScheme='teal' onClick={onEdit}>{t("Audition.edit")}</Button>
           <DeleteAuditionModal auditionId={props.auditionId} />
 
@@ -220,7 +220,7 @@ const AuditionCard = ({
           as="a"
           cursor="pointer"
           onClick={() => {
-            navigate(userId === user.id ? "/profile" : "/users/" + user.id)
+            navigate(userId === user.id ? "/profile" : "/user/" + user.id)
           }}
           flex="1"
           gap="4"

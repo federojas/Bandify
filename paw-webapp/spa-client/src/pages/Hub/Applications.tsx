@@ -20,7 +20,7 @@ const ApplicationItem = ({ type = 'PENDING', application }: { type: string, appl
   const label = type === "REJECTED" ? t("Applications.Rejected") : (type === "PENDING" ? t("Applications.Pending") : t("Applications.Accepted"))
   return (
     <Box borderWidth='1px' borderRadius='lg' p="4" onClick={() => {
-      navigate("/auditions/" + parseInt(application.audition.split('/')[application.audition.split('/').length - 1]))
+      navigate("/audition/" + parseInt(application.audition.split('/')[application.audition.split('/').length - 1]))
     }} style={{cursor: "pointer"}}>
       <Flex alignItems={'center'} justify="space-between">
         <HStack>

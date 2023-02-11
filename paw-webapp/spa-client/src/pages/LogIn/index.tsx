@@ -49,7 +49,7 @@ const LoginBox = () => {
 
   useEffect(() => {
     if (authContext.isAuthenticated) {
-      navigate(state.prev || "/auditions");
+      navigate(state.prev || "/audition");
     }
   }, [authContext.isAuthenticated]);
 
@@ -77,7 +77,7 @@ const LoginBox = () => {
         const headers: any = response.getData().headers
 
         if (response) authContext.login(headers['x-jwt'], headers['x-refresh-token'])
-        navigate(state.prev || "/auditions", { replace: true });
+        navigate(state.prev || "/audition", { replace: true });
       }
     })
   };

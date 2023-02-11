@@ -31,16 +31,16 @@ public class ApplicationDto {
         applicationDto.title = application.getAudition().getTitle();
 
         final UriBuilder selfBuilder = uriInfo.getBaseUriBuilder()
-                .replacePath("auditions").path(String.valueOf(application.getAudition().getId()))
+                .path("auditions").path(String.valueOf(application.getAudition().getId()))
                 .path("applications").path(String.valueOf(application.getId()));
         applicationDto.self = selfBuilder.build();
 
         final UriBuilder auditionUriBuilder = uriInfo.getBaseUriBuilder()
-                .replacePath("auditions").path(String.valueOf(application.getAudition().getId()));
+                .path("auditions").path(String.valueOf(application.getAudition().getId()));
         applicationDto.audition = auditionUriBuilder.build();
 
         final UriBuilder applicantUriBuilder = uriInfo.getBaseUriBuilder()
-                .replacePath("users").path(String.valueOf(application.getApplicant().getId()));
+                .path("users").path(String.valueOf(application.getApplicant().getId()));
         applicationDto.applicant = applicantUriBuilder.build();
         return applicationDto;
     }

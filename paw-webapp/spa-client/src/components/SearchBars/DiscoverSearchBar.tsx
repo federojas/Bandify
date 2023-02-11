@@ -63,7 +63,7 @@ const DiscoverSearchBar = ({ onSubmit = () => {} }: DiscoverSearchBarProps) => {
     if(roles && roles.length > 0)
       roles.map((role) => searchParams.append('role', role.value));
     navigate( {
-          pathname: "/users/search",
+          pathname: "/user/search",
           search: searchParams.toString(),
         }
     );

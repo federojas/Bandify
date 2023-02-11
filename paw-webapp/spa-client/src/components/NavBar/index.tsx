@@ -74,8 +74,8 @@ function Nav() {
   const userService = useUserService();
   const [user, setUser] = useState<User>();
   const sections = [
-    { path: "/auditions", name: t("NavBar.auditions"), icon: <FiMusic /> },
-    { path: "/users", name: t("NavBar.discover"), icon: <FiUsers /> },
+    { path: "/audition", name: t("NavBar.auditions"), icon: <FiMusic /> },
+    { path: "/user", name: t("NavBar.discover"), icon: <FiUsers /> },
   ];
   const bg27 = useColorModeValue("gray.200", "gray.700");
 
@@ -109,7 +109,7 @@ function Nav() {
         />
         <HStack spacing={8} alignItems={"center"}>
           <Box>
-            <a style={{ cursor: "pointer" }} onClick={() => { navigate(isAuthenticated ? '/auditions' : '/') }} className="logo-section">
+            <a style={{ cursor: "pointer" }} onClick={() => { navigate(isAuthenticated ? '/audition' : '/') }} className="logo-section">
               <HStack>
                 <Image src={BandifyLogo} w={8} alt={t("Alts.bandify")} />
                 <span className="bandify-title">bandify</span>

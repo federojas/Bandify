@@ -181,7 +181,7 @@ const NewAudition = () => {
           duration: 9000,
           isClosable: true,
         });
-        navigate("/auditions/" + r.getData().id);
+        navigate("/audition/" + r.getData().id);
       }
     })
   };

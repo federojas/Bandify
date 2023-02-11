@@ -79,7 +79,7 @@ const MembershipItem = ({ contraUser, description, roles }: { contraUser: User, 
     <Box borderWidth='1px' borderRadius='lg' p="4" w={'full'}>
       <Flex direction={'column'} justify="space-between">
         <HStack onClick={() => {
-          navigate('/users/' + contraUser.id)
+          navigate('/user/' + contraUser.id)
         }}
           cursor={'pointer'}
         >
@@ -425,7 +425,7 @@ const UserProfile = () => {
                 {user?.band &&
                   <>
                     <Button leftIcon={<FiMusic />} w={'50'} colorScheme={'cyan'} onClick={() => {
-                      navigate("/users/" + userId + "/auditions")
+                      navigate("/user/" + userId + "/auditions")
                     }}>
                       {t("User.auditions")}
                     </Button>
@@ -507,7 +507,7 @@ const UserProfile = () => {
                     </Heading>
                   </HStack>
                   <Button leftIcon={<GrView />} w={'50'} colorScheme={'cyan'} onClick={() => {
-                    navigate("/users/" + userId + "/associates")
+                    navigate("/user/" + userId + "/associates")
                   }}>
                     {t("Profile.ViewAll")}
                   </Button>

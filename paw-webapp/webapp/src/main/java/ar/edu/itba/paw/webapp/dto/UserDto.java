@@ -43,21 +43,21 @@ public class UserDto {
 
 
         final UriBuilder userUriBuilder = uriInfo.getBaseUriBuilder()
-                .replacePath("users").path(String.valueOf(user.getId()));
+                .path("users").path(String.valueOf(user.getId()));
         dto.self = userUriBuilder.build();
 
         final UriBuilder socialMediaUriBuilder = uriInfo.getBaseUriBuilder()
-                .replacePath("users").path(String.valueOf(user.getId()))
+                .path("users").path(String.valueOf(user.getId()))
                 .path("social-media");
         dto.socialMedia = socialMediaUriBuilder.build();
 
         final UriBuilder profileImageUriBuilder = uriInfo.getBaseUriBuilder()
-                .replacePath("users").path(String.valueOf(user.getId()))
+                .path("users").path(String.valueOf(user.getId()))
                 .path("profile-image");
         dto.profileImage = profileImageUriBuilder.build();
 
         final UriBuilder applicationsUriBuilder = uriInfo.getBaseUriBuilder()
-                .replacePath("users").path(String.valueOf(user.getId()))
+                .path("users").path(String.valueOf(user.getId()))
                 .path("applications");
         dto.applications = applicationsUriBuilder.build();
 

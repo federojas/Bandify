@@ -22,7 +22,7 @@ public class GenreDto {
         dto.id = genre.getId();
         dto.genreName = genre.getName();
         final UriBuilder userUriBuilder = uriInfo.getBaseUriBuilder()
-                .replacePath("genres").path(String.valueOf(genre.getId()));
+                .path("genres").path(String.valueOf(genre.getId()));
         dto.self = userUriBuilder.build();
 
         return dto;

@@ -116,7 +116,7 @@ const BandAudition = (
 
       <Flex alignItems="center" justifyContent="center" mt={4}>
         <Button colorScheme="green" mr={3} leftIcon={<FiUsers />} onClick={() => {
-          navigate('/auditions/' + audition.id + '/applicants')
+          navigate('/audition/' + audition.id + '/applicants')
         }}>
           {t("MyAuditions.applicants")}
           {
@@ -125,7 +125,7 @@ const BandAudition = (
           }
         </Button>
         <Button colorScheme="blue" leftIcon={<AiOutlineInfoCircle />}
-          onClick={() => navigate('/auditions/' + audition.id)}
+          onClick={() => navigate('/audition/' + audition.id)}
         >{t("MyAuditions.moreInfo")}</Button>
 
       </Flex>

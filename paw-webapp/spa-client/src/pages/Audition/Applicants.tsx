@@ -145,7 +145,7 @@ const ApplicantItem = ({ type = 'PENDING', application, handleRefresh, auditionI
   return (
     <Box borderWidth='1px' borderRadius='lg' p="4">
       <Flex alignItems={'center'} justify="space-between">
-        <Flex direction={'row'} alignItems='center'  cursor="pointer" onClick={() => { navigate("/users/" + user?.id) }} flexWrap={'wrap'}>
+        <Flex direction={'row'} alignItems='center'  cursor="pointer" onClick={() => { navigate("/user/" + user?.id) }} flexWrap={'wrap'}>
           <Avatar src={user?.profileImage} _dark={{
             backgroundColor: "white",
           }} />

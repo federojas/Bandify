@@ -39,16 +39,16 @@ public class AuditionDto {
         auditionDto.isOpen = audition.isOpen();
 
         final UriBuilder selfUriBuilder = uriInfo.getBaseUriBuilder()
-                .replacePath("auditions").path(String.valueOf(audition.getId()));
+                .path("auditions").path(String.valueOf(audition.getId()));
         auditionDto.self = selfUriBuilder.build();
 
         final UriBuilder applicationsUriBuilder = uriInfo.getBaseUriBuilder()
-                .replacePath("auditions").path(String.valueOf(audition.getId()))
+                .path("auditions").path(String.valueOf(audition.getId()))
                 .path("applications");
         auditionDto.applications = applicationsUriBuilder.clone().build();
 
         final UriBuilder ownerUriBuilder = uriInfo.getBaseUriBuilder()
-                .replacePath("users").path(String.valueOf(audition.getBand().getId()));
+                .path("users").path(String.valueOf(audition.getBand().getId()));
         auditionDto.owner = ownerUriBuilder.clone().build();
         return auditionDto;
     }

@@ -13,7 +13,7 @@ const MembershipItemEdit = ({ contraUser, description, roles, membershipId, refr
       <Flex direction={'row'} justify="space-between">
         <Flex direction={'column'} flex={3} justify="start">
           <HStack onClick={() => {
-            navigate('/users/' + contraUser.id)
+            navigate('/user/' + contraUser.id)
           }}
             cursor={'pointer'}
           >

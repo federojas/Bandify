@@ -21,7 +21,7 @@ public class SocialMediaDto {
         socialMediaDto.mediaType = socialMedia.getType();
 
         final UriBuilder selfUriBuilder = uriInfo.getBaseUriBuilder()
-                .replacePath("users").path(String.valueOf(userId))
+                .path("users").path(String.valueOf(userId))
                 .path("social-media").path(String.valueOf(socialMedia.getId()));
         socialMediaDto.self = selfUriBuilder.build();
 

@@ -10,7 +10,7 @@ const MembershipItem = ({ contraUser, description, roles}: { contraUser: User, d
       <Flex direction={'column'} justify="space-between">
         <VStack justify='space-between'>
           <HStack onClick={() => {
-            navigate('/users/' + contraUser.id)
+            navigate('/user/' + contraUser.id)
           }}
             cursor={'pointer'}
           >

@@ -20,7 +20,7 @@ public class LocationDto {
         dto.id = loc.getId();
         dto.locName = loc.getName();
         final UriBuilder userUriBuilder = uriInfo.getBaseUriBuilder()
-                .replacePath("locations").path(String.valueOf(loc.getId()));
+                .path("locations").path(String.valueOf(loc.getId()));
         dto.self = userUriBuilder.build();
 
         return dto;

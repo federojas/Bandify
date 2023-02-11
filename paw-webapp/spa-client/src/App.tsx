@@ -52,27 +52,27 @@ function App() {
           <Route path="registerBand" element={<AnonymousRoute component={RegisterBand} />} />
           <Route path="registerArtist" element={<AnonymousRoute component={RegisterArtist} />} />
           <Route path="profile" element={<PrivateRoute component={Profile} roles={["ARTIST", "BAND"]} />} />
-          <Route path="users" element={<Discover />} />
-          <Route path="users/:id" element={<User />} />
+          <Route path="user" element={<Discover />} />
+          <Route path="user/:id" element={<User />} />
           <Route path="resetPassword" element={<AnonymousRoute component={ForgotPassword} />} />
-          <Route path="auditions" element={<AuditionsPage />} />
-          <Route path="auditions/:id" element={<PrivateRoute component={Audition} roles={["ARTIST", "BAND"]} />} />
-          <Route path="auditions/:id/edit" element={<PrivateRoute component={EditAudition} roles={["BAND"]} />} />
-          <Route path="auditions/:id/applicants" element={<PrivateRoute component={AuditionApplicants} roles={["BAND"]} />} />
+          <Route path="audition" element={<AuditionsPage />} />
+          <Route path="audition/:id" element={<PrivateRoute component={Audition} roles={["ARTIST", "BAND"]} />} />
+          <Route path="audition/:id/edit" element={<PrivateRoute component={EditAudition} roles={["BAND"]} />} />
+          <Route path="audition/:id/applicants" element={<PrivateRoute component={AuditionApplicants} roles={["BAND"]} />} />
           <Route path="newAudition" element={<PrivateRoute component={NewAudition} roles={["BAND"]} />} />
-          <Route path="auditions/search" element={<AuditionSearch />} />
-          <Route path="users/search" element={<Index />} />
+          <Route path="audition/search" element={<AuditionSearch />} />
+          <Route path="user/search" element={<Index />} />
           <Route path="profile/applications" element={<PrivateRoute component={Applications} roles={["ARTIST"]} />} />
           <Route path="profile/invites" element={<PrivateRoute component={Invites} roles={["ARTIST"]} />} />
           <Route path="profile/auditions" element={<PrivateRoute component={BandAuditions} roles={["BAND"]} />} />
-          <Route path="users/:id/auditions" element={<PublicBandAuditions />} />
+          <Route path="user/:id/auditions" element={<PublicBandAuditions />} />
           <Route path="profile/editArtist" element={<PrivateRoute component={EditArtist} roles={["ARTIST"]} />} />
           <Route path="profile/editBand" element={<PrivateRoute component={EditBand} roles={["BAND"]} />} />
           <Route path='error' element={<Error />} />
           <Route path='emailSent' element={<AnonymousRoute component={EmailSent} />}/>
           <Route path='resetPassword/emailSent' element={<AnonymousRoute component={ResetPwdEmailSent} />}/>
           <Route path='newPassword' element={<NewPassword />} />
-          <Route path='users/:id/associates' element={<Associates />} />
+          <Route path='user/:id/associates' element={<Associates />} />
           <Route path='profile/editAssociates' element={<PrivateRoute component={EditAssociates} roles={["BAND"]} />} />
           <Route path='profile/associates' element={<PrivateRoute component={ProfileAssociates} roles={["BAND", "ARTIST"]} />} />
           <Route path='verify' element={<AnonymousRoute component={Verify} />} />

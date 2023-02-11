@@ -73,7 +73,7 @@ export default function NewPassword(): JSX.Element {
               isClosable: true,
             })
             auth.login(response.getData().headers.get("X-JWT"), response.getData().headers.get("X-Refresh-Token"))
-            navigate("/auditions", {replace: true})
+            navigate("/audition", {replace: true})
           }
         }
     )

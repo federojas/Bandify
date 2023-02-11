@@ -83,7 +83,7 @@ const Associates = () => {
         <Flex
           as="a"
           onClick={() => {
-            navigate("/users/" + id);
+            navigate("/user/" + id);
           }}
           flex="1"
           gap="4"

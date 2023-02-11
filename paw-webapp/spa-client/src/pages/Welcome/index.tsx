@@ -25,7 +25,7 @@ function Home() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/auditions', { replace: true })
+      navigate('/audition', { replace: true })
     }
   }, [isAuthenticated, navigate])
 

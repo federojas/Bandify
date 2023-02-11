@@ -31,15 +31,15 @@ public class MembershipDto {
         dto.state = membership.getState();
         dto.roles = membership.getRoles().stream().map(Role::getName).collect(Collectors.toList());
         final UriBuilder membershipUriBuilder = uriInfo.getBaseUriBuilder()
-                .replacePath("memberships").path(String.valueOf(membership.getId()));
+                .path("memberships").path(String.valueOf(membership.getId()));
         dto.self = membershipUriBuilder.build();
 
         final UriBuilder artistUriBuilder = uriInfo.getBaseUriBuilder()
-                .replacePath("users").path(String.valueOf(membership.getArtist().getId()));
+                .path("users").path(String.valueOf(membership.getArtist().getId()));
         dto.artist = artistUriBuilder.build();
 
         final UriBuilder bandUriBuilder = uriInfo.getBaseUriBuilder()
-                .replacePath("users").path(String.valueOf(membership.getBand().getId()));
+                .path("users").path(String.valueOf(membership.getBand().getId()));
         dto.band = bandUriBuilder.build();
 
         return dto;

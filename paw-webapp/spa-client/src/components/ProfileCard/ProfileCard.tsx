@@ -141,7 +141,7 @@ const ProfileCard: React.FC<User> = ({
             <Button
               as='a'
               style={{cursor: "pointer"}}
-              onClick={() => {navigate(id === userId ? "/profile" : `/users/${id}`)}}
+              onClick={() => {navigate(id === userId ? "/profile" : `/user/${id}`)}}
               flexBasis={'50%'}
               fontSize={'sm'}
               rounded={'full'}
