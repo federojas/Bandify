@@ -136,8 +136,6 @@ const AuditionActions = (props: { auditionId: number, isOwner: boolean, currentU
         userService.getUserAuditionApplications(props.auditionId, props.currentUser.id),
         navigate,
         (response) => {
-          console.log('De vuelta, refresheo ', refresh)
-          console.log('Respuesta: ', response.getContent().length)
           if (response.getContent().length === 0) {
             setHasApplied(false);
           } else {

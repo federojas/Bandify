@@ -334,13 +334,11 @@ const UserProfile = () => {
           setMemberships(response.getContent());
         }
       )
-      console.log('vamos a llamar de nuevo para conseguir el canInvite')
       if (!user.band && currentUser.band) {
         serviceCall(
           membershipService.getUserMembershipsByBand(user?.id, currentUser?.id),
           navigate,
           (response) => {
-            console.log('response', response.getContent().length)
             if (response.getContent().length === 0) {
               setCanInvite(true);
               setCanLeave(false);

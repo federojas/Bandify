@@ -45,7 +45,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       return jwtDecode<CustomJwtPayload>(jwt as string).sub as string
     } catch (error) {
       if (isAuthenticated)
-        console.log(error);
+        console.error(error);
     }
   }
   );
@@ -54,7 +54,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       return jwtDecode<CustomJwtPayload>(jwt as string).roles as string
     } catch (error) {
       if (isAuthenticated)
-        console.log(error);
+        console.error(error);
     }
   }
 
@@ -66,7 +66,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         .pop() as string)
     } catch (error) {
       if (isAuthenticated)
-        console.log(error);
+        console.error(error);
     }
   }
 
@@ -87,7 +87,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         localStorage.setItem("refresh", refreshToken);
 
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
