@@ -320,11 +320,11 @@
 </build>
 
   <modules>
+    <module>spa-client</module>
     <module>webapp</module>
     <module>service</module>
     <module>persistence</module>
     <module>interface</module>
     <module>model</module>
-    <module>spa-client</module>
   </modules>
 </project>

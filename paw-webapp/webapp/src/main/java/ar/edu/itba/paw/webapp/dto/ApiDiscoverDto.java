@@ -16,30 +16,30 @@ public class ApiDiscoverDto {
     public static ApiDiscoverDto getApiDiscover(UriInfo uriInfo) {
         ApiDiscoverDto discoverDto = new ApiDiscoverDto();
 
-        final UriBuilder selfUriBuilder = uriInfo.getAbsolutePathBuilder();
+        final UriBuilder selfUriBuilder = uriInfo.getBaseUriBuilder();
         discoverDto.self = selfUriBuilder.build();
 
-        final UriBuilder auditionsUriBuilder = uriInfo.getAbsolutePathBuilder()
+        final UriBuilder auditionsUriBuilder = uriInfo.getBaseUriBuilder()
                 .replacePath("auditions");
         discoverDto.auditionsUri = auditionsUriBuilder.build();
 
-        final UriBuilder membershipsUriBuilder = uriInfo.getAbsolutePathBuilder()
+        final UriBuilder membershipsUriBuilder = uriInfo.getBaseUriBuilder()
                 .replacePath("memberships");
         discoverDto.membershipsUri = membershipsUriBuilder.build();
 
-        final UriBuilder genresUriBuilder = uriInfo.getAbsolutePathBuilder()
+        final UriBuilder genresUriBuilder = uriInfo.getBaseUriBuilder()
                 .replacePath("genres");
         discoverDto.genresUri = genresUriBuilder.build();
 
-        final UriBuilder rolesUriBuilder = uriInfo.getAbsolutePathBuilder()
+        final UriBuilder rolesUriBuilder = uriInfo.getBaseUriBuilder()
                 .replacePath("roles");
         discoverDto.rolesUri = rolesUriBuilder.build();
 
-        final UriBuilder usersUriBuilder = uriInfo.getAbsolutePathBuilder()
+        final UriBuilder usersUriBuilder = uriInfo.getBaseUriBuilder()
                 .replacePath("users");
         discoverDto.usersUri = usersUriBuilder.build();
 
-        final UriBuilder locationsUriBuilder = uriInfo.getAbsolutePathBuilder()
+        final UriBuilder locationsUriBuilder = uriInfo.getBaseUriBuilder()
                 .replacePath("locations");
         discoverDto.locationsUri = locationsUriBuilder.build();
 

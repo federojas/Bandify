@@ -53,7 +53,7 @@ public class UserController {
         User.UserBuilder builder = new User.UserBuilder(form.getEmail(), form.getPassword(),
                 form.getName(), form.getBand(), false).surname(form.getSurname());
         final User user = userService.create(builder);
-        final URI uri = uriInfo.getAbsolutePathBuilder()
+        final URI uri = uriInfo.getBaseUriBuilder()
                 .path(String.valueOf(user.getId())).build();
         return Response.created(uri).build();
     }

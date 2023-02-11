@@ -2,6 +2,7 @@
   "name": "spa-client",
   "version": "0.1.0",
   "private": true,
+  "homepage": "/paw-2022a-03",
   "dependencies": {
     "@chakra-ui/icons": "^2.0.15",
     "@chakra-ui/react": "^2.4.5",

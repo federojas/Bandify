@@ -4,7 +4,7 @@ import useSound from "use-sound";
 
 const ToggleColorMode = () => {
   const { colorMode, toggleColorMode } = useColorMode();
-  const [play] = useSound("/lightswitch.mp3", {
+  const [play] = useSound("/paw-2022a-03/lightswitch.mp3", {
     volume: 0.05,
     sprite: {
       on: [0, 300],

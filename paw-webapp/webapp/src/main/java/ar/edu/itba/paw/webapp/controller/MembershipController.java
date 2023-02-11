@@ -113,7 +113,7 @@ public class MembershipController {
         else
             membership = membershipService.createMembershipInvite(membershipBuilder);
 
-        final URI uri = uriInfo.getAbsolutePathBuilder()
+        final URI uri = uriInfo.getBaseUriBuilder()
                 .path(String.valueOf(membership.getId())).build();
         return Response.created(uri).build();
     }

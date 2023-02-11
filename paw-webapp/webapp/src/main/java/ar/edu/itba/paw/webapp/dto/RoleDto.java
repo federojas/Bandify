@@ -22,7 +22,7 @@ public class RoleDto {
         dto.id = role.getId();
         dto.roleName = role.getName();
 
-        final UriBuilder userUriBuilder = uriInfo.getAbsolutePathBuilder()
+        final UriBuilder userUriBuilder = uriInfo.getBaseUriBuilder()
                 .replacePath("roles").path(String.valueOf(role.getId()));
         dto.self = userUriBuilder.build();
 

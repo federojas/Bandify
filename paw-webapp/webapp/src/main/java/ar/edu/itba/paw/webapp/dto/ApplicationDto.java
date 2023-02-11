@@ -30,16 +30,16 @@ public class ApplicationDto {
         applicationDto.message = application.getMessage();
         applicationDto.title = application.getAudition().getTitle();
 
-        final UriBuilder selfBuilder = uriInfo.getAbsolutePathBuilder()
+        final UriBuilder selfBuilder = uriInfo.getBaseUriBuilder()
                 .replacePath("auditions").path(String.valueOf(application.getAudition().getId()))
                 .path("applications").path(String.valueOf(application.getId()));
         applicationDto.self = selfBuilder.build();
 
-        final UriBuilder auditionUriBuilder = uriInfo.getAbsolutePathBuilder()
+        final UriBuilder auditionUriBuilder = uriInfo.getBaseUriBuilder()
                 .replacePath("auditions").path(String.valueOf(application.getAudition().getId()));
         applicationDto.audition = auditionUriBuilder.build();
 
-        final UriBuilder applicantUriBuilder = uriInfo.getAbsolutePathBuilder()
+        final UriBuilder applicantUriBuilder = uriInfo.getBaseUriBuilder()
                 .replacePath("users").path(String.valueOf(application.getApplicant().getId()));
         applicationDto.applicant = applicantUriBuilder.build();
         return applicationDto;

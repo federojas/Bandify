@@ -60,7 +60,7 @@ public class AuditionController {
                 .lookingFor(roleService.getRolesByNames(auditionForm.getLookingFor()))
                 .musicGenres(genreService.getGenresByNames(auditionForm.getMusicGenres()))
                 .location(locationService.getLocationByName(auditionForm.getLocation())));
-        final URI uri = uriInfo.getAbsolutePathBuilder()
+        final URI uri = uriInfo.getBaseUriBuilder()
                 .path(String.valueOf(audition.getId())).build();
         return Response.created(uri).build();
     }
@@ -177,7 +177,7 @@ public class AuditionController {
                         .orElseThrow(UserNotFoundException::new),
                 applicationForm.getMessage()
         );
-        final URI uri = uriInfo.getAbsolutePathBuilder()
+        final URI uri = uriInfo.getBaseUriBuilder()
                 .path(String.valueOf(application.getId())).build();
         return Response.created(uri).build();
     }

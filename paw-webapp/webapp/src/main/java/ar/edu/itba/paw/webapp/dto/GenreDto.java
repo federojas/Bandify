@@ -21,7 +21,7 @@ public class GenreDto {
         GenreDto dto = new GenreDto();
         dto.id = genre.getId();
         dto.genreName = genre.getName();
-        final UriBuilder userUriBuilder = uriInfo.getAbsolutePathBuilder()
+        final UriBuilder userUriBuilder = uriInfo.getBaseUriBuilder()
                 .replacePath("genres").path(String.valueOf(genre.getId()));
         dto.self = userUriBuilder.build();
 
