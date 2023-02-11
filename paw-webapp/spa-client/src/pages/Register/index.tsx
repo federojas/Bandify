@@ -15,7 +15,6 @@ import {
 import { useTranslation } from "react-i18next";
 import "../../styles/forms.css";
 import "../../styles/register.css";
-import "../../js/alerts.js";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
@@ -83,7 +82,6 @@ function RegisterCard(props: RegisterCardProps) {
         >
           {content}
         </chakra.p>
-        {/* TODO: CHusmear aca el underlined */}
         <Button w={'fit-content'} px={'4'} onClick={() => {
           navigate(url)
         }} colorScheme={"blue"}>{urlTitle}</Button>

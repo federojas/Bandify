@@ -3,7 +3,6 @@ import React, { ReactElement, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import BandifyLogo from "../../images/logo.png";
-import "../../styles/profile.css";
 import ToggleColorMode from "../ToggleColorMode";
 import { ReactNode } from "react";
 import {
@@ -157,7 +156,7 @@ function Nav() {
                   bg: bg27,
                 }}
                 onClick={() => {
-                  navigate(isBand ? '/profile/auditions' : '/profile/applications')
+                  navigate(isBand ? '/profile/auditions' : '/applications')
                 }}
               >
                 <RiAppsFill />

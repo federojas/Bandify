@@ -46,7 +46,7 @@ const PublicBandAudition = (
     <Card maxW="md" margin={5} boxShadow={"2xl"} w={"2xl"}>
       <CardBody>
         <Stack spacing="3">
-          <Heading size="md" noOfLines={1}>{audition.title}</Heading>
+          <Heading size="md" noOfLines={2}>{audition.title}</Heading>
           <HStack spacing={4}>
             <FiCalendar />
             <HStack wrap={'wrap'}>
@@ -148,7 +148,6 @@ const PublicBandAuditions = () => {
         gap="4"
         alignItems="center"
         justifyContent={"start"}
-        className="ellipsis-overflow"
         cursor={'pointer'}
       >
         <Avatar
@@ -157,7 +156,7 @@ const PublicBandAuditions = () => {
               backgroundColor: "white",
           }}
         />
-        <Heading size="md" noOfLines={1}>{band?.name}</Heading>
+        <Heading size="md" noOfLines={2}>{band?.name}</Heading>
       </Flex>
       <Flex
         p={50}

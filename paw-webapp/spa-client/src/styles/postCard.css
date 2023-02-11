@@ -35,14 +35,6 @@
   overflow: hidden !important;
 }
 
-.ellipsis-overflow {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-}
-
 .prueba {
   display: flex;
   flex-direction: column;

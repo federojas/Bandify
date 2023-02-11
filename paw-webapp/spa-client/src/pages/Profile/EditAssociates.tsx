@@ -76,7 +76,6 @@ const EditAssociates = () => {
                     gap="4"
                     alignItems="center"
                     justifyContent={"start"}
-                    className="ellipsis-overflow"
                     cursor={'pointer'}
                 >
                     <Avatar
@@ -85,7 +84,7 @@ const EditAssociates = () => {
                             backgroundColor: "white",
                         }}
                     />
-                    <Heading size="md" noOfLines={1}>{currentUser?.name}{' '}{currentUser?.surname}</Heading>
+                    <Heading size="md" noOfLines={2}>{currentUser?.name}{' '}{currentUser?.surname}</Heading>
                 </Flex>
 
 

@@ -68,9 +68,6 @@ function Home() {
           </Button>
           
         </Stack>
-        {/* <Center>
-          <Image src={WelcomeGuitar} />
-        </Center> */}
       </Stack>
     </Container>
     </>

@@ -1,6 +1,5 @@
 import "../../styles/forms.css";
 import "../../styles/alerts.css";
-import "../../js/register.js";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { useForm } from "react-hook-form";

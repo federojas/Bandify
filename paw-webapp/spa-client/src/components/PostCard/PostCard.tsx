@@ -1,20 +1,3 @@
-import {
-  PostCardMainContainer,
-  PostCardProfile,
-  PostCardBandName,
-  PostCardAuditionTitle,
-  PostCardRolesSpan,
-  PostCardGenresSpan,
-  PostCardButtonContainer,
-  PostCardButton,
-  PostCardLocation,
-  Location,
-  RolesContainer,
-  LoopDiv,
-  GenresContainer,
-} from "./styles";
-
-//i18 translations
 import { useTranslation } from "react-i18next";
 import "../../common/i18n/index";
 import { Audition } from "../../models";
@@ -40,7 +23,7 @@ import GenreTag from "../Tags/GenreTag";
 import RoleTag from "../Tags/RoleTag";
 import { BiBullseye } from "react-icons/bi";
 import { FiMusic } from "react-icons/fi";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import React, { useContext, useEffect, useState } from "react";
 import { serviceCall } from "../../services/ServiceManager";
 import { useUserService } from "../../contexts/UserService";
@@ -91,7 +74,6 @@ const PostCard: React.FC<Audition> = ({
           gap="4"
           alignItems="center"
           justifyContent={"start"}
-          className="ellipsis-overflow"
         >
           <Avatar
             src={profileImage}
@@ -99,15 +81,15 @@ const PostCard: React.FC<Audition> = ({
               backgroundColor: "white",
             }}
           />
-          <Box >
-            <Heading size="sm" noOfLines={1}>{userName}</Heading>
+          <Box noOfLines={3}>
+            <Heading size="sm">{userName}</Heading>
             <Text fontSize="smaller">{location}</Text>
           </Box>
         </Flex>
       </CardHeader>
       <CardBody>
         <Stack spacing="3">
-          <Heading size="md" noOfLines={1}>{title}</Heading>
+          <Heading size="md" noOfLines={2}>{title}</Heading>
           <HStack spacing={4}>
             <FiCalendar />
             <HStack wrap={'wrap'}>

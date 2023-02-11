@@ -97,8 +97,8 @@ const ProfileCard: React.FC<User> = ({
           alignItems="center"
           p={1}
           pt={2}>
-          <Box maxW={'64'}>
-            <Heading noOfLines={1} fontSize={'2xl'} fontFamily={'body'}>
+          <Box maxW={'80'}>
+            <Heading noOfLines={2} fontSize={'2xl'} fontFamily={'body'}>
               {name} {' '} {surname}
             </Heading>
           </Box>

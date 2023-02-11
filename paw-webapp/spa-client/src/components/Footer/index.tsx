@@ -7,7 +7,6 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
-// import "../../styles/footer.css";
 
 export default function Footer() {
   const { t, i18n } = useTranslation();
@@ -43,23 +42,5 @@ export default function Footer() {
         </Stack>
       </Container>
     </Box>
-    // <footer className="page-footer">
-    //   <div className="footer-copyright">
-    //     <div className="flex flex-row justify-between px-10">
-    //       © 2022 Copyright: Bandify
-    //       <div>
-
-    //       </div>
-    //       <div>
-    //         <a className="languages-buttons right" href="?lang=es">
-    //           ES
-    //         </a>
-    //         <a className="languages-buttons right" href="?lang=en">
-    //           EN
-    //         </a>
-    //       </div>
-    //     </div>
-    //   </div>
-    // </footer>
   );
 }

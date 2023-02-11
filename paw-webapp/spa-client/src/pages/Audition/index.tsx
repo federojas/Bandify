@@ -227,7 +227,6 @@ const AuditionCard = ({
           flex="1"
           gap="4"
           alignItems="center"
-          className="ellipsis-overflow"
         >
           <Image
             src={user.profileImage}
@@ -243,7 +242,7 @@ const AuditionCard = ({
               backgroundColor: "white"
             }}
           />
-          <Heading size={"md"} noOfLines={1}>{user.name}</Heading>
+          <Heading size={"md"} noOfLines={2}>{user.name}</Heading>
         </Flex>
       </CardHeader>
       <CardBody>

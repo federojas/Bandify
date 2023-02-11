@@ -89,7 +89,6 @@ const Associates = () => {
           gap="4"
           alignItems="center"
           justifyContent={"start"}
-          className="ellipsis-overflow"
           cursor={'pointer'}
         >
           <Avatar
@@ -98,7 +97,7 @@ const Associates = () => {
               backgroundColor: "white",
             }}
           />
-          <Heading size="md" noOfLines={1}>{user?.name}{' '}{user?.surname}</Heading>
+          <Heading size="md" noOfLines={2}>{user?.name}{' '}{user?.surname}</Heading>
         </Flex>
 
 

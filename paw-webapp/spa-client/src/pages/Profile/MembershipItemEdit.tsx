@@ -31,7 +31,6 @@ const MembershipItemEdit = ({ contraUser, description, roles, membershipId, refr
                         </Box>
                     </HStack>
                     <Box>
-                        {/*<LeaveBand membershipId={membershipId as any} refresh={refresh} /> */}
                         <EditMembershipButton membershipId={membershipId} rolesParam={roles} descriptionParam={description} refresh={refresh} />
                         <DeleteMembershipButton membershipId={membershipId} refresh={refresh} />
                     </Box>

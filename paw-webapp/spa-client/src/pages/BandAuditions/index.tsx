@@ -91,7 +91,7 @@ const BandAudition = (
         fontSize="lg"
         fontWeight="bold"
         m={2}
-        noOfLines={1}
+        noOfLines={2}
         color="gray.800"
         _dark={{
           color: "white",
