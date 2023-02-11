@@ -157,7 +157,6 @@ public class WebConfig {
         return new LocalValidatorFactoryBean();
     }
 
-    //TODO revisar esto vs clase Settings
     @Bean(name = "appUrl")
     public URL getAppBaseUrl() throws MalformedURLException {
         return new URL(environment.getRequiredProperty("app.protocol"),
@@ -166,7 +165,6 @@ public class WebConfig {
                 environment.getRequiredProperty("app.group.directory"));
     }
 
-    //TODO revisar esto vs clase Settings
     @Bean(name = "secretJWT")
     public String getAppJWTSecret() {
         return environment.getRequiredProperty("app.JWT.secret");

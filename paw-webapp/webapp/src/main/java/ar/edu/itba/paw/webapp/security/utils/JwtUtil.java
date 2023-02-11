@@ -34,7 +34,7 @@ public class JwtUtil {
         else
             claims.put("roles", "ARTIST");
         claims.put("userUrl", appUrl + "users/" + user.getId());
-        //TODO ver si es necesario poner issuer audience, etc
+
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(user.getEmail())

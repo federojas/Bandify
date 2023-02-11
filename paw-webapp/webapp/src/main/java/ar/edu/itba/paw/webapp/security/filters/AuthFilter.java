@@ -32,6 +32,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.swing.*;
+import javax.ws.rs.BadRequestException;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.HttpHeaders;
 import java.io.IOException;
 import java.net.URL;
@@ -40,7 +42,6 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collection;
 
-// TODO: chequear si está bien que esto sea un Component
 @Component
 public class AuthFilter extends OncePerRequestFilter {
 
@@ -90,7 +91,13 @@ public class AuthFilter extends OncePerRequestFilter {
             if (httpServletRequest.getMethod().equals("PUT")
                     && (httpServletRequest.getRequestURI().contains("verify-tokens")
                     || httpServletRequest.getRequestURI().contains("password-tokens"))) {
-                String nonce = new String(Base64.getDecoder().decode(token), StandardCharsets.UTF_8).split(":")[1];
+                byte[] decode;
+                try {
+                    decode = Base64.getDecoder().decode(token);
+                } catch(IllegalArgumentException e) {
+                    throw new InsufficientAuthenticationException(e.getMessage());
+                }
+                String nonce = new String(decode, StandardCharsets.UTF_8).split(":")[1];
                 try {
                     verificationTokenService.isValid(nonce);
                 } catch (InvalidTokenException e) {
@@ -110,8 +117,14 @@ public class AuthFilter extends OncePerRequestFilter {
 
     private Authentication useBasicAuthentication(String payload,
                                                   HttpServletResponse httpServletResponse) throws AuthenticationException {
+        byte[] decode;
+        try {
+            decode = Base64.getDecoder().decode(payload);
+        } catch(IllegalArgumentException e) {
+            throw new InsufficientAuthenticationException(e.getMessage());
+        }
         String[] decodedCredentials;
-        decodedCredentials = new String(Base64.getDecoder().decode(payload), StandardCharsets.UTF_8).split(":");
+        decodedCredentials = new String(decode, StandardCharsets.UTF_8).split(":");
         if (decodedCredentials.length != 2) {
             throw new AuthenticationCredentialsNotFoundException("Invalid credentials for basic authorization.");
         }
@@ -155,7 +168,7 @@ public class AuthFilter extends OncePerRequestFilter {
             return new UsernamePasswordAuthenticationToken
                     (user.getEmail(), user.getPassword(), authorities);
         } catch (ExpiredJwtException | UnsupportedJwtException | SignatureException | IllegalArgumentException e) {
-            throw new UnauthorizedException(e.getMessage(), e); //TODO COMO AGARRAMOS
+            throw new UnauthorizedException(e.getMessage(), e);
         }
 
         return new UsernamePasswordAuthenticationToken(
