@@ -34,6 +34,8 @@ public class MembershipServiceTest {
     @Mock
     private AuthFacadeService authFacadeService;
 
+    @Mock
+    private ApplicationService applicationService;
 
 
     private static final Role role1 = new Role(1L, "role");

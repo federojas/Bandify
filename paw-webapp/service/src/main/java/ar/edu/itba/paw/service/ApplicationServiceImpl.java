@@ -195,7 +195,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     public Optional<Application> getApplicationById(long auditionId, long applicationId)  {
         User user = authFacadeService.getCurrentUser();
         Optional<Application> application = applicationDao.findApplication(applicationId);
-        if(!(application.get().getApplicant().getId().equals(user.getId()) ||
+        if(application.isPresent() && !(application.get().getApplicant().getId().equals(user.getId()) ||
                         application.get().getAudition().getBand().getId().equals(user.getId())))
             throw new ApplicationNotOwnedException();
 
