@@ -62,7 +62,7 @@ function Home() {
             bg={"blue.400"}
             _hover={{ bg: "blue.500" }}
             as='a'
-            href={'/register'}
+            onClick={() => navigate('/register')}
           >
             {t("Welcome.getStarted")}
           </Button>
