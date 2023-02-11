@@ -6,8 +6,6 @@ import javax.validation.ConstraintViolation;
 
 public class ValidationErrorDto {
 
-    //TODO lo pasamos a nuestro sistema o lo dejamos como sotuyo?
-
     private String message;
     private String path;
 

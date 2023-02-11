@@ -348,7 +348,7 @@ class UserApi {
   };
 
   public getUserSocialMediaList = async (id: number) => {
-    return this.axiosPrivate.get(`${this.endpoint}/${id}/social-media`); //TODO: falta mapear? 
+    return this.axiosPrivate.get(`${this.endpoint}/${id}/social-media`);
   };
 
   public updateUserSocialMedia = async (

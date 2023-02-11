@@ -101,7 +101,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .antMatchers("/**").permitAll()
                 .and().addFilterBefore(authFilter,
-                        FilterSecurityInterceptor.class); //TODO CHEQUEAR ESTO, SOTUYO DICE USERNAMEPASSWORDAUTHENTICACIONFILTER
+                        FilterSecurityInterceptor.class);
     }
 
 
