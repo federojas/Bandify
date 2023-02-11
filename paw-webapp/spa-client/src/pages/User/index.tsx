@@ -372,55 +372,52 @@ const UserProfile = () => {
             p={6}
           >
             <Flex justify={'space-between'}>
-              { }
-              <HStack gap={'8'}>
-                <Flex>
-                  <Image
-                    src={user?.profileImage}
-                    alt={t("Alts.profilePicture")}
-                    borderRadius="full"
-                    boxSize="150px"
-                    objectFit={'cover'}
-                    shadow="lg"
-                    border="5px solid"
-                    borderColor="gray.800"
-                    _dark={{
-                      borderColor: "gray.200",
-                      backgroundColor: "white"
-                    }}
-                  />
-                  {user?.available ? <Image
-                    src={filterAvailable}
-                    alt={t("Alts.available")}
-                    boxSize="141px"
-                    ml={1}
-                    mt={1.5}
-                    borderRadius="full"
-                    position={"absolute"}
-                  /> : <></>
-                  }
-                </Flex>
-                <VStack align={"left"} spacing={4}>
-                  <Box maxW={'lg'}>
-                    <Heading fontSize={"3xl"} fontWeight={700}>
-                      {user?.name}{" "}
-                      {user?.surname && <>{user?.surname}</>}
-                    </Heading>
-                  </Box>
-                  {user?.band ? <BandTag /> : <ArtistTag />}
-                  <Text color={"gray.500"} fontSize={"xl"}>
-                    {user?.description}
-                  </Text>
-                  {
-                    user?.location &&
-                    <HStack>
-                      <ImLocation />
-                      <Text color={"gray.500"}> {user?.location}</Text>
-                    </HStack>
-                  }
-                </VStack>
-              </HStack>
-              <VStack justify={'center'}>
+              <Flex flex={2}>
+                <Image
+                  src={user?.profileImage}
+                  alt={t("Alts.profilePicture")}
+                  borderRadius="full"
+                  boxSize="150px"
+                  objectFit={'cover'}
+                  shadow="lg"
+                  border="5px solid"
+                  borderColor="gray.800"
+                  _dark={{
+                    borderColor: "gray.200",
+                    backgroundColor: "white"
+                  }}
+                />
+                {user?.available ? <Image
+                  src={filterAvailable}
+                  alt={t("Alts.available")}
+                  boxSize="141px"
+                  ml={1}
+                  mt={1.5}
+                  borderRadius="full"
+                  position={"absolute"}
+                /> : <></>
+                }
+              </Flex>
+              <Flex direction={'column'} flex={6} align={"left"} gap={2}>
+                <Box maxW={'lg'}>
+                  <Heading fontSize={"3xl"} fontWeight={700}>
+                    {user?.name}{" "}
+                    {user?.surname && <>{user?.surname}</>}
+                  </Heading>
+                </Box>
+                {user?.band ? <BandTag /> : <ArtistTag />}
+                <Text color={"gray.500"} fontSize={"xl"} maxW={'lg'}>
+                  {user?.description}
+                </Text>
+                {
+                  user?.location &&
+                  <HStack>
+                    <ImLocation />
+                    <Text color={"gray.500"}> {user?.location}</Text>
+                  </HStack>
+                }
+              </Flex>
+              <Flex direction={'column'} flex={2} gap={2} justify={'center'}>
                 {!user?.band && canInvite && user?.available && currentUser?.band &&
                   <AddToBandButton user={user} refresh={handleRefresh} />
                 }
@@ -436,7 +433,7 @@ const UserProfile = () => {
                     </Button>
                   </>
                 }
-              </VStack>
+              </Flex>
             </Flex>
           </Box>
           <Grid templateColumns={"repeat(5,1fr)"} gap={4}>

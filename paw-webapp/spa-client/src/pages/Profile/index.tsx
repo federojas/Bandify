@@ -103,62 +103,58 @@ const Profile = () => {
           <Stack spacing={4}>
             <Box
               w={"full"}
-              // bg={useColorModeValue("gray.100", "gray.900")}
               bg={bg}
               rounded={"lg"}
               boxShadow={"lg"}
               p={6}
             >
               <Flex justify={'space-between'}>
-                { }
-                <HStack gap={'8'}>
-                  <Flex>
-                    <Image
-                      src={user?.profileImage}
-                      alt={t("Alts.profilePicture")}
-                      borderRadius="full"
-                      boxSize="150px"
-                      objectFit={'cover'}
-                      shadow="lg"
-                      border="5px solid"
-                      borderColor="gray.800"
-                      _dark={{
-                        borderColor: "gray.200",
-                        backgroundColor: "white"
-                      }}
-                    />
-                    {user?.available ? <Image
-                      src={filterAvailable}
-                      alt={t("Alts.available")}
-                      boxSize="141px"
-                      ml={1}
-                      mt={1.5}
-                      borderRadius="full"
-                      position={"absolute"}
-                    /> : <></>
-                    }
-                  </Flex>
-                  <VStack align={"left"} spacing={4}>
-                    <Box maxW={'lg'}>
-                      <Heading fontSize={"3xl"} fontWeight={700}>
-                        {user?.name}{" "}
-                        {user?.surname && <>{user?.surname}</>}
-                      </Heading>
-                    </Box>
-                    {user?.band ? <BandTag /> : <ArtistTag />}
-                    <Text color={"gray.500"} fontSize={"xl"}>
-                      {user?.description}
-                    </Text>
-                    {
-                      user?.location &&
-                      <HStack>
-                        <ImLocation />
-                        <Text color={"gray.500"}> {user?.location}</Text>
-                      </HStack>
-                    }
-                  </VStack>
-                </HStack>
-                <VStack justify={'center'}>
+                <Flex flex={2}>
+                  <Image
+                    src={user?.profileImage}
+                    alt={t("Alts.profilePicture")}
+                    borderRadius="full"
+                    boxSize="150px"
+                    objectFit={'cover'}
+                    shadow="lg"
+                    border="5px solid"
+                    borderColor="gray.800"
+                    _dark={{
+                      borderColor: "gray.200",
+                      backgroundColor: "white"
+                    }}
+                  />
+                  {user?.available ? <Image
+                    src={filterAvailable}
+                    alt={t("Alts.available")}
+                    boxSize="141px"
+                    ml={1}
+                    mt={1.5}
+                    borderRadius="full"
+                    position={"absolute"}
+                  /> : <></>
+                  }
+                </Flex>
+                <Flex direction={'column'} flex={6} align={"left"} gap={2}>
+                  <Box maxW={'lg'}>
+                    <Heading fontSize={"3xl"} fontWeight={700}>
+                      {user?.name}{" "}
+                      {user?.surname && <>{user?.surname}</>}
+                    </Heading>
+                  </Box>
+                  {user?.band ? <BandTag /> : <ArtistTag />}
+                  <Text color={"gray.500"} fontSize={"xl"} maxW={'lg'}>
+                    {user?.description}
+                  </Text>
+                  {
+                    user?.location &&
+                    <HStack>
+                      <ImLocation />
+                      <Text color={"gray.500"}> {user?.location}</Text>
+                    </HStack>
+                  }
+                </Flex>
+                <Flex direction={'column'} flex={2} gap={2} justify={'center'}>
                   <Button leftIcon={<AiOutlineEdit />} w={'44'} colorScheme='teal' onClick={() => {
                     let postfix = user?.band ? 'editBand' : 'editArtist';
                     let url = "/profile/" + postfix
@@ -180,7 +176,7 @@ const Profile = () => {
                       </Button>
                     </>
                   }
-                </VStack>
+                </Flex>
               </Flex>
             </Box>
 
@@ -241,7 +237,7 @@ const Profile = () => {
                     </HStack>
                     <SocialMediaModal refreshMedia={() => {
                       setRefreshMedia(!refreshMedia);
-                    }}/>
+                    }} />
                   </HStack>
                   <HStack wrap={"wrap"}>
                     {socialMedia.length > 0 ? socialMedia.map((social) => (
@@ -260,18 +256,18 @@ const Profile = () => {
                         {user?.band ? t("Profile.BandMembers") : t("Profile.playsIn")}
                       </Heading>
                     </HStack>
-                      {user?.band && user?.id == currentUserId ?
-                          <Button leftIcon={<AiOutlineEdit />} w={'50'} colorScheme={'cyan'} onClick={() => {
-                          navigate("/profile/editAssociates")
-                          }}>
-                              {t("Profile.ViewEditAll")}
-                          </Button>
-                          :
-                          <Button leftIcon={<GrView />} w={'50'} colorScheme={'cyan'} onClick={() => {
-                          navigate("/profile/associates")
-                          }}>
-                              {t("Profile.ViewAll")}
-                          </Button>}
+                    {user?.band && user?.id == currentUserId ?
+                      <Button leftIcon={<AiOutlineEdit />} w={'50'} colorScheme={'cyan'} onClick={() => {
+                        navigate("/profile/editAssociates")
+                      }}>
+                        {t("Profile.ViewEditAll")}
+                      </Button>
+                      :
+                      <Button leftIcon={<GrView />} w={'50'} colorScheme={'cyan'} onClick={() => {
+                        navigate("/profile/associates")
+                      }}>
+                        {t("Profile.ViewAll")}
+                      </Button>}
                   </HStack>
                   <VStack w={'80%'}>
                     {memberships.length > 0 ?
