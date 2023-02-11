@@ -29,6 +29,8 @@ import { serviceCall } from "../../services/ServiceManager";
 import { useUserService } from "../../contexts/UserService";
 import AuthContext from "../../contexts/AuthContext";
 import { AiOutlineInfoCircle } from "react-icons/ai";
+import CopyToClipboard from 'react-copy-to-clipboard';
+
 
 const PostCard: React.FC<Audition> = ({
   title,
@@ -122,19 +124,19 @@ const PostCard: React.FC<Audition> = ({
               {t("PostCard.more")}
             </Button>
           </Link>
-          <Button variant="ghost" colorScheme="blue" leftIcon={<FiShare2 />}
-            onClick={() => {
-              navigator.clipboard.writeText(window.location.href + "/" + id.toString())
-              toast({
-                title: t("Register.success"),
-                status: "success",
-                description: t("Clipboard.message"),
-                isClosable: true,
-              });
-            }}
 
-          >                {t("PostCard.share")}
-          </Button>
+          <CopyToClipboard text={window.location.href + "/" + id.toString()} onCopy={() => {
+            toast({
+              title: t("Register.success"),
+              status: "success",
+              description: t("Clipboard.message"),
+              isClosable: true,
+            })
+          }}>
+            <Button variant="ghost" colorScheme="blue" leftIcon={<FiShare2 />}>
+              {t("PostCard.share")}
+            </Button>
+          </CopyToClipboard>
         </ButtonGroup>
       </CardFooter>
     </Card >

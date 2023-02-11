@@ -25,6 +25,7 @@
     "jwt-decode": "^3.1.2",
     "qs": "^6.11.0",
     "react": "^18.2.0",
+    "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "^18.2.0",
     "react-helmet": "^6.1.0",
     "react-hook-form": "^7.40.0",
@@ -63,6 +64,7 @@
   },
   "devDependencies": {
     "@types/jest": "^29.2.4",
+    "@types/react-copy-to-clipboard": "^5.0.4",
     "@types/react-helmet": "^6.1.6",
     "@types/styled-components": "^5.1.26",
     "jest": "^27.5.1",

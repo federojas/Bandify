@@ -48,6 +48,7 @@ import { Helmet } from "react-helmet";
 import { WarningTwoIcon } from '@chakra-ui/icons';
 import { TiTick, TiCancel } from "react-icons/ti";
 import { useMembershipService } from "../../contexts/MembershipService";
+import CopyToClipboard from 'react-copy-to-clipboard';
 
 function ClosedAudition() {
   const { t } = useTranslation();
@@ -163,11 +164,9 @@ const AuditionActions = (props: { auditionId: number, isOwner: boolean, currentU
   }
 
 
-
   return (
     <VStack>
-      <Button leftIcon={<FiShare2 />} w={'44'} colorScheme='blue' onClick={() => {
-        navigator.clipboard.writeText(window.location.href);
+      <CopyToClipboard text={window.location.href} onCopy={() => {
         toast({
           title: t("Register.success"),
           status: "success",
@@ -175,9 +174,10 @@ const AuditionActions = (props: { auditionId: number, isOwner: boolean, currentU
           isClosable: true,
         })
       }}>
-
+      <Button leftIcon={<FiShare2 />} w={'44'} colorScheme='blue'>
         {t("Audition.share")}
       </Button>
+    </CopyToClipboard>
       {props.isOwner ?
         <>
           <Button onClick={() => { navigate('/audition/' + String(props.auditionId) + '/applicants') }} leftIcon={<FiUsers />} w={'44'} colorScheme='green'>{t("Audition.applicants")}</Button>
