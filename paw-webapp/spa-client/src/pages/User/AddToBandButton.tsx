@@ -136,8 +136,8 @@ const AddToBandButton = ({ user, auditionId, refresh }: { user: User, auditionId
           duration: 9000,
           isClosable: true,
         });
-        onClose();
         refresh();
+        onClose();
       }
     })
   }

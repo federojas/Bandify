@@ -326,33 +326,36 @@ const UserProfile = () => {
 
 
   useEffect(() => {
-    if(user && currentUser) {
+    if (user && currentUser) {
       serviceCall(
-          membershipService.getUserMemberships({ user: user.id as number, state: "ACCEPTED", preview: true }),
-          navigate,
-          (response: any) => {
-            setMemberships(response.getContent());
-          }
+        membershipService.getUserMemberships({ user: user.id as number, state: "ACCEPTED", preview: true }),
+        navigate,
+        (response: any) => {
+          setMemberships(response.getContent());
+        }
       )
-      if(!user.band && currentUser.band) {
+      console.log('vamos a llamar de nuevo para conseguir el canInvite')
+      if (!user.band && currentUser.band) {
         serviceCall(
-            membershipService.getUserMembershipsByBand(user?.id, currentUser?.id),
-            navigate,
-            (response) => {
-              if(response.getContent().length === 0) {
-                setCanInvite(true);
-                setCanLeave(false);
-              } else {
-                if(response.getContent().at(0) && response.getContent().at(0)!.state === 'ACCEPTED') {
-                  setMembershipId(response.getContent().at(0)!.id)
-                  setCanLeave(true);
-                }
+          membershipService.getUserMembershipsByBand(user?.id, currentUser?.id),
+          navigate,
+          (response) => {
+            console.log('response', response.getContent().length)
+            if (response.getContent().length === 0) {
+              setCanInvite(true);
+              setCanLeave(false);
+            } else {
+              setCanInvite(false)
+              if (response.getContent().at(0) && response.getContent().at(0)!.state === 'ACCEPTED') {
+                setMembershipId(response.getContent().at(0)!.id)
+                setCanLeave(true);
               }
             }
+          }
         )
       }
     }
-    }, [user, navigate, currentUser, refreshMemberships, canInvite, canLeave])
+  }, [refreshMemberships, user, navigate, currentUser, canInvite, canLeave])
 
   return (
     <>
@@ -418,12 +421,11 @@ const UserProfile = () => {
                 </VStack>
               </HStack>
               <VStack justify={'center'}>
-
                 {!user?.band && canInvite && user?.available && currentUser?.band &&
                   <AddToBandButton user={user} refresh={handleRefresh} />
                 }
                 {user?.band && canLeave && !currentUser?.band &&
-                    <LeaveBandButton membershipId={membershipId} refresh={handleRefresh} />
+                  <LeaveBandButton membershipId={membershipId} refresh={handleRefresh} />
                 }
                 {user?.band &&
                   <>
