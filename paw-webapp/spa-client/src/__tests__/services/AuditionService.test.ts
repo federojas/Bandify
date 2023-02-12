@@ -71,18 +71,19 @@ describe("getAuditions()", () => {
             expect(response.getData().getContent().length).toEqual(2);
             expect(response.hasFailed()).toEqual(false);
             expect(axiosGet).toHaveBeenCalledTimes(1);
-            //todo: params serializer is not working
-            // expect(axiosGet).toHaveBeenCalledWith("/auditions",
-            // {params: {
-            //     genre: undefined,
-            //     location: undefined,
-            //     order: undefined,
-            //     page: undefined,
-            //     query: undefined,
-            //     role: undefined
-            // }},  
+            expect(axiosGet).toHaveBeenCalledWith("/auditions",
+            {params: {
+                genre: undefined,
+                location: undefined,
+                order: undefined,
+                page: undefined,
+                query: undefined,
+                role: undefined
+            },
+            paramsSerializer: {indexes: null}
+            }  
             
-            // );
+            );
         })}
     )
 
@@ -91,8 +92,6 @@ describe("getAuditions()", () => {
         await auditionService.getAuditions().then((response)=>{
             expect(response.hasFailed()).toEqual(true);
             expect(axiosGet).toHaveBeenCalledTimes(1);
-            //todo: params serializer is not working
-            // expect(axiosGet).toHaveBeenCalledWith("/auditions");
         })}
     );
 });
@@ -221,7 +220,6 @@ describe("updateAudition()", () => {
             expect(response.getData()).toEqual(null);
             expect(response.hasFailed()).toEqual(false);
             expect(axiosPut).toHaveBeenCalledTimes(1);
-            //todo: me esta agregando unos headers imaginarios
             expect(axiosPut).toHaveBeenCalledWith("/auditions/1", correctAuditionInput,
             {headers: {"Content-Type": "application/vnd.audition.v1+json"}}
             ); 

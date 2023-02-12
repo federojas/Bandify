@@ -4,12 +4,9 @@ import { application1, application2, correctUserCreateInput, correctUserUpdateIn
 import UserApi from "../../api/UserApi";
 jest.mock("axios");
 
-// jest.mock("../../services/UserService");
-// jest.mock("../../api/UserApi");
-// jest.mock("../../api/types/ApiResult");
-
 const userApi = new UserApi(axios)    
 const userService = new UserService(userApi);
+
 afterEach(() => {(axios.get as any).mockClear();});
 afterEach(() => {(axios.post as any).mockClear();});
 afterEach(() => {(axios.put as any).mockClear();});
@@ -26,8 +23,8 @@ describe("getUserById()", () => {
         await userService.getUserById(1).then((response) => {
             expect(response.getData()).toEqual(user1);
             expect(response.hasFailed()).toBeFalsy();
-            expect(axios.get).toHaveBeenCalledTimes(1);
-            expect(axios.get).toHaveBeenCalledWith("/users/1");
+            expect(axiosGet).toHaveBeenCalledTimes(1);
+            expect(axiosGet).toHaveBeenCalledWith("/users/1");
         });
     });
 
@@ -39,8 +36,8 @@ describe("getUserById()", () => {
         await userService.getUserById(1).then((response) => {
             expect(response.getData()).toBeNull();
             expect(response.hasFailed()).toBeTruthy();
-            expect(axios.get).toHaveBeenCalledTimes(1);
-            expect(axios.get).toHaveBeenCalledWith("/users/1");
+            expect(axiosGet).toHaveBeenCalledTimes(1);
+            expect(axiosGet).toHaveBeenCalledWith("/users/1");
         });
     });
 });
@@ -53,8 +50,19 @@ describe("getUsers()", () => {
         await userService.getUsers().then((response) => {
             expect(response.getData().getContent()).toEqual([user1,user2]);
             expect(response.hasFailed()).toBeFalsy();
-            expect(axios.get).toHaveBeenCalledTimes(1);
-            // expect(axios.get).toHaveBeenCalledWith("/users");//TODO: fix this
+            expect(axiosGet).toHaveBeenCalledTimes(1);
+            expect(axiosGet).toHaveBeenCalledWith("/users",
+            {params: {
+                genre: undefined,
+                location: undefined,
+                order: undefined,
+                page: undefined,
+                query: undefined,
+                role: undefined
+            },
+            paramsSerializer: {indexes: null}
+            }  
+            );
         });
     });
 
@@ -64,8 +72,19 @@ describe("getUsers()", () => {
         await userService.getUsers().then((response) => {
             expect(response.getData()).toBeNull();
             expect(response.hasFailed()).toBeTruthy();
-            expect(axios.get).toHaveBeenCalledTimes(1);
-            // expect(axios.get).toHaveBeenCalledWith("/users");//TODO: fix this
+            expect(axiosGet).toHaveBeenCalledTimes(1);
+            expect(axiosGet).toHaveBeenCalledWith("/users",
+            {params: {
+                genre: undefined,
+                location: undefined,
+                order: undefined,
+                page: undefined,
+                query: undefined,
+                role: undefined
+            },
+            paramsSerializer: {indexes: null}
+            }  
+            );
         });
     });
 });
@@ -78,11 +97,10 @@ describe("createUser()", () => {
         });
 
         await userService.createUser(correctUserCreateInput).then((response) => {
-            console.log(response.getData());
             expect(response.getData()).toEqual({});
             expect(response.hasFailed()).toBeFalsy();
-            expect(axios.post).toHaveBeenCalledTimes(1);
-            expect(axios.post).toHaveBeenCalledWith(
+            expect(axiosPost).toHaveBeenCalledTimes(1);
+            expect(axiosPost).toHaveBeenCalledWith(
                 "/users",
                 correctUserCreateInput,
                 {
@@ -98,8 +116,8 @@ describe("createUser()", () => {
         await userService.createUser(correctUserCreateInput).then((response) => {
             expect(response.getData()).toBeNull();
             expect(response.hasFailed()).toBeTruthy();
-            expect(axios.post).toHaveBeenCalledTimes(1);
-            expect(axios.post).toHaveBeenCalledWith(
+            expect(axiosPost).toHaveBeenCalledTimes(1);
+            expect(axiosPost).toHaveBeenCalledWith(
                 "/users",
                 correctUserCreateInput,
                 {
@@ -121,8 +139,8 @@ describe("updateUser()", () => {
         await userService.updateUser(1, correctUserUpdateInput).then((response) => {
             expect(response.getData()).toEqual({});
             expect(response.hasFailed()).toBeFalsy();
-            expect(axios.put).toHaveBeenCalledTimes(1);
-            expect(axios.put).toHaveBeenCalledWith(
+            expect(axiosPut).toHaveBeenCalledTimes(1);
+            expect(axiosPut).toHaveBeenCalledWith(
                 "/users/1",
                 correctUserUpdateInput
                 );
@@ -135,8 +153,8 @@ describe("updateUser()", () => {
         await userService.updateUser(1, correctUserUpdateInput).then((response) => {
             expect(response.getData()).toBeNull();
             expect(response.hasFailed()).toBeTruthy();
-            expect(axios.put).toHaveBeenCalledTimes(1);
-            expect(axios.put).toHaveBeenCalledWith(
+            expect(axiosPut).toHaveBeenCalledTimes(1);
+            expect(axiosPut).toHaveBeenCalledWith(
                 "/users/1",
                 correctUserUpdateInput
             );
@@ -160,8 +178,8 @@ describe("updateUser()", () => {
 //             console.log(response.getData());
 //             expect(response.getData()).toEqual({});
 //             expect(response.hasFailed()).toBeFalsy();
-//             expect(axios.put).toHaveBeenCalledTimes(1);
-//             expect(axios.put).toHaveBeenCalledWith(
+//             expect(axiosPut).toHaveBeenCalledTimes(1);
+//             expect(axiosPut).toHaveBeenCalledWith(
 //                 "/users/1/profile-image",
 //                 "image"
 //                 );
@@ -175,8 +193,8 @@ describe("updateUser()", () => {
 //         await userService.updateUserProfileImage(1, "image").then((response) => {
 //             expect(response.getData()).toBeNull();
 //             expect(response.hasFailed()).toBeTruthy();
-//             expect(axios.put).toHaveBeenCalledTimes(1);
-//             expect(axios.put).toHaveBeenCalledWith(
+//             expect(axiosPut).toHaveBeenCalledTimes(1);
+//             expect(axiosPut).toHaveBeenCalledWith(
 //                 "/users/1/profile-image",
 //                 "image"
 //             );
@@ -195,8 +213,8 @@ describe("getUserApplications()", () => {
                 
                 expect(response.getData().getContent()).toEqual([application1,application2]);
                 expect(response.hasFailed()).toBeFalsy();
-                expect(axios.get).toHaveBeenCalledTimes(1);
-                expect(axios.get).toHaveBeenCalledWith("/users/1/applications",
+                expect(axiosGet).toHaveBeenCalledTimes(1);
+                expect(axiosGet).toHaveBeenCalledWith("/users/1/applications",
                 { params: { state: 'PENDING', page: 1 } }
                 );
             });
@@ -208,8 +226,8 @@ describe("getUserApplications()", () => {
             await userService.getUserApplications(1,'PENDING',1).then((response) => {
                 expect(response.getData()).toBeNull();
                 expect(response.hasFailed()).toBeTruthy();
-                expect(axios.get).toHaveBeenCalledTimes(1);
-                expect(axios.get).toHaveBeenCalledWith("/users/1/applications",
+                expect(axiosGet).toHaveBeenCalledTimes(1);
+                expect(axiosGet).toHaveBeenCalledWith("/users/1/applications",
                 { params: { state: 'PENDING', page: 1 } }
                 );
             });
@@ -226,8 +244,8 @@ describe("getUserApplicationsByUrl()", () => { //todo: check this
                 
                 expect(response.getData().getContent()).toEqual([application1,application2]);
                 expect(response.hasFailed()).toBeFalsy();
-                expect(axios.get).toHaveBeenCalledTimes(1);
-                expect(axios.get).toHaveBeenCalledWith("/users/1/applications");
+                expect(axiosGet).toHaveBeenCalledTimes(1);
+                expect(axiosGet).toHaveBeenCalledWith("/users/1/applications");
             });
         });
         
@@ -237,8 +255,8 @@ describe("getUserApplicationsByUrl()", () => { //todo: check this
             await userService.getUserApplicationsByUrl("/users/1/applications").then((response) => {
                 expect(response.getData()).toBeNull();
                 expect(response.hasFailed()).toBeTruthy();
-                expect(axios.get).toHaveBeenCalledTimes(1);
-                expect(axios.get).toHaveBeenCalledWith("/users/1/applications");
+                expect(axiosGet).toHaveBeenCalledTimes(1);
+                expect(axiosGet).toHaveBeenCalledWith("/users/1/applications");
             });
         });
     
@@ -257,8 +275,8 @@ describe("generateUserPassword()", () => {
         await userService.generateUserPassword(passwordRequest).then((response) => {
             expect(response.getData()).toEqual(true);
             expect(response.hasFailed()).toBeFalsy();
-            expect(axios.post).toHaveBeenCalledTimes(1);
-            expect(axios.post).toHaveBeenCalledWith(
+            expect(axiosPost).toHaveBeenCalledTimes(1);
+            expect(axiosPost).toHaveBeenCalledWith(
                 "/users/password-tokens",
                 passwordRequest,
                 {headers: { "Content-Type": "application/vnd.password-token.v1+json" }}
@@ -272,8 +290,8 @@ describe("generateUserPassword()", () => {
         await userService.generateUserPassword(passwordRequest).then((response) => {
             expect(response.getData()).toBeNull();
             expect(response.hasFailed()).toBeTruthy();
-            expect(axios.post).toHaveBeenCalledTimes(1);
-            expect(axios.post).toHaveBeenCalledWith(
+            expect(axiosPost).toHaveBeenCalledTimes(1);
+            expect(axiosPost).toHaveBeenCalledWith(
                 "/users/password-tokens",
                 passwordRequest,
                 {headers: { "Content-Type": "application/vnd.password-token.v1+json" }}
@@ -284,8 +302,8 @@ describe("generateUserPassword()", () => {
 //todo: fix this
 // describe("verifyUser()", () => {
 //     it("should verify a user", async () => {
-//         (axios.post as any).mockClear();
-//         (axios.post as any).mockResolvedValueOnce({
+//         (axiosPost as any).mockClear();
+//         (axiosPost as any).mockResolvedValueOnce({
 //             data: {
 //                 message: "success"
 //             },
@@ -294,8 +312,8 @@ describe("generateUserPassword()", () => {
 //         await userService.verifyUser("token").then((response) => {
 //             expect(response.getData()).toEqual(true);
 //             expect(response.hasFailed()).toBeFalsy();
-//             expect(axios.post).toHaveBeenCalledTimes(1);
-//             expect(axios.post).toHaveBeenCalledWith(
+//             expect(axiosPost).toHaveBeenCalledTimes(1);
+//             expect(axiosPost).toHaveBeenCalledWith(
 //                 "/users/1/verify",
 //                 {},
 //                 {headers: { "Content-Type": "application/vnd.verify-user.v1+json" }}
@@ -312,8 +330,8 @@ describe("getUserSocialMedia()", () => {
             
             expect(response.getData()).toEqual([socialMedia1,socialMedia2]);
             expect(response.hasFailed()).toBeFalsy();
-            expect(axios.get).toHaveBeenCalledTimes(1);
-            expect(axios.get).toHaveBeenCalledWith("/users/1/social-media");
+            expect(axiosGet).toHaveBeenCalledTimes(1);
+            expect(axiosGet).toHaveBeenCalledWith("/users/1/social-media");
         });
     });
     
@@ -323,8 +341,8 @@ describe("getUserSocialMedia()", () => {
         await userService.getUserSocialMedia(1).then((response) => {
             expect(response.getData()).toBeNull();
             expect(response.hasFailed()).toBeTruthy();
-            expect(axios.get).toHaveBeenCalledTimes(1);
-            expect(axios.get).toHaveBeenCalledWith("/users/1/social-media");
+            expect(axiosGet).toHaveBeenCalledTimes(1);
+            expect(axiosGet).toHaveBeenCalledWith("/users/1/social-media");
         });
     });
 });
