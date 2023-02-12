@@ -1,4 +1,3 @@
-import axios from "axios"
 export const user1 = {
     applications: "",
     available: true,
@@ -8,7 +7,7 @@ export const user1 = {
     genres: [],
     id: 1,
     location: "CABA",
-    name: "name",
+    name: "band user",
     roles: [],
     socialMedia: "",
     surname: "",
@@ -22,7 +21,7 @@ export const user2 = {
     enabled: true,
     band: false,
     genres: ["rock", "pop"],
-    id: 1,
+    id: 2,
     location: "arg",
     name: "artist",
     roles: ["baterista", "guitarrista"],
@@ -187,14 +186,110 @@ export const role2 = {
     name: "guitarrista"
 }
 
+export const artist = {
+    applications: "",  
+    available: true,
+    description: "artist description",
+    enabled: true,
+    band: false,
+    genres: ["rock", "pop"],
+    id: 1,
+    location: "arg",
+    name: "name",
+    roles: ["baterista", "guitarrista"],
+    socialMedia: "",
+    surname: "surname",
+    profileImage: ""
+}
+
+export const band = {
+    applications: "",
+    available: true,
+    description: "band description",
+    enabled: true,
+    band: true,
+    genres: ["rock", "pop"],
+    id: 2,
+    location: "arg",
+    name: "name",
+    roles: ["baterista", "guitarrista"],
+    socialMedia: "",
+    surname: "",
+    profileImage: ""
+}
+
+export const artist2 = {
+    applications: "",  
+    available: true,
+    description: "artist description",
+    enabled: true,
+    band: false,
+    genres: ["rock", "pop"],
+    id: 3,
+    location: "arg",
+    name: "name",
+    roles: ["baterista", "guitarrista"],
+    socialMedia: "",
+    surname: "surname",
+    profileImage: ""
+}
+
+export const band2 = {
+    applications: "",
+    available: true,
+    description: "band description",
+    enabled: true,
+    band: true,
+    genres: ["rock", "pop"],
+    id: 4,
+    location: "arg",
+    name: "name",
+    roles: ["baterista", "guitarrista"],
+    socialMedia: "",
+    surname: "",
+    profileImage: ""
+}
+
 export const membership1 = {
     id: 1,
-    artist: user2,
-    band: user1,
-    description: "description",
+    artist: artist,
+    band: band,
+    description: "membership description",
     state: "PENDING",
     roles: ["baterista", "guitarrista"]
 }
 
+export const membership1EditParams = {
+    roles:["pianista"],
+    description: "description",
+}
 
+export const membership2 = {
+    id: 2,
+    artist: artist,
+    band: band2,
+    description: "membership description",
+    state: "PENDING",
+    roles: ["baterista", "guitarrista"]
+}
+
+export const membership3 = {
+    id: 3,
+    artist: artist2,
+    band: band,
+    description: "membership description",
+    state: "PENDING",
+    roles: ["baterista", "guitarrista"]
+}
+
+export const postResponse = {
+    id: 1,
+    url: "http://localhost:8080/memberships/1"
+}
+
+export const membershipPostParams = {
+    userId: 1,
+    roles:["baterista", "guitarrista"],
+    description: "description",
+}
 test("", () => {});
