@@ -392,7 +392,7 @@ const EditBand = () => {
                                     </FormControl>
 
                                     <FormControl>
-                                        <FormLabel fontSize={16} fontWeight="bold" >{t("Edit.genreArtist")}</FormLabel>
+                                        <FormLabel fontSize={16} fontWeight="bold" >{t("Edit.genreBand")}</FormLabel>
                                         <Select<GenreGroup, true, GroupBase<GenreGroup>>
                                             isMulti
                                             name="genres"
@@ -408,7 +408,7 @@ const EditBand = () => {
                                         />
                                     </FormControl>
                                     <FormControl>
-                                        <FormLabel fontSize={16} fontWeight="bold" >{t("Edit.roleArtist")}</FormLabel>
+                                        <FormLabel fontSize={16} fontWeight="bold" >{t("Edit.roleBand")}</FormLabel>
                                         <Select<RoleGroup, true, GroupBase<RoleGroup>>
                                             isMulti
                                             name="roles"
