@@ -19,7 +19,7 @@ const MembershipItem = ({ contraUser, description, roles}: { contraUser: User, d
                 backgroundColor: "white",
               }} />
             <Box ml='3'>
-              <Text fontWeight='bold'>
+              <Text fontWeight='bold' noOfLines={2} w={300}>
                 {contraUser.name}
                 {
                   contraUser.surname && ` ${contraUser.surname}`

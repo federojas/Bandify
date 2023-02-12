@@ -243,7 +243,6 @@ const AddToBandButton = ({ user, refresh }: { user: User, refresh: () => void })
               >
                 <FormLabel fontSize={16} fontWeight="bold">{t("AddToBand.Field2")}</FormLabel>
                 <Textarea
-                  // ref={initialRef}
                   placeholder={t("AddToBand.Field2Placeholder")}
                   maxLength={options.message.maxLength.value}
                   {...register("description", options.message)}
@@ -341,15 +340,25 @@ const UserProfile = () => {
           (response) => {
             if (response.getContent().length === 0) {
               setCanInvite(true);
-              setCanLeave(false);
             } else {
-              setCanInvite(false)
-              if (response.getContent().at(0) && response.getContent().at(0)!.state === 'ACCEPTED') {
-                setMembershipId(response.getContent().at(0)!.id)
-                setCanLeave(true);
-              }
+              setCanInvite(false);
             }
           }
+        )
+      } else if(user.band && !currentUser.band) {
+        serviceCall(
+            membershipService.getUserMembershipsByBand(currentUser?.id, user?.id),
+            navigate,
+            (response) => {
+              if (response.getContent().length === 0) {
+                setCanLeave(false);
+              } else {
+                if (response.getContent().at(0) && response.getContent().at(0)!.state === 'ACCEPTED') {
+                  setMembershipId(response.getContent().at(0)!.id)
+                  setCanLeave(true);
+                }
+              }
+            }
         )
       }
     }
