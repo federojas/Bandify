@@ -39,7 +39,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "build-paw": "react-scripts build && sed -i '1s/^/<%@ page session=\"false\" %> /' ./build/index.html",
+    "build-paw": "react-scripts build && sed -i '1s/^/<%@page session=\"false\" %> /' ./build/index.html",
     "test": "jest --watch --transformIgnorePatterns \"node_modules/(?!axios)/\"",
     "eject": "react-scripts eject"
   },

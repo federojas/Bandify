@@ -84,7 +84,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().headers()
                 .cacheControl().disable()
                 .and().authorizeRequests()
-                //TODO REVISAR TODOS
                 .antMatchers(HttpMethod.POST, "/users", "/users/password-token", "/users/verify-tokens").anonymous()
                 .antMatchers(HttpMethod.PUT, "/users/{\\d+}/**", "/users/verify-tokens/**", "/users/password-tokens/**").authenticated()
                 .antMatchers(HttpMethod.GET, "/users/{\\d+}/applications").hasRole("ARTIST")

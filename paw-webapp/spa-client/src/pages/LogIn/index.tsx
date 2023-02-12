@@ -97,7 +97,7 @@ const LoginBox = () => {
         message: "Password cannot be larger than 25 characters",
       },
     },
-  };//TODO: ESTAS VALIDACIONES NO VAN ACA
+  };
 
   return (
     <>
