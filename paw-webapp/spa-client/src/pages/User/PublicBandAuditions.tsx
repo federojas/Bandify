@@ -29,6 +29,7 @@ import { useUserService } from "../../contexts/UserService";
 import {PaginationArrow, PaginationWrapper} from "../../components/Pagination/pagination";
 import {getQueryOrDefault, useQuery} from "../../hooks/useQuery";
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
+import CopyToClipboard from 'react-copy-to-clipboard';
 
 const PublicBandAudition = (
   {
@@ -79,19 +80,18 @@ const PublicBandAudition = (
               {t("PostCard.more")}
             </Button>
           </Link>
-          <Button variant="ghost" colorScheme="blue" leftIcon={<FiShare2 />}
-            onClick={() => {
-              navigator.clipboard.writeText(window.location.href + "/" + audition.id.toString())
-              toast({
+        <CopyToClipboard text={window.location.href + "/" + audition.id.toString()} onCopy={() => {
+            toast({
                 title: t("Register.success"),
                 status: "success",
                 description: t("Clipboard.message"),
                 isClosable: true,
-              });
-            }}
-
-          >                {t("PostCard.share")}
-          </Button>
+            });
+        }}>
+            <Button variant="ghost" colorScheme="blue" leftIcon={<FiShare2 />}>
+                {t("PostCard.share")}
+            </Button>
+        </CopyToClipboard>
         </ButtonGroup>
       </CardFooter>
     </Card>
