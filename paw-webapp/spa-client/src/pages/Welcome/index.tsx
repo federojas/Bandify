@@ -56,6 +56,7 @@ function Home() {
         </Text>
         <Stack spacing={6} direction={"row"} >
           <Button
+            style={{cursor: "pointer"}}
             rounded={"full"}
             px={6}
             colorScheme={"blue"}

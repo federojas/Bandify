@@ -354,6 +354,7 @@ const EditBand = () => {
                                                 <Stack>
                                                     <Input
                                                         variant="unstyled"
+                                                        style={{cursor: "pointer"}}
                                                         type="file"
                                                         accept='image/png, image/jpeg'
                                                         onInput={(event) => {

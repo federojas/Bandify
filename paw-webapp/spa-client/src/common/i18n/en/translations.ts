@@ -52,7 +52,7 @@ export const TRANSLATIONS_EN = {
     artist_name: "Artist name",
     artist_surname: "Artist surname",
     button: "Register",
-    alreadyUser: "Already a user?",
+    alreadyUser: "Already have an account?",
     login: "Login",
     pwd: "********",
     emailPlaceholder: "example@mail.com",

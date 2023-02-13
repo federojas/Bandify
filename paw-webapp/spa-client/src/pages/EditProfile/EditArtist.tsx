@@ -1,11 +1,9 @@
 import {
-    Avatar,
     Box,
     Button,
     Flex,
     FormControl,
     FormErrorMessage,
-    FormHelperText,
     FormLabel,
     GridItem,
     Heading,
@@ -16,7 +14,6 @@ import {
     Text,
     Textarea,
     useColorModeValue,
-    Icon,
     Center,
     useToast, Image
 } from "@chakra-ui/react";
@@ -402,6 +399,7 @@ const EditArtist = () => {
                             <Input
                                 variant="unstyled"
                                 type="file"
+                                style={{cursor: "pointer"}}
                                 accept='image/png, image/jpeg'
                                 onInput={(event) => {
                                     if(event.currentTarget.files)

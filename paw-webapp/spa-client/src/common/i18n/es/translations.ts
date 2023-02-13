@@ -106,7 +106,7 @@ export const TRANSLATIONS_ES = {
     artist_name: "Nombre del artista",
     artist_surname: "Apellido del artista",
     button: "Registrarse",
-    alreadyUser: "¿Ya sos usuario?",
+    alreadyUser: "¿Ya tienes una cuenta?",
     login: "Iniciar sesión",
     pwd: "********",
     emailPlaceholder: "ejemplo@mail.com",
@@ -435,7 +435,7 @@ export const TRANSLATIONS_ES = {
     Title: "Cambia tu contraseña",
     Password: "Contraseña",
     ConfirmPassword: "Confirmar contraseña",
-    Submit: "Enviar",
+    Submit: "Confirmar",
     heading: "Cambia tu contraseña",
   },
   SocialMediaModal: {
