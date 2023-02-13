@@ -21,11 +21,6 @@ public class BandifyAuthenticationEntryPoint implements AuthenticationEntryPoint
         ErrorInfoDto errorInfoDto = new ErrorInfoDto();
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setContentType(MediaType.APPLICATION_JSON);
-        /*
-        response.addHeader("WWW-Authenticate", "Basic realm=\"User Visible Realm\", charset=\"UTF-8\"");
-        response.addHeader("WWW-Authenticate", "Bearer realm=\"token\"");
-        response.addHeader("WWW-Authenticate", "Basic realm=\"email:nonce\"");
-         */
         errorInfoDto.setStatus(HttpStatus.UNAUTHORIZED.value());
         errorInfoDto.setTitle(HttpStatus.UNAUTHORIZED.getReasonPhrase());
         errorInfoDto.addMessage(exception.getMessage());

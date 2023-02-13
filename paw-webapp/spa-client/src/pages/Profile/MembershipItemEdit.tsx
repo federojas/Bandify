@@ -44,7 +44,6 @@ const MembershipItemEdit = ({ contraUser, description, roles, membershipId, refr
         </Flex>
 
         <Flex direction={'column'} flex={1} justify="space-around" align={'space-between'}>
-          {/*<LeaveBand membershipId={membershipId as any} refresh={refresh} /> */}
           <EditMembershipButton membershipId={membershipId} rolesParam={roles} descriptionParam={description} refresh={refresh} />
           <DeleteMembershipButton membershipId={membershipId} refresh={refresh} />
         </Flex>

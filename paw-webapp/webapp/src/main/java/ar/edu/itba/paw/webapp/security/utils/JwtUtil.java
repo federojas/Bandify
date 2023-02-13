@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 public class JwtUtil {
 
-    private static final int REFRESH_RATE_MILLIS = 5 * 1000;
+    private static final int REFRESH_RATE_MILLIS = 20 * 60 * 1000;
     public static final String JWT_RESPONSE = "X-JWT";
     public static final String JWT_REFRESH_RESPONSE = "X-Refresh-Token";
 
