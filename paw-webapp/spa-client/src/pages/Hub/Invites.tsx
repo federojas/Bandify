@@ -1,4 +1,4 @@
-import { Accordion, Avatar, Box, Button, Center, Flex, HStack, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Tab, TabList, TabPanel, TabPanels, Tabs, Text, useDisclosure, useToast, VStack } from "@chakra-ui/react"
+import { Avatar, Box, Button, Center, Flex, HStack, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useDisclosure, useToast, VStack } from "@chakra-ui/react"
 import { useTranslation } from "react-i18next"
 import SidenavLayout from "./SidenavLayout"
 import { TiTick, TiCancel } from 'react-icons/ti'
@@ -6,7 +6,7 @@ import { useContext, useEffect, useState } from "react"
 import AuthContext from "../../contexts/AuthContext"
 import { useMembershipService } from "../../contexts/MembershipService"
 import { serviceCall } from "../../services/ServiceManager"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom"
 import Membership from "../../models/Membership"
 import { Helmet } from "react-helmet"
 import RoleTag from "../../components/Tags/RoleTag"
@@ -117,17 +117,19 @@ function InviteItem ({ membership, setRefresh , setIsLoading, refresh}: { member
   return (
     <Box borderWidth='1px' borderRadius='lg' p="4" w={'full'}>
       <Flex alignItems={'center'} justify="space-between">
-        <HStack>
-          <Avatar src={membership.band.profileImage}
-            _dark={{
-              backgroundColor: "white",
-            }} />
-          <Box ml='3'>
-            <Text fontWeight='bold'>
-              {membership.band.name}
-            </Text>
-          </Box>
-        </HStack>
+        <Link to={"/user/" + membership.band.id.toString()}>
+          <HStack>
+            <Avatar src={membership.band.profileImage}
+              _dark={{
+                backgroundColor: "white",
+              }} />
+            <Box ml='3'>
+              <Text fontWeight='bold'>
+                {membership.band.name}
+              </Text>
+            </Box>
+          </HStack>
+        </Link>
         <InviteInfo membership={membership} setIsLoading={setIsLoading} setRefresh={setRefresh} refresh={refresh} />
 
       </Flex>
