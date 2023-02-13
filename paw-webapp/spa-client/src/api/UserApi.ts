@@ -6,23 +6,11 @@ import {
   UserPasswordResetInput
 } from "./types/User";
 import { Application } from "./types/Application";
-import axios, { AxiosInstance, AxiosResponse } from "axios";
+import { AxiosInstance } from "axios";
 import { parseLinkHeader } from "@web3-storage/parse-link-header";
 import PagedContent from "./types/PagedContent";
-import { Audition } from "./types/Audition";
-import ApiResult from "./types/ApiResult";
-import { ErrorService } from "../services/ErrorService";
 import { UpdateUserSocialMediaInput } from "./types/SocialMedia";
-
-interface GetUserParams {
-  page?: number;
-  query?: string;
-  genre?: string;
-  role?: string;
-  location?: string;
-}
-
-
+import api from "./api";
 
 class UserApi {
 
@@ -382,7 +370,7 @@ class UserApi {
         'Authorization': "Basic " + btoa("mail:" + token)
       }
     }
-    return this.axiosPrivate
+    return api
       .put(`${this.endpoint}/password-tokens/${token}`, input, config)
       .then((response) => {
         return response;
@@ -409,7 +397,7 @@ class UserApi {
                 'Authorization' : "Basic " + btoa( "mail:" + token)
             }
         }
-        return this.axiosPrivate
+        return api
             .put(`${this.endpoint}/verify-tokens/${token}`,{}, config)
             .then((response) => {
                 return response;

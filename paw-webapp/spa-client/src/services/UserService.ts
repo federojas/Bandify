@@ -6,7 +6,7 @@ import {
   UserUpdateInput
 } from "../api/types/User";
 import UserApi from "../api/UserApi";
-import { Audition, User, Application } from "../models";
+import { User, Application } from "../models";
 import { ErrorService } from "./ErrorService";
 import PagedContent from "../api/types/PagedContent";
 import SocialMedia from "../models/SocialMedia";
