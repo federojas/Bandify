@@ -42,7 +42,7 @@ import java.util.Properties;
 @PropertySource(value= {"classpath:application.properties"})
 public class WebConfig {
 
-    private static final boolean DEPLOY = true;
+    private static final boolean DEPLOY = false;
 
     private static boolean isDeploying() {
         return DEPLOY;
