@@ -22,9 +22,6 @@ import {newAuditionOptions, newAuditionOptionsES} from "./validations";
 
 import {
   Select,
-  CreatableSelect,
-  AsyncSelect,
-  OptionBase,
   GroupBase,
 } from "chakra-react-select";
 import { LocationGroup, GenreGroup, RoleGroup } from "./EntitiesGroups";
@@ -138,7 +135,7 @@ const EditAudition = () => {
       return false;
     }
     
-    if (genres.length == 0) {
+    if (genres.length === 0) {
       toast({
         title: t("EditAudition.genresRequired"),
         status: "error",
@@ -148,7 +145,7 @@ const EditAudition = () => {
       return false;
     }
 
-    if (roles.length == 0) {
+    if (roles.length === 0) {
       toast({
         title: t("EditAudition.rolesRequired"),
         status: "error",

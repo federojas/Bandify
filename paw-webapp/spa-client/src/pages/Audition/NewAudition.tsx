@@ -103,7 +103,7 @@ const NewAudition = () => {
       return false;
     }
     
-    if (genres.length == 0) {
+    if (genres.length === 0) {
       toast({
         title: t("EditAudition.genresRequired"),
         status: "error",
@@ -113,7 +113,7 @@ const NewAudition = () => {
       return false;
     }
 
-    if (roles.length == 0) {
+    if (roles.length === 0) {
       toast({
         title: t("EditAudition.rolesRequired"),
         status: "error",

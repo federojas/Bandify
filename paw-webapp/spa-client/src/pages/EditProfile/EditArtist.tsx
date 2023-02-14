@@ -22,9 +22,6 @@ import { useTranslation } from "react-i18next";
 import {editOptions, editOptionsES} from "./validations"
 import {
   Select,
-  CreatableSelect,
-  AsyncSelect,
-  OptionBase,
   GroupBase,
 } from "chakra-react-select";
 import { LocationGroup, GenreGroup, RoleGroup, AvailableGroup } from "./EntitiesGroups";

@@ -45,7 +45,6 @@ export default function NewPassword(): JSX.Element {
   const {
     register,
     handleSubmit,
-    setError,
     formState: { errors },
   } = useForm<FormData>();
 

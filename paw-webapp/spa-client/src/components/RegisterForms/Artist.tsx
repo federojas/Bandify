@@ -40,7 +40,6 @@ const options = localStorage.getItem('i18nextLng') === 'es' ? registerOptionsES 
 export default function RegisterArtistForm (){
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const location = useLocation();
   const userService = useUserService();
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirmation, setShowPasswordConfirmation] =

@@ -72,7 +72,7 @@ const EditMembershipButton = ({ membershipId, rolesParam, descriptionParam, refr
 
     const isValidForm = (data: FormData) => {
 
-        if (roles.length == 0) {
+        if (roles.length === 0) {
             toast({
                 title: t("EditAudition.rolesRequired"),
                 status: "error",

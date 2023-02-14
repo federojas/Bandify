@@ -31,7 +31,6 @@ export default function ForgotPasswordForm(): JSX.Element {
   const {
     register,
     handleSubmit,
-    setError,
     formState: { errors },
   } = useForm<FormData>();
 

@@ -345,7 +345,7 @@ const AuditionView = () => {
 
   useEffect(() => {
     if (currentUser && audition) {
-      setIsOwner(currentUser?.id == ownerUser?.id ? true : false);
+      setIsOwner(currentUser?.id === ownerUser?.id ? true : false);
     }
   }, [audition, currentUser, ownerUser])
 

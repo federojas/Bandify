@@ -35,14 +35,6 @@ import BandTag from "../../components/Tags/BandTag";
 import { ImLocation } from "react-icons/im";
 import GenreTag from "../../components/Tags/GenreTag";
 import RoleTag from "../../components/Tags/RoleTag";
-import {
-  FaFacebook,
-  FaInstagram,
-  FaTwitter,
-  FaYoutube,
-  FaSoundcloud,
-  FaSpotify,
-} from "react-icons/fa";
 import { HiUserGroup } from "react-icons/hi";
 import AuthContext from "../../contexts/AuthContext";
 import { serviceCall } from "../../services/ServiceManager";

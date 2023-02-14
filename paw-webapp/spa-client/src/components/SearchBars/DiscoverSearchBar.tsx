@@ -72,7 +72,6 @@ const DiscoverSearchBar = ({ onSubmit = () => {} }: DiscoverSearchBarProps) => {
   const [locationOptions, setLocationOptions] = React.useState<LocationGroup[]>([]);
   const [genreOptions, setGenreOptions] = React.useState<GenreGroup[]>([]);
   const [roleOptions, setRoleOptions] = React.useState<RoleGroup[]>([]);
-  const [filters, setFilters] = React.useState(false);
   const genreService = useGenreService();
   const roleService = useRoleService();
   const locationService = useLocationService();

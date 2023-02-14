@@ -2,18 +2,9 @@ import React, { useEffect, useState } from "react";
 import "../../styles/profile.css";
 import { useTranslation } from "react-i18next";
 import {
-  Box,
   Button,
-  Container,
-  Divider,
-  Flex,
   FormControl,
   FormLabel,
-  Grid,
-  GridItem,
-  Heading,
-  HStack,
-  Image,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -21,14 +12,10 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Stack,
   Text,
   Textarea,
-  useColorModeValue,
   useDisclosure,
-  VStack,
   useToast,
-  Avatar
 } from "@chakra-ui/react";
 
 import { serviceCall } from "../../services/ServiceManager";

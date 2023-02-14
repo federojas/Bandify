@@ -41,7 +41,7 @@ import Verify from "./pages/LogIn/Verify";
 
 function App() {
   return (
-    <Router>
+    <Router basename="/paw-2022a-03">
       <Routes>
         <Route path="/" element={<MainLayout />}>
           <Route index element={<Navigate to={"/welcome"} />} />

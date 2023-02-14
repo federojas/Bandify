@@ -256,7 +256,7 @@ const Profile = () => {
                         {user?.band ? t("Profile.BandMembers") : t("Profile.playsIn")}
                       </Heading>
                     </HStack>
-                    {user?.band && user?.id == currentUserId ?
+                    {user?.band && user?.id === currentUserId ?
                       <Button leftIcon={<AiOutlineEdit />} w={'50'} colorScheme={'cyan'} onClick={() => {
                         navigate("/profile/editAssociates")
                       }}>

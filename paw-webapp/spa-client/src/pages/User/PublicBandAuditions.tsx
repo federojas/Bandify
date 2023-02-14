@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import "../../styles/welcome.css";
 import "../../styles/auditions.css";
@@ -18,7 +18,6 @@ import {
 import { FiCalendar, FiMusic, FiShare2 } from "react-icons/fi";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import dayjs from "dayjs";
-import AuthContext from "../../contexts/AuthContext";
 import { serviceCall } from "../../services/ServiceManager";
 import { useAuditionService } from "../../contexts/AuditionService";
 import { useLocation, useNavigate, useParams, Link } from "react-router-dom";

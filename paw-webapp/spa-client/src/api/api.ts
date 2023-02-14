@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  baseURL: 'http://localhost:6060',
+  baseURL: process.env.REACT_APP_API_URL,
   timeout: 5000,
   headers: {
     'Authorization': null,
@@ -9,7 +9,7 @@ const instance = axios.create({
 });
 
 export const axiosPrivate = axios.create({
-  baseURL:  'http://localhost:6060',
+  baseURL: process.env.REACT_APP_API_URL,
   timeout: 5000,
   headers: {
     'Authorization': null,
