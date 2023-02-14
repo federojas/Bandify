@@ -10,10 +10,8 @@ const useAxiosPrivate = () => {
     const requestIntercept = axiosPrivate.interceptors.request.use(
       config => {
         if (auth.isAuthenticated && config.headers && !(config.headers as any)['Authorization']) {
-          console.log("Agrego el JWT");
           (config.headers as any)['Authorization'] = `Bearer ${auth.jwt}`;
         } else if( !auth.isAuthenticated && config.headers && (config.headers as any)['Authorization']) {
-          console.log("quitamos el header AUTH");
           (config.headers as any)['Authorization'] = null;
         }
         return config;
@@ -29,13 +27,12 @@ const useAxiosPrivate = () => {
           prevRequest.headers['Authorization'] = `Bearer ${auth.refreshToken}`;
     
           const response = axiosPrivate(prevRequest).then((response) => {
-            if (response.headers && response.headers["x-jwt"] && response.headers["X-Refresh-Token"]) {
-              auth.login(response.headers["x-jwt"], response.headers["X-Refresh-Token"]);
+            if (response.headers && response.headers["x-jwt"]) {
+              auth.login(response.headers["x-jwt"]);
             }
             return response;
           }).catch((error) => {
             if (error?.response?.status === 401) {
-              console.log("Ambos tokens vencidos");
               auth.logout();
             }
             throw error;
