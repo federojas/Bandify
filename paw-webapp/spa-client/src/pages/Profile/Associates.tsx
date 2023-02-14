@@ -67,8 +67,10 @@ const ProfileAssociates = () => {
 
   return (
     <Center py={'10'}>
-      <Flex>
+      <Flex mb={-20} mr={100}>
         <BackArrow/>
+      </Flex>
+      <Flex>
       <VStack spacing={'4'}>
         <Flex
           as="a"

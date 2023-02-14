@@ -96,13 +96,15 @@ const Profile = () => {
 
   return (
     <>
+      <Flex ml={100} mt={8} mb={-20}>
+        <BackArrow/>
+      </Flex>
       <Helmet>
         <title>{t("NavBar.Profile")}</title>
       </Helmet>
       <Flex>
       <Container maxW={"5xl"} px={"0"} py={8}>
       <Flex justify={'start'}>
-        <BackArrow/>
         </Flex>
         {isLoading ? <Center mt={'25%'}><span className="loader" /></Center> : (
           <Stack spacing={4}>

@@ -359,6 +359,9 @@ const AuditionView = () => {
 
   return (
     <>
+      <Flex pl={200} mt={8} mb={-20}>
+        <BackArrow/>
+      </Flex>
       <Helmet>
         <title>{t("Audition.title")}</title>
       </Helmet>
@@ -367,7 +370,6 @@ const AuditionView = () => {
           {isLoading ? (<span className="loader"></span>) :
             (closed ? <ClosedAudition /> : (<>
             <Flex>
-              <BackArrow />
               <Flex direction="row" alignItems="center" justify="center">
                 <AuditionCard user={ownerUser!} audition={audition!} />
                 <AuditionActions auditionId={audition!.id} isOwner={isOwner} currentUser={currentUser} bandId={parseInt(audition!.owner.split('/')[audition!.owner.split('/').length - 1])} />

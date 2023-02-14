@@ -29,6 +29,7 @@ import {PaginationWrapper} from "../../components/Pagination/pagination";
 import {getQueryOrDefault, useQuery} from "../../hooks/useQuery";
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import CopyToClipboard from 'react-copy-to-clipboard';
+import BackArrow from "../../components/BackArrow/BackArrow";
 
 const PublicBandAudition = (
   {
@@ -132,11 +133,17 @@ const PublicBandAuditions = () => {
   }, [navigate, auditionService, userService])
 
   return (
+  <>
+    <Flex pl={100} mt={8} mb={-75}>
+      <BackArrow/>
+    </Flex>
     <VStack pt={'10'}>
-      <Heading as='h1'
-        size='2xl'
-        mb={'4'}
-        fontWeight="bold">{t("PublicBandAuditions.Title")}</Heading>
+      <HStack>
+          <Heading as='h1'
+            size='2xl'
+            mb={'4'}
+            fontWeight="bold">{t("PublicBandAuditions.Title")}</Heading>
+      </HStack>
       <Flex
         as="a"
         onClick={() => {
@@ -233,6 +240,7 @@ const PublicBandAuditions = () => {
           </PaginationWrapper>
       </Flex>
     </VStack>
+  </>
   )
 }
 

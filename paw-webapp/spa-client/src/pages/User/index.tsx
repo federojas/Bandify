@@ -359,6 +359,9 @@ const UserProfile = () => {
 
   return (
     <>
+      <Flex pl={100} mt={8} mb={-20}>
+        <BackArrow/>
+      </Flex>
       <Helmet>
         <title>{t("NavBar.Profile")}</title>
       </Helmet>
@@ -366,7 +369,6 @@ const UserProfile = () => {
         <Flex flex={1} justify={'center'} align={'center'}>
           <Container maxW={"5xl"} px={"0"} py={8}>
           <Flex justify={'start'}>
-          <BackArrow />
           </Flex>
           <Stack spacing={4}>
             <Box
