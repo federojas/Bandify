@@ -128,6 +128,7 @@ const AuditionActions = (props: { auditionId: number, isOwner: boolean, currentU
   const userService = useUserService();
   const membershipService = useMembershipService();
   const [refresh, setRefresh] = useState(true);
+  const { userId } = useContext(AuthContext);
 
   const handleRefresh = () => {
     setRefresh(!refresh);
@@ -156,7 +157,7 @@ const AuditionActions = (props: { auditionId: number, isOwner: boolean, currentU
         },
       )
       setIsBand(props.currentUser.band);
-    } else if(!props.currentUser) {
+    } else if(!userId) {
       setHasApplied(false);
       setIsMember(false);
       setIsBand(false);
