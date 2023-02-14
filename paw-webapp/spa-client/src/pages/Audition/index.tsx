@@ -122,7 +122,7 @@ const AuditionActions = (props: { auditionId: number, isOwner: boolean, currentU
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [hasApplied, setHasApplied] = useState(true);
-  const [isMember, setIsMember] = useState(true);
+  let [isMember, setIsMember] = useState(true);
   const [isBand, setIsBand] = useState(true);
   const toast = useToast();
   const userService = useUserService();
@@ -153,6 +153,14 @@ const AuditionActions = (props: { auditionId: number, isOwner: boolean, currentU
         (response) => {
           if (response.getContent().length === 0) {
             setIsMember(false);
+          } else {
+            let memberAux = false;
+            response.getContent().map(m => {
+              if(m.state === "ACCEPTED")
+                memberAux = true;
+            })
+            if(!memberAux)
+              setIsMember(false);
           }
         },
       )

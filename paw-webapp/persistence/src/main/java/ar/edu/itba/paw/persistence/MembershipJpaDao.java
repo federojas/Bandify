@@ -123,10 +123,10 @@ public class MembershipJpaDao implements MembershipDao {
     @Override
     public List<Membership> getMembershipsByUsers(User band, User artist) {
         LOGGER.info("Getting membership with band id {} and artist id {}", band.getId(), artist.getId());
-        final TypedQuery<Membership> query = em.createQuery("SELECT m FROM Membership as m where m.band.id = :bandId and m.artist.id = :artistId AND m.state = :state", Membership.class);
+        final TypedQuery<Membership> query = em.createQuery("SELECT m FROM Membership as m where m.band.id = :bandId and m.artist.id = :artistId AND m.state <> :state", Membership.class);
         query.setParameter("bandId", band.getId());
         query.setParameter("artistId", artist.getId());
-        query.setParameter("state", MembershipState.ACCEPTED);
+        query.setParameter("state", MembershipState.REJECTED);
         return query.getResultList();
     }
 
