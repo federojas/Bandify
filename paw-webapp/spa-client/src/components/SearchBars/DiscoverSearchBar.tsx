@@ -1,28 +1,18 @@
 import "../../styles/searchBar.css";
 import * as React from "react";
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Container,
-  FormControl,
   FormLabel,
-  Code,
-  Link,
-  FormErrorMessage,
   Input,
   Button,
   Box,
   useColorModeValue,
   HStack,
   VStack,
-  Flex,
-  Text,
 } from "@chakra-ui/react";
 import {
   Select,
-  CreatableSelect,
-  AsyncSelect,
-  OptionBase,
   GroupBase,
 } from "chakra-react-select";
 import { SearchIcon } from "@chakra-ui/icons";

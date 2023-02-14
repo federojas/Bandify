@@ -1,4 +1,4 @@
-import { Avatar, Box, Flex, HStack, Text, VStack } from "@chakra-ui/react";
+import { Avatar, Box, Flex, HStack, Text } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import RoleTag from "../../components/Tags/RoleTag";
 import { User } from "../../models";

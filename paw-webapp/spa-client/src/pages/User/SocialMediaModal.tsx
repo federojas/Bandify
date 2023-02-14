@@ -1,19 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../styles/profile.css";
 import { useTranslation } from "react-i18next";
 import {
-  Box,
   Button,
-  Container,
-  Divider,
-  Flex,
   FormControl,
   FormLabel,
-  Grid,
-  GridItem,
-  Heading,
   HStack,
-  Image,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -21,32 +13,19 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Stack,
   Text,
-  Textarea,
-  useColorModeValue,
   useDisclosure,
   VStack,
   useToast,
-  Avatar,
   InputGroup,
   InputLeftAddon,
   Input
 } from "@chakra-ui/react";
 import { SlSocialFacebook, SlSocialInstagram, SlSocialTwitter, SlSocialYoutube, SlSocialSoundcloud, SlSocialSpotify } from "react-icons/sl";
 import { serviceCall } from "../../services/ServiceManager";
-import { useNavigate, useParams } from "react-router-dom";
-import { User } from "../../models";
-import { useMembershipService } from "../../contexts/MembershipService";
-import { AiOutlineEdit, AiOutlineUserAdd } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
+import { AiOutlineEdit } from "react-icons/ai";
 import { useForm } from "react-hook-form";
-import { addToBandOptions, addToBandOptionsES } from "./validations";
-import {
-  Select, GroupBase,
-} from "chakra-react-select";
-import { RoleGroup } from "../EditProfile/EntitiesGroups";
-import { useRoleService } from "../../contexts/RoleService";
-import { GrView } from "react-icons/gr";
 import { UpdateUserSocialMediaInput } from "../../api/types/SocialMedia";
 import { useUserService } from "../../contexts/UserService";
 import useAuth from "../../hooks/useAuth";
@@ -69,7 +48,6 @@ const SocialMediaModal = ({refreshMedia}: {refreshMedia: Function}) => {
   const finalRef = React.useRef(null)
   const navigate = useNavigate();
   const { userId } = useAuth()
-  const options = localStorage.getItem('i18nextLng') === 'es' ? addToBandOptionsES : addToBandOptions;
   const [socialMedia, setSocialMedia] = useState<FormData>({})
 
   useEffect(() => {

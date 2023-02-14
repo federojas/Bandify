@@ -6,7 +6,6 @@ import { Center, Divider, Flex, Heading, VStack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { serviceCall } from "../../services/ServiceManager";
 import {
-  PaginationArrow,
   PaginationWrapper,
 } from "../../components/Pagination/pagination";
 import { useLocation, useNavigate } from "react-router-dom";

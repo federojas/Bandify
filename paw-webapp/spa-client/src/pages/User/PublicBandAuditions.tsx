@@ -26,7 +26,7 @@ import { BiBullseye } from "react-icons/bi";
 import GenreTag from "../../components/Tags/GenreTag";
 import RoleTag from "../../components/Tags/RoleTag";
 import { useUserService } from "../../contexts/UserService";
-import {PaginationArrow, PaginationWrapper} from "../../components/Pagination/pagination";
+import {PaginationWrapper} from "../../components/Pagination/pagination";
 import {getQueryOrDefault, useQuery} from "../../hooks/useQuery";
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import CopyToClipboard from 'react-copy-to-clipboard';
@@ -41,7 +41,6 @@ const PublicBandAudition = (
   const { t } = useTranslation();
   const date = dayjs(audition.creationDate).format('DD/MM/YYYY')
   const toast = useToast();
-  const { userId } = useContext(AuthContext);
 
   return (
     <Card maxW="md" margin={5} boxShadow={"2xl"} w={"2xl"}>

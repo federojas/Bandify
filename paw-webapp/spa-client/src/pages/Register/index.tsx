@@ -10,7 +10,6 @@ import {
   SimpleGrid,
   useColorModeValue,
   Button,
-  Link,
 } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import "../../styles/forms.css";

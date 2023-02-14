@@ -4,8 +4,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useUserService } from "../../contexts/UserService";
 import { User } from "../../models";
 import { serviceCall } from "../../services/ServiceManager";
-import { Center, Divider, Flex, Heading, useColorModeValue, VStack } from "@chakra-ui/react";
-import { PaginationArrow, PaginationWrapper } from "../../components/Pagination/pagination";
+import { Center, Divider, Flex, Heading, VStack } from "@chakra-ui/react";
+import { PaginationWrapper } from "../../components/Pagination/pagination";
 import ProfileCard from "../../components/ProfileCard/ProfileCard";
 import { getQueryOrDefault, getQueryOrDefaultArray, useQuery } from "../../hooks/useQuery";
 import DiscoverSearchBar from "../../components/SearchBars/DiscoverSearchBar";
@@ -127,7 +127,7 @@ const Index = () => {
               <button
                   onClick={() => {
                     serviceCall(
-                        userService.getUsersByUrl(previousPage),
+                        userService.getUsersByUrl(nextPage),
                         navigate,
                         (response) => {
                           setUsers(response ? response.getContent() : []);

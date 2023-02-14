@@ -1,5 +1,4 @@
 import {
-  Badge,
   Box,
   Button,
   Center,
@@ -7,19 +6,15 @@ import {
   Heading,
   HStack,
   Image,
-  Link,
   Stack,
-  Text,
   useColorModeValue,
 } from '@chakra-ui/react';
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import { useTranslation } from 'react-i18next';
 import { BiBullseye } from 'react-icons/bi';
 import { FiMusic } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
-import { useUserService } from '../../contexts/UserService';
 import { User } from '../../models';
-import { serviceCall } from '../../services/ServiceManager';
 import ArtistTag from '../Tags/ArtistTag';
 import BandTag from '../Tags/BandTag';
 import GenreTag, { GenreCount } from '../Tags/GenreTag';
@@ -46,7 +41,6 @@ const ProfileCard: React.FC<User> = ({
 
   const filteredGenres = showMore ? genres : genres.slice(0, 1);
   const genreCount = genres.length - filteredGenres.length;
-  const userService = useUserService();
   const navigate = useNavigate();
   const filterAvailable = require(`../../images/available.png`);
   const { userId } = useContext(AuthContext);

@@ -45,7 +45,7 @@ function Error() {
                 >
                     {message}
                 </Heading>
-                <img src={image} />
+                <img src={image} alt="Error" />
                 <Button
                     onClick={onCancel}
                     bg={"blue.400"}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "../../styles/login.css";
 import "../../styles/welcome.css";
 import "../../styles/forms.css";
@@ -16,12 +16,10 @@ import {
   FormControl,
   FormLabel,
   Input,
-  Checkbox,
   Stack,
   Link,
   Button,
   Heading,
-  Text,
   useColorModeValue,
   FormErrorMessage,
   InputGroup,
@@ -29,7 +27,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
-import { useNavigate, useLocation, useParams } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { serviceCall } from "../../services/ServiceManager";
 
 interface FormData {
@@ -40,7 +38,6 @@ interface FormData {
 const LoginBox = () => {
   const { t } = useTranslation();
   const [showPassword, setShowPassword] = React.useState(false);
-  const [invalidCredentials, setInvalidCredentials] = React.useState(false);
   const authContext = React.useContext(AuthContext);
   const navigate = useNavigate();
   const { state } = useLocation();
@@ -56,7 +53,6 @@ const LoginBox = () => {
 
   const onSubmit = async (data: FormData) => {
     const { email, password } = data;
-    setInvalidCredentials(false);
     serviceCall(
       loginService.login(email, password),
       navigate

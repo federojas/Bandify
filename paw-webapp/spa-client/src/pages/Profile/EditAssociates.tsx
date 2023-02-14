@@ -1,6 +1,6 @@
 import {
     Box, Center, Heading,
-    Avatar, Badge, Flex, HStack, useDisclosure, VStack, useColorModeValue
+    Avatar, Flex, HStack, VStack, useColorModeValue
 } from "@chakra-ui/react"
 import React, { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";

@@ -1,4 +1,4 @@
-import { Center, Flex, Heading, VStack } from "@chakra-ui/react";
+import { Center, Heading, VStack } from "@chakra-ui/react";
 import React from "react";
 import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";

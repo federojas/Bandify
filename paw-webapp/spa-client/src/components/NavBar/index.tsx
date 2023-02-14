@@ -10,7 +10,6 @@ import {
   Flex,
   Avatar,
   HStack,
-  Link,
   IconButton,
   Button,
   Menu,
@@ -31,7 +30,6 @@ import { serviceCall } from "../../services/ServiceManager";
 import { useUserService } from "../../contexts/UserService";
 import { RiAppsFill } from "react-icons/ri";
 import { User } from "../../models";
-import { FaUserCircle } from "react-icons/fa";
 import { BiUser } from "react-icons/bi";
 const NavLink = ({
   children,

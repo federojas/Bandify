@@ -2,25 +2,17 @@ import React, { useEffect } from "react";
 import "../../styles/searchBar.css";
 import {
   Container,
-  FormControl,
   FormLabel,
-  Code,
-  Link,
-  FormErrorMessage,
   Input,
   Button,
   Box,
   useColorModeValue,
   HStack,
   VStack,
-  Flex,
   Text,
 } from "@chakra-ui/react";
 import {
   Select,
-  CreatableSelect,
-  AsyncSelect,
-  OptionBase,
   GroupBase,
 } from "chakra-react-select";
 import { useTranslation } from "react-i18next";

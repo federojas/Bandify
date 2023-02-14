@@ -3,16 +3,9 @@ import "../../styles/auditions.css";
 import PostCard from "../../components/PostCard/PostCard";
 import AuditionSearchBar from "../../components/SearchBars/AuditionSearchBar";
 import {
-  Box, Button,
   Center,
-  Container,
-  Divider,
   Flex,
-  FormLabel,
-  Heading, HStack,
-  Input,
-  Text,
-  useColorModeValue,
+  Heading,
   VStack
 } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
@@ -20,7 +13,7 @@ import { useEffect, useState } from "react";
 import { serviceCall } from "../../services/ServiceManager";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Audition } from "../../models";
-import { PaginationArrow, PaginationWrapper } from "../../components/Pagination/pagination";
+import { PaginationWrapper } from "../../components/Pagination/pagination";
 import { useAuditionService } from "../../contexts/AuditionService";
 import { getQueryOrDefault, getQueryOrDefaultArray, useQuery } from "../../hooks/useQuery";
 import React from "react";

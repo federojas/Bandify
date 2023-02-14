@@ -1,5 +1,5 @@
 import RegisterBandForm from "../../components/RegisterForms/Band";
-import { Flex, Heading, Stack, Text } from "@chakra-ui/react";
+import { Flex, Heading, Stack} from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import { Helmet } from "react-helmet";
 

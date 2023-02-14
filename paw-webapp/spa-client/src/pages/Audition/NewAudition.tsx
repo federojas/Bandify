@@ -1,14 +1,10 @@
-import { Avatar, Box, Button, Flex, FormControl, FormErrorMessage, FormHelperText, FormLabel, GridItem, Heading, HStack, Input, SimpleGrid, Stack, Text, Textarea, useColorModeValue, Icon, useToast } from "@chakra-ui/react";
+import { Box, Button, FormControl, FormErrorMessage, FormHelperText, FormLabel, GridItem, Heading, Input, SimpleGrid, Stack, Text, Textarea, useColorModeValue, useToast } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { FaUser } from "react-icons/fa";
 import {newAuditionOptions} from "./validations"
 
 import {
   Select,
-  CreatableSelect,
-  AsyncSelect,
-  OptionBase,
   GroupBase,
 } from "chakra-react-select";
 import { LocationGroup, GenreGroup, RoleGroup } from "./EntitiesGroups";

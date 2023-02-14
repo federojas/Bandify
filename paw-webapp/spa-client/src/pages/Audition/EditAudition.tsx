@@ -1,28 +1,23 @@
 import {
   useColorModeValue,
-  Avatar,
   Box,
   Button,
-  Flex,
   FormControl,
   FormErrorMessage,
   FormHelperText,
   FormLabel,
   GridItem,
   Heading,
-  HStack,
   Input,
   Center,
   SimpleGrid,
   Stack,
   Text,
   Textarea,
-  Icon,
   useToast
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { FaUser } from "react-icons/fa";
 import {newAuditionOptions, newAuditionOptionsES} from "./validations";
 
 import {

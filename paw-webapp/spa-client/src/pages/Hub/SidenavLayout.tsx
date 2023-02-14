@@ -2,27 +2,19 @@ import React, { ReactNode } from 'react';
 import {
   IconButton,
   Box,
-  CloseButton,
   Flex,
   Icon,
   useColorModeValue,
   Link,
-  Drawer,
-  DrawerContent,
   Text,
   useDisclosure,
   BoxProps,
   FlexProps,
-  Center,
   Grid,
-  useColorMode,
 } from '@chakra-ui/react';
 import {
   FiHome,
   FiTrendingUp,
-  FiCompass,
-  FiStar,
-  FiSettings,
   FiMenu,
   FiMusic,
 } from 'react-icons/fi';

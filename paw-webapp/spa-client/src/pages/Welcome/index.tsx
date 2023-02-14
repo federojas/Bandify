@@ -1,22 +1,15 @@
-// import { HeroContainer, HeroTitle, Slogan1, Slogan2 } from "./styles";
 import {
-  Flex,
   Container,
   Heading,
   Stack,
   Text,
-  Button,
-  Icon,
-  IconProps,
-  Image,
-  Center
+  Button
 } from "@chakra-ui/react";
 import { Helmet } from "react-helmet";
 import { useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../contexts/AuthContext";
-import WelcomeGuitar from '../../images/welcome-guitar.png';
 
 function Home() {
   const { t } = useTranslation();

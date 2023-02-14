@@ -1,4 +1,4 @@
-import { Flex, Heading, Stack, Text } from "@chakra-ui/react";
+import { Flex, Heading, Stack } from "@chakra-ui/react";
 import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
 import RegisterArtistForm from "../../components/RegisterForms/Artist";
