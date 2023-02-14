@@ -4,7 +4,7 @@ import { Outlet } from "react-router-dom";
 import ContextProviderWrapper from "../../contexts/ContextProviderWrapper";
 import Footer from "../Footer";
 import Nav from "../NavBar";
-import { PageOrganizer, PageContainer } from "./styles";
+import { PageOrganizer } from "./styles";
 
 
 

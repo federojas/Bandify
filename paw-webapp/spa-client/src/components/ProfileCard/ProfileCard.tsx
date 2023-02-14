@@ -34,12 +34,9 @@ const ProfileCard: React.FC<User> = ({
 
   const { t } = useTranslation();
 
-  const [showMore, setShowMore] = useState(false);
-
-  const filteredRoles = showMore ? roles : roles.slice(0, 1);
+  const filteredRoles = roles.slice(0, 2);
   const roleCount = roles.length - filteredRoles.length;
-
-  const filteredGenres = showMore ? genres : genres.slice(0, 1);
+  const filteredGenres = genres.slice(0, 2);
   const genreCount = genres.length - filteredGenres.length;
   const navigate = useNavigate();
   const filterAvailable = require(`../../images/available.png`);

@@ -1,21 +1,16 @@
 import React, { ReactNode } from 'react';
 import {
-  IconButton,
   Box,
   Flex,
   Icon,
   useColorModeValue,
   Link,
-  Text,
   useDisclosure,
   BoxProps,
   FlexProps,
   Grid,
 } from '@chakra-ui/react';
 import {
-  FiHome,
-  FiTrendingUp,
-  FiMenu,
   FiMusic,
 } from 'react-icons/fi';
 import { IconType } from 'react-icons';
@@ -23,11 +18,6 @@ import { ReactText } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AiOutlineUserAdd } from 'react-icons/ai';
 import { useLocation, useNavigate } from 'react-router-dom';
-
-interface LinkItemProps {
-  name: string;
-  icon: IconType;
-}
 
 export default function SidenavLayout({ children }: { children: ReactNode }) {
   const { onClose } = useDisclosure();
@@ -118,8 +108,4 @@ const NavItem = ({ icon, children, href, ...rest }: NavItemProps) => {
       </Flex>
     </Link>
   );
-};
-
-interface MobileProps extends FlexProps {
-  onOpen: () => void;
 }

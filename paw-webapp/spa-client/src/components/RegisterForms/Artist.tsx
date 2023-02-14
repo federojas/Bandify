@@ -23,7 +23,7 @@ import {
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { UserCreateInput } from "../../api/types/User";
 import {registerOptions, registerOptionsES} from "./validations";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useUserService } from "../../contexts/UserService";
 import { serviceCall } from "../../services/ServiceManager";
  

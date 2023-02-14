@@ -1,7 +1,7 @@
 //i18 translations
-import React, { ReactElement, useEffect, useState } from "react";
+import React, { ReactElement, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 import BandifyLogo from "../../images/logo.png";
 import ToggleColorMode from "../ToggleColorMode";
 import { ReactNode } from "react";
@@ -29,7 +29,6 @@ import { useContext } from "react";
 import { serviceCall } from "../../services/ServiceManager";
 import { useUserService } from "../../contexts/UserService";
 import { RiAppsFill } from "react-icons/ri";
-import { User } from "../../models";
 import { BiUser } from "react-icons/bi";
 const NavLink = ({
   children,
@@ -103,12 +102,12 @@ function Nav() {
         />
         <HStack spacing={8} alignItems={"center"}>
           <Box>
-            <a style={{ cursor: "pointer" }} onClick={() => { navigate(isAuthenticated ? '/audition' : '/') }} className="logo-section">
+            <Link to={isAuthenticated ? '/audition' : '/'} className="logo-section">
               <HStack>
                 <Image src={BandifyLogo} w={8} alt={t("Alts.bandify")} />
                 <span className="bandify-title">bandify</span>
               </HStack>
-            </a>
+            </Link>
           </Box>
           <HStack as={"nav"} spacing={4} display={{ base: "none", md: "flex" }}>
             {sections.map((link) => (
