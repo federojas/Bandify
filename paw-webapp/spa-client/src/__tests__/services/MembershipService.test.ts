@@ -109,7 +109,7 @@ describe("getUserMembershipsByBand()", () => {
     });
     
     it("should return an error", async () => {
-        axiosGet.mockRejectedValueOnce({response: {data: "error"}});
+        axiosGet.mockRejectedValueOnce({response: {data: {status: 400, title: "Bad Request"}}});
         await membershipService.getUserMembershipsByBand(1, 2).then((response) => {
             expect(response.hasFailed()).toEqual(true);
             expect(axiosGet).toHaveBeenCalledTimes(1);
@@ -117,7 +117,6 @@ describe("getUserMembershipsByBand()", () => {
     });
     
 });
-//todo: getUserMembershipsUrl
 
 describe("inviteToBand()", () => {
     it("should return a PostResponse", async () => {
@@ -159,7 +158,7 @@ describe("createMembershipByApplication()", () => {
     });
 
     it("should return an error", async () => {
-        axiosPost.mockRejectedValueOnce({response: {data: "error"}});
+        axiosPost.mockRejectedValueOnce({response: {data: {status: 400, title: "Bad Request"}}});
         await membershipService.createMembershipByApplication(membershipPostParams,audition1.id).then((response) => {
             expect(response.hasFailed()).toEqual(true);
             expect(axiosPost).toHaveBeenCalledTimes(1);
@@ -183,7 +182,7 @@ describe("accept()", () => {
     });
     
     it("should return an error", async () => {
-        axiosPut.mockRejectedValueOnce({response: {data: "error"}});
+        axiosPut.mockRejectedValueOnce({response: {data: {status: 400, title: "Bad Request"}}});
         await membershipService.accept(membership1).then((response) => {
             expect(response.hasFailed()).toEqual(true);
             expect(axiosPut).toHaveBeenCalledTimes(1);
@@ -208,7 +207,7 @@ describe("reject()", () => {
     });
     
     it("should return an error", async () => {
-        axiosPut.mockRejectedValueOnce({response: {data: "error"}});
+        axiosPut.mockRejectedValueOnce({response: {data: {status: 400, title: "Bad Request"}}});
         await membershipService.reject(membership1).then((response) => {
             expect(response.hasFailed()).toEqual(true);
             expect(axiosPut).toHaveBeenCalledTimes(1);
@@ -256,7 +255,7 @@ describe("kickMember()", () => {
     });
     
     it("should return an error", async () => {
-        axiosDelete.mockRejectedValueOnce({response: {data: "error"}});
+        axiosDelete.mockRejectedValueOnce({response: {data: {status: 400, title: "Bad Request"}}});
         await membershipService.kickMember(membership1.id).then((response) => {
             expect(response.hasFailed()).toEqual(true);
             expect(axiosDelete).toHaveBeenCalledTimes(1);

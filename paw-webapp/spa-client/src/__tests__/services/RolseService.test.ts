@@ -13,9 +13,6 @@ afterEach(() => {(axios.put as any).mockClear();});
 afterEach(() => {(axios.delete as any).mockClear();});
 
 const axiosGet = (axios.get as any);
-const axiosPost = (axios.post as any);
-const axiosPut = (axios.put as any);
-const axiosDelete = (axios.delete as any);
 
 describe("getRoles()", () => {
     it("should return roles", async () => {
@@ -32,7 +29,7 @@ describe("getRoles()", () => {
     });
 
     it("should return error", async () => {
-        axiosGet.mockRejectedValue({response: { data: { error: "error" } }});
+        axiosGet.mockRejectedValue({response: {data: {status: 400, title: "Bad Request"}}});
         await roleService.getRoles().then((result) => {
             expect(result.hasFailed()).toEqual(true);
             expect(axiosGet).toHaveBeenCalledTimes(1);
@@ -51,7 +48,7 @@ describe("getRoleById()", () => {
     });
 
     it("should return error", async () => {
-        axiosGet.mockRejectedValue({response: { data: { error: "error" } }});
+        axiosGet.mockRejectedValue({response: {data: {status: 400, title: "Bad Request"}}});
         await roleService.getRoleById(1).then((result) => {
             expect(result.hasFailed()).toEqual(true);
             expect(axiosGet).toHaveBeenCalledTimes(1);

@@ -67,7 +67,7 @@ describe("getUsers()", () => {
     });
 
     it("should return an error", async () => {
-        axiosGet.mockRejectedValueOnce({response: {data: {message: "error"}}});
+        axiosGet.mockRejectedValueOnce({response: {data: {status: 400, title: "Bad Request"}}});
 
         await userService.getUsers().then((response) => {
             expect(response.getData()).toBeNull();
@@ -148,7 +148,7 @@ describe("updateUser()", () => {
     });
 
     it("should return an error", async () => {
-        axiosPut.mockRejectedValueOnce({response: {data: {message: "error"}}});
+        axiosPut.mockRejectedValueOnce({response: {data: {status: 400, title: "Bad Request"}}});
 
         await userService.updateUser(1, correctUserUpdateInput).then((response) => {
             expect(response.getData()).toBeNull();
@@ -161,48 +161,6 @@ describe("updateUser()", () => {
         });
     });
 });
-
-//TODO: fix this
-// describe("updateUserProfileImage()", () => {
-//     const userApi = new UserApi(axios)    
-//     const userService = new UserService(userApi);
-
-//     it("should update a user's profile image", async () => {
-//         axiosPut.mockResolvedValueOnce({
-//             data: user1,
-//         });
-        
-        
-
-//         await userService.updateUserProfileImage(1,image as any ).then((response) => {
-//             console.log(response.getData());
-//             expect(response.getData()).toEqual({});
-//             expect(response.hasFailed()).toBeFalsy();
-//             expect(axiosPut).toHaveBeenCalledTimes(1);
-//             expect(axiosPut).toHaveBeenCalledWith(
-//                 "/users/1/profile-image",
-//                 "image"
-//                 );
-//         });
-//     });
-
-//     it("should return an error", async () => {
-//         axiosPut.mockClear();
-//         axiosPut.mockRejectedValueOnce({response: {data: {message: "error"}}});
-
-//         await userService.updateUserProfileImage(1, "image").then((response) => {
-//             expect(response.getData()).toBeNull();
-//             expect(response.hasFailed()).toBeTruthy();
-//             expect(axiosPut).toHaveBeenCalledTimes(1);
-//             expect(axiosPut).toHaveBeenCalledWith(
-//                 "/users/1/profile-image",
-//                 "image"
-//             );
-//         });
-//     });
-// });
-
-
 
 describe("getUserApplications()", () => {
     
@@ -221,7 +179,7 @@ describe("getUserApplications()", () => {
         });
         
         it("should return an error", async () => {
-            axiosGet.mockRejectedValueOnce({response: {data: {message: "error"}}});
+            axiosGet.mockRejectedValueOnce({response: {data: {status: 400, title: "Bad Request"}}});
     
             await userService.getUserApplications(1,'PENDING',1).then((response) => {
                 expect(response.getData()).toBeNull();
@@ -235,7 +193,7 @@ describe("getUserApplications()", () => {
       
 });
 
-describe("getUserApplicationsByUrl()", () => { //todo: check this
+describe("getUserApplicationsByUrl()", () => {
         
         it("should return a list of applications", async () => {
             axiosGet.mockResolvedValueOnce({data: [application1, application2]});
@@ -250,7 +208,7 @@ describe("getUserApplicationsByUrl()", () => { //todo: check this
         });
         
         it("should return an error", async () => {
-            axiosGet.mockRejectedValueOnce({response: {data: {message: "error"}}});
+            axiosGet.mockRejectedValueOnce({response: {data: {status: 400, title: "Bad Request"}}});
     
             await userService.getUserApplicationsByUrl("/users/1/applications").then((response) => {
                 expect(response.getData()).toBeNull();
@@ -285,7 +243,7 @@ describe("generateUserPassword()", () => {
     });
 
     it("should return an error", async () => {
-        axiosPost.mockRejectedValueOnce({response: {data: {message: "error"}}});
+        axiosPost.mockRejectedValueOnce({response:{data: {status: 400, title: "Bad Request"}}});
 
         await userService.generateUserPassword(passwordRequest).then((response) => {
             expect(response.getData()).toBeNull();
@@ -299,28 +257,6 @@ describe("generateUserPassword()", () => {
         });
     });
 });
-//todo: fix this
-// describe("verifyUser()", () => {
-//     it("should verify a user", async () => {
-//         (axiosPost as any).mockClear();
-//         (axiosPost as any).mockResolvedValueOnce({
-//             data: {
-//                 message: "success"
-//             },
-//         });
-        
-//         await userService.verifyUser("token").then((response) => {
-//             expect(response.getData()).toEqual(true);
-//             expect(response.hasFailed()).toBeFalsy();
-//             expect(axiosPost).toHaveBeenCalledTimes(1);
-//             expect(axiosPost).toHaveBeenCalledWith(
-//                 "/users/1/verify",
-//                 {},
-//                 {headers: { "Content-Type": "application/vnd.verify-user.v1+json" }}
-//                 );
-//         });
-//     })
-// });
 
 describe("getUserSocialMedia()", () => {
     it("should return a list of social media", async () => {
@@ -336,7 +272,7 @@ describe("getUserSocialMedia()", () => {
     });
     
     it("should return an error", async () => {
-        axiosGet.mockRejectedValueOnce({response: {data: {message: "error"}}});
+        axiosGet.mockRejectedValueOnce({response: {data: {status: 400, title: "Bad Request"}}});
 
         await userService.getUserSocialMedia(1).then((response) => {
             expect(response.getData()).toBeNull();

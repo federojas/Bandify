@@ -142,7 +142,7 @@ describe("getApplication()", () => {
     });
 
     it("should return an error", async () => {
-        axiosGet.mockRejectedValueOnce({response: {data: {status: 400, title: "Bad Request", path: "/auditions/1/application/1", messages: ["Application not found"]}}});
+        axiosGet.mockRejectedValueOnce({response: {data: {status: 400, title: "Bad Request"}}});
         await auditionService.getApplication(1,1).then((response)=>{
             expect(response.hasFailed()).toEqual(true);
             expect(axiosGet).toHaveBeenCalledTimes(1);
@@ -170,7 +170,7 @@ describe("getAuditionApplications()", () => {
     });
 
     it("should return an error", async () => {
-        axiosGet.mockRejectedValueOnce({response: {data: {status: 400, title: "Bad Request", path: "/auditions/1/applications", messages: ["Audition not found"]}}});
+        axiosGet.mockRejectedValueOnce({response: {data: {status: 400, title: "Bad Request"}}});
         await auditionService.getAuditionApplications(1).then((response)=>{
             expect(response.hasFailed()).toEqual(true);
             expect(axiosGet).toHaveBeenCalledTimes(1);
@@ -200,7 +200,7 @@ describe("createAudition()", () => {
     });
 
     it("should return an error", async () => {
-        axiosPost.mockRejectedValueOnce({response: {data: {status: 400, title: "Bad Request", path: "/auditions", messages: ["Audition not found"]}}});
+        axiosPost.mockRejectedValueOnce({response: {data: {status: 400, title: "Bad Request"}}});
         await auditionService.createAudition(correctAuditionInput).then((response)=>{
             expect(response.hasFailed()).toEqual(true);
             expect(axiosPost).toHaveBeenCalledTimes(1);
@@ -251,7 +251,7 @@ describe("apply()", () => {
     });
 
     it("should return an error", async () => {
-        axiosPost.mockRejectedValueOnce({response: {data: {status: 400, title: "Bad Request", path: "/auditions/1/applications", messages: ["Audition not found"]}}});
+        axiosPost.mockRejectedValueOnce({response: {data: {status: 400, title: "Bad Request"}}});
         await auditionService.apply(1, "I want to apply to band").then((response)=>{
             expect(response.hasFailed()).toEqual(true);
             expect(axiosPost).toHaveBeenCalledTimes(1);
@@ -279,7 +279,7 @@ describe("changeApplicationStatus()", () => {
     });
 
     it("should return an error", async () => {
-        axiosPut.mockRejectedValueOnce({response: {data: {status: 400, title: "Bad Request", path: "/auditions/1/applications/1", messages: ["Audition not found"]}}});
+        axiosPut.mockRejectedValueOnce({response: {data: {status: 400, title: "Bad Request"}}});
         await auditionService.changeApplicationStatus(1, 1, "ACCEPTED").then((response)=>{
             expect(response.hasFailed()).toEqual(true);
             expect(axiosPut).toHaveBeenCalledTimes(1);
@@ -302,7 +302,7 @@ describe("deleteAudition()", () => {
         });
     
         it("should return an error", async () => {
-            axiosDelete.mockRejectedValueOnce({response: {data: {status: 400, title: "Bad Request", path: "/auditions/1", messages: ["Audition not found"]}}});
+            axiosDelete.mockRejectedValueOnce({response: {data: {status: 400, title: "Bad Request"}}});
             await auditionService.deleteAuditionById(1).then((response)=>{
                 expect(response.hasFailed()).toEqual(true);
                 expect(axiosDelete).toHaveBeenCalledTimes(1);

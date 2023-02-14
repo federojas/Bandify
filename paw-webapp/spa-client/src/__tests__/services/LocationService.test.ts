@@ -12,9 +12,6 @@ afterEach(() => {(axios.put as any).mockClear();});
 afterEach(() => {(axios.delete as any).mockClear();});
 
 const axiosGet = (axios.get as any);
-const axiosPost = (axios.post as any);
-const axiosPut = (axios.put as any);
-const axiosDelete = (axios.delete as any);
 
 const locationApi = new LocationApi(axios);
 const locationService = new LocationService(locationApi);
@@ -31,7 +28,7 @@ describe("getLocations()", () => {
     });
 
     it("should return error", async () => {
-        axiosGet.mockRejectedValue({response: { data: { error: "error" } }});
+        axiosGet.mockRejectedValue({response: {data: {status: 400, title: "Bad Request"}}});
         await locationService.getLocations().then((result) => {
             expect(result.hasFailed()).toEqual(true);
             expect(axiosGet).toHaveBeenCalledTimes(1);
@@ -50,7 +47,7 @@ describe("getLocationById()", () => {
     });
 
     it("should return error", async () => {
-        axiosGet.mockRejectedValue({response: { data: { error: "error" } }});
+        axiosGet.mockRejectedValue({response: {data: {status: 400, title: "Bad Request"}}});
         await locationService.getLocationById(1).then((result) => {
             expect(result.hasFailed()).toEqual(true);
             expect(axiosGet).toHaveBeenCalledTimes(1);
