@@ -55,7 +55,7 @@ function App() {
           <Route path="user/:id" element={<User />} />
           <Route path="resetPassword" element={<AnonymousRoute component={ForgotPassword} />} />
           <Route path="audition" element={<AuditionsPage />} />
-          <Route path="audition/:id" element={<PrivateRoute component={Audition} roles={["ARTIST", "BAND"]} />} />
+          <Route path="audition/:id" element={<Audition/>} />
           <Route path="audition/:id/edit" element={<PrivateRoute component={EditAudition} roles={["BAND"]} />} />
           <Route path="audition/:id/applicants" element={<PrivateRoute component={AuditionApplicants} roles={["BAND"]} />} />
           <Route path="newAudition" element={<PrivateRoute component={NewAudition} roles={["BAND"]} />} />
