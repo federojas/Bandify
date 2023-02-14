@@ -327,7 +327,7 @@ const UserProfile = () => {
   useEffect(() => {
     if (user && currentUser) {
       serviceCall(
-        membershipService.getUserMemberships({ user: user.id as number, state: "ACCEPTED", preview: true }),
+        membershipService.getUserMemberships({ user: user.id as number, state: "ACCEPTED", preview: true }, 1),
         navigate,
         (response: any) => {
           setMemberships(response.getContent());

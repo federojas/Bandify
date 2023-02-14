@@ -38,7 +38,7 @@ export default function AuditionsPage() {
       },
       location
     )
-  }, [currentPage, navigate, auditionService])
+  }, [navigate, auditionService])
 
   return (
     <>

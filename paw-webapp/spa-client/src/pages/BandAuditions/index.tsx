@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import "../../styles/welcome.css";
 import "../../styles/auditions.css";
 import { Audition } from "../../models";
-import { Box, Button, Flex, Heading, HStack, Link, Text, useColorModeValue, VStack } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, HStack, Text, useColorModeValue, VStack } from "@chakra-ui/react";
 import { FiCalendar, FiUsers } from "react-icons/fi";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import dayjs from "dayjs";
@@ -12,7 +12,7 @@ import AuthContext from "../../contexts/AuthContext";
 import { serviceCall } from "../../services/ServiceManager";
 import { useAuditionService } from "../../contexts/AuditionService";
 import { useLocation, useNavigate } from "react-router-dom";
-import { PaginationArrow, PaginationWrapper } from "../../components/Pagination/pagination";
+import { PaginationWrapper } from "../../components/Pagination/pagination";
 import { getQueryOrDefault, useQuery } from "../../hooks/useQuery";
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import { Helmet } from "react-helmet";
@@ -157,7 +157,7 @@ const BandAuditions = () => {
         setMaxPage(auditions ? auditions.getMaxPage() : 1);
       }
     )
-  }, [currentPage, navigate, auditionService])
+  }, [navigate, auditionService])
 
   return (
     <>

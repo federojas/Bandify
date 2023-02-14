@@ -2,14 +2,17 @@ import { Avatar, Box, Button, Center, Flex, HStack, Modal, ModalBody, ModalClose
 import { useTranslation } from "react-i18next"
 import SidenavLayout from "./SidenavLayout"
 import { TiTick, TiCancel } from 'react-icons/ti'
-import { useContext, useEffect, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import AuthContext from "../../contexts/AuthContext"
 import { useMembershipService } from "../../contexts/MembershipService"
 import { serviceCall } from "../../services/ServiceManager"
-import { useNavigate, Link } from "react-router-dom"
+import {useNavigate, Link, useLocation} from "react-router-dom"
 import Membership from "../../models/Membership"
 import { Helmet } from "react-helmet"
 import RoleTag from "../../components/Tags/RoleTag"
+import {getQueryOrDefault, useQuery} from "../../hooks/useQuery";
+import {PaginationWrapper} from "../../components/Pagination/pagination";
+import {ChevronLeftIcon, ChevronRightIcon} from "@chakra-ui/icons";
 
 
 enum inviteStatuses {
@@ -23,7 +26,7 @@ function InviteInfo({ membership, setRefresh, setIsLoading, refresh }: { members
   const { t } = useTranslation();
   const navigate = useNavigate()
   const membershipService = useMembershipService();
-  const toast = useToast()
+  const toast = useToast();
 
   const handleAccept = () => {
     serviceCall(membershipService.accept(membership), navigate)
@@ -142,13 +145,11 @@ function InvitesList ({ memberships, setRefresh ,setIsLoading, refresh}: { membe
   const [membershipAux, setMembershipAux] = useState<Membership[]>(memberships);
   useEffect(() => {
     setMembershipAux(memberships)
-  }, [])
+  }, [memberships])
 
   if (memberships.length === 0) return (<Text>{t("Invites.noInvites")}</Text>)
   return (<VStack width={'full'}>
     {membershipAux.map((membership) => {
-      // if(membership.state === inviteStatus)
-
       return <InviteItem key={membership.id} setIsLoading={setIsLoading} membership={membership} setRefresh={setRefresh} refresh={refresh}  />
     })}
 
@@ -163,20 +164,29 @@ const Invites = () => {
   const [memberships, setMemberships] = useState<Membership[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [refresh, setRefresh] = useState<boolean>(false);
+  const query = useQuery();
+  const [currentPage, setCurrentPage] = useState(parseInt(getQueryOrDefault(query, "page", "1")));
+  const [maxPage, setMaxPage] = useState(1);
+  const [previousPage, setPreviousPage] = useState("");
+  const [nextPage, setNextPage] = useState("");
+  const location = useLocation();
 
   useEffect(() => {
     if (!userId) return;
     serviceCall(
-      membershipService.getUserMemberships({ user: userId, state: inviteStatuses.PENDING }),
+      membershipService.getUserMemberships({ user: userId, state: inviteStatuses.PENDING }, currentPage),
       navigate,
-    ).then((response) => {
-      if (!response.hasFailed()) {
-        setMemberships(response.getData().getContent());
-      }
-      setIsLoading(false);
-    });
-  }, [refresh]
+        (response: any) => {
+        setMemberships(response ? response.getContent() : []);
+        setMaxPage(response ? response.getMaxPage() : 1);
+        setPreviousPage(response ? response.getPreviousPage() : "");
+        setNextPage(response ? response.getNextPage() : "");
+        setIsLoading(false);
+        }
+      )
+    }, [refresh]
   )
+
   return (
     <>
       <Helmet>
@@ -188,6 +198,66 @@ const Invites = () => {
           <>
             <InvitesList memberships={memberships} setIsLoading={setIsLoading} setRefresh={setRefresh} refresh={refresh} />
           </>}
+        <Flex
+            w="full"
+            p={50}
+            alignItems="center"
+            justifyContent="center"
+        >
+          <PaginationWrapper>
+            {currentPage > 1 && (
+                <button
+                    onClick={() => {
+                      serviceCall(
+                          membershipService.getUserMembershipsUrl(previousPage),
+                          navigate,
+                          (response) => {
+                            setMemberships(response ? response.getContent() : []);
+                            setPreviousPage(response ? response.getPreviousPage() : "");
+                            setNextPage(response ? response.getNextPage() : "");
+                          },
+                          location
+                      )
+                      setCurrentPage(currentPage - 1);
+                      const url = new URL(window.location.href);
+                      url.searchParams.set('page', String(currentPage - 1));
+                      window.history.pushState(null, '', url.toString());
+                    }}
+                    style={{ background: "none", border: "none" }}
+                >
+                  <ChevronLeftIcon mr={4} />
+
+                </button>
+            )}
+            {t("Pagination.message", {
+              currentPage: currentPage,
+              maxPage: maxPage,
+            })}
+            {currentPage < maxPage && (
+                <button
+                    onClick={() => {
+                      serviceCall(
+                          membershipService.getUserMembershipsUrl(nextPage),
+                          navigate,
+                          (response) => {
+                            setMemberships(response ? response.getContent() : []);
+                            setPreviousPage(response ? response.getPreviousPage() : "");
+                            setNextPage(response ? response.getNextPage() : "");
+                          },
+                          location
+                      )
+                      setCurrentPage(currentPage + 1);
+                      const url = new URL(window.location.href);
+                      url.searchParams.set('page', String(currentPage + 1));
+                      window.history.pushState(null, '', url.toString());
+                    }}
+                    style={{ background: "none", border: "none" }}
+                >
+                  <ChevronRightIcon ml={4} />
+                </button>
+            )}
+          </PaginationWrapper>
+        </Flex>
       </SidenavLayout>
     </>
   )

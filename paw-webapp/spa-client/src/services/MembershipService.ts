@@ -58,7 +58,7 @@ export default class MembershipService {
     }
   }
 
-  public async getUserMemberships(params: Params, page?: number): Promise<ApiResult<PagedContent<Membership[]>>> {
+  public async getUserMemberships(params: Params, page: number): Promise<ApiResult<PagedContent<Membership[]>>> {
     try {
       const response = await this.membershipApi.getUserMemberships(params, page);
       let memberships: Membership[] = [];

@@ -51,7 +51,7 @@ const EditAssociates = () => {
     useEffect(() => {
         if (currentUserId) {
             serviceCall(
-                membershipService.getUserMemberships({ user: currentUserId as number, state: "ACCEPTED" }),
+                membershipService.getUserMemberships({ user: currentUserId as number, state: "ACCEPTED" }, currentPage),
                 navigate,
                 (response: any) => {
                     setMemberships(response ? response.getContent() : []);

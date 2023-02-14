@@ -24,20 +24,7 @@ export default class UserService {
 
   public async createUser(input: UserCreateInput): Promise<ApiResult<User>> {
     try {
-      const current = await this.userApi.createNewUser(input);
-      return new ApiResult(
-        {} as User,
-        false,
-        null as any
-      );
-    } catch (error: any) {
-      return ErrorService.returnApiError(error);
-    }
-  }
-
-  public async resendVerificationEmail(input: string): Promise<ApiResult<User>> {
-    try {
-      const current = await this.userApi.resendVerificationEmail(input);
+      await this.userApi.createNewUser(input);
       return new ApiResult(
         {} as User,
         false,
@@ -50,7 +37,7 @@ export default class UserService {
 
   public async updateUser(userId: number, input: UserUpdateInput): Promise<ApiResult<User>> {
     try {
-      const current = await this.userApi.updateUser(userId, input);
+      await this.userApi.updateUser(userId, input);
       return new ApiResult(
         {} as User,
         false,

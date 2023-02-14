@@ -130,7 +130,7 @@ const PublicBandAuditions = () => {
         setBand(user);
       }
     )
-  }, [currentPage, navigate, auditionService, userService])
+  }, [navigate, auditionService, userService])
 
   return (
     <VStack pt={'10'}>

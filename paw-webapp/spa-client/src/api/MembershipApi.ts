@@ -73,7 +73,7 @@ class MembershipApi {
         });
     };
 
-    public getUserMemberships = async (params: GetParams, page?: number) => {
+    public getUserMemberships = async (params: GetParams, page: number) => {
         return this.axiosPrivate.get(this.endpoint, {
             params: {
                 user: params.user,

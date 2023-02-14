@@ -65,7 +65,7 @@ const AuditionSearch = () => {
         setNextPage(response ? response.getNextPage() : "");
       }
     )
-  }, [currentPage, searchTerms, roles, genres, locations, order])
+  }, [searchTerms, roles, genres, locations, order])
 
   return (
     <>

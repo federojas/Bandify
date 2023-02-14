@@ -64,7 +64,7 @@ const Associates = () => {
   useEffect(() => {
     if (user && currentUser) {
       serviceCall(
-        membershipService.getUserMemberships({ user: user?.id as number, state: "ACCEPTED"}),
+        membershipService.getUserMemberships({ user: user?.id as number, state: "ACCEPTED"}, currentPage),
         navigate,
         (response: any) => {
           setMemberships(response.getContent());

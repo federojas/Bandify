@@ -70,7 +70,6 @@ function Nav() {
   const isBand = role === "BAND";
   const navigate = useNavigate();
   const userService = useUserService();
-  const [user, setUser] = useState<User>();
   const sections = [
     { path: "/audition", name: t("NavBar.auditions"), icon: <FiMusic /> },
     { path: "/user", name: t("NavBar.discover"), icon: <FiUsers /> },
@@ -83,14 +82,11 @@ function Nav() {
         userService.getUserById(userId),
         navigate,
         (response) => {
-          setUser(
-            response
-          )
           updateProfileImg(response.profileImage)
         },
       )
     }
-  }, [userId, navigate, profileImg])
+  }, [profileImg, userId])
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
