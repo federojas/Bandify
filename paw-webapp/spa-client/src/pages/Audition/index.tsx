@@ -28,12 +28,13 @@ import {
   ModalHeader,
   ModalOverlay,
   useDisclosure,
+  Icon,
 } from "@chakra-ui/react";
 
 import { BsInfoCircle } from "react-icons/bs";
 import { ImLocation } from "react-icons/im";
 import { BiBullseye } from "react-icons/bi";
-import { FiCalendar } from "react-icons/fi";
+import { FiArrowDownLeft, FiArrowLeft, FiCalendar } from "react-icons/fi";
 import RoleTag from "../../components/Tags/RoleTag";
 import { FiMusic, FiShare2, FiUsers } from "react-icons/fi";
 import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
@@ -49,6 +50,7 @@ import { WarningTwoIcon } from '@chakra-ui/icons';
 import { TiTick, TiCancel } from "react-icons/ti";
 import { useMembershipService } from "../../contexts/MembershipService";
 import CopyToClipboard from 'react-copy-to-clipboard';
+import BackArrow from "../../components/BackArrow/BackArrow";
 
 function ClosedAudition() {
   const { t } = useTranslation();
@@ -364,8 +366,13 @@ const AuditionView = () => {
         <HStack minH={"80vh"}>
           {isLoading ? (<span className="loader"></span>) :
             (closed ? <ClosedAudition /> : (<>
-              <AuditionCard user={ownerUser!} audition={audition!} />
-              <AuditionActions auditionId={audition!.id} isOwner={isOwner} currentUser={currentUser} bandId={parseInt(audition!.owner.split('/')[audition!.owner.split('/').length - 1])} />
+            <Flex>
+              <BackArrow />
+              <Flex direction="row" alignItems="center" justify="center">
+                <AuditionCard user={ownerUser!} audition={audition!} />
+                <AuditionActions auditionId={audition!.id} isOwner={isOwner} currentUser={currentUser} bandId={parseInt(audition!.owner.split('/')[audition!.owner.split('/').length - 1])} />
+              </Flex>
+            </Flex>
             </>))
           }
         </HStack>

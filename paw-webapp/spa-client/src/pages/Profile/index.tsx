@@ -41,6 +41,7 @@ import { Helmet } from "react-helmet";
 import SocialMediaModal from "../User/SocialMediaModal";
 import SocialMediaTag from "./SocialMediaTag";
 import SocialMedia from "../../models/SocialMedia";
+import BackArrow from "../../components/BackArrow/BackArrow";
 
 const Profile = () => {
   const { t } = useTranslation();
@@ -98,7 +99,11 @@ const Profile = () => {
       <Helmet>
         <title>{t("NavBar.Profile")}</title>
       </Helmet>
+      <Flex>
       <Container maxW={"5xl"} px={"0"} py={8}>
+      <Flex justify={'start'}>
+        <BackArrow/>
+        </Flex>
         {isLoading ? <Center mt={'25%'}><span className="loader" /></Center> : (
           <Stack spacing={4}>
             <Box
@@ -288,6 +293,7 @@ const Profile = () => {
           </Stack>
         )}
       </Container>
+      </Flex>
     </>);
 };
 

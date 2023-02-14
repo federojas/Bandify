@@ -16,6 +16,7 @@ import MembershipItem from "../User/MembershipItem";
 import { PaginationWrapper } from "../../components/Pagination/pagination";
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import { getQueryOrDefault, useQuery } from "../../hooks/useQuery";
+import BackArrow from "../../components/BackArrow/BackArrow";
 
 const ProfileAssociates = () => {
   const { t } = useTranslation();
@@ -66,6 +67,8 @@ const ProfileAssociates = () => {
 
   return (
     <Center py={'10'}>
+      <Flex>
+        <BackArrow/>
       <VStack spacing={'4'}>
         <Flex
           as="a"
@@ -170,6 +173,7 @@ const ProfileAssociates = () => {
           </Flex>
         </Box>
       </VStack>
+      </Flex>
     </Center>
   )
 }

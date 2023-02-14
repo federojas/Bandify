@@ -1,6 +1,6 @@
 import {
     Box, Center, Heading,
-    Avatar, Flex, HStack, VStack, useColorModeValue
+    Avatar, Flex, HStack, VStack, useColorModeValue, Icon
 } from "@chakra-ui/react"
 import React, { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -16,6 +16,8 @@ import MembershipItemEdit from "./MembershipItemEdit";
 import { PaginationWrapper } from "../../components/Pagination/pagination";
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import { getQueryOrDefault, useQuery } from "../../hooks/useQuery";
+import { FiArrowLeft } from "react-icons/fi";
+import BackArrow from "../../components/BackArrow/BackArrow";
 
 const EditAssociates = () => {
     const { t } = useTranslation();
@@ -66,110 +68,115 @@ const EditAssociates = () => {
 
     return (
         <Center py={'10'}>
-            <VStack spacing={'4'}>
-                <Flex
-                    as="a"
-                    onClick={() => {
-                        navigate("/profile");
-                    }}
-                    flex="1"
-                    gap="4"
-                    alignItems="center"
-                    justifyContent={"start"}
-                    cursor={'pointer'}
-                >
-                    <Avatar
-                        src={currentUser?.profileImage}
-                        _dark={{
-                            backgroundColor: "white",
-                        }}
-                    />
-                    <Heading size="md" noOfLines={2}>{currentUser?.name}{' '}{currentUser?.surname}</Heading>
-                </Flex>
-
-
-                <Box bg={useColorModeValue("white", "gray.900")} px={4}
-                     py={6} shadow={'md'} rounded={'xl'} w={800}
-                >
-                    <Flex direction={'column'} alignItems='center' gap={'4'}>
-                        <HStack>
-                            <HiUserGroup size={'40'} />
-                            <Heading>{currentUser?.band ? t("Profile.BandMembers") : t("Profile.playsIn")}</Heading>
-                        </HStack>
-                        <VStack mt={4} w={'80%'}>
-                            {memberships.length > 0 ?
-                                memberships.map((m) => {
-                                    return (
-                                        <MembershipItemEdit membershipId={m.id} contraUser={currentUser?.band ? m.artist : m.band} description={m.description} roles={m.roles} refresh={handleRefresh} />
-                                    )
-                                })
-                                :
-                                <>{t("Profile.noMemberships")}</>
-                            }
-                        </VStack>
-                    </Flex>
+            <Flex>
+            <BackArrow/>
+              <Flex>
+                <VStack spacing={'4'}>
                     <Flex
-                        w="full"
-                        p={50}
+                        as="a"
+                        onClick={() => {
+                            navigate("/profile");
+                        }}
+                        flex="1"
+                        gap="4"
                         alignItems="center"
-                        justifyContent="center"
+                        justifyContent={"start"}
+                        cursor={'pointer'}
                     >
-                        <PaginationWrapper>
-                            {currentPage > 1 && (
-                                <button
-                                    onClick={() => {
-                                        serviceCall(
-                                            membershipService.getUserMembershipsUrl(previousPage),
-                                            navigate,
-                                            (response) => {
-                                                setMemberships(response ? response.getContent() : []);
-                                                setPreviousPage(response ? response.getPreviousPage() : "");
-                                                setNextPage(response ? response.getNextPage() : "");
-                                            },
-                                            location
-                                        )
-                                        setCurrentPage(currentPage - 1)
-                                        const url = new URL(window.location.href);
-                                        url.searchParams.set('page', String(currentPage - 1));
-                                        window.history.pushState(null, '', url.toString());
-                                    }}
-                                    style={{ background: "none", border: "none" }}
-                                >
-                                    <ChevronLeftIcon mr={4} />
-
-                                </button>
-                            )}
-                            {t("Pagination.message", {
-                                currentPage: currentPage,
-                                maxPage: maxPage,
-                            })}
-                            {currentPage < maxPage && (
-                                <button
-                                    onClick={() => {
-                                        serviceCall(
-                                            membershipService.getUserMembershipsUrl(nextPage),
-                                            navigate,
-                                            (response) => {
-                                                setMemberships(response ? response.getContent() : []);
-                                                setPreviousPage(response ? response.getPreviousPage() : "");
-                                                setNextPage(response ? response.getNextPage() : "");
-                                            },
-                                            location
-                                        )
-                                        setCurrentPage(currentPage + 1)
-                                        const url = new URL(window.location.href);
-                                        url.searchParams.set('page', String(currentPage + 1));
-                                        window.history.pushState(null, '', url.toString());
-                                    }}
-                                    style={{ background: "none", border: "none" }}
-                                >
-                                    <ChevronRightIcon ml={4} />
-                                </button>
-                            )}
-                        </PaginationWrapper>
+                        <Avatar
+                            src={currentUser?.profileImage}
+                            _dark={{
+                                backgroundColor: "white",
+                            }}
+                        />
+                        <Heading size="md" noOfLines={2}>{currentUser?.name}{' '}{currentUser?.surname}</Heading>
                     </Flex>
-                </Box>
-            </VStack>
+
+
+                    <Box bg={useColorModeValue("white", "gray.900")} px={4}
+                        py={6} shadow={'md'} rounded={'xl'} w={800}
+                    >
+                        <Flex direction={'column'} alignItems='center' gap={'4'}>
+                            <HStack>
+                                <HiUserGroup size={'40'} />
+                                <Heading>{currentUser?.band ? t("Profile.BandMembers") : t("Profile.playsIn")}</Heading>
+                            </HStack>
+                            <VStack mt={4} w={'80%'}>
+                                {memberships.length > 0 ?
+                                    memberships.map((m) => {
+                                        return (
+                                            <MembershipItemEdit membershipId={m.id} contraUser={currentUser?.band ? m.artist : m.band} description={m.description} roles={m.roles} refresh={handleRefresh} />
+                                        )
+                                    })
+                                    :
+                                    <>{t("Profile.noMemberships")}</>
+                                }
+                            </VStack>
+                        </Flex>
+                        <Flex
+                            w="full"
+                            p={50}
+                            alignItems="center"
+                            justifyContent="center"
+                        >
+                            <PaginationWrapper>
+                                {currentPage > 1 && (
+                                    <button
+                                        onClick={() => {
+                                            serviceCall(
+                                                membershipService.getUserMembershipsUrl(previousPage),
+                                                navigate,
+                                                (response) => {
+                                                    setMemberships(response ? response.getContent() : []);
+                                                    setPreviousPage(response ? response.getPreviousPage() : "");
+                                                    setNextPage(response ? response.getNextPage() : "");
+                                                },
+                                                location
+                                            )
+                                            setCurrentPage(currentPage - 1)
+                                            const url = new URL(window.location.href);
+                                            url.searchParams.set('page', String(currentPage - 1));
+                                            window.history.pushState(null, '', url.toString());
+                                        }}
+                                        style={{ background: "none", border: "none" }}
+                                    >
+                                        <ChevronLeftIcon mr={4} />
+
+                                    </button>
+                                )}
+                                {t("Pagination.message", {
+                                    currentPage: currentPage,
+                                    maxPage: maxPage,
+                                })}
+                                {currentPage < maxPage && (
+                                    <button
+                                        onClick={() => {
+                                            serviceCall(
+                                                membershipService.getUserMembershipsUrl(nextPage),
+                                                navigate,
+                                                (response) => {
+                                                    setMemberships(response ? response.getContent() : []);
+                                                    setPreviousPage(response ? response.getPreviousPage() : "");
+                                                    setNextPage(response ? response.getNextPage() : "");
+                                                },
+                                                location
+                                            )
+                                            setCurrentPage(currentPage + 1)
+                                            const url = new URL(window.location.href);
+                                            url.searchParams.set('page', String(currentPage + 1));
+                                            window.history.pushState(null, '', url.toString());
+                                        }}
+                                        style={{ background: "none", border: "none" }}
+                                    >
+                                        <ChevronRightIcon ml={4} />
+                                    </button>
+                                )}
+                            </PaginationWrapper>
+                        </Flex>
+                    </Box>
+                </VStack>
+                </Flex>
+            </Flex>
         </Center>
     )
 }
