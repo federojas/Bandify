@@ -13,7 +13,7 @@ import {
   ModalFooter,
   FormErrorMessage, useToast
 } from "@chakra-ui/react";
-import React from "react";
+import React, {useContext} from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { FiUsers } from "react-icons/fi";
@@ -22,6 +22,7 @@ import { useAuditionService } from "../../contexts/AuditionService";
 import { serviceCall } from "../../services/ServiceManager";
 import { applyAuditionOptions, applyAuditionOptionsES } from "./validations";
 import { Helmet } from "react-helmet";
+import AuthContext from "../../contexts/AuthContext";
 
 interface FormData {
   message: string;
@@ -37,6 +38,7 @@ const ApplyButton = ({ auditionId, refresh }: { auditionId: number, refresh: () 
   const navigate = useNavigate();
   const options = localStorage.getItem('i18nextLng') === 'es' ? applyAuditionOptionsES : applyAuditionOptions;
   const toast = useToast();
+  const { userId } = useContext(AuthContext);
 
   const {
     register,
@@ -73,8 +75,12 @@ const ApplyButton = ({ auditionId, refresh }: { auditionId: number, refresh: () 
       <Helmet>
         <title>{t("Audition.apply")}</title>
       </Helmet>
-      <Button leftIcon={<FiUsers />} w={'44'} colorScheme='green' onClick={onOpen}>{t("Audition.apply")}</Button>
-
+      <Button leftIcon={<FiUsers />} w={'44'} colorScheme='green' onClick= {() => {
+        if(userId)
+          onOpen();
+        else
+          navigate("/register");
+      }}>{t("Audition.apply")}</Button>
 
       <Modal
         initialFocusRef={initialRef}

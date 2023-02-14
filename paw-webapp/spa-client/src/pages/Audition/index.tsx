@@ -156,6 +156,10 @@ const AuditionActions = (props: { auditionId: number, isOwner: boolean, currentU
         },
       )
       setIsBand(props.currentUser.band);
+    } else if(!props.currentUser) {
+      setHasApplied(false);
+      setIsMember(false);
+      setIsBand(false);
     }
   }, [navigate, isBand, isMember, hasApplied, props.currentUser, refresh]);
 
@@ -185,11 +189,10 @@ const AuditionActions = (props: { auditionId: number, isOwner: boolean, currentU
           <Button onClick={() => { navigate('/audition/' + String(props.auditionId) + '/applicants') }} leftIcon={<FiUsers />} w={'44'} colorScheme='green'>{t("Audition.applicants")}</Button>
           <Button leftIcon={<AiOutlineEdit />} w={'44'} colorScheme='teal' onClick={onEdit}>{t("Audition.edit")}</Button>
           <DeleteAuditionModal auditionId={props.auditionId} />
-
         </>
         :
         <>
-          {(isBand || hasApplied || isMember) ? <></> : (<ApplyButton auditionId={props.auditionId} refresh={handleRefresh} />)}
+          {(isBand || hasApplied || isMember ) ? <></> : (<ApplyButton auditionId={props.auditionId} refresh={handleRefresh} />)}
         </>
       }
     </VStack>
