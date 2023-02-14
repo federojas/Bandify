@@ -207,20 +207,19 @@ public class ApplicationServiceTest {
         assertTrue(closedApps);
     }
 
-    //TODO: descomentar
-//    @Test
-//    public void testSelect() {
-//        long auditionId = 1;
-//        long applicantId = 1;
-//        when(auditionService.getAuditionById(auditionId)).thenReturn(BAND_AUDITION);
-//        when(userService.findByEmail(any())).thenReturn(Optional.of(BAND));
-//        when(userService.getUserById(applicantId)).thenReturn(Optional.of(user));
-//        when(applicationDao.findApplication(auditionId, applicantId)).thenReturn(Optional.of(PENDING_APP));
-//
-//        Application app = applicationService.select(auditionId, applicantId);
-//        assertNotNull(app);
-//        assertEquals(ApplicationState.SELECTED, app.getState());
-//    }
+    @Test
+    public void testSelect() {
+        long auditionId = 1;
+        long applicantId = 1;
+        when(auditionService.getAuditionById(auditionId)).thenReturn(BAND_AUDITION);
+        when(userService.getUserById(applicantId)).thenReturn(Optional.of(user));
+        when(authFacadeService.getCurrentUser()).thenReturn(BAND);
+        when(applicationDao.findApplication(auditionId, applicantId)).thenReturn(Optional.of(PENDING_APP));
+
+        Application app = applicationService.select(auditionId, BAND, applicantId);
+        assertNotNull(app);
+        assertEquals(ApplicationState.SELECTED, app.getState());
+    }
 
 
 
