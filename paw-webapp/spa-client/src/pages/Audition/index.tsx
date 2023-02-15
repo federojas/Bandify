@@ -37,7 +37,7 @@ import { BiBullseye } from "react-icons/bi";
 import { FiArrowDownLeft, FiArrowLeft, FiCalendar } from "react-icons/fi";
 import RoleTag from "../../components/Tags/RoleTag";
 import { FiMusic, FiShare2, FiUsers } from "react-icons/fi";
-import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
+import { AiOutlineEdit, AiOutlineDelete, AiOutlineInfoCircle, AiOutlineUser } from "react-icons/ai";
 import { useTranslation } from "react-i18next";
 import GenreTag from "../../components/Tags/GenreTag";
 import { serviceCall } from "../../services/ServiceManager";
@@ -51,6 +51,9 @@ import { TiTick, TiCancel } from "react-icons/ti";
 import { useMembershipService } from "../../contexts/MembershipService";
 import CopyToClipboard from 'react-copy-to-clipboard';
 import BackArrow from "../../components/BackArrow/BackArrow";
+import { user1 } from "../../__tests__/__mocks__";
+import SocialMediaTag from "../Profile/SocialMediaTag";
+import SocialMedia from "../../api/types/SocialMedia";
 
 function ClosedAudition() {
   const { t } = useTranslation();
@@ -156,16 +159,16 @@ const AuditionActions = (props: { auditionId: number, isOwner: boolean, currentU
           } else {
             let memberAux = false;
             response.getContent().map(m => {
-              if(m.state === "ACCEPTED")
+              if (m.state === "ACCEPTED")
                 memberAux = true;
             })
-            if(!memberAux)
+            if (!memberAux)
               setIsMember(false);
           }
         },
       )
       setIsBand(props.currentUser.band);
-    } else if(!userId) {
+    } else if (!userId) {
       setHasApplied(false);
       setIsMember(false);
       setIsBand(false);
@@ -189,10 +192,10 @@ const AuditionActions = (props: { auditionId: number, isOwner: boolean, currentU
           isClosable: true,
         })
       }}>
-      <Button leftIcon={<FiShare2 />} w={'44'} colorScheme='blue'>
-        {t("Audition.share")}
-      </Button>
-    </CopyToClipboard>
+        <Button leftIcon={<FiShare2 />} w={'44'} colorScheme='blue'>
+          {t("Audition.share")}
+        </Button>
+      </CopyToClipboard>
       {props.isOwner ?
         <>
           <Button onClick={() => { navigate('/audition/' + String(props.auditionId) + '/applicants') }} leftIcon={<FiUsers />} w={'44'} colorScheme='green'>{t("Audition.applicants")}</Button>
@@ -201,7 +204,7 @@ const AuditionActions = (props: { auditionId: number, isOwner: boolean, currentU
         </>
         :
         <>
-          {(isBand || hasApplied || isMember ) ? <></> : (<ApplyButton auditionId={props.auditionId} refresh={handleRefresh} />)}
+          {(isBand || hasApplied || isMember) ? <></> : (<ApplyButton auditionId={props.auditionId} refresh={handleRefresh} />)}
         </>
       }
     </VStack>
@@ -301,6 +304,51 @@ const AuditionCard = ({
   );
 };
 
+const BandMoreInfo = ({ band }: { band: User }) => {
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+  return (
+    <Card
+      maxW={"3xl"}
+      w={"sm"}
+      margin={5}
+      p={5}
+      boxShadow={"xl"}
+      rounded={"xl"}
+    >
+      <CardHeader>
+        <Heading size={"md"} noOfLines={2}>{t("Audition.MoreInfoAboutBand")}</Heading>
+      </CardHeader>
+      <CardBody>
+        <Flex justifyContent="space-between">
+          <VStack spacing={8} alignItems={"start"}>
+            {
+              band.description !== "" &&
+              <HStack spacing={4}>
+                <AiOutlineInfoCircle />
+                <HStack wrap={'wrap'}>
+                  <Text as='i'>{band.description}</Text>
+                </HStack>
+              </HStack>
+            }
+            {
+              band.location !== "" &&
+              <HStack spacing={4}>
+                <ImLocation />
+                <Text fontSize={"lg"}>{band.location}</Text>
+              </HStack>
+            }
+            <Button leftIcon={<AiOutlineUser />} colorScheme={'teal'} onClick={() => navigate('/user/' + band.id)}>
+              {t("Audition.VisitProfile")}
+            </Button>
+          </VStack>
+        </Flex>
+      </CardBody>
+    </Card>
+  )
+
+}
+
 const AuditionView = () => {
   const params = useParams()
   const navigate = useNavigate();
@@ -353,6 +401,8 @@ const AuditionView = () => {
         },
       );
 
+
+
     }
   }, [audition, navigate, userId]
   )
@@ -372,7 +422,7 @@ const AuditionView = () => {
   return (
     <>
       <Flex pl={200} mt={8} mb={-20}>
-        <BackArrow/>
+        <BackArrow />
       </Flex>
       <Helmet>
         <title>{t("Audition.title")}</title>
@@ -381,12 +431,13 @@ const AuditionView = () => {
         <HStack minH={"80vh"}>
           {isLoading ? (<span className="loader"></span>) :
             (closed ? <ClosedAudition /> : (<>
-            <Flex>
-              <Flex direction="row" alignItems="center" justify="center">
-                <AuditionCard user={ownerUser!} audition={audition!} />
-                <AuditionActions auditionId={audition!.id} isOwner={isOwner} currentUser={currentUser} bandId={parseInt(audition!.owner.split('/')[audition!.owner.split('/').length - 1])} />
+              <Flex>
+                <Flex direction="row" alignItems="center" justify="center">
+                  <BandMoreInfo band={ownerUser!} />
+                  <AuditionCard user={ownerUser!} audition={audition!} />
+                  <AuditionActions auditionId={audition!.id} isOwner={isOwner} currentUser={currentUser} bandId={parseInt(audition!.owner.split('/')[audition!.owner.split('/').length - 1])} />
+                </Flex>
               </Flex>
-            </Flex>
             </>))
           }
         </HStack>

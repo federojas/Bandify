@@ -259,7 +259,8 @@ export const TRANSLATIONS_ES = {
     Closed: "Esta audición está cerrada",
     CheckOutOthers: "La banda ha cerrado esta audición. ¡Mirá otras audiciones!",
     MoreAuditions: "Más audiciones",
-
+    MoreInfoAboutBand: "Más información sobre la banda",
+    VisitProfile: "Visitar perfil",
   },
   ProfileCard: {
     Profile: "Ver perfil",

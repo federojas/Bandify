@@ -205,6 +205,8 @@ export const TRANSLATIONS_EN = {
     Closed: "This audition is closed",
     CheckOutOthers: "The band has closed this audition. Check out other auditions!",
     MoreAuditions: "More auditions",
+    MoreInfoAboutBand: "More info about the band",
+    VisitProfile: "Visit profile",
   },
   Clipboard: {
     message: "Link copied to clipboard!",
@@ -464,5 +466,6 @@ export const TRANSLATIONS_EN = {
     success: "User verified successfully!",
     error: "Error! Could not verify user!"
   },
+
 };
 
