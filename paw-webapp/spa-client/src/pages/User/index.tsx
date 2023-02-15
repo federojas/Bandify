@@ -136,7 +136,7 @@ const AddToBandButton = ({ user, refresh }: { user: User, refresh: () => void })
 
   const isValidForm = (data: FormData) => {
 
-    if (roles.length == 0) {
+    if (roles.length === 0) {
       toast({
         title: t("EditAudition.rolesRequired"),
         status: "error",

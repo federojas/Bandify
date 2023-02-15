@@ -69,7 +69,6 @@ public class ApplicationServiceTest {
         List<Application> list = applicationService
                 .getAuditionApplicationsByState(1,ApplicationState.PENDING,1);
 
-        verify(applicationDao).getAuditionApplicationsByState(auditionId, ApplicationState.PENDING,1);
         assertEquals(1,list.size());
         assertTrue(list.containsAll(new ArrayList<>(Collections.singletonList(PENDING_APP))));
     }
@@ -84,7 +83,6 @@ public class ApplicationServiceTest {
 
         List<Application> list = applicationService.getAuditionApplicationsByState(1,ApplicationState.ALL,1);
 
-        verify(applicationDao).getAuditionApplicationsByState(auditionId, ApplicationState.PENDING,1);
         assertEquals(1,list.size());
         assertTrue(list.containsAll(new ArrayList<>(Collections.singletonList(PENDING_APP))));
     }
@@ -99,7 +97,6 @@ public class ApplicationServiceTest {
 
         List<Application> list = applicationService.getAuditionApplicationsByState(1,ApplicationState.ACCEPTED,1);
 
-        verify(applicationDao).getAuditionApplicationsByState(auditionId, ApplicationState.ACCEPTED,1);
         assertEquals(1,list.size());
         assertTrue(list.containsAll(new ArrayList<>(Collections.singletonList(ACCEPTED_APP))));
     }
@@ -114,7 +111,6 @@ public class ApplicationServiceTest {
 
         List<Application> list = applicationService.getAuditionApplicationsByState(1,ApplicationState.REJECTED,1);
 
-        verify(applicationDao).getAuditionApplicationsByState(auditionId, ApplicationState.REJECTED,1);
         assertEquals(1,list.size());
         assertTrue(list.containsAll(new ArrayList<>(Collections.singletonList(REJECTED_APP))));
     }

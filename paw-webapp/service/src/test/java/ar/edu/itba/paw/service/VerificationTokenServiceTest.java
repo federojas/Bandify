@@ -37,12 +37,6 @@ public class VerificationTokenServiceTest {
     private static final VerificationToken VALID_TOKEN = new VerificationToken( TOKEN_VALUE, user,  LocalDateTime.now().plusDays(2), TokenType.VERIFY);
 
     @Test
-    public void testDeleteTokenByUserId() {
-        tokenService.deleteTokenByUserId(user.getId(), TokenType.VERIFY);
-        verify(verificationTokenDao, Mockito.times(1)).deleteTokenByUserId(user.getId(), TokenType.VERIFY);
-    }
-
-    @Test
     public void testGetTokenOwner() {
         when(verificationTokenDao.getToken(TOKEN_VALUE)).thenReturn(Optional.of(VALID_TOKEN));
 

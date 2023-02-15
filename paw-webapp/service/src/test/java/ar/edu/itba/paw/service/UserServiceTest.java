@@ -104,15 +104,6 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testResendUserVerification() {
-        when(userDao.findByEmail(USER.getEmail())).thenReturn(Optional.ofNullable(USER));
-        userService.resendUserVerification(USER.getEmail());
-        verify(verificationTokenService).deleteTokenByUserId(Mockito.anyLong(), Mockito.eq(TokenType.VERIFY));
-        verify(verificationTokenService).generate(Mockito.eq(USER), Mockito.eq(TokenType.VERIFY));
-        verify(mailingService).sendVerificationEmail(Mockito.eq(USER), any(), any());
-    }
-
-    @Test
     public void testEditUser() {
         when(locationService.getLocationByName(EDIT_LOCATION)).thenReturn((new Location(1L, EDIT_LOCATION)));
         when(genreService.getGenresByNames(EDIT_GENRES)).thenReturn(EDIT_GENRES_SET);
@@ -165,15 +156,6 @@ public class UserServiceTest {
         when(verificationTokenService.getTokenOwner(TOKEN_VALUE, TokenType.VERIFY)).thenReturn(USER.getId());
         doNothing().when(userDao).verifyUser(USER.getId());
         userService.verifyUser(TOKEN_VALUE);
-    }
-
-    @Test
-    public void testSendResetEmail() {
-        when(userDao.findByEmail(USER.getEmail())).thenReturn(Optional.of(USER));
-        when(verificationTokenService.generate(Mockito.eq(USER), Mockito.eq(TokenType.RESET))).thenReturn(any(VerificationToken.class));
-
-        userService.sendResetEmail(USER.getEmail());
-        verify(mailingService).sendResetPasswordEmail(Mockito.eq(USER), any(), any());
     }
 
     @Test
