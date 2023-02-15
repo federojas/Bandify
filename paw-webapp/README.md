@@ -32,6 +32,8 @@ The following technologies were used to build Bandify:
 - Artists can indicate their favourites genres and roles
 - Bands can indicate their favourites genres and roles
 - Users can see which artists belong to a band and which role they occupy
+- Artists can leave bands they belong
+- Bands can kick Artists that no longer belong to the band
 
 ## Build
 
