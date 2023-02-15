@@ -19,7 +19,7 @@ public class VerificationTokenJpaDao implements VerificationTokenDao {
     @PersistenceContext
     private EntityManager em;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(GenreJpaDao.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(VerificationTokenJpaDao.class);
 
     @Override
     public Optional<VerificationToken> getToken(String token) {
