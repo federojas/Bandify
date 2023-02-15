@@ -12,24 +12,26 @@ public interface UserService {
 
     User getArtistById(long id);
 
+    User getBandById(long id);
+
     User create(User.UserBuilder userBuilder);
 
     Optional<User> findByEmail(String email);
 
-    boolean verifyUser(String token);
+    void verifyUser(String token);
 
     void sendResetEmail(String email);
 
-    boolean changePassword(String token, String newPassword);
+    void changePassword(String token, String newPassword);
 
     void resendUserVerification(String email);
 
-    User editUser(long userId, String name, String surname, String description, List<String> genresNames, List<String> rolesNames, byte[] image, String locationName);
+    User editUser(long userId, String name, String surname, String description, boolean isAvailable,
+                  List<String> roles, List<String> genres, String location);
 
     User updateUserLocation(String locationName, User user);
 
     Set<Role> getUserRoles(User user);
-
     Location getUserLocation(User user);
 
     User updateUserRoles(List<String> rolesNames, User user);
@@ -44,7 +46,7 @@ public interface UserService {
 
     byte[] getProfilePicture(long userId) throws IOException;
 
-    void updateSocialMedia(User user, Set<MediaUrl> mediaUrls);
+    void updateSocialMedia(long userId, Set<MediaUrl> mediaUrls);
 
     User setAvailable(boolean isLookingFor, User user);
 
@@ -53,4 +55,9 @@ public interface UserService {
     List<User> filter(FilterOptions filter, int page);
 
     int getFilterTotalPages(FilterOptions filter);
+
+    VerificationToken getAuthRefreshToken(String email);
+
+    User getUserByRefreshToken(String payload);
+
 }

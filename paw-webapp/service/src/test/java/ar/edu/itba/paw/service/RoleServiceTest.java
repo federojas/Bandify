@@ -1,7 +1,7 @@
 package ar.edu.itba.paw.service;
 
-import ar.edu.itba.paw.model.Genre;
 import ar.edu.itba.paw.model.Role;
+import ar.edu.itba.paw.model.exceptions.InvalidRoleException;
 import ar.edu.itba.paw.model.exceptions.RoleNotFoundException;
 import ar.edu.itba.paw.persistence.RoleDao;
 import org.junit.Assert;
@@ -50,7 +50,7 @@ public class RoleServiceTest {
     @Test
     public void testGetRolesByNames() {
         Set<Role> expected = new HashSet<>(Arrays.asList(GUITARIST, DRUMMER, BASSIST));
-        when(roleDao.getAll()).thenReturn((Set<Role>) new HashSet<>(ROLE_LIST));
+        when(roleDao.getAll()).thenReturn(new HashSet<>(ROLE_LIST));
         when(roleDao.getRolesByNames(Arrays.asList("Guitarist", "Drummer", "Bassist"))).thenReturn(expected);
 
         Set<Role> roles = roleService.getRolesByNames(Arrays.asList("Guitarist", "Drummer", "Bassist"));
@@ -58,11 +58,11 @@ public class RoleServiceTest {
         Assert.assertEquals(expected, roles);
     }
 
-    @Test(expected = RoleNotFoundException.class)
+    @Test(expected = InvalidRoleException.class)
     public void testGetRolesByNamesWithInvalidRole() {
         when(roleDao.getAll()).thenReturn(new HashSet<>(ROLE_LIST));
         roleService.getRolesByNames(invalidRolesNames);
-        Assert.fail("Should have thrown RoleNotFoundException");
+        Assert.fail("Should have thrown InvalidRoleException");
     }
 
     @Test
@@ -73,7 +73,6 @@ public class RoleServiceTest {
 
     @Test
     public void testGetRolesByNamesWithEmptyNamesList() {
-        when(roleDao.getAll()).thenReturn(new HashSet<>(ROLE_LIST));
         Set<Role> roleSet = roleService.getRolesByNames(new ArrayList<>());
         Assert.assertEquals(0,roleSet.size());
     }

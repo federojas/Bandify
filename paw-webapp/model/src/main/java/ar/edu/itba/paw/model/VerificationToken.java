@@ -3,6 +3,7 @@ package ar.edu.itba.paw.model;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 @Table(name = "verificationtokens")
@@ -19,7 +20,7 @@ public class VerificationToken {
     @Column(name = "token", nullable = false)
     private String token;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "userId")
     private User user;
 

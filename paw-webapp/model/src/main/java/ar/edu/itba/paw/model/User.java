@@ -61,7 +61,8 @@ public class User {
     )
     private Set<Genre> userGenres;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "userId")
     private Set<SocialMedia> socialSocialMedia;
 
     /* Default */ User() {
@@ -202,7 +203,8 @@ public class User {
 
     public void editInfo(String name, String surname, String description) {
         setName(name);
-        setSurname(surname);
+        if(!this.isBand)
+            setSurname(surname);
         setDescription(description);
     }
 

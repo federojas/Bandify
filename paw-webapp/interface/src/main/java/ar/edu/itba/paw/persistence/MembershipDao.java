@@ -11,6 +11,9 @@ public interface MembershipDao {
 
     List<Membership> getUserMembershipsByState(User user, MembershipState state, int page);
 
+    List<Membership> getUserMemberships(User user, int page);
+
+    int getTotalUserMembershipsByStatePages(User user);
     List<Membership> getUserMembershipsPreview(User user);
 
     int getTotalUserMembershipsByStatePages(User user, MembershipState state);
@@ -21,7 +24,7 @@ public interface MembershipDao {
 
     Optional<Membership> getMembershipById(long id);
 
-    Optional<Membership> getMembershipByUsers(User band, User artist);
+    List<Membership> getMembershipsByUsers(User band, User artist);
 
     boolean membershipExists(User band, User artist);
 

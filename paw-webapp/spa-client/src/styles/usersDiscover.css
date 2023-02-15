@@ -1,0 +1,17 @@
+
+.abs-container-users {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.abs-container-users h2 {
+    font-size: xxx-large;
+    font-weight: bold;
+    color: white;
+    text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
+    margin-left: 20px;
+    margin-bottom: 10px;
+    word-break: break-word;
+}

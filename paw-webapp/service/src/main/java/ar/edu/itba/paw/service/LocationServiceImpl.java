@@ -2,6 +2,7 @@ package ar.edu.itba.paw.service;
 
 import ar.edu.itba.paw.model.Location;
 import ar.edu.itba.paw.model.Role;
+import ar.edu.itba.paw.model.exceptions.InvalidLocationException;
 import ar.edu.itba.paw.model.exceptions.LocationNotFoundException;
 import ar.edu.itba.paw.model.exceptions.RoleNotFoundException;
 import ar.edu.itba.paw.persistence.LocationDao;
@@ -30,8 +31,8 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public Optional<Location> getLocationByName(String name) {
-        return locationDao.getLocationByName(name);
+    public Location getLocationByName(String name) {
+        return locationDao.getLocationByName(name).orElseThrow(InvalidLocationException::new);
     }
 
     @Override
@@ -44,5 +45,10 @@ public class LocationServiceImpl implements LocationService {
             throw new LocationNotFoundException();
 
         return locationDao.getLocationsByNames(locationNames);
+    }
+
+    @Override
+    public Optional<Location> getLocationById(Long id) {
+        return locationDao.getLocationById(id);
     }
 }

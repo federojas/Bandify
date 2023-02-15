@@ -53,27 +53,28 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Transactional
     @Override
-    public boolean apply(long auditionId, User user, String message) {
+    public Application apply(long auditionId, User user, String message) {
+        if(user.isBand()) throw new BandsCannotApplyException();
         if(applicationDao.findApplication(auditionId,user.getId()).isPresent()) {
             LOGGER.info("User {} already applied to audition {}",user.getId(),auditionId);
-            return false;
+            throw new UserAlreadyAppliedToAuditionException();
         }
 
         Audition aud = auditionService.getAuditionById(auditionId);
         User band = userService.getUserById(aud.getBand().getId()).orElseThrow(UserNotFoundException::new);
         if(membershipService.isInBand(band, user)) {
             LOGGER.info("User {} already in band ",user.getId());
-            return false;
+            throw new UserAlreadyInBandException();
         }
 
-        applicationDao.createApplication(new Application.ApplicationBuilder(auditionService.
+        Application toReturn = applicationDao.createApplication(new Application.ApplicationBuilder(auditionService.
                 getAuditionById(auditionId),user,ApplicationState.PENDING, LocalDateTime.now(), message));
         String bandEmail = band.getEmail();
         Locale locale = LocaleContextHolder.getLocale();
         LocaleContextHolder.setLocale(locale, true);
         LOGGER.debug("User {} applied to audition {}",user.getId(),auditionId);
         mailingService.sendApplicationEmail(user, bandEmail, message, locale);
-        return true;
+        return toReturn;
     }
 
     @Transactional
@@ -94,16 +95,20 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Transactional
     @Override
-    public Application select(long auditionId, long bandId, long applicantId) {
+    public Application select(long auditionId, User band, long applicantId) {
         LOGGER.debug("User {} has been selected for the audition {}",applicantId, auditionId);
         checkIds(auditionId, applicantId);
         Application toReturn = setApplicationState(auditionId,applicantId,ApplicationState.SELECTED);
-        closeApplications(bandId,applicantId);
+        closeApplications(band.getId(), applicantId);
         return toReturn;
     }
 
+    @Transactional
     @Override
     public void closeApplications(long bandId, long applicantId) {
+        User current = authFacadeService.getCurrentUser();
+        if(!current.getId().equals(bandId) && !current.getId().equals(applicantId) )
+            throw new ApplicationNotOwnedException();
         applicationDao.closeApplications(bandId,applicantId);
     }
 
@@ -135,6 +140,8 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public List<Application> getMyApplicationsFiltered(long applicantId, int page, ApplicationState state) {
+        final User user = authFacadeService.getCurrentUser();
+        checkOwnership(user, applicantId);
         int lastPage = getTotalUserApplicationPagesFiltered(applicantId, state);
         lastPage = lastPage == 0 ? 1 : lastPage;
         checkPage(page, lastPage);
@@ -153,7 +160,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     private Application setApplicationState(long auditionId, long applicantId, ApplicationState state) {
         Audition audition = auditionService.getAuditionById(auditionId);
         User applicant = userService.getUserById(applicantId).orElseThrow(UserNotFoundException::new);
-        User band = userService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(UserNotFoundException::new);
+        User band = authFacadeService.getCurrentUser();
         if(!Objects.equals(audition.getBand().getId(), band.getId()))
             throw new AuditionNotOwnedException();
         if(state.equals(ApplicationState.ACCEPTED)) {
@@ -180,30 +187,22 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public boolean alreadyApplied(long auditionId, long applicantId) {
-        return applicationDao.findApplication(auditionId,applicantId).isPresent();
+    public List<Application> getMyApplicationsByAuditionId(long auditionId, long applicantId) {
+        return applicationDao.getMyApplicationsByAuditionId(auditionId,applicantId);
     }
 
     @Override
     public Optional<Application> getApplicationById(long auditionId, long applicationId)  {
         User user = authFacadeService.getCurrentUser();
-        Audition audition = auditionService.getAuditionById(auditionId);
-        if(!Objects.equals(user.getId(), audition.getBand().getId()))
-            throw new AuditionNotOwnedException();
         Optional<Application> application = applicationDao.findApplication(applicationId);
+        if(application.isPresent() && !(application.get().getApplicant().getId().equals(user.getId()) ||
+                        application.get().getAudition().getBand().getId().equals(user.getId())))
+            throw new ApplicationNotOwnedException();
+
         if (application.isPresent() && !application.get().getAudition().getId().equals(auditionId)
                 && application.get().getState().equals(ApplicationState.SELECTED))
             return Optional.empty();
         return application;
-    }
-
-    @Override
-    public Optional<Application> getAcceptedApplicationById(long auditionId, long applicationId)  {
-        Optional<Application> application = getApplicationById(auditionId,applicationId);
-        if(application.isPresent() && application.get().getAudition().getId().equals(auditionId) &&
-                application.get().getState().equals(ApplicationState.ACCEPTED))
-            return application;
-        return Optional.empty();
     }
 
     @Transactional
@@ -230,5 +229,31 @@ public class ApplicationServiceImpl implements ApplicationService {
         if(state == ApplicationState.ALL)
             state = ApplicationState.PENDING;
         return applicationDao.getAuditionApplicationsByState(auditionId,state);
+    }
+
+    @Transactional
+    @Override
+    public void changeState(long auditionId, long applicationId, String state) {
+        Application app = getApplicationById(auditionId, applicationId)
+                .orElseThrow(ApplicationNotFoundException::new);
+        if(Objects.equals(state, ApplicationState.CLOSED.getState()))
+            closeApplications(app.getAudition().getBand().getId(), app.getApplicant().getId());
+        else if(app.getState().equals(ApplicationState.PENDING)) {
+            if (Objects.equals(state, ApplicationState.ACCEPTED.getState()))
+                accept(auditionId, app.getApplicant().getId());
+            else if (Objects.equals(state, ApplicationState.REJECTED.getState()))
+                reject(auditionId, app.getApplicant().getId());
+        } else if(app.getState().equals(ApplicationState.ACCEPTED) &&
+                Objects.equals(state, ApplicationState.SELECTED.getState())) {
+            select(auditionId, app.getAudition().getBand(), app.getApplicant().getId());
+        } else {
+            throw new InvalidApplicationStateException();
+        }
+    }
+
+
+    private void checkOwnership(User user, long userId) {
+        if (user.getId() != userId)
+            throw new ProfileNotOwnedException();
     }
 }

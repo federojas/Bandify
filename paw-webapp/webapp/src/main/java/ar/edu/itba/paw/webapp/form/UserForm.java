@@ -4,22 +4,24 @@ import ar.edu.itba.paw.webapp.form.constraints.annotations.FieldsMatch;
 import ar.edu.itba.paw.webapp.form.constraints.annotations.NotDuplicatedEmail;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @FieldsMatch(field = "password", secondField = "passwordConfirmation")
-public abstract class UserForm {
+public class UserForm {
 
     @Email
     @NotBlank
     @NotDuplicatedEmail
     private String email;
 
+    @NotBlank
     @Size(min = 8, max = 25)
     private String password;
 
-    @NotNull
+    @NotBlank
     @Size(min = 8, max = 25)
     private String passwordConfirmation;
 
@@ -27,7 +29,11 @@ public abstract class UserForm {
     @Size(max = 50)
     private String name;
 
-    private boolean isBand;
+    @Size(max = 50)
+    private String surname;
+
+    @NotNull
+    private boolean band;
 
     public String getEmail() {
         return email;
@@ -53,14 +59,6 @@ public abstract class UserForm {
         this.name = name;
     }
 
-    public boolean isBand() {
-        return isBand;
-    }
-
-    public void setBand(boolean band) {
-        isBand = band;
-    }
-
     public String getPasswordConfirmation() {
         return passwordConfirmation;
     }
@@ -69,4 +67,26 @@ public abstract class UserForm {
         this.passwordConfirmation = passwordConfirmation;
     }
 
+    public String getSurname() {
+        if (this.band)
+            return null;
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        if (!this.band)
+            this.surname = surname;
+    }
+
+    public boolean isBand() {
+        return band;
+    }
+
+    public boolean getBand() {
+        return band;
+    }
+
+    public void setBand(boolean band) {
+        this.band = band;
+    }
 }

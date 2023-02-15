@@ -13,13 +13,13 @@ public interface ApplicationService {
 
     List<Application> getAuditionApplicationsByState(long auditionId, ApplicationState state);
 
-    boolean apply(long auditionId, User user, String message);
+    Application apply(long auditionId, User user, String message);
 
     Application accept(long auditionId, long applicantId);
 
     Application reject(long auditionId, long applicantId);
 
-    Application select(long auditionId, long bandId, long applicantId);
+    Application select(long auditionId, User band, long applicantId);
 
     List<Application> getMyApplications(long applicantId, int page);
 
@@ -31,15 +31,16 @@ public interface ApplicationService {
 
     int getTotalAuditionApplicationByStatePages(long auditionId, ApplicationState state);
 
-    boolean alreadyApplied(long auditionId, long applicantId);
+    List<Application> getMyApplicationsByAuditionId(long auditionId, long applicantId);
 
     Optional<Application> getApplicationById(long auditionId, long applicationId) ;
-
-    Optional<Application> getAcceptedApplicationById(long auditionId, long applicationId);
 
     boolean closeApplicationsByAuditionId(long id);
 
     int getTotalUserApplicationsFiltered(long userId, ApplicationState state);
 
     void closeApplications(long bandId, long applicantId);
+
+    void changeState(long auditionId, long applicationId, String state);
+
 }

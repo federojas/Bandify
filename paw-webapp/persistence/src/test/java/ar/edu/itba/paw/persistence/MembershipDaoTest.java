@@ -143,7 +143,7 @@ public class MembershipDaoTest {
 
     @Test
     public void testGetMembershipByUsers() {
-        Optional<Membership> membership = membershipDao.getMembershipByUsers(BAND, ARTIST);
+        Optional<Membership> membership = membershipDao.getMembershipsByUsers(BAND, ARTIST).stream().findFirst();
         assertNotNull(membership);
         assertTrue(membership.isPresent());
         assertEquals(mem1, membership.get());

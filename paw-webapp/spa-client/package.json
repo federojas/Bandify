@@ -1,0 +1,73 @@
+{
+  "name": "spa-client",
+  "version": "0.1.0",
+  "private": true,
+  "homepage": "/paw-2022a-03",
+  "dependencies": {
+    "@chakra-ui/icons": "^2.0.15",
+    "@chakra-ui/react": "^2.4.5",
+    "@choc-ui/paginator": "^3.4.0",
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@fontsource/poppins": "^4.5.10",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.3.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/node": "^16.11.46",
+    "@types/react": "^18.0.15",
+    "@types/react-dom": "^18.0.6",
+    "@web3-storage/parse-link-header": "^3.1.0",
+    "axios": "1.2.1",
+    "chakra-react-select": "^4.4.3",
+    "dayjs": "^1.11.7",
+    "framer-motion": "^6.5.1",
+    "i18next-browser-languagedetector": "^6.1.5",
+    "jwt-decode": "^3.1.2",
+    "qs": "^6.11.0",
+    "react": "^18.2.0",
+    "react-copy-to-clipboard": "^5.1.0",
+    "react-dom": "^18.2.0",
+    "react-helmet": "^6.1.0",
+    "react-hook-form": "^7.40.0",
+    "react-i18next": "^11.18.5",
+    "react-icons": "^4.7.1",
+    "react-router-dom": "^6.3.0",
+    "react-scripts": "^5.0.1",
+    "typescript": "^4.7.4",
+    "use-sound": "^4.0.1",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "build-paw": "react-scripts build && sed -i '1s/^/<%@ page session=\"false\" %> /' ./build/index.html",
+    "test": "jest --watch --transformIgnorePatterns \"node_modules/(?!axios)/\"",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@types/jest": "^29.2.4",
+    "@types/react-copy-to-clipboard": "^5.0.4",
+    "@types/react-helmet": "^6.1.6",
+    "@types/styled-components": "^5.1.26",
+    "jest": "^27.5.1",
+    "styled-components": "^5.3.5"
+  }
+}

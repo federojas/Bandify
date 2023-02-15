@@ -26,8 +26,11 @@ public class MembershipServiceImpl implements MembershipService {
     @Autowired
     private MailingService mailingService;
     @Autowired
+    private RoleService roleService;
+    @Autowired
     private AuthFacadeService authFacadeService;
 
+    private static final int MAX_INV_ROLES = 5;
     private static final Logger LOGGER = LoggerFactory.getLogger(MembershipServiceImpl.class);
 
     @Override
@@ -40,6 +43,15 @@ public class MembershipServiceImpl implements MembershipService {
     }
 
     @Override
+    public List<Membership> getUserMemberships(User user, int page) {
+        int lastPage = getTotalUserMembershipsPages(user);
+        lastPage = lastPage == 0 ? 1 : lastPage;
+        checkPage(page, lastPage);
+        LOGGER.info("Getting specified user memberships");
+        return membershipDao.getUserMemberships(user, page);
+    }
+
+    @Override
     public List<Membership> getUserMembershipsPreview(User user) {
         return membershipDao.getUserMembershipsPreview(user);
     }
@@ -49,6 +61,11 @@ public class MembershipServiceImpl implements MembershipService {
         LOGGER.info("Getting total specified user memberships");
         return membershipDao.getTotalUserMembershipsByStatePages(user,state);
     }
+    @Override
+    public int getTotalUserMembershipsPages(User user) {
+        LOGGER.info("Getting total specified user memberships");
+        return membershipDao.getTotalUserMembershipsByStatePages(user);
+    }
 
     @Transactional
     @Override
@@ -56,6 +73,8 @@ public class MembershipServiceImpl implements MembershipService {
         if(builder.getArtist().isBand() || !builder.getArtist().isAvailable()) {
             throw new UserNotAvailableException();
         }
+        if(builder.getRoles().size() > MAX_INV_ROLES)
+            throw new IllegalArgumentException("Invalid amount of roles");
         Locale locale = LocaleContextHolder.getLocale();
         LocaleContextHolder.setLocale(locale, true);
         mailingService.sendNewInvitationEmail(builder.getBand(), builder.getArtist().getEmail(), locale);
@@ -80,14 +99,14 @@ public class MembershipServiceImpl implements MembershipService {
 
     @Transactional
     @Override
-    public Membership changeState(Membership membership, MembershipState state) {
+    public Membership changeState(long id, MembershipState state) {
+        Membership membership = getMembershipById(id).orElseThrow(MembershipNotFoundException::new);
         User currentUser = authFacadeService.getCurrentUser();
         Long currentUserId = currentUser.getId();
         if (currentUserId.equals(membership.getBand().getId())
                 || currentUserId.equals(membership.getArtist().getId())) {
-            if (!membership.getState().equals(MembershipState.PENDING)) {
-                throw new MembershipNotFoundException();
-            }
+            if(membership.getState() != MembershipState.PENDING)
+                throw new IllegalArgumentException("Membership is not pending");
             membership.setState(state);
             if(state == MembershipState.ACCEPTED) {
                 applicationService.closeApplications(membership.getBand().getId(), membership.getArtist().getId());
@@ -108,25 +127,27 @@ public class MembershipServiceImpl implements MembershipService {
     }
 
     @Override
-    public Optional<Membership> getMembershipByUsers(User band, User artist) {
-        if(!band.isBand() || artist.isBand())
-            throw new IllegalArgumentException();
-        return membershipDao.getMembershipByUsers(band, artist);
+    public List<Membership> getMembershipsByUsers(User band, User artist) {
+        if(!band.isBand())
+            throw new NotABandException();
+        if(artist.isBand())
+            throw new NotAnArtistException();
+        return membershipDao.getMembershipsByUsers(band, artist);
     }
 
     @Transactional
     @Override
-    public boolean createMembershipByApplication(Membership.Builder builder, long auditionId) {
+    public Membership createMembershipByApplication(Membership.Builder builder, long auditionId) {
         if(membershipDao.membershipExists(builder.getBand(), builder.getArtist())) {
             LOGGER.info("User {} already in band ", builder.getArtist().getId());
-            return false;
+            throw new IllegalArgumentException();
         }
-        applicationService.select(auditionId, builder.getBand().getId(), builder.getArtist().getId());
-        createMembership(builder.state(MembershipState.ACCEPTED));
+        applicationService.select(auditionId, builder.getBand(), builder.getArtist().getId());
+        Membership membership = createMembership(builder.state(MembershipState.ACCEPTED));
         Locale locale = LocaleContextHolder.getLocale();
         LocaleContextHolder.setLocale(locale, true);
         mailingService.sendAddedToBandEmail(builder.getBand(), builder.getArtist().getEmail(), locale);
-        return true;
+        return membership;
     }
 
     @Override
@@ -136,17 +157,17 @@ public class MembershipServiceImpl implements MembershipService {
 
     @Transactional
     @Override
-    public Membership editMembershipById(String description, Set<Role> roles, long id) {
+    public Membership editMembershipById(String description, List<String> roles, long id) {
         checkMembershipId(id);
         checkPermissions(id);
         Optional<Membership> membership = getMembershipById(id);
         if (membership.isPresent()) {
             Membership memRet = membership.get();
-            memRet.edit(description, roles);
+            Set<Role> roleSet = roleService.getRolesByNames(roles);
+            memRet.edit(description, roleSet);
             return memRet;
         }
-
-        return null;
+        throw new MembershipNotFoundException();
     }
 
     private void checkPermissions(long id) {

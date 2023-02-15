@@ -47,6 +47,18 @@ public class ApplicationJpaDao implements ApplicationDao {
     }
 
     @Override
+    public List<Application> getMyApplicationsByAuditionId(long auditionId, long applicantId) {
+        final TypedQuery<Application> query = em.createQuery("FROM Application as a where a.applicant.id =:applicantId and  a.audition.id =:auditionId",
+                Application.class);
+        query.setParameter("applicantId", applicantId);
+        query.setParameter("auditionId", auditionId);
+        List<Application> apps = query.getResultList();
+        if(apps.isEmpty())
+            return Collections.emptyList();
+        return apps;
+    }
+
+    @Override
     public Optional<Application> findApplication(long auditionId, long applicantId) {
         final TypedQuery<Application> query = em.createQuery("FROM Application as a where a.applicant.id =:applicantId and  a.audition.id =:auditionId",
                 Application.class);

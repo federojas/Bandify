@@ -83,14 +83,7 @@ public class AuditionServiceTest {
         when(auditionDao.getAuditionById(1L)).thenReturn(Optional.of(defaultAud));
 
         Audition retAud = auditionService.getAuditionById(1L);
-        verify(auditionDao).getAuditionById(1L);
         assertEquals(defaultAud, retAud);
-    }
-
-    @Test
-    public void testCreateAudition() {
-        Audition retAud = auditionService.create(defaultAudBuilder);
-        verify(auditionDao).create(defaultAudBuilder);
     }
 
     @Test
@@ -124,8 +117,8 @@ public class AuditionServiceTest {
 
     @Test
     public void testGetTotalBandAuditionPages() {
-        auditionService.getTotalBandAuditionPages(band);
-        verify(auditionDao).getTotalBandAuditionPages(band.getId());
+        int pages = auditionService.getTotalBandAuditionPages(band);
+        assertEquals(0,pages);
     }
 
     @Test

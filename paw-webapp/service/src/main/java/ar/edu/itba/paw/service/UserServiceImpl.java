@@ -4,15 +4,8 @@ import ar.edu.itba.paw.model.*;
 import ar.edu.itba.paw.model.exceptions.*;
 import ar.edu.itba.paw.persistence.UserDao;
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,8 +34,9 @@ public class UserServiceImpl implements UserService {
     private MailingService mailingService;
     @Autowired
     private LocationService locationService;
+    @Autowired
+    private AuthFacadeService authFacadeService;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
     private static final int MAX_USER_GENRES = 15;
     private static final int MAX_USER_ROLES = 15;
 
@@ -53,11 +47,20 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getArtistById(long id) {
-        Optional<User> artist = getUserById(id);
-        if(!artist.isPresent() || artist.get().isBand())
-            throw new UserNotFoundException("User is a band");
+        User artist = getUserById(id).orElseThrow(UserNotFoundException::new);
+        if(artist.isBand())
+            throw new NotAnArtistException();
         else
-            return artist.get();
+            return artist;
+    }
+
+    @Override
+    public User getBandById(long id) {
+        User band = getUserById(id).orElseThrow(UserNotFoundException::new);
+        if(!band.isBand())
+            throw new NotABandException();
+        else
+            return band;
     }
 
     @Transactional
@@ -79,6 +82,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public void resendUserVerification(String email) {
         User user = findByEmail(email).orElseThrow(UserNotFoundException::new);
+        if(user.isEnabled())
+            throw new UserAlreadyVerifiedException();
         verificationTokenService.deleteTokenByUserId(user.getId(), TokenType.VERIFY);
 
         VerificationToken token = verificationTokenService.generate(user, TokenType.VERIFY);
@@ -90,14 +95,17 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public User editUser(long userId, String name, String surname, String description, List<String> genresNames, List<String> rolesNames, byte[] image, String locationName) {
-        User user = getUserById(userId).orElseThrow(UserNotFoundException::new);
+    public User editUser(long userId, String name, String surname, String description, boolean isAvailable,
+                         List<String> roles, List<String> genres, String location) {
+        final User user = authFacadeService.getCurrentUser();
+        checkOwnership(user, userId);
         user.editInfo(name, surname, description);
-        updateUserGenres(genresNames, user);
-        updateUserRoles(rolesNames, user);
-        updateUserLocation(locationName, user);
-        updateProfilePicture(user,image);
-
+        if(!user.isBand()) {
+            user.setAvailable(isAvailable);
+        }
+        updateUserLocation(location, user);
+        updateUserGenres(genres,user);
+        updateUserRoles(roles,user);
         return user;
     }
 
@@ -109,7 +117,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public User updateUserLocation(String locationName, User user) {
-        Location location = locationService.getLocationByName(locationName).orElseThrow(LocationNotFoundException::new);
+        Location location = locationService.getLocationByName(locationName);
         user.setLocation(location);
         return user;
     }
@@ -124,7 +132,7 @@ public class UserServiceImpl implements UserService {
     public User updateUserRoles(List<String> rolesNames, User user) {
         Set<Role> roles = roleService.getRolesByNames(rolesNames);
         if(roles.size() > MAX_USER_ROLES)
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Invalid amount of roles");
         user.setUserRoles(roles);
         return user;
     }
@@ -144,7 +152,7 @@ public class UserServiceImpl implements UserService {
     public User updateUserGenres(List<String> genreNames, User user) {
         Set<Genre> genres = genreService.getGenresByNames(genreNames);
         if(genres.size() > MAX_USER_GENRES)
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Invalid amount of genres");
         user.setUserGenres(genres);
         return user;
     }
@@ -156,23 +164,9 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public boolean verifyUser(String token) {
+    public void verifyUser(String token) {
         long userId = verificationTokenService.getTokenOwner(token, TokenType.VERIFY);
         userDao.verifyUser(userId);
-        return autoLogin(userId);
-    }
-
-    private boolean autoLogin(long userId) {
-        final User user = getUserById(userId).orElseThrow(UserNotFoundException::new);
-        final Collection<GrantedAuthority> authorities = new ArrayList<>();
-        if(user.isBand())
-            authorities.add(new SimpleGrantedAuthority("ROLE_BAND"));
-        else
-            authorities.add(new SimpleGrantedAuthority("ROLE_ARTIST"));
-        Authentication auth = new UsernamePasswordAuthenticationToken(user.getEmail(),user.getPassword(),authorities);
-        SecurityContextHolder.getContext().setAuthentication(auth);
-        LOGGER.debug("Autologin for user {}",userId);
-        return true;
     }
 
     @Transactional
@@ -188,10 +182,9 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public boolean changePassword(String token, String newPassword) {
+    public void changePassword(String token, String newPassword) {
         long userId = verificationTokenService.getTokenOwner(token, TokenType.RESET);
         userDao.changePassword(userId, passwordEncoder.encode(newPassword));
-        return autoLogin(userId);
     }
 
     @Override
@@ -212,8 +205,10 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public void updateSocialMedia(User user, Set<MediaUrl> mediaUrls) {
-        Set<SocialMedia> socialMedia = mediaUrls.stream().map(mediaUrl -> new SocialMedia(user,mediaUrl.getUrl(),mediaUrl.getType())).collect(Collectors.toSet());
+    public void updateSocialMedia(long userId, Set<MediaUrl> mediaUrls) {
+        final User user = authFacadeService.getCurrentUser();
+        checkOwnership(user, userId);
+        Set<SocialMedia> socialMedia = mediaUrls.stream().map(mediaUrl -> new SocialMedia(mediaUrl.getUrl(),mediaUrl.getType())).collect(Collectors.toSet());
         user.setSocialSocialMedia(socialMedia);
     }
 
@@ -251,11 +246,45 @@ public class UserServiceImpl implements UserService {
         return userDao.getTotalPages(filter);
     }
 
+    @Transactional
+    @Override
+    public VerificationToken getAuthRefreshToken(String email) {
+        User user = userDao.findByEmail(email).orElseThrow(UserNotFoundException::new);
+
+        final Optional<VerificationToken> refreshTokenOpt = verificationTokenService.getRefreshToken(user);
+
+        if (refreshTokenOpt.isPresent()) {
+            verificationTokenService.deleteTokenByUserId(user.getId(), TokenType.REFRESH);
+        }
+
+        return verificationTokenService.generate(user, TokenType.REFRESH);
+    }
+
+    @Transactional
+    @Override
+    public User getUserByRefreshToken(String payload) {
+        Optional<VerificationToken> token = verificationTokenService.getToken(payload);
+        if(token.isPresent()) {
+            if(!token.get().isValid()) {
+                verificationTokenService.deleteTokenByUserId(token.get().getUser().getId(), TokenType.REFRESH);
+                return null;
+            }
+            return token.get().getUser();
+        }
+        return null;
+    }
+
     private void checkPage(int page, int lastPage) {
         if(page <= 0)
             throw new IllegalArgumentException();
         if(page > lastPage)
             throw new PageNotFoundException();
     }
+
+    private void checkOwnership(User user, long userId) {
+        if (user.getId() != userId)
+            throw new ProfileNotOwnedException();
+    }
+
 
 }

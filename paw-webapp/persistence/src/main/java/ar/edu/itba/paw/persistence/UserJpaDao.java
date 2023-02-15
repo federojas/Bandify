@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @Repository
 public class UserJpaDao implements UserDao {
 
-    private static final int PAGE_SIZE = 9;
+    private static final int PAGE_SIZE = 8;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserJpaDao.class);
 
@@ -132,16 +132,16 @@ public class UserJpaDao implements UserDao {
 
     private void filterQuery(FilterOptions filterOptions, Map<String, Object> args, StringBuilder sqlQueryBuilder) {
         if(!filterOptions.getGenresNames().isEmpty()) {
-            sqlQueryBuilder.append("AND genre IN (:genresNames) ");
-            args.put("genresNames",filterOptions.getGenresNames());
+            sqlQueryBuilder.append("AND lower(genre) IN (:genresNames) ");
+            args.put("genresNames",filterOptions.getGenresNames().stream().map(String::toLowerCase).collect(Collectors.toList()));
         }
         if(!filterOptions.getRolesNames().isEmpty()) {
-            sqlQueryBuilder.append("AND role IN (:rolesNames) ");
-            args.put("rolesNames",filterOptions.getRolesNames());
+            sqlQueryBuilder.append("AND lower(role) IN (:rolesNames) ");
+            args.put("rolesNames",filterOptions.getRolesNames().stream().map(String::toLowerCase).collect(Collectors.toList()));
         }
         if(!filterOptions.getLocations().isEmpty()) {
-            sqlQueryBuilder.append("AND location IN (:locations) ");
-            args.put("locations",filterOptions.getLocations());
+            sqlQueryBuilder.append("AND lower(location) IN (:locations) ");
+            args.put("locations",filterOptions.getLocations().stream().map(String::toLowerCase).collect(Collectors.toList()));
         }
         if(!filterOptions.getTitle().equals("")) {
             sqlQueryBuilder.append("AND CONCAT(name, ' ', surname) ILIKE :name ");

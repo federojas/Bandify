@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.service;
 
 import ar.edu.itba.paw.model.*;
+import ar.edu.itba.paw.model.exceptions.AuditionGoneException;
 import ar.edu.itba.paw.model.exceptions.AuditionNotFoundException;
 import ar.edu.itba.paw.model.exceptions.AuditionNotOwnedException;
 import ar.edu.itba.paw.model.exceptions.PageNotFoundException;
@@ -20,6 +21,9 @@ public class AuditionServiceImpl implements AuditionService {
     @Autowired
     private AuthFacadeService authFacadeService;
 
+    private static final int MAX_AUD_GENRES = 5;
+    private static final int MAX_AUD_ROLES = 5;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(AuditionServiceImpl.class);
 
 
@@ -27,15 +31,18 @@ public class AuditionServiceImpl implements AuditionService {
     public Audition getAuditionById(long id) {
         checkAuditionId(id);
         Optional<Audition> audition = auditionDao.getAuditionById(id);
-
-        if(!audition.isPresent() || !audition.get().getIsOpen())
+        if(!audition.isPresent())
             throw new AuditionNotFoundException();
+        if(!audition.get().getIsOpen())
+            throw new AuditionGoneException();
         return audition.get();
     }
 
     @Transactional
     @Override
     public Audition create(Audition.AuditionBuilder builder) {
+        if(builder.getLookingFor().size() > MAX_AUD_ROLES  || builder.getMusicGenres().size() > MAX_AUD_GENRES)
+            throw new IllegalArgumentException("Invalid amount of roles or genres");
         return auditionDao.create(builder);
     }
 
@@ -45,6 +52,8 @@ public class AuditionServiceImpl implements AuditionService {
         checkAuditionId(id);
         checkPermissions(id);
         Audition audition = getAuditionById(id);
+        if(builder.getLookingFor().size() > MAX_AUD_ROLES  || builder.getMusicGenres().size() > MAX_AUD_GENRES)
+            throw new IllegalArgumentException("Invalid amount of roles or genres");
         audition.edit(builder);
         return audition;
     }

@@ -13,25 +13,29 @@ public interface MembershipService {
 
     List<Membership> getUserMemberships(User user, MembershipState state, int page);
 
+    List<Membership> getUserMemberships(User user, int page);
+
     List<Membership> getUserMembershipsPreview(User user);
 
     int getTotalUserMembershipsPages(User user, MembershipState state);
+
+    int getTotalUserMembershipsPages(User user);
 
     Membership createMembershipInvite(Membership.Builder builder);
 
     void deleteMembership(long id);
 
-    Membership changeState(Membership membership, MembershipState state);
+    Membership changeState(long id, MembershipState state);
 
     Optional<Membership> getMembershipById(long id);
 
-    Optional<Membership> getMembershipByUsers(User band, User artist);
+    List<Membership> getMembershipsByUsers(User band, User artist);
 
-    boolean createMembershipByApplication(Membership.Builder builder, long auditionId);
+    Membership createMembershipByApplication(Membership.Builder builder, long auditionId);
 
     int getPendingMembershipsCount(User user);
 
-    Membership editMembershipById(String description, Set<Role> roles, long id);
+    Membership editMembershipById(String description, List<String> roles, long id);
 
     boolean canBeAddedToBand(User band, User artist);
 

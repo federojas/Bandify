@@ -8,13 +8,9 @@ import java.util.Objects;
 public class SocialMedia {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "profileMediaUrls_id_seq")
-    @SequenceGenerator(sequenceName = "profileMediaUrls_id_seq",name="profileMediaUrls_id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "profilemediaurls_id_seq")
+    @SequenceGenerator(sequenceName = "profilemediaurls_id_seq",name="profilemediaurls_id_seq")
     private Long id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userId")
-    private User user;
 
     @Column(nullable = false)
     private String url;
@@ -26,8 +22,7 @@ public class SocialMedia {
         // Just for Hibernate
     }
 
-    public SocialMedia(User user, String url, UrlType type) {
-        this.user = user;
+    public SocialMedia(String url, UrlType type) {
         this.url = url;
         this.type = type;
     }
@@ -56,24 +51,16 @@ public class SocialMedia {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SocialMedia that = (SocialMedia) o;
-        return Objects.equals(user, that.user) && Objects.equals(url, that.url) && type == that.type;
+        return type == that.type;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(user, url, type);
+        return Objects.hash(type);
     }
 }
