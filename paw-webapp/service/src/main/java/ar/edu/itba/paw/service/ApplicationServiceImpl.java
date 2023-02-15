@@ -72,7 +72,7 @@ public class ApplicationServiceImpl implements ApplicationService {
         String bandEmail = band.getEmail();
         Locale locale = LocaleContextHolder.getLocale();
         LocaleContextHolder.setLocale(locale, true);
-        LOGGER.debug("User {} applied to audition {}",user.getId(),auditionId);
+        LOGGER.info("User {} applied to audition {}",user.getId(),auditionId);
         mailingService.sendApplicationEmail(user, bandEmail, message, locale);
         return toReturn;
     }
@@ -80,7 +80,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Transactional
     @Override
     public Application accept(long auditionId, long applicantId) {
-        LOGGER.debug("User {} has been accepted for audition {}",applicantId,auditionId);
+        LOGGER.info("User {} has been accepted for audition {}",applicantId,auditionId);
         checkIds(auditionId, applicantId);
         return setApplicationState(auditionId,applicantId,ApplicationState.ACCEPTED);
     }
@@ -88,7 +88,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Transactional
     @Override
     public Application reject(long auditionId, long applicantId) {
-        LOGGER.debug("User {} has been rejected for audition {}",applicantId,auditionId);
+        LOGGER.info("User {} has been rejected for audition {}",applicantId,auditionId);
         checkIds(auditionId, applicantId);
         return setApplicationState(auditionId,applicantId,ApplicationState.REJECTED);
     }
@@ -96,7 +96,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Transactional
     @Override
     public Application select(long auditionId, User band, long applicantId) {
-        LOGGER.debug("User {} has been selected for the audition {}",applicantId, auditionId);
+        LOGGER.info("User {} has been selected for the audition {}",applicantId, auditionId);
         checkIds(auditionId, applicantId);
         Application toReturn = setApplicationState(auditionId,applicantId,ApplicationState.SELECTED);
         closeApplications(band.getId(), applicantId);

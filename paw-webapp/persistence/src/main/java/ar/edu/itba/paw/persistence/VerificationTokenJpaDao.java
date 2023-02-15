@@ -41,7 +41,7 @@ public class VerificationTokenJpaDao implements VerificationTokenDao {
 
     @Override
     public VerificationToken createToken(User user, String token, LocalDateTime expiryDate, TokenType type) {
-        LOGGER.debug("Creating {} token for user {}", type, user.getId());
+        LOGGER.info("Creating {} token for user {}", type, user.getId());
         final VerificationToken verificationToken = new VerificationToken(token,user,expiryDate, type);
         em.persist(verificationToken);
         return verificationToken;
@@ -54,7 +54,7 @@ public class VerificationTokenJpaDao implements VerificationTokenDao {
         query.setParameter("type", type);
         final List<VerificationToken> list = query.getResultList();
         if(list.stream().findFirst().isPresent()) {
-            LOGGER.debug("Deleting {} token of user {}", type.getType(), userId);
+            LOGGER.info("Deleting {} token of user {}", type.getType(), userId);
             em.remove(list.stream().findFirst().get());
         }
     }
