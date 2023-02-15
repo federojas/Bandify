@@ -322,7 +322,7 @@ const BandMoreInfo = ({ band }: { band: User }) => {
         <Flex justifyContent="space-between">
           <VStack spacing={8} alignItems={"start"}>
             {
-              band.description !== "" &&
+              band.description && band.description !== null && band.description !== "" &&
               <HStack spacing={4}>
                 <AiOutlineInfoCircle />
                 <HStack wrap={'wrap'}>
@@ -331,7 +331,7 @@ const BandMoreInfo = ({ band }: { band: User }) => {
               </HStack>
             }
             {
-              band.location !== "" &&
+              band.location && band.location !== null && band.location !== "" &&
               <HStack spacing={4}>
                 <ImLocation />
                 <Text fontSize={"lg"}>{band.location}</Text>
