@@ -92,7 +92,6 @@ public class UserController {
     public Response updateUserProfileImage(@PathParam("id") final long id,
                                            @FormDataParam("image") InputStream image,
                                            @FormDataParam("image") FormDataContentDisposition imageMetaData) throws IOException {
-        //TODO file type y size
         userService.updateProfilePicture(
                 userService.getUserById(id).orElseThrow(UserNotFoundException::new),
                 IOUtils.toByteArray(image));

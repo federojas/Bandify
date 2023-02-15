@@ -125,7 +125,6 @@ export const auditionPostResponse = {
 }
 
 
-//todo: ojo que el genre que devuelve la api es distinto al genre que devuelve el service
 export const genre1Response = {
     id: 1,
     genreName: "rock"

@@ -1,8 +1,7 @@
 import { Navigate, useLocation } from 'react-router-dom'
 import AuthContext from "./contexts/AuthContext";
 import { useContext } from "react";
-// TODO: en caso de que el usuario no estaba logueado, estaria bueno redireccionarlo
-// TODO: despues del login al path que habia querido ir antes.
+
 interface Props {
   component: React.ComponentType
   path?: string
