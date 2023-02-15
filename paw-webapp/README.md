@@ -15,14 +15,23 @@ The following technologies were used to build Bandify:
 - Maven: A build automation tool for Java projects
 - Java: A general-purpose programming language
 - Spring Boot: A framework for building web applications in Java
+- Jersey: An open framework vor developing RESTul web services in Java
+- Hibernate: A java framework that simplifies the development of a java application to interact with the database
+- PostgreSQL: An open source object-relational database system
 ## Features
 - Artist Signup and Login
 - Band Signup and Login
-- Artist can search for bands
-- Band can search for artists
-- Artist can apply for a band
-- Band can invite artists to join their band
-- Artist and Band can edit their profiles
+- Artists can search for bands using different filters
+- Bands can search for artists using different filters
+- Bands can invite artists to join their band
+- Artists and Bands can edit their profiles
+- Bands can create auditions
+- Artist can apply to auditions
+- Artists and Bands can add their social media to their profile
+- Artists can indicate that they are available to join a band
+- Artists can indicate their favourites genres and roles
+- Bands can indicate their favourites genres and roles
+- Users can see which artists belong to a band and which role they occupy
 
 ## Build
 
@@ -31,7 +40,11 @@ To build the project just run:
 ```http
  mvn clean install
 ```
+To build the entire project (Java + React) in one WAR just run:
 
+```http
+ mvn clean package
+```
 
 
 ## Frontend
