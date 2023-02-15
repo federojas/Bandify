@@ -61,7 +61,7 @@ const PostCard: React.FC<Audition> = ({
         setBandId(response.id);
       }
     )
-  }, [])
+  }, [owner])
 
   return (
     <Card maxW="md" margin={5} boxShadow={"2xl"} w={"2xl"}>
