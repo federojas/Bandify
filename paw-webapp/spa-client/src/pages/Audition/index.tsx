@@ -50,7 +50,6 @@ import { WarningTwoIcon } from '@chakra-ui/icons';
 import { TiTick, TiCancel } from "react-icons/ti";
 import { useMembershipService } from "../../contexts/MembershipService";
 import CopyToClipboard from 'react-copy-to-clipboard';
-import BackArrow from "../../components/BackArrow/BackArrow";
 import { user1 } from "../../__tests__/__mocks__";
 import SocialMediaTag from "../Profile/SocialMediaTag";
 import SocialMedia from "../../api/types/SocialMedia";
@@ -421,9 +420,6 @@ const AuditionView = () => {
 
   return (
     <>
-      <Flex pl={200} mt={8} mb={-20}>
-        <BackArrow />
-      </Flex>
       <Helmet>
         <title>{t("Audition.title")}</title>
       </Helmet>

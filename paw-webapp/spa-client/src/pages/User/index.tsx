@@ -57,7 +57,6 @@ import { Helmet } from "react-helmet";
 import SocialMediaTag from "../Profile/SocialMediaTag";
 import SocialMedia from "../../models/SocialMedia";
 import LeaveBandButton from "./LeaveBandButton";
-import BackArrow from "../../components/BackArrow/BackArrow";
 
 interface FormData {
   roles: string[];
@@ -359,9 +358,7 @@ const UserProfile = () => {
 
   return (
     <>
-      <Flex pl={100} mt={8} mb={-20}>
-        <BackArrow/>
-      </Flex>
+
       <Helmet>
         <title>{t("NavBar.Profile")}</title>
       </Helmet>

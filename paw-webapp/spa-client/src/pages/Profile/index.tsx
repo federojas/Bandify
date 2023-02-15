@@ -41,7 +41,6 @@ import { Helmet } from "react-helmet";
 import SocialMediaModal from "../User/SocialMediaModal";
 import SocialMediaTag from "./SocialMediaTag";
 import SocialMedia from "../../models/SocialMedia";
-import BackArrow from "../../components/BackArrow/BackArrow";
 
 const Profile = () => {
   const { t } = useTranslation();
@@ -96,9 +95,7 @@ const Profile = () => {
 
   return (
     <>
-      <Flex ml={100} mt={8} mb={-20}>
-        <BackArrow/>
-      </Flex>
+
       <Helmet>
         <title>{t("NavBar.Profile")}</title>
       </Helmet>
