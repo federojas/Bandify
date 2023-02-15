@@ -22,7 +22,7 @@ public class GenreJpaDao implements GenreDao {
 
     @Override
     public Set<Genre> getAll() {
-        LOGGER.debug("Getting all genres");
+        LOGGER.info("Getting all genres");
         final TypedQuery<Genre> query = em.createQuery("FROM Genre as g order by g.genreName", Genre.class);
         final List<Genre> list = query.getResultList();
         return new HashSet<>(list);
@@ -30,13 +30,13 @@ public class GenreJpaDao implements GenreDao {
 
     @Override
     public Optional<Genre> getGenreById(Long id) {
-        LOGGER.debug("Getting genre with id {}", id);
+        LOGGER.info("Getting genre with id {}", id);
         return Optional.ofNullable(em.find(Genre.class, id));
     }
 
     @Override
     public Optional<Genre> getGenreByName(String name) {
-        LOGGER.debug("Getting genre with name {}", name);
+        LOGGER.info("Getting genre with name {}", name);
         final TypedQuery<Genre> query = em.createQuery("FROM Genre as g where g.genreName = :name", Genre.class);
         query.setParameter("name", name);
         return query.getResultList().stream().findFirst();

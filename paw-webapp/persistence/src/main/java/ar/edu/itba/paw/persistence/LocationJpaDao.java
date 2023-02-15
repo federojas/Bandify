@@ -24,20 +24,20 @@ public class LocationJpaDao implements LocationDao {
 
     @Override
     public List<Location> getAll() {
-        LOGGER.debug("Getting all locations");
+        LOGGER.info("Getting all locations");
         final TypedQuery<Location> query = em.createQuery("FROM Location as l ORDER BY l.name ASC", Location.class);
         return query.getResultList();
     }
 
     @Override
     public Optional<Location> getLocationById(Long id) {
-        LOGGER.debug("Getting location with id {}", id);
+        LOGGER.info("Getting location with id {}", id);
         return Optional.ofNullable(em.find(Location.class, id));
     }
 
     @Override
     public Optional<Location> getLocationByName(String name) {
-        LOGGER.debug("Getting location with name {}", name);
+        LOGGER.info("Getting location with name {}", name);
         final TypedQuery<Location> query = em.createQuery("FROM Location AS l WHERE l.name = :name", Location.class);
         query.setParameter("name", name);
         return query.getResultList().stream().findFirst();

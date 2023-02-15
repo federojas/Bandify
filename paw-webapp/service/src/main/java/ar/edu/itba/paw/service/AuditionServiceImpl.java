@@ -93,7 +93,7 @@ public class AuditionServiceImpl implements AuditionService {
     public Audition closeAuditionById(long id) {
         checkAuditionId(id);
         checkPermissions(id);
-        LOGGER.debug("Audition {} will be closed",id);
+        LOGGER.info("Audition {} will be closed",id);
         Audition audition = getAuditionById(id);
         if(audition.getIsOpen())
             audition.setIsOpen(false);
